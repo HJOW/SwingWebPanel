@@ -1,0 +1,376 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+PageLifecycle
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="PageLifecycle";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/ModuleSources.html" title="class in org.duckdns.hjow.swingwebpanel.js.host"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageScripts.html" title="class in org.duckdns.hjow.swingwebpanel.js.host"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/PageLifecycle.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PageLifecycle.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.host</FONT>
+<BR>
+Class PageLifecycle</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.host.PageLifecycle</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>PageLifecycle</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The life cycle events of a page that the host reports (HTML Standard "Page lifecycle": browsing the web, unloading documents; Page Visibility Level 2;
+ the window <code>focus</code>/<code>blur</code> events and the <code>online</code>/<code>offline</code> events of the network state):
+ <ul>
+ <li><code>pageshow</code> is fired by the page itself after <code>load</code>; this class remembers that it happened (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageScripts.html#isPageShown()"><CODE>PageScripts.isPageShown()</CODE></A>), because a page
+ that was never shown has nothing to unload;</li>
+ <li><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageLifecycle.html#unload()"><CODE>unload()</CODE></A> runs the unloading sequence of a page that is left (a navigation, <code>clean()</code>, <code>dispose()</code>): <code>beforeunload</code> at the window
+ (a <code>BeforeUnloadEvent</code> that can be cancelled), <code>pagehide</code> (<code>PageTransitionEvent</code>, <code>persisted</code> false), <code>visibilitychange</code> at the document
+ (the state becomes hidden) and <code>unload</code>. The page cannot hold the navigation back: this component has no dialog, so the answer of <code>beforeunload</code> is only
+ reported back to the host, which tells it in the status text;</li>
+ <li><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageLifecycle.html#visibilityChanged()"><CODE>visibilityChanged()</CODE></A> fires <code>visibilitychange</code> at the document when the host says that the page became visible or hidden (the component is
+ shown or hidden on screen);</li>
+ <li><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageLifecycle.html#windowFocus(boolean)"><CODE>windowFocus(boolean)</CODE></A> fires <code>focus</code> or <code>blur</code> at the window (they do not bubble);</li>
+ <li><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageLifecycle.html#onlineChanged()"><CODE>onlineChanged()</CODE></A> fires <code>online</code> or <code>offline</code> at the window when the host's network state changed.</li>
+ </ul>
+ Every method must be called on the document queue (they are page tasks); none of them throws.
+ <p>
+ 호스트가 알리는 페이지 수명 이벤트(HTML Standard "Page lifecycle": 웹 탐색, 문서 언로드, Page Visibility Level 2, window 의 <code>focus</code>/<code>blur</code> 이벤트,
+ 네트워크 상태의 <code>online</code>/<code>offline</code> 이벤트):
+ <ul>
+ <li><code>pageshow</code> 는 페이지가 <code>load</code> 뒤 스스로 발생시킨다. 이 클래스는 그 사실을 기억하며(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageScripts.html#isPageShown()"><CODE>PageScripts.isPageShown()</CODE></A>) 한 번도 보이지 않은
+ 페이지는 언로드할 것이 없다.</li>
+ <li><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageLifecycle.html#unload()"><CODE>unload()</CODE></A> 는 떠나는 페이지(이동, <code>clean()</code>, <code>dispose()</code>)의 언로드 순서를 실행한다: window 의 <code>beforeunload</code>(취소할 수 있는
+ <code>BeforeUnloadEvent</code>), <code>pagehide</code>(<code>PageTransitionEvent</code>, <code>persisted</code> false), 문서의 <code>visibilitychange</code>(상태가 hidden 이 됨),
+ <code>unload</code>. 페이지는 이동을 붙잡을 수 없다. 이 컴포넌트에는 대화상자가 없으므로 <code>beforeunload</code> 의 답은 호스트에 알리기만 하며 호스트가
+ 상태 메시지로 알린다.</li>
+ <li><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageLifecycle.html#visibilityChanged()"><CODE>visibilityChanged()</CODE></A> 는 호스트가 페이지가 보이게/가려졌다고 알릴 때(컴포넌트가 화면에 나타나거나 사라질 때) 문서에 <code>visibilitychange</code> 를 발생시킨다.</li>
+ <li><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageLifecycle.html#windowFocus(boolean)"><CODE>windowFocus(boolean)</CODE></A> 는 window 에 <code>focus</code> 또는 <code>blur</code> 를 발생시킨다(버블링하지 않는다).</li>
+ <li><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageLifecycle.html#onlineChanged()"><CODE>onlineChanged()</CODE></A> 는 호스트의 네트워크 상태가 바뀌었을 때 window 에 <code>online</code> 또는 <code>offline</code> 을 발생시킨다.</li>
+ </ul>
+ 모든 메서드는 문서 큐에서 불러야 한다(페이지 작업이다). 어느 것도 예외를 던지지 않는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageLifecycle.html#hasUnloadListeners()">hasUnloadListeners</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the page has a listener or a handler for one of the events that the unloading sequence fires, so that a page without any is closed at
+ once, without a task of the document queue.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageLifecycle.html#isDocumentVisible()">isDocumentVisible</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the document is visible now: the host says so and the page is not being unloaded past <code>pagehide</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageLifecycle.html#onlineChanged()">onlineChanged</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fires <code>online</code> or <code>offline</code> at the window if the network state of the host differs from the one that the page heard about last.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageLifecycle.html#unload()">unload</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Runs the unloading sequence of a page that is left: <code>beforeunload</code>, <code>pagehide</code>, <code>visibilitychange</code> (hidden), <code>unload</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageLifecycle.html#visibilityChanged()">visibilityChanged</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fires <code>visibilitychange</code> if the visibility that the host reports now differs from the one that the page heard about last.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageLifecycle.html#windowFocus(boolean)">windowFocus</A></B>(boolean&nbsp;gained)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fires <code>focus</code> or <code>blur</code> at the window (it does not bubble and cannot be cancelled).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="isDocumentVisible()"><!-- --></A><H3>
+isDocumentVisible</H3>
+<PRE>
+public boolean <B>isDocumentVisible</B>()</PRE>
+<DL>
+<DD>Tells whether the document is visible now: the host says so and the page is not being unloaded past <code>pagehide</code>.
+ <p>
+ 문서가 지금 보이는지 알려 준다: 호스트가 그렇다고 하고 페이지가 <code>pagehide</code> 이후의 언로드 중이 아니다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true while visible / 보이는 동안 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasUnloadListeners()"><!-- --></A><H3>
+hasUnloadListeners</H3>
+<PRE>
+public boolean <B>hasUnloadListeners</B>()</PRE>
+<DL>
+<DD>Tells whether the page has a listener or a handler for one of the events that the unloading sequence fires, so that a page without any is closed at
+ once, without a task of the document queue.
+ <p>
+ 페이지에 언로드 순서가 발생시키는 이벤트의 리스너나 핸들러가 있는지 알려 준다. 하나도 없는 페이지는 문서 큐의 작업 없이 곧바로 닫는다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if some listener would hear it / 어떤 리스너가 듣는다면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="unload()"><!-- --></A><H3>
+unload</H3>
+<PRE>
+public java.lang.String <B>unload</B>()</PRE>
+<DL>
+<DD>Runs the unloading sequence of a page that is left: <code>beforeunload</code>, <code>pagehide</code>, <code>visibilitychange</code> (hidden), <code>unload</code>. A page
+ that was never shown (no <code>pageshow</code>), or that was unloaded before, or that cannot run scripts, hears nothing.
+ <p>
+ 떠나는 페이지의 언로드 순서를 실행한다: <code>beforeunload</code>, <code>pagehide</code>, <code>visibilitychange</code>(hidden), <code>unload</code>. 한 번도 보이지 않은 페이지
+ (<code>pageshow</code> 없음), 전에 언로드한 페이지, 스크립트를 실행할 수 없는 페이지는 아무것도 듣지 않는다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the text of the confirmation that <code>beforeunload</code> asked for (the empty string if it only cancelled the event), or null if it did not ask /
+         <code>beforeunload</code> 가 요청한 확인 문구(이벤트만 취소했으면 빈 문자열). 요청하지 않았으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="visibilityChanged()"><!-- --></A><H3>
+visibilityChanged</H3>
+<PRE>
+public void <B>visibilityChanged</B>()</PRE>
+<DL>
+<DD>Fires <code>visibilitychange</code> if the visibility that the host reports now differs from the one that the page heard about last.
+ <p>
+ 호스트가 지금 알리는 가시성이 페이지가 마지막으로 들은 것과 다르면 <code>visibilitychange</code> 를 발생시킨다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="windowFocus(boolean)"><!-- --></A><H3>
+windowFocus</H3>
+<PRE>
+public void <B>windowFocus</B>(boolean&nbsp;gained)</PRE>
+<DL>
+<DD>Fires <code>focus</code> or <code>blur</code> at the window (it does not bubble and cannot be cancelled).
+ <p>
+ window 에 <code>focus</code> 또는 <code>blur</code> 를 발생시킨다(버블링하지 않고 취소할 수 없다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>gained</CODE> - true if the window gained the focus / window 가 포커스를 얻었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="onlineChanged()"><!-- --></A><H3>
+onlineChanged</H3>
+<PRE>
+public void <B>onlineChanged</B>()</PRE>
+<DL>
+<DD>Fires <code>online</code> or <code>offline</code> at the window if the network state of the host differs from the one that the page heard about last.
+ <p>
+ 호스트의 네트워크 상태가 페이지가 마지막으로 들은 것과 다르면 window 에 <code>online</code> 또는 <code>offline</code> 을 발생시킨다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/ModuleSources.html" title="class in org.duckdns.hjow.swingwebpanel.js.host"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageScripts.html" title="class in org.duckdns.hjow.swingwebpanel.js.host"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/PageLifecycle.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PageLifecycle.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

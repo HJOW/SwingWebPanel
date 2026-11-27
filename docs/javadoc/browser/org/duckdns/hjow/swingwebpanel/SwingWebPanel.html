@@ -1,0 +1,3599 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+SwingWebPanel
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="SwingWebPanel";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../org/duckdns/hjow/swingwebpanel/CookieJar.html" title="class in org.duckdns.hjow.swingwebpanel"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.PopupSeed.html" title="class in org.duckdns.hjow.swingwebpanel"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?org/duckdns/hjow/swingwebpanel/SwingWebPanel.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SwingWebPanel.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel</FONT>
+<BR>
+Class SwingWebPanel</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../resources/inherit.gif" ALT="extended by ">java.awt.Component
+      <IMG SRC="../../../../resources/inherit.gif" ALT="extended by ">java.awt.Container
+          <IMG SRC="../../../../resources/inherit.gif" ALT="extended by ">javax.swing.JComponent
+              <IMG SRC="../../../../resources/inherit.gif" ALT="extended by ">javax.swing.JPanel
+                  <IMG SRC="../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.SwingWebPanel</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD>java.awt.image.ImageObserver, java.awt.MenuContainer, java.io.Serializable, javax.accessibility.Accessible, javax.swing.Scrollable</DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public class <B>SwingWebPanel</B><DT>extends javax.swing.JPanel<DT>implements javax.swing.Scrollable</DL>
+</PRE>
+
+<P>
+A web browser component for Swing, written in pure Java 6 without external libraries. Put it in a window directly, or wrap it
+ in a <code>JScrollPane</code> to get scrolling: <code>new JScrollPane(new SwingWebPanel())</code>; the component never creates
+ a scroll pane of its own.
+ <p>
+ Basic use: <code>panel.setPage("http://example.com/")</code> starts an asynchronous navigation and returns at once;
+ <code>panel.setContent("&lt;h1&gt;Hi&lt;/h1&gt;", "text/html")</code> shows content you already have. Query methods return the last
+ <em>confirmed</em> state, so while a page is loading they still describe the previous page. All public methods can be
+ called from the event dispatch thread or from any other thread; property changes ("page", "statusText", "progress",
+ "title") are announced on the event dispatch thread. Call <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#dispose()"><CODE>dispose()</CODE></A> when the component is no longer needed. The
+ full contract of every method is in <code>docs/API_CONTRACT.md</code>.
+ <p>
+ Scrolling policy (<code>Scrollable</code>): the content tracks the viewport width as long as the laid-out content can fit
+ (its minimum width is not larger than the viewport); only when the page needs more width than the viewport offers does the
+ view keep its own width and a horizontal scroll bar appear. The view tracks the viewport height when the content is shorter than
+ the viewport, otherwise it scrolls vertically. One scroll step is the line height reported by the layout engine (16 pixels
+ until one exists); a block step is the visible size minus one step.
+ <p>
+ Swing 용 웹 브라우저 컴포넌트. 외부 라이브러리 없이 순수 Java 6 로 작성했다. 창에 직접 넣거나 <code>JScrollPane</code> 으로 감싸
+ 스크롤을 얻는다: <code>new JScrollPane(new SwingWebPanel())</code>. 컴포넌트가 자체 스크롤 창을 만들지는 않는다.
+ <p>
+ 기본 사용: <code>panel.setPage("http://example.com/")</code> 는 비동기 이동을 시작하고 즉시 반환한다.
+ <code>panel.setContent("&lt;h1&gt;Hi&lt;/h1&gt;", "text/html")</code> 은 이미 가진 콘텐츠를 보여 준다. 조회 메서드는 마지막
+ <em>확정된</em> 상태를 반환하므로 로딩 중에는 이전 페이지를 설명한다. 모든 공개 메서드는 이벤트 디스패치 스레드나 다른 어떤
+ 스레드에서도 호출할 수 있고, 속성 변경("page", "statusText", "progress", "title")은 이벤트 디스패치 스레드에서 통지한다.
+ 컴포넌트가 더 필요 없으면 <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#dispose()"><CODE>dispose()</CODE></A> 를 호출한다. 모든 메서드의 상세 계약은 <code>docs/API_CONTRACT.md</code> 에 있다.
+ <p>
+ 스크롤 정책(<code>Scrollable</code>): 배치된 콘텐츠가 들어갈 수 있는 동안(최소 폭이 뷰포트보다 크지 않은 동안)에는 콘텐츠가 뷰포트
+ 폭을 따라간다. 페이지가 뷰포트보다 넓은 폭을 필요로 할 때만 자기 폭을 유지하며 가로 스크롤 막대가 나타난다. 콘텐츠가 뷰포트보다 낮으면
+ 뷰포트 높이를 따라가고, 아니면 세로로 스크롤한다. 스크롤 한 단위는 레이아웃 엔진이 알려 주는 줄 높이(엔진이 생기기 전에는 16 픽셀)이고,
+ 블록 단위는 보이는 크기에서 한 단위를 뺀 값이다.
+<P>
+
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../serialized-form.html#org.duckdns.hjow.swingwebpanel.SwingWebPanel">Serialized Form</A></DL>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.PopupSeed.html" title="class in org.duckdns.hjow.swingwebpanel">SwingWebPanel.PopupSeed</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;What a component needs to become the window that a page of another component opens (extension, API contract 5.28): it is passed
+ to <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#createPopupPanel(org.duckdns.hjow.swingwebpanel.SwingWebPanel.PopupSeed)"><CODE>createPopupPanel(PopupSeed)</CODE></A> and from there to the constructor
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#SwingWebPanel(org.duckdns.hjow.swingwebpanel.SwingWebPanel.PopupSeed)"><CODE>SwingWebPanel(PopupSeed)</CODE></A>.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="nested_classes_inherited_from_class_javax.swing.JPanel"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Nested classes/interfaces inherited from class javax.swing.JPanel</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>javax.swing.JPanel.AccessibleJPanel</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<A NAME="nested_classes_inherited_from_class_javax.swing.JComponent"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Nested classes/interfaces inherited from class javax.swing.JComponent</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>javax.swing.JComponent.AccessibleJComponent</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<A NAME="nested_classes_inherited_from_class_java.awt.Container"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Nested classes/interfaces inherited from class java.awt.Container</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>java.awt.Container.AccessibleAWTContainer</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<A NAME="nested_classes_inherited_from_class_java.awt.Component"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Nested classes/interfaces inherited from class java.awt.Component</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>java.awt.Component.AccessibleAWTComponent, java.awt.Component.BaselineResizeBehavior, java.awt.Component.BltBufferStrategy, java.awt.Component.FlipBufferStrategy</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_MONOSPACE">FONT_MONOSPACE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kind of default font: the font behind the generic name <code>monospace</code>. / 기본 글꼴의 종류: 일반 이름 <code>monospace</code> 뒤의 글꼴.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_SANS_SERIF">FONT_SANS_SERIF</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kind of default font: the font behind the generic name <code>sans-serif</code>. / 기본 글꼴의 종류: 일반 이름 <code>sans-serif</code> 뒤의 글꼴.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_SERIF">FONT_SERIF</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kind of default font: the font behind the generic name <code>serif</code>. / 기본 글꼴의 종류: 일반 이름 <code>serif</code> 뒤의 글꼴.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_STANDARD">FONT_STANDARD</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kind of default font: the font of content whose author named none. / 기본 글꼴의 종류: 작성자가 글꼴을 지정하지 않은 내용의 글꼴.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#HOST_ORIGIN">HOST_ORIGIN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Origin of messages from the Java host. / Java 호스트에서 온 메시지의 오리진.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#PROPERTY_DEFAULT_FONTS">PROPERTY_DEFAULT_FONTS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name of the property that announces a change of the default fonts (<A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setDefaultFontFamily(java.lang.String, java.lang.String)"><CODE>setDefaultFontFamily(String, String)</CODE></A>,
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setDefaultFontSize(int)"><CODE>setDefaultFontSize(int)</CODE></A>, <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setDefaultMonospaceFontSize(int)"><CODE>setDefaultMonospaceFontSize(int)</CODE></A>); the values are one-line descriptions (<code>String</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#PROPERTY_PAGE">PROPERTY_PAGE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name of the property that announces the URL of the confirmed page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#PROPERTY_POPUP_BLOCKING_ENABLED">PROPERTY_POPUP_BLOCKING_ENABLED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name of the property that announces a change of <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setPopupBlockingEnabled(boolean)"><CODE>setPopupBlockingEnabled(boolean)</CODE></A>; the values are <code>Boolean</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#PROPERTY_PROGRESS">PROPERTY_PROGRESS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name of the property that announces the progress value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#PROPERTY_ROOT_WINDOW_CLOSING_ENABLED">PROPERTY_ROOT_WINDOW_CLOSING_ENABLED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name of the property that announces a change of <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setRootWindowClosingEnabled(boolean)"><CODE>setRootWindowClosingEnabled(boolean)</CODE></A>; the values are <code>Boolean</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#PROPERTY_STATUS_TEXT">PROPERTY_STATUS_TEXT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name of the property that announces the status bar text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#PROPERTY_TITLE">PROPERTY_TITLE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name of the property that announces the document title.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#PROPERTY_ZOOM">PROPERTY_ZOOM</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name of the property that announces the page zoom factor (<A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setZoom(double)"><CODE>setZoom(double)</CODE></A>); the values are <code>Double</code>.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_javax.swing.JComponent"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class javax.swing.JComponent</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>accessibleContext, listenerList, TOOL_TIP_TEXT_KEY, ui, UNDEFINED_CONDITION, WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, WHEN_FOCUSED, WHEN_IN_FOCUSED_WINDOW</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_java.awt.Component"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class java.awt.Component</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>BOTTOM_ALIGNMENT, CENTER_ALIGNMENT, LEFT_ALIGNMENT, RIGHT_ALIGNMENT, TOP_ALIGNMENT</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_java.awt.image.ImageObserver"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from interface java.awt.image.ImageObserver</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>ABORT, ALLBITS, ERROR, FRAMEBITS, HEIGHT, PROPERTIES, SOMEBITS, WIDTH</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#SwingWebPanel()">SwingWebPanel</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a component that shows the blank page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#SwingWebPanel(org.duckdns.hjow.swingwebpanel.CookieJar)">SwingWebPanel</A></B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/CookieJar.html" title="class in org.duckdns.hjow.swingwebpanel">CookieJar</A>&nbsp;jar)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a component that shows the blank page and keeps its cookies in a jar that it shares with the other components created
+ with the same jar (extension, API contract 5.24): a cookie that a page of one of them sets is sent by the requests of all of
+ them.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected </CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#SwingWebPanel(org.duckdns.hjow.swingwebpanel.core.PageLoader)">SwingWebPanel</A></B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageLoader</A>&nbsp;loader)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a component that loads pages with the given loader.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected </CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#SwingWebPanel(org.duckdns.hjow.swingwebpanel.SwingWebPanel.PopupSeed)">SwingWebPanel</A></B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.PopupSeed.html" title="class in org.duckdns.hjow.swingwebpanel">SwingWebPanel.PopupSeed</A>&nbsp;seed)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the component of a window that a page of another component opens (extension, API contract 5.28).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#addConsoleListener(org.duckdns.hjow.swingwebpanel.ConsoleListener)">addConsoleListener</A></B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/ConsoleListener.html" title="interface in org.duckdns.hjow.swingwebpanel">ConsoleListener</A>&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Registers a console listener.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#addHeaders(java.util.Map)">addHeaders</A></B>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;headers)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adds extra request headers (for example Accept-Language) that are sent with every request of this component.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#addHyperlinkListener(javax.swing.event.HyperlinkListener)">addHyperlinkListener</A></B>(javax.swing.event.HyperlinkListener&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Registers a hyperlink listener.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#addWebMessageListener(org.duckdns.hjow.swingwebpanel.WebMessageListener)">addWebMessageListener</A></B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/WebMessageListener.html" title="interface in org.duckdns.hjow.swingwebpanel">WebMessageListener</A>&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Registers a page message listener.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#back()">back</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Goes back one entry in the history; does nothing if there is no previous entry.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#back(int)">back</A></B>(int&nbsp;n)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Goes back n entries; does nothing if n is not positive or if the history does not reach back exactly n entries.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#canOpenPopupWindows()">canOpenPopupWindows</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether this component can show windows that pages open with <code>window.open</code> (extension point, API contract
+ 5.28).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;java.io.File[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#chooseUploadFiles(boolean, java.lang.String)">chooseUploadFiles</A></B>(boolean&nbsp;multiple,
+                  java.lang.String&nbsp;accept)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Asks the user for the files of a file upload control.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#clean()">clean</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cancels all work, shows the blank page and resets the history to a single "about:blank" entry.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#clearCookies()">clearCookies</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes all cookies of this component (extension, API contract 5.24); <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#clean()"><CODE>clean()</CODE></A> keeps them.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#closeOpenedWindow()">closeOpenedWindow</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Closes the window that shows this component after a script of its page closed it with <code>window.close()</code> (extension
+ point, API contract 5.28).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#closeRootWindow()">closeRootWindow</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Closes the window of this component because the page called <code>window.close()</code> while
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setRootWindowClosingEnabled(boolean)"><CODE>setRootWindowClosingEnabled(boolean)</CODE></A> allowed it (API contract 5.23).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#configureSsl(javax.net.ssl.HttpsURLConnection)">configureSsl</A></B>(javax.net.ssl.HttpsURLConnection&nbsp;connection)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Extension point for SSL (TLS) setup.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#confirmResubmit(java.lang.String)">confirmResubmit</A></B>(java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Asks the user whether the form that produced the shown page may be sent again.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#copy()">copy</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Copies the selection of the page to the clipboard (extension method), as Ctrl+C does: the <code>copy</code> event is sent to the
+ page first, and a listener may cancel it or put its own data on the clipboard.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#copyToClipboard(java.lang.String, java.lang.String)">copyToClipboard</A></B>(java.lang.String&nbsp;plainText,
+                java.lang.String&nbsp;htmlFragment)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Puts the copied text on the clipboard.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.playback">AudioOutputFactory</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#createAudioOutputFactory()">createAudioOutputFactory</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the factory that opens the sound outputs of the <code>audio</code> elements of the pages (plan item P18-08).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../org/duckdns/hjow/swingwebpanel/download/DownloadHandle.html" title="interface in org.duckdns.hjow.swingwebpanel.download">DownloadHandle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#createDownloadPopup(org.duckdns.hjow.swingwebpanel.download.DownloadRequest, org.duckdns.hjow.swingwebpanel.download.DownloadControl)">createDownloadPopup</A></B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html" title="class in org.duckdns.hjow.swingwebpanel.download">DownloadRequest</A>&nbsp;request,
+                    <A HREF="../../../../org/duckdns/hjow/swingwebpanel/download/DownloadControl.html" title="interface in org.duckdns.hjow.swingwebpanel.download">DownloadControl</A>&nbsp;control)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the popup that shows one download
+ (a navigation whose response is an attachment, a file that cannot be shown, or a link
+ with the <code>download</code> attribute).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html" title="class in org.duckdns.hjow.swingwebpanel">SwingWebPanel</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#createPopupPanel(org.duckdns.hjow.swingwebpanel.SwingWebPanel.PopupSeed)">createPopupPanel</A></B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.PopupSeed.html" title="class in org.duckdns.hjow.swingwebpanel">SwingWebPanel.PopupSeed</A>&nbsp;seed)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the component of a new window that a page of this component opens (extension point, API contract 5.28).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output">OutputFactory</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#createWebAudioOutputFactory()">createWebAudioOutputFactory</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the factory that opens the outputs of the real-time <code>AudioContext</code> objects of the pages (Web Audio, plan item P25-07).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#cut()">cut</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cuts the selection of an editable place (a text control of a form, <code>contenteditable</code>, design mode) to the clipboard
+ (extension method), as Ctrl+X does: the <code>cut</code> event is sent to the page first.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#dispose()">dispose</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Releases everything: does what <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#clean()"><CODE>clean()</CODE></A> does, then removes all listeners registered on this component, stops
+ background work and forgets headers.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#disposeKeepingStorage()">disposeKeepingStorage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Disposes the component like <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#dispose()"><CODE>dispose()</CODE></A> but leaves the process-wide <code>localStorage</code> as it is (extension, API
+ contract 5.28).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#forward()">forward</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Goes forward one entry in the history; does nothing if there is no next entry.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#forward(int)">forward</A></B>(int&nbsp;n)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Goes forward n entries; does nothing if n is not positive or if the history does not reach forward exactly n entries.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../org/duckdns/hjow/swingwebpanel/ConsoleListener.html" title="interface in org.duckdns.hjow.swingwebpanel">ConsoleListener</A>[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getConsoleListeners()">getConsoleListeners</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the registered console listeners in registration order (a copy; empty after <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#dispose()"><CODE>dispose()</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getContent()">getContent</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the source text the browser received for the confirmed page, unchanged by scripts or DOM edits.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../org/duckdns/hjow/swingwebpanel/CookieJar.html" title="class in org.duckdns.hjow.swingwebpanel">CookieJar</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getCookieJar()">getCookieJar</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the cookie jar that this component was created with (extension, API contract 5.24).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getCookies()">getCookies</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns all cookies of this component as one string "name=value; name=value".</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getDefaultFontFamily(java.lang.String)">getDefaultFontFamily</A></B>(java.lang.String&nbsp;kind)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns one of the default font families of this component (extension method, API contract 5.27).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getDefaultFontSize()">getDefaultFontSize</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the default font size of this component (extension method, API contract 5.27).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getDefaultMonospaceFontSize()">getDefaultMonospaceFontSize</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the font size of the monospace elements of this component (extension method, API contract 5.27).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;java.io.File</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getDownloadDirectory()">getDownloadDirectory</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the directory in which downloads are saved first (the user can still choose another file in the download popup).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Map&lt;java.lang.String,java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getHeaders()">getHeaders</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy of the extra headers (without the User-Agent).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Vector&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getHistories()">getHistories</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy of the history: the URL of every confirmed main-document navigation, oldest first.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getHistoryIndex()">getHistoryIndex</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the current position in the history, 0 based (extension method).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.awt.im.InputMethodRequests</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getInputMethodRequests()">getInputMethodRequests</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns what an input method asks the component while the user composes text in an editing host of the page (Korean, Japanese and
+ other languages): where the caret is, so that the window of the candidates opens beside it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Collection&lt;<A HREF="../../../../org/duckdns/hjow/swingwebpanel/storage/StorageEntry.html" title="class in org.duckdns.hjow.swingwebpanel.storage">StorageEntry</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getLocalStorage()">getLocalStorage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a read-only copy of all localStorage items of all origins, shared by the components of this JVM process.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getMimeType()">getMimeType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the MIME type of the confirmed page, for example "text/html" (extension method).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getPage()">getPage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the URL of the confirmed page: the final URL after redirects, "about:blank" for the empty page and "about:text"
+ for content given with <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setContent(java.lang.String, java.lang.String)"><CODE>setContent(String, String)</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.awt.Dimension</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getPreferredScrollableViewportSize()">getPreferredScrollableViewportSize</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the preferred size of the viewport when this component is the view of a scroll pane.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.awt.Dimension</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getPreferredSize()">getPreferredSize</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the preferred size: the laid-out content size, or 640x480 for an empty page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getProgress()">getProgress</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the progress of loading: 0 to 100, or -1 while the total amount of work is unknown.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getScriptTaskTimeLimitMillis(java.lang.String)">getScriptTaskTimeLimitMillis</A></B>(java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Selects the script task wall-clock limit for the final URL of a top-level document.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getScrollableBlockIncrement(java.awt.Rectangle, int, int)">getScrollableBlockIncrement</A></B>(java.awt.Rectangle&nbsp;visibleRect,
+                            int&nbsp;orientation,
+                            int&nbsp;direction)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the distance of one block (page) scroll: the visible size minus one step.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getScrollableTracksViewportHeight()">getScrollableTracksViewportHeight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the view height follows the viewport height: true while the content is shorter than the viewport.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getScrollableTracksViewportWidth()">getScrollableTracksViewportWidth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the view width follows the viewport width: true while the laid-out content fits into the viewport.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getScrollableUnitIncrement(java.awt.Rectangle, int, int)">getScrollableUnitIncrement</A></B>(java.awt.Rectangle&nbsp;visibleRect,
+                           int&nbsp;orientation,
+                           int&nbsp;direction)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the distance of one scroll step: the line height reported by the layout engine.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Collection&lt;<A HREF="../../../../org/duckdns/hjow/swingwebpanel/storage/StorageEntry.html" title="class in org.duckdns.hjow.swingwebpanel.storage">StorageEntry</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getSessionStorage()">getSessionStorage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a read-only copy of all sessionStorage items of this component (all origins).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getStatusText()">getStatusText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text of the status bar, for example "Loading http://..." or "Done".</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getTitle()">getTitle</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the title of the confirmed page, or an empty string (extension method).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getUserAgent()">getUserAgent</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the User-Agent value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../org/duckdns/hjow/swingwebpanel/core/ViewMetrics.html" title="class in org.duckdns.hjow.swingwebpanel.core">ViewMetrics</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getViewMetrics()">getViewMetrics</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the size information object that the layout engine updates (for the rendering code of this library).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../org/duckdns/hjow/swingwebpanel/WebMessageListener.html" title="interface in org.duckdns.hjow.swingwebpanel">WebMessageListener</A>[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getWebMessageListeners()">getWebMessageListeners</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy of web message listeners in registration order.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#getZoom()">getZoom</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the page zoom factor (extension method): 1 shows the page at 100 percent, 2 at 200 percent.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#isDisposed()">isDisposed</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#dispose()"><CODE>dispose()</CODE></A> ran (extension method).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#isJavascriptEnabled()">isJavascriptEnabled</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether JavaScript is enabled (extension method).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#isOnline()">isOnline</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the host said that it has a network connection (extension method, see <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setOnline(boolean)"><CODE>setOnline(boolean)</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#isOptimizedDrawingEnabled()">isOptimizedDrawingEnabled</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells Swing that the children of this component (the editors of the form controls and the validation bubble) may overlap each other and
+ the page, so the page is repainted under them.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#isPopupBlockingEnabled()">isPopupBlockingEnabled</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the popup blocker of this component is on (extension, API contract 5.28).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#isRootWindowClosingEnabled()">isRootWindowClosingEnabled</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the page may close the window of this component with <code>window.close()</code> (extension method, API contract
+ 5.23).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#openNewWindow(org.duckdns.hjow.swingwebpanel.WindowRequest)">openNewWindow</A></B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/WindowRequest.html" title="class in org.duckdns.hjow.swingwebpanel">WindowRequest</A>&nbsp;request)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Offers a new window that a link, a form or the user asked for (extension point, API contract 5.28): the target of a link or a
+ form names no existing window (<A HREF="../../../../org/duckdns/hjow/swingwebpanel/WindowRequest.html#LINK"><CODE>WindowRequest.LINK</CODE></A>), or the user chose to open a link in a new tab or window with Ctrl,
+ Shift or the middle button (<A HREF="../../../../org/duckdns/hjow/swingwebpanel/WindowRequest.html#USER"><CODE>WindowRequest.USER</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#openPopupWindow(org.duckdns.hjow.swingwebpanel.WindowRequest)">openPopupWindow</A></B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/WindowRequest.html" title="class in org.duckdns.hjow.swingwebpanel">WindowRequest</A>&nbsp;request)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Shows the window that a script opened with <code>window.open</code> (extension point, API contract 5.28).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#paintComponent(java.awt.Graphics)">paintComponent</A></B>(java.awt.Graphics&nbsp;g)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Paints the Swing background and the immutable commands produced by the document thread.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#paintPage(java.awt.Graphics2D)">paintPage</A></B>(java.awt.Graphics2D&nbsp;g2)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hook for the rendering engine: paints the latest layout of the confirmed page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#paste()">paste</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pastes the clipboard into the editable place that has the focus (extension method), as Ctrl+V does: the <code>paste</code> event is
+ sent to the page first, and unless a listener cancels it the data is inserted.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#popupBlocked(org.duckdns.hjow.swingwebpanel.WindowRequest)">popupBlocked</A></B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/WindowRequest.html" title="class in org.duckdns.hjow.swingwebpanel">WindowRequest</A>&nbsp;request)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Receives a window that was not opened because the popup blocker is on and the page asked without an action of the user
+ (extension point, API contract 5.28).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#postMessage(java.lang.Object)">postMessage</A></B>(java.lang.Object&nbsp;message)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Posts to the current top-level document using the wildcard target origin.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#postMessage(java.lang.Object, java.lang.String)">postMessage</A></B>(java.lang.Object&nbsp;message,
+            java.lang.String&nbsp;targetOrigin)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Posts a copied value to the current top-level script document with the specified target origin.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;java.awt.datatransfer.Transferable</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#readClipboard()">readClipboard</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reads the clipboard for a paste into an editable place of the page (<code>contenteditable</code> or design mode).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#refresh()">refresh</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reloads the current page, respecting caches.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#refresh(boolean)">refresh</A></B>(boolean&nbsp;force)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reloads the current page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#removeConsoleListener(org.duckdns.hjow.swingwebpanel.ConsoleListener)">removeConsoleListener</A></B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/ConsoleListener.html" title="interface in org.duckdns.hjow.swingwebpanel">ConsoleListener</A>&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes one registration of a console listener; unknown listeners are ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#removeHyperlinkEvents()">removeHyperlinkEvents</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes all hyperlink listeners registered through this component.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#removeHyperlinkListener(javax.swing.event.HyperlinkListener)">removeHyperlinkListener</A></B>(javax.swing.event.HyperlinkListener&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes one registration of a hyperlink listener; unknown listeners are ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#removeWebMessageListener(org.duckdns.hjow.swingwebpanel.WebMessageListener)">removeWebMessageListener</A></B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/WebMessageListener.html" title="interface in org.duckdns.hjow.swingwebpanel">WebMessageListener</A>&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes one registration of a web message listener.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#selectAll()">selectAll</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Selects everything (extension method), as Ctrl+A does: all the text of the text control or of the editable place that has the
+ focus, else all the content of the page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setContent(java.lang.String, java.lang.String)">setContent</A></B>(java.lang.String&nbsp;content,
+           java.lang.String&nbsp;contentType)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Shows content you already have.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setDefaultFontFamily(java.lang.String, java.lang.String)">setDefaultFontFamily</A></B>(java.lang.String&nbsp;kind,
+                     java.lang.String&nbsp;family)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets one of the default font families of this component (extension method, API contract 5.27).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setDefaultFontSize(int)">setDefaultFontSize</A></B>(int&nbsp;px)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the default font size of this component (extension method, API contract 5.27): the size of <code>font-size: medium</code>, in
+ CSS pixels.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setDefaultMonospaceFontSize(int)">setDefaultMonospaceFontSize</A></B>(int&nbsp;px)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the font size of the monospace elements (<code>code</code>, <code>kbd</code>, <code>samp</code>, <code>tt</code>,
+ <code>pre</code> and the old <code>listing</code>, <code>xmp</code>, <code>plaintext</code>) of this component (extension method,
+ API contract 5.27), as browsers have a separate default size for fixed-width text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setJavascriptEnabled(boolean)">setJavascriptEnabled</A></B>(boolean&nbsp;enabled)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Turns JavaScript on or off (default: on).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setOnline(boolean)">setOnline</A></B>(boolean&nbsp;online)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells the pages whether the host has a network connection (extension method): <code>navigator.onLine</code> follows it and the pages hear
+ <code>online</code> or <code>offline</code> at their window when it changes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setPage(java.lang.String)">setPage</A></B>(java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts loading an address and returns immediately.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setPopupBlockingEnabled(boolean)">setPopupBlockingEnabled</A></B>(boolean&nbsp;enabled)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Turns the popup blocker of this component on or off (extension, API contract 5.28).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setRootWindowClosingEnabled(boolean)">setRootWindowClosingEnabled</A></B>(boolean&nbsp;enabled)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Allows or forbids the page to close the window of this component with <code>window.close()</code> (extension method, API contract
+ 5.23; default: forbidden).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setUserAgent(java.lang.String)">setUserAgent</A></B>(java.lang.String&nbsp;agent)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the User-Agent header value used by all later requests.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setZoom(double)">setZoom</A></B>(double&nbsp;factor)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zooms the page (extension method; the public methods of the component are not changed by it): the page is laid out for a viewport that
+ is as many times smaller as the factor says (so media queries, percentage widths and line breaks follow what the user sees), and the
+ drawing, the mouse coordinates, the scroll size, the selection highlight and the editors of the form controls use the same factor.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#stop()">stop</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cancels the running navigation, if any (extension method).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#submitForm(org.duckdns.hjow.swingwebpanel.dom.html.FormSubmission)">submitForm</A></B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormSubmission.html" title="class in org.duckdns.hjow.swingwebpanel.dom.html">FormSubmission</A>&nbsp;submission)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Receives the submission of a form of the page (the user pressed a submit button or Enter, or a script submitted the form, and the form
+ passed validation).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#viewportWidthChanged(int)">viewportWidthChanged</A></B>(int&nbsp;width)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Called on the event dispatch thread when the component's width changed.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_javax.swing.JPanel"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class javax.swing.JPanel</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>getAccessibleContext, getUI, getUIClassID, paramString, setUI, updateUI</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_javax.swing.JComponent"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class javax.swing.JComponent</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>addAncestorListener, addNotify, addVetoableChangeListener, computeVisibleRect, contains, createToolTip, disable, enable, firePropertyChange, firePropertyChange, firePropertyChange, fireVetoableChange, getActionForKeyStroke, getActionMap, getAlignmentX, getAlignmentY, getAncestorListeners, getAutoscrolls, getBaseline, getBaselineResizeBehavior, getBorder, getBounds, getClientProperty, getComponentGraphics, getComponentPopupMenu, getConditionForKeyStroke, getDebugGraphicsOptions, getDefaultLocale, getFontMetrics, getGraphics, getHeight, getInheritsPopupMenu, getInputMap, getInputMap, getInputVerifier, getInsets, getInsets, getListeners, getLocation, getMaximumSize, getMinimumSize, getNextFocusableComponent, getPopupLocation, getRegisteredKeyStrokes, getRootPane, getSize, getToolTipLocation, getToolTipText, getToolTipText, getTopLevelAncestor, getTransferHandler, getVerifyInputWhenFocusTarget, getVetoableChangeListeners, getVisibleRect, getWidth, getX, getY, grabFocus, isDoubleBuffered, isLightweightComponent, isManagingFocus, isOpaque, isPaintingForPrint, isPaintingTile, isRequestFocusEnabled, isValidateRoot, paint, paintBorder, paintChildren, paintImmediately, paintImmediately, print, printAll, printBorder, printChildren, printComponent, processComponentKeyEvent, processKeyBinding, processKeyEvent, processMouseEvent, processMouseMotionEvent, putClientProperty, registerKeyboardAction, registerKeyboardAction, removeAncestorListener, removeNotify, removeVetoableChangeListener, repaint, repaint, requestDefaultFocus, requestFocus, requestFocus, requestFocusInWindow, requestFocusInWindow, resetKeyboardActions, reshape, revalidate, scrollRectToVisible, setActionMap, setAlignmentX, setAlignmentY, setAutoscrolls, setBackground, setBorder, setComponentPopupMenu, setDebugGraphicsOptions, setDefaultLocale, setDoubleBuffered, setEnabled, setFocusTraversalKeys, setFont, setForeground, setInheritsPopupMenu, setInputMap, setInputVerifier, setMaximumSize, setMinimumSize, setNextFocusableComponent, setOpaque, setPreferredSize, setRequestFocusEnabled, setToolTipText, setTransferHandler, setUI, setVerifyInputWhenFocusTarget, setVisible, unregisterKeyboardAction, update</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.awt.Container"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.awt.Container</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>add, add, add, add, add, addContainerListener, addImpl, addPropertyChangeListener, addPropertyChangeListener, applyComponentOrientation, areFocusTraversalKeysSet, countComponents, deliverEvent, doLayout, findComponentAt, findComponentAt, getComponent, getComponentAt, getComponentAt, getComponentCount, getComponents, getComponentZOrder, getContainerListeners, getFocusTraversalKeys, getFocusTraversalPolicy, getLayout, getMousePosition, insets, invalidate, isAncestorOf, isFocusCycleRoot, isFocusCycleRoot, isFocusTraversalPolicyProvider, isFocusTraversalPolicySet, layout, list, list, locate, minimumSize, paintComponents, preferredSize, printComponents, processContainerEvent, processEvent, remove, remove, removeAll, removeContainerListener, setComponentZOrder, setFocusCycleRoot, setFocusTraversalPolicy, setFocusTraversalPolicyProvider, setLayout, transferFocusBackward, transferFocusDownCycle, validate, validateTree</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.awt.Component"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.awt.Component</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>action, add, addComponentListener, addFocusListener, addHierarchyBoundsListener, addHierarchyListener, addInputMethodListener, addKeyListener, addMouseListener, addMouseMotionListener, addMouseWheelListener, bounds, checkImage, checkImage, coalesceEvents, contains, createImage, createImage, createVolatileImage, createVolatileImage, disableEvents, dispatchEvent, enable, enableEvents, enableInputMethods, firePropertyChange, firePropertyChange, firePropertyChange, firePropertyChange, firePropertyChange, firePropertyChange, getBackground, getBounds, getColorModel, getComponentListeners, getComponentOrientation, getCursor, getDropTarget, getFocusCycleRootAncestor, getFocusListeners, getFocusTraversalKeysEnabled, getFont, getForeground, getGraphicsConfiguration, getHierarchyBoundsListeners, getHierarchyListeners, getIgnoreRepaint, getInputContext, getInputMethodListeners, getKeyListeners, getLocale, getLocation, getLocationOnScreen, getMouseListeners, getMouseMotionListeners, getMousePosition, getMouseWheelListeners, getName, getParent, getPeer, getPropertyChangeListeners, getPropertyChangeListeners, getSize, getToolkit, getTreeLock, gotFocus, handleEvent, hasFocus, hide, imageUpdate, inside, isBackgroundSet, isCursorSet, isDisplayable, isEnabled, isFocusable, isFocusOwner, isFocusTraversable, isFontSet, isForegroundSet, isLightweight, isMaximumSizeSet, isMinimumSizeSet, isPreferredSizeSet, isShowing, isValid, isVisible, keyDown, keyUp, list, list, list, location, lostFocus, mouseDown, mouseDrag, mouseEnter, mouseExit, mouseMove, mouseUp, move, nextFocus, paintAll, postEvent, prepareImage, prepareImage, processComponentEvent, processFocusEvent, processHierarchyBoundsEvent, processHierarchyEvent, processInputMethodEvent, processMouseWheelEvent, remove, removeComponentListener, removeFocusListener, removeHierarchyBoundsListener, removeHierarchyListener, removeInputMethodListener, removeKeyListener, removeMouseListener, removeMouseMotionListener, removeMouseWheelListener, removePropertyChangeListener, removePropertyChangeListener, repaint, repaint, repaint, resize, resize, setBounds, setBounds, setComponentOrientation, setCursor, setDropTarget, setFocusable, setFocusTraversalKeysEnabled, setIgnoreRepaint, setLocale, setLocation, setLocation, setName, setSize, setSize, show, show, size, toString, transferFocus, transferFocusUpCycle</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="PROPERTY_PAGE"><!-- --></A><H3>
+PROPERTY_PAGE</H3>
+<PRE>
+public static final java.lang.String <B>PROPERTY_PAGE</B></PRE>
+<DL>
+<DD>Name of the property that announces the URL of the confirmed page.
+ <p>
+ 확정된 페이지의 URL 변경을 알리는 속성 이름.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.SwingWebPanel.PROPERTY_PAGE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="HOST_ORIGIN"><!-- --></A><H3>
+HOST_ORIGIN</H3>
+<PRE>
+public static final java.lang.String <B>HOST_ORIGIN</B></PRE>
+<DL>
+<DD>Origin of messages from the Java host. / Java 호스트에서 온 메시지의 오리진.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.SwingWebPanel.HOST_ORIGIN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PROPERTY_STATUS_TEXT"><!-- --></A><H3>
+PROPERTY_STATUS_TEXT</H3>
+<PRE>
+public static final java.lang.String <B>PROPERTY_STATUS_TEXT</B></PRE>
+<DL>
+<DD>Name of the property that announces the status bar text.
+ <p>
+ 상태바 메시지 변경을 알리는 속성 이름.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.SwingWebPanel.PROPERTY_STATUS_TEXT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PROPERTY_PROGRESS"><!-- --></A><H3>
+PROPERTY_PROGRESS</H3>
+<PRE>
+public static final java.lang.String <B>PROPERTY_PROGRESS</B></PRE>
+<DL>
+<DD>Name of the property that announces the progress value.
+ <p>
+ 진행률 변경을 알리는 속성 이름.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.SwingWebPanel.PROPERTY_PROGRESS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PROPERTY_TITLE"><!-- --></A><H3>
+PROPERTY_TITLE</H3>
+<PRE>
+public static final java.lang.String <B>PROPERTY_TITLE</B></PRE>
+<DL>
+<DD>Name of the property that announces the document title.
+ <p>
+ 문서 제목 변경을 알리는 속성 이름.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.SwingWebPanel.PROPERTY_TITLE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PROPERTY_ZOOM"><!-- --></A><H3>
+PROPERTY_ZOOM</H3>
+<PRE>
+public static final java.lang.String <B>PROPERTY_ZOOM</B></PRE>
+<DL>
+<DD>Name of the property that announces the page zoom factor (<A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setZoom(double)"><CODE>setZoom(double)</CODE></A>); the values are <code>Double</code>.
+ <p>
+ 페이지 확대 배율(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setZoom(double)"><CODE>setZoom(double)</CODE></A>) 변경을 알리는 속성 이름. 값은 <code>Double</code> 이다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.SwingWebPanel.PROPERTY_ZOOM">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PROPERTY_ROOT_WINDOW_CLOSING_ENABLED"><!-- --></A><H3>
+PROPERTY_ROOT_WINDOW_CLOSING_ENABLED</H3>
+<PRE>
+public static final java.lang.String <B>PROPERTY_ROOT_WINDOW_CLOSING_ENABLED</B></PRE>
+<DL>
+<DD>Name of the property that announces a change of <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setRootWindowClosingEnabled(boolean)"><CODE>setRootWindowClosingEnabled(boolean)</CODE></A>; the values are <code>Boolean</code>.
+ <p>
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setRootWindowClosingEnabled(boolean)"><CODE>setRootWindowClosingEnabled(boolean)</CODE></A> 의 변경을 알리는 속성 이름. 값은 <code>Boolean</code> 이다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.SwingWebPanel.PROPERTY_ROOT_WINDOW_CLOSING_ENABLED">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PROPERTY_DEFAULT_FONTS"><!-- --></A><H3>
+PROPERTY_DEFAULT_FONTS</H3>
+<PRE>
+public static final java.lang.String <B>PROPERTY_DEFAULT_FONTS</B></PRE>
+<DL>
+<DD>Name of the property that announces a change of the default fonts (<A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setDefaultFontFamily(java.lang.String, java.lang.String)"><CODE>setDefaultFontFamily(String, String)</CODE></A>,
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setDefaultFontSize(int)"><CODE>setDefaultFontSize(int)</CODE></A>, <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setDefaultMonospaceFontSize(int)"><CODE>setDefaultMonospaceFontSize(int)</CODE></A>); the values are one-line descriptions (<code>String</code>).
+ <p>
+ 기본 글꼴(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setDefaultFontFamily(java.lang.String, java.lang.String)"><CODE>setDefaultFontFamily(String, String)</CODE></A>, <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setDefaultFontSize(int)"><CODE>setDefaultFontSize(int)</CODE></A>, <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setDefaultMonospaceFontSize(int)"><CODE>setDefaultMonospaceFontSize(int)</CODE></A>)의
+ 변경을 알리는 속성 이름. 값은 한 줄 설명(<code>String</code>)이다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.SwingWebPanel.PROPERTY_DEFAULT_FONTS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PROPERTY_POPUP_BLOCKING_ENABLED"><!-- --></A><H3>
+PROPERTY_POPUP_BLOCKING_ENABLED</H3>
+<PRE>
+public static final java.lang.String <B>PROPERTY_POPUP_BLOCKING_ENABLED</B></PRE>
+<DL>
+<DD>Name of the property that announces a change of <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setPopupBlockingEnabled(boolean)"><CODE>setPopupBlockingEnabled(boolean)</CODE></A>; the values are <code>Boolean</code>.
+ <p>
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setPopupBlockingEnabled(boolean)"><CODE>setPopupBlockingEnabled(boolean)</CODE></A> 의 변경을 알리는 속성 이름. 값은 <code>Boolean</code> 이다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.SwingWebPanel.PROPERTY_POPUP_BLOCKING_ENABLED">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FONT_STANDARD"><!-- --></A><H3>
+FONT_STANDARD</H3>
+<PRE>
+public static final java.lang.String <B>FONT_STANDARD</B></PRE>
+<DL>
+<DD>Kind of default font: the font of content whose author named none. / 기본 글꼴의 종류: 작성자가 글꼴을 지정하지 않은 내용의 글꼴.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.SwingWebPanel.FONT_STANDARD">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FONT_SERIF"><!-- --></A><H3>
+FONT_SERIF</H3>
+<PRE>
+public static final java.lang.String <B>FONT_SERIF</B></PRE>
+<DL>
+<DD>Kind of default font: the font behind the generic name <code>serif</code>. / 기본 글꼴의 종류: 일반 이름 <code>serif</code> 뒤의 글꼴.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.SwingWebPanel.FONT_SERIF">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FONT_SANS_SERIF"><!-- --></A><H3>
+FONT_SANS_SERIF</H3>
+<PRE>
+public static final java.lang.String <B>FONT_SANS_SERIF</B></PRE>
+<DL>
+<DD>Kind of default font: the font behind the generic name <code>sans-serif</code>. / 기본 글꼴의 종류: 일반 이름 <code>sans-serif</code> 뒤의 글꼴.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.SwingWebPanel.FONT_SANS_SERIF">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FONT_MONOSPACE"><!-- --></A><H3>
+FONT_MONOSPACE</H3>
+<PRE>
+public static final java.lang.String <B>FONT_MONOSPACE</B></PRE>
+<DL>
+<DD>Kind of default font: the font behind the generic name <code>monospace</code>. / 기본 글꼴의 종류: 일반 이름 <code>monospace</code> 뒤의 글꼴.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.SwingWebPanel.FONT_MONOSPACE">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="SwingWebPanel()"><!-- --></A><H3>
+SwingWebPanel</H3>
+<PRE>
+public <B>SwingWebPanel</B>()</PRE>
+<DL>
+<DD>Creates a component that shows the blank page.
+ <p>
+ 빈 페이지를 보여 주는 컴포넌트를 만든다.
+<P>
+</DL>
+<HR>
+
+<A NAME="SwingWebPanel(org.duckdns.hjow.swingwebpanel.CookieJar)"><!-- --></A><H3>
+SwingWebPanel</H3>
+<PRE>
+public <B>SwingWebPanel</B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/CookieJar.html" title="class in org.duckdns.hjow.swingwebpanel">CookieJar</A>&nbsp;jar)</PRE>
+<DL>
+<DD>Creates a component that shows the blank page and keeps its cookies in a jar that it shares with the other components created
+ with the same jar (extension, API contract 5.24): a cookie that a page of one of them sets is sent by the requests of all of
+ them. Disposing this component does not clear the jar. Everything else (history, cache, session storage) stays separate.
+ <p>
+ 빈 페이지를 보여 주며, 같은 저장소로 만든 다른 컴포넌트와 공유하는 저장소에 쿠키를 두는 컴포넌트를 만든다(확장, API 계약 5.24): 그중 한
+ 컴포넌트의 페이지가 설정한 쿠키를 모든 컴포넌트의 요청이 보낸다. 이 컴포넌트를 폐기해도 저장소는 비워지지 않는다. 그 밖의 것(이력, 캐시,
+ sessionStorage)은 따로이다.
+ <p>
+ 사용 예 / Example:
+ <pre>
+ CookieJar jar = new CookieJar();
+ SwingWebPanel tab1 = new SwingWebPanel(jar);
+ SwingWebPanel tab2 = new SwingWebPanel(jar);
+ </pre>
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>jar</CODE> - the shared cookie jar / 공유할 쿠키 저장소
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the jar is null / 저장소가 null 이면</DL>
+</DL>
+<HR>
+
+<A NAME="SwingWebPanel(org.duckdns.hjow.swingwebpanel.core.PageLoader)"><!-- --></A><H3>
+SwingWebPanel</H3>
+<PRE>
+protected <B>SwingWebPanel</B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageLoader</A>&nbsp;loader)</PRE>
+<DL>
+<DD>Creates a component that loads pages with the given loader. Meant for subclasses, hosts and tests that replace the page
+ loading pipeline.
+ <p>
+ 주어진 로더로 페이지를 읽는 컴포넌트를 만든다. 페이지 로딩 파이프라인을 바꾸려는 하위 클래스, 호스트, 시험용이다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>loader</CODE> - page loader, or null for the standard loader that uses the network layer / 페이지 로더. 네트워크 계층을 쓰는 표준 로더이면 null</DL>
+</DL>
+<HR>
+
+<A NAME="SwingWebPanel(org.duckdns.hjow.swingwebpanel.SwingWebPanel.PopupSeed)"><!-- --></A><H3>
+SwingWebPanel</H3>
+<PRE>
+protected <B>SwingWebPanel</B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.PopupSeed.html" title="class in org.duckdns.hjow.swingwebpanel">SwingWebPanel.PopupSeed</A>&nbsp;seed)</PRE>
+<DL>
+<DD>Creates the component of a window that a page of another component opens (extension, API contract 5.28). A subclass that wants
+ its own class for such windows overrides <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#createPopupPanel(org.duckdns.hjow.swingwebpanel.SwingWebPanel.PopupSeed)"><CODE>createPopupPanel(PopupSeed)</CODE></A> to call a constructor that passes the seed here.
+ The component shares the cookies of the component that opened it and starts with its default fonts. Unlike the other
+ constructors this one may run on a thread other than the event dispatch thread (the thread of the script that calls
+ <code>window.open</code>), so a subclass constructor must not show anything or wait for the event dispatch thread.
+ <p>
+ 다른 컴포넌트의 페이지가 연 창의 컴포넌트를 만든다(확장, API 계약 5.28). 그런 창에 자기 클래스를 쓰려는 하위 클래스는
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#createPopupPanel(org.duckdns.hjow.swingwebpanel.SwingWebPanel.PopupSeed)"><CODE>createPopupPanel(PopupSeed)</CODE></A> 를 재정의하여, 씨앗을 여기로 넘기는 생성자를 부른다. 컴포넌트는 자신을 연 컴포넌트의 쿠키를 함께 쓰고
+ 그 기본 글꼴로 시작한다. 다른 생성자와 달리 이 생성자는 이벤트 디스패치 스레드가 아닌 스레드(<code>window.open</code> 을 부른 스크립트의
+ 스레드)에서 실행될 수 있으므로, 하위 클래스의 생성자는 아무것도 보이거나 이벤트 디스패치 스레드를 기다리면 안 된다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>seed</CODE> - the seed that <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#createPopupPanel(org.duckdns.hjow.swingwebpanel.SwingWebPanel.PopupSeed)"><CODE>createPopupPanel(PopupSeed)</CODE></A> received / <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#createPopupPanel(org.duckdns.hjow.swingwebpanel.SwingWebPanel.PopupSeed)"><CODE>createPopupPanel(PopupSeed)</CODE></A> 가 받은 씨앗
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the seed is null / 씨앗이 null 이면
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the seed was used already / 이미 쓴 씨앗이면</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="submitForm(org.duckdns.hjow.swingwebpanel.dom.html.FormSubmission)"><!-- --></A><H3>
+submitForm</H3>
+<PRE>
+protected void <B>submitForm</B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormSubmission.html" title="class in org.duckdns.hjow.swingwebpanel.dom.html">FormSubmission</A>&nbsp;submission)</PRE>
+<DL>
+<DD>Receives the submission of a form of the page (the user pressed a submit button or Enter, or a script submitted the form, and the form
+ passed validation). The default hands it to the browser session when it can navigate with it; a subclass or a test overrides it to
+ observe or to replace the navigation. It is called on the document thread of the page and must not block it.
+ <p>
+ 페이지의 폼 제출을 받는다(사용자가 제출 단추나 Enter 를 눌렀거나 스크립트가 폼을 제출했고 폼이 검증을 통과했다). 기본은 브라우저 세션이 그것으로 이동할 수
+ 있으면 세션에 넘긴다. 하위 클래스나 시험은 이것을 재정의하여 이동을 관찰하거나 대신한다. 페이지의 문서 스레드에서 호출되며 이 스레드를 막으면 안 된다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>submission</CODE> - the method, URL, body and target of the submission / 제출의 메서드, URL, 본문, 대상</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="chooseUploadFiles(boolean, java.lang.String)"><!-- --></A><H3>
+chooseUploadFiles</H3>
+<PRE>
+protected java.io.File[] <B>chooseUploadFiles</B>(boolean&nbsp;multiple,
+                                           java.lang.String&nbsp;accept)</PRE>
+<DL>
+<DD>Asks the user for the files of a file upload control. The default shows a Swing file chooser (nothing without a screen); a host or a
+ test overrides it to choose files without a dialog. It is called on the event dispatch thread; return null if the user cancelled.
+ <p>
+ 파일 업로드 컨트롤의 파일을 사용자에게 묻는다. 기본은 Swing 파일 선택기를 보여 준다(화면이 없으면 아무것도 하지 않는다). 호스트나 시험은 이것을 재정의하여
+ 대화상자 없이 파일을 고른다. 이벤트 디스패치 스레드에서 호출되며, 사용자가 취소했으면 null 을 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>multiple</CODE> - true if the control accepts several files / 컨트롤이 여러 파일을 받으면 true<DD><CODE>accept</CODE> - the <code>accept</code> attribute of the control / 컨트롤의 <code>accept</code> 속성
+<DT><B>Returns:</B><DD>the chosen files or null / 고른 파일 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isOptimizedDrawingEnabled()"><!-- --></A><H3>
+isOptimizedDrawingEnabled</H3>
+<PRE>
+public boolean <B>isOptimizedDrawingEnabled</B>()</PRE>
+<DL>
+<DD>Tells Swing that the children of this component (the editors of the form controls and the validation bubble) may overlap each other and
+ the page, so the page is repainted under them.
+ <p>
+ 이 컴포넌트의 자식(폼 컨트롤의 편집기와 검증 말풍선)이 서로 그리고 페이지와 겹칠 수 있음을 Swing 에 알려, 그 아래의 페이지가 다시 그려지게 한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>isOptimizedDrawingEnabled</CODE> in class <CODE>javax.swing.JComponent</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if there are no children / 자식이 없으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createDownloadPopup(org.duckdns.hjow.swingwebpanel.download.DownloadRequest, org.duckdns.hjow.swingwebpanel.download.DownloadControl)"><!-- --></A><H3>
+createDownloadPopup</H3>
+<PRE>
+protected <A HREF="../../../../org/duckdns/hjow/swingwebpanel/download/DownloadHandle.html" title="interface in org.duckdns.hjow.swingwebpanel.download">DownloadHandle</A> <B>createDownloadPopup</B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html" title="class in org.duckdns.hjow.swingwebpanel.download">DownloadRequest</A>&nbsp;request,
+                                             <A HREF="../../../../org/duckdns/hjow/swingwebpanel/download/DownloadControl.html" title="interface in org.duckdns.hjow.swingwebpanel.download">DownloadControl</A>&nbsp;control)</PRE>
+<DL>
+<DD>Creates the popup that shows one download
+ (a navigation whose response is an attachment, a file that cannot be shown, or a link
+ with the <code>download</code> attribute). The default is a non-modal dialog whose parent is the window of this component, with the
+ file name, the source, the target (changeable through a file chooser), a progress bar (indeterminate when the size is unknown), a
+ cancel button and the result. A host or a test overrides it to show its own popup or to observe the download. It is called on the
+ EDT; the transfer itself runs on a background thread of the download manager.
+ <p>
+ 다운로드 하나를 보여 주는 팝업을 만든다(응답이 첨부 파일이거나 보여 줄 수 없는 파일인 이동, <code>download</code> 속성이 있는 링크). 기본은 이 컴포넌트의 창을 부모로
+ 하는 비모달 대화상자이며 파일 이름, 출처, 저장 위치(파일 선택기로 바꿀 수 있음), 진행 막대(크기를 모르면 불확정), 취소 단추, 결과를 보여 준다.
+ 호스트와 시험은 이것을 재정의하여 자신의 팝업을 보여 주거나 다운로드를 관찰한다. EDT 에서 호출되며 전송은 다운로드 관리자의 백그라운드
+ 스레드에서 실행된다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>request</CODE> - what is downloaded / 내려받는 대상<DD><CODE>control</CODE> - how the popup can cancel the download or change its target / 팝업이 다운로드를 취소하거나 대상을 바꾸는 방법
+<DT><B>Returns:</B><DD>the popup / 팝업</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="confirmResubmit(java.lang.String)"><!-- --></A><H3>
+confirmResubmit</H3>
+<PRE>
+protected boolean <B>confirmResubmit</B>(java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Asks the user whether the form that produced the shown page may be sent again. It is asked when the page is refreshed (or its
+ response has to be saved as a file), because a page that a form submission (<code>POST</code>) produced is never sent again
+ silently; showing it again from the history uses the stored source and does not ask. The default shows a confirmation dialog whose
+ parent is the window of this component; in a headless environment it answers no. A host or a test overrides it. It is called on the
+ EDT.
+ <p>
+ 지금 보이는 페이지를 만든 폼을 다시 보내도 되는지 사용자에게 묻는다. 폼 제출(<code>POST</code>)이 만든 페이지는 조용히 다시 보내지 않으므로 새로고침할
+ 때(또는 응답을 파일로 저장해야 할 때) 묻는다. 이력에서 다시 보여 줄 때는 저장한 원문을 쓰므로 묻지 않는다. 기본은 이 컴포넌트의 창을 부모로 하는 확인
+ 대화상자를 보이며, 헤드리스 환경에서는 아니오로 답한다. 호스트와 시험이 재정의한다. EDT 에서 호출된다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - the address that the form was sent to / 폼을 보낸 주소
+<DT><B>Returns:</B><DD>true to send the form again / 폼을 다시 보내려면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createAudioOutputFactory()"><!-- --></A><H3>
+createAudioOutputFactory</H3>
+<PRE>
+protected <A HREF="../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.playback">AudioOutputFactory</A> <B>createAudioOutputFactory</B>()</PRE>
+<DL>
+<DD>Creates the factory that opens the sound outputs of the <code>audio</code> elements of the pages (plan item P18-08). The default is the
+ default mixer of Java Sound (<A HREF="../../../../org/duckdns/hjow/swingwebpanel/media/playback/JavaSoundOutputFactory.html" title="class in org.duckdns.hjow.swingwebpanel.media.playback"><CODE>JavaSoundOutputFactory</CODE></A>); a machine without an audio device makes <code>play()</code> fail with an
+ <code>error</code> event. A host overrides it to send the sound elsewhere, a test to record the PCM that would be played. It is asked
+ once, when the first element starts to play, and may return null for no sound.
+ <p>
+ 페이지의 <code>audio</code> 요소의 소리 출력을 여는 팩터리를 만든다(계획 P18-08). 기본은 Java Sound 의 기본 믹서(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/media/playback/JavaSoundOutputFactory.html" title="class in org.duckdns.hjow.swingwebpanel.media.playback"><CODE>JavaSoundOutputFactory</CODE></A>)이며,
+ 오디오 장치가 없는 컴퓨터에서는 <code>play()</code> 가 <code>error</code> 이벤트로 실패한다. 호스트는 소리를 다른 곳으로 보내려고, 시험은 재생되었을
+ PCM 을 기록하려고 재정의한다. 첫 요소가 재생을 시작할 때 한 번 묻으며, 소리가 없으면 null 을 반환해도 된다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the factory, or null for no sound output / 팩터리. 소리 출력이 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getScriptTaskTimeLimitMillis(java.lang.String)"><!-- --></A><H3>
+getScriptTaskTimeLimitMillis</H3>
+<PRE>
+protected long <B>getScriptTaskTimeLimitMillis</B>(java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Selects the script task wall-clock limit for the final URL of a top-level document. A host can override this method for a known
+ application with longer initialization. Called on a loader thread before any scripts run. The default is 10 seconds and a nonpositive
+ override uses that same default. Frames have the default limit. The step limit and cancellation still apply.
+ <p>
+ 최상위 문서의 최종 URL에 스크립트 작업의 경과 시간 한도를 지정한다. 초기화가 긴 특정 애플리케이션을 위해 호스트에서 재정의할 수 있다.
+ 스크립트가 실행되기 전에 로더 스레드에서 호출한다. 기본값은 10초이고 재정의가 0 이하를 반환할 때도 기본값을 쓴다.
+ 프레임은 기본 한도를 사용한다. 단계 제한과 취소는 계속 적용된다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - final address of the top-level document / 최상위 문서의 최종 주소
+<DT><B>Returns:</B><DD>the limit in milliseconds / 시간 한도(밀리초)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createWebAudioOutputFactory()"><!-- --></A><H3>
+createWebAudioOutputFactory</H3>
+<PRE>
+protected <A HREF="../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output">OutputFactory</A> <B>createWebAudioOutputFactory</B>()</PRE>
+<DL>
+<DD>Creates the factory that opens the outputs of the real-time <code>AudioContext</code> objects of the pages (Web Audio, plan item P25-07). The default is the default mixer of
+ Java Sound (<A HREF="../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/SystemOutputFactory.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>SystemOutputFactory</CODE></A>); a context whose output cannot be opened (no sound device, or the device is busy) still runs, silently, and keeps the time of the context
+ going at real speed. A host overrides it to send the sound elsewhere (or to switch Web Audio off by returning null, which makes every context play silently), a test to record the audio
+ that would be played. It is independent of <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#createAudioOutputFactory()"><CODE>createAudioOutputFactory()</CODE></A>, which serves the <code>audio</code> elements: a host that wants to redirect all sound overrides both.
+ The factory is asked once, when the first real-time context starts to run; each segment of a context (the time between a <code>resume()</code> and the next <code>suspend()</code>)
+ opens its own output, on the rendering thread of the context.
+ <p>
+ 페이지의 실시간 <code>AudioContext</code> 의 출력을 여는 팩터리를 만든다(Web Audio, 계획 P25-07). 기본은 Java Sound 의 기본 믹서(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/SystemOutputFactory.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>SystemOutputFactory</CODE></A>)이다. 출력을 열 수 없는
+ 컨텍스트(소리 장치가 없거나 장치가 사용 중)도 소리 없이 돌며 컨텍스트의 시간을 실제 속도로 흐르게 한다. 호스트는 소리를 다른 곳으로 보내려고(또는 null 을 반환해 Web Audio 를 꺼서 모든
+ 컨텍스트가 소리 없이 돌게 하려고), 시험은 재생되었을 오디오를 기록하려고 재정의한다. <code>audio</code> 요소를 위한 <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#createAudioOutputFactory()"><CODE>createAudioOutputFactory()</CODE></A> 와 독립이다: 모든 소리를
+ 돌리려는 호스트는 둘 다 재정의한다. 팩터리는 첫 실시간 컨텍스트가 돌기 시작할 때 한 번 묻는다. 컨텍스트의 구간(<code>resume()</code> 에서 다음 <code>suspend()</code> 까지의 시간)마다
+ 컨텍스트의 렌더링 스레드에서 자기 출력을 연다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the factory, or null for no Web Audio output / 팩터리. Web Audio 출력이 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDownloadDirectory()"><!-- --></A><H3>
+getDownloadDirectory</H3>
+<PRE>
+protected java.io.File <B>getDownloadDirectory</B>()</PRE>
+<DL>
+<DD>Returns the directory in which downloads are saved first (the user can still choose another file in the download popup). The default
+ is null, which means the Downloads folder of the user if it exists and the home directory otherwise. A host or a test overrides it.
+ <p>
+ 다운로드를 처음 저장하는 디렉터리를 반환한다(사용자는 다운로드 팝업에서 다른 파일을 고를 수 있다). 기본은 null 이며, 사용자의 Downloads 폴더가
+ 있으면 그것, 없으면 홈 디렉터리를 뜻한다. 호스트와 시험이 재정의한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the directory or null / 디렉터리. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setUserAgent(java.lang.String)"><!-- --></A><H3>
+setUserAgent</H3>
+<PRE>
+public void <B>setUserAgent</B>(java.lang.String&nbsp;agent)</PRE>
+<DL>
+<DD>Sets the User-Agent header value used by all later requests. Without a call the value is "swingwebpanel/1.0".
+ <p>
+ 이후 모든 요청에 쓰는 User-Agent 헤더 값을 지정한다. 호출하지 않으면 "swingwebpanel/1.0" 이다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>agent</CODE> - user agent text: not null, not blank, no CR/LF / User-Agent 문자열(null, 공백뿐, CR/LF 포함 불가)
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - for an invalid value / 잘못된 값일 때
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getUserAgent()"><!-- --></A><H3>
+getUserAgent</H3>
+<PRE>
+public java.lang.String <B>getUserAgent</B>()</PRE>
+<DL>
+<DD>Returns the User-Agent value.
+ <p>
+ User-Agent 값을 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>user agent text / User-Agent 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setPage(java.lang.String)"><!-- --></A><H3>
+setPage</H3>
+<PRE>
+public void <B>setPage</B>(java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Starts loading an address and returns immediately. Supported: http, https, ftp (anonymous), <code>classpath://path</code>
+ and <code>about:blank</code>. Addresses with other schemes are shown as an error page without any connection. While the page
+ loads, the query methods still return the previous page.
+ <p>
+ 주소 읽기를 시작하고 즉시 반환한다. 지원: http, https, ftp(익명), <code>classpath://경로</code>, <code>about:blank</code>.
+ 다른 스킴의 주소는 연결 없이 오류 페이지로 보여 준다. 페이지를 읽는 동안 조회 메서드는 계속 이전 페이지를 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - absolute address / 절대 주소
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - for null, blank, relative or unparsable addresses and for about:text / null, 공백, 상대 주소,
+                                  해석할 수 없는 주소, about:text 일 때
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="postMessage(java.lang.Object, java.lang.String)"><!-- --></A><H3>
+postMessage</H3>
+<PRE>
+public void <B>postMessage</B>(java.lang.Object&nbsp;message,
+                        java.lang.String&nbsp;targetOrigin)</PRE>
+<DL>
+<DD>Posts a copied value to the current top-level script document with the specified target origin.
+ Call from any thread. Register the page listener first, for example by waiting for a ready message from the page.
+ Use the expected absolute target URL when sending data that belongs to a specific origin.
+ <p>
+ 복사한 값을 지정한 대상 오리진의 현재 최상위 스크립트 문서에 보낸다. 어느 스레드에서나 호출할 수 있다.
+ 페이지에서 준비 메시지를 받은 뒤 호출하면 리스너 등록을 확인할 수 있다. 특정 오리진의 데이터에는 대상 절대 주소를 지정한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>message</CODE> - plain Java data to copy / 복사할 Java 데이터<DD><CODE>targetOrigin</CODE> - an absolute URL or <code>"*"</code> / 절대 주소 또는 <code>"*"</code>
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - when the origin or message is invalid / 주소나 값이 잘못되었으면
+<DD><CODE>java.lang.IllegalStateException</CODE> - when the panel has been disposed / 컴포넌트를 폐기했으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="postMessage(java.lang.Object)"><!-- --></A><H3>
+postMessage</H3>
+<PRE>
+public void <B>postMessage</B>(java.lang.Object&nbsp;message)</PRE>
+<DL>
+<DD>Posts to the current top-level document using the wildcard target origin.
+ <p>
+ 와일드카드 대상 오리진으로 현재 최상위 문서에 보낸다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>message</CODE> - plain Java data to copy / 복사할 Java 데이터</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPage()"><!-- --></A><H3>
+getPage</H3>
+<PRE>
+public java.lang.String <B>getPage</B>()</PRE>
+<DL>
+<DD>Returns the URL of the confirmed page: the final URL after redirects, "about:blank" for the empty page and "about:text"
+ for content given with <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setContent(java.lang.String, java.lang.String)"><CODE>setContent(String, String)</CODE></A>.
+ <p>
+ 확정된 페이지의 URL 을 반환한다: 리디렉션 이후 최종 URL, 빈 페이지는 "about:blank",
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setContent(java.lang.String, java.lang.String)"><CODE>setContent(String, String)</CODE></A> 로 넣은 콘텐츠는 "about:text".
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>URL / URL</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setJavascriptEnabled(boolean)"><!-- --></A><H3>
+setJavascriptEnabled</H3>
+<PRE>
+public void <B>setJavascriptEnabled</B>(boolean&nbsp;enabled)</PRE>
+<DL>
+<DD>Turns JavaScript on or off (default: on). A change takes effect with the next content setting, navigation or refresh;
+ a page whose scripts were stopped is not re-run automatically.
+ <p>
+ JavaScript 를 켜거나 끈다(기본: 켬). 변경은 다음 콘텐츠 설정, 이동, 새로고침부터 효과가 있고, 이미 중단된 페이지의 스크립트를
+ 자동으로 다시 실행하지는 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>enabled</CODE> - true to enable / 켜려면 true
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isJavascriptEnabled()"><!-- --></A><H3>
+isJavascriptEnabled</H3>
+<PRE>
+public boolean <B>isJavascriptEnabled</B>()</PRE>
+<DL>
+<DD>Tells whether JavaScript is enabled (extension method).
+ <p>
+ JavaScript 가 켜져 있는지 알려 준다(확장 메서드).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if enabled / 켜져 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setRootWindowClosingEnabled(boolean)"><!-- --></A><H3>
+setRootWindowClosingEnabled</H3>
+<PRE>
+public void <B>setRootWindowClosingEnabled</B>(boolean&nbsp;enabled)</PRE>
+<DL>
+<DD>Allows or forbids the page to close the window of this component with <code>window.close()</code> (extension method, API contract
+ 5.23; default: forbidden). When it is allowed and the top-level document, not a popup, calls <code>window.close()</code>, the
+ component calls <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#closeRootWindow()"><CODE>closeRootWindow()</CODE></A> on the event dispatch thread right after the calling script task ended; by default that
+ ends the program with <code>System.exit(0)</code>. A frame of another origin and a script of another window cannot close the
+ window. Forbidding it again cancels a closing that has not been performed yet. The value survives <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#clean()"><CODE>clean()</CODE></A> and a change is
+ announced as the <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#PROPERTY_ROOT_WINDOW_CLOSING_ENABLED"><CODE>PROPERTY_ROOT_WINDOW_CLOSING_ENABLED</CODE></A> property on the event dispatch thread. It may be called from any
+ thread.
+ <p>
+ <b>Security:</b> with this setting on, the page that is shown can end the program. Turn it on only for pages whose content the host
+ controls.
+ <p>
+ 페이지가 <code>window.close()</code> 로 이 컴포넌트의 창을 닫는 것을 허용하거나 막는다(확장 메서드, API 계약 5.23. 기본: 막음). 허용했을 때
+ 팝업이 아닌 최상위 문서가 <code>window.close()</code> 를 부르면, 컴포넌트는 호출한 스크립트 작업이 끝난 직후 이벤트 디스패치 스레드에서
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#closeRootWindow()"><CODE>closeRootWindow()</CODE></A> 를 부른다. 기본 동작은 <code>System.exit(0)</code> 으로 프로그램을 끝내는 것이다. 다른 오리진의 프레임과 다른 창의
+ 스크립트는 이 창을 닫을 수 없다. 다시 막으면 아직 수행하지 않은 닫기를 취소한다. 값은 <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#clean()"><CODE>clean()</CODE></A> 뒤에도 유지되고, 변경은
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#PROPERTY_ROOT_WINDOW_CLOSING_ENABLED"><CODE>PROPERTY_ROOT_WINDOW_CLOSING_ENABLED</CODE></A> 속성으로 이벤트 디스패치 스레드에서 알린다. 어느 스레드에서나 부를 수 있다.
+ <p>
+ <b>보안:</b> 이 설정을 켜면 보여 주는 페이지가 프로그램을 끝낼 수 있다. 호스트가 내용을 통제하는 페이지에서만 켠다.
+ <p>
+ 사용 예 / Example:
+ <pre>
+ panel.setRootWindowClosingEnabled(true);
+ panel.setPage("classpath://app/index.html"); // a button of the page may now call window.close()
+ </pre>
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>enabled</CODE> - true to allow / 허용하려면 true
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isRootWindowClosingEnabled()"><!-- --></A><H3>
+isRootWindowClosingEnabled</H3>
+<PRE>
+public boolean <B>isRootWindowClosingEnabled</B>()</PRE>
+<DL>
+<DD>Tells whether the page may close the window of this component with <code>window.close()</code> (extension method, API contract
+ 5.23). After <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#dispose()"><CODE>dispose()</CODE></A> it returns the last value.
+ <p>
+ 페이지가 <code>window.close()</code> 로 이 컴포넌트의 창을 닫을 수 있는지 알려 준다(확장 메서드, API 계약 5.23). <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#dispose()"><CODE>dispose()</CODE></A> 뒤에는
+ 마지막 값을 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if allowed / 허용이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="closeRootWindow()"><!-- --></A><H3>
+closeRootWindow</H3>
+<PRE>
+protected void <B>closeRootWindow</B>()</PRE>
+<DL>
+<DD>Closes the window of this component because the page called <code>window.close()</code> while
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setRootWindowClosingEnabled(boolean)"><CODE>setRootWindowClosingEnabled(boolean)</CODE></A> allowed it (API contract 5.23). It is called once per accepted call, on the event
+ dispatch thread, after the unloading events of the page ran. The default implementation ends the program with
+ <code>System.exit(0)</code>. A host that must not end (for example a browser that only closes the tab or the window that holds this
+ component) overrides it; when the overriding method returns, the component and its page stay as they are and
+ <code>window.closed</code> stays true until the host disposes the component or navigates it.
+ <p>
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setRootWindowClosingEnabled(boolean)"><CODE>setRootWindowClosingEnabled(boolean)</CODE></A> 가 허용한 동안 페이지가 <code>window.close()</code> 를 불렀으므로 이 컴포넌트의 창을 닫는다(API
+ 계약 5.23). 받아들인 호출마다 한 번, 페이지의 언로드 이벤트가 실행된 뒤 이벤트 디스패치 스레드에서 호출된다. 기본 구현은
+ <code>System.exit(0)</code> 으로 프로그램을 끝낸다. 끝나면 안 되는 호스트(예: 이 컴포넌트를 담은 탭이나 창만 닫는 브라우저)는 재정의한다.
+ 재정의한 메서드가 반환하면 컴포넌트와 페이지는 그대로 남고, 호스트가 컴포넌트를 폐기하거나 이동시킬 때까지 <code>window.closed</code> 는
+ true 로 남는다.
+ <p>
+ 사용 예 / Example:
+ <pre>
+ SwingWebPanel panel = new SwingWebPanel() {
+     protected void closeRootWindow() {
+         frame.dispose(); // close only this window instead of ending the program
+         dispose();
+     }
+ };
+ </pre>
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setPopupBlockingEnabled(boolean)"><!-- --></A><H3>
+setPopupBlockingEnabled</H3>
+<PRE>
+public void <B>setPopupBlockingEnabled</B>(boolean&nbsp;enabled)</PRE>
+<DL>
+<DD>Turns the popup blocker of this component on or off (extension, API contract 5.28). While it is on, which it is at first, a
+ window that a page asks for with <code>window.open</code> is opened only if the user did something in the page shortly before (a
+ press of a mouse button or a key, within about five seconds), and one such action opens one window; a form that a script submits
+ into a new window follows the same rule. A blocked window is reported to <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#popupBlocked(org.duckdns.hjow.swingwebpanel.WindowRequest)"><CODE>popupBlocked(WindowRequest)</CODE></A> and
+ <code>window.open</code> returns null. While it is off, every such window is opened. Links that the user clicks are never
+ blocked. A window that a page opens takes the setting of its opener. The setting stays through <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#clean()"><CODE>clean()</CODE></A>.
+ <p>
+ 이 컴포넌트의 팝업 차단을 켜거나 끈다(확장, API 계약 5.28). 켜져 있는 동안(처음에 켜져 있다) 페이지가 <code>window.open</code> 으로 요청한
+ 창은 사용자가 직전에 페이지에서 무언가 했을 때만(마우스 단추나 키를 누름, 약 5초 안) 열리고, 그런 조작 한 번이 창 하나를 연다. 스크립트가
+ 새 창으로 제출한 폼도 같은 규칙을 따른다. 차단한 창은 <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#popupBlocked(org.duckdns.hjow.swingwebpanel.WindowRequest)"><CODE>popupBlocked(WindowRequest)</CODE></A> 에 알리고 <code>window.open</code> 은 null 을
+ 돌려준다. 꺼져 있으면 그런 창을 모두 연다. 사용자가 누른 링크는 차단하지 않는다. 페이지가 연 창은 여는 창의 설정을 이어받는다. 설정은
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#clean()"><CODE>clean()</CODE></A> 뒤에도 유지된다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>enabled</CODE> - true to block / 차단하려면 true
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isPopupBlockingEnabled()"><!-- --></A><H3>
+isPopupBlockingEnabled</H3>
+<PRE>
+public boolean <B>isPopupBlockingEnabled</B>()</PRE>
+<DL>
+<DD>Tells whether the popup blocker of this component is on (extension, API contract 5.28).
+ <p>
+ 이 컴포넌트의 팝업 차단이 켜져 있는지 알려 준다(확장, API 계약 5.28).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if windows that a page asks for without an action of the user are blocked; true at first / 페이지가 사용자의 조작 없이
+         요청한 창을 차단하면 true. 처음에 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createPopupPanel(org.duckdns.hjow.swingwebpanel.SwingWebPanel.PopupSeed)"><!-- --></A><H3>
+createPopupPanel</H3>
+<PRE>
+protected <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html" title="class in org.duckdns.hjow.swingwebpanel">SwingWebPanel</A> <B>createPopupPanel</B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.PopupSeed.html" title="class in org.duckdns.hjow.swingwebpanel">SwingWebPanel.PopupSeed</A>&nbsp;seed)</PRE>
+<DL>
+<DD>Creates the component of a new window that a page of this component opens (extension point, API contract 5.28). The default
+ creates a plain <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html" title="class in org.duckdns.hjow.swingwebpanel"><CODE>SwingWebPanel</CODE></A>. A subclass overrides it to use its own class:
+ <code>return new MyPanel(seed);</code>, where the constructor of <code>MyPanel</code> calls <code>super(seed)</code>. For
+ <code>window.open</code> it is called on the thread that runs the calling script, not on the event dispatch thread: it must
+ only construct the component and return. The new window is shown later through <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#openPopupWindow(org.duckdns.hjow.swingwebpanel.WindowRequest)"><CODE>openPopupWindow(WindowRequest)</CODE></A> or
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#openNewWindow(org.duckdns.hjow.swingwebpanel.WindowRequest)"><CODE>openNewWindow(WindowRequest)</CODE></A>.
+ <p>
+ 이 컴포넌트의 페이지가 연 새 창의 컴포넌트를 만든다(확장 지점, API 계약 5.28). 기본 구현은 보통의 <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html" title="class in org.duckdns.hjow.swingwebpanel"><CODE>SwingWebPanel</CODE></A> 을 만든다. 하위
+ 클래스는 자기 클래스를 쓰려고 재정의한다: <code>return new MyPanel(seed);</code>. 이때 <code>MyPanel</code> 의 생성자가
+ <code>super(seed)</code> 를 부른다. <code>window.open</code> 에서는 이벤트 디스패치 스레드가 아니라 호출한 스크립트를 실행하는 스레드에서
+ 불리므로, 컴포넌트를 만들어 돌려주기만 해야 한다. 새 창은 나중에 <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#openPopupWindow(org.duckdns.hjow.swingwebpanel.WindowRequest)"><CODE>openPopupWindow(WindowRequest)</CODE></A> 나
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#openNewWindow(org.duckdns.hjow.swingwebpanel.WindowRequest)"><CODE>openNewWindow(WindowRequest)</CODE></A> 를 거쳐 보인다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>seed</CODE> - the seed to pass to the constructor / 생성자에 넘길 씨앗
+<DT><B>Returns:</B><DD>the component, or null to open no window / 컴포넌트. 창을 열지 않으려면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="canOpenPopupWindows()"><!-- --></A><H3>
+canOpenPopupWindows</H3>
+<PRE>
+protected boolean <B>canOpenPopupWindows</B>()</PRE>
+<DL>
+<DD>Tells whether this component can show windows that pages open with <code>window.open</code> (extension point, API contract
+ 5.28). The default says yes when the JVM has a display. If it says no, <code>window.open</code> returns null for a target that
+ needs a new window, as it did before windows were supported. It is called on the thread that runs the calling script and must
+ return at once. A window that a page opened asks the component that opened it.
+ <p>
+ 이 컴포넌트가 페이지가 <code>window.open</code> 으로 연 창을 보일 수 있는지 알려 준다(확장 지점, API 계약 5.28). 기본 구현은 JVM 에
+ 화면이 있으면 그렇다고 답한다. 아니라고 답하면, 창을 지원하기 전과 같이 새 창이 필요한 대상에 <code>window.open</code> 이 null 을
+ 돌려준다. 호출한 스크립트를 실행하는 스레드에서 불리며 곧바로 돌아와야 한다. 페이지가 연 창은 자신을 연 컴포넌트에 묻는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if a window can be shown / 창을 보일 수 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="openPopupWindow(org.duckdns.hjow.swingwebpanel.WindowRequest)"><!-- --></A><H3>
+openPopupWindow</H3>
+<PRE>
+protected void <B>openPopupWindow</B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/WindowRequest.html" title="class in org.duckdns.hjow.swingwebpanel">WindowRequest</A>&nbsp;request)</PRE>
+<DL>
+<DD>Shows the window that a script opened with <code>window.open</code> (extension point, API contract 5.28). It is called on the
+ event dispatch thread shortly after the call of the script; the component of the window is <A HREF="../../../../org/duckdns/hjow/swingwebpanel/WindowRequest.html#getPanel()"><CODE>WindowRequest.getPanel()</CODE></A>.
+ The default shows it in a window of its own: a modeless dialog that belongs to the window of this component, with the size and
+ place that the page asked for, the title of the page as its title, and a scroll pane around the component. The dialog is closed
+ when the user closes it, when a script closes the window, and together with the window that it belongs to; the component is
+ then disposed with <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#disposeKeepingStorage()"><CODE>disposeKeepingStorage()</CODE></A>. A host overrides the method to show the component elsewhere (a tab, a
+ frame of its own) and then disposes it itself, or calls <A HREF="../../../../org/duckdns/hjow/swingwebpanel/WindowRequest.html#reject()"><CODE>WindowRequest.reject()</CODE></A> to open nothing. A window that a page
+ opened passes the request to the component that opened it.
+ <p>
+ 스크립트가 <code>window.open</code> 으로 연 창을 보인다(확장 지점, API 계약 5.28). 스크립트의 호출 직후에 이벤트 디스패치 스레드에서
+ 불리며, 창의 컴포넌트는 <A HREF="../../../../org/duckdns/hjow/swingwebpanel/WindowRequest.html#getPanel()"><CODE>WindowRequest.getPanel()</CODE></A> 이다. 기본 구현은 그것을 자기 창에 보인다: 이 컴포넌트의 창에 속한 비모달 대화
+ 상자이며, 페이지가 요청한 크기와 위치를 갖고, 페이지의 제목이 창의 제목이며, 컴포넌트를 스크롤 창으로 감싼다. 대화 상자는 사용자가 닫을
+ 때, 스크립트가 창을 닫을 때, 자신이 속한 창이 닫힐 때 함께 닫히고, 그때 컴포넌트를 <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#disposeKeepingStorage()"><CODE>disposeKeepingStorage()</CODE></A> 로 폐기한다. 호스트는
+ 메서드를 재정의하여 컴포넌트를 다른 곳(탭, 자기 프레임)에 보이고 폐기도 직접 하거나, <A HREF="../../../../org/duckdns/hjow/swingwebpanel/WindowRequest.html#reject()"><CODE>WindowRequest.reject()</CODE></A> 를 불러 아무것도 열지
+ 않는다. 페이지가 연 창은 요청을 자신을 연 컴포넌트에 넘긴다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>request</CODE> - the window to show / 보일 창</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="openNewWindow(org.duckdns.hjow.swingwebpanel.WindowRequest)"><!-- --></A><H3>
+openNewWindow</H3>
+<PRE>
+protected boolean <B>openNewWindow</B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/WindowRequest.html" title="class in org.duckdns.hjow.swingwebpanel">WindowRequest</A>&nbsp;request)</PRE>
+<DL>
+<DD>Offers a new window that a link, a form or the user asked for (extension point, API contract 5.28): the target of a link or a
+ form names no existing window (<A HREF="../../../../org/duckdns/hjow/swingwebpanel/WindowRequest.html#LINK"><CODE>WindowRequest.LINK</CODE></A>), or the user chose to open a link in a new tab or window with Ctrl,
+ Shift or the middle button (<A HREF="../../../../org/duckdns/hjow/swingwebpanel/WindowRequest.html#USER"><CODE>WindowRequest.USER</CODE></A>). It is called on the event dispatch thread. The default returns false,
+ and the page then behaves as it does without new windows: the link or form navigates the context that it is in, and a click
+ with a modifier is an ordinary click. A host that opens such windows shows <A HREF="../../../../org/duckdns/hjow/swingwebpanel/WindowRequest.html#getPanel()"><CODE>WindowRequest.getPanel()</CODE></A> (or opens
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/WindowRequest.html#getUrl()"><CODE>WindowRequest.getUrl()</CODE></A> in a component of its own) and returns true. A window that a page opened passes the request to
+ the component that opened it.
+ <p>
+ 링크, 폼, 사용자가 요청한 새 창을 제안한다(확장 지점, API 계약 5.28): 링크나 폼의 대상이 기존 창을 가리키지 않거나
+ (<A HREF="../../../../org/duckdns/hjow/swingwebpanel/WindowRequest.html#LINK"><CODE>WindowRequest.LINK</CODE></A>), 사용자가 Ctrl, Shift, 가운데 단추로 링크를 새 탭이나 창에서 열기로 골랐다(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/WindowRequest.html#USER"><CODE>WindowRequest.USER</CODE></A>).
+ 이벤트 디스패치 스레드에서 불린다. 기본 구현은 false 를 반환하고, 그러면 페이지는 새 창이 없을 때처럼 동작한다: 링크나 폼은 자기가 있는
+ 문맥을 이동시키고, 보조 키를 누른 클릭은 보통의 클릭이다. 그런 창을 여는 호스트는 <A HREF="../../../../org/duckdns/hjow/swingwebpanel/WindowRequest.html#getPanel()"><CODE>WindowRequest.getPanel()</CODE></A> 을 보이고(또는
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/WindowRequest.html#getUrl()"><CODE>WindowRequest.getUrl()</CODE></A> 을 자기 컴포넌트에서 열고) true 를 반환한다. 페이지가 연 창은 요청을 자신을 연 컴포넌트에 넘긴다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>request</CODE> - the window that was asked for / 요청한 창
+<DT><B>Returns:</B><DD>true if the host opened the window (or decided to open nothing) / 호스트가 창을 열었으면(또는 아무것도 열지 않기로 했으면) true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="popupBlocked(org.duckdns.hjow.swingwebpanel.WindowRequest)"><!-- --></A><H3>
+popupBlocked</H3>
+<PRE>
+protected void <B>popupBlocked</B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/WindowRequest.html" title="class in org.duckdns.hjow.swingwebpanel">WindowRequest</A>&nbsp;request)</PRE>
+<DL>
+<DD>Receives a window that was not opened because the popup blocker is on and the page asked without an action of the user
+ (extension point, API contract 5.28). It is called on the event dispatch thread. The default shows a message in the status text
+ and tells the console listeners a warning. A host overrides it to tell the user and to offer to open the address after all
+ (which then is a window without a connection to the page that asked). A window that a page opened passes the request to the
+ component that opened it.
+ <p>
+ 팝업 차단이 켜져 있고 페이지가 사용자의 조작 없이 요청했기 때문에 열지 않은 창을 받는다(확장 지점, API 계약 5.28). 이벤트 디스패치
+ 스레드에서 불린다. 기본 구현은 상태 문구에 메시지를 보이고 콘솔 리스너에 경고를 알린다. 호스트는 이것을 재정의하여 사용자에게 알리고, 그
+ 주소를 그래도 열 수 있게 제안한다(그렇게 연 창은 요청한 페이지와 관계가 없는 창이다). 페이지가 연 창은 요청을 자신을 연 컴포넌트에 넘긴다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>request</CODE> - the window that was blocked; it has no component / 차단한 창. 컴포넌트가 없다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="closeOpenedWindow()"><!-- --></A><H3>
+closeOpenedWindow</H3>
+<PRE>
+protected void <B>closeOpenedWindow</B>()</PRE>
+<DL>
+<DD>Closes the window that shows this component after a script of its page closed it with <code>window.close()</code> (extension
+ point, API contract 5.28). It is called on the event dispatch thread, and only for a component that a page opened (a script
+ closes the window of any other component through <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#closeRootWindow()"><CODE>closeRootWindow()</CODE></A>, and only if the host allowed it). The default
+ closes the popup window that the default <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#openPopupWindow(org.duckdns.hjow.swingwebpanel.WindowRequest)"><CODE>openPopupWindow(WindowRequest)</CODE></A> created; a component that the host placed
+ elsewhere is only disposed with <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#disposeKeepingStorage()"><CODE>disposeKeepingStorage()</CODE></A>. A host that shows such components overrides the method to
+ remove the tab or close the frame.
+ <p>
+ 페이지의 스크립트가 <code>window.close()</code> 로 닫은 뒤, 이 컴포넌트를 보이는 창을 닫는다(확장 지점, API 계약 5.28). 이벤트 디스패치
+ 스레드에서 불리며, 페이지가 연 컴포넌트에만 불린다(그 밖의 컴포넌트의 창은 스크립트가 <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#closeRootWindow()"><CODE>closeRootWindow()</CODE></A> 를 거쳐, 호스트가 허용했을
+ 때만 닫는다). 기본 구현은 기본 <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#openPopupWindow(org.duckdns.hjow.swingwebpanel.WindowRequest)"><CODE>openPopupWindow(WindowRequest)</CODE></A> 가 만든 팝업 창을 닫는다. 호스트가 다른 곳에 둔 컴포넌트는
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#disposeKeepingStorage()"><CODE>disposeKeepingStorage()</CODE></A> 로 폐기만 한다. 그런 컴포넌트를 보이는 호스트는 메서드를 재정의하여 탭을 없애거나 프레임을 닫는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="back()"><!-- --></A><H3>
+back</H3>
+<PRE>
+public void <B>back</B>()</PRE>
+<DL>
+<DD>Goes back one entry in the history; does nothing if there is no previous entry.
+ <p>
+ 이력을 한 칸 뒤로 이동한다. 이전 항목이 없으면 아무 동작도 하지 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="back(int)"><!-- --></A><H3>
+back</H3>
+<PRE>
+public void <B>back</B>(int&nbsp;n)</PRE>
+<DL>
+<DD>Goes back n entries; does nothing if n is not positive or if the history does not reach back exactly n entries.
+ <p>
+ 이력을 n 칸 뒤로 이동한다. n 이 양수가 아니거나 이력이 정확히 n 칸 뒤까지 없으면 아무 동작도 하지 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>n</CODE> - number of entries / 칸 수
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="forward()"><!-- --></A><H3>
+forward</H3>
+<PRE>
+public void <B>forward</B>()</PRE>
+<DL>
+<DD>Goes forward one entry in the history; does nothing if there is no next entry.
+ <p>
+ 이력을 한 칸 앞으로 이동한다. 다음 항목이 없으면 아무 동작도 하지 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="forward(int)"><!-- --></A><H3>
+forward</H3>
+<PRE>
+public void <B>forward</B>(int&nbsp;n)</PRE>
+<DL>
+<DD>Goes forward n entries; does nothing if n is not positive or if the history does not reach forward exactly n entries.
+ <p>
+ 이력을 n 칸 앞으로 이동한다. n 이 양수가 아니거나 이력이 정확히 n 칸 앞까지 없으면 아무 동작도 하지 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>n</CODE> - number of entries / 칸 수
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHistories()"><!-- --></A><H3>
+getHistories</H3>
+<PRE>
+public java.util.Vector&lt;java.lang.String&gt; <B>getHistories</B>()</PRE>
+<DL>
+<DD>Returns a copy of the history: the URL of every confirmed main-document navigation, oldest first.
+ <p>
+ 이력의 복사본을 반환한다: 확정된 주 문서 이동의 URL 목록(오래된 것이 앞).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>history URLs / 이력 URL 목록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHistoryIndex()"><!-- --></A><H3>
+getHistoryIndex</H3>
+<PRE>
+public int <B>getHistoryIndex</B>()</PRE>
+<DL>
+<DD>Returns the current position in the history, 0 based (extension method).
+ <p>
+ 이력에서의 현재 위치(0 기반)를 반환한다(확장 메서드).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>position / 위치</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="refresh()"><!-- --></A><H3>
+refresh</H3>
+<PRE>
+public void <B>refresh</B>()</PRE>
+<DL>
+<DD>Reloads the current page, respecting caches.
+ <p>
+ 캐시 정책을 따라 현재 페이지를 다시 읽는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="refresh(boolean)"><!-- --></A><H3>
+refresh</H3>
+<PRE>
+public void <B>refresh</B>(boolean&nbsp;force)</PRE>
+<DL>
+<DD>Reloads the current page. With force, the page and its sub-resources bypass this component's caches.
+ <p>
+ 현재 페이지를 다시 읽는다. force 이면 페이지와 하위 리소스가 이 컴포넌트의 캐시를 우회한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>force</CODE> - true to bypass caches / 캐시를 우회하려면 true
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="stop()"><!-- --></A><H3>
+stop</H3>
+<PRE>
+public void <B>stop</B>()</PRE>
+<DL>
+<DD>Cancels the running navigation, if any (extension method).
+ <p>
+ 진행 중인 이동이 있으면 취소한다(확장 메서드).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getContent()"><!-- --></A><H3>
+getContent</H3>
+<PRE>
+public java.lang.String <B>getContent</B>()</PRE>
+<DL>
+<DD>Returns the source text the browser received for the confirmed page, unchanged by scripts or DOM edits. For content
+ given with setContent it is exactly the given string; for the blank page it is the empty string.
+ <p>
+ 확정된 페이지에 대해 브라우저가 받은 원문을 반환한다. 스크립트나 DOM 변경의 영향을 받지 않는다. setContent 로 넣은
+ 콘텐츠는 입력 문자열 그대로이고 빈 페이지는 빈 문자열이다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>source text / 원문</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMimeType()"><!-- --></A><H3>
+getMimeType</H3>
+<PRE>
+public java.lang.String <B>getMimeType</B>()</PRE>
+<DL>
+<DD>Returns the MIME type of the confirmed page, for example "text/html" (extension method).
+ <p>
+ 확정된 페이지의 MIME 타입(예: "text/html")을 반환한다(확장 메서드).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>MIME type / MIME 타입</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setContent(java.lang.String, java.lang.String)"><!-- --></A><H3>
+setContent</H3>
+<PRE>
+public void <B>setContent</B>(java.lang.String&nbsp;content,
+                       java.lang.String&nbsp;contentType)</PRE>
+<DL>
+<DD>Shows content you already have. The page URL becomes "about:text" and the history gets a new entry.
+ Supported types: text/html, text/plain, text/markdown, application/xhtml+xml (parameters such as charset and letter case
+ are ignored).
+ <p>
+ 이미 가진 콘텐츠를 보여 준다. 페이지 URL 은 "about:text" 가 되고 이력에 새 항목이 생긴다.
+ 지원 타입: text/html, text/plain, text/markdown, application/xhtml+xml(charset 같은 매개변수와 대소문자는 무시).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>content</CODE> - source text, may be empty / 원문(빈 문자열 허용)<DD><CODE>contentType</CODE> - MIME type / MIME 타입
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if a value is null or the type is not supported / 값이 null 이거나 지원하지 않는 타입일 때
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTitle()"><!-- --></A><H3>
+getTitle</H3>
+<PRE>
+public java.lang.String <B>getTitle</B>()</PRE>
+<DL>
+<DD>Returns the title of the confirmed page, or an empty string (extension method).
+ <p>
+ 확정된 페이지의 제목을 반환한다. 없으면 빈 문자열이다(확장 메서드).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>title / 제목</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStatusText()"><!-- --></A><H3>
+getStatusText</H3>
+<PRE>
+public java.lang.String <B>getStatusText</B>()</PRE>
+<DL>
+<DD>Returns the text of the status bar, for example "Loading http://..." or "Done".
+ <p>
+ 상태바 메시지를 반환한다. 예: "Loading http://..." 또는 "Done".
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>status text / 상태 메시지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getProgress()"><!-- --></A><H3>
+getProgress</H3>
+<PRE>
+public int <B>getProgress</B>()</PRE>
+<DL>
+<DD>Returns the progress of loading: 0 to 100, or -1 while the total amount of work is unknown. A value of 100 means that
+ the page and its required sub-work finished (successfully or not), not merely that a connection was made.
+ <p>
+ 로딩 진행률을 반환한다: 0~100, 전체 작업량을 모르는 동안은 -1. 100 은 연결이 되었다는 뜻이 아니라 페이지와 필수 하위 작업이
+ (성공하든 실패하든) 끝났다는 뜻이다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>progress / 진행률</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addHyperlinkListener(javax.swing.event.HyperlinkListener)"><!-- --></A><H3>
+addHyperlinkListener</H3>
+<PRE>
+public void <B>addHyperlinkListener</B>(javax.swing.event.HyperlinkListener&nbsp;listener)</PRE>
+<DL>
+<DD>Registers a hyperlink listener. Registering the same listener twice notifies it twice.
+ <p>
+ 하이퍼링크 리스너를 등록한다. 같은 리스너를 두 번 등록하면 두 번 통지한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>listener</CODE> - listener, not null / 리스너(null 불가)
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the listener is null / 리스너가 null 일 때
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeHyperlinkListener(javax.swing.event.HyperlinkListener)"><!-- --></A><H3>
+removeHyperlinkListener</H3>
+<PRE>
+public void <B>removeHyperlinkListener</B>(javax.swing.event.HyperlinkListener&nbsp;listener)</PRE>
+<DL>
+<DD>Removes one registration of a hyperlink listener; unknown listeners are ignored.
+ <p>
+ 하이퍼링크 리스너 등록 하나를 제거한다. 등록되지 않은 리스너는 무시한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>listener</CODE> - listener, not null / 리스너(null 불가)
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the listener is null / 리스너가 null 일 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeHyperlinkEvents()"><!-- --></A><H3>
+removeHyperlinkEvents</H3>
+<PRE>
+public void <B>removeHyperlinkEvents</B>()</PRE>
+<DL>
+<DD>Removes all hyperlink listeners registered through this component. Following links by clicking keeps working.
+ <p>
+ 이 컴포넌트에 등록된 모든 하이퍼링크 리스너를 제거한다. 클릭으로 링크를 따라가는 동작은 계속 작동한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addConsoleListener(org.duckdns.hjow.swingwebpanel.ConsoleListener)"><!-- --></A><H3>
+addConsoleListener</H3>
+<PRE>
+public void <B>addConsoleListener</B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/ConsoleListener.html" title="interface in org.duckdns.hjow.swingwebpanel">ConsoleListener</A>&nbsp;listener)</PRE>
+<DL>
+<DD>Registers a console listener. It receives what the scripts of the pages write with <code>console.log</code>,
+ <code>console.error</code> and the other console methods (of the main document, its frames and its workers) and the problems the
+ browser reports for the scripts, on the event dispatch thread. Registering the same listener twice notifies it twice. Without a
+ listener the console output is discarded. See <A HREF="../../../../org/duckdns/hjow/swingwebpanel/ConsoleListener.html" title="interface in org.duckdns.hjow.swingwebpanel"><CODE>ConsoleListener</CODE></A> and <A HREF="../../../../org/duckdns/hjow/swingwebpanel/ConsoleEvent.html" title="class in org.duckdns.hjow.swingwebpanel"><CODE>ConsoleEvent</CODE></A>.
+ <p>
+ 콘솔 리스너를 등록한다. 페이지 스크립트가 <code>console.log</code>, <code>console.error</code> 등 콘솔 메서드로 쓰는 것(주 문서, 그
+ 프레임, 그 worker)과 브라우저가 스크립트에 대해 보고하는 문제를 이벤트 디스패치 스레드에서 받는다. 같은 리스너를 두 번 등록하면 두 번
+ 통지한다. 리스너가 없으면 콘솔 출력은 버려진다. <A HREF="../../../../org/duckdns/hjow/swingwebpanel/ConsoleListener.html" title="interface in org.duckdns.hjow.swingwebpanel"><CODE>ConsoleListener</CODE></A>, <A HREF="../../../../org/duckdns/hjow/swingwebpanel/ConsoleEvent.html" title="class in org.duckdns.hjow.swingwebpanel"><CODE>ConsoleEvent</CODE></A> 참조.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>listener</CODE> - listener, not null / 리스너(null 불가)
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the listener is null / 리스너가 null 일 때
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeConsoleListener(org.duckdns.hjow.swingwebpanel.ConsoleListener)"><!-- --></A><H3>
+removeConsoleListener</H3>
+<PRE>
+public void <B>removeConsoleListener</B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/ConsoleListener.html" title="interface in org.duckdns.hjow.swingwebpanel">ConsoleListener</A>&nbsp;listener)</PRE>
+<DL>
+<DD>Removes one registration of a console listener; unknown listeners are ignored.
+ <p>
+ 콘솔 리스너 등록 하나를 제거한다. 등록되지 않은 리스너는 무시한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>listener</CODE> - listener, not null / 리스너(null 불가)
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the listener is null / 리스너가 null 일 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getConsoleListeners()"><!-- --></A><H3>
+getConsoleListeners</H3>
+<PRE>
+public <A HREF="../../../../org/duckdns/hjow/swingwebpanel/ConsoleListener.html" title="interface in org.duckdns.hjow.swingwebpanel">ConsoleListener</A>[] <B>getConsoleListeners</B>()</PRE>
+<DL>
+<DD>Returns the registered console listeners in registration order (a copy; empty after <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#dispose()"><CODE>dispose()</CODE></A>).
+ <p>
+ 등록된 콘솔 리스너를 등록 순서대로 반환한다(복사본. <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#dispose()"><CODE>dispose()</CODE></A> 뒤에는 비어 있다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the listeners / 리스너</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addWebMessageListener(org.duckdns.hjow.swingwebpanel.WebMessageListener)"><!-- --></A><H3>
+addWebMessageListener</H3>
+<PRE>
+public void <B>addWebMessageListener</B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/WebMessageListener.html" title="interface in org.duckdns.hjow.swingwebpanel">WebMessageListener</A>&nbsp;listener)</PRE>
+<DL>
+<DD>Registers a page message listener. Call from any thread.
+ Messages are delivered on the EDT. Validate the sender origin and shape of the data.
+ <p>
+ 페이지 메시지 리스너를 등록한다. 어느 스레드에서나 호출할 수 있다.
+ EDT에서 메시지를 받는다. 송신 오리진과 데이터 형식을 검사한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>listener</CODE> - non-null listener / null이 아닌 리스너
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - for a null listener / 리스너가 null이면
+<DD><CODE>java.lang.IllegalStateException</CODE> - when disposed / 폐기했으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeWebMessageListener(org.duckdns.hjow.swingwebpanel.WebMessageListener)"><!-- --></A><H3>
+removeWebMessageListener</H3>
+<PRE>
+public void <B>removeWebMessageListener</B>(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/WebMessageListener.html" title="interface in org.duckdns.hjow.swingwebpanel">WebMessageListener</A>&nbsp;listener)</PRE>
+<DL>
+<DD>Removes one registration of a web message listener.
+ <p>
+ 웹 메시지 리스너의 등록 하나를 제거한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>listener</CODE> - non-null listener / null이 아닌 리스너
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - for a null listener / 리스너가 null이면
+<DD><CODE>java.lang.IllegalStateException</CODE> - when disposed / 폐기했으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getWebMessageListeners()"><!-- --></A><H3>
+getWebMessageListeners</H3>
+<PRE>
+public <A HREF="../../../../org/duckdns/hjow/swingwebpanel/WebMessageListener.html" title="interface in org.duckdns.hjow.swingwebpanel">WebMessageListener</A>[] <B>getWebMessageListeners</B>()</PRE>
+<DL>
+<DD>Returns a copy of web message listeners in registration order.
+ <p>
+ 등록 순서로 웹 메시지 리스너 배열의 사본을 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>registered listeners, empty after disposal / 등록한 리스너. 폐기 후에는 빈 배열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="clean()"><!-- --></A><H3>
+clean</H3>
+<PRE>
+public void <B>clean</B>()</PRE>
+<DL>
+<DD>Cancels all work, shows the blank page and resets the history to a single "about:blank" entry. Also clears this
+ component's caches and sessionStorage and the process-wide localStorage, which also empties the localStorage seen by
+ other components in the same JVM. User agent, extra headers, cookies, the JavaScript setting and listeners are kept.
+ <p>
+ 모든 작업을 취소하고 빈 페이지를 보여 주며 이력을 "about:blank" 하나로 초기화한다. 이 컴포넌트의 캐시와 sessionStorage,
+ 그리고 프로세스 공용 localStorage 도 비우므로 같은 JVM 의 다른 컴포넌트가 보는 localStorage 도 비워진다.
+ User-Agent, 추가 헤더, 쿠키, JavaScript 설정, 리스너는 유지한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispose()"><!-- --></A><H3>
+dispose</H3>
+<PRE>
+public void <B>dispose</B>()</PRE>
+<DL>
+<DD>Releases everything: does what <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#clean()"><CODE>clean()</CODE></A> does, then removes all listeners registered on this component, stops
+ background work and forgets headers. Calling it again does nothing. Afterwards, changing methods throw
+ IllegalStateException and query methods return the empty state.
+ <p>
+ 모든 것을 해제한다: <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#clean()"><CODE>clean()</CODE></A> 이 하는 일을 한 뒤 이 컴포넌트에 등록된 모든 리스너를 제거하고 백그라운드 작업을 멈추며
+ 헤더를 잊는다. 다시 호출해도 아무 일도 없다. 이후 변경 메서드는 IllegalStateException 을 던지고 조회 메서드는 빈 상태를 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="disposeKeepingStorage()"><!-- --></A><H3>
+disposeKeepingStorage</H3>
+<PRE>
+public void <B>disposeKeepingStorage</B>()</PRE>
+<DL>
+<DD>Disposes the component like <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#dispose()"><CODE>dispose()</CODE></A> but leaves the process-wide <code>localStorage</code> as it is (extension, API
+ contract 5.28). <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#dispose()"><CODE>dispose()</CODE></A> clears it, as the contract of the component says, which also empties it for every other
+ component of the process; a host that shows several components side by side (tabs, popup windows) closes one of them with this
+ method so that the others keep their stored data. Everything else is as in <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#dispose()"><CODE>dispose()</CODE></A>: the page, the history, the
+ session storage, the cache of the component, the listeners. Calling it again, or after <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#dispose()"><CODE>dispose()</CODE></A>, does nothing.
+ <p>
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#dispose()"><CODE>dispose()</CODE></A> 처럼 컴포넌트를 폐기하되 프로세스 공용 <code>localStorage</code> 는 그대로 둔다(확장, API 계약 5.28). <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#dispose()"><CODE>dispose()</CODE></A>
+ 는 컴포넌트의 계약대로 그것을 비우는데, 그러면 프로세스의 다른 모든 컴포넌트에서도 비워진다. 여러 컴포넌트를 나란히 보이는 호스트(탭, 팝업
+ 창)는 그중 하나를 이 메서드로 닫아 나머지가 저장 데이터를 유지하게 한다. 그 밖의 것은 <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#dispose()"><CODE>dispose()</CODE></A> 와 같다: 페이지, 이력,
+ sessionStorage, 컴포넌트의 캐시, 리스너. 다시 부르거나 <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#dispose()"><CODE>dispose()</CODE></A> 뒤에 불러도 아무 일도 없다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isDisposed()"><!-- --></A><H3>
+isDisposed</H3>
+<PRE>
+public boolean <B>isDisposed</B>()</PRE>
+<DL>
+<DD>Tells whether <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#dispose()"><CODE>dispose()</CODE></A> ran (extension method).
+ <p>
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#dispose()"><CODE>dispose()</CODE></A> 가 실행되었는지 알려 준다(확장 메서드).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if disposed / 폐기되었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addHeaders(java.util.Map)"><!-- --></A><H3>
+addHeaders</H3>
+<PRE>
+public void <B>addHeaders</B>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;headers)</PRE>
+<DL>
+<DD>Adds extra request headers (for example Accept-Language) that are sent with every request of this component.
+ Names are case-insensitive and a later value replaces an earlier one; other headers stay. The User-Agent cannot be
+ changed here (use <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setUserAgent(java.lang.String)"><CODE>setUserAgent(String)</CODE></A>); an entry with that name is ignored.
+ <p>
+ 이 컴포넌트의 모든 요청에 실을 추가 요청 헤더(예: Accept-Language)를 지정한다. 이름은 대소문자를 구분하지 않으며 나중 값이
+ 이전 값을 덮어쓰고 다른 헤더는 유지된다. User-Agent 는 여기서 바꿀 수 없으며(<A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setUserAgent(java.lang.String)"><CODE>setUserAgent(String)</CODE></A> 사용) 그 이름의
+ 항목은 무시한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>headers</CODE> - header names and values: no nulls, no CR/LF / 헤더 이름과 값(null, CR/LF 불가)
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - for a null map or invalid entries (nothing is applied) / null 맵이나 잘못된 항목일 때(아무것도 적용하지 않음)
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHeaders()"><!-- --></A><H3>
+getHeaders</H3>
+<PRE>
+public java.util.Map&lt;java.lang.String,java.lang.String&gt; <B>getHeaders</B>()</PRE>
+<DL>
+<DD>Returns a copy of the extra headers (without the User-Agent).
+ <p>
+ 추가 헤더의 복사본을 반환한다(User-Agent 제외).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>headers / 헤더</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCookies()"><!-- --></A><H3>
+getCookies</H3>
+<PRE>
+public java.lang.String <B>getCookies</B>()</PRE>
+<DL>
+<DD>Returns all cookies of this component as one string "name=value; name=value". The string is empty while no cookie was
+ stored. Expired cookies are excluded; cookies with the same name at different domains or paths are preserved.
+ <p>
+ 이 컴포넌트의 모든 쿠키를 "name=value; name=value" 한 문자열로 반환한다. 저장된 쿠키가 없으면 빈 문자열이다.
+ 만료된 쿠키는 제외하며 도메인이나 경로가 다른 동명 쿠키도 보존한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>cookies / 쿠키</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCookieJar()"><!-- --></A><H3>
+getCookieJar</H3>
+<PRE>
+public <A HREF="../../../../org/duckdns/hjow/swingwebpanel/CookieJar.html" title="class in org.duckdns.hjow.swingwebpanel">CookieJar</A> <B>getCookieJar</B>()</PRE>
+<DL>
+<DD>Returns the cookie jar that this component was created with (extension, API contract 5.24).
+ <p>
+ 이 컴포넌트를 만들 때 넘긴 쿠키 저장소를 반환한다(확장, API 계약 5.24).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the shared jar, or null if the component has a cookie store of its own / 공유 저장소. 컴포넌트가 자기 쿠키 저장소를 가지면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="clearCookies()"><!-- --></A><H3>
+clearCookies</H3>
+<PRE>
+public void <B>clearCookies</B>()</PRE>
+<DL>
+<DD>Removes all cookies of this component (extension, API contract 5.24); <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#clean()"><CODE>clean()</CODE></A> keeps them. If the component shares a
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/CookieJar.html" title="class in org.duckdns.hjow.swingwebpanel"><CODE>CookieJar</CODE></A>, the cookies of the jar are removed for all components that share it. The page that is shown keeps running.
+ <p>
+ 이 컴포넌트의 모든 쿠키를 지운다(확장, API 계약 5.24). <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#clean()"><CODE>clean()</CODE></A> 은 쿠키를 유지한다. 컴포넌트가 <A HREF="../../../../org/duckdns/hjow/swingwebpanel/CookieJar.html" title="class in org.duckdns.hjow.swingwebpanel"><CODE>CookieJar</CODE></A> 를 공유하면 그
+ 저장소의 쿠키가 공유하는 모든 컴포넌트에서 지워진다. 보이는 페이지는 계속 실행된다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLocalStorage()"><!-- --></A><H3>
+getLocalStorage</H3>
+<PRE>
+public java.util.Collection&lt;<A HREF="../../../../org/duckdns/hjow/swingwebpanel/storage/StorageEntry.html" title="class in org.duckdns.hjow.swingwebpanel.storage">StorageEntry</A>&gt; <B>getLocalStorage</B>()</PRE>
+<DL>
+<DD>Returns a read-only copy of all localStorage items of all origins, shared by the components of this JVM process.
+
+ <p>
+ 이 JVM 프로세스의 컴포넌트가 공유하는 모든 오리진의 localStorage 항목을 읽기 전용 복사본으로 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>copy of the items / 항목 복사본</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSessionStorage()"><!-- --></A><H3>
+getSessionStorage</H3>
+<PRE>
+public java.util.Collection&lt;<A HREF="../../../../org/duckdns/hjow/swingwebpanel/storage/StorageEntry.html" title="class in org.duckdns.hjow.swingwebpanel.storage">StorageEntry</A>&gt; <B>getSessionStorage</B>()</PRE>
+<DL>
+<DD>Returns a read-only copy of all sessionStorage items of this component (all origins).
+
+ <p>
+ 이 컴포넌트의 모든 sessionStorage 항목(모든 오리진)을 읽기 전용 복사본으로 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>copy of the items / 항목 복사본</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setOnline(boolean)"><!-- --></A><H3>
+setOnline</H3>
+<PRE>
+public void <B>setOnline</B>(boolean&nbsp;online)</PRE>
+<DL>
+<DD>Tells the pages whether the host has a network connection (extension method): <code>navigator.onLine</code> follows it and the pages hear
+ <code>online</code> or <code>offline</code> at their window when it changes. The component cannot detect the network state, so the host that knows it
+ (a network monitor of the application) calls this. The default is true; a call that does not change the state does nothing.
+ <p>
+ 호스트에 네트워크 연결이 있는지 페이지에 알린다(확장 메서드): <code>navigator.onLine</code> 이 이를 따르고 상태가 바뀌면 페이지가 window 에서 <code>online</code> 또는
+ <code>offline</code> 을 듣는다. 컴포넌트는 네트워크 상태를 알아낼 수 없으므로 아는 쪽(응용 프로그램의 네트워크 감시기)이 이 메서드를 부른다. 기본값은
+ true 이며 상태가 바뀌지 않는 호출은 아무것도 하지 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>online</CODE> - true if the host is online / 호스트가 연결되어 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isOnline()"><!-- --></A><H3>
+isOnline</H3>
+<PRE>
+public boolean <B>isOnline</B>()</PRE>
+<DL>
+<DD>Tells whether the host said that it has a network connection (extension method, see <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setOnline(boolean)"><CODE>setOnline(boolean)</CODE></A>).
+ <p>
+ 호스트가 네트워크 연결이 있다고 했는지 알려 준다(확장 메서드, <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#setOnline(boolean)"><CODE>setOnline(boolean)</CODE></A> 참조).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true while online (the default) / 연결된 동안 true(기본값)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getZoom()"><!-- --></A><H3>
+getZoom</H3>
+<PRE>
+public double <B>getZoom</B>()</PRE>
+<DL>
+<DD>Returns the page zoom factor (extension method): 1 shows the page at 100 percent, 2 at 200 percent.
+ <p>
+ 페이지 확대 배율을 반환한다(확장 메서드): 1 은 100 %, 2 는 200 % 로 보여 준다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the factor, from 0.25 to 5.0 / 배율. 0.25 부터 5.0 까지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setZoom(double)"><!-- --></A><H3>
+setZoom</H3>
+<PRE>
+public void <B>setZoom</B>(double&nbsp;factor)</PRE>
+<DL>
+<DD>Zooms the page (extension method; the public methods of the component are not changed by it): the page is laid out for a viewport that
+ is as many times smaller as the factor says (so media queries, percentage widths and line breaks follow what the user sees), and the
+ drawing, the mouse coordinates, the scroll size, the selection highlight and the editors of the form controls use the same factor. A
+ factor outside 0.25 to 5.0 is cut to the nearest end of the range. Ctrl+mouse wheel and Ctrl+plus, Ctrl+minus, Ctrl+0 call it too.
+ The change is applied on the event dispatch thread (a call from another thread is queued) and announced as the
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#PROPERTY_ZOOM"><CODE>PROPERTY_ZOOM</CODE></A> property change. The zoom is a setting of the component: it stays when another page is shown, and neither
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#clean()"><CODE>clean()</CODE></A> nor a page changes it.
+ <p>
+ 페이지를 확대한다(확장 메서드. 컴포넌트의 공개 메서드는 이것으로 바뀌지 않는다): 페이지는 배율만큼 작은 뷰포트에 맞춰 배치되고(그래서 미디어 질의, 백분율 폭,
+ 줄바꿈이 사용자가 보는 것을 따른다) 그리기, 마우스 좌표, 스크롤 크기, 선택 강조, 폼 컨트롤의 편집기가 같은 배율을 쓴다. 0.25 ~ 5.0 밖의 배율은 범위의 가까운
+ 끝으로 맞춘다. Ctrl+마우스 휠과 Ctrl+플러스, Ctrl+마이너스, Ctrl+0 도 이것을 부른다. 변경은 이벤트 디스패치 스레드에서 적용되며(다른 스레드의 호출은
+ 큐에 들어간다) <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#PROPERTY_ZOOM"><CODE>PROPERTY_ZOOM</CODE></A> 속성 변경으로 알린다. 확대는 컴포넌트의 설정이다: 다른 페이지를 보여 줘도 유지되며 <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#clean()"><CODE>clean()</CODE></A> 도 페이지도 바꾸지 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>factor</CODE> - the factor, a finite positive number / 배율. 유한한 양수
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - for NaN, infinite or not positive numbers / NaN, 무한, 양수가 아닌 수일 때
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setDefaultFontFamily(java.lang.String, java.lang.String)"><!-- --></A><H3>
+setDefaultFontFamily</H3>
+<PRE>
+public void <B>setDefaultFontFamily</B>(java.lang.String&nbsp;kind,
+                                 java.lang.String&nbsp;family)</PRE>
+<DL>
+<DD>Sets one of the default font families of this component (extension method, API contract 5.27). The kind
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_STANDARD"><CODE>FONT_STANDARD</CODE></A> is the font of content whose author named no font; <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_SERIF"><CODE>FONT_SERIF</CODE></A>, <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_SANS_SERIF"><CODE>FONT_SANS_SERIF</CODE></A> and
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_MONOSPACE"><CODE>FONT_MONOSPACE</CODE></A> are the fonts behind the generic names of CSS. A family that is not installed is ignored when text is
+ laid out (the built-in font of the kind is used). Fonts that the author names, and web fonts, are not affected. The pages that
+ are shown (frames included) are laid out again; the setting stays for later pages and through <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#clean()"><CODE>clean()</CODE></A>, and it does not
+ reach other components.
+ <p>
+ 이 컴포넌트의 기본 글꼴 패밀리 가운데 하나를 정한다(확장 메서드, API 계약 5.27). 종류 <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_STANDARD"><CODE>FONT_STANDARD</CODE></A> 는 작성자가 글꼴을 지정하지
+ 않은 내용의 글꼴이고, <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_SERIF"><CODE>FONT_SERIF</CODE></A>, <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_SANS_SERIF"><CODE>FONT_SANS_SERIF</CODE></A>, <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_MONOSPACE"><CODE>FONT_MONOSPACE</CODE></A> 는 CSS 일반 이름 뒤의 글꼴이다. 설치되지
+ 않은 패밀리는 텍스트를 배치할 때 무시한다(그 종류의 내장 글꼴을 쓴다). 작성자가 지정한 글꼴과 웹 글꼴에는 영향이 없다. 보이는
+ 페이지(프레임 포함)를 다시 배치한다. 설정은 이후의 페이지와 <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#clean()"><CODE>clean()</CODE></A> 뒤에도 유지되며 다른 컴포넌트에는 닿지 않는다.
+ <p>
+ 사용 예 / Example:
+ <pre>
+ panel.setDefaultFontFamily(SwingWebPanel.FONT_STANDARD, "Malgun Gothic");
+ panel.setDefaultFontSize(18);
+ </pre>
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>kind</CODE> - <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_STANDARD"><CODE>FONT_STANDARD</CODE></A>, <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_SERIF"><CODE>FONT_SERIF</CODE></A>, <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_SANS_SERIF"><CODE>FONT_SANS_SERIF</CODE></A> or <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_MONOSPACE"><CODE>FONT_MONOSPACE</CODE></A> /
+               <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_STANDARD"><CODE>FONT_STANDARD</CODE></A>, <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_SERIF"><CODE>FONT_SERIF</CODE></A>, <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_SANS_SERIF"><CODE>FONT_SANS_SERIF</CODE></A>, <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_MONOSPACE"><CODE>FONT_MONOSPACE</CODE></A> 중 하나<DD><CODE>family</CODE> - the font family name; null or empty for the built-in font / 글꼴 패밀리 이름. 내장 글꼴이면 null 이나 빈 문자열
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - for an unknown kind, or a name with control characters / 모르는 종류이거나 이름에 제어 문자가 있을 때
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDefaultFontFamily(java.lang.String)"><!-- --></A><H3>
+getDefaultFontFamily</H3>
+<PRE>
+public java.lang.String <B>getDefaultFontFamily</B>(java.lang.String&nbsp;kind)</PRE>
+<DL>
+<DD>Returns one of the default font families of this component (extension method, API contract 5.27).
+ <p>
+ 이 컴포넌트의 기본 글꼴 패밀리 가운데 하나를 반환한다(확장 메서드, API 계약 5.27).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>kind</CODE> - <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_STANDARD"><CODE>FONT_STANDARD</CODE></A>, <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_SERIF"><CODE>FONT_SERIF</CODE></A>, <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_SANS_SERIF"><CODE>FONT_SANS_SERIF</CODE></A> or <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_MONOSPACE"><CODE>FONT_MONOSPACE</CODE></A> /
+             <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_STANDARD"><CODE>FONT_STANDARD</CODE></A>, <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_SERIF"><CODE>FONT_SERIF</CODE></A>, <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_SANS_SERIF"><CODE>FONT_SANS_SERIF</CODE></A>, <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#FONT_MONOSPACE"><CODE>FONT_MONOSPACE</CODE></A> 중 하나
+<DT><B>Returns:</B><DD>the family that the host set, or the empty string for the built-in font / 호스트가 정한 패밀리. 내장 글꼴이면 빈 문자열
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - for an unknown kind / 모르는 종류일 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setDefaultFontSize(int)"><!-- --></A><H3>
+setDefaultFontSize</H3>
+<PRE>
+public void <B>setDefaultFontSize</B>(int&nbsp;px)</PRE>
+<DL>
+<DD>Sets the default font size of this component (extension method, API contract 5.27): the size of <code>font-size: medium</code>, in
+ CSS pixels. The other size keywords scale with it, and content without an author font size is shown in this size. The built-in
+ value is 16.
+ <p>
+ 이 컴포넌트의 기본 글꼴 크기를 정한다(확장 메서드, API 계약 5.27): <code>font-size: medium</code> 의 크기(CSS 픽셀)이다. 다른 크기 키워드는
+ 이것에 비례하고, 작성자가 글꼴 크기를 지정하지 않은 내용은 이 크기로 보인다. 내장 값은 16 이다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>px</CODE> - the size, from 6 to 72 / 크기. 6 부터 72 까지
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - for a size outside the range / 범위 밖의 크기일 때
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDefaultFontSize()"><!-- --></A><H3>
+getDefaultFontSize</H3>
+<PRE>
+public int <B>getDefaultFontSize</B>()</PRE>
+<DL>
+<DD>Returns the default font size of this component (extension method, API contract 5.27).
+ <p>
+ 이 컴포넌트의 기본 글꼴 크기를 반환한다(확장 메서드, API 계약 5.27).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the size of <code>font-size: medium</code> in CSS pixels; 16 unless the host set another / <code>font-size: medium</code> 의
+         크기(CSS 픽셀). 호스트가 바꾸지 않았으면 16</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setDefaultMonospaceFontSize(int)"><!-- --></A><H3>
+setDefaultMonospaceFontSize</H3>
+<PRE>
+public void <B>setDefaultMonospaceFontSize</B>(int&nbsp;px)</PRE>
+<DL>
+<DD>Sets the font size of the monospace elements (<code>code</code>, <code>kbd</code>, <code>samp</code>, <code>tt</code>,
+ <code>pre</code> and the old <code>listing</code>, <code>xmp</code>, <code>plaintext</code>) of this component (extension method,
+ API contract 5.27), as browsers have a separate default size for fixed-width text. The size is given for text of the default
+ font size and scales with the surrounding text (inside a heading it grows with the heading). 0, the built-in value, shows these
+ elements in the size of the surrounding text. Author rules for the font size of these elements win.
+ <p>
+ 이 컴포넌트에서 고정폭 요소(<code>code</code>, <code>kbd</code>, <code>samp</code>, <code>tt</code>, <code>pre</code>, 그리고 옛
+ <code>listing</code>, <code>xmp</code>, <code>plaintext</code>)의 글꼴 크기를 정한다(확장 메서드, API 계약 5.27). 브라우저가 고정폭 글에
+ 따로 기본 크기를 두는 것과 같다. 크기는 기본 글꼴 크기의 글을 기준으로 주며 주변 글에 비례한다(제목 안에서는 제목과 함께 커진다). 내장 값인
+ 0 이면 이 요소들을 주변 글의 크기로 보인다. 이 요소들의 글꼴 크기를 정한 작성자 규칙이 우선한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>px</CODE> - the size from 6 to 72, or 0 for the size of the surrounding text / 6 부터 72 까지의 크기. 주변 글의 크기를 쓰면 0
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - for a size outside the range / 범위 밖의 크기일 때
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDefaultMonospaceFontSize()"><!-- --></A><H3>
+getDefaultMonospaceFontSize</H3>
+<PRE>
+public int <B>getDefaultMonospaceFontSize</B>()</PRE>
+<DL>
+<DD>Returns the font size of the monospace elements of this component (extension method, API contract 5.27).
+ <p>
+ 이 컴포넌트에서 고정폭 요소의 글꼴 크기를 반환한다(확장 메서드, API 계약 5.27).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the size in CSS pixels, or 0 for the size of the surrounding text / 크기(CSS 픽셀). 주변 글의 크기를 쓰면 0</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="copy()"><!-- --></A><H3>
+copy</H3>
+<PRE>
+public void <B>copy</B>()</PRE>
+<DL>
+<DD>Copies the selection of the page to the clipboard (extension method), as Ctrl+C does: the <code>copy</code> event is sent to the
+ page first, and a listener may cancel it or put its own data on the clipboard. If a text control of a form has the focus, the
+ selection of that control is copied. The page gets no key events. The command is run on the event dispatch thread (a call from
+ another thread is queued) and the page part of it on the document queue, so the clipboard may change shortly after the call returns.
+ <p>
+ 페이지의 선택을 Ctrl+C 와 같게 클립보드에 복사한다(확장 메서드): 먼저 <code>copy</code> 이벤트를 페이지에 보내며, 리스너는 이를 취소하거나 자기 데이터를
+ 클립보드에 넣을 수 있다. 폼의 텍스트 컨트롤에 포커스가 있으면 그 컨트롤의 선택을 복사한다. 페이지에 키 이벤트는 가지 않는다. 명령은 이벤트 디스패치
+ 스레드에서 실행되고(다른 스레드의 호출은 큐에 들어간다) 그 가운데 페이지 쪽 일은 문서 큐에서 실행되므로, 클립보드는 호출이 돌아온 조금 뒤에 바뀔 수 있다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="cut()"><!-- --></A><H3>
+cut</H3>
+<PRE>
+public void <B>cut</B>()</PRE>
+<DL>
+<DD>Cuts the selection of an editable place (a text control of a form, <code>contenteditable</code>, design mode) to the clipboard
+ (extension method), as Ctrl+X does: the <code>cut</code> event is sent to the page first. Nothing happens where the page cannot be
+ edited. Threads as for <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#copy()"><CODE>copy()</CODE></A>.
+ <p>
+ 편집 가능한 곳(폼의 텍스트 컨트롤, <code>contenteditable</code>, 디자인 모드)의 선택을 Ctrl+X 와 같게 클립보드로 잘라낸다(확장 메서드): 먼저
+ <code>cut</code> 이벤트를 페이지에 보낸다. 편집할 수 없는 곳에서는 아무 일도 없다. 스레드는 <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#copy()"><CODE>copy()</CODE></A> 와 같다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="paste()"><!-- --></A><H3>
+paste</H3>
+<PRE>
+public void <B>paste</B>()</PRE>
+<DL>
+<DD>Pastes the clipboard into the editable place that has the focus (extension method), as Ctrl+V does: the <code>paste</code> event is
+ sent to the page first, and unless a listener cancels it the data is inserted. Where the page cannot be edited only the event is
+ sent. The clipboard is read with <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#readClipboard()"><CODE>readClipboard()</CODE></A>. Threads as for <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#copy()"><CODE>copy()</CODE></A>.
+ <p>
+ 포커스를 가진 편집 가능한 곳에 Ctrl+V 와 같게 클립보드를 붙여넣는다(확장 메서드): 먼저 <code>paste</code> 이벤트를 페이지에 보내고, 리스너가 취소하지 않으면
+ 데이터를 넣는다. 편집할 수 없는 곳에서는 이벤트만 간다. 클립보드는 <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#readClipboard()"><CODE>readClipboard()</CODE></A> 로 읽는다. 스레드는 <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#copy()"><CODE>copy()</CODE></A> 와 같다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="selectAll()"><!-- --></A><H3>
+selectAll</H3>
+<PRE>
+public void <B>selectAll</B>()</PRE>
+<DL>
+<DD>Selects everything (extension method), as Ctrl+A does: all the text of the text control or of the editable place that has the
+ focus, else all the content of the page. Threads as for <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#copy()"><CODE>copy()</CODE></A>.
+ <p>
+ Ctrl+A 와 같게 모두 선택한다(확장 메서드): 포커스를 가진 텍스트 컨트롤이나 편집 가능한 곳의 글 전체, 그런 곳이 아니면 페이지의 모든 내용. 스레드는
+ <A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.html#copy()"><CODE>copy()</CODE></A> 와 같다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if the component was disposed / 컴포넌트가 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="copyToClipboard(java.lang.String, java.lang.String)"><!-- --></A><H3>
+copyToClipboard</H3>
+<PRE>
+protected void <B>copyToClipboard</B>(java.lang.String&nbsp;plainText,
+                               java.lang.String&nbsp;htmlFragment)
+                        throws java.lang.Exception</PRE>
+<DL>
+<DD>Puts the copied text on the clipboard. The default writes <code>text/plain</code> (and <code>text/html</code> if there is markup) to the
+ system clipboard; a host that keeps its own clipboard, or a test, overrides it. It is called on the event dispatch thread after the
+ user copied the selection (Ctrl+C or Ctrl+Insert) and no listener of the <code>copy</code> event cancelled it. An exception (no screen,
+ the clipboard is not available) is not shown to the user except as the status text.
+ <p>
+ 복사한 텍스트를 클립보드에 넣는다. 기본은 <code>text/plain</code>(마크업이 있으면 <code>text/html</code> 도)을 시스템 클립보드에 쓴다. 자체 클립보드를 가진
+ 호스트나 시험은 이것을 재정의한다. 사용자가 선택을 복사하고(Ctrl+C 또는 Ctrl+Insert) <code>copy</code> 이벤트의 어떤 리스너도 취소하지 않았을 때 이벤트
+ 디스패치 스레드에서 호출된다. 예외(화면 없음, 클립보드를 쓸 수 없음)는 상태 메시지로만 알린다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>plainText</CODE> - the text / 텍스트<DD><CODE>htmlFragment</CODE> - the markup of the selection, or null / 선택의 마크업. 없으면 null
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.Exception</CODE> - if the clipboard cannot be used / 클립보드를 쓸 수 없으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="readClipboard()"><!-- --></A><H3>
+readClipboard</H3>
+<PRE>
+protected java.awt.datatransfer.Transferable <B>readClipboard</B>()
+                                                    throws java.lang.Exception</PRE>
+<DL>
+<DD>Reads the clipboard for a paste into an editable place of the page (<code>contenteditable</code> or design mode). The default reads
+ the system clipboard; a host that keeps its own clipboard, or a test, overrides it. It is called on the event dispatch thread when the
+ user pastes (Ctrl+V or Shift+Insert); the <code>text/plain</code> and <code>text/html</code> data it offers become the
+ <code>clipboardData</code> of the <code>paste</code> event. An exception (no screen, the clipboard is not available) is not shown to
+ the user except as the status text, and nothing is pasted.
+ <p>
+ 페이지의 편집 가능한 곳(<code>contenteditable</code> 이나 디자인 모드)에 붙여넣기 위해 클립보드를 읽는다. 기본은 시스템 클립보드를 읽는다. 자체 클립보드를
+ 가진 호스트나 시험은 이것을 재정의한다. 사용자가 붙여넣을 때(Ctrl+V 또는 Shift+Insert) 이벤트 디스패치 스레드에서 호출되며, 이것이 주는
+ <code>text/plain</code> 과 <code>text/html</code> 데이터가 <code>paste</code> 이벤트의 <code>clipboardData</code> 가 된다. 예외(화면 없음, 클립보드를
+ 쓸 수 없음)는 상태 메시지로만 알리고 아무것도 붙여넣지 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the contents of the clipboard, or null if it is empty / 클립보드의 내용. 비었으면 null
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.Exception</CODE> - if the clipboard cannot be used / 클립보드를 쓸 수 없으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getInputMethodRequests()"><!-- --></A><H3>
+getInputMethodRequests</H3>
+<PRE>
+public java.awt.im.InputMethodRequests <B>getInputMethodRequests</B>()</PRE>
+<DL>
+<DD>Returns what an input method asks the component while the user composes text in an editing host of the page (Korean, Japanese and
+ other languages): where the caret is, so that the window of the candidates opens beside it. The composed text itself arrives as
+ <code>InputMethodEvent</code> and is shown in the page as it is composed. Form controls have editors of their own and answer for
+ themselves.
+ <p>
+ 사용자가 페이지의 편집 호스트에서 텍스트를 조합할 때(한국어, 일본어 등) 입력기가 컴포넌트에 묻는 것에 답하는 객체를 반환한다: 캐럿이 어디 있는지(후보 창이
+ 그 옆에 열린다). 조합하는 텍스트 자체는 <code>InputMethodEvent</code> 로 도착하며 조합되는 대로 페이지에 보인다. 폼 컨트롤은 자기 편집기가 있고 스스로 답한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>getInputMethodRequests</CODE> in class <CODE>java.awt.Component</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the requests object / 질의 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="configureSsl(javax.net.ssl.HttpsURLConnection)"><!-- --></A><H3>
+configureSsl</H3>
+<PRE>
+protected void <B>configureSsl</B>(javax.net.ssl.HttpsURLConnection&nbsp;connection)
+                     throws java.io.IOException</PRE>
+<DL>
+<DD>Extension point for SSL (TLS) setup. It is called for every HTTPS connection before it connects. The default
+ implementation does nothing, so the JRE's default trust store and host name verification apply. Override it to
+ install a custom <code>SSLSocketFactory</code> or <code>HostnameVerifier</code> for this connection only; never change
+ JVM-wide settings here. If connecting over HTTPS fails, the browser tries plain HTTP once for the same address.
+ <p>
+ SSL(TLS) 설정을 위한 확장 지점. 모든 HTTPS 연결이 연결하기 전에 호출한다. 기본 구현은 아무것도 하지 않으므로 JRE 의 기본 신뢰 저장소와
+ 호스트 이름 검증이 적용된다. 이 연결에만 쓸 <code>SSLSocketFactory</code> 나 <code>HostnameVerifier</code> 를 지정하려면
+ 재정의한다. 여기서 JVM 전역 설정을 바꾸지 않는다. HTTPS 연결이 실패하면 브라우저는 같은 주소로 평문 HTTP 를 한 번 시도한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>connection</CODE> - the HTTPS connection about to be opened / 곧 여는 HTTPS 연결
+<DT><B>Throws:</B>
+<DD><CODE>java.io.IOException</CODE> - to abort the connection / 연결을 중단하려면 던진다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="viewportWidthChanged(int)"><!-- --></A><H3>
+viewportWidthChanged</H3>
+<PRE>
+protected void <B>viewportWidthChanged</B>(int&nbsp;width)</PRE>
+<DL>
+<DD>Called on the event dispatch thread when the component's width changed. The default updates the viewport extent and
+ schedules a coalesced layout on the document thread.
+ <p>
+ 컴포넌트 폭이 바뀌면 이벤트 디스패치 스레드에서 호출되어 레이아웃 쪽이 페이지를 다시 배치할 수 있게 한다.
+ 기본 구현은 뷰포트 범위를 갱신하고 문서 스레드에 재배치를 합쳐 예약한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>width</CODE> - new width in pixels / 새 폭(픽셀)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="paintComponent(java.awt.Graphics)"><!-- --></A><H3>
+paintComponent</H3>
+<PRE>
+protected void <B>paintComponent</B>(java.awt.Graphics&nbsp;g)</PRE>
+<DL>
+<DD>Paints the Swing background and the immutable commands produced by the document thread.
+ <p>
+ Swing 배경과 문서 스레드가 만든 불변 그림 명령을 그린다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>paintComponent</CODE> in class <CODE>javax.swing.JComponent</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>g</CODE> - graphics context / 그래픽 컨텍스트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="paintPage(java.awt.Graphics2D)"><!-- --></A><H3>
+paintPage</H3>
+<PRE>
+protected void <B>paintPage</B>(java.awt.Graphics2D&nbsp;g2)</PRE>
+<DL>
+<DD>Hook for the rendering engine: paints the latest layout of the confirmed page.
+ <p>
+ 렌더링 엔진을 위한 확장 지점: 확정된 페이지의 최신 배치를 그린다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>g2</CODE> - graphics context, disposed by the caller / 그래픽 컨텍스트(호출자가 해제)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getViewMetrics()"><!-- --></A><H3>
+getViewMetrics</H3>
+<PRE>
+protected final <A HREF="../../../../org/duckdns/hjow/swingwebpanel/core/ViewMetrics.html" title="class in org.duckdns.hjow.swingwebpanel.core">ViewMetrics</A> <B>getViewMetrics</B>()</PRE>
+<DL>
+<DD>Returns the size information object that the layout engine updates (for the rendering code of this library).
+ <p>
+ 레이아웃 엔진이 갱신하는 크기 정보 객체를 반환한다(이 라이브러리의 렌더링 코드용).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>metrics / 크기 정보</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPreferredSize()"><!-- --></A><H3>
+getPreferredSize</H3>
+<PRE>
+public java.awt.Dimension <B>getPreferredSize</B>()</PRE>
+<DL>
+<DD>Returns the preferred size: the laid-out content size, or 640x480 for an empty page.
+ <p>
+ 선호 크기를 반환한다: 배치된 콘텐츠 크기이며 빈 페이지는 640x480 이다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>getPreferredSize</CODE> in class <CODE>javax.swing.JComponent</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>preferred size / 선호 크기</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPreferredScrollableViewportSize()"><!-- --></A><H3>
+getPreferredScrollableViewportSize</H3>
+<PRE>
+public java.awt.Dimension <B>getPreferredScrollableViewportSize</B>()</PRE>
+<DL>
+<DD>Returns the preferred size of the viewport when this component is the view of a scroll pane.
+ <p>
+ 이 컴포넌트가 스크롤 창의 뷰일 때 뷰포트의 선호 크기를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getPreferredScrollableViewportSize</CODE> in interface <CODE>javax.swing.Scrollable</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>viewport size / 뷰포트 크기</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getScrollableUnitIncrement(java.awt.Rectangle, int, int)"><!-- --></A><H3>
+getScrollableUnitIncrement</H3>
+<PRE>
+public int <B>getScrollableUnitIncrement</B>(java.awt.Rectangle&nbsp;visibleRect,
+                                      int&nbsp;orientation,
+                                      int&nbsp;direction)</PRE>
+<DL>
+<DD>Returns the distance of one scroll step: the line height reported by the layout engine.
+ <p>
+ 스크롤 한 단위의 거리를 반환한다: 레이아웃 엔진이 알려 준 줄 높이.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getScrollableUnitIncrement</CODE> in interface <CODE>javax.swing.Scrollable</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>visibleRect</CODE> - visible part / 보이는 영역<DD><CODE>orientation</CODE> - SwingConstants.VERTICAL or HORIZONTAL / SwingConstants.VERTICAL 또는 HORIZONTAL<DD><CODE>direction</CODE> - negative up/left, positive down/right / 음수는 위/왼쪽, 양수는 아래/오른쪽
+<DT><B>Returns:</B><DD>distance in pixels / 거리(픽셀)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getScrollableBlockIncrement(java.awt.Rectangle, int, int)"><!-- --></A><H3>
+getScrollableBlockIncrement</H3>
+<PRE>
+public int <B>getScrollableBlockIncrement</B>(java.awt.Rectangle&nbsp;visibleRect,
+                                       int&nbsp;orientation,
+                                       int&nbsp;direction)</PRE>
+<DL>
+<DD>Returns the distance of one block (page) scroll: the visible size minus one step.
+ <p>
+ 블록(페이지) 스크롤 한 번의 거리를 반환한다: 보이는 크기에서 한 단위를 뺀 값.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getScrollableBlockIncrement</CODE> in interface <CODE>javax.swing.Scrollable</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>visibleRect</CODE> - visible part / 보이는 영역<DD><CODE>orientation</CODE> - SwingConstants.VERTICAL or HORIZONTAL / SwingConstants.VERTICAL 또는 HORIZONTAL<DD><CODE>direction</CODE> - negative up/left, positive down/right / 음수는 위/왼쪽, 양수는 아래/오른쪽
+<DT><B>Returns:</B><DD>distance in pixels / 거리(픽셀)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getScrollableTracksViewportWidth()"><!-- --></A><H3>
+getScrollableTracksViewportWidth</H3>
+<PRE>
+public boolean <B>getScrollableTracksViewportWidth</B>()</PRE>
+<DL>
+<DD>Tells whether the view width follows the viewport width: true while the laid-out content fits into the viewport.
+ <p>
+ 뷰 폭이 뷰포트 폭을 따라가는지 알려 준다: 배치된 콘텐츠가 뷰포트에 들어가는 동안 true.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getScrollableTracksViewportWidth</CODE> in interface <CODE>javax.swing.Scrollable</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true to track the viewport width / 뷰포트 폭을 따라가려면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getScrollableTracksViewportHeight()"><!-- --></A><H3>
+getScrollableTracksViewportHeight</H3>
+<PRE>
+public boolean <B>getScrollableTracksViewportHeight</B>()</PRE>
+<DL>
+<DD>Tells whether the view height follows the viewport height: true while the content is shorter than the viewport.
+ <p>
+ 뷰 높이가 뷰포트 높이를 따라가는지 알려 준다: 콘텐츠가 뷰포트보다 낮은 동안 true.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getScrollableTracksViewportHeight</CODE> in interface <CODE>javax.swing.Scrollable</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true to track the viewport height / 뷰포트 높이를 따라가려면 true</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../org/duckdns/hjow/swingwebpanel/CookieJar.html" title="class in org.duckdns.hjow.swingwebpanel"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../org/duckdns/hjow/swingwebpanel/SwingWebPanel.PopupSeed.html" title="class in org.duckdns.hjow.swingwebpanel"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../index.html?org/duckdns/hjow/swingwebpanel/SwingWebPanel.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SwingWebPanel.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

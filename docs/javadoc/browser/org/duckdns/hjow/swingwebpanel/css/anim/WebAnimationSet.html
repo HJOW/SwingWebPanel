@@ -1,0 +1,639 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+WebAnimationSet
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="WebAnimationSet";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationHost.PromiseSlot.html" title="interface in org.duckdns.hjow.swingwebpanel.css.anim"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.PendingEvent.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WebAnimationSet.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.anim</FONT>
+<BR>
+Class WebAnimationSet</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.anim.WebAnimationSet</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>WebAnimationSet</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The Web Animations state of one document (Web Animations Level 1): the animations created by scripts in their global order (the composite order
+ among them), the time of the document that the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebTimeline.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><CODE>WebTimeline</CODE></A>s follow, the pending animation event queue and the procedure "update animations
+ and send events" (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#update(double)"><CODE>update(double)</CODE></A> for the timelines, the pending tasks, the finished states and the removal of replaced animations, then
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#takeEvents()"><CODE>takeEvents()</CODE></A> after the host's microtask checkpoint). The style side uses <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#apply(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)"><CODE>apply(Element, String, ComputedStyle)</CODE></A>: the
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/AnimationEngine.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><CODE>AnimationEngine</CODE></A> calls it after the CSS transitions and animations, so script animations are at the top of the effect stack (5.4.2: CSS
+ transitions, then CSS animations, then the other animations). Only the animations that can still change something are kept ("tracked"); an
+ idle animation or one that finished without fill is let go and comes back when a script changes it, so finished animations do not accumulate. The
+ document time is the time of the host's clock while nothing is waiting for a frame and it stays at the time of the last frame while animations run,
+ as the specification wants (<code>document.timeline.currentTime</code> does not change between frames). Every method runs on the document thread.
+ <p>
+ 한 문서의 Web Animations 상태(Web Animations Level 1): 스크립트가 만든 애니메이션의 전역 순서(그 사이의 합성 순서), <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebTimeline.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><CODE>WebTimeline</CODE></A> 이 따르는 문서 시간,
+ 대기 애니메이션 이벤트 큐, "update animations and send events" 절차(타임라인, 대기 작업, 끝남 상태, 교체된 애니메이션 제거는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#update(double)"><CODE>update(double)</CODE></A>, 호스트의
+ 마이크로태스크 검사점 뒤의 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#takeEvents()"><CODE>takeEvents()</CODE></A>). 스타일 쪽은 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#apply(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)"><CODE>apply(Element, String, ComputedStyle)</CODE></A> 를 쓴다: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/AnimationEngine.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><CODE>AnimationEngine</CODE></A> 이 CSS 전환과
+ 애니메이션 뒤에 부르므로 스크립트 애니메이션이 효과 스택의 맨 위에 있다(5.4.2: CSS 전환, CSS 애니메이션, 그 밖의 애니메이션 순). 아직 무언가를 바꿀 수 있는
+ 애니메이션만 보관하며("추적") 유휴 상태이거나 채움 없이 끝난 애니메이션은 놓아 주고 스크립트가 바꾸면 다시 돌아오므로 끝난 애니메이션이 쌓이지 않는다. 문서 시간은
+ 프레임을 기다리는 것이 없을 때는 호스트 시계의 시간이고 애니메이션이 도는 동안은 마지막 프레임의 시간에 머문다(규격대로 <code>document.timeline.currentTime</code> 은
+ 프레임 사이에 바뀌지 않는다). 모든 메서드는 문서 스레드에서 실행된다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.PendingEvent.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">WebAnimationSet.PendingEvent</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An event in the pending animation event queue with its target and its scheduled event time.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.TimeSource.html" title="interface in org.duckdns.hjow.swingwebpanel.css.anim">WebAnimationSet.TimeSource</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The clock of the document: milliseconds since the time origin of the page.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#WebAnimationSet(org.duckdns.hjow.swingwebpanel.css.cascade.StyleResolver, org.duckdns.hjow.swingwebpanel.css.anim.AnimationEngine)">WebAnimationSet</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">StyleResolver</A>&nbsp;resolver,
+                <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/AnimationEngine.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">AnimationEngine</A>&nbsp;engine)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the state of a document.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#apply(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)">apply</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+      java.lang.String&nbsp;pseudo,
+      <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Applies the effects of the script animations of an element or pseudo-element on its style, in composite order (5.4.3): each effect that is in
+ effect combines its values with the result so far.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#attach(org.duckdns.hjow.swingwebpanel.css.anim.WebAnimationHost, org.duckdns.hjow.swingwebpanel.css.anim.WebAnimationSet.TimeSource)">attach</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationHost.html" title="interface in org.duckdns.hjow.swingwebpanel.css.anim">WebAnimationHost</A>&nbsp;h,
+       <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.TimeSource.html" title="interface in org.duckdns.hjow.swingwebpanel.css.anim">WebAnimationSet.TimeSource</A>&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Connects the script host and the clock of the document (the page's script host does it when it installs <code>element.animate()</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#collectCustom(org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, java.util.Map)">collectCustom</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+              <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s,
+              java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;out)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collects the values of the custom properties that the script animations of an element give (for a restyle with them).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#commitStyles(org.duckdns.hjow.swingwebpanel.css.anim.WebAnimation)">commitStyles</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimation.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">WebAnimation</A>&nbsp;a)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writes the values that the effect stack up to an animation gives to its target into the target's <code>style</code> attribute
+ (<code>commitStyles()</code>, 6.4 "commit computed styles").</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#detach()">detach</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stops every script animation without events because the scripts of the page stopped (it may be called on any thread): from now on the animations
+ have no effect and the timelines are inactive; <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#flushStopped()"><CODE>flushStopped()</CODE></A> releases them on the document thread.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#dispose()">dispose</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ends everything without events and releases the references (the page is replaced or disposed; any thread).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#flushStopped()">flushStopped</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Releases the script animations after the scripts stopped and restyles their targets; call it on the document thread before a rendering.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimation.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">WebAnimation</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#getAnimations(org.duckdns.hjow.swingwebpanel.dom.Node, boolean)">getAnimations</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;root,
+              boolean&nbsp;subtree)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the relevant animations whose target is in a subtree or is one element (<code>getAnimations()</code>, 6.8 and 6.10), in composite order.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebTimeline.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">WebTimeline</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#getTimeline()">getTimeline</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the default document timeline (<code>document.timeline</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#hasHost()">hasHost</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a host is connected.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#isDisposed()">isDisposed</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the set was disposed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.PendingEvent.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">WebAnimationSet.PendingEvent</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#takeEvents()">takeEvents</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Takes the pending animation events sorted by scheduled event time (the unresolved times first) and then by composite order; the sort is stable.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#targets(org.duckdns.hjow.swingwebpanel.dom.Element)">targets</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a tracked animation targets an element (or one of its pseudo-elements).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#update(double)">update</A></B>(double&nbsp;now)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Runs the first part of "update animations and send events" (4.3) at a time of the document: the timelines take the time, the pending play and
+ pause tasks of the ready animations run, the finished states are updated and the replaced animations are removed; the targets are restyled.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="WebAnimationSet(org.duckdns.hjow.swingwebpanel.css.cascade.StyleResolver, org.duckdns.hjow.swingwebpanel.css.anim.AnimationEngine)"><!-- --></A><H3>
+WebAnimationSet</H3>
+<PRE>
+public <B>WebAnimationSet</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">StyleResolver</A>&nbsp;resolver,
+                       <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/AnimationEngine.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">AnimationEngine</A>&nbsp;engine)</PRE>
+<DL>
+<DD>Creates the state of a document.
+ <p>
+ 문서의 상태를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>resolver</CODE> - the style resolver whose styles the animations change, or null for a set that only keeps time / 애니메이션이 스타일을 바꿀 스타일 리졸버. 시간만 다루는 등록부이면 null<DD><CODE>engine</CODE> - the engine of the CSS animations, or null / CSS 애니메이션 엔진. 없으면 null</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="attach(org.duckdns.hjow.swingwebpanel.css.anim.WebAnimationHost, org.duckdns.hjow.swingwebpanel.css.anim.WebAnimationSet.TimeSource)"><!-- --></A><H3>
+attach</H3>
+<PRE>
+public void <B>attach</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationHost.html" title="interface in org.duckdns.hjow.swingwebpanel.css.anim">WebAnimationHost</A>&nbsp;h,
+                   <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.TimeSource.html" title="interface in org.duckdns.hjow.swingwebpanel.css.anim">WebAnimationSet.TimeSource</A>&nbsp;c)</PRE>
+<DL>
+<DD>Connects the script host and the clock of the document (the page's script host does it when it installs <code>element.animate()</code>).
+ <p>
+ 스크립트 호스트와 문서의 시계를 연결한다(페이지의 스크립트 호스트가 <code>element.animate()</code> 를 설치할 때 한다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>h</CODE> - the host / 호스트<DD><CODE>c</CODE> - the clock / 시계</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasHost()"><!-- --></A><H3>
+hasHost</H3>
+<PRE>
+public boolean <B>hasHost</B>()</PRE>
+<DL>
+<DD>Tells whether a host is connected.
+ <p>
+ 호스트가 연결되어 있는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if connected / 연결되어 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTimeline()"><!-- --></A><H3>
+getTimeline</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebTimeline.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">WebTimeline</A> <B>getTimeline</B>()</PRE>
+<DL>
+<DD>Returns the default document timeline (<code>document.timeline</code>).
+ <p>
+ 기본 문서 타임라인을 반환한다(<code>document.timeline</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the timeline / 타임라인</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="update(double)"><!-- --></A><H3>
+update</H3>
+<PRE>
+public void <B>update</B>(double&nbsp;now)</PRE>
+<DL>
+<DD>Runs the first part of "update animations and send events" (4.3) at a time of the document: the timelines take the time, the pending play and
+ pause tasks of the ready animations run, the finished states are updated and the replaced animations are removed; the targets are restyled.
+ The host then performs a microtask checkpoint and dispatches <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#takeEvents()"><CODE>takeEvents()</CODE></A>.
+ <p>
+ 문서 시각에서 "update animations and send events"(4.3)의 앞부분을 실행한다: 타임라인이 시간을 받고, 준비된 애니메이션의 대기 play/pause 작업이 실행되며,
+ 끝남 상태를 갱신하고 교체된 애니메이션을 제거한다. 대상의 스타일을 다시 계산하게 한다. 그 뒤 호스트가 마이크로태스크 검사점을 수행하고 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#takeEvents()"><CODE>takeEvents()</CODE></A> 를
+ 전달한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>now</CODE> - the time of the document in milliseconds / 문서 시각(밀리초)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="takeEvents()"><!-- --></A><H3>
+takeEvents</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.PendingEvent.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">WebAnimationSet.PendingEvent</A>&gt; <B>takeEvents</B>()</PRE>
+<DL>
+<DD>Takes the pending animation events sorted by scheduled event time (the unresolved times first) and then by composite order; the sort is stable.
+ <p>
+ 대기 애니메이션 이벤트를 예정 시각(결정되지 않은 시각이 먼저), 그 다음 합성 순서로 정렬해 가져간다. 정렬은 안정적이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the events to dispatch / 전달할 이벤트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getAnimations(org.duckdns.hjow.swingwebpanel.dom.Node, boolean)"><!-- --></A><H3>
+getAnimations</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimation.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">WebAnimation</A>&gt; <B>getAnimations</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;root,
+                                                  boolean&nbsp;subtree)</PRE>
+<DL>
+<DD>Returns the relevant animations whose target is in a subtree or is one element (<code>getAnimations()</code>, 6.8 and 6.10), in composite order.
+ <p>
+ 대상이 서브트리 안이거나 한 요소인 관련 애니메이션을 합성 순서로 반환한다(<code>getAnimations()</code>, 6.8 과 6.10).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>root</CODE> - the element or the document / 요소 또는 문서<DD><CODE>subtree</CODE> - true to include the descendants (always for a document) / 자손을 포함하려면 true(문서는 늘)
+<DT><B>Returns:</B><DD>the animations / 애니메이션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="targets(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+targets</H3>
+<PRE>
+public boolean <B>targets</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Tells whether a tracked animation targets an element (or one of its pseudo-elements).
+ <p>
+ 추적 중인 애니메이션이 요소(또는 그 의사 요소)를 대상으로 하는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>true if one does / 그런 것이 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="apply(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)"><!-- --></A><H3>
+apply</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A> <B>apply</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                           java.lang.String&nbsp;pseudo,
+                           <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s)</PRE>
+<DL>
+<DD>Applies the effects of the script animations of an element or pseudo-element on its style, in composite order (5.4.3): each effect that is in
+ effect combines its values with the result so far.
+ <p>
+ 요소나 의사 요소의 스크립트 애니메이션 효과를 합성 순서대로 스타일에 적용한다(5.4.3): 적용 중인 효과마다 지금까지의 결과와 값을 결합한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소<DD><CODE>pseudo</CODE> - the pseudo-element with colons (<code>::before</code>), null for the element / 콜론이 붙은 의사 요소. 요소이면 null<DD><CODE>s</CODE> - the style below the script animations / 스크립트 애니메이션 아래의 스타일
+<DT><B>Returns:</B><DD>the animated style / 애니메이션이 적용된 스타일</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="collectCustom(org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, java.util.Map)"><!-- --></A><H3>
+collectCustom</H3>
+<PRE>
+public void <B>collectCustom</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                          <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s,
+                          java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;out)</PRE>
+<DL>
+<DD>Collects the values of the custom properties that the script animations of an element give (for a restyle with them).
+ <p>
+ 요소의 스크립트 애니메이션이 주는 사용자 정의 속성 값을 모은다(그것으로 스타일을 다시 계산하도록).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소<DD><CODE>s</CODE> - the style below the script animations / 스크립트 애니메이션 아래의 스타일<DD><CODE>out</CODE> - receives the values by name / 이름별 값을 받는다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="commitStyles(org.duckdns.hjow.swingwebpanel.css.anim.WebAnimation)"><!-- --></A><H3>
+commitStyles</H3>
+<PRE>
+public void <B>commitStyles</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimation.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">WebAnimation</A>&nbsp;a)</PRE>
+<DL>
+<DD>Writes the values that the effect stack up to an animation gives to its target into the target's <code>style</code> attribute
+ (<code>commitStyles()</code>, 6.4 "commit computed styles").
+ <p>
+ 한 애니메이션까지의 효과 스택이 대상에 주는 값을 대상의 <code>style</code> 속성에 쓴다(<code>commitStyles()</code>, 6.4 "commit computed styles").
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>a</CODE> - the animation / 애니메이션
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/AnimationException.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">AnimationException</A></CODE> - a NoModificationAllowedError for a pseudo-element, an InvalidStateError if the target is not rendered / 의사 요소이면 NoModificationAllowedError, 대상이 렌더링되지 않으면 InvalidStateError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="detach()"><!-- --></A><H3>
+detach</H3>
+<PRE>
+public void <B>detach</B>()</PRE>
+<DL>
+<DD>Stops every script animation without events because the scripts of the page stopped (it may be called on any thread): from now on the animations
+ have no effect and the timelines are inactive; <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#flushStopped()"><CODE>flushStopped()</CODE></A> releases them on the document thread.
+ <p>
+ 페이지의 스크립트가 멈췄으므로 이벤트 없이 모든 스크립트 애니메이션을 멈춘다(어느 스레드에서나 부를 수 있다): 이제부터 애니메이션은 효과가 없고 타임라인은 비활성이다.
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#flushStopped()"><CODE>flushStopped()</CODE></A> 가 문서 스레드에서 그것을 놓는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="flushStopped()"><!-- --></A><H3>
+flushStopped</H3>
+<PRE>
+public boolean <B>flushStopped</B>()</PRE>
+<DL>
+<DD>Releases the script animations after the scripts stopped and restyles their targets; call it on the document thread before a rendering.
+ <p>
+ 스크립트가 멈춘 뒤 스크립트 애니메이션을 놓고 대상의 스타일을 다시 계산하게 한다. 렌더링 전에 문서 스레드에서 부른다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if styles changed / 스타일이 바뀌었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispose()"><!-- --></A><H3>
+dispose</H3>
+<PRE>
+public void <B>dispose</B>()</PRE>
+<DL>
+<DD>Ends everything without events and releases the references (the page is replaced or disposed; any thread).
+ <p>
+ 이벤트 없이 모든 것을 끝내고 참조를 놓는다(페이지가 교체되거나 폐기된다. 어느 스레드든).
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isDisposed()"><!-- --></A><H3>
+isDisposed</H3>
+<PRE>
+public boolean <B>isDisposed</B>()</PRE>
+<DL>
+<DD>Tells whether the set was disposed.
+ <p>
+ 등록부가 폐기되었는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if disposed / 폐기되었으면 true</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationHost.PromiseSlot.html" title="interface in org.duckdns.hjow.swingwebpanel.css.anim"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.PendingEvent.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WebAnimationSet.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

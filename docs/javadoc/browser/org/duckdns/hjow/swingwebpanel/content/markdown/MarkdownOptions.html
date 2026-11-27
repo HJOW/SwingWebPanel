@@ -1,0 +1,644 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+MarkdownOptions
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="MarkdownOptions";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownLimitException.html" title="class in org.duckdns.hjow.swingwebpanel.content.markdown"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="MarkdownOptions.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.content.markdown</FONT>
+<BR>
+Class MarkdownOptions</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.content.markdown.MarkdownOptions</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>MarkdownOptions</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Options of a Markdown conversion. The defaults are the safe ones: GitHub Flavored Markdown extensions on, raw HTML escaped (shown as
+ text), dangerous link schemes neutralized. An instance is mutable while it is configured; the converter copies the values it needs, so
+ changing an instance later does not affect a conversion in progress. Configure it on one thread and then share it read-only.
+ <p>
+ Markdown 변환 옵션. 기본값은 안전한 쪽이다: GitHub Flavored Markdown 확장 켜짐, 원시 HTML 은 이스케이프(텍스트로 표시), 위험한 링크 스킴은
+ 무력화. 설정하는 동안에는 인스턴스를 바꿀 수 있고 변환기는 필요한 값을 복사해 쓰므로 나중에 바꿔도 진행 중인 변환에는 영향이 없다.
+ 한 스레드에서 설정한 뒤 읽기 전용으로 공유한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html#DEFAULT_MAX_BLOCK_DEPTH">DEFAULT_MAX_BLOCK_DEPTH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default maximum nesting depth of container blocks.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html#DEFAULT_MAX_INLINE_DEPTH">DEFAULT_MAX_INLINE_DEPTH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default maximum nesting depth of inline elements (emphasis, links).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html#DEFAULT_MAX_INPUT_LENGTH">DEFAULT_MAX_INPUT_LENGTH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default maximum input length in characters (8 Mi).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html#MarkdownOptions()">MarkdownOptions</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the default options.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html" title="class in org.duckdns.hjow.swingwebpanel.content.markdown">MarkdownOptions</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html#copy()">copy</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy of these options.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html#getMaxBlockDepth()">getMaxBlockDepth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the maximum nesting depth of container blocks (block quotes, list items); markers beyond it are shown as text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html#getMaxInlineDepth()">getMaxInlineDepth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the maximum nesting depth of inline elements; emphasis or links that would be nested deeper stay literal text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html#getMaxInputLength()">getMaxInputLength</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the maximum input length in characters; longer input makes the converter throw <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownLimitException.html" title="class in org.duckdns.hjow.swingwebpanel.content.markdown"><CODE>MarkdownLimitException</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html#isAllowRawHtml()">isAllowRawHtml</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether raw HTML blocks and inline HTML are written to the output as they are (default false: they are escaped and shown as
+ text).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html#isGfm()">isGfm</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the GitHub Flavored Markdown extensions (tables, strikethrough with two tildes, task lists, extended autolinks,
+ tag filter) are on.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html#isNeutralizeUnsafeUrls()">isNeutralizeUnsafeUrls</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether link and image destinations with the schemes <code>javascript:</code>, <code>vbscript:</code>, <code>data:</code> and
+ <code>file:</code> are neutralized (the link gets no <code>href</code>, the image an empty <code>src</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html" title="class in org.duckdns.hjow.swingwebpanel.content.markdown">MarkdownOptions</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html#setAllowRawHtml(boolean)">setAllowRawHtml</A></B>(boolean&nbsp;allowRawHtml)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets whether raw HTML is passed through.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html" title="class in org.duckdns.hjow.swingwebpanel.content.markdown">MarkdownOptions</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html#setGfm(boolean)">setGfm</A></B>(boolean&nbsp;gfm)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Switches the GFM extensions.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html" title="class in org.duckdns.hjow.swingwebpanel.content.markdown">MarkdownOptions</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html#setMaxBlockDepth(int)">setMaxBlockDepth</A></B>(int&nbsp;maxBlockDepth)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the maximum nesting depth of container blocks.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html" title="class in org.duckdns.hjow.swingwebpanel.content.markdown">MarkdownOptions</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html#setMaxInlineDepth(int)">setMaxInlineDepth</A></B>(int&nbsp;maxInlineDepth)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the maximum nesting depth of inline elements.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html" title="class in org.duckdns.hjow.swingwebpanel.content.markdown">MarkdownOptions</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html#setMaxInputLength(int)">setMaxInputLength</A></B>(int&nbsp;maxInputLength)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the maximum input length.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html" title="class in org.duckdns.hjow.swingwebpanel.content.markdown">MarkdownOptions</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html#setNeutralizeUnsafeUrls(boolean)">setNeutralizeUnsafeUrls</A></B>(boolean&nbsp;neutralize)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets whether dangerous URL schemes are neutralized.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="DEFAULT_MAX_INPUT_LENGTH"><!-- --></A><H3>
+DEFAULT_MAX_INPUT_LENGTH</H3>
+<PRE>
+public static final int <B>DEFAULT_MAX_INPUT_LENGTH</B></PRE>
+<DL>
+<DD>Default maximum input length in characters (8 Mi). 기본 최대 입력 길이(문자 수, 8 Mi).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.content.markdown.MarkdownOptions.DEFAULT_MAX_INPUT_LENGTH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_MAX_BLOCK_DEPTH"><!-- --></A><H3>
+DEFAULT_MAX_BLOCK_DEPTH</H3>
+<PRE>
+public static final int <B>DEFAULT_MAX_BLOCK_DEPTH</B></PRE>
+<DL>
+<DD>Default maximum nesting depth of container blocks. 컨테이너 블록의 기본 최대 중첩 깊이.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.content.markdown.MarkdownOptions.DEFAULT_MAX_BLOCK_DEPTH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_MAX_INLINE_DEPTH"><!-- --></A><H3>
+DEFAULT_MAX_INLINE_DEPTH</H3>
+<PRE>
+public static final int <B>DEFAULT_MAX_INLINE_DEPTH</B></PRE>
+<DL>
+<DD>Default maximum nesting depth of inline elements (emphasis, links). 인라인 요소(강조, 링크)의 기본 최대 중첩 깊이.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.content.markdown.MarkdownOptions.DEFAULT_MAX_INLINE_DEPTH">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="MarkdownOptions()"><!-- --></A><H3>
+MarkdownOptions</H3>
+<PRE>
+public <B>MarkdownOptions</B>()</PRE>
+<DL>
+<DD>Creates the default options.
+ <p>
+ 기본 옵션을 만든다.
+<P>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="isAllowRawHtml()"><!-- --></A><H3>
+isAllowRawHtml</H3>
+<PRE>
+public boolean <B>isAllowRawHtml</B>()</PRE>
+<DL>
+<DD>Tells whether raw HTML blocks and inline HTML are written to the output as they are (default false: they are escaped and shown as
+ text). When true and GFM is on, the GFM tag filter still escapes the leading <code>&lt;</code> of <code>title</code>,
+ <code>textarea</code>, <code>style</code>, <code>xmp</code>, <code>iframe</code>, <code>noembed</code>, <code>noframes</code>,
+ <code>script</code> and <code>plaintext</code> tags.
+ <p>
+ 원시 HTML 블록과 인라인 HTML 을 그대로 출력하는지 알려 준다(기본 false: 이스케이프하여 텍스트로 보여 준다). true 이고 GFM 이 켜져 있어도
+ GFM 태그 필터가 위의 태그들의 여는 <code>&lt;</code> 를 이스케이프한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if raw HTML is passed through / 그대로 내보내면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setAllowRawHtml(boolean)"><!-- --></A><H3>
+setAllowRawHtml</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html" title="class in org.duckdns.hjow.swingwebpanel.content.markdown">MarkdownOptions</A> <B>setAllowRawHtml</B>(boolean&nbsp;allowRawHtml)</PRE>
+<DL>
+<DD>Sets whether raw HTML is passed through. A page that turns this on takes responsibility for the Markdown text it shows.
+ <p>
+ 원시 HTML 을 그대로 내보낼지 지정한다. 이를 켜는 페이지는 보여 주는 Markdown 텍스트에 책임을 진다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>allowRawHtml</CODE> - true to pass raw HTML through / 그대로 내보내려면 true
+<DT><B>Returns:</B><DD>this object / 이 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isGfm()"><!-- --></A><H3>
+isGfm</H3>
+<PRE>
+public boolean <B>isGfm</B>()</PRE>
+<DL>
+<DD>Tells whether the GitHub Flavored Markdown extensions (tables, strikethrough with two tildes, task lists, extended autolinks,
+ tag filter) are on. The default is true.
+ <p>
+ GitHub Flavored Markdown 확장(표, 물결표 두 개 취소선, 작업 목록, 확장 자동 링크, 태그 필터)이 켜져 있는지 알려 준다. 기본값은 true.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if the extensions are on / 켜져 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setGfm(boolean)"><!-- --></A><H3>
+setGfm</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html" title="class in org.duckdns.hjow.swingwebpanel.content.markdown">MarkdownOptions</A> <B>setGfm</B>(boolean&nbsp;gfm)</PRE>
+<DL>
+<DD>Switches the GFM extensions. With false the converter is a plain CommonMark 0.31.2 converter.
+ <p>
+ GFM 확장을 켜거나 끈다. false 이면 변환기는 순수한 CommonMark 0.31.2 변환기가 된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>gfm</CODE> - true to enable the extensions / 확장을 켜려면 true
+<DT><B>Returns:</B><DD>this object / 이 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isNeutralizeUnsafeUrls()"><!-- --></A><H3>
+isNeutralizeUnsafeUrls</H3>
+<PRE>
+public boolean <B>isNeutralizeUnsafeUrls</B>()</PRE>
+<DL>
+<DD>Tells whether link and image destinations with the schemes <code>javascript:</code>, <code>vbscript:</code>, <code>data:</code> and
+ <code>file:</code> are neutralized (the link gets no <code>href</code>, the image an empty <code>src</code>). Default true.
+ <p>
+ <code>javascript:</code>, <code>vbscript:</code>, <code>data:</code>, <code>file:</code> 스킴의 링크/이미지 목적지를 무력화하는지(링크는
+ <code>href</code> 없음, 이미지는 빈 <code>src</code>) 알려 준다. 기본값 true.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if unsafe URLs are neutralized / 무력화하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setNeutralizeUnsafeUrls(boolean)"><!-- --></A><H3>
+setNeutralizeUnsafeUrls</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html" title="class in org.duckdns.hjow.swingwebpanel.content.markdown">MarkdownOptions</A> <B>setNeutralizeUnsafeUrls</B>(boolean&nbsp;neutralize)</PRE>
+<DL>
+<DD>Sets whether dangerous URL schemes are neutralized.
+ <p>
+ 위험한 URL 스킴을 무력화할지 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>neutralize</CODE> - true to neutralize / 무력화하려면 true
+<DT><B>Returns:</B><DD>this object / 이 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMaxInputLength()"><!-- --></A><H3>
+getMaxInputLength</H3>
+<PRE>
+public int <B>getMaxInputLength</B>()</PRE>
+<DL>
+<DD>Returns the maximum input length in characters; longer input makes the converter throw <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownLimitException.html" title="class in org.duckdns.hjow.swingwebpanel.content.markdown"><CODE>MarkdownLimitException</CODE></A>.
+ <p>
+ 최대 입력 길이(문자 수)를 반환한다. 더 긴 입력은 변환기가 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownLimitException.html" title="class in org.duckdns.hjow.swingwebpanel.content.markdown"><CODE>MarkdownLimitException</CODE></A> 을 던지게 한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>limit / 제한</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMaxInputLength(int)"><!-- --></A><H3>
+setMaxInputLength</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html" title="class in org.duckdns.hjow.swingwebpanel.content.markdown">MarkdownOptions</A> <B>setMaxInputLength</B>(int&nbsp;maxInputLength)</PRE>
+<DL>
+<DD>Sets the maximum input length.
+ <p>
+ 최대 입력 길이를 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>maxInputLength</CODE> - characters, at least 1 / 문자 수(1 이상)
+<DT><B>Returns:</B><DD>this object / 이 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMaxBlockDepth()"><!-- --></A><H3>
+getMaxBlockDepth</H3>
+<PRE>
+public int <B>getMaxBlockDepth</B>()</PRE>
+<DL>
+<DD>Returns the maximum nesting depth of container blocks (block quotes, list items); markers beyond it are shown as text.
+ <p>
+ 컨테이너 블록(인용, 목록 항목)의 최대 중첩 깊이를 반환한다. 이를 넘는 표식은 텍스트로 보여 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>depth / 깊이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMaxBlockDepth(int)"><!-- --></A><H3>
+setMaxBlockDepth</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html" title="class in org.duckdns.hjow.swingwebpanel.content.markdown">MarkdownOptions</A> <B>setMaxBlockDepth</B>(int&nbsp;maxBlockDepth)</PRE>
+<DL>
+<DD>Sets the maximum nesting depth of container blocks.
+ <p>
+ 컨테이너 블록의 최대 중첩 깊이를 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>maxBlockDepth</CODE> - depth, at least 1 / 깊이(1 이상)
+<DT><B>Returns:</B><DD>this object / 이 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMaxInlineDepth()"><!-- --></A><H3>
+getMaxInlineDepth</H3>
+<PRE>
+public int <B>getMaxInlineDepth</B>()</PRE>
+<DL>
+<DD>Returns the maximum nesting depth of inline elements; emphasis or links that would be nested deeper stay literal text.
+ <p>
+ 인라인 요소의 최대 중첩 깊이를 반환한다. 이보다 깊게 중첩될 강조나 링크는 글자 그대로의 텍스트로 남는다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>depth / 깊이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMaxInlineDepth(int)"><!-- --></A><H3>
+setMaxInlineDepth</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html" title="class in org.duckdns.hjow.swingwebpanel.content.markdown">MarkdownOptions</A> <B>setMaxInlineDepth</B>(int&nbsp;maxInlineDepth)</PRE>
+<DL>
+<DD>Sets the maximum nesting depth of inline elements.
+ <p>
+ 인라인 요소의 최대 중첩 깊이를 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>maxInlineDepth</CODE> - depth, at least 1 / 깊이(1 이상)
+<DT><B>Returns:</B><DD>this object / 이 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="copy()"><!-- --></A><H3>
+copy</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html" title="class in org.duckdns.hjow.swingwebpanel.content.markdown">MarkdownOptions</A> <B>copy</B>()</PRE>
+<DL>
+<DD>Returns a copy of these options.
+ <p>
+ 이 옵션의 복사본을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>copy / 복사본</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownLimitException.html" title="class in org.duckdns.hjow.swingwebpanel.content.markdown"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/content/markdown/MarkdownOptions.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="MarkdownOptions.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

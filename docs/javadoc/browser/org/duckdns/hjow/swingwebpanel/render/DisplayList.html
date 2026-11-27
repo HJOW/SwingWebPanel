@@ -1,0 +1,402 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+DisplayList
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="DisplayList";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayCommand.Type.html" title="enum in org.duckdns.hjow.swingwebpanel.render"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/FramePicture.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/render/DisplayList.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="DisplayList.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.render</FONT>
+<BR>
+Class DisplayList</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.render.DisplayList</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>DisplayList</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The immutable list of drawing commands of one page in paint order (plan items P09-04, P09-05). It is built once per layout on the document
+ thread by <CODE>DisplayListBuilder</CODE> and then only read, so the event dispatch thread can paint it while the document thread builds the
+ next one. Group commands (clip, opacity) are nested properly: every start command names the index of its end command.
+ <p>
+ 한 페이지의 그리기 명령을 그리기 순서로 담은 불변 리스트(계획 P09-04, P09-05). 레이아웃마다 문서 스레드에서 <CODE>DisplayListBuilder</CODE> 가 한 번
+ 만들고 이후에는 읽기만 하므로, 문서 스레드가 다음 것을 만드는 동안 이벤트 디스패치 스레드가 이것을 그릴 수 있다. 그룹 명령(클립, 불투명도)은
+ 올바르게 중첩되며 모든 시작 명령은 끝 명령의 위치를 안다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayCommand.html" title="class in org.duckdns.hjow.swingwebpanel.render">DisplayCommand</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayList.html#get(int)">get</A></B>(int&nbsp;index)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a command.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayCommand.html" title="class in org.duckdns.hjow.swingwebpanel.render">DisplayCommand</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayList.html#getCommands()">getCommands</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns all commands as an unmodifiable list.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayList.html#getHeight()">getHeight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the height of the document covered by the list.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayList.html#getViewportHeight()">getViewportHeight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the height of the viewport that the layout used.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayList.html#getViewportWidth()">getViewportWidth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the width of the viewport that the layout used: the scrollport that <code>position:sticky</code> boxes stick to.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayList.html#getWidth()">getWidth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the width of the document covered by the list.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayList.html#isScrollDependent()">isScrollDependent</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the page has content that is painted at a place that depends on the scroll position (<code>position:fixed</code> and
+ <code>position:sticky</code> boxes): a host that scrolls by copying pixels has to paint the whole viewport again after it scrolled.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayList.html#size()">size</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of commands.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="size()"><!-- --></A><H3>
+size</H3>
+<PRE>
+public int <B>size</B>()</PRE>
+<DL>
+<DD>Returns the number of commands.
+ <p>
+ 명령의 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the count / 개수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="get(int)"><!-- --></A><H3>
+get</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayCommand.html" title="class in org.duckdns.hjow.swingwebpanel.render">DisplayCommand</A> <B>get</B>(int&nbsp;index)</PRE>
+<DL>
+<DD>Returns a command.
+ <p>
+ 명령 하나를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>index</CODE> - the index / 위치
+<DT><B>Returns:</B><DD>the command / 명령</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCommands()"><!-- --></A><H3>
+getCommands</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayCommand.html" title="class in org.duckdns.hjow.swingwebpanel.render">DisplayCommand</A>&gt; <B>getCommands</B>()</PRE>
+<DL>
+<DD>Returns all commands as an unmodifiable list.
+ <p>
+ 모든 명령을 수정할 수 없는 리스트로 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the commands / 명령</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getWidth()"><!-- --></A><H3>
+getWidth</H3>
+<PRE>
+public double <B>getWidth</B>()</PRE>
+<DL>
+<DD>Returns the width of the document covered by the list.
+ <p>
+ 리스트가 덮는 문서의 너비를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>width in px / 너비(px)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHeight()"><!-- --></A><H3>
+getHeight</H3>
+<PRE>
+public double <B>getHeight</B>()</PRE>
+<DL>
+<DD>Returns the height of the document covered by the list.
+ <p>
+ 리스트가 덮는 문서의 높이를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>height in px / 높이(px)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isScrollDependent()"><!-- --></A><H3>
+isScrollDependent</H3>
+<PRE>
+public boolean <B>isScrollDependent</B>()</PRE>
+<DL>
+<DD>Tells whether the page has content that is painted at a place that depends on the scroll position (<code>position:fixed</code> and
+ <code>position:sticky</code> boxes): a host that scrolls by copying pixels has to paint the whole viewport again after it scrolled.
+ <p>
+ 스크롤 위치에 따라 그려지는 자리가 달라지는 내용(<code>position:fixed</code> 와 <code>position:sticky</code> 상자)이 있는지 알려 준다: 픽셀을 복사해 스크롤하는
+ 호스트는 스크롤한 뒤 뷰포트 전체를 다시 그려야 한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if the painting depends on the scroll position / 그리기가 스크롤 위치에 달려 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getViewportWidth()"><!-- --></A><H3>
+getViewportWidth</H3>
+<PRE>
+public double <B>getViewportWidth</B>()</PRE>
+<DL>
+<DD>Returns the width of the viewport that the layout used: the scrollport that <code>position:sticky</code> boxes stick to.
+ <p>
+ 레이아웃이 쓴 뷰포트의 너비를 반환한다: <code>position:sticky</code> 상자가 붙는 스크롤포트.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>width in px / 너비(px)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getViewportHeight()"><!-- --></A><H3>
+getViewportHeight</H3>
+<PRE>
+public double <B>getViewportHeight</B>()</PRE>
+<DL>
+<DD>Returns the height of the viewport that the layout used.
+ <p>
+ 레이아웃이 쓴 뷰포트의 높이를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>height in px / 높이(px)</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayCommand.Type.html" title="enum in org.duckdns.hjow.swingwebpanel.render"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/FramePicture.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/render/DisplayList.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="DisplayList.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

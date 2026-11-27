@@ -1,0 +1,795 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+PointerEvent
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="PointerEvent";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PageTransitionEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PopStateEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PointerEvent.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom</FONT>
+<BR>
+Class PointerEvent</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html" title="class in org.duckdns.hjow.swingwebpanel.dom">org.duckdns.hjow.swingwebpanel.dom.Event</A>
+      <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">org.duckdns.hjow.swingwebpanel.dom.UiEvent</A>
+          <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MouseEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">org.duckdns.hjow.swingwebpanel.dom.MouseEvent</A>
+              <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.dom.PointerEvent</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public class <B>PointerEvent</B><DT>extends <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MouseEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">MouseEvent</A></DL>
+</PRE>
+
+<P>
+A pointer event (W3C Pointer Events Level 3): a mouse event with the identity of the pointer that caused it (<code>pointerId</code>,
+ <code>pointerType</code>, <code>isPrimary</code>) and the properties of its contact (<code>width</code>, <code>height</code>, <code>pressure</code>,
+ <code>tangentialPressure</code>, tilt, twist and the altitude and azimuth angles). The mouse of this component is the only pointer: the id
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#MOUSE_POINTER_ID"><CODE>MOUSE_POINTER_ID</CODE></A>, the type <code>mouse</code>, always primary, a contact of 1 by 1 pixels, a pressure of 0.5 while a button is down and 0
+ otherwise, and the neutral values (altitude <code>PI / 2</code>) for everything that a mouse cannot report. Events that the component fires are
+ trusted; events that a script constructs take their values from the dictionary (the defaults of the specification), and the lists of coalesced
+ and predicted events are copies of the dictionary lists (empty for events of the component).
+ <p>
+ 포인터 이벤트(W3C Pointer Events Level 3): 이벤트를 일으킨 포인터의 정체(<code>pointerId</code>, <code>pointerType</code>, <code>isPrimary</code>)와 접촉의
+ 속성(<code>width</code>, <code>height</code>, <code>pressure</code>, <code>tangentialPressure</code>, 기울기, 비틀림, 고도각과 방위각)을 가진 마우스
+ 이벤트. 이 컴포넌트의 마우스가 유일한 포인터이다: ID <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#MOUSE_POINTER_ID"><CODE>MOUSE_POINTER_ID</CODE></A>, 종류 <code>mouse</code>, 항상 주 포인터, 1 x 1 픽셀 접촉, 버튼이 눌려 있는
+ 동안 압력 0.5(아니면 0), 마우스가 보고할 수 없는 것은 중립 값(고도각 <code>PI / 2</code>). 컴포넌트가 발생시키는 이벤트는 신뢰 이벤트이다. 스크립트가 만든 이벤트는
+ 사전의 값(규격의 기본값)을 쓰고, 합쳐진 이벤트와 예측 이벤트의 목록은 사전 목록의 복사본이다(컴포넌트의 이벤트는 비어 있다).
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#MOUSE_POINTER_ID">MOUSE_POINTER_ID</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The id of the mouse pointer.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.Event"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Event</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#AT_TARGET">AT_TARGET</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#BUBBLING_PHASE">BUBBLING_PHASE</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#CAPTURING_PHASE">CAPTURING_PHASE</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#NONE">NONE</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#PointerEvent(java.lang.String, boolean, boolean)">PointerEvent</A></B>(java.lang.String&nbsp;type,
+             boolean&nbsp;bubbles,
+             boolean&nbsp;cancelable)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a pointer event with the defaults of the specification (pointer 0, no type, not primary, 1 x 1 contact).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">PointerEvent</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#forMouse(java.lang.String, boolean, boolean)">forMouse</A></B>(java.lang.String&nbsp;type,
+         boolean&nbsp;bubbles,
+         boolean&nbsp;cancelable)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the event of the mouse pointer: the id 1, the type <code>mouse</code>, primary, and the pressure that belongs to the buttons that are
+ down (0.5 while any button is down, 0 otherwise, and always 0 for <code>pointerup</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#getAltitudeAngle()">getAltitudeAngle</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>altitudeAngle</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#getAzimuthAngle()">getAzimuthAngle</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>azimuthAngle</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">PointerEvent</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#getCoalescedEvents()">getCoalescedEvents</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy of the coalesced events (<code>getCoalescedEvents()</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#getHeight()">getHeight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>height</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#getPointerId()">getPointerId</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>pointerId</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#getPointerType()">getPointerType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>pointerType</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">PointerEvent</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#getPredictedEvents()">getPredictedEvents</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy of the predicted events (<code>getPredictedEvents()</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#getPressure()">getPressure</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>pressure</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#getTangentialPressure()">getTangentialPressure</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>tangentialPressure</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#getTiltX()">getTiltX</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>tiltX</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#getTiltY()">getTiltY</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>tiltY</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#getTwist()">getTwist</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>twist</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#getWidth()">getWidth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>width</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#isPrimary()">isPrimary</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>isPrimary</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#setEventLists(java.util.List, java.util.List)">setEventLists</A></B>(java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">PointerEvent</A>&gt;&nbsp;coalescedEvents,
+              java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">PointerEvent</A>&gt;&nbsp;predictedEvents)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the coalesced and the predicted events (copies of the lists).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#setPointer(int, java.lang.String, boolean, double, double, double, double, int, int, int, double, double)">setPointer</A></B>(int&nbsp;id,
+           java.lang.String&nbsp;type,
+           boolean&nbsp;isPrimary,
+           double&nbsp;w,
+           double&nbsp;h,
+           double&nbsp;pressureNow,
+           double&nbsp;tangential,
+           int&nbsp;tx,
+           int&nbsp;ty,
+           int&nbsp;twistNow,
+           double&nbsp;altitude,
+           double&nbsp;azimuth)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the identity and the contact properties.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html#setPressure(double)">setPressure</A></B>(double&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the pressure only (a mouse reports 0.5 while a button is down and 0 otherwise).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.MouseEvent"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MouseEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">MouseEvent</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MouseEvent.html#getButton()">getButton</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MouseEvent.html#getButtons()">getButtons</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MouseEvent.html#getClientX()">getClientX</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MouseEvent.html#getClientY()">getClientY</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MouseEvent.html#getOffsetX()">getOffsetX</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MouseEvent.html#getOffsetY()">getOffsetY</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MouseEvent.html#getPageX()">getPageX</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MouseEvent.html#getPageY()">getPageY</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MouseEvent.html#getRelatedTarget()">getRelatedTarget</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MouseEvent.html#getScreenX()">getScreenX</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MouseEvent.html#getScreenY()">getScreenY</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MouseEvent.html#setButtons(int, int)">setButtons</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MouseEvent.html#setCoordinates(double, double, double, double, double, double, double, double)">setCoordinates</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MouseEvent.html#setRelatedTarget(org.duckdns.hjow.swingwebpanel.dom.EventTarget)">setRelatedTarget</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.UiEvent"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">UiEvent</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#getDetail()">getDetail</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#getModifierState(java.lang.String)">getModifierState</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#isAltKey()">isAltKey</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#isCtrlKey()">isCtrlKey</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#isMetaKey()">isMetaKey</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#isShiftKey()">isShiftKey</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#setDetail(int)">setDetail</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#setModifiers(boolean, boolean, boolean, boolean)">setModifiers</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.Event"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Event</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#composedPath()">composedPath</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#getCurrentTarget()">getCurrentTarget</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#getEventPhase()">getEventPhase</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#getTarget()">getTarget</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#getTimeStamp()">getTimeStamp</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#getType()">getType</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#initEvent(java.lang.String, boolean, boolean)">initEvent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isBubbles()">isBubbles</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isCancelable()">isCancelable</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isComposed()">isComposed</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isDefaultPrevented()">isDefaultPrevented</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isTrusted()">isTrusted</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#preventDefault()">preventDefault</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#setComposed(boolean)">setComposed</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#setTrusted(boolean)">setTrusted</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#stopImmediatePropagation()">stopImmediatePropagation</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#stopPropagation()">stopPropagation</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="MOUSE_POINTER_ID"><!-- --></A><H3>
+MOUSE_POINTER_ID</H3>
+<PRE>
+public static final int <B>MOUSE_POINTER_ID</B></PRE>
+<DL>
+<DD>The id of the mouse pointer.
+ <p>
+ 마우스 포인터의 ID.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.PointerEvent.MOUSE_POINTER_ID">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="PointerEvent(java.lang.String, boolean, boolean)"><!-- --></A><H3>
+PointerEvent</H3>
+<PRE>
+public <B>PointerEvent</B>(java.lang.String&nbsp;type,
+                    boolean&nbsp;bubbles,
+                    boolean&nbsp;cancelable)</PRE>
+<DL>
+<DD>Creates a pointer event with the defaults of the specification (pointer 0, no type, not primary, 1 x 1 contact).
+ <p>
+ 규격의 기본값(포인터 0, 종류 없음, 주 포인터 아님, 1 x 1 접촉)으로 포인터 이벤트를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - the event type / 이벤트 종류<DD><CODE>bubbles</CODE> - whether the event bubbles / 버블링 여부<DD><CODE>cancelable</CODE> - whether the event can be cancelled / 취소 가능 여부</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="forMouse(java.lang.String, boolean, boolean)"><!-- --></A><H3>
+forMouse</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">PointerEvent</A> <B>forMouse</B>(java.lang.String&nbsp;type,
+                                    boolean&nbsp;bubbles,
+                                    boolean&nbsp;cancelable)</PRE>
+<DL>
+<DD>Creates the event of the mouse pointer: the id 1, the type <code>mouse</code>, primary, and the pressure that belongs to the buttons that are
+ down (0.5 while any button is down, 0 otherwise, and always 0 for <code>pointerup</code>).
+ <p>
+ 마우스 포인터의 이벤트를 만든다: ID 1, 종류 <code>mouse</code>, 주 포인터, 눌려 있는 버튼에 맞는 압력(버튼이 눌려 있으면 0.5, 아니면 0.
+ <code>pointerup</code> 은 항상 0).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - the event type / 이벤트 종류<DD><CODE>bubbles</CODE> - whether the event bubbles / 버블링 여부<DD><CODE>cancelable</CODE> - whether the event can be cancelled / 취소 가능 여부
+<DT><B>Returns:</B><DD>the event / 이벤트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setPointer(int, java.lang.String, boolean, double, double, double, double, int, int, int, double, double)"><!-- --></A><H3>
+setPointer</H3>
+<PRE>
+public void <B>setPointer</B>(int&nbsp;id,
+                       java.lang.String&nbsp;type,
+                       boolean&nbsp;isPrimary,
+                       double&nbsp;w,
+                       double&nbsp;h,
+                       double&nbsp;pressureNow,
+                       double&nbsp;tangential,
+                       int&nbsp;tx,
+                       int&nbsp;ty,
+                       int&nbsp;twistNow,
+                       double&nbsp;altitude,
+                       double&nbsp;azimuth)</PRE>
+<DL>
+<DD>Sets the identity and the contact properties.
+ <p>
+ 정체와 접촉 속성을 정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - the pointer id / 포인터 ID<DD><CODE>type</CODE> - the pointer type / 포인터 종류<DD><CODE>isPrimary</CODE> - true for the primary pointer / 주 포인터이면 true<DD><CODE>w</CODE> - the contact width / 접촉 너비<DD><CODE>h</CODE> - the contact height / 접촉 높이<DD><CODE>pressureNow</CODE> - the pressure / 압력<DD><CODE>tangential</CODE> - the tangential pressure / 접선 압력<DD><CODE>tx</CODE> - the tilt around the Y axis / Y 축 기울기<DD><CODE>ty</CODE> - the tilt around the X axis / X 축 기울기<DD><CODE>twistNow</CODE> - the twist / 비틀림<DD><CODE>altitude</CODE> - the altitude angle / 고도각<DD><CODE>azimuth</CODE> - the azimuth angle / 방위각</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setPressure(double)"><!-- --></A><H3>
+setPressure</H3>
+<PRE>
+public void <B>setPressure</B>(double&nbsp;value)</PRE>
+<DL>
+<DD>Sets the pressure only (a mouse reports 0.5 while a button is down and 0 otherwise).
+ <p>
+ 압력만 정한다(마우스는 버튼이 눌려 있는 동안 0.5, 아니면 0 을 보고한다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - the pressure / 압력</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setEventLists(java.util.List, java.util.List)"><!-- --></A><H3>
+setEventLists</H3>
+<PRE>
+public void <B>setEventLists</B>(java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">PointerEvent</A>&gt;&nbsp;coalescedEvents,
+                          java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">PointerEvent</A>&gt;&nbsp;predictedEvents)</PRE>
+<DL>
+<DD>Sets the coalesced and the predicted events (copies of the lists).
+ <p>
+ 합쳐진 이벤트와 예측 이벤트를 정한다(목록의 복사본).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>coalescedEvents</CODE> - the coalesced events / 합쳐진 이벤트<DD><CODE>predictedEvents</CODE> - the predicted events / 예측 이벤트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPointerId()"><!-- --></A><H3>
+getPointerId</H3>
+<PRE>
+public int <B>getPointerId</B>()</PRE>
+<DL>
+<DD>Returns <code>pointerId</code>.
+ <p>
+ <code>pointerId</code> 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the id / ID</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getWidth()"><!-- --></A><H3>
+getWidth</H3>
+<PRE>
+public double <B>getWidth</B>()</PRE>
+<DL>
+<DD>Returns <code>width</code>.
+ <p>
+ <code>width</code> 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the width / 너비</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHeight()"><!-- --></A><H3>
+getHeight</H3>
+<PRE>
+public double <B>getHeight</B>()</PRE>
+<DL>
+<DD>Returns <code>height</code>.
+ <p>
+ <code>height</code> 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the height / 높이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPressure()"><!-- --></A><H3>
+getPressure</H3>
+<PRE>
+public double <B>getPressure</B>()</PRE>
+<DL>
+<DD>Returns <code>pressure</code>.
+ <p>
+ <code>pressure</code> 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the pressure / 압력</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTangentialPressure()"><!-- --></A><H3>
+getTangentialPressure</H3>
+<PRE>
+public double <B>getTangentialPressure</B>()</PRE>
+<DL>
+<DD>Returns <code>tangentialPressure</code>.
+ <p>
+ <code>tangentialPressure</code> 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the tangential pressure / 접선 압력</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTiltX()"><!-- --></A><H3>
+getTiltX</H3>
+<PRE>
+public int <B>getTiltX</B>()</PRE>
+<DL>
+<DD>Returns <code>tiltX</code>.
+ <p>
+ <code>tiltX</code> 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the tilt / 기울기</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTiltY()"><!-- --></A><H3>
+getTiltY</H3>
+<PRE>
+public int <B>getTiltY</B>()</PRE>
+<DL>
+<DD>Returns <code>tiltY</code>.
+ <p>
+ <code>tiltY</code> 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the tilt / 기울기</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTwist()"><!-- --></A><H3>
+getTwist</H3>
+<PRE>
+public int <B>getTwist</B>()</PRE>
+<DL>
+<DD>Returns <code>twist</code>.
+ <p>
+ <code>twist</code> 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the twist / 비틀림</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getAltitudeAngle()"><!-- --></A><H3>
+getAltitudeAngle</H3>
+<PRE>
+public double <B>getAltitudeAngle</B>()</PRE>
+<DL>
+<DD>Returns <code>altitudeAngle</code>.
+ <p>
+ <code>altitudeAngle</code> 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the angle in radians / 라디안 각도</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getAzimuthAngle()"><!-- --></A><H3>
+getAzimuthAngle</H3>
+<PRE>
+public double <B>getAzimuthAngle</B>()</PRE>
+<DL>
+<DD>Returns <code>azimuthAngle</code>.
+ <p>
+ <code>azimuthAngle</code> 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the angle in radians / 라디안 각도</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPointerType()"><!-- --></A><H3>
+getPointerType</H3>
+<PRE>
+public java.lang.String <B>getPointerType</B>()</PRE>
+<DL>
+<DD>Returns <code>pointerType</code>.
+ <p>
+ <code>pointerType</code> 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the type / 종류</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isPrimary()"><!-- --></A><H3>
+isPrimary</H3>
+<PRE>
+public boolean <B>isPrimary</B>()</PRE>
+<DL>
+<DD>Returns <code>isPrimary</code>.
+ <p>
+ <code>isPrimary</code> 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for the primary pointer / 주 포인터이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCoalescedEvents()"><!-- --></A><H3>
+getCoalescedEvents</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">PointerEvent</A>&gt; <B>getCoalescedEvents</B>()</PRE>
+<DL>
+<DD>Returns a copy of the coalesced events (<code>getCoalescedEvents()</code>).
+ <p>
+ 합쳐진 이벤트의 복사본을 반환한다(<code>getCoalescedEvents()</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the events / 이벤트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPredictedEvents()"><!-- --></A><H3>
+getPredictedEvents</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">PointerEvent</A>&gt; <B>getPredictedEvents</B>()</PRE>
+<DL>
+<DD>Returns a copy of the predicted events (<code>getPredictedEvents()</code>).
+ <p>
+ 예측 이벤트의 복사본을 반환한다(<code>getPredictedEvents()</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the events / 이벤트</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PageTransitionEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PopStateEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PointerEvent.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

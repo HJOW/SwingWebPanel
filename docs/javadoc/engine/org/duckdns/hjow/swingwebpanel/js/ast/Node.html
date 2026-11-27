@@ -1,0 +1,735 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+Node
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Node";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/FunctionInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/ast/Node.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Node.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.ast</FONT>
+<BR>
+Class Node</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.ast.Node</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>Node</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+A syntax tree node. One generic class represents every construct; the meaning of the child fields depends on the
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>NodeType</CODE></A> constant in <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#type"><CODE>type</CODE></A> (see the documentation of each constant). Nodes are created by the parser and
+ read by the interpreter without changes after parsing.
+ <p>
+ 구문 트리 노드. 모든 구문을 하나의 범용 클래스로 나타내며, 자식 필드의 의미는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#type"><CODE>type</CODE></A> 의 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>NodeType</CODE></A> 상수에 따라 달라진다
+ (각 상수의 설명 참조). 노드는 파서가 만들며, 인터프리터는 파싱이 끝난 노드를 변경하지 않고 읽는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#a">a</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First child node (meaning depends on the type).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#b">b</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Second child node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#c">c</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Third child node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#column">column</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1-based source column of the first token.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#d">d</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fourth child node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#end">end</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Offset after the last character in the source.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#flag">flag</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A boolean attribute whose meaning depends on the type (computed, prefix, static, delegate ...).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/FunctionInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">FunctionInfo</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#fn">fn</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The function description for FUNCTION nodes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#hasYield">hasYield</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;True if this node contains a yield expression outside nested functions (used to resume generators).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#line">line</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1-based source line of the first token.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A>[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#list">list</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Child node list (statements, arguments, elements ...).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#name">name</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A name: identifier, property name, label, module specifier or regular expression pattern.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#op">op</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An operator or kind code, see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Op.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>Op</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#optional">optional</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;True for an optional call or member access.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#paren">paren</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;True if the expression was written in parentheses (matters for assignment targets and arrow functions).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#privateName">privateName</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;True for a private-name key or member access.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/ScopeInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">ScopeInfo</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#scope">scope</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The scope description for nodes that open a scope.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#start">start</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Offset of the first character in the source.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#type">type</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The node kind, a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>NodeType</CODE></A> constant.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#value">value</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A payload: literal value, template parts, regular expression flags, program information ...</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#Node(int, int, int)">Node</A></B>(int&nbsp;type,
+     int&nbsp;line,
+     int&nbsp;column)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a node.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html#toString()">toString</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a short description for debugging.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="type"><!-- --></A><H3>
+type</H3>
+<PRE>
+public final int <B>type</B></PRE>
+<DL>
+<DD>The node kind, a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>NodeType</CODE></A> constant.
+ <p>
+ 노드 종류. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>NodeType</CODE></A> 상수.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="line"><!-- --></A><H3>
+line</H3>
+<PRE>
+public int <B>line</B></PRE>
+<DL>
+<DD>1-based source line of the first token.
+ <p>
+ 첫 토큰의 소스 줄 번호(1부터).
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="column"><!-- --></A><H3>
+column</H3>
+<PRE>
+public int <B>column</B></PRE>
+<DL>
+<DD>1-based source column of the first token.
+ <p>
+ 첫 토큰의 소스 열 번호(1부터).
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="start"><!-- --></A><H3>
+start</H3>
+<PRE>
+public int <B>start</B></PRE>
+<DL>
+<DD>Offset of the first character in the source.
+ <p>
+ 소스에서 첫 글자의 오프셋.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="end"><!-- --></A><H3>
+end</H3>
+<PRE>
+public int <B>end</B></PRE>
+<DL>
+<DD>Offset after the last character in the source.
+ <p>
+ 소스에서 마지막 글자 다음의 오프셋.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="a"><!-- --></A><H3>
+a</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>a</B></PRE>
+<DL>
+<DD>First child node (meaning depends on the type).
+ <p>
+ 첫 번째 자식 노드(의미는 종류에 따라 다르다).
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="b"><!-- --></A><H3>
+b</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>b</B></PRE>
+<DL>
+<DD>Second child node.
+ <p>
+ 두 번째 자식 노드.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="c"><!-- --></A><H3>
+c</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>c</B></PRE>
+<DL>
+<DD>Third child node.
+ <p>
+ 세 번째 자식 노드.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="d"><!-- --></A><H3>
+d</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>d</B></PRE>
+<DL>
+<DD>Fourth child node.
+ <p>
+ 네 번째 자식 노드.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="list"><!-- --></A><H3>
+list</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A>[] <B>list</B></PRE>
+<DL>
+<DD>Child node list (statements, arguments, elements ...).
+ <p>
+ 자식 노드 목록(문장, 인수, 요소 등).
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="name"><!-- --></A><H3>
+name</H3>
+<PRE>
+public java.lang.String <B>name</B></PRE>
+<DL>
+<DD>A name: identifier, property name, label, module specifier or regular expression pattern.
+ <p>
+ 이름: 식별자, 프로퍼티 이름, 레이블, 모듈 지정자, 정규식 패턴.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="value"><!-- --></A><H3>
+value</H3>
+<PRE>
+public java.lang.Object <B>value</B></PRE>
+<DL>
+<DD>A payload: literal value, template parts, regular expression flags, program information ...
+ <p>
+ 부가 정보: 리터럴 값, 템플릿 조각, 정규식 플래그, 프로그램 정보 등.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="op"><!-- --></A><H3>
+op</H3>
+<PRE>
+public int <B>op</B></PRE>
+<DL>
+<DD>An operator or kind code, see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Op.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>Op</CODE></A>.
+ <p>
+ 연산자 또는 종류 코드. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Op.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>Op</CODE></A> 참조.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="flag"><!-- --></A><H3>
+flag</H3>
+<PRE>
+public boolean <B>flag</B></PRE>
+<DL>
+<DD>A boolean attribute whose meaning depends on the type (computed, prefix, static, delegate ...).
+ <p>
+ 종류에 따라 의미가 달라지는 불리언 속성(계산된 키, 전위, static, 위임 등).
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="paren"><!-- --></A><H3>
+paren</H3>
+<PRE>
+public boolean <B>paren</B></PRE>
+<DL>
+<DD>True if the expression was written in parentheses (matters for assignment targets and arrow functions).
+ <p>
+ 식이 괄호 안에 쓰였으면 true(대입 대상과 화살표 함수에서 의미가 있다).
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="optional"><!-- --></A><H3>
+optional</H3>
+<PRE>
+public boolean <B>optional</B></PRE>
+<DL>
+<DD>True for an optional call or member access. The enclosing <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#OPTIONAL_CHAIN"><CODE>NodeType.OPTIONAL_CHAIN</CODE></A> node defines the
+ short-circuit scope.
+ <p>
+ 선택적 호출이나 멤버 접근이면 true. 바깥 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#OPTIONAL_CHAIN"><CODE>NodeType.OPTIONAL_CHAIN</CODE></A> 노드가 단락 평가 범위를 정한다.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="privateName"><!-- --></A><H3>
+privateName</H3>
+<PRE>
+public boolean <B>privateName</B></PRE>
+<DL>
+<DD>True for a private-name key or member access.
+ <p>
+ private 이름 키나 멤버 접근이면 true.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="hasYield"><!-- --></A><H3>
+hasYield</H3>
+<PRE>
+public boolean <B>hasYield</B></PRE>
+<DL>
+<DD>True if this node contains a yield expression outside nested functions (used to resume generators).
+ <p>
+ 중첩 함수 밖에 yield 식을 포함하면 true(제너레이터 재개에 쓴다).
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="fn"><!-- --></A><H3>
+fn</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/FunctionInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">FunctionInfo</A> <B>fn</B></PRE>
+<DL>
+<DD>The function description for FUNCTION nodes.
+ <p>
+ FUNCTION 노드의 함수 설명.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="scope"><!-- --></A><H3>
+scope</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/ScopeInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">ScopeInfo</A> <B>scope</B></PRE>
+<DL>
+<DD>The scope description for nodes that open a scope.
+ <p>
+ 스코프를 여는 노드의 스코프 설명.
+<P>
+<DL>
+</DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="Node(int, int, int)"><!-- --></A><H3>
+Node</H3>
+<PRE>
+public <B>Node</B>(int&nbsp;type,
+            int&nbsp;line,
+            int&nbsp;column)</PRE>
+<DL>
+<DD>Creates a node.
+ <p>
+ 노드를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>NodeType</CODE></A> constant / <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>NodeType</CODE></A> 상수<DD><CODE>line</CODE> - source line / 소스 줄<DD><CODE>column</CODE> - source column / 소스 열</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="toString()"><!-- --></A><H3>
+toString</H3>
+<PRE>
+public java.lang.String <B>toString</B>()</PRE>
+<DL>
+<DD>Returns a short description for debugging.
+ <p>
+ 디버깅용 짧은 설명을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>toString</CODE> in class <CODE>java.lang.Object</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>description / 설명</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/FunctionInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/ast/Node.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Node.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

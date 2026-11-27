@@ -1,0 +1,1478 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+NodeType
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="NodeType";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Op.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="NodeType.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#methods_inherited_from_class_java.lang.Object">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;METHOD</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.ast</FONT>
+<BR>
+Class NodeType</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.ast.NodeType</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>NodeType</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The node kinds of the syntax tree. Each constant documents how the generic fields of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>Node</CODE></A> are used:
+ <code>a b c d</code> (child nodes), <code>list</code> (child list), <code>name</code>, <code>value</code>, <code>op</code>,
+ <code>flag</code>, <code>fn</code> (function description) and <code>scope</code> (scope description).
+ Operators and property kinds are the integer constants of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Op.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>Op</CODE></A>.
+ <p>
+ 구문 트리의 노드 종류. 각 상수는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>Node</CODE></A> 의 범용 필드를 어떻게 쓰는지 설명한다:
+ <code>a b c d</code>(자식 노드), <code>list</code>(자식 목록), <code>name</code>, <code>value</code>, <code>op</code>,
+ <code>flag</code>, <code>fn</code>(함수 설명), <code>scope</code>(스코프 설명).
+ 연산자와 프로퍼티 종류는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Op.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>Op</CODE></A> 의 정수 상수이다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#ARRAY">ARRAY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Array literal; list = elements (null for a hole, SPREAD for spread). / 배열 리터럴. list 는 요소(빈 칸은 null, 전개는 SPREAD).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#ARRAY_PATTERN">ARRAY_PATTERN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Array destructuring pattern; list = element patterns (null = elision, REST last). / 배열 구조 분해 패턴. list 는 요소 패턴(null 은 건너뜀, REST 는 마지막).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#ASSIGN">ASSIGN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Assignment; op = 0 for = or the Op of a compound operator, a = target (expression or pattern), b = value. / 대입. op 는 = 이면 0, 복합이면 연산자. a 대상, b 값.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#AWAIT">AWAIT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Await expression; a = UnaryExpression operand. / await 식. a 는 단항 피연산자.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#BINARY">BINARY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Binary operator; op = Op.*, a = left, b = right. / 이항 연산자. op 연산자, a 왼쪽, b 오른쪽.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#BLOCK">BLOCK</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Block; list = statements, scope = block scope or null. / 블록. list 는 문장, scope 는 블록 스코프 또는 null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#BREAK">BREAK</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break statement; name = label or null. / break 문. name 은 레이블 또는 null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#CALL">CALL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Call; a = callee, list = arguments (SPREAD allowed). / 호출. a 는 callee, list 는 인수(SPREAD 허용).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#CASE">CASE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch case; a = test or null for default, list = statements. / switch 의 case. a 는 조건(default 이면 null), list 는 문장.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#CLASS">CLASS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Class expression; name = class name or null, a = heritage, b = constructor FUNCTION or null, list = CLASS_MEMBER, value = source text. / 클래스 표현식. name 은 클래스 이름, a 는 상속식, b 는 생성자 FUNCTION, list 는 CLASS_MEMBER, value 는 소스 텍스트.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#CLASS_DECL">CLASS_DECL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Class declaration; a = IDENT of the name, b = CLASS node. / 클래스 선언. a 는 이름 IDENT, b 는 CLASS 노드.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#CLASS_MEMBER">CLASS_MEMBER</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Class member; a = key, b = FUNCTION, op = Op.PROP_METHOD/GET/SET, flag = static, value = Boolean.TRUE if computed. / 클래스 멤버. a 키, b FUNCTION, op 종류, flag 는 static, value 가 TRUE 이면 계산된 키.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#CLASS_STATIC_BLOCK">CLASS_STATIC_BLOCK</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Static class block; list = statements, scope = block scope. / static 클래스 블록. list 문장, scope 블록 스코프.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#CONDITIONAL">CONDITIONAL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Conditional expression a ?</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#CONTINUE">CONTINUE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue statement; name = label or null. / continue 문. name 은 레이블 또는 null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#DEBUGGER">DEBUGGER</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The debugger statement. / debugger 문장.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#DECLARATOR">DECLARATOR</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;One declarator; a = target (IDENT or pattern), b = initializer or null. / 선언자 하나. a 대상(IDENT 또는 패턴), b 초기값 또는 null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#DEFAULT">DEFAULT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Target with default value; a = target pattern, b = default expression. / 기본값이 있는 대상. a 대상 패턴, b 기본값 식.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#DO_WHILE">DO_WHILE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do-while loop; d = body, a = test. / do-while 반복. d 본문, a 조건.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#EMPTY">EMPTY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Empty statement. / 빈 문장.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#EXPORT">EXPORT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;export declaration (named, default or star); a = declaration or expression or null, name = module specifier or null. / export 선언(이름, 기본, 별표). a 는 선언 또는 식, name 은 모듈 지정자.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#EXPR_STMT">EXPR_STMT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Expression statement; a = expression. / 표현식 문장. a 는 식.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#FOR">FOR</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(;;) loop; a = init or null, b = test or null, c = update or null, d = body, scope = loop scope for let. / for(;;) 반복. a 초기화, b 조건, c 갱신, d 본문, scope 는 let 용 스코프.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#FOR_IN">FOR_IN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for-in loop; a = left (VAR_DECL or target), b = object expression, d = body, scope = loop scope. / for-in 반복. a 좌변, b 객체식, d 본문, scope 반복 스코프.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#FOR_OF">FOR_OF</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for-of loop; a = left (VAR_DECL or target), b = iterable expression, d = body, scope = loop scope. / for-of 반복. a 좌변, b 반복 가능식, d 본문, scope 반복 스코프.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#FUNCTION">FUNCTION</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Function expression or declaration body description; fn = FunctionInfo. / 함수 표현식. fn 이 FunctionInfo.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#FUNCTION_DECL">FUNCTION_DECL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Function declaration; a = IDENT of the name, b = FUNCTION node, flag = Annex B hoisting to a var binding. / 함수 선언. a 는 이름 IDENT, b 는 FUNCTION, flag 는 var 로 끌어올림(부속서 B).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#IDENT">IDENT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Identifier reference or binding name; name is the identifier. / 식별자 참조 또는 바인딩 이름. name 이 식별자.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#IF">IF</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if statement; a = test, b = then, c = else or null. / if 문. a 조건, b then, c else 또는 null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#IMPORT">IMPORT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;import declaration; name = module specifier; the bindings are described by ProgramInfo. / import 선언. name 은 모듈 지정자.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#IMPORT_CALL">IMPORT_CALL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dynamic import call; a = specifier expression. / 동적 import 호출. a 는 지정자 식.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#IMPORT_META">IMPORT_META</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;import.meta meta property. / import.meta 메타 프로퍼티.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#LABELED">LABELED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Labelled statement; name = label, a = statement. / 레이블 문장. name 은 레이블, a 는 문장.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#LITERAL">LITERAL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Literal number, string, boolean or null; value holds the JsValue. / 숫자, 문자열, 불리언, null 리터럴. value 에 JsValue.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#LOGICAL">LOGICAL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Short-circuit operator; op = Op.LOGAND/LOGOR, a = left, b = right. / 단락 평가 연산자. op 연산자, a 왼쪽, b 오른쪽.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#MEMBER">MEMBER</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Member access; a = object, name = property name when not computed, b = key expression when flag (computed) is set. / 멤버 접근. a 객체, 계산되지 않으면 name, flag 이면 b 가 키 식.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#NEW">NEW</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new expression; a = callee, list = arguments. / new 표현식. a 는 callee, list 는 인수.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#NEW_TARGET">NEW_TARGET</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The new.target meta property. / new.target 메타 프로퍼티.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#OBJECT">OBJECT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Object literal; list = PROPERTY nodes. / 객체 리터럴. list 는 PROPERTY 노드들.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#OBJECT_PATTERN">OBJECT_PATTERN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Object destructuring pattern; list = PATTERN_PROP nodes (last may be none). / 객체 구조 분해 패턴. list 는 PATTERN_PROP 들.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#OPTIONAL_CHAIN">OPTIONAL_CHAIN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Optional chain; a = the complete optional member/call expression. / optional chain. a 는 전체 선택적 멤버/호출 식.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#PATTERN_PROP">PATTERN_PROP</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Property of an object pattern; a = key, b = target pattern (maybe DEFAULT), flag = computed key. / 객체 패턴 프로퍼티. a 키, b 대상 패턴(DEFAULT 가능), flag 계산된 키.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#PRIVATE_NAME">PRIVATE_NAME</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Private identifier expression used only on the left of in. / in 의 왼쪽에만 쓰는 private 식별자 식.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#PROGRAM">PROGRAM</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Whole script or module; list = statements, scope = top-level scope, value = ProgramInfo. / 스크립트 또는 모듈 전체. list 는 문장, scope 는 최상위 스코프, value 는 ProgramInfo.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#PROPERTY">PROPERTY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Object literal property; a = key, b = value or FUNCTION, op = Op.PROP_*, flag = computed key. / 객체 리터럴 프로퍼티. a 키, b 값 또는 FUNCTION, op 는 Op.PROP_*, flag 는 계산된 키.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#REGEXP">REGEXP</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Regular expression literal; name = pattern, value = flags string. / 정규식 리터럴. name 은 패턴, value 는 플래그 문자열.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#REST">REST</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rest element in a pattern or parameter list; a = target. / 패턴이나 매개변수 목록의 나머지 요소. a 는 대상.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#RETURN">RETURN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return statement; a = value or null. / return 문. a 는 값 또는 null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#SEQUENCE">SEQUENCE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Comma expression; list = expressions. / 쉼표 표현식. list 는 식들.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#SPREAD">SPREAD</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spread element or argument; a = expression. / 전개 요소나 인수. a 는 식.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#SUPER">SUPER</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The super keyword, only as callee of CALL or object of MEMBER. / super 키워드.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#SWITCH">SWITCH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch statement; a = discriminant, list = CASE nodes, scope = case block scope. / switch 문. a 판별식, list 는 CASE, scope 는 case 블록 스코프.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#TAGGED_TEMPLATE">TAGGED_TEMPLATE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tagged template; a = tag expression, b = TEMPLATE node. / 태그 템플릿. a 는 태그 식, b 는 TEMPLATE 노드.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#TEMPLATE">TEMPLATE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Template literal; list = substitution expressions, value = TemplateParts. / 템플릿 리터럴. list 는 치환식, value 는 TemplateParts.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#THIS">THIS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The this keyword. / this 키워드.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#THROW">THROW</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw statement; a = value. / throw 문. a 는 값.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#TRY">TRY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try statement; a = block, b = catch parameter pattern or null, c = catch block or null, d = finally block or null, scope = catch scope. / try 문. a 블록, b catch 매개변수, c catch 블록, d finally 블록, scope catch 스코프.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#UNARY">UNARY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unary operator; op = Op.NEG/POS/NOT/BITNOT/TYPEOF/VOID/DELETE, a = operand. / 단항 연산자. op 연산자, a 피연산자.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#UPDATE">UPDATE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ or --; op = Op.INC/DEC, flag = prefix, a = target. / ++ 또는 --. op 연산자, flag 는 전위, a 는 대상.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#VAR_DECL">VAR_DECL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var, let or const declaration; op = Op.VAR/LET/CONST, list = DECLARATOR nodes. / var, let, const 선언. op 는 종류, list 는 DECLARATOR.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#WHILE">WHILE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while loop; a = test, d = body. / while 반복. a 조건, d 본문.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#WITH">WITH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with statement; a = object, b = body. / with 문. a 객체, b 본문.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html#YIELD">YIELD</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;yield expression; a = operand or null, flag = delegating yield*. / yield 표현식. a 는 피연산자 또는 null, flag 는 yield*.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="LITERAL"><!-- --></A><H3>
+LITERAL</H3>
+<PRE>
+public static final int <B>LITERAL</B></PRE>
+<DL>
+<DD>Literal number, string, boolean or null; value holds the JsValue. / 숫자, 문자열, 불리언, null 리터럴. value 에 JsValue.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.LITERAL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="IDENT"><!-- --></A><H3>
+IDENT</H3>
+<PRE>
+public static final int <B>IDENT</B></PRE>
+<DL>
+<DD>Identifier reference or binding name; name is the identifier. / 식별자 참조 또는 바인딩 이름. name 이 식별자.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.IDENT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="THIS"><!-- --></A><H3>
+THIS</H3>
+<PRE>
+public static final int <B>THIS</B></PRE>
+<DL>
+<DD>The this keyword. / this 키워드.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.THIS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SUPER"><!-- --></A><H3>
+SUPER</H3>
+<PRE>
+public static final int <B>SUPER</B></PRE>
+<DL>
+<DD>The super keyword, only as callee of CALL or object of MEMBER. / super 키워드. CALL 의 callee 나 MEMBER 의 object 로만 쓴다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.SUPER">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="NEW_TARGET"><!-- --></A><H3>
+NEW_TARGET</H3>
+<PRE>
+public static final int <B>NEW_TARGET</B></PRE>
+<DL>
+<DD>The new.target meta property. / new.target 메타 프로퍼티.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.NEW_TARGET">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="TEMPLATE"><!-- --></A><H3>
+TEMPLATE</H3>
+<PRE>
+public static final int <B>TEMPLATE</B></PRE>
+<DL>
+<DD>Template literal; list = substitution expressions, value = TemplateParts. / 템플릿 리터럴. list 는 치환식, value 는 TemplateParts.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.TEMPLATE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="TAGGED_TEMPLATE"><!-- --></A><H3>
+TAGGED_TEMPLATE</H3>
+<PRE>
+public static final int <B>TAGGED_TEMPLATE</B></PRE>
+<DL>
+<DD>Tagged template; a = tag expression, b = TEMPLATE node. / 태그 템플릿. a 는 태그 식, b 는 TEMPLATE 노드.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.TAGGED_TEMPLATE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="REGEXP"><!-- --></A><H3>
+REGEXP</H3>
+<PRE>
+public static final int <B>REGEXP</B></PRE>
+<DL>
+<DD>Regular expression literal; name = pattern, value = flags string. / 정규식 리터럴. name 은 패턴, value 는 플래그 문자열.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.REGEXP">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ARRAY"><!-- --></A><H3>
+ARRAY</H3>
+<PRE>
+public static final int <B>ARRAY</B></PRE>
+<DL>
+<DD>Array literal; list = elements (null for a hole, SPREAD for spread). / 배열 리터럴. list 는 요소(빈 칸은 null, 전개는 SPREAD).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.ARRAY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="OBJECT"><!-- --></A><H3>
+OBJECT</H3>
+<PRE>
+public static final int <B>OBJECT</B></PRE>
+<DL>
+<DD>Object literal; list = PROPERTY nodes. / 객체 리터럴. list 는 PROPERTY 노드들.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.OBJECT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PROPERTY"><!-- --></A><H3>
+PROPERTY</H3>
+<PRE>
+public static final int <B>PROPERTY</B></PRE>
+<DL>
+<DD>Object literal property; a = key, b = value or FUNCTION, op = Op.PROP_*, flag = computed key. / 객체 리터럴 프로퍼티. a 키, b 값 또는 FUNCTION, op 는 Op.PROP_*, flag 는 계산된 키.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.PROPERTY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FUNCTION"><!-- --></A><H3>
+FUNCTION</H3>
+<PRE>
+public static final int <B>FUNCTION</B></PRE>
+<DL>
+<DD>Function expression or declaration body description; fn = FunctionInfo. / 함수 표현식. fn 이 FunctionInfo.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.FUNCTION">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="CLASS"><!-- --></A><H3>
+CLASS</H3>
+<PRE>
+public static final int <B>CLASS</B></PRE>
+<DL>
+<DD>Class expression; name = class name or null, a = heritage, b = constructor FUNCTION or null, list = CLASS_MEMBER, value = source text. / 클래스 표현식. name 은 클래스 이름, a 는 상속식, b 는 생성자 FUNCTION, list 는 CLASS_MEMBER, value 는 소스 텍스트.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.CLASS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="CLASS_MEMBER"><!-- --></A><H3>
+CLASS_MEMBER</H3>
+<PRE>
+public static final int <B>CLASS_MEMBER</B></PRE>
+<DL>
+<DD>Class member; a = key, b = FUNCTION, op = Op.PROP_METHOD/GET/SET, flag = static, value = Boolean.TRUE if computed. / 클래스 멤버. a 키, b FUNCTION, op 종류, flag 는 static, value 가 TRUE 이면 계산된 키.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.CLASS_MEMBER">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="UNARY"><!-- --></A><H3>
+UNARY</H3>
+<PRE>
+public static final int <B>UNARY</B></PRE>
+<DL>
+<DD>Unary operator; op = Op.NEG/POS/NOT/BITNOT/TYPEOF/VOID/DELETE, a = operand. / 단항 연산자. op 연산자, a 피연산자.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.UNARY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="UPDATE"><!-- --></A><H3>
+UPDATE</H3>
+<PRE>
+public static final int <B>UPDATE</B></PRE>
+<DL>
+<DD>++ or --; op = Op.INC/DEC, flag = prefix, a = target. / ++ 또는 --. op 연산자, flag 는 전위, a 는 대상.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.UPDATE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BINARY"><!-- --></A><H3>
+BINARY</H3>
+<PRE>
+public static final int <B>BINARY</B></PRE>
+<DL>
+<DD>Binary operator; op = Op.*, a = left, b = right. / 이항 연산자. op 연산자, a 왼쪽, b 오른쪽.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.BINARY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LOGICAL"><!-- --></A><H3>
+LOGICAL</H3>
+<PRE>
+public static final int <B>LOGICAL</B></PRE>
+<DL>
+<DD>Short-circuit operator; op = Op.LOGAND/LOGOR, a = left, b = right. / 단락 평가 연산자. op 연산자, a 왼쪽, b 오른쪽.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.LOGICAL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ASSIGN"><!-- --></A><H3>
+ASSIGN</H3>
+<PRE>
+public static final int <B>ASSIGN</B></PRE>
+<DL>
+<DD>Assignment; op = 0 for = or the Op of a compound operator, a = target (expression or pattern), b = value. / 대입. op 는 = 이면 0, 복합이면 연산자. a 대상, b 값.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.ASSIGN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="CONDITIONAL"><!-- --></A><H3>
+CONDITIONAL</H3>
+<PRE>
+public static final int <B>CONDITIONAL</B></PRE>
+<DL>
+<DD>Conditional expression a ? b : c. / 조건 표현식 a ? b : c.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.CONDITIONAL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="CALL"><!-- --></A><H3>
+CALL</H3>
+<PRE>
+public static final int <B>CALL</B></PRE>
+<DL>
+<DD>Call; a = callee, list = arguments (SPREAD allowed). / 호출. a 는 callee, list 는 인수(SPREAD 허용).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.CALL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="NEW"><!-- --></A><H3>
+NEW</H3>
+<PRE>
+public static final int <B>NEW</B></PRE>
+<DL>
+<DD>new expression; a = callee, list = arguments. / new 표현식. a 는 callee, list 는 인수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.NEW">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MEMBER"><!-- --></A><H3>
+MEMBER</H3>
+<PRE>
+public static final int <B>MEMBER</B></PRE>
+<DL>
+<DD>Member access; a = object, name = property name when not computed, b = key expression when flag (computed) is set. / 멤버 접근. a 객체, 계산되지 않으면 name, flag 이면 b 가 키 식.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.MEMBER">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SEQUENCE"><!-- --></A><H3>
+SEQUENCE</H3>
+<PRE>
+public static final int <B>SEQUENCE</B></PRE>
+<DL>
+<DD>Comma expression; list = expressions. / 쉼표 표현식. list 는 식들.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.SEQUENCE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SPREAD"><!-- --></A><H3>
+SPREAD</H3>
+<PRE>
+public static final int <B>SPREAD</B></PRE>
+<DL>
+<DD>Spread element or argument; a = expression. / 전개 요소나 인수. a 는 식.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.SPREAD">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="YIELD"><!-- --></A><H3>
+YIELD</H3>
+<PRE>
+public static final int <B>YIELD</B></PRE>
+<DL>
+<DD>yield expression; a = operand or null, flag = delegating yield*. / yield 표현식. a 는 피연산자 또는 null, flag 는 yield*.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.YIELD">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="OPTIONAL_CHAIN"><!-- --></A><H3>
+OPTIONAL_CHAIN</H3>
+<PRE>
+public static final int <B>OPTIONAL_CHAIN</B></PRE>
+<DL>
+<DD>Optional chain; a = the complete optional member/call expression. / optional chain. a 는 전체 선택적 멤버/호출 식.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.OPTIONAL_CHAIN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="AWAIT"><!-- --></A><H3>
+AWAIT</H3>
+<PRE>
+public static final int <B>AWAIT</B></PRE>
+<DL>
+<DD>Await expression; a = UnaryExpression operand. / await 식. a 는 단항 피연산자.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.AWAIT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="IMPORT_META"><!-- --></A><H3>
+IMPORT_META</H3>
+<PRE>
+public static final int <B>IMPORT_META</B></PRE>
+<DL>
+<DD>import.meta meta property. / import.meta 메타 프로퍼티.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.IMPORT_META">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="IMPORT_CALL"><!-- --></A><H3>
+IMPORT_CALL</H3>
+<PRE>
+public static final int <B>IMPORT_CALL</B></PRE>
+<DL>
+<DD>Dynamic import call; a = specifier expression. / 동적 import 호출. a 는 지정자 식.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.IMPORT_CALL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PRIVATE_NAME"><!-- --></A><H3>
+PRIVATE_NAME</H3>
+<PRE>
+public static final int <B>PRIVATE_NAME</B></PRE>
+<DL>
+<DD>Private identifier expression used only on the left of in. / in 의 왼쪽에만 쓰는 private 식별자 식.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.PRIVATE_NAME">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="CLASS_STATIC_BLOCK"><!-- --></A><H3>
+CLASS_STATIC_BLOCK</H3>
+<PRE>
+public static final int <B>CLASS_STATIC_BLOCK</B></PRE>
+<DL>
+<DD>Static class block; list = statements, scope = block scope. / static 클래스 블록. list 문장, scope 블록 스코프.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.CLASS_STATIC_BLOCK">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ARRAY_PATTERN"><!-- --></A><H3>
+ARRAY_PATTERN</H3>
+<PRE>
+public static final int <B>ARRAY_PATTERN</B></PRE>
+<DL>
+<DD>Array destructuring pattern; list = element patterns (null = elision, REST last). / 배열 구조 분해 패턴. list 는 요소 패턴(null 은 건너뜀, REST 는 마지막).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.ARRAY_PATTERN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="OBJECT_PATTERN"><!-- --></A><H3>
+OBJECT_PATTERN</H3>
+<PRE>
+public static final int <B>OBJECT_PATTERN</B></PRE>
+<DL>
+<DD>Object destructuring pattern; list = PATTERN_PROP nodes (last may be none). / 객체 구조 분해 패턴. list 는 PATTERN_PROP 들.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.OBJECT_PATTERN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PATTERN_PROP"><!-- --></A><H3>
+PATTERN_PROP</H3>
+<PRE>
+public static final int <B>PATTERN_PROP</B></PRE>
+<DL>
+<DD>Property of an object pattern; a = key, b = target pattern (maybe DEFAULT), flag = computed key. / 객체 패턴 프로퍼티. a 키, b 대상 패턴(DEFAULT 가능), flag 계산된 키.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.PATTERN_PROP">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="REST"><!-- --></A><H3>
+REST</H3>
+<PRE>
+public static final int <B>REST</B></PRE>
+<DL>
+<DD>Rest element in a pattern or parameter list; a = target. / 패턴이나 매개변수 목록의 나머지 요소. a 는 대상.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.REST">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT"><!-- --></A><H3>
+DEFAULT</H3>
+<PRE>
+public static final int <B>DEFAULT</B></PRE>
+<DL>
+<DD>Target with default value; a = target pattern, b = default expression. / 기본값이 있는 대상. a 대상 패턴, b 기본값 식.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.DEFAULT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PROGRAM"><!-- --></A><H3>
+PROGRAM</H3>
+<PRE>
+public static final int <B>PROGRAM</B></PRE>
+<DL>
+<DD>Whole script or module; list = statements, scope = top-level scope, value = ProgramInfo. / 스크립트 또는 모듈 전체. list 는 문장, scope 는 최상위 스코프, value 는 ProgramInfo.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.PROGRAM">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="VAR_DECL"><!-- --></A><H3>
+VAR_DECL</H3>
+<PRE>
+public static final int <B>VAR_DECL</B></PRE>
+<DL>
+<DD>var, let or const declaration; op = Op.VAR/LET/CONST, list = DECLARATOR nodes. / var, let, const 선언. op 는 종류, list 는 DECLARATOR.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.VAR_DECL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DECLARATOR"><!-- --></A><H3>
+DECLARATOR</H3>
+<PRE>
+public static final int <B>DECLARATOR</B></PRE>
+<DL>
+<DD>One declarator; a = target (IDENT or pattern), b = initializer or null. / 선언자 하나. a 대상(IDENT 또는 패턴), b 초기값 또는 null.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.DECLARATOR">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="EXPR_STMT"><!-- --></A><H3>
+EXPR_STMT</H3>
+<PRE>
+public static final int <B>EXPR_STMT</B></PRE>
+<DL>
+<DD>Expression statement; a = expression. / 표현식 문장. a 는 식.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.EXPR_STMT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BLOCK"><!-- --></A><H3>
+BLOCK</H3>
+<PRE>
+public static final int <B>BLOCK</B></PRE>
+<DL>
+<DD>Block; list = statements, scope = block scope or null. / 블록. list 는 문장, scope 는 블록 스코프 또는 null.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.BLOCK">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="EMPTY"><!-- --></A><H3>
+EMPTY</H3>
+<PRE>
+public static final int <B>EMPTY</B></PRE>
+<DL>
+<DD>Empty statement. / 빈 문장.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.EMPTY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="IF"><!-- --></A><H3>
+IF</H3>
+<PRE>
+public static final int <B>IF</B></PRE>
+<DL>
+<DD>if statement; a = test, b = then, c = else or null. / if 문. a 조건, b then, c else 또는 null.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.IF">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FOR"><!-- --></A><H3>
+FOR</H3>
+<PRE>
+public static final int <B>FOR</B></PRE>
+<DL>
+<DD>for(;;) loop; a = init or null, b = test or null, c = update or null, d = body, scope = loop scope for let. / for(;;) 반복. a 초기화, b 조건, c 갱신, d 본문, scope 는 let 용 스코프.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.FOR">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FOR_IN"><!-- --></A><H3>
+FOR_IN</H3>
+<PRE>
+public static final int <B>FOR_IN</B></PRE>
+<DL>
+<DD>for-in loop; a = left (VAR_DECL or target), b = object expression, d = body, scope = loop scope. / for-in 반복. a 좌변, b 객체식, d 본문, scope 반복 스코프.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.FOR_IN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FOR_OF"><!-- --></A><H3>
+FOR_OF</H3>
+<PRE>
+public static final int <B>FOR_OF</B></PRE>
+<DL>
+<DD>for-of loop; a = left (VAR_DECL or target), b = iterable expression, d = body, scope = loop scope. / for-of 반복. a 좌변, b 반복 가능식, d 본문, scope 반복 스코프.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.FOR_OF">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="WHILE"><!-- --></A><H3>
+WHILE</H3>
+<PRE>
+public static final int <B>WHILE</B></PRE>
+<DL>
+<DD>while loop; a = test, d = body. / while 반복. a 조건, d 본문.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.WHILE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DO_WHILE"><!-- --></A><H3>
+DO_WHILE</H3>
+<PRE>
+public static final int <B>DO_WHILE</B></PRE>
+<DL>
+<DD>do-while loop; d = body, a = test. / do-while 반복. d 본문, a 조건.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.DO_WHILE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="RETURN"><!-- --></A><H3>
+RETURN</H3>
+<PRE>
+public static final int <B>RETURN</B></PRE>
+<DL>
+<DD>return statement; a = value or null. / return 문. a 는 값 또는 null.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.RETURN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BREAK"><!-- --></A><H3>
+BREAK</H3>
+<PRE>
+public static final int <B>BREAK</B></PRE>
+<DL>
+<DD>break statement; name = label or null. / break 문. name 은 레이블 또는 null.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.BREAK">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="CONTINUE"><!-- --></A><H3>
+CONTINUE</H3>
+<PRE>
+public static final int <B>CONTINUE</B></PRE>
+<DL>
+<DD>continue statement; name = label or null. / continue 문. name 은 레이블 또는 null.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.CONTINUE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="THROW"><!-- --></A><H3>
+THROW</H3>
+<PRE>
+public static final int <B>THROW</B></PRE>
+<DL>
+<DD>throw statement; a = value. / throw 문. a 는 값.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.THROW">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="TRY"><!-- --></A><H3>
+TRY</H3>
+<PRE>
+public static final int <B>TRY</B></PRE>
+<DL>
+<DD>try statement; a = block, b = catch parameter pattern or null, c = catch block or null, d = finally block or null, scope = catch scope. / try 문. a 블록, b catch 매개변수, c catch 블록, d finally 블록, scope catch 스코프.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.TRY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SWITCH"><!-- --></A><H3>
+SWITCH</H3>
+<PRE>
+public static final int <B>SWITCH</B></PRE>
+<DL>
+<DD>switch statement; a = discriminant, list = CASE nodes, scope = case block scope. / switch 문. a 판별식, list 는 CASE, scope 는 case 블록 스코프.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.SWITCH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="CASE"><!-- --></A><H3>
+CASE</H3>
+<PRE>
+public static final int <B>CASE</B></PRE>
+<DL>
+<DD>switch case; a = test or null for default, list = statements. / switch 의 case. a 는 조건(default 이면 null), list 는 문장.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.CASE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LABELED"><!-- --></A><H3>
+LABELED</H3>
+<PRE>
+public static final int <B>LABELED</B></PRE>
+<DL>
+<DD>Labelled statement; name = label, a = statement. / 레이블 문장. name 은 레이블, a 는 문장.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.LABELED">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="WITH"><!-- --></A><H3>
+WITH</H3>
+<PRE>
+public static final int <B>WITH</B></PRE>
+<DL>
+<DD>with statement; a = object, b = body. / with 문. a 객체, b 본문.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.WITH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEBUGGER"><!-- --></A><H3>
+DEBUGGER</H3>
+<PRE>
+public static final int <B>DEBUGGER</B></PRE>
+<DL>
+<DD>The debugger statement. / debugger 문장.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.DEBUGGER">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FUNCTION_DECL"><!-- --></A><H3>
+FUNCTION_DECL</H3>
+<PRE>
+public static final int <B>FUNCTION_DECL</B></PRE>
+<DL>
+<DD>Function declaration; a = IDENT of the name, b = FUNCTION node, flag = Annex B hoisting to a var binding. / 함수 선언. a 는 이름 IDENT, b 는 FUNCTION, flag 는 var 로 끌어올림(부속서 B).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.FUNCTION_DECL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="CLASS_DECL"><!-- --></A><H3>
+CLASS_DECL</H3>
+<PRE>
+public static final int <B>CLASS_DECL</B></PRE>
+<DL>
+<DD>Class declaration; a = IDENT of the name, b = CLASS node. / 클래스 선언. a 는 이름 IDENT, b 는 CLASS 노드.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.CLASS_DECL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="IMPORT"><!-- --></A><H3>
+IMPORT</H3>
+<PRE>
+public static final int <B>IMPORT</B></PRE>
+<DL>
+<DD>import declaration; name = module specifier; the bindings are described by ProgramInfo. / import 선언. name 은 모듈 지정자. 바인딩은 ProgramInfo 가 설명.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.IMPORT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="EXPORT"><!-- --></A><H3>
+EXPORT</H3>
+<PRE>
+public static final int <B>EXPORT</B></PRE>
+<DL>
+<DD>export declaration (named, default or star); a = declaration or expression or null, name = module specifier or null. / export 선언(이름, 기본, 별표). a 는 선언 또는 식, name 은 모듈 지정자.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ast.NodeType.EXPORT">Constant Field Values</A></DL>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Op.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/ast/NodeType.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="NodeType.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#methods_inherited_from_class_java.lang.Object">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;METHOD</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

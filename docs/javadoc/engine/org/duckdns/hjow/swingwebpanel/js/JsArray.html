@@ -1,0 +1,614 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+JsArray
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="JsArray";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/Js.html" title="class in org.duckdns.hjow.swingwebpanel.js"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsBigInt.html" title="class in org.duckdns.hjow.swingwebpanel.js"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/JsArray.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="JsArray.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsObject">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js</FONT>
+<BR>
+Class JsArray</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">org.duckdns.hjow.swingwebpanel.js.JsValue</A>
+      <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsWeakKey.html" title="class in org.duckdns.hjow.swingwebpanel.js">org.duckdns.hjow.swingwebpanel.js.JsWeakKey</A>
+          <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">org.duckdns.hjow.swingwebpanel.js.JsObject</A>
+              <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.JsArray</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public class <B>JsArray</B><DT>extends <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></DL>
+</PRE>
+
+<P>
+An Array exotic object (ECMA-262 6th edition 9.4.2). Elements are kept in a dense Java array while the array is "plain"
+ (all elements writable, enumerable and configurable, no huge gaps); the array silently switches to a sparse mode that stores
+ indices as ordinary properties when needed (for example after <code>Object.defineProperty(a, 0, {writable:false})</code>
+ or <code>a[1e9] = 1</code>). The virtual "length" property follows ArraySetLength (9.4.2.4).
+ <p>
+ Built-in authors can use <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html#add(org.duckdns.hjow.swingwebpanel.js.JsValue)"><CODE>add(JsValue)</CODE></A> to fill a fresh array quickly and <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html#getLength()"><CODE>getLength()</CODE></A> for the length;
+ generic algorithms should go through <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#get(java.lang.Object)"><CODE>JsObject.get(Object)</CODE></A> so that they also work for array-like objects.
+ <p>
+ Array 이국적 객체(ECMA-262 6판 9.4.2). 배열이 "평범"하면(모든 요소가 writable, enumerable, configurable 이고 큰 빈 구간이 없으면)
+ 요소를 조밀한 Java 배열에 보관하고, 필요하면(<code>Object.defineProperty(a, 0, {writable:false})</code> 나 <code>a[1e9] = 1</code> 등)
+ 인덱스를 일반 프로퍼티로 저장하는 희소 모드로 조용히 전환한다. 가상 "length" 프로퍼티는 ArraySetLength(9.4.2.4)를 따른다.
+ <p>
+ 내장 객체 작성자는 새 배열을 빠르게 채울 때 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html#add(org.duckdns.hjow.swingwebpanel.js.JsValue)"><CODE>add(JsValue)</CODE></A>, 길이는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html#getLength()"><CODE>getLength()</CODE></A> 를 쓸 수 있다.
+ 일반 알고리즘은 유사 배열 객체에서도 동작하도록 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#get(java.lang.Object)"><CODE>JsObject.get(Object)</CODE></A> 를 거치는 것이 좋다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsObject"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class org.duckdns.hjow.swingwebpanel.js.<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#extensible">extensible</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#properties">properties</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#prototype">prototype</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html#JsArray(org.duckdns.hjow.swingwebpanel.js.JsObject)">JsArray</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;proto)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an empty array.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html#JsArray(org.duckdns.hjow.swingwebpanel.js.JsObject, org.duckdns.hjow.swingwebpanel.js.JsValue[])">JsArray</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;proto,
+        <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>[]&nbsp;elements)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an array that takes over a list of elements (no copy; null entries are holes).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html#add(org.duckdns.hjow.swingwebpanel.js.JsValue)">add</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Appends an element at the end (fast path for built-ins creating fresh arrays).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html#className()">className</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns "Array".</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html#defineOwnProperty(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor)">defineOwnProperty</A></B>(java.lang.Object&nbsp;key,
+                  <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html" title="class in org.duckdns.hjow.swingwebpanel.js">PropertyDescriptor</A>&nbsp;desc)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Implements [[DefineOwnProperty]] for arrays (9.4.2.1).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html#delete(java.lang.Object)">delete</A></B>(java.lang.Object&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Deletes an element or rejects deleting "length".</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html#getLength()">getLength</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the array length.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html#getOwnElement(int)">getOwnElement</A></B>(int&nbsp;i)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fast element read: returns the own element at an index, or null if it is a hole, absent or the array is sparse
+ (the caller then falls back to the generic [[Get]]).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/Property.html" title="class in org.duckdns.hjow.swingwebpanel.js">Property</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html#getOwnPropertySlot(java.lang.Object)">getOwnPropertySlot</A></B>(java.lang.Object&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exposes the virtual length and dense elements.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html#isArray()">isArray</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns true: this is an Array exotic object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.Object&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html#ownKeys()">ownKeys</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lists own keys: indices ascending, "length", other strings, symbols.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html#preventExtensions()">preventExtensions</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prevents extensions; dense arrays stay valid because existing elements remain writable.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html#setOwnElement(int, org.duckdns.hjow.swingwebpanel.js.JsValue)">setOwnElement</A></B>(int&nbsp;i,
+              <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fast element write for an existing own element: returns true if the element was overwritten in place.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsObject"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.js.<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#call(org.duckdns.hjow.swingwebpanel.js.JsValue, org.duckdns.hjow.swingwebpanel.js.JsValue[])">call</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#construct(org.duckdns.hjow.swingwebpanel.js.JsValue[], org.duckdns.hjow.swingwebpanel.js.JsObject)">construct</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#createDataProperty(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">createDataProperty</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#createDataPropertyOrThrow(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">createDataPropertyOrThrow</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#defineAccessor(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsObject, org.duckdns.hjow.swingwebpanel.js.JsObject, boolean, boolean)">defineAccessor</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#defineBuiltin(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">defineBuiltin</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#defineData(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue, boolean, boolean, boolean)">defineData</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#definePropertyOrThrow(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor)">definePropertyOrThrow</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#ensureCanAddPrivateElement()">ensureCanAddPrivateElement</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#get(java.lang.Object)">get</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#get(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">get</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#getOwnProperty(java.lang.Object)">getOwnProperty</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#getPrototypeOf()">getPrototypeOf</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#getString(java.lang.Object)">getString</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#hasOwnProperty(java.lang.Object)">hasOwnProperty</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#hasProperty(java.lang.Object)">hasProperty</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#isCallable()">isCallable</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#isConstructor()">isConstructor</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#isExtensible()">isExtensible</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#removeProperty(java.lang.Object)">removeProperty</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#set(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">set</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#set(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue, org.duckdns.hjow.swingwebpanel.js.JsValue)">set</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#setPrototypeOf(org.duckdns.hjow.swingwebpanel.js.JsObject)">setPrototypeOf</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#setStrict(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">setStrict</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#storeProperty(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.Property)">storeProperty</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#toString()">toString</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#type()">type</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#validateAndApply(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor, org.duckdns.hjow.swingwebpanel.js.Property)">validateAndApply</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsWeakKey"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.js.<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsWeakKey.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsWeakKey</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsWeakKey.html#getWeakAssociation(java.lang.Object)">getWeakAssociation</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsWeakKey.html#putWeakAssociation(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">putWeakAssociation</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsWeakKey.html#removeWeakAssociation(java.lang.Object)">removeWeakAssociation</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsValue"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.js.<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html#hasIsHtmlDda()">hasIsHtmlDda</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html#isNull()">isNull</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html#isNullOrUndefined()">isNullOrUndefined</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html#isObject()">isObject</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html#isUndefined()">isUndefined</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html#typeOf()">typeOf</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="JsArray(org.duckdns.hjow.swingwebpanel.js.JsObject)"><!-- --></A><H3>
+JsArray</H3>
+<PRE>
+public <B>JsArray</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;proto)</PRE>
+<DL>
+<DD>Creates an empty array.
+ <p>
+ 빈 배열을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>proto</CODE> - the prototype (normally Array.prototype) / 프로토타입(보통 Array.prototype)</DL>
+</DL>
+<HR>
+
+<A NAME="JsArray(org.duckdns.hjow.swingwebpanel.js.JsObject, org.duckdns.hjow.swingwebpanel.js.JsValue[])"><!-- --></A><H3>
+JsArray</H3>
+<PRE>
+public <B>JsArray</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;proto,
+               <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>[]&nbsp;elements)</PRE>
+<DL>
+<DD>Creates an array that takes over a list of elements (no copy; null entries are holes).
+ <p>
+ 요소 목록을 넘겨받아 배열을 만든다(복사하지 않음. null 항목은 빈 칸).
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>proto</CODE> - the prototype / 프로토타입<DD><CODE>elements</CODE> - the elements / 요소들</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="className()"><!-- --></A><H3>
+className</H3>
+<PRE>
+public java.lang.String <B>className</B>()</PRE>
+<DL>
+<DD>Returns "Array".
+ <p>
+ "Array" 를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#className()">className</A></CODE> in class <CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the class name / 클래스 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isArray()"><!-- --></A><H3>
+isArray</H3>
+<PRE>
+public boolean <B>isArray</B>()</PRE>
+<DL>
+<DD>Returns true: this is an Array exotic object.
+ <p>
+ 배열 이국적 객체이므로 true.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#isArray()">isArray</A></CODE> in class <CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true / true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLength()"><!-- --></A><H3>
+getLength</H3>
+<PRE>
+public long <B>getLength</B>()</PRE>
+<DL>
+<DD>Returns the array length.
+ <p>
+ 배열 길이를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the length / 길이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="add(org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+add</H3>
+<PRE>
+public void <B>add</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;v)</PRE>
+<DL>
+<DD>Appends an element at the end (fast path for built-ins creating fresh arrays). The array must be plain and extensible.
+ <p>
+ 끝에 요소를 추가한다(새 배열을 만드는 내장 객체용 빠른 경로). 배열은 평범하고 확장 가능해야 한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the element / 요소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOwnElement(int)"><!-- --></A><H3>
+getOwnElement</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A> <B>getOwnElement</B>(int&nbsp;i)</PRE>
+<DL>
+<DD>Fast element read: returns the own element at an index, or null if it is a hole, absent or the array is sparse
+ (the caller then falls back to the generic [[Get]]).
+ <p>
+ 빠른 요소 읽기: 인덱스의 자체 요소를 반환한다. 빈 칸이거나 없거나 희소 배열이면 null(호출자는 일반 [[Get]] 으로 되돌아간다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>i</CODE> - the index / 인덱스
+<DT><B>Returns:</B><DD>the element or null / 요소 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setOwnElement(int, org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+setOwnElement</H3>
+<PRE>
+public boolean <B>setOwnElement</B>(int&nbsp;i,
+                             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;v)</PRE>
+<DL>
+<DD>Fast element write for an existing own element: returns true if the element was overwritten in place.
+ Otherwise the caller uses the generic [[Set]].
+ <p>
+ 이미 있는 자체 요소를 빠르게 덮어쓴다. 제자리에서 덮어썼으면 true. 아니면 호출자가 일반 [[Set]] 을 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>i</CODE> - the index / 인덱스<DD><CODE>v</CODE> - the value / 값
+<DT><B>Returns:</B><DD>true if written / 썼으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOwnPropertySlot(java.lang.Object)"><!-- --></A><H3>
+getOwnPropertySlot</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/Property.html" title="class in org.duckdns.hjow.swingwebpanel.js">Property</A> <B>getOwnPropertySlot</B>(java.lang.Object&nbsp;key)</PRE>
+<DL>
+<DD>Exposes the virtual length and dense elements.
+ <p>
+ 가상 length 와 조밀 요소를 보여 준다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#getOwnPropertySlot(java.lang.Object)">getOwnPropertySlot</A></CODE> in class <CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key / 키
+<DT><B>Returns:</B><DD>the property or null / 프로퍼티 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="defineOwnProperty(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor)"><!-- --></A><H3>
+defineOwnProperty</H3>
+<PRE>
+public boolean <B>defineOwnProperty</B>(java.lang.Object&nbsp;key,
+                                 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html" title="class in org.duckdns.hjow.swingwebpanel.js">PropertyDescriptor</A>&nbsp;desc)</PRE>
+<DL>
+<DD>Implements [[DefineOwnProperty]] for arrays (9.4.2.1).
+ <p>
+ 배열의 [[DefineOwnProperty]] 를 구현한다(9.4.2.1).
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#defineOwnProperty(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor)">defineOwnProperty</A></CODE> in class <CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key / 키<DD><CODE>desc</CODE> - the descriptor / 기술자
+<DT><B>Returns:</B><DD>true on success / 성공하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="delete(java.lang.Object)"><!-- --></A><H3>
+delete</H3>
+<PRE>
+public boolean <B>delete</B>(java.lang.Object&nbsp;key)</PRE>
+<DL>
+<DD>Deletes an element or rejects deleting "length".
+ <p>
+ 요소를 지운다. "length" 는 지울 수 없다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#delete(java.lang.Object)">delete</A></CODE> in class <CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key / 키
+<DT><B>Returns:</B><DD>true if gone afterwards / 삭제 후 없으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="ownKeys()"><!-- --></A><H3>
+ownKeys</H3>
+<PRE>
+public java.util.List&lt;java.lang.Object&gt; <B>ownKeys</B>()</PRE>
+<DL>
+<DD>Lists own keys: indices ascending, "length", other strings, symbols.
+ <p>
+ 자체 키를 나열한다: 인덱스 오름차순, "length", 나머지 문자열, 심볼.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#ownKeys()">ownKeys</A></CODE> in class <CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>keys / 키 목록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="preventExtensions()"><!-- --></A><H3>
+preventExtensions</H3>
+<PRE>
+public boolean <B>preventExtensions</B>()</PRE>
+<DL>
+<DD>Prevents extensions; dense arrays stay valid because existing elements remain writable.
+ <p>
+ 확장을 막는다. 기존 요소는 계속 쓸 수 있으므로 조밀 배열도 유효하다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#preventExtensions()">preventExtensions</A></CODE> in class <CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true / true</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/Js.html" title="class in org.duckdns.hjow.swingwebpanel.js"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsBigInt.html" title="class in org.duckdns.hjow.swingwebpanel.js"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/JsArray.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="JsArray.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsObject">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

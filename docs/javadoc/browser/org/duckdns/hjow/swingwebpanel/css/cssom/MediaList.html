@@ -1,0 +1,380 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+MediaList
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="MediaList";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/MarginRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/NamespaceRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cssom/MediaList.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="MediaList.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.cssom</FONT>
+<BR>
+Class MediaList</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.cssom.MediaList</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>MediaList</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The CSSOM <code>MediaList</code> of a style sheet, of an <code>@media</code> rule or of an <code>@import</code> rule: the media queries as text
+ (<code>mediaText</code>) and as a list of query strings (<code>length</code>, <code>item()</code>), changed through <code>mediaText</code>,
+ <code>appendMedium()</code> and <code>deleteMedium()</code>. Every change replaces the media query list of the owner, marks a sheet as changed by a
+ script and tells the sheet, so that the style resolver evaluates the media again. The list parsed from empty text has no medium and the text
+ <code>""</code> but still matches every environment.
+ <p>
+ 스타일 시트, <code>@media</code> 규칙, <code>@import</code> 규칙의 CSSOM <code>MediaList</code>: 미디어 질의를 텍스트(<code>mediaText</code>)와 질의 문자열 목록
+ (<code>length</code>, <code>item()</code>)으로 보여 주며 <code>mediaText</code>, <code>appendMedium()</code>, <code>deleteMedium()</code> 으로 바꾼다. 바꿀 때마다
+ 소유자의 미디어 질의 목록을 교체하고 시트를 스크립트가 바꿨다고 표시하며 시트에 알려, 스타일 리졸버가 미디어를 다시 평가하게 한다. 빈 텍스트에서 파싱한 목록은
+ 미디어가 없고 텍스트가 <code>""</code> 이지만 여전히 모든 환경에 일치한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/MediaList.html#appendMedium(java.lang.String)">appendMedium</A></B>(java.lang.String&nbsp;medium)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Appends a medium unless the list already has it (CSSOM <code>appendMedium</code>); a text that is not a media query is ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/MediaList.html#deleteMedium(java.lang.String)">deleteMedium</A></B>(java.lang.String&nbsp;medium)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes a medium from the list (CSSOM <code>deleteMedium</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/MediaList.html#getLength()">getLength</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of media queries (CSSOM <code>length</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/MediaList.html#getMediaText()">getMediaText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the media queries as text (CSSOM <code>mediaText</code>): the queries separated by a comma and a space, the empty string for an empty list.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/MediaList.html#item(int)">item</A></B>(int&nbsp;index)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the media query at an index as text (CSSOM <code>item</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/MediaList.html#setMediaText(java.lang.String)">setMediaText</A></B>(java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Replaces the media queries by the parsed text (CSSOM <code>mediaText</code> setter); a query that cannot be parsed becomes <code>not all</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/MediaList.html#toString()">toString</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the media text (the CSSOM stringifier).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getMediaText()"><!-- --></A><H3>
+getMediaText</H3>
+<PRE>
+public java.lang.String <B>getMediaText</B>()</PRE>
+<DL>
+<DD>Returns the media queries as text (CSSOM <code>mediaText</code>): the queries separated by a comma and a space, the empty string for an empty list.
+ <p>
+ 미디어 질의를 텍스트로 반환한다(CSSOM <code>mediaText</code>): 쉼표와 공백으로 구분한 질의. 빈 목록이면 빈 문자열.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the text / 텍스트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMediaText(java.lang.String)"><!-- --></A><H3>
+setMediaText</H3>
+<PRE>
+public void <B>setMediaText</B>(java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Replaces the media queries by the parsed text (CSSOM <code>mediaText</code> setter); a query that cannot be parsed becomes <code>not all</code>.
+ <p>
+ 미디어 질의를 파싱한 텍스트로 바꾼다(CSSOM <code>mediaText</code> 설정). 파싱할 수 없는 질의는 <code>not all</code> 이 된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the new media queries / 새 미디어 질의</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLength()"><!-- --></A><H3>
+getLength</H3>
+<PRE>
+public int <B>getLength</B>()</PRE>
+<DL>
+<DD>Returns the number of media queries (CSSOM <code>length</code>).
+ <p>
+ 미디어 질의 수를 반환한다(CSSOM <code>length</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the count, 0 for an empty list / 개수. 빈 목록이면 0</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="item(int)"><!-- --></A><H3>
+item</H3>
+<PRE>
+public java.lang.String <B>item</B>(int&nbsp;index)</PRE>
+<DL>
+<DD>Returns the media query at an index as text (CSSOM <code>item</code>).
+ <p>
+ 위치의 미디어 질의를 텍스트로 반환한다(CSSOM <code>item</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>index</CODE> - the position / 위치
+<DT><B>Returns:</B><DD>the query, or null if the index is out of range / 질의. 위치가 범위를 벗어나면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="appendMedium(java.lang.String)"><!-- --></A><H3>
+appendMedium</H3>
+<PRE>
+public void <B>appendMedium</B>(java.lang.String&nbsp;medium)</PRE>
+<DL>
+<DD>Appends a medium unless the list already has it (CSSOM <code>appendMedium</code>); a text that is not a media query is ignored.
+ <p>
+ 목록에 없으면 미디어를 덧붙인다(CSSOM <code>appendMedium</code>). 미디어 질의가 아닌 텍스트는 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>medium</CODE> - the media query / 미디어 질의</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="deleteMedium(java.lang.String)"><!-- --></A><H3>
+deleteMedium</H3>
+<PRE>
+public void <B>deleteMedium</B>(java.lang.String&nbsp;medium)</PRE>
+<DL>
+<DD>Removes a medium from the list (CSSOM <code>deleteMedium</code>).
+ <p>
+ 목록에서 미디어를 지운다(CSSOM <code>deleteMedium</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>medium</CODE> - the media query; text that is not a media query does nothing / 미디어 질의. 미디어 질의가 아닌 텍스트는 아무것도 하지 않는다
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - <code>NotFoundError</code> if the list does not have the medium / 목록에 그 미디어가 없으면 <code>NotFoundError</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toString()"><!-- --></A><H3>
+toString</H3>
+<PRE>
+public java.lang.String <B>toString</B>()</PRE>
+<DL>
+<DD>Returns the media text (the CSSOM stringifier).
+ <p>
+ 미디어 텍스트를 반환한다(CSSOM 문자열화).
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>toString</CODE> in class <CODE>java.lang.Object</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the text / 텍스트</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/MarginRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/NamespaceRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cssom/MediaList.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="MediaList.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

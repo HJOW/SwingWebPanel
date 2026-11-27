@@ -1,0 +1,878 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ComputedStyle
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ComputedStyle";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/FramesetTracks.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ComputedStyle.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.cascade</FONT>
+<BR>
+Class ComputedStyle</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ComputedStyle</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The computed style of one element (or pseudo-element): the result of the cascade and of the computation of values. This is the contract between
+ the style engine and the layout and rendering code.
+ <p>
+ <b>What a value is.</b> Every longhand property (see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/props/Prop.html" title="class in org.duckdns.hjow.swingwebpanel.css.props"><CODE>Prop</CODE></A>) has a <em>computed value</em> that is never null: relative lengths are
+ absolute pixels (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssLength.html" title="class in org.duckdns.hjow.swingwebpanel.css.values"><CODE>CssLength</CODE></A> with unit <code>px</code>), <code>calc()</code> without percentages is folded, colors are <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values"><CODE>CssColor</CODE></A>
+ (or the keyword <code>currentcolor</code> for properties other than <code>color</code>, see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#color(int)"><CODE>color(int)</CODE></A>), keywords are
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssKeyword.html" title="class in org.duckdns.hjow.swingwebpanel.css.values"><CODE>CssKeyword</CODE></A>, and lists keep the structure the grammar of the property gives them. Percentages stay <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssPercentage.html" title="class in org.duckdns.hjow.swingwebpanel.css.values"><CODE>CssPercentage</CODE></A> (or a
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html" title="class in org.duckdns.hjow.swingwebpanel.css.values"><CODE>CssCalc</CODE></A> that contains one): the layout turns them into used values with <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#resolve(int, double)"><CODE>resolve(int, double)</CODE></A>. Custom properties are available as
+ raw component values.
+ <p>
+ <b>How to read it.</b> Use the typed helpers: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#px(int)"><CODE>px(int)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#number(int)"><CODE>number(int)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#keyword(int)"><CODE>keyword(int)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#isAuto(int)"><CODE>isAuto(int)</CODE></A>,
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#resolve(int, double)"><CODE>resolve(int, double)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#color(int)"><CODE>color(int)</CODE></A>; the few most used ones have a name (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#display()"><CODE>display()</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#position()"><CODE>position()</CODE></A>,
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#fontSizePx()"><CODE>fontSizePx()</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#fontWeight()"><CODE>fontWeight()</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#lineHeightPx()"><CODE>lineHeightPx()</CODE></A>). A computed style is immutable and may be shared between elements.
+ <p>
+ 요소(또는 의사 요소) 하나의 계산 스타일: 캐스케이드와 값 계산의 결과. 스타일 엔진과 레이아웃, 렌더링 코드 사이의 계약이다.
+ <p>
+ <b>값이란.</b> 모든 개별 속성(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/props/Prop.html" title="class in org.duckdns.hjow.swingwebpanel.css.props"><CODE>Prop</CODE></A> 참조)은 null 이 아닌 <em>계산 값</em>을 가진다: 상대 길이는 절대 픽셀(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssLength.html" title="class in org.duckdns.hjow.swingwebpanel.css.values"><CODE>CssLength</CODE></A>, 단위 <code>px</code>), 백분율 없는
+ <code>calc()</code> 는 접히고, 색은 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values"><CODE>CssColor</CODE></A>(<code>color</code> 가 아닌 속성은 키워드 <code>currentcolor</code> 일 수 있음, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#color(int)"><CODE>color(int)</CODE></A> 참조), 키워드는
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssKeyword.html" title="class in org.duckdns.hjow.swingwebpanel.css.values"><CODE>CssKeyword</CODE></A>, 목록은 속성 문법이 준 구조를 유지한다. 백분율은 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssPercentage.html" title="class in org.duckdns.hjow.swingwebpanel.css.values"><CODE>CssPercentage</CODE></A>(또는 그것을 담은 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html" title="class in org.duckdns.hjow.swingwebpanel.css.values"><CODE>CssCalc</CODE></A>)로 남으며 레이아웃이
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#resolve(int, double)"><CODE>resolve(int, double)</CODE></A> 로 실제 값을 만든다. 사용자 정의 속성은 원본 컴포넌트 값으로 제공한다.
+ <p>
+ <b>읽는 방법.</b> 형식별 도우미를 쓴다: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#px(int)"><CODE>px(int)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#number(int)"><CODE>number(int)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#keyword(int)"><CODE>keyword(int)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#isAuto(int)"><CODE>isAuto(int)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#resolve(int, double)"><CODE>resolve(int, double)</CODE></A>,
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#color(int)"><CODE>color(int)</CODE></A>. 가장 많이 쓰는 몇 개는 이름이 있다(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#display()"><CODE>display()</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#position()"><CODE>position()</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#fontSizePx()"><CODE>fontSizePx()</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#fontWeight()"><CODE>fontWeight()</CODE></A>,
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#lineHeightPx()"><CODE>lineHeightPx()</CODE></A>). 계산 스타일은 불변이며 요소끼리 공유할 수 있다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#color(int)">color</A></B>(int&nbsp;id)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the color of a color-valued property as 0xAARRGGBB, with <code>currentcolor</code> resolved against the <code>color</code> property.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#colorValue(int)">colorValue</A></B>(int&nbsp;id)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the color object of a color-valued property with <code>currentcolor</code> resolved.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#customPropertyNames()">customPropertyNames</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the names of the custom properties that are defined on the element (own or inherited).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#display()">display</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the computed <code>display</code> keyword.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#fontFamilies()">fontFamilies</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the font family list in order: quoted names and unquoted name sequences as plain strings, generic families as their keyword.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#fontSizePx()">fontSizePx</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the font size in pixels.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#fontWeight()">fontWeight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the numeric font weight (1 to 1000; normal is 400, bold is 700).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#get(int)">get</A></B>(int&nbsp;id)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the computed value of a longhand property.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#get(java.lang.String)">get</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the computed value of a longhand property by name.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssRaw.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssRaw</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#getCustomProperty(java.lang.String)">getCustomProperty</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the raw value of a custom property.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#getPropertyValue(java.lang.String)">getPropertyValue</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the value as <code>getComputedStyle(element).getPropertyValue(name)</code> would: the computed value serialized, colors as
+ <code>rgb()</code> with <code>currentcolor</code> resolved.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#initial()">initial</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the style an element would have without any declaration and without a parent: all initial values (a 16px font).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#isAuto(int)">isAuto</A></B>(int&nbsp;id)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a property computes to <code>auto</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#isKeyword(int, java.lang.String)">isKeyword</A></B>(int&nbsp;id,
+          java.lang.String&nbsp;kw)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a property has the given keyword as its computed value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#keyword(int)">keyword</A></B>(int&nbsp;id)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the keyword of a property, or null if the value is not a keyword.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#lineHeightPx()">lineHeightPx</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the line height in pixels, or NaN for <code>normal</code> (the layout derives it from the font metrics).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#number(int)">number</A></B>(int&nbsp;id)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a plain number value (opacity, flex-grow, z-index, order, a unitless line-height ...).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#overlay(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, int[])">overlay</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;base,
+        <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;top,
+        int[]&nbsp;ids)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy of this style on which the values that <code>top</code> sets over <code>base</code> are applied to the listed
+ properties.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#position()">position</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the computed <code>position</code> keyword.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#px(int)">px</A></B>(int&nbsp;id)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns an absolute length in pixels.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#resolve(int, double)">resolve</A></B>(int&nbsp;id,
+        double&nbsp;percentBase)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Turns a length, a percentage or a calc expression into pixels: the used value for a given reference length.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#rootFontSizePx()">rootFontSizePx</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the root element's font size in pixels (the reference of <code>rem</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#sameValues(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)">sameValues</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;o)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether two computed styles have exactly the same values (so a change from one to the other needs no relayout or repaint).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#toString()">toString</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a debugging text with a few key properties.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#usesDarkScheme()">usesDarkScheme</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the element uses the dark color scheme: its <code>color-scheme</code> names <code>dark</code> and not <code>light</code>, or both
+ while the user agent prefers dark.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html#with(int, org.duckdns.hjow.swingwebpanel.css.values.CssValue)">with</A></B>(int&nbsp;id,
+     <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy of this style with one computed value replaced (used by animations, which compute the value of a property at a
+ moment, and by <code>::first-line</code>).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="usesDarkScheme()"><!-- --></A><H3>
+usesDarkScheme</H3>
+<PRE>
+public boolean <B>usesDarkScheme</B>()</PRE>
+<DL>
+<DD>Tells whether the element uses the dark color scheme: its <code>color-scheme</code> names <code>dark</code> and not <code>light</code>, or both
+ while the user agent prefers dark. The system colors and <code>light-dark()</code> of the style have been resolved for that scheme.
+ <p>
+ 요소가 어두운 색 구성표를 쓰는지 알려 준다: <code>color-scheme</code> 에 <code>dark</code> 가 있고 <code>light</code> 가 없거나, 둘 다 있고 사용자 에이전트가 어둡게를
+ 선호하는 경우. 스타일의 시스템 색과 <code>light-dark()</code> 는 그 구성표에 맞게 풀려 있다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for the dark scheme / 어두운 구성표이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="initial()"><!-- --></A><H3>
+initial</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A> <B>initial</B>()</PRE>
+<DL>
+<DD>Creates the style an element would have without any declaration and without a parent: all initial values (a 16px font).
+ <p>
+ 선언도 부모도 없는 요소가 가질 스타일을 만든다: 모든 초기값(16px 글꼴).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the initial style / 초기 스타일</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="get(int)"><!-- --></A><H3>
+get</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A> <B>get</B>(int&nbsp;id)</PRE>
+<DL>
+<DD>Returns the computed value of a longhand property.
+ <p>
+ 개별 속성의 계산 값을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - a constant of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/props/Prop.html" title="class in org.duckdns.hjow.swingwebpanel.css.props"><CODE>Prop</CODE></A> / <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/props/Prop.html" title="class in org.duckdns.hjow.swingwebpanel.css.props"><CODE>Prop</CODE></A> 의 상수
+<DT><B>Returns:</B><DD>the computed value, never null / 계산 값. null 이 아니다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="get(java.lang.String)"><!-- --></A><H3>
+get</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A> <B>get</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns the computed value of a longhand property by name.
+ <p>
+ 이름으로 개별 속성의 계산 값을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - a longhand property name (aliases are resolved) / 개별 속성 이름(별칭은 해석한다)
+<DT><B>Returns:</B><DD>the computed value, or null if the name is not a longhand / 계산 값. 개별 속성이 아니면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="keyword(int)"><!-- --></A><H3>
+keyword</H3>
+<PRE>
+public java.lang.String <B>keyword</B>(int&nbsp;id)</PRE>
+<DL>
+<DD>Returns the keyword of a property, or null if the value is not a keyword.
+ <p>
+ 속성의 키워드를 반환한다. 값이 키워드가 아니면 null.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - property id / 속성 id
+<DT><B>Returns:</B><DD>lower-case keyword or null / 소문자 키워드 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isKeyword(int, java.lang.String)"><!-- --></A><H3>
+isKeyword</H3>
+<PRE>
+public boolean <B>isKeyword</B>(int&nbsp;id,
+                         java.lang.String&nbsp;kw)</PRE>
+<DL>
+<DD>Tells whether a property has the given keyword as its computed value.
+ <p>
+ 속성의 계산 값이 주어진 키워드인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - property id / 속성 id<DD><CODE>kw</CODE> - lower-case keyword / 소문자 키워드
+<DT><B>Returns:</B><DD>true if equal / 같으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isAuto(int)"><!-- --></A><H3>
+isAuto</H3>
+<PRE>
+public boolean <B>isAuto</B>(int&nbsp;id)</PRE>
+<DL>
+<DD>Tells whether a property computes to <code>auto</code>.
+ <p>
+ 속성이 <code>auto</code> 로 계산되는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - property id / 속성 id
+<DT><B>Returns:</B><DD>true for auto / auto 이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="px(int)"><!-- --></A><H3>
+px</H3>
+<PRE>
+public double <B>px</B>(int&nbsp;id)</PRE>
+<DL>
+<DD>Returns an absolute length in pixels.
+ <p>
+ 절대 길이를 픽셀로 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - property id / 속성 id
+<DT><B>Returns:</B><DD>pixels, or NaN if the value is not an absolute length (a keyword, a percentage, a calc with a percentage) / 픽셀. 절대 길이가 아니면(키워드, 백분율, 백분율이 든 calc) NaN</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="number(int)"><!-- --></A><H3>
+number</H3>
+<PRE>
+public double <B>number</B>(int&nbsp;id)</PRE>
+<DL>
+<DD>Returns a plain number value (opacity, flex-grow, z-index, order, a unitless line-height ...).
+ <p>
+ 일반 숫자 값을 반환한다(opacity, flex-grow, z-index, order, 단위 없는 line-height 등).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - property id / 속성 id
+<DT><B>Returns:</B><DD>the number, or NaN if the value is not a number / 숫자. 숫자가 아니면 NaN</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="resolve(int, double)"><!-- --></A><H3>
+resolve</H3>
+<PRE>
+public double <B>resolve</B>(int&nbsp;id,
+                      double&nbsp;percentBase)</PRE>
+<DL>
+<DD>Turns a length, a percentage or a calc expression into pixels: the used value for a given reference length.
+ <p>
+ 길이, 백분율, calc 식을 픽셀로 바꾼다: 주어진 기준 길이에 대한 실제 값.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - property id / 속성 id<DD><CODE>percentBase</CODE> - the length that 100% stands for (the containing block width for most properties) / 100% 가 뜻하는 길이(대부분의 속성은 포함 블록의 폭)
+<DT><B>Returns:</B><DD>pixels, or NaN if the value is a keyword such as <code>auto</code> / 픽셀. <code>auto</code> 같은 키워드이면 NaN</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="color(int)"><!-- --></A><H3>
+color</H3>
+<PRE>
+public int <B>color</B>(int&nbsp;id)</PRE>
+<DL>
+<DD>Returns the color of a color-valued property as 0xAARRGGBB, with <code>currentcolor</code> resolved against the <code>color</code> property.
+ <p>
+ 색 속성의 색을 0xAARRGGBB 로 반환한다. <code>currentcolor</code> 는 <code>color</code> 속성에 대해 해석한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - property id / 속성 id
+<DT><B>Returns:</B><DD>the color, or 0 (transparent) if the value is not a color (for example <code>auto</code> or <code>invert</code>) / 색. 색이 아니면(예: <code>auto</code>, <code>invert</code>) 0(투명)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="colorValue(int)"><!-- --></A><H3>
+colorValue</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A> <B>colorValue</B>(int&nbsp;id)</PRE>
+<DL>
+<DD>Returns the color object of a color-valued property with <code>currentcolor</code> resolved.
+ <p>
+ <code>currentcolor</code> 를 해석한 색 속성의 색 객체를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - property id / 속성 id
+<DT><B>Returns:</B><DD>the color, or null if the value is not a color / 색. 색이 아니면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="display()"><!-- --></A><H3>
+display</H3>
+<PRE>
+public java.lang.String <B>display</B>()</PRE>
+<DL>
+<DD>Returns the computed <code>display</code> keyword.
+ <p>
+ 계산된 <code>display</code> 키워드를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>for example <code>block</code>, <code>inline</code>, <code>none</code> / 예: <code>block</code>, <code>inline</code>, <code>none</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="position()"><!-- --></A><H3>
+position</H3>
+<PRE>
+public java.lang.String <B>position</B>()</PRE>
+<DL>
+<DD>Returns the computed <code>position</code> keyword.
+ <p>
+ 계산된 <code>position</code> 키워드를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>static, relative, absolute, fixed or sticky / static, relative, absolute, fixed, sticky 중 하나</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fontSizePx()"><!-- --></A><H3>
+fontSizePx</H3>
+<PRE>
+public double <B>fontSizePx</B>()</PRE>
+<DL>
+<DD>Returns the font size in pixels.
+ <p>
+ 글꼴 크기를 픽셀로 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>pixels / 픽셀</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="rootFontSizePx()"><!-- --></A><H3>
+rootFontSizePx</H3>
+<PRE>
+public double <B>rootFontSizePx</B>()</PRE>
+<DL>
+<DD>Returns the root element's font size in pixels (the reference of <code>rem</code>).
+ <p>
+ 루트 요소의 글꼴 크기를 픽셀로 반환한다(<code>rem</code> 의 기준).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>pixels / 픽셀</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fontWeight()"><!-- --></A><H3>
+fontWeight</H3>
+<PRE>
+public int <B>fontWeight</B>()</PRE>
+<DL>
+<DD>Returns the numeric font weight (1 to 1000; normal is 400, bold is 700).
+ <p>
+ 숫자 글꼴 두께를 반환한다(1 에서 1000. normal 은 400, bold 는 700).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>weight / 두께</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="lineHeightPx()"><!-- --></A><H3>
+lineHeightPx</H3>
+<PRE>
+public double <B>lineHeightPx</B>()</PRE>
+<DL>
+<DD>Returns the line height in pixels, or NaN for <code>normal</code> (the layout derives it from the font metrics).
+ <p>
+ 줄 높이를 픽셀로 반환한다. <code>normal</code> 이면 NaN(레이아웃이 글꼴 측정값에서 구한다).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>pixels or NaN / 픽셀 또는 NaN</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fontFamilies()"><!-- --></A><H3>
+fontFamilies</H3>
+<PRE>
+public java.util.List&lt;java.lang.String&gt; <B>fontFamilies</B>()</PRE>
+<DL>
+<DD>Returns the font family list in order: quoted names and unquoted name sequences as plain strings, generic families as their keyword.
+ <p>
+ 글꼴 목록을 순서대로 반환한다: 따옴표 친 이름과 따옴표 없는 이름 나열은 일반 문자열, 일반 글꼴 계열은 키워드 이름.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the family names / 글꼴 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCustomProperty(java.lang.String)"><!-- --></A><H3>
+getCustomProperty</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssRaw.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssRaw</A> <B>getCustomProperty</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns the raw value of a custom property.
+ <p>
+ 사용자 정의 속성의 원본 값을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the name including the two hyphens (case-sensitive) / 하이픈 두 개를 포함한 이름(대소문자 구분)
+<DT><B>Returns:</B><DD>the value, or null if the property is not defined / 값. 정의되지 않았으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="customPropertyNames()"><!-- --></A><H3>
+customPropertyNames</H3>
+<PRE>
+public java.util.List&lt;java.lang.String&gt; <B>customPropertyNames</B>()</PRE>
+<DL>
+<DD>Returns the names of the custom properties that are defined on the element (own or inherited).
+ <p>
+ 요소에 정의된(직접 또는 상속받은) 사용자 정의 속성의 이름을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the names in a stable order / 안정된 순서의 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPropertyValue(java.lang.String)"><!-- --></A><H3>
+getPropertyValue</H3>
+<PRE>
+public java.lang.String <B>getPropertyValue</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns the value as <code>getComputedStyle(element).getPropertyValue(name)</code> would: the computed value serialized, colors as
+ <code>rgb()</code> with <code>currentcolor</code> resolved. A shorthand is serialized when all its longhands allow it, else the result is the
+ empty string. Unknown names give the empty string.
+ <p>
+ <code>getComputedStyle(element).getPropertyValue(name)</code> 이 반환할 값을 반환한다: 직렬화한 계산 값이며 색은 <code>currentcolor</code> 를 해석한
+ <code>rgb()</code> 이다. 단축 속성은 모든 개별 속성이 허용할 때 직렬화하고 아니면 빈 문자열이다. 모르는 이름은 빈 문자열이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the property name / 속성 이름
+<DT><B>Returns:</B><DD>the serialized value / 직렬화한 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="with(int, org.duckdns.hjow.swingwebpanel.css.values.CssValue)"><!-- --></A><H3>
+with</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A> <B>with</B>(int&nbsp;id,
+                          <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&nbsp;v)</PRE>
+<DL>
+<DD>Returns a copy of this style with one computed value replaced (used by animations, which compute the value of a property at a
+ moment, and by <code>::first-line</code>). The copy shares everything else with this style.
+ <p>
+ 계산 값 하나를 바꾼 이 스타일의 사본을 반환한다(어느 시각의 속성 값을 계산하는 애니메이션과 <code>::first-line</code> 이 쓴다). 나머지는 이 스타일과 공유한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - a constant of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/props/Prop.html" title="class in org.duckdns.hjow.swingwebpanel.css.props"><CODE>Prop</CODE></A> / <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/props/Prop.html" title="class in org.duckdns.hjow.swingwebpanel.css.props"><CODE>Prop</CODE></A> 의 상수<DD><CODE>v</CODE> - the new computed value, not null / 새 계산 값(null 불가)
+<DT><B>Returns:</B><DD>the copy / 사본</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="overlay(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, int[])"><!-- --></A><H3>
+overlay</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A> <B>overlay</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;base,
+                             <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;top,
+                             int[]&nbsp;ids)</PRE>
+<DL>
+<DD>Returns a copy of this style on which the values that <code>top</code> sets over <code>base</code> are applied to the listed
+ properties. A property is taken from <code>top</code> only if this style still has the value of <code>base</code> (it inherited the
+ property unchanged, so an element inside the first line that sets a property itself keeps its own value) and <code>top</code>
+ differs from <code>base</code>. <code>::first-line</code> uses it: <code>base</code> is the style of the element, <code>top</code> the
+ style of its <code>::first-line</code>, this is the style of a text item or of an inline element in the first line.
+ <p>
+ <code>top</code> 이 <code>base</code> 위에 정한 값을 나열한 속성에 적용한 이 스타일의 사본을 반환한다. 이 스타일이 아직 <code>base</code> 의 값을 가질 때
+ (그 속성을 바꾸지 않고 상속했을 때. 스스로 속성을 정한 첫 줄 안의 요소는 자기 값을 유지한다)이고 <code>top</code> 이 <code>base</code> 와 다를 때만 그 속성을
+ <code>top</code> 에서 가져온다. <code>::first-line</code> 이 쓴다: <code>base</code> 는 요소의 스타일, <code>top</code> 은 그 <code>::first-line</code> 스타일이고,
+ 이 스타일은 첫 줄 안의 텍스트 항목이나 인라인 요소의 스타일이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>base</CODE> - the style the values are compared with / 값을 비교하는 기준 스타일<DD><CODE>top</CODE> - the style that is laid over it / 그 위에 덮는 스타일<DD><CODE>ids</CODE> - the property ids that may be taken / 가져올 수 있는 속성 id
+<DT><B>Returns:</B><DD>this style when nothing changes, else a changed copy / 바뀌는 것이 없으면 이 스타일, 아니면 바뀐 사본</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="sameValues(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)"><!-- --></A><H3>
+sameValues</H3>
+<PRE>
+public boolean <B>sameValues</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;o)</PRE>
+<DL>
+<DD>Tells whether two computed styles have exactly the same values (so a change from one to the other needs no relayout or repaint).
+ <p>
+ 두 계산 스타일의 값이 완전히 같은지 알려 준다(그러면 한쪽에서 다른 쪽으로의 변화에 재배치나 다시 그리기가 필요 없다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>o</CODE> - the other style / 다른 스타일
+<DT><B>Returns:</B><DD>true if all values and custom properties are equal / 모든 값과 사용자 정의 속성이 같으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toString()"><!-- --></A><H3>
+toString</H3>
+<PRE>
+public java.lang.String <B>toString</B>()</PRE>
+<DL>
+<DD>Returns a debugging text with a few key properties.
+ <p>
+ 몇 가지 핵심 속성이 든 디버깅용 문자열을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>toString</CODE> in class <CODE>java.lang.Object</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>text / 문자열</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/FramesetTracks.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ComputedStyle.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

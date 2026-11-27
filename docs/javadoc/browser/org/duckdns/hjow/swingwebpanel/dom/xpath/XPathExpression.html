@@ -1,0 +1,365 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+XPathExpression
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="XPathExpression";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/XPathException.html" title="class in org.duckdns.hjow.swingwebpanel.dom.xpath"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/xpath/XPathExpression.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="XPathExpression.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom.xpath</FONT>
+<BR>
+Class XPathExpression</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.dom.xpath.XPathExpression</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>XPathExpression</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+A compiled XPath 1.0 expression (XML Path Language 1.0, W3C Recommendation 16 November 1999, Last-Modified 2 October 2017, fetched 2026-11-18) over the DOM of this
+ project, as the DOM XPath interfaces use it (WHATWG DOM section 8). It has the whole syntax of the Recommendation: location paths with all the axes (the
+ <code>namespace</code> axis is always empty: the DOM has no namespace nodes), node tests and predicates, the abbreviated syntax, filter expressions, unions, all the
+ operators with the comparison rules of node sets, and the core function library (node-set, string, boolean and number functions). Values are <CODE>Double</CODE>,
+ <CODE>String</CODE>, <CODE>Boolean</CODE> and a node set, which is a <CODE>List</CODE> of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>Node</CODE></A> and <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Attr.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>Attr</CODE></A> objects without duplicates in document order. Variable
+ references are a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/XPathException.html#TYPE"><CODE>XPathException.TYPE</CODE></A> error (a DOM XPath expression has no variables). Choices for HTML documents (as browsers do): a name test without a
+ prefix also matches elements in the HTML namespace, and it matches their lower case names, so that <code>//DIV</code> finds <code>div</code> elements. An expression
+ is immutable and may be evaluated many times, also from different threads.
+ <p>
+ 컴파일된 XPath 1.0 식(XML Path Language 1.0, W3C 권고안 1999-11-16, Last-Modified 2017-10-02, 2026-11-18 조회)이며 DOM XPath 인터페이스가 쓰는 이 프로젝트의 DOM 위에서
+ 동작한다(WHATWG DOM 8절). 권고안의 구문 전체를 갖춘다: 모든 축이 있는 위치 경로(<code>namespace</code> 축은 DOM 에 네임스페이스 노드가 없으므로 항상 비어 있다), 노드 테스트와
+ 술어, 약식 구문, 필터 식, 합집합, 노드 집합의 비교 규칙이 있는 모든 연산자, 핵심 함수 라이브러리(노드 집합, 문자열, 불리언, 숫자 함수). 값은 <CODE>Double</CODE>, <CODE>String</CODE>,
+ <CODE>Boolean</CODE>, 그리고 노드 집합이며 노드 집합은 중복 없이 문서 순서로 놓인 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>Node</CODE></A> 와 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Attr.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>Attr</CODE></A> 의 <CODE>List</CODE> 이다. 변수 참조는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/XPathException.html#TYPE"><CODE>XPathException.TYPE</CODE></A> 오류이다
+ (DOM XPath 식에는 변수가 없다). HTML 문서에서의 선택(브라우저와 같다): 접두사 없는 이름 테스트는 HTML 네임스페이스의 요소도 일치시키며 소문자 이름으로 비교하므로
+ <code>//DIV</code> 가 <code>div</code> 요소를 찾는다. 식은 불변이고 여러 번, 여러 스레드에서 평가할 수 있다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/XPathExpression.html" title="class in org.duckdns.hjow.swingwebpanel.dom.xpath">XPathExpression</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/XPathExpression.html#compile(java.lang.String)">compile</A></B>(java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Compiles an XPath 1.0 expression.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/XPathExpression.html#evaluate(java.lang.Object, org.duckdns.hjow.swingwebpanel.dom.xpath.NamespaceResolver)">evaluate</A></B>(java.lang.Object&nbsp;context,
+         <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/NamespaceResolver.html" title="interface in org.duckdns.hjow.swingwebpanel.dom.xpath">NamespaceResolver</A>&nbsp;resolver)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Evaluates the expression.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/XPathExpression.html#getText()">getText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text that was compiled.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/XPathExpression.html#toBool(java.lang.Object)">toBool</A></B>(java.lang.Object&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Converts a value to a boolean (the function <code>boolean()</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/XPathExpression.html#toNum(java.lang.Object)">toNum</A></B>(java.lang.Object&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Converts a value to a number (the function <code>number()</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/XPathExpression.html#toStr(java.lang.Object)">toStr</A></B>(java.lang.Object&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Converts a value to a string (the function <code>string()</code>).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="compile(java.lang.String)"><!-- --></A><H3>
+compile</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/XPathExpression.html" title="class in org.duckdns.hjow.swingwebpanel.dom.xpath">XPathExpression</A> <B>compile</B>(java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Compiles an XPath 1.0 expression.
+ <p>
+ XPath 1.0 식을 컴파일한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the expression / 식
+<DT><B>Returns:</B><DD>the compiled expression / 컴파일된 식
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/XPathException.html" title="class in org.duckdns.hjow.swingwebpanel.dom.xpath">XPathException</A></CODE> - of kind <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/XPathException.html#SYNTAX"><CODE>XPathException.SYNTAX</CODE></A> if the text is not an expression / 식이 아니면 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/XPathException.html#SYNTAX"><CODE>XPathException.SYNTAX</CODE></A> 종류</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="evaluate(java.lang.Object, org.duckdns.hjow.swingwebpanel.dom.xpath.NamespaceResolver)"><!-- --></A><H3>
+evaluate</H3>
+<PRE>
+public java.lang.Object <B>evaluate</B>(java.lang.Object&nbsp;context,
+                                 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/NamespaceResolver.html" title="interface in org.duckdns.hjow.swingwebpanel.dom.xpath">NamespaceResolver</A>&nbsp;resolver)</PRE>
+<DL>
+<DD>Evaluates the expression.
+ <p>
+ 식을 평가한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>context</CODE> - the context node (a node or an attribute) / 컨텍스트 노드(노드나 속성)<DD><CODE>resolver</CODE> - resolves the prefixes of the name tests, or null for none / 이름 테스트의 접두사를 해석한다. 없으면 null
+<DT><B>Returns:</B><DD>a <CODE>Double</CODE>, a <CODE>String</CODE>, a <CODE>Boolean</CODE> or a node set (a <CODE>List</CODE> in document order) / <CODE>Double</CODE>, <CODE>String</CODE>, <CODE>Boolean</CODE> 또는 노드 집합(문서 순서의 <CODE>List</CODE>)
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/XPathException.html" title="class in org.duckdns.hjow.swingwebpanel.dom.xpath">XPathException</A></CODE> - of kind <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/XPathException.html#NAMESPACE"><CODE>XPathException.NAMESPACE</CODE></A> or <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/XPathException.html#TYPE"><CODE>XPathException.TYPE</CODE></A> / <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/XPathException.html#NAMESPACE"><CODE>XPathException.NAMESPACE</CODE></A> 또는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/XPathException.html#TYPE"><CODE>XPathException.TYPE</CODE></A> 종류</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getText()"><!-- --></A><H3>
+getText</H3>
+<PRE>
+public java.lang.String <B>getText</B>()</PRE>
+<DL>
+<DD>Returns the text that was compiled.
+ <p>
+ 컴파일한 문자열을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the text / 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toStr(java.lang.Object)"><!-- --></A><H3>
+toStr</H3>
+<PRE>
+public static java.lang.String <B>toStr</B>(java.lang.Object&nbsp;v)</PRE>
+<DL>
+<DD>Converts a value to a string (the function <code>string()</code>).
+ <p>
+ 값을 문자열로 바꾼다(<code>string()</code> 함수).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the value / 값
+<DT><B>Returns:</B><DD>the string / 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toNum(java.lang.Object)"><!-- --></A><H3>
+toNum</H3>
+<PRE>
+public static double <B>toNum</B>(java.lang.Object&nbsp;v)</PRE>
+<DL>
+<DD>Converts a value to a number (the function <code>number()</code>).
+ <p>
+ 값을 숫자로 바꾼다(<code>number()</code> 함수).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the value / 값
+<DT><B>Returns:</B><DD>the number / 숫자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toBool(java.lang.Object)"><!-- --></A><H3>
+toBool</H3>
+<PRE>
+public static boolean <B>toBool</B>(java.lang.Object&nbsp;v)</PRE>
+<DL>
+<DD>Converts a value to a boolean (the function <code>boolean()</code>).
+ <p>
+ 값을 불리언으로 바꾼다(<code>boolean()</code> 함수).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the value / 값
+<DT><B>Returns:</B><DD>the boolean / 불리언</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/xpath/XPathException.html" title="class in org.duckdns.hjow.swingwebpanel.dom.xpath"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/xpath/XPathExpression.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="XPathExpression.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,304 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+PageEditing
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="PageEditing";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDragDrop.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/PageEditing.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PageEditing.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.core</FONT>
+<BR>
+Class PageEditing</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.core.PageEditing</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>PageEditing</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Editing by the user in the rendered page (plan item P20-06): what the keys do inside an editing host (an element with
+ <code>contenteditable</code>, or a document in design mode). Typed characters, Enter, Shift+Enter, Backspace, Delete (with Ctrl: by word),
+ the shortcuts Ctrl+B, Ctrl+I, Ctrl+U, Ctrl+Z, Ctrl+Y, Ctrl+Shift+Z, Ctrl+A, Ctrl+X and Ctrl+V, and the caret keys (arrows, Home and End,
+ with Ctrl by word or to the edge of the host) become operations of the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html" title="class in org.duckdns.hjow.swingwebpanel.dom.edit"><CODE>Editor</CODE></A> of the document. The editor does the work on the DOM
+ and sends <code>beforeinput</code> and <code>input</code>; this class only decides what a key means, joins the editor with the layout (the
+ blocks and the preserved white space come from the computed style, the caret moves along the lines of the page) and with the clipboard
+ (<code>cut</code> and <code>paste</code> events). All work happens on the document queue; the clipboard is read on the event dispatch
+ thread before the paste is queued.
+ <p>
+ 렌더링된 페이지에서 사용자의 편집(계획 P20-06): 편집 호스트(<code>contenteditable</code> 요소나 디자인 모드 문서) 안에서 키가 하는 일. 입력한 글자, Enter,
+ Shift+Enter, Backspace, Delete(Ctrl 이면 낱말 단위), 단축키 Ctrl+B, Ctrl+I, Ctrl+U, Ctrl+Z, Ctrl+Y, Ctrl+Shift+Z, Ctrl+A, Ctrl+X, Ctrl+V, 캐럿 키(화살표,
+ Home, End. Ctrl 이면 낱말 단위나 호스트의 가장자리)가 문서의 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html" title="class in org.duckdns.hjow.swingwebpanel.dom.edit"><CODE>Editor</CODE></A> 의 작업이 된다. 편집기가 DOM 을 바꾸고 <code>beforeinput</code> 과
+ <code>input</code> 을 보낸다. 이 클래스는 키의 뜻을 정하고, 편집기를 레이아웃(블록과 보존되는 공백은 계산 스타일에서, 캐럿은 페이지의 줄을 따라 움직인다)과
+ 클립보드(<code>cut</code>, <code>paste</code> 이벤트)에 잇는다. 모든 일은 문서 큐에서 일어나며, 클립보드는 붙여넣기를 큐에 넣기 전에 이벤트 디스패치
+ 스레드에서 읽는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageEditing.html#PageEditing(org.duckdns.hjow.swingwebpanel.core.BrowserSession, org.duckdns.hjow.swingwebpanel.core.PageView, org.duckdns.hjow.swingwebpanel.core.PageSelection)">PageEditing</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" title="class in org.duckdns.hjow.swingwebpanel.core">BrowserSession</A>&nbsp;session,
+            <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageView</A>&nbsp;view,
+            <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSelection</A>&nbsp;selection)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the controller of a page component.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageEditing.html#dispose()">dispose</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stops all work (the component was disposed).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageEditing.html#setClipboardSource(org.duckdns.hjow.swingwebpanel.core.ClipboardSource)">setClipboardSource</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ClipboardSource.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ClipboardSource</A>&nbsp;clipboard)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets where pasted data comes from (null: paste events carry no data).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="PageEditing(org.duckdns.hjow.swingwebpanel.core.BrowserSession, org.duckdns.hjow.swingwebpanel.core.PageView, org.duckdns.hjow.swingwebpanel.core.PageSelection)"><!-- --></A><H3>
+PageEditing</H3>
+<PRE>
+public <B>PageEditing</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" title="class in org.duckdns.hjow.swingwebpanel.core">BrowserSession</A>&nbsp;session,
+                   <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageView</A>&nbsp;view,
+                   <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSelection</A>&nbsp;selection)</PRE>
+<DL>
+<DD>Creates the controller of a page component.
+ <p>
+ 페이지 컴포넌트의 제어기를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>session</CODE> - the session / 세션<DD><CODE>view</CODE> - the view / 뷰<DD><CODE>selection</CODE> - the selection controller / 선택 제어기</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="setClipboardSource(org.duckdns.hjow.swingwebpanel.core.ClipboardSource)"><!-- --></A><H3>
+setClipboardSource</H3>
+<PRE>
+public void <B>setClipboardSource</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ClipboardSource.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ClipboardSource</A>&nbsp;clipboard)</PRE>
+<DL>
+<DD>Sets where pasted data comes from (null: paste events carry no data).
+ <p>
+ 붙여넣는 데이터의 출처를 정한다(null 이면 붙여넣기 이벤트에 데이터가 없다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>clipboard</CODE> - the source or null / 출처. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispose()"><!-- --></A><H3>
+dispose</H3>
+<PRE>
+public void <B>dispose</B>()</PRE>
+<DL>
+<DD>Stops all work (the component was disposed).
+ <p>
+ 모든 일을 멈춘다(컴포넌트가 폐기되었다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDragDrop.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/PageEditing.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PageEditing.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

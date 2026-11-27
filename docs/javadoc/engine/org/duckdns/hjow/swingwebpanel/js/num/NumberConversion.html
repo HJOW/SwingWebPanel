@@ -1,0 +1,743 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+NumberConversion
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="NumberConversion";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/Float16.html" title="class in org.duckdns.hjow.swingwebpanel.js.num"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberRangeException.html" title="class in org.duckdns.hjow.swingwebpanel.js.num"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="NumberConversion.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.num</FONT>
+<BR>
+Class NumberConversion</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.num.NumberConversion</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>NumberConversion</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+ECMAScript 2015 number conversions on plain Java doubles: Number::toString (radix 10 and other radixes),
+ Number.prototype.toFixed / toExponential / toPrecision, StringToNumber, parseInt, parseFloat and the integer
+ conversion abstract operations ToInteger, ToInt32, ToUint32, ToUint16 and ToLength.
+ <p>
+ Assumptions (the ECMA-262 text could not be fetched, so these follow the ES2015 algorithms from knowledge):
+ toString radix other than 10 follows the V8 algorithm (the spec leaves it implementation dependent);
+ toFixed checks the digit range before NaN while toExponential/toPrecision check NaN and Infinity first;
+ ties in toFixed/toExponential/toPrecision choose the larger n (round half up on the magnitude).
+ Methods that the spec defines as RangeError throw <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberRangeException.html" title="class in org.duckdns.hjow.swingwebpanel.js.num"><CODE>NumberRangeException</CODE></A>. All methods are static, stateless
+ and thread-safe.
+ <p>
+ 순수 Java double 위의 ECMAScript 2015 숫자 변환: Number::toString(10진 및 다른 진법), Number.prototype.toFixed / toExponential /
+ toPrecision, StringToNumber, parseInt, parseFloat, 정수 변환 추상 연산 ToInteger, ToInt32, ToUint32, ToUint16, ToLength.
+ <p>
+ 가정(ECMA-262 본문을 조회하지 못해 ES2015 알고리즘에 대한 지식을 따랐다): 10진이 아닌 진법의 toString 은 V8 알고리즘을 따른다(규격은 구현 정의).
+ toFixed 는 자릿수 범위를 NaN 보다 먼저 검사하고, toExponential/toPrecision 은 NaN 과 Infinity 를 먼저 검사한다.
+ toFixed/toExponential/toPrecision 의 동점은 큰 n 을 고른다(크기에 대한 반올림). 규격이 RangeError 로 정한 경우
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberRangeException.html" title="class in org.duckdns.hjow.swingwebpanel.js.num"><CODE>NumberRangeException</CODE></A> 을 던진다. 모든 메서드는 정적이고 상태가 없으며 스레드 안전하다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html#MAX_SAFE_INTEGER">MAX_SAFE_INTEGER</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2^53 - 1, the largest safe integer.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html#isInteger(double)">isInteger</A></B>(double&nbsp;d)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number.isInteger: finite and equal to its truncation.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html#isSafeInteger(double)">isSafeInteger</A></B>(double&nbsp;d)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number.isSafeInteger: an integer whose magnitude is at most 2^53-1.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html#parseFloat(java.lang.String)">parseFloat</A></B>(java.lang.String&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parseFloat: parses the longest prefix that is a StrDecimalLiteral after skipping leading white space.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html#parseInt(java.lang.String, int)">parseInt</A></B>(java.lang.String&nbsp;s,
+         int&nbsp;radix)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parseInt(string, radix): the radix has already been converted with ToInt32 (0 means "not given").</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html#sameValue(double, double)">sameValue</A></B>(double&nbsp;a,
+          double&nbsp;b)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SameValue: like === but NaN equals NaN and +0 differs from -0.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html#sameValueZero(double, double)">sameValueZero</A></B>(double&nbsp;a,
+              double&nbsp;b)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SameValueZero: like SameValue but +0 equals -0.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html#stringToNumber(java.lang.String)">stringToNumber</A></B>(java.lang.String&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringToNumber: converts a string to a number with the StrNumericLiteral grammar (surrounding white space and
+ line terminators are ignored; empty becomes 0; decimal, Infinity, 0x, 0o and 0b literals; otherwise NaN).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html#toExponential(double)">toExponential</A></B>(double&nbsp;x)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number.prototype.toExponential() with the argument undefined: as many digits as necessary (shortest).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html#toExponential(double, double)">toExponential</A></B>(double&nbsp;x,
+              double&nbsp;fractionDigits)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number.prototype.toExponential(fractionDigits).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html#toFixed(double, double)">toFixed</A></B>(double&nbsp;x,
+        double&nbsp;fractionDigits)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number.prototype.toFixed(fractionDigits).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html#toInt32(double)">toInt32</A></B>(double&nbsp;d)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ToInt32: modulo 2^32 mapped into the signed 32-bit range.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html#toInteger(double)">toInteger</A></B>(double&nbsp;d)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ToInteger: NaN becomes +0, infinities stay, other values are truncated toward zero (never returns -0).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html#toLength(double)">toLength</A></B>(double&nbsp;d)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ToLength: clamps ToInteger(d) into 0..2^53-1.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html#toPrecision(double)">toPrecision</A></B>(double&nbsp;x)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number.prototype.toPrecision() with the argument undefined: same as ToString.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html#toPrecision(double, double)">toPrecision</A></B>(double&nbsp;x,
+            double&nbsp;precision)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number.prototype.toPrecision(precision).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html#toString(double)">toString</A></B>(double&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number::toString(x) for radix 10: shortest round-trip digits formatted per ECMA-262 7.1.12.1.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html#toString(double, double)">toString</A></B>(double&nbsp;v,
+         double&nbsp;radix)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number.prototype.toString(radix) for radix 2..36.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html#toUint16(double)">toUint16</A></B>(double&nbsp;d)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ToUint16: modulo 2^16 as a non-negative int.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html#toUint32(double)">toUint32</A></B>(double&nbsp;d)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ToUint32: modulo 2^32 as a non-negative long.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="MAX_SAFE_INTEGER"><!-- --></A><H3>
+MAX_SAFE_INTEGER</H3>
+<PRE>
+public static final double <B>MAX_SAFE_INTEGER</B></PRE>
+<DL>
+<DD>2^53 - 1, the largest safe integer.
+ <p>
+ 안전한 최대 정수 2^53 - 1.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.num.NumberConversion.MAX_SAFE_INTEGER">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="toInteger(double)"><!-- --></A><H3>
+toInteger</H3>
+<PRE>
+public static double <B>toInteger</B>(double&nbsp;d)</PRE>
+<DL>
+<DD>ToInteger: NaN becomes +0, infinities stay, other values are truncated toward zero (never returns -0).
+ <p>
+ ToInteger: NaN 은 +0, 무한대는 그대로, 나머지는 0 쪽으로 버림한다(-0 은 반환하지 않는다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>d</CODE> - value / 값
+<DT><B>Returns:</B><DD>integral value / 정수 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toInt32(double)"><!-- --></A><H3>
+toInt32</H3>
+<PRE>
+public static int <B>toInt32</B>(double&nbsp;d)</PRE>
+<DL>
+<DD>ToInt32: modulo 2^32 mapped into the signed 32-bit range.
+ <p>
+ ToInt32: 2^32 로 나눈 나머지를 부호 있는 32비트 범위로 대응시킨다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>d</CODE> - value / 값
+<DT><B>Returns:</B><DD>int result / int 결과</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toUint32(double)"><!-- --></A><H3>
+toUint32</H3>
+<PRE>
+public static long <B>toUint32</B>(double&nbsp;d)</PRE>
+<DL>
+<DD>ToUint32: modulo 2^32 as a non-negative long.
+ <p>
+ ToUint32: 2^32 로 나눈 나머지를 음이 아닌 long 으로 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>d</CODE> - value / 값
+<DT><B>Returns:</B><DD>0 to 4294967295 / 0 이상 4294967295 이하</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toUint16(double)"><!-- --></A><H3>
+toUint16</H3>
+<PRE>
+public static int <B>toUint16</B>(double&nbsp;d)</PRE>
+<DL>
+<DD>ToUint16: modulo 2^16 as a non-negative int.
+ <p>
+ ToUint16: 2^16 로 나눈 나머지를 음이 아닌 int 로 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>d</CODE> - value / 값
+<DT><B>Returns:</B><DD>0 to 65535 / 0 이상 65535 이하</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toLength(double)"><!-- --></A><H3>
+toLength</H3>
+<PRE>
+public static double <B>toLength</B>(double&nbsp;d)</PRE>
+<DL>
+<DD>ToLength: clamps ToInteger(d) into 0..2^53-1.
+ <p>
+ ToLength: ToInteger(d) 를 0..2^53-1 범위로 제한한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>d</CODE> - value / 값
+<DT><B>Returns:</B><DD>length value / 길이 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isInteger(double)"><!-- --></A><H3>
+isInteger</H3>
+<PRE>
+public static boolean <B>isInteger</B>(double&nbsp;d)</PRE>
+<DL>
+<DD>Number.isInteger: finite and equal to its truncation.
+ <p>
+ Number.isInteger: 유한하고 버림한 값과 같은지 검사한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>d</CODE> - value / 값
+<DT><B>Returns:</B><DD>true if an integral number / 정수이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isSafeInteger(double)"><!-- --></A><H3>
+isSafeInteger</H3>
+<PRE>
+public static boolean <B>isSafeInteger</B>(double&nbsp;d)</PRE>
+<DL>
+<DD>Number.isSafeInteger: an integer whose magnitude is at most 2^53-1.
+ <p>
+ Number.isSafeInteger: 크기가 2^53-1 이하인 정수인지 검사한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>d</CODE> - value / 값
+<DT><B>Returns:</B><DD>true if a safe integer / 안전한 정수이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="sameValue(double, double)"><!-- --></A><H3>
+sameValue</H3>
+<PRE>
+public static boolean <B>sameValue</B>(double&nbsp;a,
+                                double&nbsp;b)</PRE>
+<DL>
+<DD>SameValue: like === but NaN equals NaN and +0 differs from -0.
+ <p>
+ SameValue: === 와 비슷하지만 NaN 은 NaN 과 같고 +0 과 -0 은 다르다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>a</CODE> - first value / 첫 값<DD><CODE>b</CODE> - second value / 둘째 값
+<DT><B>Returns:</B><DD>true if the same value / 같은 값이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="sameValueZero(double, double)"><!-- --></A><H3>
+sameValueZero</H3>
+<PRE>
+public static boolean <B>sameValueZero</B>(double&nbsp;a,
+                                    double&nbsp;b)</PRE>
+<DL>
+<DD>SameValueZero: like SameValue but +0 equals -0.
+ <p>
+ SameValueZero: SameValue 와 같지만 +0 과 -0 을 같게 본다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>a</CODE> - first value / 첫 값<DD><CODE>b</CODE> - second value / 둘째 값
+<DT><B>Returns:</B><DD>true if equal under SameValueZero / SameValueZero 로 같으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toString(double)"><!-- --></A><H3>
+toString</H3>
+<PRE>
+public static java.lang.String <B>toString</B>(double&nbsp;v)</PRE>
+<DL>
+<DD>Number::toString(x) for radix 10: shortest round-trip digits formatted per ECMA-262 7.1.12.1.
+ <p>
+ 10진 Number::toString(x): ECMA-262 7.1.12.1 에 따른 가장 짧은 왕복 가능 숫자 형식.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - number / 숫자
+<DT><B>Returns:</B><DD>string form / 문자열 형태</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toString(double, double)"><!-- --></A><H3>
+toString</H3>
+<PRE>
+public static java.lang.String <B>toString</B>(double&nbsp;v,
+                                        double&nbsp;radix)</PRE>
+<DL>
+<DD>Number.prototype.toString(radix) for radix 2..36. Radix 10 is the shortest round-trip form; other radixes use
+ the V8 algorithm that emits as many fraction digits as are needed to identify the double.
+ <p>
+ Number.prototype.toString(radix) (진법 2..36). 10진은 가장 짧은 왕복 형태이고, 다른 진법은 double 을 식별하는 데 필요한 만큼의 소수 자릿수를
+ 내는 V8 알고리즘을 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - number / 숫자<DD><CODE>radix</CODE> - radix (already ToInteger'd) / 진법(ToInteger 를 거친 값)
+<DT><B>Returns:</B><DD>string form / 문자열 형태
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberRangeException.html" title="class in org.duckdns.hjow.swingwebpanel.js.num">NumberRangeException</A></CODE> - if the radix is outside 2..36 / 진법이 2..36 밖이면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toFixed(double, double)"><!-- --></A><H3>
+toFixed</H3>
+<PRE>
+public static java.lang.String <B>toFixed</B>(double&nbsp;x,
+                                       double&nbsp;fractionDigits)</PRE>
+<DL>
+<DD>Number.prototype.toFixed(fractionDigits).
+ <p>
+ Number.prototype.toFixed(fractionDigits).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - number / 숫자<DD><CODE>fractionDigits</CODE> - number of fraction digits 0..20 (ToInteger is applied) / 소수 자릿수 0..20(ToInteger 적용)
+<DT><B>Returns:</B><DD>fixed-point text / 고정 소수점 문자열
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberRangeException.html" title="class in org.duckdns.hjow.swingwebpanel.js.num">NumberRangeException</A></CODE> - if fractionDigits is outside 0..20 / 자릿수가 0..20 밖이면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toExponential(double)"><!-- --></A><H3>
+toExponential</H3>
+<PRE>
+public static java.lang.String <B>toExponential</B>(double&nbsp;x)</PRE>
+<DL>
+<DD>Number.prototype.toExponential() with the argument undefined: as many digits as necessary (shortest).
+ <p>
+ 인수가 undefined 인 Number.prototype.toExponential(): 필요한 만큼의 자릿수(가장 짧은 표현).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - number / 숫자
+<DT><B>Returns:</B><DD>exponential text / 지수 표기 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toExponential(double, double)"><!-- --></A><H3>
+toExponential</H3>
+<PRE>
+public static java.lang.String <B>toExponential</B>(double&nbsp;x,
+                                             double&nbsp;fractionDigits)</PRE>
+<DL>
+<DD>Number.prototype.toExponential(fractionDigits).
+ <p>
+ Number.prototype.toExponential(fractionDigits).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - number / 숫자<DD><CODE>fractionDigits</CODE> - fraction digits 0..20 (ToInteger is applied) / 소수 자릿수 0..20(ToInteger 적용)
+<DT><B>Returns:</B><DD>exponential text / 지수 표기 문자열
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberRangeException.html" title="class in org.duckdns.hjow.swingwebpanel.js.num">NumberRangeException</A></CODE> - if fractionDigits is outside 0..20 / 자릿수가 0..20 밖이면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toPrecision(double)"><!-- --></A><H3>
+toPrecision</H3>
+<PRE>
+public static java.lang.String <B>toPrecision</B>(double&nbsp;x)</PRE>
+<DL>
+<DD>Number.prototype.toPrecision() with the argument undefined: same as ToString.
+ <p>
+ 인수가 undefined 인 Number.prototype.toPrecision(): ToString 과 같다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - number / 숫자
+<DT><B>Returns:</B><DD>string form / 문자열 형태</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toPrecision(double, double)"><!-- --></A><H3>
+toPrecision</H3>
+<PRE>
+public static java.lang.String <B>toPrecision</B>(double&nbsp;x,
+                                           double&nbsp;precision)</PRE>
+<DL>
+<DD>Number.prototype.toPrecision(precision).
+ <p>
+ Number.prototype.toPrecision(precision).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - number / 숫자<DD><CODE>precision</CODE> - significant digits 1..21 (ToInteger is applied) / 유효 숫자 수 1..21(ToInteger 적용)
+<DT><B>Returns:</B><DD>text in fixed or exponential notation / 고정 또는 지수 표기 문자열
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberRangeException.html" title="class in org.duckdns.hjow.swingwebpanel.js.num">NumberRangeException</A></CODE> - if precision is outside 1..21 / 정밀도가 1..21 밖이면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="stringToNumber(java.lang.String)"><!-- --></A><H3>
+stringToNumber</H3>
+<PRE>
+public static double <B>stringToNumber</B>(java.lang.String&nbsp;s)</PRE>
+<DL>
+<DD>StringToNumber: converts a string to a number with the StrNumericLiteral grammar (surrounding white space and
+ line terminators are ignored; empty becomes 0; decimal, Infinity, 0x, 0o and 0b literals; otherwise NaN).
+ Results are correctly rounded.
+ <p>
+ StringToNumber: 문자열을 StrNumericLiteral 문법으로 숫자로 바꾼다(앞뒤 공백/줄 끝 문자 무시, 빈 문자열은 0, 10진/Infinity/0x/0o/0b, 그 밖은 NaN).
+ 결과는 올바르게 반올림된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - string / 문자열
+<DT><B>Returns:</B><DD>number (NaN if invalid) / 숫자(올바르지 않으면 NaN)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseFloat(java.lang.String)"><!-- --></A><H3>
+parseFloat</H3>
+<PRE>
+public static double <B>parseFloat</B>(java.lang.String&nbsp;s)</PRE>
+<DL>
+<DD>parseFloat: parses the longest prefix that is a StrDecimalLiteral after skipping leading white space.
+ <p>
+ parseFloat: 앞의 공백을 건너뛴 뒤 StrDecimalLiteral 인 가장 긴 접두사를 해석한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - string / 문자열
+<DT><B>Returns:</B><DD>number, or NaN if no prefix is valid / 숫자. 올바른 접두사가 없으면 NaN</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseInt(java.lang.String, int)"><!-- --></A><H3>
+parseInt</H3>
+<PRE>
+public static double <B>parseInt</B>(java.lang.String&nbsp;s,
+                              int&nbsp;radix)</PRE>
+<DL>
+<DD>parseInt(string, radix): the radix has already been converted with ToInt32 (0 means "not given").
+ Results are exact for any digit count (correctly rounded).
+ <p>
+ parseInt(string, radix): 진법은 이미 ToInt32 를 거친 값이다(0 은 "지정하지 않음"). 자릿수와 무관하게 정확하다(올바르게 반올림).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - string / 문자열<DD><CODE>radix</CODE> - radix after ToInt32 / ToInt32 를 거친 진법
+<DT><B>Returns:</B><DD>number or NaN / 숫자 또는 NaN</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/Float16.html" title="class in org.duckdns.hjow.swingwebpanel.js.num"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/num/NumberRangeException.html" title="class in org.duckdns.hjow.swingwebpanel.js.num"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/num/NumberConversion.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="NumberConversion.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,274 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+MarkupSupport
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="MarkupSupport";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ListenerErrorHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MediaQueryListEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/MarkupSupport.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="MarkupSupport.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom</FONT>
+<BR>
+Interface MarkupSupport</H2>
+<DL>
+<DT><B>All Known Implementing Classes:</B> <DD><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlMarkupSupport.html" title="class in org.duckdns.hjow.swingwebpanel.html">HtmlMarkupSupport</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public interface <B>MarkupSupport</B></DL>
+</PRE>
+
+<P>
+Parsing and serializing of markup, provided by the HTML (or XML) layer. The DOM methods <code>innerHTML</code>, <code>outerHTML</code> and
+ <code>insertAdjacentHTML</code> delegate to it (plan items P07-06 and P20-04). Until the HTML layer installs an implementation with
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#setMarkupSupport(org.duckdns.hjow.swingwebpanel.dom.MarkupSupport)"><CODE>Document.setMarkupSupport(MarkupSupport)</CODE></A>, these DOM methods throw a NotSupportedError.
+ <p>
+ HTML(또는 XML) 계층이 제공하는 마크업 해석과 직렬화. DOM 메서드 <code>innerHTML</code>, <code>outerHTML</code>, <code>insertAdjacentHTML</code> 이
+ 여기에 위임한다(계획 P07-06, P20-04). HTML 계층이 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#setMarkupSupport(org.duckdns.hjow.swingwebpanel.dom.MarkupSupport)"><CODE>Document.setMarkupSupport(MarkupSupport)</CODE></A> 로 구현을 설치하기 전에는 이 DOM 메서드들이
+ NotSupportedError 를 던진다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentFragment.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentFragment</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MarkupSupport.html#parseFragment(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)">parseFragment</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;context,
+              java.lang.String&nbsp;markup)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses markup as a fragment in the context of an element and returns the nodes without inserting them.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MarkupSupport.html#serialize(org.duckdns.hjow.swingwebpanel.dom.Node, boolean)">serialize</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+          boolean&nbsp;outer)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serializes the children of a node (innerHTML) or the node itself (outerHTML) according to the fragment serialization algorithm.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MarkupSupport.html#setInnerHtml(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)">setInnerHtml</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;context,
+             java.lang.String&nbsp;markup)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses markup as a fragment in the context of an element and replaces the children of that element.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="serialize(org.duckdns.hjow.swingwebpanel.dom.Node, boolean)"><!-- --></A><H3>
+serialize</H3>
+<PRE>
+java.lang.String <B>serialize</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+                           boolean&nbsp;outer)</PRE>
+<DL>
+<DD>Serializes the children of a node (innerHTML) or the node itself (outerHTML) according to the fragment serialization algorithm.
+ <p>
+ 노드의 자식(innerHTML) 또는 노드 자신(outerHTML)을 조각 직렬화 알고리즘에 따라 직렬화한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - node to serialize / 직렬화할 노드<DD><CODE>outer</CODE> - true to include the node itself / 노드 자신을 포함하려면 true
+<DT><B>Returns:</B><DD>markup / 마크업</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setInnerHtml(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)"><!-- --></A><H3>
+setInnerHtml</H3>
+<PRE>
+void <B>setInnerHtml</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;context,
+                  java.lang.String&nbsp;markup)</PRE>
+<DL>
+<DD>Parses markup as a fragment in the context of an element and replaces the children of that element.
+ <p>
+ 마크업을 요소를 문맥으로 하는 조각으로 해석하여 그 요소의 자식을 교체한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>context</CODE> - element whose children are replaced / 자식을 교체할 요소<DD><CODE>markup</CODE> - markup text / 마크업 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseFragment(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)"><!-- --></A><H3>
+parseFragment</H3>
+<PRE>
+<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentFragment.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentFragment</A> <B>parseFragment</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;context,
+                               java.lang.String&nbsp;markup)</PRE>
+<DL>
+<DD>Parses markup as a fragment in the context of an element and returns the nodes without inserting them.
+ <p>
+ 마크업을 요소를 문맥으로 하는 조각으로 해석하고 삽입하지 않은 채 노드를 돌려준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>context</CODE> - element that gives the parsing context / 해석 문맥을 주는 요소<DD><CODE>markup</CODE> - markup text / 마크업 문자열
+<DT><B>Returns:</B><DD>fragment holding the parsed nodes / 해석된 노드를 가진 조각</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ListenerErrorHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MediaQueryListEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/MarkupSupport.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="MarkupSupport.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

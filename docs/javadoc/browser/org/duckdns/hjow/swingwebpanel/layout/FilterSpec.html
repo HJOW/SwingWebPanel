@@ -1,0 +1,746 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+FilterSpec
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="FilterSpec";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Effects.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.Op.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="FilterSpec.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.layout</FONT>
+<BR>
+Class FilterSpec</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.layout.FilterSpec</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>FilterSpec</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The parsed value of the <code>filter</code> property (CSS Filter Effects Module Level 1, https://www.w3.org/TR/filter-effects-1/, Working
+ Draft 2018-12-18, retrieved 2026-11-17, section 6 "Filter functions" and section 13.1 "Filter functions in SVG terms"): the list of the filter functions
+ <code>blur()</code>, <code>brightness()</code>, <code>contrast()</code>, <code>drop-shadow()</code>, <code>grayscale()</code>,
+ <code>hue-rotate()</code>, <code>invert()</code>, <code>opacity()</code>, <code>saturate()</code> and <code>sepia()</code> with their
+ amounts, in the order of the declaration (the first function takes the element as input, the next ones take the output of the previous
+ one). The amounts are already clamped the way the specification requires (<code>grayscale()</code>, <code>invert()</code>,
+ <code>opacity()</code> and <code>sepia()</code> to at most 1). A <code>url(#id)</code> reference to an SVG <code>filter</code> element of the same
+ document is a function of the chain too (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#resolve(org.duckdns.hjow.swingwebpanel.layout.FilterSpec.Resolver, double, double)"><CODE>resolve(org.duckdns.hjow.swingwebpanel.layout.FilterSpec.Resolver, double, double)</CODE></A>); a reference to another document or to an element that does not exist
+ drops the whole chain (section 5.1: no filter is applied). The class belongs to the layout package because a box with a filter is a stacking context and the containing block of its
+ positioned descendants, and because the painted extent of a filter is larger than the box; the pixel work is in
+ <code>org.duckdns.hjow.swingwebpanel.render</code>.
+ <p>
+ <code>filter</code> 속성의 파싱된 값(CSS Filter Effects Module Level 1, https://www.w3.org/TR/filter-effects-1/, 워킹 드래프트 2018-12-18, 조회 2026-11-17, 6 절
+ "Filter functions", 13.1 절 "Filter functions in SVG terms"): 필터 함수 <code>blur()</code>, <code>brightness()</code>, <code>contrast()</code>,
+ <code>drop-shadow()</code>, <code>grayscale()</code>, <code>hue-rotate()</code>, <code>invert()</code>, <code>opacity()</code>, <code>saturate()</code>,
+ <code>sepia()</code> 의 목록과 그 양. 선언 순서대로이며 첫 함수는 요소를 입력으로 받고 다음 함수는 앞 함수의 출력을 입력으로 받는다. 양은 규격이 요구하는 대로 이미
+ 한정되어 있다(<code>grayscale()</code>, <code>invert()</code>, <code>opacity()</code>, <code>sepia()</code> 는 최대 1). 같은 문서의 SVG <code>filter</code> 요소를 가리키는
+ <code>url(#id)</code> 참조도 사슬의 함수이다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#resolve(org.duckdns.hjow.swingwebpanel.layout.FilterSpec.Resolver, double, double)"><CODE>resolve(org.duckdns.hjow.swingwebpanel.layout.FilterSpec.Resolver, double, double)</CODE></A> 참조). 다른 문서나 존재하지 않는 요소를 가리키는 참조가 있으면 사슬 전체를 버린다(5.1 절: 필터를 적용하지
+ 않음). 이 클래스가 layout 패키지에 있는 이유는 필터가 있는
+ 상자가 쌓임 맥락이고 위치 지정 자손의 포함 블록이며 필터가 그리는 범위가 상자보다 크기 때문이다. 픽셀 처리는 <code>org.duckdns.hjow.swingwebpanel.render</code> 에 있다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.Op.html" title="class in org.duckdns.hjow.swingwebpanel.layout">FilterSpec.Op</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;One filter function with its arguments.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.Resolver.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">FilterSpec.Resolver</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Finds the SVG definitions that a reference to a filter element names (the renderer implements it with the document of the box).</TD>
+</TR>
+</TABLE>
+&nbsp;<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#BLUR">BLUR</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kind constant of the <code>blur()</code> filter function.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#BRIGHTNESS">BRIGHTNESS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kind constant of the <code>brightness()</code> filter function.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#CONTRAST">CONTRAST</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kind constant of the <code>contrast()</code> filter function.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#DROP_SHADOW">DROP_SHADOW</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kind constant of the <code>drop-shadow()</code> filter function.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#GRAYSCALE">GRAYSCALE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kind constant of the <code>grayscale()</code> filter function.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#HUE_ROTATE">HUE_ROTATE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kind constant of the <code>hue-rotate()</code> filter function.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#INVERT">INVERT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kind constant of the <code>invert()</code> filter function.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#OPACITY">OPACITY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kind constant of the <code>opacity()</code> filter function.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#REFERENCE">REFERENCE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kind constant of a reference <code>url(#id)</code> to an SVG <code>filter</code> element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#SATURATE">SATURATE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kind constant of the <code>saturate()</code> filter function.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#SEPIA">SEPIA</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kind constant of the <code>sepia()</code> filter function.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#extent()">extent</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the extent by which the filters make the painted area larger than the content: the distance in px beyond the left, top,
+ right and bottom edges that blurs and shadows may reach.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.Op.html" title="class in org.duckdns.hjow.swingwebpanel.layout">FilterSpec.Op</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#getOps()">getOps</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the functions in order.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#has(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)">has</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a style has a filter that is used.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#hasBackdrop(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)">hasBackdrop</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a style has a <code>backdrop-filter</code> that is used.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#hasReferences()">hasReferences</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the list has a reference to an SVG <code>filter</code> element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html" title="class in org.duckdns.hjow.swingwebpanel.layout">FilterSpec</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#of(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)">of</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses the <code>filter</code> value of a style.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html" title="class in org.duckdns.hjow.swingwebpanel.layout">FilterSpec</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#of(org.duckdns.hjow.swingwebpanel.css.values.CssValue, int, org.duckdns.hjow.swingwebpanel.css.values.LengthContext)">of</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&nbsp;v,
+   int&nbsp;color,
+   <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/values/LengthContext.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">LengthContext</A>&nbsp;ctx)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a filter function list from a parsed value (the 2D canvas uses this for <code>context.filter</code>, whose value is not the
+ computed value of an element).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html" title="class in org.duckdns.hjow.swingwebpanel.layout">FilterSpec</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#ofBackdrop(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)">ofBackdrop</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses the <code>backdrop-filter</code> value of a style (Filter Effects Level 2): the same function list as <code>filter</code>, applied to what is
+ painted behind the box.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#reach(double)">reach</A></B>(double&nbsp;deviation)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the distance that a Gaussian blur of a standard deviation reaches (three deviations, rounded up, plus a margin for the box
+ approximation).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html" title="class in org.duckdns.hjow.swingwebpanel.layout">FilterSpec</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#resolve(org.duckdns.hjow.swingwebpanel.layout.FilterSpec.Resolver, double, double)">resolve</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.Resolver.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">FilterSpec.Resolver</A>&nbsp;resolver,
+        double&nbsp;w,
+        double&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Resolves the references to SVG <code>filter</code> elements for a box of a size: the whole chain is dropped (null) if one of them names no filter
+ element of the document, as the specification demands for a reference to an element that does not exist (Filter Effects 1, section 5).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="BLUR"><!-- --></A><H3>
+BLUR</H3>
+<PRE>
+public static final int <B>BLUR</B></PRE>
+<DL>
+<DD>Kind constant of the <code>blur()</code> filter function. <code>blur()</code> 필터 함수의 종류 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.FilterSpec.BLUR">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BRIGHTNESS"><!-- --></A><H3>
+BRIGHTNESS</H3>
+<PRE>
+public static final int <B>BRIGHTNESS</B></PRE>
+<DL>
+<DD>Kind constant of the <code>brightness()</code> filter function. <code>brightness()</code> 필터 함수의 종류 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.FilterSpec.BRIGHTNESS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="CONTRAST"><!-- --></A><H3>
+CONTRAST</H3>
+<PRE>
+public static final int <B>CONTRAST</B></PRE>
+<DL>
+<DD>Kind constant of the <code>contrast()</code> filter function. <code>contrast()</code> 필터 함수의 종류 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.FilterSpec.CONTRAST">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DROP_SHADOW"><!-- --></A><H3>
+DROP_SHADOW</H3>
+<PRE>
+public static final int <B>DROP_SHADOW</B></PRE>
+<DL>
+<DD>Kind constant of the <code>drop-shadow()</code> filter function. <code>drop-shadow()</code> 필터 함수의 종류 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.FilterSpec.DROP_SHADOW">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="GRAYSCALE"><!-- --></A><H3>
+GRAYSCALE</H3>
+<PRE>
+public static final int <B>GRAYSCALE</B></PRE>
+<DL>
+<DD>Kind constant of the <code>grayscale()</code> filter function. <code>grayscale()</code> 필터 함수의 종류 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.FilterSpec.GRAYSCALE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="HUE_ROTATE"><!-- --></A><H3>
+HUE_ROTATE</H3>
+<PRE>
+public static final int <B>HUE_ROTATE</B></PRE>
+<DL>
+<DD>Kind constant of the <code>hue-rotate()</code> filter function. <code>hue-rotate()</code> 필터 함수의 종류 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.FilterSpec.HUE_ROTATE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="INVERT"><!-- --></A><H3>
+INVERT</H3>
+<PRE>
+public static final int <B>INVERT</B></PRE>
+<DL>
+<DD>Kind constant of the <code>invert()</code> filter function. <code>invert()</code> 필터 함수의 종류 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.FilterSpec.INVERT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="OPACITY"><!-- --></A><H3>
+OPACITY</H3>
+<PRE>
+public static final int <B>OPACITY</B></PRE>
+<DL>
+<DD>Kind constant of the <code>opacity()</code> filter function. <code>opacity()</code> 필터 함수의 종류 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.FilterSpec.OPACITY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SATURATE"><!-- --></A><H3>
+SATURATE</H3>
+<PRE>
+public static final int <B>SATURATE</B></PRE>
+<DL>
+<DD>Kind constant of the <code>saturate()</code> filter function. <code>saturate()</code> 필터 함수의 종류 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.FilterSpec.SATURATE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SEPIA"><!-- --></A><H3>
+SEPIA</H3>
+<PRE>
+public static final int <B>SEPIA</B></PRE>
+<DL>
+<DD>Kind constant of the <code>sepia()</code> filter function. <code>sepia()</code> 필터 함수의 종류 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.FilterSpec.SEPIA">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="REFERENCE"><!-- --></A><H3>
+REFERENCE</H3>
+<PRE>
+public static final int <B>REFERENCE</B></PRE>
+<DL>
+<DD>Kind constant of a reference <code>url(#id)</code> to an SVG <code>filter</code> element. SVG <code>filter</code> 요소를 가리키는 <code>url(#id)</code> 참조의 종류 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.FilterSpec.REFERENCE">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getOps()"><!-- --></A><H3>
+getOps</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.Op.html" title="class in org.duckdns.hjow.swingwebpanel.layout">FilterSpec.Op</A>&gt; <B>getOps</B>()</PRE>
+<DL>
+<DD>Returns the functions in order.
+ <p>
+ 순서대로 놓인 함수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>an unmodifiable list / 수정할 수 없는 목록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasReferences()"><!-- --></A><H3>
+hasReferences</H3>
+<PRE>
+public boolean <B>hasReferences</B>()</PRE>
+<DL>
+<DD>Tells whether the list has a reference to an SVG <code>filter</code> element.
+ <p>
+ 목록에 SVG <code>filter</code> 요소 참조가 있는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if there is a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#REFERENCE"><CODE>REFERENCE</CODE></A> / <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html#REFERENCE"><CODE>REFERENCE</CODE></A> 가 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="resolve(org.duckdns.hjow.swingwebpanel.layout.FilterSpec.Resolver, double, double)"><!-- --></A><H3>
+resolve</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html" title="class in org.duckdns.hjow.swingwebpanel.layout">FilterSpec</A> <B>resolve</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.Resolver.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">FilterSpec.Resolver</A>&nbsp;resolver,
+                          double&nbsp;w,
+                          double&nbsp;h)</PRE>
+<DL>
+<DD>Resolves the references to SVG <code>filter</code> elements for a box of a size: the whole chain is dropped (null) if one of them names no filter
+ element of the document, as the specification demands for a reference to an element that does not exist (Filter Effects 1, section 5).
+ <p>
+ SVG <code>filter</code> 요소 참조를 주어진 크기의 상자에 대해 푼다: 하나라도 문서에 없는 필터 요소를 가리키면 사슬 전체를 버린다(null). 존재하지 않는 요소의
+ 참조에 대해 규격이 요구하는 대로이다(Filter Effects 1, 5 절).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>resolver</CODE> - the resolver of the document of the box / 상자의 문서의 해석기<DD><CODE>w</CODE> - the width of the border box / border box 너비<DD><CODE>h</CODE> - the height of the border box / border box 높이
+<DT><B>Returns:</B><DD>the specification (this one if it has no reference), or null if a reference cannot be resolved / 명세(참조가 없으면 자신). 참조를 풀 수 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="of(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)"><!-- --></A><H3>
+of</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html" title="class in org.duckdns.hjow.swingwebpanel.layout">FilterSpec</A> <B>of</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s)</PRE>
+<DL>
+<DD>Parses the <code>filter</code> value of a style.
+ <p>
+ 스타일의 <code>filter</code> 값을 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - the style, may be null / 스타일. null 가능
+<DT><B>Returns:</B><DD>the specification, or null for <code>none</code>, an empty list or a value that is not supported (a <code>url()</code>) / 명세. <code>none</code>, 빈 목록,
+         지원하지 않는 값(<code>url()</code>)이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="ofBackdrop(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)"><!-- --></A><H3>
+ofBackdrop</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html" title="class in org.duckdns.hjow.swingwebpanel.layout">FilterSpec</A> <B>ofBackdrop</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s)</PRE>
+<DL>
+<DD>Parses the <code>backdrop-filter</code> value of a style (Filter Effects Level 2): the same function list as <code>filter</code>, applied to what is
+ painted behind the box.
+ <p>
+ 스타일의 <code>backdrop-filter</code> 값을 파싱한다(Filter Effects Level 2): <code>filter</code> 와 같은 함수 목록이며 상자 뒤에 이미 그려진 내용에 적용한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - the style, may be null / 스타일. null 가능
+<DT><B>Returns:</B><DD>the specification, or null for <code>none</code>, an empty list or a value that is not supported / 명세. <code>none</code>, 빈 목록, 지원하지 않는 값이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasBackdrop(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)"><!-- --></A><H3>
+hasBackdrop</H3>
+<PRE>
+public static boolean <B>hasBackdrop</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s)</PRE>
+<DL>
+<DD>Tells whether a style has a <code>backdrop-filter</code> that is used.
+ <p>
+ 스타일에 쓰이는 <code>backdrop-filter</code> 가 있는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - the style, may be null / 스타일. null 가능
+<DT><B>Returns:</B><DD>true if the box filters its backdrop / 상자가 자신의 배경을 필터링하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="of(org.duckdns.hjow.swingwebpanel.css.values.CssValue, int, org.duckdns.hjow.swingwebpanel.css.values.LengthContext)"><!-- --></A><H3>
+of</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html" title="class in org.duckdns.hjow.swingwebpanel.layout">FilterSpec</A> <B>of</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&nbsp;v,
+                            int&nbsp;color,
+                            <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/values/LengthContext.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">LengthContext</A>&nbsp;ctx)</PRE>
+<DL>
+<DD>Parses a filter function list from a parsed value (the 2D canvas uses this for <code>context.filter</code>, whose value is not the
+ computed value of an element).
+ <p>
+ 파싱된 값에서 필터 함수 목록을 파싱한다(2D 캔버스가 <code>context.filter</code> 에 쓴다. 그 값은 요소의 계산 값이 아니다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the value of <code>filter</code> (a list of functions, one function or <code>none</code>), may be null / <code>filter</code> 의 값(함수 목록, 함수 하나,
+              <code>none</code>). null 가능<DD><CODE>color</CODE> - the color that <code>currentcolor</code> means / <code>currentcolor</code> 가 뜻하는 색<DD><CODE>ctx</CODE> - the reference sizes for relative lengths, or null if the lengths are already absolute (computed values) / 상대 길이의 기준 크기.
+              길이가 이미 절대 값(계산 값)이면 null
+<DT><B>Returns:</B><DD>the specification, or null for <code>none</code>, an empty list or a value that is not supported (a <code>url()</code>) / 명세. <code>none</code>, 빈 목록,
+         지원하지 않는 값(<code>url()</code>)이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="has(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)"><!-- --></A><H3>
+has</H3>
+<PRE>
+public static boolean <B>has</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s)</PRE>
+<DL>
+<DD>Tells whether a style has a filter that is used.
+ <p>
+ 스타일에 쓰이는 필터가 있는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - the style, may be null / 스타일. null 가능
+<DT><B>Returns:</B><DD>true if the box has a filter / 상자에 필터가 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="extent()"><!-- --></A><H3>
+extent</H3>
+<PRE>
+public double[] <B>extent</B>()</PRE>
+<DL>
+<DD>Returns the extent by which the filters make the painted area larger than the content: the distance in px beyond the left, top,
+ right and bottom edges that blurs and shadows may reach.
+ <p>
+ 필터가 그려지는 영역을 내용보다 넓히는 정도를 반환한다: 흐림과 그림자가 닿을 수 있는 왼쪽, 위쪽, 오른쪽, 아래쪽 가장자리 밖 거리(px).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>{left, top, right, bottom} / {왼쪽, 위쪽, 오른쪽, 아래쪽}</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="reach(double)"><!-- --></A><H3>
+reach</H3>
+<PRE>
+public static double <B>reach</B>(double&nbsp;deviation)</PRE>
+<DL>
+<DD>Returns the distance that a Gaussian blur of a standard deviation reaches (three deviations, rounded up, plus a margin for the box
+ approximation).
+ <p>
+ 표준 편차가 주어진 가우스 흐림이 닿는 거리를 반환한다(편차의 3 배를 올림하고 상자 근사를 위한 여유를 더함).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>deviation</CODE> - the standard deviation in px / 표준 편차(px)
+<DT><B>Returns:</B><DD>the reach in px / 닿는 거리(px)</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Effects.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.Op.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="FilterSpec.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

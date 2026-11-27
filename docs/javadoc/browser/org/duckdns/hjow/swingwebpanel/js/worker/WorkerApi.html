@@ -1,0 +1,363 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+WorkerApi
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="WorkerApi";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/SharedHandle.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerHandle.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/worker/WorkerApi.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WorkerApi.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.worker</FONT>
+<BR>
+Class WorkerApi</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.worker.WorkerApi</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>WorkerApi</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The worker API of one page (plan item P20-09-b; HTML Standard "Web workers", checked on 2026-11-17): it installs <code>Worker</code>
+ (<code>new Worker(url [, {name, type}])</code>, <code>postMessage</code>, <code>terminate</code>, <code>onmessage</code>,
+ <code>onmessageerror</code>, <code>onerror</code>) and <code>BroadcastChannel</code> into the page, keeps the list of the live workers of
+ the page, and terminates all of them when the page ends. A dedicated worker runs the script of a same-origin URL (a <code>SecurityError</code>
+ otherwise) in a realm and on a thread of its own, see <CODE>WorkerScope</CODE>. At most <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerLimits.html#MAX_WORKERS_PER_PAGE"><CODE>WorkerLimits.MAX_WORKERS_PER_PAGE</CODE></A> workers can live
+ at the same time. <code>SharedWorker</code> (<code>new SharedWorker(url [, name | options])</code>, <code>port</code>) connects the page to the
+ shared worker of the component that has the same origin, script URL and name, which it starts if it does not exist; the shared worker lives as
+ long as one page owns it, see <CODE>SharedEntry</CODE> and <CODE>WorkerRegistry</CODE>. Both worker constructors accept classic and module entries.
+ Nested workers and <code>blob:</code> or <code>data:</code> worker scripts are outside the supported URL policy.
+ <p>
+ Page life cycle: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerApi.html#terminateAll()"><CODE>terminateAll()</CODE></A> (called when the page is asked to stop: navigation, <code>clean()</code>, <code>dispose()</code>,
+ JavaScript switched off) terminates every worker at once without waiting; <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerApi.html#dispose()"><CODE>dispose()</CODE></A> forgets them afterwards.
+ <p>
+ 한 페이지의 worker API(계획 P20-09-b. HTML 표준 "Web workers", 2026-11-17 확인): 페이지에 <code>Worker</code>(<code>new Worker(url [, {name, type}])</code>,
+ <code>postMessage</code>, <code>terminate</code>, <code>onmessage</code>, <code>onmessageerror</code>, <code>onerror</code>)와 <code>BroadcastChannel</code> 을
+ 설치하고, 페이지의 살아 있는 worker 목록을 관리하며, 페이지가 끝나면 모두 종료한다. 전용 worker 는 같은 오리진 URL의 스크립트를(아니면
+ <code>SecurityError</code>) 자기 realm 과 스레드에서 실행한다(<CODE>WorkerScope</CODE> 참고). 동시에 살아 있는 worker 는 최대
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerLimits.html#MAX_WORKERS_PER_PAGE"><CODE>WorkerLimits.MAX_WORKERS_PER_PAGE</CODE></A> 개이다. <code>SharedWorker</code>(<code>new SharedWorker(url [, 이름 | 옵션])</code>, <code>port</code>)는 페이지를
+ 컴포넌트에서 오리진, 스크립트 URL, 이름이 같은 공유 worker 에 연결하며(없으면 시작한다), 공유 worker 는 페이지 하나라도 소유하는 동안 산다(<CODE>SharedEntry</CODE>,
+ <CODE>WorkerRegistry</CODE> 참고). 두 생성자는 일반 스크립트와 모듈 스크립트를 받는다. worker 안의 worker와
+ <code>blob:</code>·<code>data:</code> worker 스크립트는 지원 범위 밖이다.
+ <p>
+ 페이지 수명: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerApi.html#terminateAll()"><CODE>terminateAll()</CODE></A>(페이지에 중지를 요청할 때 호출: 이동, <code>clean()</code>, <code>dispose()</code>, JavaScript 끄기)는 기다리지 않고
+ 모든 worker 를 즉시 종료하고, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerApi.html#dispose()"><CODE>dispose()</CODE></A> 는 그 뒤에 이들을 잊는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerApi.html#WorkerApi(org.duckdns.hjow.swingwebpanel.js.host.PageScripts)">WorkerApi</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageScripts.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">PageScripts</A>&nbsp;page)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the worker API of a page; call <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerApi.html#install()"><CODE>install()</CODE></A> once.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerApi.html#dispose()">dispose</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ends the worker API of the page: everything is terminated (see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerApi.html#terminateAll()"><CODE>terminateAll()</CODE></A>) and forgotten.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerApi.html#install()">install</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Installs <code>Worker</code> and <code>BroadcastChannel</code> into the realm of the page (the event interfaces must already be in the
+ DOM bridge).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerApi.html#liveCount()">liveCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of workers of the page that are still alive.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerApi.html#terminateAll()">terminateAll</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Terminates every worker of the page at once, without waiting for anything, from any thread (also from the EDT while a script runs): the
+ scripts of the workers are cancelled, their requests are cancelled and their threads end.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="WorkerApi(org.duckdns.hjow.swingwebpanel.js.host.PageScripts)"><!-- --></A><H3>
+WorkerApi</H3>
+<PRE>
+public <B>WorkerApi</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageScripts.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">PageScripts</A>&nbsp;page)</PRE>
+<DL>
+<DD>Creates the worker API of a page; call <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerApi.html#install()"><CODE>install()</CODE></A> once.
+ <p>
+ 페이지의 worker API를 만든다. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerApi.html#install()"><CODE>install()</CODE></A> 을 한 번 부른다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>page</CODE> - the page, not null / 페이지(null 불가)</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="install()"><!-- --></A><H3>
+install</H3>
+<PRE>
+public void <B>install</B>()</PRE>
+<DL>
+<DD>Installs <code>Worker</code> and <code>BroadcastChannel</code> into the realm of the page (the event interfaces must already be in the
+ DOM bridge). Call it on the thread that creates the page.
+ <p>
+ 페이지의 realm 에 <code>Worker</code> 와 <code>BroadcastChannel</code> 을 설치한다(이벤트 인터페이스가 이미 DOM 브리지에 있어야 한다). 페이지를
+ 만드는 스레드에서 부른다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="liveCount()"><!-- --></A><H3>
+liveCount</H3>
+<PRE>
+public int <B>liveCount</B>()</PRE>
+<DL>
+<DD>Returns the number of workers of the page that are still alive.
+ <p>
+ 페이지의 worker 중 아직 살아 있는 것의 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the count / 개수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="terminateAll()"><!-- --></A><H3>
+terminateAll</H3>
+<PRE>
+public void <B>terminateAll</B>()</PRE>
+<DL>
+<DD>Terminates every worker of the page at once, without waiting for anything, from any thread (also from the EDT while a script runs): the
+ scripts of the workers are cancelled, their requests are cancelled and their threads end. No worker can be created afterwards and the
+ broadcast channels are dropped.
+ <p>
+ 페이지의 모든 worker 를 아무것도 기다리지 않고 어느 스레드에서나(스크립트가 실행되는 동안의 EDT 에서도) 즉시 종료한다: worker 의 스크립트와 요청이
+ 취소되고 스레드가 끝난다. 그 뒤에는 worker 를 만들 수 없고 브로드캐스트 채널은 버려진다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispose()"><!-- --></A><H3>
+dispose</H3>
+<PRE>
+public void <B>dispose</B>()</PRE>
+<DL>
+<DD>Ends the worker API of the page: everything is terminated (see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerApi.html#terminateAll()"><CODE>terminateAll()</CODE></A>) and forgotten.
+ <p>
+ 페이지의 worker API를 끝낸다: 모든 것을 종료(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerApi.html#terminateAll()"><CODE>terminateAll()</CODE></A> 참고)하고 잊는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/SharedHandle.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerHandle.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/worker/WorkerApi.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WorkerApi.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

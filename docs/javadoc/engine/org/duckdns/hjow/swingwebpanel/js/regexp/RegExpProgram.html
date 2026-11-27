@@ -1,0 +1,591 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+RegExpProgram
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="RegExpProgram";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpLimitException.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="RegExpProgram.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.regexp</FONT>
+<BR>
+Class RegExpProgram</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.regexp.RegExpProgram</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>RegExpProgram</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+A compiled ECMAScript regular expression. It is immutable apart from the two resource limits, so one program
+ can be executed by several threads at the same time (each execution has its own matcher state).
+ <p>
+ Matching works on UTF-16 strings. Without the u flag characters are code units; with the u flag they are code points
+ (a surrogate pair is one character). Flags g and y are not interpreted here: the caller chooses the start index and
+ decides between <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#exec(java.lang.String, int)"><CODE>exec(String, int)</CODE></A> (scan forward, as for the global flag or a plain exec) and
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#matchAt(java.lang.String, int)"><CODE>matchAt(String, int)</CODE></A> (match exactly at the index, as for the sticky flag).
+ Results are arrays of <code>2 * (groupCount + 1)</code> ints: start and end offset of the whole match followed by start
+ and end of every group, -1 for groups that did not participate.
+ <p>
+ Protection against catastrophic backtracking: every execution counts steps and fails with
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpLimitException.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp"><CODE>RegExpLimitException</CODE></A> when more than <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#getStepLimit()"><CODE>getStepLimit()</CODE></A> steps are used or when the backtracking stack holds
+ more than <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#getMaxBacktrackEntries()"><CODE>getMaxBacktrackEntries()</CODE></A> entries; an optional <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCancel.html" title="interface in org.duckdns.hjow.swingwebpanel.js.regexp"><CODE>RegExpCancel</CODE></A> is polled every 1024 steps.
+ <p>
+ 컴파일된 ECMAScript 정규식. 두 가지 자원 제한을 빼면 불변이므로 한 프로그램을 여러 스레드가 동시에 실행할 수 있다(실행마다 자기 일치 상태를 가진다).
+ <p>
+ 일치 검색은 UTF-16 문자열 위에서 한다. u 플래그가 없으면 문자는 코드 단위이고, 있으면 코드 포인트(서로게이트 쌍이 한 문자)이다. 플래그 g 와 y 는
+ 여기서 해석하지 않는다. 호출자가 시작 위치를 정하고 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#exec(java.lang.String, int)"><CODE>exec(String, int)</CODE></A> (앞쪽으로 훑음: 전역 플래그나 일반 exec)와
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#matchAt(java.lang.String, int)"><CODE>matchAt(String, int)</CODE></A> (정확히 그 위치에서 일치: 고정 플래그) 중 하나를 고른다.
+ 결과는 <code>2 * (groupCount + 1)</code> 개의 int 배열이다: 전체 일치의 시작/끝 위치, 이어서 각 그룹의 시작/끝 위치이며 참여하지 않은 그룹은 -1 이다.
+ <p>
+ 치명적인 역추적 방어: 실행마다 단계를 세어 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#getStepLimit()"><CODE>getStepLimit()</CODE></A> 보다 많이 쓰거나 역추적 스택이 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#getMaxBacktrackEntries()"><CODE>getMaxBacktrackEntries()</CODE></A> 개보다 많아지면
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpLimitException.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp"><CODE>RegExpLimitException</CODE></A> 으로 실패한다. 선택적인 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCancel.html" title="interface in org.duckdns.hjow.swingwebpanel.js.regexp"><CODE>RegExpCancel</CODE></A> 은 1024 단계마다 확인한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#DEFAULT_MAX_BACKTRACK_ENTRIES">DEFAULT_MAX_BACKTRACK_ENTRIES</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default maximum number of backtracking stack entries (each entry uses four ints).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#DEFAULT_STEP_LIMIT">DEFAULT_STEP_LIMIT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default step budget of one execution.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#exec(java.lang.String, int)">exec</A></B>(java.lang.String&nbsp;input,
+     int&nbsp;startIndex)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Searches forward from a start index for the first match (RegExpBuiltinExec without the sticky flag).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#exec(java.lang.String, int, org.duckdns.hjow.swingwebpanel.js.regexp.RegExpCancel)">exec</A></B>(java.lang.String&nbsp;input,
+     int&nbsp;startIndex,
+     <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCancel.html" title="interface in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpCancel</A>&nbsp;cancel)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Same as <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#exec(java.lang.String, int)"><CODE>exec(String, int)</CODE></A> with a cancellation hook.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#getFlags()">getFlags</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the flag bits (see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp"><CODE>RegExpFlags</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#getGroupName(int)">getGroupName</A></B>(int&nbsp;group)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the name of a group (ES2018 named groups), or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#getMaxBacktrackEntries()">getMaxBacktrackEntries</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the maximum number of backtracking stack entries.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#getSource()">getSource</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the pattern text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#getStepLimit()">getStepLimit</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the step budget of one execution.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#groupCount()">groupCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of capturing groups (not counting group 0).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#matchAt(java.lang.String, int)">matchAt</A></B>(java.lang.String&nbsp;input,
+        int&nbsp;index)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tries to match at the character containing a code-unit index (the sticky flag behavior).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#matchAt(java.lang.String, int, org.duckdns.hjow.swingwebpanel.js.regexp.RegExpCancel)">matchAt</A></B>(java.lang.String&nbsp;input,
+        int&nbsp;index,
+        <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCancel.html" title="interface in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpCancel</A>&nbsp;cancel)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Same as <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#matchAt(java.lang.String, int)"><CODE>matchAt(String, int)</CODE></A> with a cancellation hook.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#setMaxBacktrackEntries(int)">setMaxBacktrackEntries</A></B>(int&nbsp;entries)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the maximum number of backtracking stack entries (executions started afterwards use it).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#setStepLimit(long)">setStepLimit</A></B>(long&nbsp;limit)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the step budget of one execution (executions started afterwards use it).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="DEFAULT_STEP_LIMIT"><!-- --></A><H3>
+DEFAULT_STEP_LIMIT</H3>
+<PRE>
+public static final long <B>DEFAULT_STEP_LIMIT</B></PRE>
+<DL>
+<DD>Default step budget of one execution.
+ <p>
+ 실행 한 번의 기본 단계 예산.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.regexp.RegExpProgram.DEFAULT_STEP_LIMIT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_MAX_BACKTRACK_ENTRIES"><!-- --></A><H3>
+DEFAULT_MAX_BACKTRACK_ENTRIES</H3>
+<PRE>
+public static final int <B>DEFAULT_MAX_BACKTRACK_ENTRIES</B></PRE>
+<DL>
+<DD>Default maximum number of backtracking stack entries (each entry uses four ints).
+ <p>
+ 기본 역추적 스택 항목 최대 개수(항목 하나는 int 네 개).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.regexp.RegExpProgram.DEFAULT_MAX_BACKTRACK_ENTRIES">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getSource()"><!-- --></A><H3>
+getSource</H3>
+<PRE>
+public java.lang.String <B>getSource</B>()</PRE>
+<DL>
+<DD>Returns the pattern text.
+ <p>
+ 패턴 문자열을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>pattern / 패턴</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFlags()"><!-- --></A><H3>
+getFlags</H3>
+<PRE>
+public int <B>getFlags</B>()</PRE>
+<DL>
+<DD>Returns the flag bits (see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp"><CODE>RegExpFlags</CODE></A>).
+ <p>
+ 플래그 비트를 반환한다(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp"><CODE>RegExpFlags</CODE></A> 참조).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>flags / 플래그</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="groupCount()"><!-- --></A><H3>
+groupCount</H3>
+<PRE>
+public int <B>groupCount</B>()</PRE>
+<DL>
+<DD>Returns the number of capturing groups (not counting group 0).
+ <p>
+ 캡처 그룹 수를 반환한다(0 번 그룹 제외).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>group count / 그룹 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getGroupName(int)"><!-- --></A><H3>
+getGroupName</H3>
+<PRE>
+public java.lang.String <B>getGroupName</B>(int&nbsp;group)</PRE>
+<DL>
+<DD>Returns the name of a group (ES2018 named groups), or null.
+ <p>
+ 그룹 이름(ES2018 이름 있는 그룹)을 반환한다. 없으면 null.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>group</CODE> - group number 1..groupCount / 그룹 번호 1..groupCount
+<DT><B>Returns:</B><DD>name or null / 이름 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStepLimit()"><!-- --></A><H3>
+getStepLimit</H3>
+<PRE>
+public long <B>getStepLimit</B>()</PRE>
+<DL>
+<DD>Returns the step budget of one execution.
+ <p>
+ 실행 한 번의 단계 예산을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>step limit / 단계 한도</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setStepLimit(long)"><!-- --></A><H3>
+setStepLimit</H3>
+<PRE>
+public void <B>setStepLimit</B>(long&nbsp;limit)</PRE>
+<DL>
+<DD>Sets the step budget of one execution (executions started afterwards use it).
+ <p>
+ 실행 한 번의 단계 예산을 정한다(이후 시작하는 실행에 적용).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>limit</CODE> - positive step limit / 양의 단계 한도</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMaxBacktrackEntries()"><!-- --></A><H3>
+getMaxBacktrackEntries</H3>
+<PRE>
+public int <B>getMaxBacktrackEntries</B>()</PRE>
+<DL>
+<DD>Returns the maximum number of backtracking stack entries.
+ <p>
+ 역추적 스택 항목의 최대 개수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>maximum entries / 최대 항목 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMaxBacktrackEntries(int)"><!-- --></A><H3>
+setMaxBacktrackEntries</H3>
+<PRE>
+public void <B>setMaxBacktrackEntries</B>(int&nbsp;entries)</PRE>
+<DL>
+<DD>Sets the maximum number of backtracking stack entries (executions started afterwards use it).
+ <p>
+ 역추적 스택 항목의 최대 개수를 정한다(이후 시작하는 실행에 적용).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>entries</CODE> - positive entry count / 양의 항목 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="exec(java.lang.String, int)"><!-- --></A><H3>
+exec</H3>
+<PRE>
+public int[] <B>exec</B>(java.lang.String&nbsp;input,
+                  int&nbsp;startIndex)</PRE>
+<DL>
+<DD>Searches forward from a start index for the first match (RegExpBuiltinExec without the sticky flag).
+ <p>
+ 시작 위치부터 앞쪽으로 첫 일치를 찾는다(고정 플래그 없는 RegExpBuiltinExec).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>input</CODE> - string to search / 검색할 문자열<DD><CODE>startIndex</CODE> - index where the search starts (lastIndex) / 검색을 시작할 위치(lastIndex)
+<DT><B>Returns:</B><DD>capture offsets, or null if there is no match / 캡처 위치 배열. 일치가 없으면 null
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpLimitException.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpLimitException</A></CODE> - if a resource limit is exceeded / 자원 제한을 넘으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="exec(java.lang.String, int, org.duckdns.hjow.swingwebpanel.js.regexp.RegExpCancel)"><!-- --></A><H3>
+exec</H3>
+<PRE>
+public int[] <B>exec</B>(java.lang.String&nbsp;input,
+                  int&nbsp;startIndex,
+                  <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCancel.html" title="interface in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpCancel</A>&nbsp;cancel)</PRE>
+<DL>
+<DD>Same as <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#exec(java.lang.String, int)"><CODE>exec(String, int)</CODE></A> with a cancellation hook.
+ <p>
+ 취소 훅이 있는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#exec(java.lang.String, int)"><CODE>exec(String, int)</CODE></A>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>input</CODE> - string to search / 검색할 문자열<DD><CODE>startIndex</CODE> - search start / 검색 시작 위치<DD><CODE>cancel</CODE> - cancellation hook or null / 취소 훅 또는 null
+<DT><B>Returns:</B><DD>capture offsets or null / 캡처 위치 배열 또는 null
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpLimitException.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpLimitException</A></CODE> - if a resource limit is exceeded or the hook cancels / 자원 제한을 넘거나 훅이 취소하면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="matchAt(java.lang.String, int)"><!-- --></A><H3>
+matchAt</H3>
+<PRE>
+public int[] <B>matchAt</B>(java.lang.String&nbsp;input,
+                     int&nbsp;index)</PRE>
+<DL>
+<DD>Tries to match at the character containing a code-unit index (the sticky flag behavior).
+ <p>
+ 코드 단위 위치를 포함하는 문자에서 일치하는지 시도한다(고정 플래그 동작).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>input</CODE> - string / 문자열<DD><CODE>index</CODE> - index where the match must start / 일치가 시작해야 하는 위치
+<DT><B>Returns:</B><DD>capture offsets or null / 캡처 위치 배열 또는 null
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpLimitException.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpLimitException</A></CODE> - if a resource limit is exceeded / 자원 제한을 넘으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="matchAt(java.lang.String, int, org.duckdns.hjow.swingwebpanel.js.regexp.RegExpCancel)"><!-- --></A><H3>
+matchAt</H3>
+<PRE>
+public int[] <B>matchAt</B>(java.lang.String&nbsp;input,
+                     int&nbsp;index,
+                     <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCancel.html" title="interface in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpCancel</A>&nbsp;cancel)</PRE>
+<DL>
+<DD>Same as <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#matchAt(java.lang.String, int)"><CODE>matchAt(String, int)</CODE></A> with a cancellation hook.
+ <p>
+ 취소 훅이 있는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html#matchAt(java.lang.String, int)"><CODE>matchAt(String, int)</CODE></A>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>input</CODE> - string / 문자열<DD><CODE>index</CODE> - index where the match must start / 일치가 시작해야 하는 위치<DD><CODE>cancel</CODE> - cancellation hook or null / 취소 훅 또는 null
+<DT><B>Returns:</B><DD>capture offsets or null / 캡처 위치 배열 또는 null
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpLimitException.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpLimitException</A></CODE> - if a resource limit is exceeded or the hook cancels / 자원 제한을 넘거나 훅이 취소하면</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpLimitException.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="RegExpProgram.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

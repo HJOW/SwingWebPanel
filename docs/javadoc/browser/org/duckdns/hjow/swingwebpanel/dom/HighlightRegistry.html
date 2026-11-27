@@ -1,0 +1,444 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+HighlightRegistry
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="HighlightRegistry";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Highlight.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/InputEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="HighlightRegistry.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom</FONT>
+<BR>
+Class HighlightRegistry</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.dom.HighlightRegistry</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>HighlightRegistry</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The highlight registry of a document (CSS Custom Highlight API Level 1, section 3.2): a map from custom highlight names to <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Highlight.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>Highlight</CODE></A>s, in the
+ order in which the names were first set (as a JavaScript <code>Map</code>; setting an existing name keeps its place). A highlight that is registered later
+ has the higher effective priority among highlights of the same priority (4.2.5). Every change of the registry or of a registered highlight is reported
+ to the listener that the page installs, which paints the page again (section 5.1).
+ <p>
+ Use: <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getHighlights()"><CODE>Document.getHighlights()</CODE></A> returns the registry of a document; the renderer reads <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html#getEntries()"><CODE>getEntries()</CODE></A> while it paints the text. Change it
+ on the document thread only.
+ <p>
+ 문서의 하이라이트 등록부(CSS Custom Highlight API Level 1, 3.2 절): 사용자 정의 하이라이트 이름에서 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Highlight.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>Highlight</CODE></A> 로 가는 맵이며 이름을 처음 정한 순서를 지킨다
+ (JavaScript <code>Map</code> 처럼 이미 있는 이름을 다시 정하면 자리를 지킨다). 같은 우선순위의 하이라이트 중에서는 나중에 등록한 것의 실제 우선순위가 더 높다(4.2.5 절).
+ 등록부나 등록된 하이라이트의 모든 변경은 페이지가 설치한 리스너에 알려 페이지를 다시 그리게 한다(5.1 절).
+ <p>
+ 사용법: <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getHighlights()"><CODE>Document.getHighlights()</CODE></A> 가 문서의 등록부를 반환하고, 렌더러는 텍스트를 그릴 때 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html#getEntries()"><CODE>getEntries()</CODE></A> 를 읽는다. 문서 스레드에서만 바꾼다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html#HighlightRegistry()">HighlightRegistry</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an empty registry.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html#clear()">clear</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes every name (maplike <code>clear</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html#delete(java.lang.String)">delete</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes a name (maplike <code>delete</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Highlight.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Highlight</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html#get(java.lang.String)">get</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the highlight of a name (maplike <code>get</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.util.Map.Entry&lt;java.lang.String,<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Highlight.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Highlight</A>&gt;&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html#getEntries()">getEntries</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a snapshot of the entries in registration order.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html#getSize()">getSize</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of registered names (maplike <code>size</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html#has(java.lang.String)">has</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a name is registered (maplike <code>has</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html" title="class in org.duckdns.hjow.swingwebpanel.dom">HighlightRegistry</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html#set(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.Highlight)">set</A></B>(java.lang.String&nbsp;name,
+    <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Highlight.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Highlight</A>&nbsp;highlight)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Registers a highlight under a name (maplike <code>set</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html#setChangeListener(java.lang.Runnable)">setChangeListener</A></B>(java.lang.Runnable&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Installs the receiver of the changes (it must only post work).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="HighlightRegistry()"><!-- --></A><H3>
+HighlightRegistry</H3>
+<PRE>
+public <B>HighlightRegistry</B>()</PRE>
+<DL>
+<DD>Creates an empty registry.
+ <p>
+ 빈 등록부를 만든다.
+<P>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="setChangeListener(java.lang.Runnable)"><!-- --></A><H3>
+setChangeListener</H3>
+<PRE>
+public void <B>setChangeListener</B>(java.lang.Runnable&nbsp;listener)</PRE>
+<DL>
+<DD>Installs the receiver of the changes (it must only post work).
+ <p>
+ 변경을 받는 쪽을 설치한다(작업을 올리기만 해야 한다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>listener</CODE> - the receiver or null / 받는 쪽 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="set(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.Highlight)"><!-- --></A><H3>
+set</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html" title="class in org.duckdns.hjow.swingwebpanel.dom">HighlightRegistry</A> <B>set</B>(java.lang.String&nbsp;name,
+                             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Highlight.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Highlight</A>&nbsp;highlight)</PRE>
+<DL>
+<DD>Registers a highlight under a name (maplike <code>set</code>).
+ <p>
+ 이름으로 하이라이트를 등록한다(maplike <code>set</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the custom highlight name / 사용자 정의 하이라이트 이름<DD><CODE>highlight</CODE> - the highlight / 하이라이트
+<DT><B>Returns:</B><DD>this registry / 이 등록부
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the highlight is null / 하이라이트가 null 이면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="get(java.lang.String)"><!-- --></A><H3>
+get</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Highlight.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Highlight</A> <B>get</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns the highlight of a name (maplike <code>get</code>).
+ <p>
+ 이름의 하이라이트를 반환한다(maplike <code>get</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the name / 이름
+<DT><B>Returns:</B><DD>the highlight or null / 하이라이트. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="has(java.lang.String)"><!-- --></A><H3>
+has</H3>
+<PRE>
+public boolean <B>has</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Tells whether a name is registered (maplike <code>has</code>).
+ <p>
+ 이름이 등록되어 있는지 알려 준다(maplike <code>has</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the name / 이름
+<DT><B>Returns:</B><DD>true if it is / 등록되어 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="delete(java.lang.String)"><!-- --></A><H3>
+delete</H3>
+<PRE>
+public boolean <B>delete</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Removes a name (maplike <code>delete</code>).
+ <p>
+ 이름을 지운다(maplike <code>delete</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the name / 이름
+<DT><B>Returns:</B><DD>true if it was registered / 등록되어 있었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="clear()"><!-- --></A><H3>
+clear</H3>
+<PRE>
+public void <B>clear</B>()</PRE>
+<DL>
+<DD>Removes every name (maplike <code>clear</code>).
+ <p>
+ 모든 이름을 지운다(maplike <code>clear</code>).
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSize()"><!-- --></A><H3>
+getSize</H3>
+<PRE>
+public int <B>getSize</B>()</PRE>
+<DL>
+<DD>Returns the number of registered names (maplike <code>size</code>).
+ <p>
+ 등록된 이름의 수를 반환한다(maplike <code>size</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the size / 크기</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEntries()"><!-- --></A><H3>
+getEntries</H3>
+<PRE>
+public java.util.List&lt;java.util.Map.Entry&lt;java.lang.String,<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Highlight.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Highlight</A>&gt;&gt; <B>getEntries</B>()</PRE>
+<DL>
+<DD>Returns a snapshot of the entries in registration order.
+ <p>
+ 등록 순서의 항목 스냅샷을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the entries / 항목</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Highlight.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/InputEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="HighlightRegistry.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

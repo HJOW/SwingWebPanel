@@ -1,0 +1,958 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+WebRequest
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="WebRequest";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/VttRegionValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequestSource.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WebRequest.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.host</FONT>
+<BR>
+Class WebRequest</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.host.WebRequest</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>WebRequest</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+One request that a page script asks the component to make through <code>XMLHttpRequest</code> or <code>fetch()</code>. The page layer
+ has already resolved the URL against the document's base URL, validated the method and the header names and applied the Fetch rules
+ for forbidden headers, so the component only has to enforce its network policy (schemes, User-Agent, extra headers, cookies, SSL hook,
+ cache, same-origin policy and CORS). The object is a plain value holder that is filled by the page layer before
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequestSource.html#start(org.duckdns.hjow.swingwebpanel.js.host.WebRequest, org.duckdns.hjow.swingwebpanel.js.host.WebRequestSource.Callback)"><CODE>WebRequestSource.start(WebRequest, WebRequestSource.Callback)</CODE></A> and never changed afterwards.
+ <p>
+ 페이지 스크립트가 <code>XMLHttpRequest</code> 나 <code>fetch()</code> 로 컴포넌트에 요청하는 요청 하나. 페이지 계층이 URL을 문서 기준 URL로 이미
+ 해석했고 메서드와 헤더 이름을 검증했으며 금지 헤더에 대한 Fetch 규칙을 적용했으므로 컴포넌트는 자기 네트워크 정책(스킴, User-Agent, 추가 헤더, 쿠키,
+ SSL 훅, 캐시, 동일 출처 정책, CORS)만 적용하면 된다. 페이지 계층이 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequestSource.html#start(org.duckdns.hjow.swingwebpanel.js.host.WebRequest, org.duckdns.hjow.swingwebpanel.js.host.WebRequestSource.Callback)"><CODE>WebRequestSource.start(WebRequest, WebRequestSource.Callback)</CODE></A> 전에
+ 채우는 단순 값 보관 객체이며 그 뒤에는 바꾸지 않는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#CREDENTIALS_INCLUDE">CREDENTIALS_INCLUDE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Credentials mode "include": cookies for every origin (the server must allow it across origins). / 자격 증명 모드 "include": 모든 오리진에 쿠키(교차 오리진은 서버가 허용해야 함).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#CREDENTIALS_OMIT">CREDENTIALS_OMIT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Credentials mode "omit": never send or store cookies. / 자격 증명 모드 "omit": 쿠키를 보내거나 저장하지 않는다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#CREDENTIALS_SAME_ORIGIN">CREDENTIALS_SAME_ORIGIN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Credentials mode "same-origin": cookies only for the page's own origin. / 자격 증명 모드 "same-origin": 페이지 자신의 오리진에만 쿠키.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#MODE_CORS">MODE_CORS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Request mode "cors": cross-origin allowed with the server's CORS permission. / 요청 모드 "cors": 서버의 CORS 허용이 있으면 교차 오리진 가능.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#MODE_NO_CORS">MODE_NO_CORS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Request mode "no-cors": cross-origin allowed but the response is opaque. / 요청 모드 "no-cors": 교차 오리진을 허용하되 응답은 불투명하다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#MODE_SAME_ORIGIN">MODE_SAME_ORIGIN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Request mode "same-origin": cross-origin requests fail. / 요청 모드 "same-origin": 교차 오리진 요청은 실패한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#REFERRER_CLIENT">REFERRER_CLIENT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Referrer value meaning "the document URL" (<code>about:client</code>). / "문서 URL" 을 뜻하는 참조 값(<code>about:client</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#REFERRER_NONE">REFERRER_NONE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Referrer value meaning "send no Referer header". / "Referer 헤더를 보내지 않음" 을 뜻하는 참조 값.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#WebRequest(java.lang.String)">WebRequest</A></B>(java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a request.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">WebRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#addHeader(java.lang.String, java.lang.String)">addHeader</A></B>(java.lang.String&nbsp;name,
+          java.lang.String&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adds an author header.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;byte[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#getBody()">getBody</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the body.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#getBodyType()">getBodyType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the body Content-Type.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#getCache()">getCache</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the cache mode.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#getCredentials()">getCredentials</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the credentials mode.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/net/CrossOriginPolicy.Embedder.html" title="enum in org.duckdns.hjow.swingwebpanel.net">CrossOriginPolicy.Embedder</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#getEmbedderPolicy()">getEmbedderPolicy</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns an explicit worker policy or null to inherit the document's settings.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String[]&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#getHeaders()">getHeaders</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the live list of author headers.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#getMethod()">getMethod</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the method.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#getMode()">getMode</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the request mode.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#getRedirect()">getRedirect</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the redirect mode.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#getReferrer()">getReferrer</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the referrer.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#getReferrerPolicy()">getReferrerPolicy</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the referrer policy.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#getUrl()">getUrl</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the URL.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">WebRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#setBody(byte[], java.lang.String)">setBody</A></B>(byte[]&nbsp;data,
+        java.lang.String&nbsp;type)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the body.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">WebRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#setCache(java.lang.String)">setCache</A></B>(java.lang.String&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the cache mode.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">WebRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#setCredentials(java.lang.String)">setCredentials</A></B>(java.lang.String&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the credentials mode.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#setEmbedderPolicy(org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy.Embedder)">setEmbedderPolicy</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/net/CrossOriginPolicy.Embedder.html" title="enum in org.duckdns.hjow.swingwebpanel.net">CrossOriginPolicy.Embedder</A>&nbsp;policy)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Carries the worker's policy through the shared document request service.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">WebRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#setMethod(java.lang.String)">setMethod</A></B>(java.lang.String&nbsp;m)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the method.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">WebRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#setMode(java.lang.String)">setMode</A></B>(java.lang.String&nbsp;m)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the request mode.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">WebRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#setRedirect(java.lang.String)">setRedirect</A></B>(java.lang.String&nbsp;r)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the redirect mode.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">WebRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#setReferrer(java.lang.String)">setReferrer</A></B>(java.lang.String&nbsp;r)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the referrer.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">WebRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#setReferrerPolicy(java.lang.String)">setReferrerPolicy</A></B>(java.lang.String&nbsp;p)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the referrer policy.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="CREDENTIALS_OMIT"><!-- --></A><H3>
+CREDENTIALS_OMIT</H3>
+<PRE>
+public static final java.lang.String <B>CREDENTIALS_OMIT</B></PRE>
+<DL>
+<DD>Credentials mode "omit": never send or store cookies. / 자격 증명 모드 "omit": 쿠키를 보내거나 저장하지 않는다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.WebRequest.CREDENTIALS_OMIT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="CREDENTIALS_SAME_ORIGIN"><!-- --></A><H3>
+CREDENTIALS_SAME_ORIGIN</H3>
+<PRE>
+public static final java.lang.String <B>CREDENTIALS_SAME_ORIGIN</B></PRE>
+<DL>
+<DD>Credentials mode "same-origin": cookies only for the page's own origin. / 자격 증명 모드 "same-origin": 페이지 자신의 오리진에만 쿠키.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.WebRequest.CREDENTIALS_SAME_ORIGIN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="CREDENTIALS_INCLUDE"><!-- --></A><H3>
+CREDENTIALS_INCLUDE</H3>
+<PRE>
+public static final java.lang.String <B>CREDENTIALS_INCLUDE</B></PRE>
+<DL>
+<DD>Credentials mode "include": cookies for every origin (the server must allow it across origins). / 자격 증명 모드 "include": 모든 오리진에 쿠키(교차 오리진은 서버가 허용해야 함).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.WebRequest.CREDENTIALS_INCLUDE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MODE_CORS"><!-- --></A><H3>
+MODE_CORS</H3>
+<PRE>
+public static final java.lang.String <B>MODE_CORS</B></PRE>
+<DL>
+<DD>Request mode "cors": cross-origin allowed with the server's CORS permission. / 요청 모드 "cors": 서버의 CORS 허용이 있으면 교차 오리진 가능.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.WebRequest.MODE_CORS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MODE_SAME_ORIGIN"><!-- --></A><H3>
+MODE_SAME_ORIGIN</H3>
+<PRE>
+public static final java.lang.String <B>MODE_SAME_ORIGIN</B></PRE>
+<DL>
+<DD>Request mode "same-origin": cross-origin requests fail. / 요청 모드 "same-origin": 교차 오리진 요청은 실패한다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.WebRequest.MODE_SAME_ORIGIN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MODE_NO_CORS"><!-- --></A><H3>
+MODE_NO_CORS</H3>
+<PRE>
+public static final java.lang.String <B>MODE_NO_CORS</B></PRE>
+<DL>
+<DD>Request mode "no-cors": cross-origin allowed but the response is opaque. / 요청 모드 "no-cors": 교차 오리진을 허용하되 응답은 불투명하다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.WebRequest.MODE_NO_CORS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="REFERRER_CLIENT"><!-- --></A><H3>
+REFERRER_CLIENT</H3>
+<PRE>
+public static final java.lang.String <B>REFERRER_CLIENT</B></PRE>
+<DL>
+<DD>Referrer value meaning "the document URL" (<code>about:client</code>). / "문서 URL" 을 뜻하는 참조 값(<code>about:client</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.WebRequest.REFERRER_CLIENT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="REFERRER_NONE"><!-- --></A><H3>
+REFERRER_NONE</H3>
+<PRE>
+public static final java.lang.String <B>REFERRER_NONE</B></PRE>
+<DL>
+<DD>Referrer value meaning "send no Referer header". / "Referer 헤더를 보내지 않음" 을 뜻하는 참조 값.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.WebRequest.REFERRER_NONE">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="WebRequest(java.lang.String)"><!-- --></A><H3>
+WebRequest</H3>
+<PRE>
+public <B>WebRequest</B>(java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Creates a request.
+ <p>
+ 요청을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - the absolute URL / 절대 URL</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getUrl()"><!-- --></A><H3>
+getUrl</H3>
+<PRE>
+public java.lang.String <B>getUrl</B>()</PRE>
+<DL>
+<DD>Returns the URL.
+ <p>
+ URL을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the absolute URL / 절대 URL</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEmbedderPolicy()"><!-- --></A><H3>
+getEmbedderPolicy</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/net/CrossOriginPolicy.Embedder.html" title="enum in org.duckdns.hjow.swingwebpanel.net">CrossOriginPolicy.Embedder</A> <B>getEmbedderPolicy</B>()</PRE>
+<DL>
+<DD>Returns an explicit worker policy or null to inherit the document's settings.
+ <p>
+ 명시한 워커 정책을 반환한다. 문서 설정을 사용하려면 null이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the policy or null / 정책 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setEmbedderPolicy(org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy.Embedder)"><!-- --></A><H3>
+setEmbedderPolicy</H3>
+<PRE>
+public void <B>setEmbedderPolicy</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/net/CrossOriginPolicy.Embedder.html" title="enum in org.duckdns.hjow.swingwebpanel.net">CrossOriginPolicy.Embedder</A>&nbsp;policy)</PRE>
+<DL>
+<DD>Carries the worker's policy through the shared document request service.
+ <p>
+ 공용 문서 요청 서비스를 통해 워커의 정책을 전달한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>policy</CODE> - the worker's COEP value / 워커의 COEP 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMethod()"><!-- --></A><H3>
+getMethod</H3>
+<PRE>
+public java.lang.String <B>getMethod</B>()</PRE>
+<DL>
+<DD>Returns the method.
+ <p>
+ 메서드를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the normalized method / 정규화한 메서드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMethod(java.lang.String)"><!-- --></A><H3>
+setMethod</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">WebRequest</A> <B>setMethod</B>(java.lang.String&nbsp;m)</PRE>
+<DL>
+<DD>Sets the method.
+ <p>
+ 메서드를 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>m</CODE> - the normalized method / 정규화한 메서드
+<DT><B>Returns:</B><DD>this request / 이 요청</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHeaders()"><!-- --></A><H3>
+getHeaders</H3>
+<PRE>
+public java.util.List&lt;java.lang.String[]&gt; <B>getHeaders</B>()</PRE>
+<DL>
+<DD>Returns the live list of author headers.
+ <p>
+ 작성자 헤더의 목록을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>(name, value) pairs in order / 순서대로 (이름, 값) 쌍</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addHeader(java.lang.String, java.lang.String)"><!-- --></A><H3>
+addHeader</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">WebRequest</A> <B>addHeader</B>(java.lang.String&nbsp;name,
+                            java.lang.String&nbsp;value)</PRE>
+<DL>
+<DD>Adds an author header.
+ <p>
+ 작성자 헤더를 추가한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the header name / 헤더 이름<DD><CODE>value</CODE> - the header value / 헤더 값
+<DT><B>Returns:</B><DD>this request / 이 요청</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBody()"><!-- --></A><H3>
+getBody</H3>
+<PRE>
+public byte[] <B>getBody</B>()</PRE>
+<DL>
+<DD>Returns the body.
+ <p>
+ 본문을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the bytes or null / 바이트 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBodyType()"><!-- --></A><H3>
+getBodyType</H3>
+<PRE>
+public java.lang.String <B>getBodyType</B>()</PRE>
+<DL>
+<DD>Returns the body Content-Type.
+ <p>
+ 본문의 Content-Type 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the type or null / 타입 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setBody(byte[], java.lang.String)"><!-- --></A><H3>
+setBody</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">WebRequest</A> <B>setBody</B>(byte[]&nbsp;data,
+                          java.lang.String&nbsp;type)</PRE>
+<DL>
+<DD>Sets the body.
+ <p>
+ 본문을 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - the bytes or null / 바이트 또는 null<DD><CODE>type</CODE> - the Content-Type or null / Content-Type 또는 null
+<DT><B>Returns:</B><DD>this request / 이 요청</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCredentials()"><!-- --></A><H3>
+getCredentials</H3>
+<PRE>
+public java.lang.String <B>getCredentials</B>()</PRE>
+<DL>
+<DD>Returns the credentials mode.
+ <p>
+ 자격 증명 모드를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>omit, same-origin or include / omit, same-origin, include 중 하나</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setCredentials(java.lang.String)"><!-- --></A><H3>
+setCredentials</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">WebRequest</A> <B>setCredentials</B>(java.lang.String&nbsp;c)</PRE>
+<DL>
+<DD>Sets the credentials mode.
+ <p>
+ 자격 증명 모드를 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>c</CODE> - omit, same-origin or include / omit, same-origin, include 중 하나
+<DT><B>Returns:</B><DD>this request / 이 요청</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMode()"><!-- --></A><H3>
+getMode</H3>
+<PRE>
+public java.lang.String <B>getMode</B>()</PRE>
+<DL>
+<DD>Returns the request mode.
+ <p>
+ 요청 모드를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>cors, same-origin or no-cors / cors, same-origin, no-cors 중 하나</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMode(java.lang.String)"><!-- --></A><H3>
+setMode</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">WebRequest</A> <B>setMode</B>(java.lang.String&nbsp;m)</PRE>
+<DL>
+<DD>Sets the request mode.
+ <p>
+ 요청 모드를 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>m</CODE> - cors, same-origin or no-cors / cors, same-origin, no-cors 중 하나
+<DT><B>Returns:</B><DD>this request / 이 요청</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCache()"><!-- --></A><H3>
+getCache</H3>
+<PRE>
+public java.lang.String <B>getCache</B>()</PRE>
+<DL>
+<DD>Returns the cache mode.
+ <p>
+ 캐시 모드를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the Fetch cache mode / Fetch 캐시 모드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setCache(java.lang.String)"><!-- --></A><H3>
+setCache</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">WebRequest</A> <B>setCache</B>(java.lang.String&nbsp;c)</PRE>
+<DL>
+<DD>Sets the cache mode.
+ <p>
+ 캐시 모드를 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>c</CODE> - the Fetch cache mode / Fetch 캐시 모드
+<DT><B>Returns:</B><DD>this request / 이 요청</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRedirect()"><!-- --></A><H3>
+getRedirect</H3>
+<PRE>
+public java.lang.String <B>getRedirect</B>()</PRE>
+<DL>
+<DD>Returns the redirect mode.
+ <p>
+ 리디렉션 모드를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>follow or error / follow 또는 error</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setRedirect(java.lang.String)"><!-- --></A><H3>
+setRedirect</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">WebRequest</A> <B>setRedirect</B>(java.lang.String&nbsp;r)</PRE>
+<DL>
+<DD>Sets the redirect mode.
+ <p>
+ 리디렉션 모드를 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>r</CODE> - follow or error / follow 또는 error
+<DT><B>Returns:</B><DD>this request / 이 요청</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getReferrer()"><!-- --></A><H3>
+getReferrer</H3>
+<PRE>
+public java.lang.String <B>getReferrer</B>()</PRE>
+<DL>
+<DD>Returns the referrer.
+ <p>
+ 참조를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#REFERRER_CLIENT"><CODE>REFERRER_CLIENT</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#REFERRER_NONE"><CODE>REFERRER_NONE</CODE></A> or a URL / <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#REFERRER_CLIENT"><CODE>REFERRER_CLIENT</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#REFERRER_NONE"><CODE>REFERRER_NONE</CODE></A> 또는 URL</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setReferrer(java.lang.String)"><!-- --></A><H3>
+setReferrer</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">WebRequest</A> <B>setReferrer</B>(java.lang.String&nbsp;r)</PRE>
+<DL>
+<DD>Sets the referrer.
+ <p>
+ 참조를 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>r</CODE> - <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#REFERRER_CLIENT"><CODE>REFERRER_CLIENT</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#REFERRER_NONE"><CODE>REFERRER_NONE</CODE></A> or an absolute same-origin URL / <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#REFERRER_CLIENT"><CODE>REFERRER_CLIENT</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html#REFERRER_NONE"><CODE>REFERRER_NONE</CODE></A> 또는 같은 오리진의 절대 URL
+<DT><B>Returns:</B><DD>this request / 이 요청</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getReferrerPolicy()"><!-- --></A><H3>
+getReferrerPolicy</H3>
+<PRE>
+public java.lang.String <B>getReferrerPolicy</B>()</PRE>
+<DL>
+<DD>Returns the referrer policy.
+ <p>
+ 참조 정책을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the policy token or "" / 정책 토큰 또는 ""</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setReferrerPolicy(java.lang.String)"><!-- --></A><H3>
+setReferrerPolicy</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">WebRequest</A> <B>setReferrerPolicy</B>(java.lang.String&nbsp;p)</PRE>
+<DL>
+<DD>Sets the referrer policy.
+ <p>
+ 참조 정책을 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>p</CODE> - the policy token or "" / 정책 토큰 또는 ""
+<DT><B>Returns:</B><DD>this request / 이 요청</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/VttRegionValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequestSource.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/WebRequest.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WebRequest.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

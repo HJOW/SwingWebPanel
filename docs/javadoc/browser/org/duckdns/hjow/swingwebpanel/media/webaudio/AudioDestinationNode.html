@@ -1,0 +1,268 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+AudioDestinationNode
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="AudioDestinationNode";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBus.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/AudioDestinationNode.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="AudioDestinationNode.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.webaudio</FONT>
+<BR>
+Class AudioDestinationNode</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode</A>
+      <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.webaudio.AudioDestinationNode</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>AudioDestinationNode</B><DT>extends <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioNode</A></DL>
+</PRE>
+
+<P>
+The final destination of a context (Web Audio API 1.10): all audio that is heard is routed to it. It has one input and no output
+ (browsers report 0 outputs, although the tables of the specification say 1). Its input has the mode <code>explicit</code>: the
+ <code>channelCount</code> is the number of channels that the context renders. For a real-time context it can be set from 1 to
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioDestinationNode.html#getMaxChannelCount()"><CODE>getMaxChannelCount()</CODE></A>; for an offline context it is the number of channels given to the constructor and cannot change. The
+ audio of the last quantum is the mixed input bus, which the context reads after each render quantum.
+ <p>
+ 컨텍스트의 최종 목적지(Web Audio API 1.10): 들리는 모든 오디오가 여기로 간다. 입력이 하나이고 출력은 없다(규격 표는 1 이라고 적지만 브라우저는 출력 0 으로
+ 보고한다). 입력은 <code>explicit</code> 모드이며 <code>channelCount</code> 는 컨텍스트가 렌더링하는 채널 수이다. 실시간 컨텍스트에서는 1 부터
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioDestinationNode.html#getMaxChannelCount()"><CODE>getMaxChannelCount()</CODE></A> 까지 정할 수 있고, 오프라인 컨텍스트에서는 생성자에 준 채널 수이며 바꿀 수 없다. 마지막 quantum 의 오디오는 섞인 입력
+ 버스이며 컨텍스트가 render quantum 마다 읽는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioDestinationNode.html#getMaxChannelCount()">getMaxChannelCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the largest <code>channelCount</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBus.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBus</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioDestinationNode.html#getRenderedBus()">getRenderedBus</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the audio that the destination received in the last quantum, mixed to its <code>channelCount</code> channels.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.media.webaudio.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioNode</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#connect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode)">connect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#connect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode, int, int)">connect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#connect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioParam)">connect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#connect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioParam, int)">connect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect()">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode, int)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode, int, int)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioParam)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioParam, int)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(int)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getChannelCount()">getChannelCount</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getChannelCountMode()">getChannelCountMode</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getChannelInterpretation()">getChannelInterpretation</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getContext()">getContext</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getNumberOfInputs()">getNumberOfInputs</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getNumberOfOutputs()">getNumberOfOutputs</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#setChannelCount(int)">setChannelCount</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#setChannelCountMode(org.duckdns.hjow.swingwebpanel.media.webaudio.ChannelCountMode)">setChannelCountMode</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#setChannelInterpretation(org.duckdns.hjow.swingwebpanel.media.webaudio.ChannelInterpretation)">setChannelInterpretation</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getMaxChannelCount()"><!-- --></A><H3>
+getMaxChannelCount</H3>
+<PRE>
+public int <B>getMaxChannelCount</B>()</PRE>
+<DL>
+<DD>Returns the largest <code>channelCount</code>.
+ <p>
+ <code>channelCount</code> 의 최댓값을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the maximum number of channels / 최대 채널 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRenderedBus()"><!-- --></A><H3>
+getRenderedBus</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBus.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBus</A> <B>getRenderedBus</B>()</PRE>
+<DL>
+<DD>Returns the audio that the destination received in the last quantum, mixed to its <code>channelCount</code> channels.
+ <p>
+ 목적지가 마지막 quantum 에 받은 오디오를 <code>channelCount</code> 채널로 섞어 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the live bus / 살아 있는 버스</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBus.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/AudioDestinationNode.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="AudioDestinationNode.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

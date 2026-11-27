@@ -1,0 +1,293 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+WebAudioHostLimits
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="WebAudioHostLimits";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/WebAudioApi.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/webaudio/WebAudioHostLimits.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WebAudioHostLimits.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#methods_inherited_from_class_java.lang.Object">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;METHOD</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.host.webaudio</FONT>
+<BR>
+Class WebAudioHostLimits</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.host.webaudio.WebAudioHostLimits</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>WebAudioHostLimits</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The limits that the script interface of one page keeps, on top of the limits of the engine (<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WebAudioLimits.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>WebAudioLimits</CODE></A>, which bound one context): how many
+ contexts a page may have open at the same time and how much memory its offline contexts may hold together. A script that exceeds one gets a
+ <code>NotSupportedError</code>, the error that the specification names for "an implementation-defined maximum number of contexts".
+ <p>
+ Reasons. A real-time context owns a rendering thread and (once an output device is used) an audio line, which are scarce, and the browsers that limited the number
+ of contexts of a page also chose 6 (Chromium, for hardware contexts, in the versions that had a limit); a page that needs more than one context is rare, a page that
+ leaks contexts by creating one per sound without closing it is not, and the limit turns that into an error that the developer sees instead of a growing number of
+ threads. An offline context allocates its whole result when it is created (the length times the channels), so the sum is bounded by the largest buffer that the engine
+ allows (<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WebAudioLimits.html#MAX_BUFFER_SAMPLES"><CODE>WebAudioLimits.MAX_BUFFER_SAMPLES</CODE></A>); a context gives its share back when its rendering has finished or the context is disposed.
+ <p>
+ 엔진의 한도(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WebAudioLimits.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>WebAudioLimits</CODE></A>. 컨텍스트 하나를 제한한다)에 더해 한 페이지의 스크립트 인터페이스가 지키는 한도: 페이지가 동시에 열어 둘 수 있는 컨텍스트 수와
+ 오프라인 컨텍스트가 함께 쥘 수 있는 메모리. 한도를 넘는 스크립트는 <code>NotSupportedError</code> 를 받는다. 규격이 "구현이 정하는 컨텍스트 최대 수"에 대해
+ 정한 오류이다.
+ <p>
+ 이유. 실시간 컨텍스트는 렌더링 스레드와(출력 장치를 쓰게 되면) 오디오 라인을 가지며 이들은 귀하다. 페이지의 컨텍스트 수를 제한했던 브라우저도 6 을 택했다(Chromium 의 하드웨어
+ 컨텍스트, 한도가 있던 판). 컨텍스트가 둘 이상 필요한 페이지는 드물지만, 소리마다 하나를 만들고 닫지 않아 컨텍스트가 새는 페이지는 드물지 않고, 한도가 그것을 스레드가 늘어나는
+ 것 대신 개발자가 보는 오류로 바꾼다. 오프라인 컨텍스트는 만들 때 결과 전체(길이 곱하기 채널)를 할당하므로 합계는 엔진이 허용하는 가장 큰 버퍼
+ (<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WebAudioLimits.html#MAX_BUFFER_SAMPLES"><CODE>WebAudioLimits.MAX_BUFFER_SAMPLES</CODE></A>)로 제한한다. 컨텍스트는 렌더링이 끝나거나 폐기되면 자기 몫을 돌려준다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/WebAudioHostLimits.html#MAX_OFFLINE_CONTEXTS">MAX_OFFLINE_CONTEXTS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The largest number of offline contexts (<code>OfflineAudioContext</code>) of a page that have not finished their rendering.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/WebAudioHostLimits.html#MAX_OFFLINE_SAMPLES">MAX_OFFLINE_SAMPLES</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The largest number of samples (all channels) that the offline contexts of a page may hold together.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/WebAudioHostLimits.html#MAX_REALTIME_CONTEXTS">MAX_REALTIME_CONTEXTS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The largest number of real-time contexts (<code>AudioContext</code>) that a page has open (not closed) at the same time.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="MAX_REALTIME_CONTEXTS"><!-- --></A><H3>
+MAX_REALTIME_CONTEXTS</H3>
+<PRE>
+public static final int <B>MAX_REALTIME_CONTEXTS</B></PRE>
+<DL>
+<DD>The largest number of real-time contexts (<code>AudioContext</code>) that a page has open (not closed) at the same time.
+ <p>
+ 페이지가 동시에 열어 둘(닫지 않은) 실시간 컨텍스트(<code>AudioContext</code>)의 최대 수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.webaudio.WebAudioHostLimits.MAX_REALTIME_CONTEXTS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAX_OFFLINE_CONTEXTS"><!-- --></A><H3>
+MAX_OFFLINE_CONTEXTS</H3>
+<PRE>
+public static final int <B>MAX_OFFLINE_CONTEXTS</B></PRE>
+<DL>
+<DD>The largest number of offline contexts (<code>OfflineAudioContext</code>) of a page that have not finished their rendering.
+ <p>
+ 렌더링을 끝내지 않은 페이지의 오프라인 컨텍스트(<code>OfflineAudioContext</code>)의 최대 수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.webaudio.WebAudioHostLimits.MAX_OFFLINE_CONTEXTS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAX_OFFLINE_SAMPLES"><!-- --></A><H3>
+MAX_OFFLINE_SAMPLES</H3>
+<PRE>
+public static final long <B>MAX_OFFLINE_SAMPLES</B></PRE>
+<DL>
+<DD>The largest number of samples (all channels) that the offline contexts of a page may hold together.
+ <p>
+ 페이지의 오프라인 컨텍스트가 함께 쥘 수 있는 표본(모든 채널)의 최대 수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.webaudio.WebAudioHostLimits.MAX_OFFLINE_SAMPLES">Constant Field Values</A></DL>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/WebAudioApi.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/webaudio/WebAudioHostLimits.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WebAudioHostLimits.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#methods_inherited_from_class_java.lang.Object">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;METHOD</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

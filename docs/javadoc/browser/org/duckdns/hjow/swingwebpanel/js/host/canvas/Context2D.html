@@ -1,0 +1,2811 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+Context2D
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Context2D";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Composites.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.RawImage.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Context2D.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.host.canvas</FONT>
+<BR>
+Class Context2D</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.host.canvas.Context2D</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>Context2D</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The drawing engine behind <code>CanvasRenderingContext2D</code>: the state stack, the transformation matrix, the current path, filling,
+ stroking (with dashes, caps and joins), clipping with antialiased masks, rectangles, text, images, pixel data, shadows with Gaussian blur and
+ all 26 compositing operators. It is pure Java2D on a <code>BufferedImage</code> of the <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><CODE>CanvasSurface</CODE></A>; nothing uses the GPU. The
+ methods take Java numbers and objects; the script bindings do the WebIDL conversions and the type checks. Where the specification says "if
+ any argument is infinite or NaN, return" the methods return without doing anything, and invalid values of attributes are ignored. Methods
+ that must throw (<code>IndexSizeError</code>, <code>SecurityError</code>, <code>InvalidStateError</code>) throw <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>DomException</CODE></A>. The
+ methods are not synchronized; the caller holds the monitor of the surface.
+ <p>
+ Drawing model: a shape (or the glyph outline of a text, or an image) is painted into a transparent layer, the layer is multiplied by the clip
+ mask and by the global alpha, and then composited with the operator onto the bitmap, over the whole clipped canvas for the operators that
+ change pixels where the source is transparent. Plain <code>source-over</code> drawing without a shadow and without a non-rectangular clip
+ skips the layer and paints straight onto the bitmap.
+ <p>
+ <code>CanvasRenderingContext2D</code> 뒤의 그리기 엔진: 상태 스택, 변환 행렬, 현재 경로, 채우기, 선 긋기(점선, 끝 모양, 꺾임 포함), 안티앨리어싱된
+ 마스크로 클리핑, 사각형, 텍스트, 이미지, 화소 데이터, 가우시안 번짐 그림자, 합성 연산자 26 개 전부. <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><CODE>CanvasSurface</CODE></A> 의
+ <code>BufferedImage</code> 위의 순수 Java2D 이며 GPU 를 쓰지 않는다. 메서드는 Java 숫자와 객체를 받으며 WebIDL 변환과 형식 검사는 스크립트 연결이
+ 한다. 규격이 "인수가 무한대나 NaN 이면 반환" 이라고 한 곳에서는 아무것도 하지 않고 반환하며, 속성의 잘못된 값은 무시한다. 던져야 하는
+ 경우(<code>IndexSizeError</code>, <code>SecurityError</code>, <code>InvalidStateError</code>)는 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>DomException</CODE></A> 을 던진다. 메서드는 동기화하지
+ 않으며 호출자가 표면의 모니터를 잡는다.
+ <p>
+ 그리기 모델: 도형(또는 텍스트의 글리프 윤곽, 이미지)을 투명한 레이어에 칠하고, 레이어에 클립 마스크와 전역 알파를 곱한 뒤, 연산자로 비트맵에
+ 합성한다. 원본이 투명한 곳의 화소도 바꾸는 연산자는 클리핑된 캔버스 전체에 합성한다. 그림자와 사각형이 아닌 클립이 없는 평범한
+ <code>source-over</code> 그리기는 레이어를 건너뛰고 비트맵에 바로 칠한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.RawImage.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">Context2D.RawImage</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pixel data read from the bitmap: its size and the RGBA bytes.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#arc(double, double, double, double, double, boolean)">arc</A></B>(double&nbsp;x,
+    double&nbsp;y,
+    double&nbsp;r,
+    double&nbsp;start,
+    double&nbsp;end,
+    boolean&nbsp;ccw)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adds a circular arc.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#arcTo(double, double, double, double, double)">arcTo</A></B>(double&nbsp;x1,
+      double&nbsp;y1,
+      double&nbsp;x2,
+      double&nbsp;y2,
+      double&nbsp;radius)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adds a rounded corner between two lines.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#beginPath()">beginPath</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts a new path.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#bezierCurveTo(double, double, double, double, double, double)">bezierCurveTo</A></B>(double&nbsp;cp1x,
+              double&nbsp;cp1y,
+              double&nbsp;cp2x,
+              double&nbsp;cp2y,
+              double&nbsp;x,
+              double&nbsp;y)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adds a cubic curve.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#clearRect(double, double, double, double)">clearRect</A></B>(double&nbsp;x,
+          double&nbsp;y,
+          double&nbsp;w,
+          double&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Makes a rectangle transparent black (ignoring the global alpha, the shadow and the compositing operator).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#clip(boolean)">clip</A></B>(boolean&nbsp;evenOdd)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Intersects the clipping region with the current path.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#clipPath(org.duckdns.hjow.swingwebpanel.js.host.canvas.Path2DValue, boolean)">clipPath</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Path2DValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">Path2DValue</A>&nbsp;p,
+         boolean&nbsp;evenOdd)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Intersects the clipping region with a path of a <code>Path2D</code> (its points are in user space and the current matrix applies).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#closePath()">closePath</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Closes the current subpath.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#drawFocusRing(org.duckdns.hjow.swingwebpanel.js.host.canvas.Path2DValue)">drawFocusRing</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Path2DValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">Path2DValue</A>&nbsp;p)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Draws a focus ring around a path (<code>drawFocusIfNeeded()</code> calls this once it has decided that the element is focused): a one pixel
+ dark ring with a one pixel white halo on both sides, so it shows on any background, the way the focus rings of the page look like
+ <code>outline: auto</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#drawImage(org.duckdns.hjow.swingwebpanel.js.host.canvas.CanvasImage, double, double, double, double, double, double, double, double)">drawImage</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasImage.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">CanvasImage</A>&nbsp;img,
+          double&nbsp;sx,
+          double&nbsp;sy,
+          double&nbsp;sw,
+          double&nbsp;sh,
+          double&nbsp;dx,
+          double&nbsp;dy,
+          double&nbsp;dw,
+          double&nbsp;dh)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Draws an image or another canvas.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#ellipse(double, double, double, double, double, double, double, boolean)">ellipse</A></B>(double&nbsp;x,
+        double&nbsp;y,
+        double&nbsp;rx,
+        double&nbsp;ry,
+        double&nbsp;rot,
+        double&nbsp;start,
+        double&nbsp;end,
+        boolean&nbsp;ccw)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adds an elliptical arc.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#fill(boolean)">fill</A></B>(boolean&nbsp;evenOdd)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fills the current path.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#fillPath(org.duckdns.hjow.swingwebpanel.js.host.canvas.Path2DValue, boolean)">fillPath</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Path2DValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">Path2DValue</A>&nbsp;p,
+         boolean&nbsp;evenOdd)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fills a <code>Path2D</code> with the fill style.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#fillRect(double, double, double, double)">fillRect</A></B>(double&nbsp;x,
+         double&nbsp;y,
+         double&nbsp;w,
+         double&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fills a rectangle without touching the current path.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#fillText(java.lang.String, double, double, double)">fillText</A></B>(java.lang.String&nbsp;text,
+         double&nbsp;x,
+         double&nbsp;y,
+         double&nbsp;maxWidth)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fills a text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getBaseFontSize()">getBaseFontSize</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the font size that relative sizes refer to.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getCurrentColor()">getCurrentColor</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the color that <code>currentcolor</code> means.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getDirection()">getDirection</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text direction.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getFillStyle()">getFillStyle</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the fill style: an <code>Integer</code> ARGB color, a gradient or a pattern.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getFilter()">getFilter</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <code>filter</code> string as it was set.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasFont.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">CanvasFont</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getFont()">getFont</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the current font.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getFontKerning()">getFontKerning</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <code>fontKerning</code> keyword.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getFontStretch()">getFontStretch</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <code>fontStretch</code> keyword.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getFontVariantCaps()">getFontVariantCaps</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <code>fontVariantCaps</code> keyword.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getGlobalAlpha()">getGlobalAlpha</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the global alpha.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getGlobalCompositeOperation()">getGlobalCompositeOperation</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the compositing operator name.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.RawImage.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">Context2D.RawImage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getImageData(int, int, int, int)">getImageData</A></B>(int&nbsp;sx,
+             int&nbsp;sy,
+             int&nbsp;sw,
+             int&nbsp;sh)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reads pixels from the bitmap.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getImageSmoothingQuality()">getImageSmoothingQuality</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the smoothing quality.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getLang()">getLang</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <code>lang</code> value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getLetterSpacing()">getLetterSpacing</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the serialized <code>letterSpacing</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getLineCap()">getLineCap</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the line cap name.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getLineDash()">getLineDash</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy of the line dash pattern (empty for a solid line).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getLineDashOffset()">getLineDashOffset</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the dash offset.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getLineJoin()">getLineJoin</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the line join name.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getLineWidth()">getLineWidth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the line width.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getMiterLimit()">getMiterLimit</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the miter limit.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getShadowBlur()">getShadowBlur</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the shadow blur.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getShadowColor()">getShadowColor</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the shadow color.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getShadowOffsetX()">getShadowOffsetX</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the horizontal shadow offset.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getShadowOffsetY()">getShadowOffsetY</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the vertical shadow offset.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getStrokeStyle()">getStrokeStyle</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the stroke style.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">CanvasSurface</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getSurface()">getSurface</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the surface.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getTextAlign()">getTextAlign</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text alignment.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getTextBaseline()">getTextBaseline</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text baseline.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getTextRendering()">getTextRendering</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <code>textRendering</code> keyword.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getTransform()">getTransform</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the matrix as a, b, c, d, e, f.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#getWordSpacing()">getWordSpacing</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the serialized <code>wordSpacing</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#isImageSmoothingEnabled()">isImageSmoothingEnabled</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether images are smoothed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#isPointInPath(double, double, boolean)">isPointInPath</A></B>(double&nbsp;x,
+              double&nbsp;y,
+              boolean&nbsp;evenOdd)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a point of the bitmap lies inside the current path.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#isPointInPath(org.duckdns.hjow.swingwebpanel.js.host.canvas.Path2DValue, double, double, boolean)">isPointInPath</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Path2DValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">Path2DValue</A>&nbsp;p,
+              double&nbsp;x,
+              double&nbsp;y,
+              boolean&nbsp;evenOdd)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a point lies inside a <code>Path2D</code> (the current matrix applies to the path, not to the point).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#isPointInStroke(double, double)">isPointInStroke</A></B>(double&nbsp;x,
+                double&nbsp;y)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a point of the bitmap lies on the stroke of the current path.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#isPointInStroke(org.duckdns.hjow.swingwebpanel.js.host.canvas.Path2DValue, double, double)">isPointInStroke</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Path2DValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">Path2DValue</A>&nbsp;p,
+                double&nbsp;x,
+                double&nbsp;y)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a point lies on the stroke of a <code>Path2D</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#lineTo(double, double)">lineTo</A></B>(double&nbsp;x,
+       double&nbsp;y)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adds a line.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/TextMetricsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">TextMetricsValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#measureText(java.lang.String)">measureText</A></B>(java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Measures a text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#moveTo(double, double)">moveTo</A></B>(double&nbsp;x,
+       double&nbsp;y)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts a subpath.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#putImageData(byte[], int, int, int, int, int, int, int, int)">putImageData</A></B>(byte[]&nbsp;data,
+             int&nbsp;iw,
+             int&nbsp;ih,
+             int&nbsp;dx,
+             int&nbsp;dy,
+             int&nbsp;dirtyX,
+             int&nbsp;dirtyY,
+             int&nbsp;dirtyW,
+             int&nbsp;dirtyH)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writes pixels into the bitmap, replacing what is there: the matrix, the clip, the global alpha, the shadow and the compositing operator
+ do not apply.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#quadraticCurveTo(double, double, double, double)">quadraticCurveTo</A></B>(double&nbsp;cpx,
+                 double&nbsp;cpy,
+                 double&nbsp;x,
+                 double&nbsp;y)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adds a quadratic curve.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#rect(double, double, double, double)">rect</A></B>(double&nbsp;x,
+     double&nbsp;y,
+     double&nbsp;w,
+     double&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adds a rectangle subpath.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#reset()">reset</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Resets the context as <code>reset()</code> does: the bitmap becomes transparent and the state returns to its defaults.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#resetTransform()">resetTransform</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Resets the matrix to the identity.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#restore()">restore</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pops the drawing state; nothing happens when the stack is empty.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#rotate(double)">rotate</A></B>(double&nbsp;angle)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rotates the user space.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#roundRect(double, double, double, double, double[])">roundRect</A></B>(double&nbsp;x,
+          double&nbsp;y,
+          double&nbsp;w,
+          double&nbsp;h,
+          double[]&nbsp;radii)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adds a rounded rectangle.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#save()">save</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pushes a copy of the drawing state.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#scale(double, double)">scale</A></B>(double&nbsp;x,
+      double&nbsp;y)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scales the user space.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setDirection(java.lang.String)">setDirection</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the text direction; an unknown value is ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setElementStyle(double, int)">setElementStyle</A></B>(double&nbsp;fontSizePx,
+                int&nbsp;argb)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells the context the font size and color of the canvas element, which relative sizes and <code>currentcolor</code> refer to.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setFillStyle(java.lang.Object)">setFillStyle</A></B>(java.lang.Object&nbsp;style)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the fill style.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setFilter(java.lang.String)">setFilter</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets <code>filter</code>: <code>none</code> or a <code>&lt;filter-value-list&gt;</code>; anything else (also the empty string and CSS-wide
+ keywords) is ignored and the old value stays.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setFont(org.duckdns.hjow.swingwebpanel.js.host.canvas.CanvasFont)">setFont</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasFont.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">CanvasFont</A>&nbsp;f)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the font.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setFontKerning(java.lang.String)">setFontKerning</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets <code>fontKerning</code>; an unknown keyword is ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setFontStretch(java.lang.String)">setFontStretch</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets <code>fontStretch</code>; an unknown keyword is ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setFontVariantCaps(java.lang.String)">setFontVariantCaps</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets <code>fontVariantCaps</code>; an unknown keyword is ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setGlobalAlpha(double)">setGlobalAlpha</A></B>(double&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the global alpha; values outside 0..1 and NaN are ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setGlobalCompositeOperation(java.lang.String)">setGlobalCompositeOperation</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the compositing operator; an unknown name is ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setImageSmoothingEnabled(boolean)">setImageSmoothingEnabled</A></B>(boolean&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets whether images are smoothed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setImageSmoothingQuality(java.lang.String)">setImageSmoothingQuality</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the smoothing quality; an unknown value is ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setLang(java.lang.String)">setLang</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets <code>lang</code>: the value is taken as it is (the specification stores any given string).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setLetterSpacing(java.lang.String)">setLetterSpacing</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets <code>letterSpacing</code>: the spacing that is added after every character when text is drawn or measured.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setLineCap(java.lang.String)">setLineCap</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the line cap; an unknown name is ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setLineDash(double[])">setLineDash</A></B>(double[]&nbsp;segments)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the line dash pattern; negative or non-finite entries make the call do nothing, an odd number of entries is repeated once.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setLineDashOffset(double)">setLineDashOffset</A></B>(double&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the dash offset; a non-finite value is ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setLineJoin(java.lang.String)">setLineJoin</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the line join; an unknown name is ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setLineWidth(double)">setLineWidth</A></B>(double&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the line width; zero, negative and non-finite values are ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setMiterLimit(double)">setMiterLimit</A></B>(double&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the miter limit; zero, negative and non-finite values are ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setShadowBlur(double)">setShadowBlur</A></B>(double&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the shadow blur; negative and non-finite values are ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setShadowColor(int)">setShadowColor</A></B>(int&nbsp;argb)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the shadow color.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setShadowOffsetX(double)">setShadowOffsetX</A></B>(double&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the horizontal shadow offset; a non-finite value is ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setShadowOffsetY(double)">setShadowOffsetY</A></B>(double&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the vertical shadow offset; a non-finite value is ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setStrokeStyle(java.lang.Object)">setStrokeStyle</A></B>(java.lang.Object&nbsp;style)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the stroke style.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setTextAlign(java.lang.String)">setTextAlign</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the text alignment; an unknown value is ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setTextBaseline(java.lang.String)">setTextBaseline</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the text baseline; an unknown value is ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setTextRendering(java.lang.String)">setTextRendering</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets <code>textRendering</code>; an unknown keyword is ignored (the keywords are case sensitive).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setTransform(double, double, double, double, double, double)">setTransform</A></B>(double&nbsp;a,
+             double&nbsp;b,
+             double&nbsp;c,
+             double&nbsp;d,
+             double&nbsp;e,
+             double&nbsp;f)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Replaces the matrix.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#setWordSpacing(java.lang.String)">setWordSpacing</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets <code>wordSpacing</code>: the spacing that is added after every space and no-break space when text is drawn or measured.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#stroke()">stroke</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Strokes the current path.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#strokePath(org.duckdns.hjow.swingwebpanel.js.host.canvas.Path2DValue)">strokePath</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Path2DValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">Path2DValue</A>&nbsp;p)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Strokes a <code>Path2D</code> with the stroke style.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#strokeRect(double, double, double, double)">strokeRect</A></B>(double&nbsp;x,
+           double&nbsp;y,
+           double&nbsp;w,
+           double&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Strokes a rectangle without touching the current path.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#strokeText(java.lang.String, double, double, double)">strokeText</A></B>(java.lang.String&nbsp;text,
+           double&nbsp;x,
+           double&nbsp;y,
+           double&nbsp;maxWidth)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Strokes a text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#transform(double, double, double, double, double, double)">transform</A></B>(double&nbsp;a,
+          double&nbsp;b,
+          double&nbsp;c,
+          double&nbsp;d,
+          double&nbsp;e,
+          double&nbsp;f)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Multiplies the matrix by another one.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html#translate(double, double)">translate</A></B>(double&nbsp;x,
+          double&nbsp;y)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Moves the user space.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getSurface()"><!-- --></A><H3>
+getSurface</H3>
+<PRE>
+public <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">CanvasSurface</A> <B>getSurface</B>()</PRE>
+<DL>
+<DD>Returns the surface.
+ <p>
+ 표면을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the surface / 표면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setElementStyle(double, int)"><!-- --></A><H3>
+setElementStyle</H3>
+<PRE>
+public void <B>setElementStyle</B>(double&nbsp;fontSizePx,
+                            int&nbsp;argb)</PRE>
+<DL>
+<DD>Tells the context the font size and color of the canvas element, which relative sizes and <code>currentcolor</code> refer to.
+ <p>
+ 컨텍스트에 상대 크기와 <code>currentcolor</code> 가 기준으로 삼는 캔버스 요소의 글꼴 크기와 색을 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>fontSizePx</CODE> - the font size in px / 글꼴 크기(px)<DD><CODE>argb</CODE> - the color / 색</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCurrentColor()"><!-- --></A><H3>
+getCurrentColor</H3>
+<PRE>
+public int <B>getCurrentColor</B>()</PRE>
+<DL>
+<DD>Returns the color that <code>currentcolor</code> means.
+ <p>
+ <code>currentcolor</code> 가 뜻하는 색을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the ARGB color / ARGB 색</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBaseFontSize()"><!-- --></A><H3>
+getBaseFontSize</H3>
+<PRE>
+public double <B>getBaseFontSize</B>()</PRE>
+<DL>
+<DD>Returns the font size that relative sizes refer to.
+ <p>
+ 상대 크기가 기준으로 삼는 글꼴 크기를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the size in px / 크기(px)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="reset()"><!-- --></A><H3>
+reset</H3>
+<PRE>
+public void <B>reset</B>()</PRE>
+<DL>
+<DD>Resets the context as <code>reset()</code> does: the bitmap becomes transparent and the state returns to its defaults.
+ <p>
+ <code>reset()</code> 처럼 컨텍스트를 되돌린다: 비트맵은 투명해지고 상태는 기본값으로 돌아간다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="save()"><!-- --></A><H3>
+save</H3>
+<PRE>
+public void <B>save</B>()</PRE>
+<DL>
+<DD>Pushes a copy of the drawing state.
+ <p>
+ 그리기 상태의 복사본을 쌓는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="restore()"><!-- --></A><H3>
+restore</H3>
+<PRE>
+public void <B>restore</B>()</PRE>
+<DL>
+<DD>Pops the drawing state; nothing happens when the stack is empty.
+ <p>
+ 그리기 상태를 꺼낸다. 스택이 비어 있으면 아무 일도 없다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="scale(double, double)"><!-- --></A><H3>
+scale</H3>
+<PRE>
+public void <B>scale</B>(double&nbsp;x,
+                  double&nbsp;y)</PRE>
+<DL>
+<DD>Scales the user space.
+ <p>
+ 사용자 좌표계를 늘이거나 줄인다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - horizontal factor / 가로 배율<DD><CODE>y</CODE> - vertical factor / 세로 배율</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="rotate(double)"><!-- --></A><H3>
+rotate</H3>
+<PRE>
+public void <B>rotate</B>(double&nbsp;angle)</PRE>
+<DL>
+<DD>Rotates the user space.
+ <p>
+ 사용자 좌표계를 회전한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>angle</CODE> - the angle in radians, clockwise / 각도(라디안, 시계 방향)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="translate(double, double)"><!-- --></A><H3>
+translate</H3>
+<PRE>
+public void <B>translate</B>(double&nbsp;x,
+                      double&nbsp;y)</PRE>
+<DL>
+<DD>Moves the user space.
+ <p>
+ 사용자 좌표계를 옮긴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - horizontal distance / 가로 거리<DD><CODE>y</CODE> - vertical distance / 세로 거리</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="transform(double, double, double, double, double, double)"><!-- --></A><H3>
+transform</H3>
+<PRE>
+public void <B>transform</B>(double&nbsp;a,
+                      double&nbsp;b,
+                      double&nbsp;c,
+                      double&nbsp;d,
+                      double&nbsp;e,
+                      double&nbsp;f)</PRE>
+<DL>
+<DD>Multiplies the matrix by another one.
+ <p>
+ 행렬에 다른 행렬을 곱한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>a</CODE> - m11 / m11<DD><CODE>b</CODE> - m12 / m12<DD><CODE>c</CODE> - m21 / m21<DD><CODE>d</CODE> - m22 / m22<DD><CODE>e</CODE> - dx / dx<DD><CODE>f</CODE> - dy / dy</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setTransform(double, double, double, double, double, double)"><!-- --></A><H3>
+setTransform</H3>
+<PRE>
+public void <B>setTransform</B>(double&nbsp;a,
+                         double&nbsp;b,
+                         double&nbsp;c,
+                         double&nbsp;d,
+                         double&nbsp;e,
+                         double&nbsp;f)</PRE>
+<DL>
+<DD>Replaces the matrix.
+ <p>
+ 행렬을 교체한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>a</CODE> - m11 / m11<DD><CODE>b</CODE> - m12 / m12<DD><CODE>c</CODE> - m21 / m21<DD><CODE>d</CODE> - m22 / m22<DD><CODE>e</CODE> - dx / dx<DD><CODE>f</CODE> - dy / dy</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="resetTransform()"><!-- --></A><H3>
+resetTransform</H3>
+<PRE>
+public void <B>resetTransform</B>()</PRE>
+<DL>
+<DD>Resets the matrix to the identity.
+ <p>
+ 행렬을 단위 행렬로 되돌린다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTransform()"><!-- --></A><H3>
+getTransform</H3>
+<PRE>
+public double[] <B>getTransform</B>()</PRE>
+<DL>
+<DD>Returns the matrix as a, b, c, d, e, f.
+ <p>
+ 행렬을 a, b, c, d, e, f 로 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>six numbers / 숫자 여섯 개</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getGlobalAlpha()"><!-- --></A><H3>
+getGlobalAlpha</H3>
+<PRE>
+public double <B>getGlobalAlpha</B>()</PRE>
+<DL>
+<DD>Returns the global alpha.
+ <p>
+ 전역 알파를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the alpha / 알파</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setGlobalAlpha(double)"><!-- --></A><H3>
+setGlobalAlpha</H3>
+<PRE>
+public void <B>setGlobalAlpha</B>(double&nbsp;v)</PRE>
+<DL>
+<DD>Sets the global alpha; values outside 0..1 and NaN are ignored.
+ <p>
+ 전역 알파를 정한다. 0..1 밖의 값과 NaN 은 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the alpha / 알파</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getGlobalCompositeOperation()"><!-- --></A><H3>
+getGlobalCompositeOperation</H3>
+<PRE>
+public java.lang.String <B>getGlobalCompositeOperation</B>()</PRE>
+<DL>
+<DD>Returns the compositing operator name.
+ <p>
+ 합성 연산자 이름을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the name / 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setGlobalCompositeOperation(java.lang.String)"><!-- --></A><H3>
+setGlobalCompositeOperation</H3>
+<PRE>
+public void <B>setGlobalCompositeOperation</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Sets the compositing operator; an unknown name is ignored.
+ <p>
+ 합성 연산자를 정한다. 모르는 이름은 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the operator name / 연산자 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLineWidth()"><!-- --></A><H3>
+getLineWidth</H3>
+<PRE>
+public double <B>getLineWidth</B>()</PRE>
+<DL>
+<DD>Returns the line width.
+ <p>
+ 선 너비를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the width / 너비</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setLineWidth(double)"><!-- --></A><H3>
+setLineWidth</H3>
+<PRE>
+public void <B>setLineWidth</B>(double&nbsp;v)</PRE>
+<DL>
+<DD>Sets the line width; zero, negative and non-finite values are ignored.
+ <p>
+ 선 너비를 정한다. 0, 음수, 유한하지 않은 값은 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the width / 너비</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLineCap()"><!-- --></A><H3>
+getLineCap</H3>
+<PRE>
+public java.lang.String <B>getLineCap</B>()</PRE>
+<DL>
+<DD>Returns the line cap name.
+ <p>
+ 선 끝 모양 이름을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>butt, round or square / butt, round, square</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setLineCap(java.lang.String)"><!-- --></A><H3>
+setLineCap</H3>
+<PRE>
+public void <B>setLineCap</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets the line cap; an unknown name is ignored.
+ <p>
+ 선 끝 모양을 정한다. 모르는 이름은 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - butt, round or square / butt, round, square</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLineJoin()"><!-- --></A><H3>
+getLineJoin</H3>
+<PRE>
+public java.lang.String <B>getLineJoin</B>()</PRE>
+<DL>
+<DD>Returns the line join name.
+ <p>
+ 선 꺾임 모양 이름을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>round, bevel or miter / round, bevel, miter</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setLineJoin(java.lang.String)"><!-- --></A><H3>
+setLineJoin</H3>
+<PRE>
+public void <B>setLineJoin</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets the line join; an unknown name is ignored.
+ <p>
+ 선 꺾임 모양을 정한다. 모르는 이름은 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - round, bevel or miter / round, bevel, miter</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMiterLimit()"><!-- --></A><H3>
+getMiterLimit</H3>
+<PRE>
+public double <B>getMiterLimit</B>()</PRE>
+<DL>
+<DD>Returns the miter limit.
+ <p>
+ 마이터 한계를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the limit / 한계</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMiterLimit(double)"><!-- --></A><H3>
+setMiterLimit</H3>
+<PRE>
+public void <B>setMiterLimit</B>(double&nbsp;v)</PRE>
+<DL>
+<DD>Sets the miter limit; zero, negative and non-finite values are ignored.
+ <p>
+ 마이터 한계를 정한다. 0, 음수, 유한하지 않은 값은 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the limit / 한계</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setLineDash(double[])"><!-- --></A><H3>
+setLineDash</H3>
+<PRE>
+public void <B>setLineDash</B>(double[]&nbsp;segments)</PRE>
+<DL>
+<DD>Sets the line dash pattern; negative or non-finite entries make the call do nothing, an odd number of entries is repeated once.
+ <p>
+ 점선 패턴을 정한다. 음수나 유한하지 않은 항목이 있으면 아무것도 하지 않고, 항목이 홀수 개이면 한 번 더 반복한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>segments</CODE> - the dash lengths / 점선 길이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLineDash()"><!-- --></A><H3>
+getLineDash</H3>
+<PRE>
+public double[] <B>getLineDash</B>()</PRE>
+<DL>
+<DD>Returns a copy of the line dash pattern (empty for a solid line).
+ <p>
+ 점선 패턴의 복사본을 반환한다(실선이면 빈 배열).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the dash lengths / 점선 길이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLineDashOffset()"><!-- --></A><H3>
+getLineDashOffset</H3>
+<PRE>
+public double <B>getLineDashOffset</B>()</PRE>
+<DL>
+<DD>Returns the dash offset.
+ <p>
+ 점선 오프셋을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the offset / 오프셋</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setLineDashOffset(double)"><!-- --></A><H3>
+setLineDashOffset</H3>
+<PRE>
+public void <B>setLineDashOffset</B>(double&nbsp;v)</PRE>
+<DL>
+<DD>Sets the dash offset; a non-finite value is ignored.
+ <p>
+ 점선 오프셋을 정한다. 유한하지 않은 값은 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the offset / 오프셋</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getShadowColor()"><!-- --></A><H3>
+getShadowColor</H3>
+<PRE>
+public int <B>getShadowColor</B>()</PRE>
+<DL>
+<DD>Returns the shadow color.
+ <p>
+ 그림자 색을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the ARGB color / ARGB 색</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setShadowColor(int)"><!-- --></A><H3>
+setShadowColor</H3>
+<PRE>
+public void <B>setShadowColor</B>(int&nbsp;argb)</PRE>
+<DL>
+<DD>Sets the shadow color.
+ <p>
+ 그림자 색을 정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>argb</CODE> - the color / 색</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getShadowBlur()"><!-- --></A><H3>
+getShadowBlur</H3>
+<PRE>
+public double <B>getShadowBlur</B>()</PRE>
+<DL>
+<DD>Returns the shadow blur.
+ <p>
+ 그림자 번짐을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the blur / 번짐</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setShadowBlur(double)"><!-- --></A><H3>
+setShadowBlur</H3>
+<PRE>
+public void <B>setShadowBlur</B>(double&nbsp;v)</PRE>
+<DL>
+<DD>Sets the shadow blur; negative and non-finite values are ignored.
+ <p>
+ 그림자 번짐을 정한다. 음수와 유한하지 않은 값은 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the blur / 번짐</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getShadowOffsetX()"><!-- --></A><H3>
+getShadowOffsetX</H3>
+<PRE>
+public double <B>getShadowOffsetX</B>()</PRE>
+<DL>
+<DD>Returns the horizontal shadow offset.
+ <p>
+ 그림자의 가로 오프셋을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the offset / 오프셋</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setShadowOffsetX(double)"><!-- --></A><H3>
+setShadowOffsetX</H3>
+<PRE>
+public void <B>setShadowOffsetX</B>(double&nbsp;v)</PRE>
+<DL>
+<DD>Sets the horizontal shadow offset; a non-finite value is ignored.
+ <p>
+ 그림자의 가로 오프셋을 정한다. 유한하지 않은 값은 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the offset / 오프셋</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getShadowOffsetY()"><!-- --></A><H3>
+getShadowOffsetY</H3>
+<PRE>
+public double <B>getShadowOffsetY</B>()</PRE>
+<DL>
+<DD>Returns the vertical shadow offset.
+ <p>
+ 그림자의 세로 오프셋을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the offset / 오프셋</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setShadowOffsetY(double)"><!-- --></A><H3>
+setShadowOffsetY</H3>
+<PRE>
+public void <B>setShadowOffsetY</B>(double&nbsp;v)</PRE>
+<DL>
+<DD>Sets the vertical shadow offset; a non-finite value is ignored.
+ <p>
+ 그림자의 세로 오프셋을 정한다. 유한하지 않은 값은 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the offset / 오프셋</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFillStyle()"><!-- --></A><H3>
+getFillStyle</H3>
+<PRE>
+public java.lang.Object <B>getFillStyle</B>()</PRE>
+<DL>
+<DD>Returns the fill style: an <code>Integer</code> ARGB color, a gradient or a pattern.
+ <p>
+ 채우기 스타일을 반환한다: <code>Integer</code> ARGB 색, 그라디언트, 패턴.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the style / 스타일</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setFillStyle(java.lang.Object)"><!-- --></A><H3>
+setFillStyle</H3>
+<PRE>
+public void <B>setFillStyle</B>(java.lang.Object&nbsp;style)</PRE>
+<DL>
+<DD>Sets the fill style.
+ <p>
+ 채우기 스타일을 정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>style</CODE> - an <code>Integer</code> color, a <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasGradient.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><CODE>CanvasGradient</CODE></A> or a <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasPattern.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><CODE>CanvasPattern</CODE></A> / <code>Integer</code> 색, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasGradient.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><CODE>CanvasGradient</CODE></A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasPattern.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><CODE>CanvasPattern</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStrokeStyle()"><!-- --></A><H3>
+getStrokeStyle</H3>
+<PRE>
+public java.lang.Object <B>getStrokeStyle</B>()</PRE>
+<DL>
+<DD>Returns the stroke style.
+ <p>
+ 선 스타일을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the style / 스타일</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setStrokeStyle(java.lang.Object)"><!-- --></A><H3>
+setStrokeStyle</H3>
+<PRE>
+public void <B>setStrokeStyle</B>(java.lang.Object&nbsp;style)</PRE>
+<DL>
+<DD>Sets the stroke style.
+ <p>
+ 선 스타일을 정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>style</CODE> - an <code>Integer</code> color, a <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasGradient.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><CODE>CanvasGradient</CODE></A> or a <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasPattern.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><CODE>CanvasPattern</CODE></A> / <code>Integer</code> 색, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasGradient.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><CODE>CanvasGradient</CODE></A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasPattern.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><CODE>CanvasPattern</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFont()"><!-- --></A><H3>
+getFont</H3>
+<PRE>
+public <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasFont.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">CanvasFont</A> <B>getFont</B>()</PRE>
+<DL>
+<DD>Returns the current font.
+ <p>
+ 현재 글꼴을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the font / 글꼴</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setFont(org.duckdns.hjow.swingwebpanel.js.host.canvas.CanvasFont)"><!-- --></A><H3>
+setFont</H3>
+<PRE>
+public void <B>setFont</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasFont.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">CanvasFont</A>&nbsp;f)</PRE>
+<DL>
+<DD>Sets the font.
+ <p>
+ 글꼴을 정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>f</CODE> - the font / 글꼴</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTextAlign()"><!-- --></A><H3>
+getTextAlign</H3>
+<PRE>
+public java.lang.String <B>getTextAlign</B>()</PRE>
+<DL>
+<DD>Returns the text alignment.
+ <p>
+ 텍스트 정렬을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the alignment / 정렬</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setTextAlign(java.lang.String)"><!-- --></A><H3>
+setTextAlign</H3>
+<PRE>
+public void <B>setTextAlign</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets the text alignment; an unknown value is ignored.
+ <p>
+ 텍스트 정렬을 정한다. 모르는 값은 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - start, end, left, right or center / start, end, left, right, center</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTextBaseline()"><!-- --></A><H3>
+getTextBaseline</H3>
+<PRE>
+public java.lang.String <B>getTextBaseline</B>()</PRE>
+<DL>
+<DD>Returns the text baseline.
+ <p>
+ 텍스트 기준선을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the baseline / 기준선</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setTextBaseline(java.lang.String)"><!-- --></A><H3>
+setTextBaseline</H3>
+<PRE>
+public void <B>setTextBaseline</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets the text baseline; an unknown value is ignored.
+ <p>
+ 텍스트 기준선을 정한다. 모르는 값은 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - top, hanging, middle, alphabetic, ideographic or bottom / top, hanging, middle, alphabetic, ideographic, bottom</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDirection()"><!-- --></A><H3>
+getDirection</H3>
+<PRE>
+public java.lang.String <B>getDirection</B>()</PRE>
+<DL>
+<DD>Returns the text direction.
+ <p>
+ 텍스트 방향을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>ltr, rtl or inherit / ltr, rtl, inherit</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setDirection(java.lang.String)"><!-- --></A><H3>
+setDirection</H3>
+<PRE>
+public void <B>setDirection</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets the text direction; an unknown value is ignored.
+ <p>
+ 텍스트 방향을 정한다. 모르는 값은 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - ltr, rtl or inherit / ltr, rtl, inherit</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLetterSpacing()"><!-- --></A><H3>
+getLetterSpacing</H3>
+<PRE>
+public java.lang.String <B>getLetterSpacing</B>()</PRE>
+<DL>
+<DD>Returns the serialized <code>letterSpacing</code>.
+ <p>
+ 직렬화된 <code>letterSpacing</code> 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>for example <code>0px</code> / 예를 들어 <code>0px</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setLetterSpacing(java.lang.String)"><!-- --></A><H3>
+setLetterSpacing</H3>
+<PRE>
+public void <B>setLetterSpacing</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets <code>letterSpacing</code>: the spacing that is added after every character when text is drawn or measured. A value that is not a CSS
+ length is ignored.
+ <p>
+ <code>letterSpacing</code> 을 정한다: 글자를 그리거나 잴 때 모든 글자 뒤에 더하는 간격. CSS 길이가 아닌 값은 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - a length such as <code>2px</code>, <code>0.1em</code> / <code>2px</code>, <code>0.1em</code> 같은 길이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getWordSpacing()"><!-- --></A><H3>
+getWordSpacing</H3>
+<PRE>
+public java.lang.String <B>getWordSpacing</B>()</PRE>
+<DL>
+<DD>Returns the serialized <code>wordSpacing</code>.
+ <p>
+ 직렬화된 <code>wordSpacing</code> 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>for example <code>0px</code> / 예를 들어 <code>0px</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setWordSpacing(java.lang.String)"><!-- --></A><H3>
+setWordSpacing</H3>
+<PRE>
+public void <B>setWordSpacing</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets <code>wordSpacing</code>: the spacing that is added after every space and no-break space when text is drawn or measured. A value that
+ is not a CSS length is ignored.
+ <p>
+ <code>wordSpacing</code> 을 정한다: 글자를 그리거나 잴 때 모든 스페이스와 줄바꿈 없는 스페이스 뒤에 더하는 간격. CSS 길이가 아닌 값은 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - a length such as <code>10px</code> / <code>10px</code> 같은 길이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFontKerning()"><!-- --></A><H3>
+getFontKerning</H3>
+<PRE>
+public java.lang.String <B>getFontKerning</B>()</PRE>
+<DL>
+<DD>Returns the <code>fontKerning</code> keyword.
+ <p>
+ <code>fontKerning</code> 키워드를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>auto, normal or none / auto, normal, none</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setFontKerning(java.lang.String)"><!-- --></A><H3>
+setFontKerning</H3>
+<PRE>
+public void <B>setFontKerning</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets <code>fontKerning</code>; an unknown keyword is ignored.
+ <p>
+ <code>fontKerning</code> 을 정한다. 모르는 키워드는 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - auto, normal or none / auto, normal, none</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFontStretch()"><!-- --></A><H3>
+getFontStretch</H3>
+<PRE>
+public java.lang.String <B>getFontStretch</B>()</PRE>
+<DL>
+<DD>Returns the <code>fontStretch</code> keyword.
+ <p>
+ <code>fontStretch</code> 키워드를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>one of the nine CSS keywords / 아홉 개의 CSS 키워드 중 하나</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setFontStretch(java.lang.String)"><!-- --></A><H3>
+setFontStretch</H3>
+<PRE>
+public void <B>setFontStretch</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets <code>fontStretch</code>; an unknown keyword is ignored.
+ <p>
+ <code>fontStretch</code> 를 정한다. 모르는 키워드는 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - ultra-condensed ... ultra-expanded / ultra-condensed ... ultra-expanded</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFontVariantCaps()"><!-- --></A><H3>
+getFontVariantCaps</H3>
+<PRE>
+public java.lang.String <B>getFontVariantCaps</B>()</PRE>
+<DL>
+<DD>Returns the <code>fontVariantCaps</code> keyword.
+ <p>
+ <code>fontVariantCaps</code> 키워드를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>one of the seven keywords / 일곱 키워드 중 하나</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setFontVariantCaps(java.lang.String)"><!-- --></A><H3>
+setFontVariantCaps</H3>
+<PRE>
+public void <B>setFontVariantCaps</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets <code>fontVariantCaps</code>; an unknown keyword is ignored.
+ <p>
+ <code>fontVariantCaps</code> 를 정한다. 모르는 키워드는 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - normal, small-caps, all-small-caps, petite-caps, all-petite-caps, unicase or titling-caps / 일곱 키워드 중 하나</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTextRendering()"><!-- --></A><H3>
+getTextRendering</H3>
+<PRE>
+public java.lang.String <B>getTextRendering</B>()</PRE>
+<DL>
+<DD>Returns the <code>textRendering</code> keyword.
+ <p>
+ <code>textRendering</code> 키워드를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>auto, optimizeSpeed, optimizeLegibility or geometricPrecision / auto, optimizeSpeed, optimizeLegibility, geometricPrecision</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setTextRendering(java.lang.String)"><!-- --></A><H3>
+setTextRendering</H3>
+<PRE>
+public void <B>setTextRendering</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets <code>textRendering</code>; an unknown keyword is ignored (the keywords are case sensitive).
+ <p>
+ <code>textRendering</code> 을 정한다. 모르는 키워드는 무시한다(키워드는 대소문자를 구분한다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - auto, optimizeSpeed, optimizeLegibility or geometricPrecision / auto, optimizeSpeed, optimizeLegibility, geometricPrecision</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLang()"><!-- --></A><H3>
+getLang</H3>
+<PRE>
+public java.lang.String <B>getLang</B>()</PRE>
+<DL>
+<DD>Returns the <code>lang</code> value.
+ <p>
+ <code>lang</code> 값을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a language tag, the empty string or inherit / 언어 태그, 빈 문자열, inherit</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setLang(java.lang.String)"><!-- --></A><H3>
+setLang</H3>
+<PRE>
+public void <B>setLang</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets <code>lang</code>: the value is taken as it is (the specification stores any given string).
+ <p>
+ <code>lang</code> 을 정한다: 값을 그대로 쓴다(규격은 주어진 문자열을 그대로 보관한다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the language / 언어</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFilter()"><!-- --></A><H3>
+getFilter</H3>
+<PRE>
+public java.lang.String <B>getFilter</B>()</PRE>
+<DL>
+<DD>Returns the <code>filter</code> string as it was set.
+ <p>
+ 설정한 그대로의 <code>filter</code> 문자열을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the string, <code>none</code> by default / 문자열. 기본은 <code>none</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setFilter(java.lang.String)"><!-- --></A><H3>
+setFilter</H3>
+<PRE>
+public void <B>setFilter</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets <code>filter</code>: <code>none</code> or a <code>&lt;filter-value-list&gt;</code>; anything else (also the empty string and CSS-wide
+ keywords) is ignored and the old value stays. Relative lengths refer to the font size of the canvas element at this moment. Every drawing
+ operation except <code>clearRect()</code> and <code>putImageData()</code> is filtered: the image that is drawn (with the global alpha applied) is the
+ input of the filter, shadows and compositing use its output.
+ <p>
+ <code>filter</code> 를 정한다: <code>none</code> 이거나 <code>&lt;filter-value-list&gt;</code>. 그 밖의 값(빈 문자열과 CSS 전역 키워드 포함)은 무시하고 옛 값을 유지한다.
+ 상대 길이는 이 시점의 캔버스 요소의 글꼴 크기를 기준으로 삼는다. <code>clearRect()</code> 와 <code>putImageData()</code> 를 뺀 모든 그리기가 필터를 거친다: 그려진
+ 이미지(전역 알파를 곱한 것)가 필터의 입력이고 그림자와 합성은 그 출력을 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the filter / 필터</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isImageSmoothingEnabled()"><!-- --></A><H3>
+isImageSmoothingEnabled</H3>
+<PRE>
+public boolean <B>isImageSmoothingEnabled</B>()</PRE>
+<DL>
+<DD>Tells whether images are smoothed.
+ <p>
+ 이미지를 부드럽게 하는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if smoothed / 부드럽게 하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setImageSmoothingEnabled(boolean)"><!-- --></A><H3>
+setImageSmoothingEnabled</H3>
+<PRE>
+public void <B>setImageSmoothingEnabled</B>(boolean&nbsp;v)</PRE>
+<DL>
+<DD>Sets whether images are smoothed.
+ <p>
+ 이미지를 부드럽게 할지 정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - true to smooth / 부드럽게 하려면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getImageSmoothingQuality()"><!-- --></A><H3>
+getImageSmoothingQuality</H3>
+<PRE>
+public java.lang.String <B>getImageSmoothingQuality</B>()</PRE>
+<DL>
+<DD>Returns the smoothing quality.
+ <p>
+ 부드럽게 하기 품질을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>low, medium or high / low, medium, high</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setImageSmoothingQuality(java.lang.String)"><!-- --></A><H3>
+setImageSmoothingQuality</H3>
+<PRE>
+public void <B>setImageSmoothingQuality</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets the smoothing quality; an unknown value is ignored.
+ <p>
+ 부드럽게 하기 품질을 정한다. 모르는 값은 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - low, medium or high / low, medium, high</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="beginPath()"><!-- --></A><H3>
+beginPath</H3>
+<PRE>
+public void <B>beginPath</B>()</PRE>
+<DL>
+<DD>Starts a new path.
+ <p>
+ 새 경로를 시작한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="closePath()"><!-- --></A><H3>
+closePath</H3>
+<PRE>
+public void <B>closePath</B>()</PRE>
+<DL>
+<DD>Closes the current subpath.
+ <p>
+ 현재 하위 경로를 닫는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="moveTo(double, double)"><!-- --></A><H3>
+moveTo</H3>
+<PRE>
+public void <B>moveTo</B>(double&nbsp;x,
+                   double&nbsp;y)</PRE>
+<DL>
+<DD>Starts a subpath.
+ <p>
+ 하위 경로를 시작한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - x / x<DD><CODE>y</CODE> - y / y</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="lineTo(double, double)"><!-- --></A><H3>
+lineTo</H3>
+<PRE>
+public void <B>lineTo</B>(double&nbsp;x,
+                   double&nbsp;y)</PRE>
+<DL>
+<DD>Adds a line.
+ <p>
+ 직선을 더한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - x / x<DD><CODE>y</CODE> - y / y</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="quadraticCurveTo(double, double, double, double)"><!-- --></A><H3>
+quadraticCurveTo</H3>
+<PRE>
+public void <B>quadraticCurveTo</B>(double&nbsp;cpx,
+                             double&nbsp;cpy,
+                             double&nbsp;x,
+                             double&nbsp;y)</PRE>
+<DL>
+<DD>Adds a quadratic curve.
+ <p>
+ 2차 곡선을 더한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>cpx</CODE> - control x / 제어점 x<DD><CODE>cpy</CODE> - control y / 제어점 y<DD><CODE>x</CODE> - end x / 끝 x<DD><CODE>y</CODE> - end y / 끝 y</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="bezierCurveTo(double, double, double, double, double, double)"><!-- --></A><H3>
+bezierCurveTo</H3>
+<PRE>
+public void <B>bezierCurveTo</B>(double&nbsp;cp1x,
+                          double&nbsp;cp1y,
+                          double&nbsp;cp2x,
+                          double&nbsp;cp2y,
+                          double&nbsp;x,
+                          double&nbsp;y)</PRE>
+<DL>
+<DD>Adds a cubic curve.
+ <p>
+ 3차 곡선을 더한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>cp1x</CODE> - first control x / 첫 제어점 x<DD><CODE>cp1y</CODE> - first control y / 첫 제어점 y<DD><CODE>cp2x</CODE> - second control x / 둘째 제어점 x<DD><CODE>cp2y</CODE> - second control y / 둘째 제어점 y<DD><CODE>x</CODE> - end x / 끝 x<DD><CODE>y</CODE> - end y / 끝 y</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="arcTo(double, double, double, double, double)"><!-- --></A><H3>
+arcTo</H3>
+<PRE>
+public void <B>arcTo</B>(double&nbsp;x1,
+                  double&nbsp;y1,
+                  double&nbsp;x2,
+                  double&nbsp;y2,
+                  double&nbsp;radius)</PRE>
+<DL>
+<DD>Adds a rounded corner between two lines.
+ <p>
+ 두 직선 사이에 둥근 모서리를 더한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x1</CODE> - first point x / 첫 점 x<DD><CODE>y1</CODE> - first point y / 첫 점 y<DD><CODE>x2</CODE> - second point x / 둘째 점 x<DD><CODE>y2</CODE> - second point y / 둘째 점 y<DD><CODE>radius</CODE> - the radius / 반지름
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - IndexSizeError for a negative radius / 반지름이 음수이면 IndexSizeError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="rect(double, double, double, double)"><!-- --></A><H3>
+rect</H3>
+<PRE>
+public void <B>rect</B>(double&nbsp;x,
+                 double&nbsp;y,
+                 double&nbsp;w,
+                 double&nbsp;h)</PRE>
+<DL>
+<DD>Adds a rectangle subpath.
+ <p>
+ 사각형 하위 경로를 더한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - x / x<DD><CODE>y</CODE> - y / y<DD><CODE>w</CODE> - width / 너비<DD><CODE>h</CODE> - height / 높이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="arc(double, double, double, double, double, boolean)"><!-- --></A><H3>
+arc</H3>
+<PRE>
+public void <B>arc</B>(double&nbsp;x,
+                double&nbsp;y,
+                double&nbsp;r,
+                double&nbsp;start,
+                double&nbsp;end,
+                boolean&nbsp;ccw)</PRE>
+<DL>
+<DD>Adds a circular arc.
+ <p>
+ 원호를 더한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - center x / 중심 x<DD><CODE>y</CODE> - center y / 중심 y<DD><CODE>r</CODE> - radius / 반지름<DD><CODE>start</CODE> - start angle in radians / 시작 각도(라디안)<DD><CODE>end</CODE> - end angle in radians / 끝 각도(라디안)<DD><CODE>ccw</CODE> - counter-clockwise / 반시계 방향
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - IndexSizeError for a negative radius / 반지름이 음수이면 IndexSizeError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="ellipse(double, double, double, double, double, double, double, boolean)"><!-- --></A><H3>
+ellipse</H3>
+<PRE>
+public void <B>ellipse</B>(double&nbsp;x,
+                    double&nbsp;y,
+                    double&nbsp;rx,
+                    double&nbsp;ry,
+                    double&nbsp;rot,
+                    double&nbsp;start,
+                    double&nbsp;end,
+                    boolean&nbsp;ccw)</PRE>
+<DL>
+<DD>Adds an elliptical arc.
+ <p>
+ 타원호를 더한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - center x / 중심 x<DD><CODE>y</CODE> - center y / 중심 y<DD><CODE>rx</CODE> - x radius / x 반지름<DD><CODE>ry</CODE> - y radius / y 반지름<DD><CODE>rot</CODE> - rotation in radians / 회전(라디안)<DD><CODE>start</CODE> - start angle in radians / 시작 각도(라디안)<DD><CODE>end</CODE> - end angle in radians / 끝 각도(라디안)<DD><CODE>ccw</CODE> - counter-clockwise / 반시계 방향
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - IndexSizeError for a negative radius / 반지름이 음수이면 IndexSizeError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="roundRect(double, double, double, double, double[])"><!-- --></A><H3>
+roundRect</H3>
+<PRE>
+public void <B>roundRect</B>(double&nbsp;x,
+                      double&nbsp;y,
+                      double&nbsp;w,
+                      double&nbsp;h,
+                      double[]&nbsp;radii)</PRE>
+<DL>
+<DD>Adds a rounded rectangle.
+ <p>
+ 둥근 사각형을 더한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - x / x<DD><CODE>y</CODE> - y / y<DD><CODE>w</CODE> - width (may be negative) / 너비(음수 가능)<DD><CODE>h</CODE> - height (may be negative) / 높이(음수 가능)<DD><CODE>radii</CODE> - eight numbers: the x and y radius of the top left, top right, bottom right and bottom left corner / 숫자 여덟 개: 왼쪽 위, 오른쪽 위, 오른쪽 아래, 왼쪽 아래 모서리의 x, y 반지름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fill(boolean)"><!-- --></A><H3>
+fill</H3>
+<PRE>
+public void <B>fill</B>(boolean&nbsp;evenOdd)</PRE>
+<DL>
+<DD>Fills the current path.
+ <p>
+ 현재 경로를 채운다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>evenOdd</CODE> - true for the even-odd rule / 짝홀 규칙이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="stroke()"><!-- --></A><H3>
+stroke</H3>
+<PRE>
+public void <B>stroke</B>()</PRE>
+<DL>
+<DD>Strokes the current path.
+ <p>
+ 현재 경로를 선으로 긋는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="drawFocusRing(org.duckdns.hjow.swingwebpanel.js.host.canvas.Path2DValue)"><!-- --></A><H3>
+drawFocusRing</H3>
+<PRE>
+public void <B>drawFocusRing</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Path2DValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">Path2DValue</A>&nbsp;p)</PRE>
+<DL>
+<DD>Draws a focus ring around a path (<code>drawFocusIfNeeded()</code> calls this once it has decided that the element is focused): a one pixel
+ dark ring with a one pixel white halo on both sides, so it shows on any background, the way the focus rings of the page look like
+ <code>outline: auto</code>. As the specification asks, the ring is subject to the transformation matrix and the clipping region but not to
+ the shadow, the global alpha, the compositing operator, the filter or any of the styles.
+ <p>
+ 경로 둘레에 포커스 링을 그린다(<code>drawFocusIfNeeded()</code> 가 요소가 포커스를 가졌다고 판단하면 이것을 부른다): 1 화소 두께의 어두운 링과 양쪽의 1 화소 흰
+ 후광으로, 어떤 배경에서도 보이며 페이지의 포커스 링(<code>outline: auto</code>)처럼 보인다. 규격이 요구하는 대로 링에는 변환 행렬과 클리핑 영역이 적용되고 그림자,
+ 전역 알파, 합성 연산자, 필터, 어떤 스타일도 적용되지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>p</CODE> - the path, or null for the current default path / 경로. 현재 기본 경로이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="clip(boolean)"><!-- --></A><H3>
+clip</H3>
+<PRE>
+public void <B>clip</B>(boolean&nbsp;evenOdd)</PRE>
+<DL>
+<DD>Intersects the clipping region with the current path.
+ <p>
+ 클리핑 영역을 현재 경로와 교차시킨다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>evenOdd</CODE> - true for the even-odd rule / 짝홀 규칙이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="clipPath(org.duckdns.hjow.swingwebpanel.js.host.canvas.Path2DValue, boolean)"><!-- --></A><H3>
+clipPath</H3>
+<PRE>
+public void <B>clipPath</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Path2DValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">Path2DValue</A>&nbsp;p,
+                     boolean&nbsp;evenOdd)</PRE>
+<DL>
+<DD>Intersects the clipping region with a path of a <code>Path2D</code> (its points are in user space and the current matrix applies).
+ <p>
+ 클리핑 영역을 <code>Path2D</code> 의 경로와 교차시킨다(점은 사용자 좌표이며 현재 행렬이 적용된다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>p</CODE> - the path / 경로<DD><CODE>evenOdd</CODE> - true for the even-odd rule / 짝홀 규칙이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fillPath(org.duckdns.hjow.swingwebpanel.js.host.canvas.Path2DValue, boolean)"><!-- --></A><H3>
+fillPath</H3>
+<PRE>
+public void <B>fillPath</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Path2DValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">Path2DValue</A>&nbsp;p,
+                     boolean&nbsp;evenOdd)</PRE>
+<DL>
+<DD>Fills a <code>Path2D</code> with the fill style.
+ <p>
+ <code>Path2D</code> 를 채우기 스타일로 채운다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>p</CODE> - the path / 경로<DD><CODE>evenOdd</CODE> - true for the even-odd rule / 짝홀 규칙이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="strokePath(org.duckdns.hjow.swingwebpanel.js.host.canvas.Path2DValue)"><!-- --></A><H3>
+strokePath</H3>
+<PRE>
+public void <B>strokePath</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Path2DValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">Path2DValue</A>&nbsp;p)</PRE>
+<DL>
+<DD>Strokes a <code>Path2D</code> with the stroke style.
+ <p>
+ <code>Path2D</code> 를 선 스타일로 긋는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>p</CODE> - the path / 경로</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isPointInPath(org.duckdns.hjow.swingwebpanel.js.host.canvas.Path2DValue, double, double, boolean)"><!-- --></A><H3>
+isPointInPath</H3>
+<PRE>
+public boolean <B>isPointInPath</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Path2DValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">Path2DValue</A>&nbsp;p,
+                             double&nbsp;x,
+                             double&nbsp;y,
+                             boolean&nbsp;evenOdd)</PRE>
+<DL>
+<DD>Tells whether a point lies inside a <code>Path2D</code> (the current matrix applies to the path, not to the point).
+ <p>
+ 점이 <code>Path2D</code> 안에 있는지 알려 준다(현재 행렬은 점이 아니라 경로에 적용한다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>p</CODE> - the path / 경로<DD><CODE>x</CODE> - x in canvas coordinates / 캔버스 좌표의 x<DD><CODE>y</CODE> - y in canvas coordinates / 캔버스 좌표의 y<DD><CODE>evenOdd</CODE> - true for the even-odd rule / 짝홀 규칙이면 true
+<DT><B>Returns:</B><DD>true if inside / 안이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isPointInStroke(org.duckdns.hjow.swingwebpanel.js.host.canvas.Path2DValue, double, double)"><!-- --></A><H3>
+isPointInStroke</H3>
+<PRE>
+public boolean <B>isPointInStroke</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Path2DValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">Path2DValue</A>&nbsp;p,
+                               double&nbsp;x,
+                               double&nbsp;y)</PRE>
+<DL>
+<DD>Tells whether a point lies on the stroke of a <code>Path2D</code>.
+ <p>
+ 점이 <code>Path2D</code> 의 선 위에 있는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>p</CODE> - the path / 경로<DD><CODE>x</CODE> - x in canvas coordinates / 캔버스 좌표의 x<DD><CODE>y</CODE> - y in canvas coordinates / 캔버스 좌표의 y
+<DT><B>Returns:</B><DD>true if on the stroke / 선 위이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isPointInPath(double, double, boolean)"><!-- --></A><H3>
+isPointInPath</H3>
+<PRE>
+public boolean <B>isPointInPath</B>(double&nbsp;x,
+                             double&nbsp;y,
+                             boolean&nbsp;evenOdd)</PRE>
+<DL>
+<DD>Tells whether a point of the bitmap lies inside the current path.
+ <p>
+ 비트맵의 한 점이 현재 경로 안에 있는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - x in canvas coordinates (not transformed) / 캔버스 좌표의 x(변환되지 않음)<DD><CODE>y</CODE> - y in canvas coordinates (not transformed) / 캔버스 좌표의 y(변환되지 않음)<DD><CODE>evenOdd</CODE> - true for the even-odd rule / 짝홀 규칙이면 true
+<DT><B>Returns:</B><DD>true if inside / 안이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isPointInStroke(double, double)"><!-- --></A><H3>
+isPointInStroke</H3>
+<PRE>
+public boolean <B>isPointInStroke</B>(double&nbsp;x,
+                               double&nbsp;y)</PRE>
+<DL>
+<DD>Tells whether a point of the bitmap lies on the stroke of the current path.
+ <p>
+ 비트맵의 한 점이 현재 경로의 선 위에 있는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - x in canvas coordinates (not transformed) / 캔버스 좌표의 x(변환되지 않음)<DD><CODE>y</CODE> - y in canvas coordinates (not transformed) / 캔버스 좌표의 y(변환되지 않음)
+<DT><B>Returns:</B><DD>true if on the stroke / 선 위이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fillRect(double, double, double, double)"><!-- --></A><H3>
+fillRect</H3>
+<PRE>
+public void <B>fillRect</B>(double&nbsp;x,
+                     double&nbsp;y,
+                     double&nbsp;w,
+                     double&nbsp;h)</PRE>
+<DL>
+<DD>Fills a rectangle without touching the current path.
+ <p>
+ 현재 경로를 건드리지 않고 사각형을 채운다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - x / x<DD><CODE>y</CODE> - y / y<DD><CODE>w</CODE> - width / 너비<DD><CODE>h</CODE> - height / 높이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="strokeRect(double, double, double, double)"><!-- --></A><H3>
+strokeRect</H3>
+<PRE>
+public void <B>strokeRect</B>(double&nbsp;x,
+                       double&nbsp;y,
+                       double&nbsp;w,
+                       double&nbsp;h)</PRE>
+<DL>
+<DD>Strokes a rectangle without touching the current path.
+ <p>
+ 현재 경로를 건드리지 않고 사각형을 선으로 긋는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - x / x<DD><CODE>y</CODE> - y / y<DD><CODE>w</CODE> - width / 너비<DD><CODE>h</CODE> - height / 높이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="clearRect(double, double, double, double)"><!-- --></A><H3>
+clearRect</H3>
+<PRE>
+public void <B>clearRect</B>(double&nbsp;x,
+                      double&nbsp;y,
+                      double&nbsp;w,
+                      double&nbsp;h)</PRE>
+<DL>
+<DD>Makes a rectangle transparent black (ignoring the global alpha, the shadow and the compositing operator).
+ <p>
+ 사각형을 투명한 검정으로 만든다(전역 알파, 그림자, 합성 연산자는 무시한다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - x / x<DD><CODE>y</CODE> - y / y<DD><CODE>w</CODE> - width / 너비<DD><CODE>h</CODE> - height / 높이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fillText(java.lang.String, double, double, double)"><!-- --></A><H3>
+fillText</H3>
+<PRE>
+public void <B>fillText</B>(java.lang.String&nbsp;text,
+                     double&nbsp;x,
+                     double&nbsp;y,
+                     double&nbsp;maxWidth)</PRE>
+<DL>
+<DD>Fills a text.
+ <p>
+ 텍스트를 채운다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the text / 텍스트<DD><CODE>x</CODE> - anchor x / 기준점 x<DD><CODE>y</CODE> - anchor y / 기준점 y<DD><CODE>maxWidth</CODE> - the maximum width, NaN for none / 최대 너비. 없으면 NaN</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="strokeText(java.lang.String, double, double, double)"><!-- --></A><H3>
+strokeText</H3>
+<PRE>
+public void <B>strokeText</B>(java.lang.String&nbsp;text,
+                       double&nbsp;x,
+                       double&nbsp;y,
+                       double&nbsp;maxWidth)</PRE>
+<DL>
+<DD>Strokes a text.
+ <p>
+ 텍스트를 선으로 긋는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the text / 텍스트<DD><CODE>x</CODE> - anchor x / 기준점 x<DD><CODE>y</CODE> - anchor y / 기준점 y<DD><CODE>maxWidth</CODE> - the maximum width, NaN for none / 최대 너비. 없으면 NaN</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="measureText(java.lang.String)"><!-- --></A><H3>
+measureText</H3>
+<PRE>
+public <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/TextMetricsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">TextMetricsValue</A> <B>measureText</B>(java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Measures a text.
+ <p>
+ 텍스트를 측정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the text / 텍스트
+<DT><B>Returns:</B><DD>the metrics / 측정값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="drawImage(org.duckdns.hjow.swingwebpanel.js.host.canvas.CanvasImage, double, double, double, double, double, double, double, double)"><!-- --></A><H3>
+drawImage</H3>
+<PRE>
+public void <B>drawImage</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasImage.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">CanvasImage</A>&nbsp;img,
+                      double&nbsp;sx,
+                      double&nbsp;sy,
+                      double&nbsp;sw,
+                      double&nbsp;sh,
+                      double&nbsp;dx,
+                      double&nbsp;dy,
+                      double&nbsp;dw,
+                      double&nbsp;dh)</PRE>
+<DL>
+<DD>Draws an image or another canvas. The source rectangle is clipped to the image (the destination is clipped by the same fraction), a
+ negative source or destination width or height only names the rectangle on the other side of the point (the specification processes the
+ image in its original direction, so it is not mirrored), and nothing is drawn for an empty rectangle. A source that is not origin-clean
+ taints the canvas.
+ <p>
+ 이미지나 다른 캔버스를 그린다. 원본 사각형은 이미지 안으로 자르고(대상도 같은 비율로 자른다), 원본이나 대상의 음수 너비와 높이는 점의 반대쪽 사각형을 가리킬
+ 뿐이며(규격은 이미지를 원래 방향으로 처리하라고 하므로 뒤집지 않는다), 빈 사각형이면 아무것도 그리지 않는다. origin-clean 이 아닌 원본은 캔버스를
+ 오염시킨다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>img</CODE> - the source pixels / 원본 화소<DD><CODE>sx</CODE> - source x / 원본 x<DD><CODE>sy</CODE> - source y / 원본 y<DD><CODE>sw</CODE> - source width / 원본 너비<DD><CODE>sh</CODE> - source height / 원본 높이<DD><CODE>dx</CODE> - destination x / 대상 x<DD><CODE>dy</CODE> - destination y / 대상 y<DD><CODE>dw</CODE> - destination width / 대상 너비<DD><CODE>dh</CODE> - destination height / 대상 높이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getImageData(int, int, int, int)"><!-- --></A><H3>
+getImageData</H3>
+<PRE>
+public <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.RawImage.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">Context2D.RawImage</A> <B>getImageData</B>(int&nbsp;sx,
+                                       int&nbsp;sy,
+                                       int&nbsp;sw,
+                                       int&nbsp;sh)</PRE>
+<DL>
+<DD>Reads pixels from the bitmap. Pixels outside the bitmap are transparent black.
+ <p>
+ 비트맵에서 화소를 읽는다. 비트맵 밖의 화소는 투명한 검정이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>sx</CODE> - x of the rectangle / 사각형의 x<DD><CODE>sy</CODE> - y of the rectangle / 사각형의 y<DD><CODE>sw</CODE> - width (may be negative) / 너비(음수 가능)<DD><CODE>sh</CODE> - height (may be negative) / 높이(음수 가능)
+<DT><B>Returns:</B><DD>the pixels / 화소
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - IndexSizeError if the width or height is zero, SecurityError if the canvas is tainted, InvalidStateError if the bitmap could not be allocated / 너비나 높이가 0 이면 IndexSizeError, 캔버스가 오염되었으면 SecurityError, 비트맵을 할당하지 못했으면 InvalidStateError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="putImageData(byte[], int, int, int, int, int, int, int, int)"><!-- --></A><H3>
+putImageData</H3>
+<PRE>
+public void <B>putImageData</B>(byte[]&nbsp;data,
+                         int&nbsp;iw,
+                         int&nbsp;ih,
+                         int&nbsp;dx,
+                         int&nbsp;dy,
+                         int&nbsp;dirtyX,
+                         int&nbsp;dirtyY,
+                         int&nbsp;dirtyW,
+                         int&nbsp;dirtyH)</PRE>
+<DL>
+<DD>Writes pixels into the bitmap, replacing what is there: the matrix, the clip, the global alpha, the shadow and the compositing operator
+ do not apply.
+ <p>
+ 화소를 비트맵에 써서 그 자리를 교체한다: 행렬, 클립, 전역 알파, 그림자, 합성 연산자는 적용되지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - the RGBA bytes of the image data / 이미지 데이터의 RGBA 바이트<DD><CODE>iw</CODE> - the width of the image data / 이미지 데이터의 너비<DD><CODE>ih</CODE> - the height of the image data / 이미지 데이터의 높이<DD><CODE>dx</CODE> - destination x / 대상 x<DD><CODE>dy</CODE> - destination y / 대상 y<DD><CODE>dirtyX</CODE> - x of the dirty rectangle / 변경 사각형의 x<DD><CODE>dirtyY</CODE> - y of the dirty rectangle / 변경 사각형의 y<DD><CODE>dirtyW</CODE> - width of the dirty rectangle (may be negative) / 변경 사각형의 너비(음수 가능)<DD><CODE>dirtyH</CODE> - height of the dirty rectangle (may be negative) / 변경 사각형의 높이(음수 가능)</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Composites.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.RawImage.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Context2D.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,520 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+SandboxFlags
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="SandboxFlags";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/FrameUrls.html" title="class in org.duckdns.hjow.swingwebpanel.core.frames"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SandboxFlags.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.core.frames</FONT>
+<BR>
+Class SandboxFlags</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.core.frames.SandboxFlags</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>SandboxFlags</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The sandboxing flags of a browsing context, parsed from the <code>sandbox</code> attribute of an <code>iframe</code> (HTML5 REC 2014-10-28
+ 4.7.2). An absent attribute gives <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html#NONE"><CODE>NONE</CODE></A>: nothing is restricted. A present attribute restricts scripts, forms, popups, navigation of
+ the top-level context and gives the document a unique origin, except for the <code>allow-*</code> tokens that it lists. The flags of nested
+ frames accumulate: a restriction of an ancestor cannot be lifted by a descendant (see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html#inherit(org.duckdns.hjow.swingwebpanel.core.frames.SandboxFlags)"><CODE>inherit(SandboxFlags)</CODE></A>). Instances are immutable.
+ <p>
+ 브라우징 문맥의 샌드박스 플래그. <code>iframe</code> 의 <code>sandbox</code> 속성에서 해석한다(HTML5 REC 2014-10-28 4.7.2). 속성이 없으면
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html#NONE"><CODE>NONE</CODE></A>: 아무것도 제한하지 않는다. 속성이 있으면 나열한 <code>allow-*</code> 토큰을 뺀 스크립트, 폼, 팝업, 최상위 문맥 이동을 제한하고 문서에
+ 유일한 오리진을 준다. 중첩된 프레임의 플래그는 누적된다: 조상의 제한을 자손이 풀 수 없다(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html#inherit(org.duckdns.hjow.swingwebpanel.core.frames.SandboxFlags)"><CODE>inherit(SandboxFlags)</CODE></A> 참조). 인스턴스는 불변이다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html" title="class in org.duckdns.hjow.swingwebpanel.core.frames">SandboxFlags</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html#NONE">NONE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No sandbox: nothing is restricted.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html#allowsDownloads()">allowsDownloads</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the sandbox permits an object URL download.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html#allowsForms()">allowsForms</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether forms may be submitted.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html#allowsPopups()">allowsPopups</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the document may request new browsing contexts (<code>target="_blank"</code>, <code>window.open</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html#allowsPopupsToEscapeSandbox()">allowsPopupsToEscapeSandbox</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a window that the document opens leaves the sandbox (<code>allow-popups-to-escape-sandbox</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html#allowsSameOrigin()">allowsSameOrigin</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the document keeps its real origin (otherwise it has a unique, opaque origin).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html#allowsScripts()">allowsScripts</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether scripts may run.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html#allowsTopNavigation()">allowsTopNavigation</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the document may navigate the top-level browsing context.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html" title="class in org.duckdns.hjow.swingwebpanel.core.frames">SandboxFlags</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html#inherit(org.duckdns.hjow.swingwebpanel.core.frames.SandboxFlags)">inherit</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html" title="class in org.duckdns.hjow.swingwebpanel.core.frames">SandboxFlags</A>&nbsp;parent)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Accumulates the flags of the parent context: a restriction that either of the two sets has applies.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html#isSandboxed()">isSandboxed</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a sandbox applies.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html" title="class in org.duckdns.hjow.swingwebpanel.core.frames">SandboxFlags</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html#parse(java.lang.String)">parse</A></B>(java.lang.String&nbsp;attribute)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses the value of a <code>sandbox</code> attribute: space-separated tokens, compared ASCII case-insensitively; unknown tokens are
+ ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html#toString()">toString</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Describes the flags for diagnostics.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="NONE"><!-- --></A><H3>
+NONE</H3>
+<PRE>
+public static final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html" title="class in org.duckdns.hjow.swingwebpanel.core.frames">SandboxFlags</A> <B>NONE</B></PRE>
+<DL>
+<DD>No sandbox: nothing is restricted.
+ <p>
+ 샌드박스 없음: 아무것도 제한하지 않는다.
+<P>
+<DL>
+</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="parse(java.lang.String)"><!-- --></A><H3>
+parse</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html" title="class in org.duckdns.hjow.swingwebpanel.core.frames">SandboxFlags</A> <B>parse</B>(java.lang.String&nbsp;attribute)</PRE>
+<DL>
+<DD>Parses the value of a <code>sandbox</code> attribute: space-separated tokens, compared ASCII case-insensitively; unknown tokens are
+ ignored. A null value (no attribute) gives <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html#NONE"><CODE>NONE</CODE></A>.
+ <p>
+ <code>sandbox</code> 속성 값을 해석한다: 공백으로 구분한 토큰이며 ASCII 대소문자를 구분하지 않고 비교한다. 모르는 토큰은 무시한다. null(속성 없음)이면
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html#NONE"><CODE>NONE</CODE></A>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>attribute</CODE> - the attribute value or null / 속성 값 또는 null
+<DT><B>Returns:</B><DD>the flags / 플래그</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="inherit(org.duckdns.hjow.swingwebpanel.core.frames.SandboxFlags)"><!-- --></A><H3>
+inherit</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html" title="class in org.duckdns.hjow.swingwebpanel.core.frames">SandboxFlags</A> <B>inherit</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html" title="class in org.duckdns.hjow.swingwebpanel.core.frames">SandboxFlags</A>&nbsp;parent)</PRE>
+<DL>
+<DD>Accumulates the flags of the parent context: a restriction that either of the two sets has applies. The flags of the top-level
+ document are <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html#NONE"><CODE>NONE</CODE></A>.
+ <p>
+ 부모 문맥의 플래그를 누적한다: 둘 중 하나라도 가진 제한이 적용된다. 최상위 문서의 플래그는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html#NONE"><CODE>NONE</CODE></A> 이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>parent</CODE> - the active flags of the parent document / 부모 문서의 활성 플래그
+<DT><B>Returns:</B><DD>the effective flags / 실제 적용되는 플래그</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="allowsPopupsToEscapeSandbox()"><!-- --></A><H3>
+allowsPopupsToEscapeSandbox</H3>
+<PRE>
+public boolean <B>allowsPopupsToEscapeSandbox</B>()</PRE>
+<DL>
+<DD>Tells whether a window that the document opens leaves the sandbox (<code>allow-popups-to-escape-sandbox</code>). Without it the
+ new window would have to carry the sandbox of the document.
+ <p>
+ 문서가 연 창이 샌드박스를 벗어나는지(<code>allow-popups-to-escape-sandbox</code>) 알려 준다. 없으면 새 창이 문서의 샌드박스를 지녀야 한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if opened windows are not sandboxed / 연 창이 샌드박스가 아니면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="allowsDownloads()"><!-- --></A><H3>
+allowsDownloads</H3>
+<PRE>
+public boolean <B>allowsDownloads</B>()</PRE>
+<DL>
+<DD>Tells whether the sandbox permits an object URL download.
+ <p>
+ 샌드박스가 객체 URL 다운로드를 허용하는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if allowed / 허용이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isSandboxed()"><!-- --></A><H3>
+isSandboxed</H3>
+<PRE>
+public boolean <B>isSandboxed</B>()</PRE>
+<DL>
+<DD>Tells whether a sandbox applies.
+ <p>
+ 샌드박스가 적용되는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if sandboxed / 샌드박스이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="allowsScripts()"><!-- --></A><H3>
+allowsScripts</H3>
+<PRE>
+public boolean <B>allowsScripts</B>()</PRE>
+<DL>
+<DD>Tells whether scripts may run.
+ <p>
+ 스크립트를 실행할 수 있는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if allowed / 허용이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="allowsSameOrigin()"><!-- --></A><H3>
+allowsSameOrigin</H3>
+<PRE>
+public boolean <B>allowsSameOrigin</B>()</PRE>
+<DL>
+<DD>Tells whether the document keeps its real origin (otherwise it has a unique, opaque origin).
+ <p>
+ 문서가 실제 오리진을 유지하는지(아니면 유일한 불투명 오리진) 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if the real origin is kept / 실제 오리진을 유지하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="allowsForms()"><!-- --></A><H3>
+allowsForms</H3>
+<PRE>
+public boolean <B>allowsForms</B>()</PRE>
+<DL>
+<DD>Tells whether forms may be submitted.
+ <p>
+ 폼을 제출할 수 있는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if allowed / 허용이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="allowsTopNavigation()"><!-- --></A><H3>
+allowsTopNavigation</H3>
+<PRE>
+public boolean <B>allowsTopNavigation</B>()</PRE>
+<DL>
+<DD>Tells whether the document may navigate the top-level browsing context.
+ <p>
+ 문서가 최상위 브라우징 문맥을 이동시킬 수 있는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if allowed / 허용이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="allowsPopups()"><!-- --></A><H3>
+allowsPopups</H3>
+<PRE>
+public boolean <B>allowsPopups</B>()</PRE>
+<DL>
+<DD>Tells whether the document may request new browsing contexts (<code>target="_blank"</code>, <code>window.open</code>).
+ <p>
+ 문서가 새 브라우징 문맥을 요청할 수 있는지(<code>target="_blank"</code>, <code>window.open</code>) 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if allowed / 허용이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toString()"><!-- --></A><H3>
+toString</H3>
+<PRE>
+public java.lang.String <B>toString</B>()</PRE>
+<DL>
+<DD>Describes the flags for diagnostics.
+ <p>
+ 진단용으로 플래그를 설명한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>toString</CODE> in class <CODE>java.lang.Object</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the description / 설명</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/core/frames/FrameUrls.html" title="class in org.duckdns.hjow.swingwebpanel.core.frames"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/frames/SandboxFlags.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SandboxFlags.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

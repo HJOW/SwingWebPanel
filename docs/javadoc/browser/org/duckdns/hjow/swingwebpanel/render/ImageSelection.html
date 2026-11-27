@@ -1,0 +1,262 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ImageSelection
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ImageSelection";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageResource.State.html" title="enum in org.duckdns.hjow.swingwebpanel.render"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageSelection.Choice.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/render/ImageSelection.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ImageSelection.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.render</FONT>
+<BR>
+Class ImageSelection</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.render.ImageSelection</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ImageSelection</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Chooses the source of an <code>img</code> element (plan item P18-05): the <code>src</code> attribute, the <code>srcset</code> and
+ <code>sizes</code> attributes, and the <code>source</code> siblings in front of it when its parent is a <code>picture</code> element. The
+ algorithm is "update the source set" and "select an image source from a source set" of the HTML Standard (the image-selection parts that
+ the W3C HTML5 2014 recommendation lacks, from HTML 5.1 / the WHATWG HTML Living Standard): a <code>source</code> is skipped when it has no
+ <code>srcset</code>, when its <code>type</code> is not an image type that this component decodes, or when its <code>media</code> query does
+ not match; the first usable one provides the source set. The candidates carry a density (<code>x</code>) or a width (<code>w</code>)
+ descriptor; widths are turned into densities with the source size that <code>sizes</code> gives (default <code>100vw</code>). The chosen
+ candidate is the smallest density that is not lower than the device pixel ratio of the environment, or else the largest density. The class
+ has no state; the renderer, the layout resolver and the script image loader call it with the same environment so that all of them agree on
+ the same <code>currentSrc</code>.
+ <p>
+ <code>img</code> 요소의 소스를 고른다(계획 P18-05): <code>src</code> 속성, <code>srcset</code> 과 <code>sizes</code> 속성, 그리고 부모가
+ <code>picture</code> 이면 앞에 있는 <code>source</code> 형제들. 알고리즘은 HTML 표준의 "update the source set" 과 "select an image source
+ from a source set" 이다(W3C HTML5 2014 권고안에 없는 이미지 선택 부분은 HTML 5.1/WHATWG HTML Living Standard 를 따른다). <code>source</code> 는
+ <code>srcset</code> 이 없거나, <code>type</code> 이 이 컴포넌트가 디코딩하지 않는 이미지 형식이거나, <code>media</code> 질의가 맞지 않으면 건너뛰고
+ 처음 쓸 수 있는 것이 소스 집합을 제공한다. 후보는 밀도(<code>x</code>) 또는 너비(<code>w</code>) 기술자를 갖고, 너비는 <code>sizes</code> 가 주는
+ 소스 크기(기본 <code>100vw</code>)로 밀도로 바꾼다. 고르는 후보는 환경의 장치 픽셀 비율 이상인 가장 작은 밀도, 없으면 가장 큰 밀도이다. 이 클래스는
+ 상태가 없다. 렌더러, 레이아웃 리졸버, 스크립트의 이미지 로더가 같은 환경으로 부르므로 모두 같은 <code>currentSrc</code> 에 합의한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageSelection.Choice.html" title="class in org.duckdns.hjow.swingwebpanel.render">ImageSelection.Choice</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The result of a selection: the chosen URL as written in the document and its density.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageSelection.Choice.html" title="class in org.duckdns.hjow.swingwebpanel.render">ImageSelection.Choice</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageSelection.html#select(org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.css.media.MediaEnvironment)">select</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;img,
+       <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html" title="class in org.duckdns.hjow.swingwebpanel.css.media">MediaEnvironment</A>&nbsp;env)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Selects the source of an image element for a viewport.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="select(org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.css.media.MediaEnvironment)"><!-- --></A><H3>
+select</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageSelection.Choice.html" title="class in org.duckdns.hjow.swingwebpanel.render">ImageSelection.Choice</A> <B>select</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;img,
+                                           <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html" title="class in org.duckdns.hjow.swingwebpanel.css.media">MediaEnvironment</A>&nbsp;env)</PRE>
+<DL>
+<DD>Selects the source of an image element for a viewport. The environment decides the media queries, the <code>vw</code> units of
+ <code>sizes</code> and the device pixel ratio.
+ <p>
+ 뷰포트에 대한 이미지 요소의 소스를 고른다. 환경이 미디어 질의, <code>sizes</code> 의 <code>vw</code> 단위, 장치 픽셀 비율을 정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>img</CODE> - the <code>img</code> element / <code>img</code> 요소<DD><CODE>env</CODE> - the media environment (viewport and resolution) / 미디어 환경(뷰포트와 해상도)
+<DT><B>Returns:</B><DD>the choice, or null when the element names no image / 선택 결과. 요소가 이미지를 가리키지 않으면 null</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageResource.State.html" title="enum in org.duckdns.hjow.swingwebpanel.render"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageSelection.Choice.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/render/ImageSelection.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ImageSelection.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,397 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+PageDragDrop
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="PageDragDrop";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDocument.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageEditing.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/PageDragDrop.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PageDragDrop.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.core</FONT>
+<BR>
+Class PageDragDrop</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.core.PageDragDrop</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>PageDragDrop</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+HTML drag and drop of the page (plan item P20-06, HTML Standard 6.11): the user presses the main mouse button on a draggable element
+ (an element with <code>draggable="true"</code>, an image or a link) or on the selected text, moves the pointer, and releases it over
+ another place of the same page. The drag begins when the pointer has moved a few pixels from the press; the component then fires
+ <code>dragstart</code> at the source, and on every pointer move (and every 350 milliseconds while it stands still) <code>drag</code> at the
+ source, <code>dragenter</code>, <code>dragover</code> and <code>dragleave</code> at the elements under the pointer, following the processing
+ model of the specification (a cancelled <code>dragenter</code> or <code>dragover</code> accepts the element, the <code>dropEffect</code> and the
+ <code>effectAllowed</code> choose the drag operation, a text field or an editing host accepts text without any script). At the release it fires
+ <code>drop</code> at the current target (a text control or an editing host gets the dragged text as its default action, and a drag that
+ moves a selection out of an editing host deletes it), then <code>dragend</code> at the source. Escape cancels the drag. The mouse and key
+ events are suppressed while the drag runs. Every <code>DragEvent</code> gets its own <code>DataTransfer</code> on top of the drag data store, in the
+ mode that the specification gives that event, and it is disabled when the event is over.
+ <p>
+ Limits: the drag is simulated inside the component (it does not start a drag of the operating system, so text cannot be dragged to
+ another application, and nothing is dropped from outside), files are not dragged, the picture of <code>setDragImage</code> is not drawn (the
+ mouse cursor shows the operation), and the events go to the document under the pointer (frames included) without a drag across two
+ frames being treated specially.
+ <p>
+ 페이지의 HTML 끌어다 놓기(계획 P20-06, HTML 표준 6.11): 사용자가 끌 수 있는 요소(<code>draggable="true"</code> 요소, 이미지, 링크)나 선택한 텍스트 위에서 주 마우스 버튼을
+ 누르고, 포인터를 옮기고, 같은 페이지의 다른 곳에서 뗀다. 포인터가 누른 곳에서 몇 픽셀 움직이면 끌기가 시작하고, 컴포넌트는 원본에 <code>dragstart</code> 를 보낸 뒤
+ 포인터가 움직일 때마다(서 있는 동안은 350 밀리초마다) 원본에 <code>drag</code>, 포인터 아래 요소에 <code>dragenter</code>, <code>dragover</code>, <code>dragleave</code> 를
+ 규격의 처리 모델대로 보낸다(<code>dragenter</code> 나 <code>dragover</code> 를 취소하면 그 요소가 받아들이는 것이고, <code>dropEffect</code> 와 <code>effectAllowed</code> 가 끌기 동작을
+ 정하며, 텍스트 필드와 편집 호스트는 스크립트 없이도 텍스트를 받는다). 뗄 때 현재 대상에 <code>drop</code> 을 보내고(텍스트 컨트롤이나 편집 호스트는 기본 동작으로 끌어온
+ 텍스트를 받고, 편집 호스트에서 선택을 옮기는 끌기는 그것을 지운다) 원본에 <code>dragend</code> 를 보낸다. Esc 는 끌기를 취소한다. 끌기가 도는 동안 마우스와 키
+ 이벤트는 막는다. 모든 <code>DragEvent</code> 는 드래그 데이터 저장소 위에 자기 <code>DataTransfer</code> 를 가지며 그 이벤트에 규격이 정한 모드이고 이벤트가 끝나면
+ 무효화된다.
+ <p>
+ 한계: 끌기는 컴포넌트 안에서 흉내 낸다(운영체제의 끌기를 시작하지 않으므로 다른 응용 프로그램으로 텍스트를 끌 수 없고 바깥에서 놓는 것도 없다). 파일은 끌지 않는다.
+ <code>setDragImage</code> 의 그림은 그리지 않는다(마우스 커서가 동작을 보인다). 이벤트는 포인터 아래 문서(프레임 포함)로 가며 두 프레임에 걸친 끌기를 따로 다루지 않는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDragDrop.html#PageDragDrop(javax.swing.JComponent, org.duckdns.hjow.swingwebpanel.core.BrowserSession, org.duckdns.hjow.swingwebpanel.core.PageView, org.duckdns.hjow.swingwebpanel.core.PageInput, org.duckdns.hjow.swingwebpanel.core.PageSelection, org.duckdns.hjow.swingwebpanel.core.PageEditing)">PageDragDrop</A></B>(javax.swing.JComponent&nbsp;component,
+             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" title="class in org.duckdns.hjow.swingwebpanel.core">BrowserSession</A>&nbsp;session,
+             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageView</A>&nbsp;view,
+             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageInput</A>&nbsp;input,
+             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSelection</A>&nbsp;selection,
+             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageEditing.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageEditing</A>&nbsp;editing)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the controller of a page component.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDragDrop.html#cancel()">cancel</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cancels the drag (the Escape key); it ends without a drop.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDragDrop.html#dispose()">dispose</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stops everything (the component was disposed): a running drag ends without events.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDragDrop.html#isActive()">isActive</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a drag runs; mouse hover and key input are suppressed meanwhile.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDragDrop.html#isArmed()">isArmed</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a press may still turn into a drag (the pointer movements must be given to <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDragDrop.html#moved(java.awt.event.MouseEvent)"><CODE>moved(java.awt.event.MouseEvent)</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDragDrop.html#moved(java.awt.event.MouseEvent)">moved</A></B>(java.awt.event.MouseEvent&nbsp;event)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Receives a movement of the pointer while the main button is down (event dispatch thread): the document queue decides whether the drag
+ begins and, if it runs, does one iteration for the latest position (movements that arrive earlier are merged).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="PageDragDrop(javax.swing.JComponent, org.duckdns.hjow.swingwebpanel.core.BrowserSession, org.duckdns.hjow.swingwebpanel.core.PageView, org.duckdns.hjow.swingwebpanel.core.PageInput, org.duckdns.hjow.swingwebpanel.core.PageSelection, org.duckdns.hjow.swingwebpanel.core.PageEditing)"><!-- --></A><H3>
+PageDragDrop</H3>
+<PRE>
+public <B>PageDragDrop</B>(javax.swing.JComponent&nbsp;component,
+                    <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" title="class in org.duckdns.hjow.swingwebpanel.core">BrowserSession</A>&nbsp;session,
+                    <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageView</A>&nbsp;view,
+                    <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageInput</A>&nbsp;input,
+                    <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSelection</A>&nbsp;selection,
+                    <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageEditing.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageEditing</A>&nbsp;editing)</PRE>
+<DL>
+<DD>Creates the controller of a page component.
+ <p>
+ 페이지 컴포넌트의 제어기를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>component</CODE> - the component / 컴포넌트<DD><CODE>session</CODE> - the session / 세션<DD><CODE>view</CODE> - the view / 뷰<DD><CODE>input</CODE> - the pointer input / 포인터 입력<DD><CODE>selection</CODE> - the selection controller / 선택 제어기<DD><CODE>editing</CODE> - the editing controller / 편집 제어기</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="isArmed()"><!-- --></A><H3>
+isArmed</H3>
+<PRE>
+public boolean <B>isArmed</B>()</PRE>
+<DL>
+<DD>Tells whether a press may still turn into a drag (the pointer movements must be given to <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDragDrop.html#moved(java.awt.event.MouseEvent)"><CODE>moved(java.awt.event.MouseEvent)</CODE></A>).
+ <p>
+ 누름이 아직 끌기가 될 수 있는지 알려 준다(포인터 이동을 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDragDrop.html#moved(java.awt.event.MouseEvent)"><CODE>moved(java.awt.event.MouseEvent)</CODE></A> 에 주어야 한다).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if armed / 준비되었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isActive()"><!-- --></A><H3>
+isActive</H3>
+<PRE>
+public boolean <B>isActive</B>()</PRE>
+<DL>
+<DD>Tells whether a drag runs; mouse hover and key input are suppressed meanwhile.
+ <p>
+ 끌기가 도는지 알려 준다. 그동안 마우스 호버와 키 입력은 막는다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true while dragging / 끄는 동안 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispose()"><!-- --></A><H3>
+dispose</H3>
+<PRE>
+public void <B>dispose</B>()</PRE>
+<DL>
+<DD>Stops everything (the component was disposed): a running drag ends without events.
+ <p>
+ 모든 것을 멈춘다(컴포넌트가 폐기되었다). 진행 중인 끌기는 이벤트 없이 끝난다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="cancel()"><!-- --></A><H3>
+cancel</H3>
+<PRE>
+public void <B>cancel</B>()</PRE>
+<DL>
+<DD>Cancels the drag (the Escape key); it ends without a drop.
+ <p>
+ 끌기를 취소한다(Esc 키). 놓지 않고 끝난다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="moved(java.awt.event.MouseEvent)"><!-- --></A><H3>
+moved</H3>
+<PRE>
+public void <B>moved</B>(java.awt.event.MouseEvent&nbsp;event)</PRE>
+<DL>
+<DD>Receives a movement of the pointer while the main button is down (event dispatch thread): the document queue decides whether the drag
+ begins and, if it runs, does one iteration for the latest position (movements that arrive earlier are merged).
+ <p>
+ 주 버튼이 눌린 채 일어난 포인터 이동을 받는다(이벤트 디스패치 스레드). 문서 큐가 끌기가 시작하는지 정하고, 돌고 있으면 최신 위치로 반복 한 번을 한다(앞서 도착한
+ 이동은 합친다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>event</CODE> - the AWT event / AWT 이벤트</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDocument.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageEditing.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/PageDragDrop.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PageDragDrop.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

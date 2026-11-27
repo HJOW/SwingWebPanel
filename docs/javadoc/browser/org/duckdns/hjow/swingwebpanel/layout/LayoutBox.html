@@ -1,0 +1,2679 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+LayoutBox
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="LayoutBox";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FontFeatures.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.Type.html" title="enum in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="LayoutBox.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.layout</FONT>
+<BR>
+Class LayoutBox</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.layout.LayoutBox</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>LayoutBox</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+A box of the layout tree (plan item P09-01). The layout tree is separate from the DOM: <code>display:none</code> elements have no box,
+ anonymous boxes exist where CSS needs them, text is split into line fragments and every box keeps the DOM node it came from for hit
+ testing. After <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutEngine.html#layout(org.duckdns.hjow.swingwebpanel.dom.Document, org.duckdns.hjow.swingwebpanel.layout.StyleSource, org.duckdns.hjow.swingwebpanel.layout.ReplacedResolver, double, double)"><CODE>LayoutEngine.layout(org.duckdns.hjow.swingwebpanel.dom.Document, org.duckdns.hjow.swingwebpanel.layout.StyleSource, org.duckdns.hjow.swingwebpanel.layout.ReplacedResolver, double, double)</CODE></A> returns, a box never changes again, so a renderer on another thread can read the tree while the
+ document thread builds the next one.
+ <p>
+ Geometry: all values are CSS pixels in <b>document coordinates</b> (the origin is the top-left corner of the page, scrolling is the
+ renderer's job). <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getX()"><CODE>getX()</CODE></A>/<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getY()"><CODE>getY()</CODE></A>/<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getWidth()"><CODE>getWidth()</CODE></A>/<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getHeight()"><CODE>getHeight()</CODE></A> describe the <b>border box</b>; the margin,
+ border and padding widths are the used values, so the padding box, content box and margin box follow by addition. Line boxes
+ (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.Type.html#LINE"><CODE>LayoutBox.Type.LINE</CODE></A>) span the content width of their block; fragments (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.Type.html#TEXT"><CODE>LayoutBox.Type.TEXT</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.Type.html#INLINE"><CODE>LayoutBox.Type.INLINE</CODE></A>, atomic inline boxes) are
+ children of the line. The children of a box are listed in paint order for in-flow content (a renderer paints a box, then its children).
+ <p>
+ 레이아웃 트리의 상자(계획 P09-01). 레이아웃 트리는 DOM 과 분리되어 있다: <code>display:none</code> 요소는 상자가 없고, CSS 가 필요로 하는 곳에는
+ 익명 상자가 있으며, 텍스트는 줄 조각으로 나뉘고, 모든 상자는 hit testing 을 위해 자신이 나온 DOM 노드를 가진다. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutEngine.html#layout(org.duckdns.hjow.swingwebpanel.dom.Document, org.duckdns.hjow.swingwebpanel.layout.StyleSource, org.duckdns.hjow.swingwebpanel.layout.ReplacedResolver, double, double)"><CODE>LayoutEngine.layout(org.duckdns.hjow.swingwebpanel.dom.Document, org.duckdns.hjow.swingwebpanel.layout.StyleSource, org.duckdns.hjow.swingwebpanel.layout.ReplacedResolver, double, double)</CODE></A> 이
+ 돌아온 뒤 상자는 다시 바뀌지 않으므로 다른 스레드의 렌더러가 읽는 동안 문서 스레드가 다음 트리를 만들 수 있다.
+ <p>
+ 기하: 모든 값은 <b>문서 좌표</b>(원점은 페이지의 왼쪽 위, 스크롤은 렌더러의 몫)의 CSS 픽셀이다. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getX()"><CODE>getX()</CODE></A>/<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getY()"><CODE>getY()</CODE></A>/<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getWidth()"><CODE>getWidth()</CODE></A>/
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getHeight()"><CODE>getHeight()</CODE></A> 는 <b>border box</b> 를 나타내며 margin, border, padding 너비는 사용 값이므로 padding box, content box, margin box 는 더해서
+ 얻는다. 줄 상자(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.Type.html#LINE"><CODE>LayoutBox.Type.LINE</CODE></A>)는 블록의 콘텐츠 너비에 걸치고 조각(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.Type.html#TEXT"><CODE>LayoutBox.Type.TEXT</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.Type.html#INLINE"><CODE>LayoutBox.Type.INLINE</CODE></A>, 원자적 인라인 상자)은 줄의 자식이다.
+ 정상 흐름 콘텐츠의 자식은 그리기 순서로 나열되어 있다(렌더러는 상자를 그린 뒤 자식을 그린다).
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.Type.html" title="enum in org.duckdns.hjow.swingwebpanel.layout">LayoutBox.Type</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The kind of a box.</TD>
+</TR>
+</TABLE>
+&nbsp;<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#DECORATION_LINE_THROUGH">DECORATION_LINE_THROUGH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bit of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getTextDecoration()"><CODE>getTextDecoration()</CODE></A>: line-through.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#DECORATION_OVERLINE">DECORATION_OVERLINE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bit of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getTextDecoration()"><CODE>getTextDecoration()</CODE></A>: overline.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#DECORATION_UNDERLINE">DECORATION_UNDERLINE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bit of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getTextDecoration()"><CODE>getTextDecoration()</CODE></A>: underline.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#FLOAT_LEFT">FLOAT_LEFT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getFloatSide()"><CODE>getFloatSide()</CODE></A> for left floats.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#FLOAT_NONE">FLOAT_NONE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getFloatSide()"><CODE>getFloatSide()</CODE></A> for boxes that do not float.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#FLOAT_RIGHT">FLOAT_RIGHT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getFloatSide()"><CODE>getFloatSide()</CODE></A> for right floats.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#GLYPHS_COMBINED">GLYPHS_COMBINED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getGlyphMode()"><CODE>getGlyphMode()</CODE></A>: text composed horizontally into one upright cell (<code>text-combine-upright</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#GLYPHS_SIDEWAYS">GLYPHS_SIDEWAYS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getGlyphMode()"><CODE>getGlyphMode()</CODE></A>: one sideways (rotated) run, also all text of horizontal lines.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#GLYPHS_UPRIGHT">GLYPHS_UPRIGHT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getGlyphMode()"><CODE>getGlyphMode()</CODE></A>: upright characters, one cell of one em per character cluster.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#POS_ABSOLUTE">POS_ABSOLUTE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPositionKind()"><CODE>getPositionKind()</CODE></A>: <code>position:absolute</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#POS_FIXED">POS_FIXED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPositionKind()"><CODE>getPositionKind()</CODE></A>: <code>position:fixed</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#POS_RELATIVE">POS_RELATIVE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPositionKind()"><CODE>getPositionKind()</CODE></A>: <code>position:relative</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#POS_STATIC">POS_STATIC</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPositionKind()"><CODE>getPositionKind()</CODE></A>: <code>position:static</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#POS_STICKY">POS_STICKY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPositionKind()"><CODE>getPositionKind()</CODE></A>: <code>position:sticky</code>.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#contains(double, double)">contains</A></B>(double&nbsp;px,
+         double&nbsp;py)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a point (document coordinates) lies inside the border box.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getAscent()">getAscent</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the ascent of the font of a text fragment.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getBaseline()">getBaseline</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the absolute y of the baseline of a line, text fragment, inline fragment, marker, atomic inline or replaced box (NaN where a
+ box has no baseline).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getBidiLevel()">getBidiLevel</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the Unicode bidirectional embedding level of a text fragment (odd levels run right to left).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getBorderBottom()">getBorderBottom</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the used bottom border width.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getBorderLeft()">getBorderLeft</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the used left border width.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getBorderRight()">getBorderRight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the used right border width.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getBorderTop()">getBorderTop</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the used top border width.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getChildren()">getChildren</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the children in paint order (unmodifiable).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getClipRectangle()">getClipRectangle</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the rectangle of <code>clip: rect()</code> of an absolutely positioned box in document coordinates as {x, y, width, height},
+ or null if the box has no such clip.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getClusterOffsets()">getClusterOffsets</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the start offsets of the character clusters of the text of an upright fragment followed by the length of the text: cluster
+ <i>k</i> is the range from element <i>k</i> to element <i>k+1</i> and takes the <i>k</i>-th cell of the fragment along the line.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TableBorder.html" title="class in org.duckdns.hjow.swingwebpanel.layout">TableBorder</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getCollapsedBorders()">getCollapsedBorders</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the collapsed border segments of a table in document coordinates (empty for other boxes and for the separated model).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getColumnCount()">getColumnCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of columns that a multi-column container was laid out in (the used columns, including the overflow columns that
+ appear when the content does not fit the height).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double[][]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getColumnRules()">getColumnRules</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the column rules of a multi-column container in document coordinates as {x, y, width, height} rectangles (empty if the
+ rule style is none or the container has fewer than two columns).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getColumnSpan()">getColumnSpan</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of grid columns that a table cell or column spans.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getContainingBlock()">getContainingBlock</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the box that is the containing block of an absolutely positioned box (the nearest positioned ancestor box), or null for the
+ initial containing block (or the viewport for fixed boxes).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getContentHeight()">getContentHeight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the height of the content box.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getContentWidth()">getContentWidth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the width of the content box.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getContentX()">getContentX</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the absolute x of the content box.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getContentY()">getContentY</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the absolute y of the content box.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getDescent()">getDescent</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the descent of the font of a text fragment.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.BitSet</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getFileButtonDeclared()">getFileButtonDeclared</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the properties that the rules of <code>::file-selector-button</code> declare (the painter keeps its own look for the others), or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getFileButtonStyle()">getFileButtonStyle</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the computed style of the <code>::file-selector-button</code> pseudo-element of a file control (the button that the painter draws), or null if no
+ rule targets it or the box is not a file control.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getFloatSide()">getFloatSide</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the side a box floats to: <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#FLOAT_LEFT"><CODE>FLOAT_LEFT</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#FLOAT_RIGHT"><CODE>FLOAT_RIGHT</CODE></A> or <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#FLOAT_NONE"><CODE>FLOAT_NONE</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.awt.Font</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getFont()">getFont</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the font used to measure and paint a text fragment.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.awt.geom.AffineTransform</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getFullTransform()">getFullTransform</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a box or an ancestor of it has a transform, and returns the transform of the box in the coordinates of the document:
+ the transforms of the ancestors applied after the transform of the box itself.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getGlyphMode()">getGlyphMode</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns how the glyphs of a text fragment of vertical text are set (CSS Writing Modes Level 3): <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#GLYPHS_SIDEWAYS"><CODE>GLYPHS_SIDEWAYS</CODE></A> (the
+ fragment is one run that is rotated, see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getTextRotation()"><CODE>getTextRotation()</CODE></A>; also every fragment of horizontal text), <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#GLYPHS_UPRIGHT"><CODE>GLYPHS_UPRIGHT</CODE></A>
+ (the characters stand upright, one cell of one em along the line for each character cluster, see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getClusterOffsets()"><CODE>getClusterOffsets()</CODE></A>) or
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#GLYPHS_COMBINED"><CODE>GLYPHS_COMBINED</CODE></A> (<code>text-combine-upright</code>: the text is composed horizontally into the space of one upright
+ character, one em along the line).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getGridRectangle()">getGridRectangle</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the grid rectangle of a table box in document coordinates as {x, y, width, height}: the area that the table background, the
+ table border and the cells occupy (the captions are outside of it).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getHeight()">getHeight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the height of the border box.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getLetterSpacing()">getLetterSpacing</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the letter spacing that was added after every character of a text fragment.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getMarginBottom()">getMarginBottom</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the used bottom margin.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getMarginLeft()">getMarginLeft</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the used left margin.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getMarginRight()">getMarginRight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the used right margin.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getMarginTop()">getMarginTop</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the used top margin.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getMarkerImage()">getMarkerImage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the image that a MARKER box shows (<code>list-style-image</code>), or null for a text marker.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getNode()">getNode</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the DOM node this box came from: the element for element boxes and pseudo-elements, the Text node for text fragments, null
+ for anonymous boxes and line boxes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getOrder()">getOrder</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the sequence number of the box in source (tree) order; boxes that are painted in tree order are ordered by it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPaddingBottom()">getPaddingBottom</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the used bottom padding.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPaddingLeft()">getPaddingLeft</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the used left padding.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPaddingRight()">getPaddingRight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the used right padding.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPaddingTop()">getPaddingTop</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the used top padding.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getParent()">getParent</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the parent box (null for the root).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPlaceholderStyle()">getPlaceholderStyle</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the computed style of the <code>::placeholder</code> pseudo-element of a text field or a text area (the color of the
+ placeholder text), or null for the other boxes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPositionKind()">getPositionKind</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the position kind of the box: one of the <code>POS_*</code> constants.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPseudo()">getPseudo</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>before</code> or <code>after</code> for boxes generated by <code>::before</code>/<code>::after</code>, else null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getRelativeOffsetX()">getRelativeOffsetX</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the horizontal offset of <code>position:relative</code> that is already part of the geometry.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getRelativeOffsetY()">getRelativeOffsetY</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the vertical offset of <code>position:relative</code> that is already part of the geometry.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getRenderedLegend()">getRenderedLegend</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the rendered legend of a fieldset box: the first legend child that is in the normal flow.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/ReplacedContent.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">ReplacedContent</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getReplacedContent()">getReplacedContent</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the content of a replaced element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getRowSpan()">getRowSpan</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of grid rows that a table cell spans (after the limit to its row group).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getSourceEnd()">getSourceEnd</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the end (exclusive) of the source range in the data of the Text node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getSourceStart()">getSourceStart</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the start of the source range in the data of the Text node (the first character that the fragment consumed).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StickyConstraint.html" title="class in org.duckdns.hjow.swingwebpanel.layout">StickyConstraint</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getSticky()">getSticky</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the sticky constraint of the box: the box is <code>position:sticky</code> with at least one inset other than <code>auto</code>
+ and can be shifted.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getStyle()">getStyle</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the computed style of the box.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getTableColumn()">getTableColumn</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the first grid column of a table cell or column (0-based).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getTableRow()">getTableRow</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the first grid row of a table cell or row (0-based).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getText()">getText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the painted text of a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.Type.html#TEXT"><CODE>LayoutBox.Type.TEXT</CODE></A> or <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.Type.html#MARKER"><CODE>LayoutBox.Type.MARKER</CODE></A> box: white space is collapsed and <code>text-transform</code>
+ applied; null for other boxes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getTextAdvance()">getTextAdvance</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the advance of a text fragment along its line: the width of the fragment for text on a horizontal line and its height
+ for rotated text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getTextDecoration()">getTextDecoration</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text decorations that apply to a text fragment as a bit set of the <code>DECORATION_*</code> constants.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getTextRotation()">getTextRotation</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the rotation of the glyphs of a text fragment or a list marker in quarter turns clockwise: 0 for text on a horizontal
+ line, 1 for sideways text in a vertical line of <code>vertical-rl</code> or <code>vertical-lr</code> (the tops of the glyphs
+ point to the right) and 3 for <code>sideways-lr</code> (the tops point to the left).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.awt.geom.AffineTransform</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getTransform()">getTransform</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the 2D transform of the box in document coordinates (<code>transform</code> applied around <code>transform-origin</code>,
+ plan item P10-06): the matrix that maps the laid-out coordinates of the box and its content to where they are painted, in the
+ coordinates of the parent (the transforms of the ancestors are not included).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.Type.html" title="enum in org.duckdns.hjow.swingwebpanel.layout">LayoutBox.Type</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getType()">getType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the kind of the box.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getWidth()">getWidth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the width of the border box.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getX()">getX</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the absolute x of the border box.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getY()">getY</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the absolute y of the border box.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getZIndex()">getZIndex</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the integer <code>z-index</code> (0 if <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#hasZIndex()"><CODE>hasZIndex()</CODE></A> is false).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#hasZIndex()">hasZIndex</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether <code>z-index</code> is an integer for this positioned box (not <code>auto</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#isAbsolutelyPositioned()">isAbsolutelyPositioned</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the box is absolutely positioned (<code>absolute</code> or <code>fixed</code>), that is taken out of the flow.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#isClipsContent()">isClipsContent</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the box clips its content (<code>overflow</code> other than <code>visible</code>); the clip is the padding box.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#isCollapsedBorderModel()">isCollapsedBorderModel</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the borders of a table, its rows and its cells are collapsed (<code>border-collapse:collapse</code>): they are then
+ painted by the table as <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getCollapsedBorders()"><CODE>segments</CODE></A>, not by the boxes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#isFixedPosition()">isFixedPosition</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the box is fixed to the viewport (<code>position:fixed</code>): the renderer keeps it at the same place of the viewport
+ when the page scrolls.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#isFlexContainer()">isFlexContainer</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the box is a flex container (<code>display:flex</code> or <code>inline-flex</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#isFlexItem()">isFlexItem</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the box is a flex item.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#isFloat()">isFloat</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the box is a float.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#isFontBlocked()">isFontBlocked</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a text fragment is invisible because it waits for a web font in the block period of its <code>font-display</code> (CSS Fonts 4 section 4.8):
+ the fragment takes the space of the fallback font (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getFont()"><CODE>getFont()</CODE></A>) and the renderer does not paint it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#isGridContainer()">isGridContainer</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the box is a grid container (<code>display:grid</code> or <code>inline-grid</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#isGridItem()">isGridItem</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the box is a grid item.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#isHiddenEmptyCell()">isHiddenEmptyCell</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a table cell is hidden because it is empty and <code>empty-cells:hide</code> applies: neither its background nor
+ its border is painted.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#isInlineLevel()">isInlineLevel</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the box is inline-level (an inline fragment, an atomic inline or an inline replaced element).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#isMulticolContainer()">isMulticolContainer</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the box is a multi-column container; its children are the column boxes (anonymous blocks, one per column).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#isOrthogonalFlowRoot()">isOrthogonalFlowRoot</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the box establishes an orthogonal flow (its writing mode is perpendicular to that of its containing block).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#isPositioned()">isPositioned</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the box is positioned (<code>position</code> other than <code>static</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#isStackingContext()">isStackingContext</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the box forms a stacking context: the root, positioned boxes with an integer <code>z-index</code>, fixed boxes and
+ boxes with <code>opacity</code> below 1.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#isTextOfInline(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)">isTextOfInline</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a text box belongs to the inline element that this inline fragment is a part of (the text is in the element or in an inline element
+ inside it).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#isVertical()">isVertical</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the box is laid out in a vertical writing mode (<code>vertical-rl</code>, <code>vertical-lr</code>,
+ <code>sideways-rl</code>, <code>sideways-lr</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#toString()">toString</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a short description for diagnostics.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="DECORATION_UNDERLINE"><!-- --></A><H3>
+DECORATION_UNDERLINE</H3>
+<PRE>
+public static final int <B>DECORATION_UNDERLINE</B></PRE>
+<DL>
+<DD>Bit of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getTextDecoration()"><CODE>getTextDecoration()</CODE></A>: underline. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getTextDecoration()"><CODE>getTextDecoration()</CODE></A> 의 비트: 밑줄.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.LayoutBox.DECORATION_UNDERLINE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DECORATION_OVERLINE"><!-- --></A><H3>
+DECORATION_OVERLINE</H3>
+<PRE>
+public static final int <B>DECORATION_OVERLINE</B></PRE>
+<DL>
+<DD>Bit of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getTextDecoration()"><CODE>getTextDecoration()</CODE></A>: overline. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getTextDecoration()"><CODE>getTextDecoration()</CODE></A> 의 비트: 윗줄.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.LayoutBox.DECORATION_OVERLINE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DECORATION_LINE_THROUGH"><!-- --></A><H3>
+DECORATION_LINE_THROUGH</H3>
+<PRE>
+public static final int <B>DECORATION_LINE_THROUGH</B></PRE>
+<DL>
+<DD>Bit of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getTextDecoration()"><CODE>getTextDecoration()</CODE></A>: line-through. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getTextDecoration()"><CODE>getTextDecoration()</CODE></A> 의 비트: 취소선.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.LayoutBox.DECORATION_LINE_THROUGH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="GLYPHS_SIDEWAYS"><!-- --></A><H3>
+GLYPHS_SIDEWAYS</H3>
+<PRE>
+public static final int <B>GLYPHS_SIDEWAYS</B></PRE>
+<DL>
+<DD>Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getGlyphMode()"><CODE>getGlyphMode()</CODE></A>: one sideways (rotated) run, also all text of horizontal lines. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getGlyphMode()"><CODE>getGlyphMode()</CODE></A> 의 값: 눕힌(회전한) 하나의 구간. 가로 줄의 모든 텍스트도 같다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.LayoutBox.GLYPHS_SIDEWAYS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="GLYPHS_UPRIGHT"><!-- --></A><H3>
+GLYPHS_UPRIGHT</H3>
+<PRE>
+public static final int <B>GLYPHS_UPRIGHT</B></PRE>
+<DL>
+<DD>Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getGlyphMode()"><CODE>getGlyphMode()</CODE></A>: upright characters, one cell of one em per character cluster. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getGlyphMode()"><CODE>getGlyphMode()</CODE></A> 의 값: 똑바로 선 글자. 글자 클러스터마다 1em 한 칸.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.LayoutBox.GLYPHS_UPRIGHT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="GLYPHS_COMBINED"><!-- --></A><H3>
+GLYPHS_COMBINED</H3>
+<PRE>
+public static final int <B>GLYPHS_COMBINED</B></PRE>
+<DL>
+<DD>Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getGlyphMode()"><CODE>getGlyphMode()</CODE></A>: text composed horizontally into one upright cell (<code>text-combine-upright</code>). <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getGlyphMode()"><CODE>getGlyphMode()</CODE></A> 의 값: 가로로 짜서 똑바로 선 한 칸에 넣은 텍스트(<code>text-combine-upright</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.LayoutBox.GLYPHS_COMBINED">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FLOAT_NONE"><!-- --></A><H3>
+FLOAT_NONE</H3>
+<PRE>
+public static final int <B>FLOAT_NONE</B></PRE>
+<DL>
+<DD>Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getFloatSide()"><CODE>getFloatSide()</CODE></A> for boxes that do not float. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getFloatSide()"><CODE>getFloatSide()</CODE></A> 값: 떠 있지 않은 상자.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.LayoutBox.FLOAT_NONE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FLOAT_LEFT"><!-- --></A><H3>
+FLOAT_LEFT</H3>
+<PRE>
+public static final int <B>FLOAT_LEFT</B></PRE>
+<DL>
+<DD>Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getFloatSide()"><CODE>getFloatSide()</CODE></A> for left floats. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getFloatSide()"><CODE>getFloatSide()</CODE></A> 값: 왼쪽 float.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.LayoutBox.FLOAT_LEFT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FLOAT_RIGHT"><!-- --></A><H3>
+FLOAT_RIGHT</H3>
+<PRE>
+public static final int <B>FLOAT_RIGHT</B></PRE>
+<DL>
+<DD>Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getFloatSide()"><CODE>getFloatSide()</CODE></A> for right floats. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getFloatSide()"><CODE>getFloatSide()</CODE></A> 값: 오른쪽 float.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.LayoutBox.FLOAT_RIGHT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="POS_STATIC"><!-- --></A><H3>
+POS_STATIC</H3>
+<PRE>
+public static final int <B>POS_STATIC</B></PRE>
+<DL>
+<DD>Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPositionKind()"><CODE>getPositionKind()</CODE></A>: <code>position:static</code>. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPositionKind()"><CODE>getPositionKind()</CODE></A> 의 값으로 static 을 뜻한다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.LayoutBox.POS_STATIC">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="POS_RELATIVE"><!-- --></A><H3>
+POS_RELATIVE</H3>
+<PRE>
+public static final int <B>POS_RELATIVE</B></PRE>
+<DL>
+<DD>Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPositionKind()"><CODE>getPositionKind()</CODE></A>: <code>position:relative</code>. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPositionKind()"><CODE>getPositionKind()</CODE></A> 의 값으로 relative 를 뜻한다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.LayoutBox.POS_RELATIVE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="POS_ABSOLUTE"><!-- --></A><H3>
+POS_ABSOLUTE</H3>
+<PRE>
+public static final int <B>POS_ABSOLUTE</B></PRE>
+<DL>
+<DD>Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPositionKind()"><CODE>getPositionKind()</CODE></A>: <code>position:absolute</code>. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPositionKind()"><CODE>getPositionKind()</CODE></A> 의 값으로 absolute 를 뜻한다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.LayoutBox.POS_ABSOLUTE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="POS_FIXED"><!-- --></A><H3>
+POS_FIXED</H3>
+<PRE>
+public static final int <B>POS_FIXED</B></PRE>
+<DL>
+<DD>Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPositionKind()"><CODE>getPositionKind()</CODE></A>: <code>position:fixed</code>. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPositionKind()"><CODE>getPositionKind()</CODE></A> 의 값으로 fixed 를 뜻한다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.LayoutBox.POS_FIXED">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="POS_STICKY"><!-- --></A><H3>
+POS_STICKY</H3>
+<PRE>
+public static final int <B>POS_STICKY</B></PRE>
+<DL>
+<DD>Value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPositionKind()"><CODE>getPositionKind()</CODE></A>: <code>position:sticky</code>. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getPositionKind()"><CODE>getPositionKind()</CODE></A> 의 값으로 sticky 를 뜻한다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.LayoutBox.POS_STICKY">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getType()"><!-- --></A><H3>
+getType</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.Type.html" title="enum in org.duckdns.hjow.swingwebpanel.layout">LayoutBox.Type</A> <B>getType</B>()</PRE>
+<DL>
+<DD>Returns the kind of the box.
+ <p>
+ 상자의 종류를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>kind / 종류</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getNode()"><!-- --></A><H3>
+getNode</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A> <B>getNode</B>()</PRE>
+<DL>
+<DD>Returns the DOM node this box came from: the element for element boxes and pseudo-elements, the Text node for text fragments, null
+ for anonymous boxes and line boxes.
+ <p>
+ 상자의 원본 DOM 노드를 반환한다: 요소 상자와 의사 요소는 요소, 텍스트 조각은 Text 노드, 익명 상자와 줄 상자는 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the node or null / 노드 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPseudo()"><!-- --></A><H3>
+getPseudo</H3>
+<PRE>
+public java.lang.String <B>getPseudo</B>()</PRE>
+<DL>
+<DD>Returns <code>before</code> or <code>after</code> for boxes generated by <code>::before</code>/<code>::after</code>, else null.
+ <p>
+ <code>::before</code>/<code>::after</code> 가 만든 상자이면 <code>before</code> 또는 <code>after</code>, 아니면 null 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>pseudo-element name or null / 의사 요소 이름 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStyle()"><!-- --></A><H3>
+getStyle</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A> <B>getStyle</B>()</PRE>
+<DL>
+<DD>Returns the computed style of the box.
+ <p>
+ 상자의 계산 스타일을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>style / 스타일</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getParent()"><!-- --></A><H3>
+getParent</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A> <B>getParent</B>()</PRE>
+<DL>
+<DD>Returns the parent box (null for the root).
+ <p>
+ 부모 상자를 반환한다(루트는 null).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>parent / 부모</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getChildren()"><!-- --></A><H3>
+getChildren</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&gt; <B>getChildren</B>()</PRE>
+<DL>
+<DD>Returns the children in paint order (unmodifiable).
+ <p>
+ 자식을 그리기 순서로 반환한다(수정 불가).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>children / 자식</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isInlineLevel()"><!-- --></A><H3>
+isInlineLevel</H3>
+<PRE>
+public boolean <B>isInlineLevel</B>()</PRE>
+<DL>
+<DD>Tells whether the box is inline-level (an inline fragment, an atomic inline or an inline replaced element).
+ <p>
+ 상자가 인라인 수준(인라인 조각, 원자적 인라인, 인라인 치환 요소)인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for inline-level / 인라인 수준이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getX()"><!-- --></A><H3>
+getX</H3>
+<PRE>
+public double <B>getX</B>()</PRE>
+<DL>
+<DD>Returns the absolute x of the border box.
+ <p>
+ border box 의 절대 x 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>x in CSS pixels / CSS 픽셀 x</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getY()"><!-- --></A><H3>
+getY</H3>
+<PRE>
+public double <B>getY</B>()</PRE>
+<DL>
+<DD>Returns the absolute y of the border box.
+ <p>
+ border box 의 절대 y 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>y in CSS pixels / CSS 픽셀 y</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getWidth()"><!-- --></A><H3>
+getWidth</H3>
+<PRE>
+public double <B>getWidth</B>()</PRE>
+<DL>
+<DD>Returns the width of the border box.
+ <p>
+ border box 의 너비를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>width / 너비</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHeight()"><!-- --></A><H3>
+getHeight</H3>
+<PRE>
+public double <B>getHeight</B>()</PRE>
+<DL>
+<DD>Returns the height of the border box.
+ <p>
+ border box 의 높이를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>height / 높이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMarginTop()"><!-- --></A><H3>
+getMarginTop</H3>
+<PRE>
+public double <B>getMarginTop</B>()</PRE>
+<DL>
+<DD>Returns the used top margin.
+ <p>
+ 사용된 위 margin 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>margin / margin</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMarginRight()"><!-- --></A><H3>
+getMarginRight</H3>
+<PRE>
+public double <B>getMarginRight</B>()</PRE>
+<DL>
+<DD>Returns the used right margin.
+ <p>
+ 사용된 오른쪽 margin 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>margin / margin</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMarginBottom()"><!-- --></A><H3>
+getMarginBottom</H3>
+<PRE>
+public double <B>getMarginBottom</B>()</PRE>
+<DL>
+<DD>Returns the used bottom margin.
+ <p>
+ 사용된 아래 margin 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>margin / margin</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMarginLeft()"><!-- --></A><H3>
+getMarginLeft</H3>
+<PRE>
+public double <B>getMarginLeft</B>()</PRE>
+<DL>
+<DD>Returns the used left margin.
+ <p>
+ 사용된 왼쪽 margin 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>margin / margin</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBorderTop()"><!-- --></A><H3>
+getBorderTop</H3>
+<PRE>
+public double <B>getBorderTop</B>()</PRE>
+<DL>
+<DD>Returns the used top border width.
+ <p>
+ 사용된 위 border 너비를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>width / 너비</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBorderRight()"><!-- --></A><H3>
+getBorderRight</H3>
+<PRE>
+public double <B>getBorderRight</B>()</PRE>
+<DL>
+<DD>Returns the used right border width.
+ <p>
+ 사용된 오른쪽 border 너비를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>width / 너비</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBorderBottom()"><!-- --></A><H3>
+getBorderBottom</H3>
+<PRE>
+public double <B>getBorderBottom</B>()</PRE>
+<DL>
+<DD>Returns the used bottom border width.
+ <p>
+ 사용된 아래 border 너비를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>width / 너비</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBorderLeft()"><!-- --></A><H3>
+getBorderLeft</H3>
+<PRE>
+public double <B>getBorderLeft</B>()</PRE>
+<DL>
+<DD>Returns the used left border width.
+ <p>
+ 사용된 왼쪽 border 너비를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>width / 너비</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPaddingTop()"><!-- --></A><H3>
+getPaddingTop</H3>
+<PRE>
+public double <B>getPaddingTop</B>()</PRE>
+<DL>
+<DD>Returns the used top padding.
+ <p>
+ 사용된 위 padding 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>padding / padding</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPaddingRight()"><!-- --></A><H3>
+getPaddingRight</H3>
+<PRE>
+public double <B>getPaddingRight</B>()</PRE>
+<DL>
+<DD>Returns the used right padding.
+ <p>
+ 사용된 오른쪽 padding 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>padding / padding</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPaddingBottom()"><!-- --></A><H3>
+getPaddingBottom</H3>
+<PRE>
+public double <B>getPaddingBottom</B>()</PRE>
+<DL>
+<DD>Returns the used bottom padding.
+ <p>
+ 사용된 아래 padding 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>padding / padding</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPaddingLeft()"><!-- --></A><H3>
+getPaddingLeft</H3>
+<PRE>
+public double <B>getPaddingLeft</B>()</PRE>
+<DL>
+<DD>Returns the used left padding.
+ <p>
+ 사용된 왼쪽 padding 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>padding / padding</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getContentX()"><!-- --></A><H3>
+getContentX</H3>
+<PRE>
+public double <B>getContentX</B>()</PRE>
+<DL>
+<DD>Returns the absolute x of the content box.
+ <p>
+ content box 의 절대 x 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>x / x</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getContentY()"><!-- --></A><H3>
+getContentY</H3>
+<PRE>
+public double <B>getContentY</B>()</PRE>
+<DL>
+<DD>Returns the absolute y of the content box.
+ <p>
+ content box 의 절대 y 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>y / y</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getContentWidth()"><!-- --></A><H3>
+getContentWidth</H3>
+<PRE>
+public double <B>getContentWidth</B>()</PRE>
+<DL>
+<DD>Returns the width of the content box.
+ <p>
+ content box 의 너비를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>width / 너비</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getContentHeight()"><!-- --></A><H3>
+getContentHeight</H3>
+<PRE>
+public double <B>getContentHeight</B>()</PRE>
+<DL>
+<DD>Returns the height of the content box.
+ <p>
+ content box 의 높이를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>height / 높이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBaseline()"><!-- --></A><H3>
+getBaseline</H3>
+<PRE>
+public double <B>getBaseline</B>()</PRE>
+<DL>
+<DD>Returns the absolute y of the baseline of a line, text fragment, inline fragment, marker, atomic inline or replaced box (NaN where a
+ box has no baseline).
+ <p>
+ 줄, 텍스트 조각, 인라인 조각, 표식, 원자적 인라인, 치환 상자의 기준선 절대 y 를 반환한다(기준선이 없으면 NaN).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>baseline y or NaN / 기준선 y 또는 NaN</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getText()"><!-- --></A><H3>
+getText</H3>
+<PRE>
+public java.lang.String <B>getText</B>()</PRE>
+<DL>
+<DD>Returns the painted text of a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.Type.html#TEXT"><CODE>LayoutBox.Type.TEXT</CODE></A> or <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.Type.html#MARKER"><CODE>LayoutBox.Type.MARKER</CODE></A> box: white space is collapsed and <code>text-transform</code>
+ applied; null for other boxes.
+ <p>
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.Type.html#TEXT"><CODE>LayoutBox.Type.TEXT</CODE></A> 또는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.Type.html#MARKER"><CODE>LayoutBox.Type.MARKER</CODE></A> 상자의 그려지는 텍스트를 반환한다. 공백은 접혀 있고 <code>text-transform</code> 이 적용되어 있다. 다른 상자는 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>text or null / 텍스트 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSourceStart()"><!-- --></A><H3>
+getSourceStart</H3>
+<PRE>
+public int <B>getSourceStart</B>()</PRE>
+<DL>
+<DD>Returns the start of the source range in the data of the Text node (the first character that the fragment consumed).
+ <p>
+ 조각이 소비한 Text 노드 데이터의 원본 범위 시작을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>offset / 위치</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSourceEnd()"><!-- --></A><H3>
+getSourceEnd</H3>
+<PRE>
+public int <B>getSourceEnd</B>()</PRE>
+<DL>
+<DD>Returns the end (exclusive) of the source range in the data of the Text node.
+ <p>
+ Text 노드 데이터의 원본 범위 끝(제외)을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>offset / 위치</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRenderedLegend()"><!-- --></A><H3>
+getRenderedLegend</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A> <B>getRenderedLegend</B>()</PRE>
+<DL>
+<DD>Returns the rendered legend of a fieldset box: the first legend child that is in the normal flow. It sits over the top border of the
+ fieldset, which the painter breaks at the legend.
+ <p>
+ fieldset 상자의 렌더링되는 legend 를 반환한다: 정상 흐름에 있는 첫 legend 자식. fieldset 의 위쪽 경계선 위에 놓이며 그리는 쪽이 legend 에서 경계선을 끊는다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the legend box or null / legend 상자 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFont()"><!-- --></A><H3>
+getFont</H3>
+<PRE>
+public java.awt.Font <B>getFont</B>()</PRE>
+<DL>
+<DD>Returns the font used to measure and paint a text fragment.
+ <p>
+ 텍스트 조각을 측정하고 그릴 때 쓰는 글꼴을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>font or null / 글꼴 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isFontBlocked()"><!-- --></A><H3>
+isFontBlocked</H3>
+<PRE>
+public boolean <B>isFontBlocked</B>()</PRE>
+<DL>
+<DD>Tells whether a text fragment is invisible because it waits for a web font in the block period of its <code>font-display</code> (CSS Fonts 4 section 4.8):
+ the fragment takes the space of the fallback font (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getFont()"><CODE>getFont()</CODE></A>) and the renderer does not paint it.
+ <p>
+ 텍스트 조각이 <code>font-display</code> 의 block 기간에 웹 글꼴을 기다려 보이지 않는지 알려 준다(CSS Fonts 4 4.8 절): 조각은 대체 글꼴(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getFont()"><CODE>getFont()</CODE></A>)의 자리를 차지하고
+ 렌더러는 그리지 않는다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if the text is not painted / 텍스트를 그리지 않으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getAscent()"><!-- --></A><H3>
+getAscent</H3>
+<PRE>
+public double <B>getAscent</B>()</PRE>
+<DL>
+<DD>Returns the ascent of the font of a text fragment.
+ <p>
+ 텍스트 조각 글꼴의 ascent 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>ascent / ascent</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDescent()"><!-- --></A><H3>
+getDescent</H3>
+<PRE>
+public double <B>getDescent</B>()</PRE>
+<DL>
+<DD>Returns the descent of the font of a text fragment.
+ <p>
+ 텍스트 조각 글꼴의 descent 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>descent / descent</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBidiLevel()"><!-- --></A><H3>
+getBidiLevel</H3>
+<PRE>
+public int <B>getBidiLevel</B>()</PRE>
+<DL>
+<DD>Returns the Unicode bidirectional embedding level of a text fragment (odd levels run right to left).
+ <p>
+ 텍스트 조각의 유니코드 양방향 임베딩 수준을 반환한다(홀수는 오른쪽에서 왼쪽).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>level / 수준</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTextDecoration()"><!-- --></A><H3>
+getTextDecoration</H3>
+<PRE>
+public int <B>getTextDecoration</B>()</PRE>
+<DL>
+<DD>Returns the text decorations that apply to a text fragment as a bit set of the <code>DECORATION_*</code> constants.
+ <p>
+ 텍스트 조각에 적용되는 텍스트 장식을 <code>DECORATION_*</code> 상수의 비트 집합으로 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>decoration bits / 장식 비트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLetterSpacing()"><!-- --></A><H3>
+getLetterSpacing</H3>
+<PRE>
+public double <B>getLetterSpacing</B>()</PRE>
+<DL>
+<DD>Returns the letter spacing that was added after every character of a text fragment.
+ <p>
+ 텍스트 조각의 모든 글자 뒤에 더해진 글자 간격을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>spacing in pixels / 픽셀 단위 간격</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getReplacedContent()"><!-- --></A><H3>
+getReplacedContent</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/ReplacedContent.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">ReplacedContent</A> <B>getReplacedContent</B>()</PRE>
+<DL>
+<DD>Returns the content of a replaced element.
+ <p>
+ 치환 요소의 콘텐츠를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>content or null / 콘텐츠 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isClipsContent()"><!-- --></A><H3>
+isClipsContent</H3>
+<PRE>
+public boolean <B>isClipsContent</B>()</PRE>
+<DL>
+<DD>Tells whether the box clips its content (<code>overflow</code> other than <code>visible</code>); the clip is the padding box.
+ <p>
+ 상자가 콘텐츠를 자르는지(<code>overflow</code> 가 <code>visible</code> 이 아님) 알려 준다. 자르는 영역은 padding box 이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if content is clipped / 콘텐츠를 자르면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRelativeOffsetX()"><!-- --></A><H3>
+getRelativeOffsetX</H3>
+<PRE>
+public double <B>getRelativeOffsetX</B>()</PRE>
+<DL>
+<DD>Returns the horizontal offset of <code>position:relative</code> that is already part of the geometry.
+ <p>
+ 이미 기하에 포함된 <code>position:relative</code> 의 가로 오프셋을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>offset / 오프셋</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRelativeOffsetY()"><!-- --></A><H3>
+getRelativeOffsetY</H3>
+<PRE>
+public double <B>getRelativeOffsetY</B>()</PRE>
+<DL>
+<DD>Returns the vertical offset of <code>position:relative</code> that is already part of the geometry.
+ <p>
+ 이미 기하에 포함된 <code>position:relative</code> 의 세로 오프셋을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>offset / 오프셋</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFloatSide()"><!-- --></A><H3>
+getFloatSide</H3>
+<PRE>
+public int <B>getFloatSide</B>()</PRE>
+<DL>
+<DD>Returns the side a box floats to: <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#FLOAT_LEFT"><CODE>FLOAT_LEFT</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#FLOAT_RIGHT"><CODE>FLOAT_RIGHT</CODE></A> or <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#FLOAT_NONE"><CODE>FLOAT_NONE</CODE></A>. An absolutely positioned
+ element never floats.
+ <p>
+ 상자가 떠 있는 방향을 반환한다: <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#FLOAT_LEFT"><CODE>FLOAT_LEFT</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#FLOAT_RIGHT"><CODE>FLOAT_RIGHT</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#FLOAT_NONE"><CODE>FLOAT_NONE</CODE></A>. 절대 배치 요소는 뜨지 않는다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the float side / float 방향</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isFloat()"><!-- --></A><H3>
+isFloat</H3>
+<PRE>
+public boolean <B>isFloat</B>()</PRE>
+<DL>
+<DD>Tells whether the box is a float.
+ <p>
+ 상자가 float 인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for floats / float 이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPositionKind()"><!-- --></A><H3>
+getPositionKind</H3>
+<PRE>
+public int <B>getPositionKind</B>()</PRE>
+<DL>
+<DD>Returns the position kind of the box: one of the <code>POS_*</code> constants.
+ <p>
+ 상자의 위치 종류를 반환한다: <code>POS_*</code> 상수 중 하나.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the position kind / 위치 종류</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isPositioned()"><!-- --></A><H3>
+isPositioned</H3>
+<PRE>
+public boolean <B>isPositioned</B>()</PRE>
+<DL>
+<DD>Tells whether the box is positioned (<code>position</code> other than <code>static</code>).
+ <p>
+ 상자가 위치 지정 상자(<code>position</code> 이 <code>static</code> 이 아님)인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if positioned / 위치 지정이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isAbsolutelyPositioned()"><!-- --></A><H3>
+isAbsolutelyPositioned</H3>
+<PRE>
+public boolean <B>isAbsolutelyPositioned</B>()</PRE>
+<DL>
+<DD>Tells whether the box is absolutely positioned (<code>absolute</code> or <code>fixed</code>), that is taken out of the flow.
+ <p>
+ 상자가 절대 배치(<code>absolute</code> 또는 <code>fixed</code>)되어 흐름에서 빠졌는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if out of the flow by position / 위치로 흐름에서 빠졌으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isFixedPosition()"><!-- --></A><H3>
+isFixedPosition</H3>
+<PRE>
+public boolean <B>isFixedPosition</B>()</PRE>
+<DL>
+<DD>Tells whether the box is fixed to the viewport (<code>position:fixed</code>): the renderer keeps it at the same place of the viewport
+ when the page scrolls. The geometry of such a box is the one at scroll offset 0.
+ <p>
+ 상자가 뷰포트에 고정(<code>position:fixed</code>)되었는지 알려 준다: 렌더러는 페이지가 스크롤되어도 뷰포트의 같은 자리에 둔다. 이런 상자의 기하는
+ 스크롤 오프셋 0 일 때의 값이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for fixed boxes / fixed 이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTransform()"><!-- --></A><H3>
+getTransform</H3>
+<PRE>
+public java.awt.geom.AffineTransform <B>getTransform</B>()</PRE>
+<DL>
+<DD>Returns the 2D transform of the box in document coordinates (<code>transform</code> applied around <code>transform-origin</code>,
+ plan item P10-06): the matrix that maps the laid-out coordinates of the box and its content to where they are painted, in the
+ coordinates of the parent (the transforms of the ancestors are not included). The layout is not changed by a transform.
+ <p>
+ 상자의 2D 변환을 문서 좌표로 반환한다(<code>transform-origin</code> 둘레에 적용한 <code>transform</code>, 계획 P10-06): 상자와 그 내용의 배치된 좌표를 그려지는 곳으로
+ 옮기는 행렬이며 부모의 좌표로 나타낸다(조상의 변환은 포함하지 않는다). 변환은 배치를 바꾸지 않는다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a copy of the transform, or null if the box has none / 변환의 사본. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isTextOfInline(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><!-- --></A><H3>
+isTextOfInline</H3>
+<PRE>
+public boolean <B>isTextOfInline</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;text)</PRE>
+<DL>
+<DD>Tells whether a text box belongs to the inline element that this inline fragment is a part of (the text is in the element or in an inline element
+ inside it). The text boxes of an inline element are siblings of its fragment in the line box, not its children, so the renderer asks this
+ to find the text of an inline element (<code>background-clip: text</code>).
+ <p>
+ 텍스트 상자가 이 인라인 조각이 속한 인라인 요소에 속하는지(요소 안이나 그 안의 인라인 요소 안에 있는 텍스트) 알려 준다. 인라인 요소의 텍스트 상자는 줄 상자 안에서
+ 조각의 자식이 아니라 형제이므로, 렌더러는 인라인 요소의 텍스트를 찾을 때 이것을 묻는다(<code>background-clip: text</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the TEXT box / TEXT 상자
+<DT><B>Returns:</B><DD>true if the text is inside the inline element of this fragment / 텍스트가 이 조각의 인라인 요소 안에 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSticky()"><!-- --></A><H3>
+getSticky</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StickyConstraint.html" title="class in org.duckdns.hjow.swingwebpanel.layout">StickyConstraint</A> <B>getSticky</B>()</PRE>
+<DL>
+<DD>Returns the sticky constraint of the box: the box is <code>position:sticky</code> with at least one inset other than <code>auto</code>
+ and can be shifted. The renderer shifts it by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StickyConstraint.html#shift(java.awt.geom.Rectangle2D)"><CODE>StickyConstraint.shift(java.awt.geom.Rectangle2D)</CODE></A> of the viewport while the page scrolls; the geometry of the
+ box is the one without the shift.
+ <p>
+ 상자의 sticky 제약을 반환한다: 상자가 <code>position:sticky</code> 이고 <code>auto</code> 가 아닌 오프셋이 하나 이상 있어 옮길 수 있는 경우이다. 렌더러는 페이지가
+ 스크롤되는 동안 뷰포트에 대한 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StickyConstraint.html#shift(java.awt.geom.Rectangle2D)"><CODE>StickyConstraint.shift(java.awt.geom.Rectangle2D)</CODE></A> 만큼 옮긴다. 상자의 기하는 옮기기 전의 것이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the constraint or null / 제약 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFullTransform()"><!-- --></A><H3>
+getFullTransform</H3>
+<PRE>
+public java.awt.geom.AffineTransform <B>getFullTransform</B>()</PRE>
+<DL>
+<DD>Tells whether a box or an ancestor of it has a transform, and returns the transform of the box in the coordinates of the document:
+ the transforms of the ancestors applied after the transform of the box itself.
+ <p>
+ 상자나 그 조상에 변환이 있는지 알려 주며 상자의 변환을 문서 좌표로 반환한다: 상자 자신의 변환 뒤에 조상의 변환을 적용한 것.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the full transform, or null if neither the box nor an ancestor has one / 전체 변환. 상자도 조상도 변환이 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getContainingBlock()"><!-- --></A><H3>
+getContainingBlock</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A> <B>getContainingBlock</B>()</PRE>
+<DL>
+<DD>Returns the box that is the containing block of an absolutely positioned box (the nearest positioned ancestor box), or null for the
+ initial containing block (or the viewport for fixed boxes). For all other boxes the result is the parent block box.
+ <p>
+ 절대 배치 상자의 포함 블록 상자(가장 가까운 위치 지정 조상 상자)를 반환한다. 초기 포함 블록(fixed 이면 뷰포트)이면 null. 다른 상자는 부모 블록 상자이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the containing block box or null / 포함 블록 상자 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasZIndex()"><!-- --></A><H3>
+hasZIndex</H3>
+<PRE>
+public boolean <B>hasZIndex</B>()</PRE>
+<DL>
+<DD>Tells whether <code>z-index</code> is an integer for this positioned box (not <code>auto</code>).
+ <p>
+ 위치 지정 상자의 <code>z-index</code> 가 정수(<code>auto</code> 가 아님)인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if an integer z-index applies / 정수 z-index 가 적용되면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getZIndex()"><!-- --></A><H3>
+getZIndex</H3>
+<PRE>
+public int <B>getZIndex</B>()</PRE>
+<DL>
+<DD>Returns the integer <code>z-index</code> (0 if <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#hasZIndex()"><CODE>hasZIndex()</CODE></A> is false).
+ <p>
+ 정수 <code>z-index</code> 를 반환한다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#hasZIndex()"><CODE>hasZIndex()</CODE></A> 가 false 이면 0).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the z-index / z-index</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isStackingContext()"><!-- --></A><H3>
+isStackingContext</H3>
+<PRE>
+public boolean <B>isStackingContext</B>()</PRE>
+<DL>
+<DD>Tells whether the box forms a stacking context: the root, positioned boxes with an integer <code>z-index</code>, fixed boxes and
+ boxes with <code>opacity</code> below 1.
+ <p>
+ 상자가 쌓임 맥락을 만드는지 알려 준다: 루트, 정수 <code>z-index</code> 를 가진 위치 지정 상자, fixed 상자, <code>opacity</code> 가 1 보다 작은 상자.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if a stacking context / 쌓임 맥락이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOrder()"><!-- --></A><H3>
+getOrder</H3>
+<PRE>
+public int <B>getOrder</B>()</PRE>
+<DL>
+<DD>Returns the sequence number of the box in source (tree) order; boxes that are painted in tree order are ordered by it.
+ <p>
+ 소스(트리) 순서의 상자 번호를 반환한다. 트리 순서로 그리는 상자는 이 번호로 순서가 정해진다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the sequence number / 번호</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isFlexContainer()"><!-- --></A><H3>
+isFlexContainer</H3>
+<PRE>
+public boolean <B>isFlexContainer</B>()</PRE>
+<DL>
+<DD>Tells whether the box is a flex container (<code>display:flex</code> or <code>inline-flex</code>).
+ <p>
+ 상자가 플렉스 컨테이너(<code>display:flex</code> 또는 <code>inline-flex</code>)인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for flex containers / 플렉스 컨테이너이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isFlexItem()"><!-- --></A><H3>
+isFlexItem</H3>
+<PRE>
+public boolean <B>isFlexItem</B>()</PRE>
+<DL>
+<DD>Tells whether the box is a flex item. Flex items are painted like inline blocks, in the order-modified document order, which is the
+ order of the children of their flex container.
+ <p>
+ 상자가 플렉스 항목인지 알려 준다. 플렉스 항목은 inline-block 처럼, order 를 반영한 문서 순서(플렉스 컨테이너 자식의 순서)로 그린다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for flex items / 플렉스 항목이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isGridContainer()"><!-- --></A><H3>
+isGridContainer</H3>
+<PRE>
+public boolean <B>isGridContainer</B>()</PRE>
+<DL>
+<DD>Tells whether the box is a grid container (<code>display:grid</code> or <code>inline-grid</code>).
+ <p>
+ 상자가 그리드 컨테이너(<code>display:grid</code> 또는 <code>inline-grid</code>)인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for grid containers / 그리드 컨테이너이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isGridItem()"><!-- --></A><H3>
+isGridItem</H3>
+<PRE>
+public boolean <B>isGridItem</B>()</PRE>
+<DL>
+<DD>Tells whether the box is a grid item. Grid items are painted like inline blocks, in the order-modified document order, which is the
+ order of the children of their grid container.
+ <p>
+ 상자가 그리드 항목인지 알려 준다. 그리드 항목은 inline-block 처럼, order 를 반영한 문서 순서(그리드 컨테이너 자식의 순서)로 그린다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for grid items / 그리드 항목이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isMulticolContainer()"><!-- --></A><H3>
+isMulticolContainer</H3>
+<PRE>
+public boolean <B>isMulticolContainer</B>()</PRE>
+<DL>
+<DD>Tells whether the box is a multi-column container; its children are the column boxes (anonymous blocks, one per column).
+ <p>
+ 상자가 다단 컨테이너인지 알려 준다. 자식은 열 상자(열마다 익명 블록 하나)이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for multi-column containers / 다단 컨테이너이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isVertical()"><!-- --></A><H3>
+isVertical</H3>
+<PRE>
+public boolean <B>isVertical</B>()</PRE>
+<DL>
+<DD>Tells whether the box is laid out in a vertical writing mode (<code>vertical-rl</code>, <code>vertical-lr</code>,
+ <code>sideways-rl</code>, <code>sideways-lr</code>).
+ <p>
+ 상자가 세로 쓰기 모드(<code>vertical-rl</code>, <code>vertical-lr</code>, <code>sideways-rl</code>, <code>sideways-lr</code>)로 배치되는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for vertical boxes / 세로 상자이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isOrthogonalFlowRoot()"><!-- --></A><H3>
+isOrthogonalFlowRoot</H3>
+<PRE>
+public boolean <B>isOrthogonalFlowRoot</B>()</PRE>
+<DL>
+<DD>Tells whether the box establishes an orthogonal flow (its writing mode is perpendicular to that of its containing block).
+ <p>
+ 상자가 직교 흐름을 만드는지(쓰기 모드가 포함 블록의 쓰기 모드와 수직인지) 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for orthogonal flow roots / 직교 흐름 루트이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTextRotation()"><!-- --></A><H3>
+getTextRotation</H3>
+<PRE>
+public int <B>getTextRotation</B>()</PRE>
+<DL>
+<DD>Returns the rotation of the glyphs of a text fragment or a list marker in quarter turns clockwise: 0 for text on a horizontal
+ line, 1 for sideways text in a vertical line of <code>vertical-rl</code> or <code>vertical-lr</code> (the tops of the glyphs
+ point to the right) and 3 for <code>sideways-lr</code> (the tops point to the left).
+ <p>
+ 텍스트 조각이나 목록 표식의 글리프 회전을 시계 방향 사분원 수로 반환한다: 가로 줄의 텍스트는 0, <code>vertical-rl</code> 이나 <code>vertical-lr</code> 의 세로 줄에서
+ 눕힌 텍스트는 1(글자의 위쪽이 오른쪽을 향함), <code>sideways-lr</code> 은 3(위쪽이 왼쪽을 향함).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of quarter turns / 사분원 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTextAdvance()"><!-- --></A><H3>
+getTextAdvance</H3>
+<PRE>
+public double <B>getTextAdvance</B>()</PRE>
+<DL>
+<DD>Returns the advance of a text fragment along its line: the width of the fragment for text on a horizontal line and its height
+ for rotated text.
+ <p>
+ 텍스트 조각의 줄 방향 advance 를 반환한다: 가로 줄의 텍스트는 조각의 너비, 회전한 텍스트는 높이이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the advance / advance</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getGlyphMode()"><!-- --></A><H3>
+getGlyphMode</H3>
+<PRE>
+public int <B>getGlyphMode</B>()</PRE>
+<DL>
+<DD>Returns how the glyphs of a text fragment of vertical text are set (CSS Writing Modes Level 3): <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#GLYPHS_SIDEWAYS"><CODE>GLYPHS_SIDEWAYS</CODE></A> (the
+ fragment is one run that is rotated, see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getTextRotation()"><CODE>getTextRotation()</CODE></A>; also every fragment of horizontal text), <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#GLYPHS_UPRIGHT"><CODE>GLYPHS_UPRIGHT</CODE></A>
+ (the characters stand upright, one cell of one em along the line for each character cluster, see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getClusterOffsets()"><CODE>getClusterOffsets()</CODE></A>) or
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#GLYPHS_COMBINED"><CODE>GLYPHS_COMBINED</CODE></A> (<code>text-combine-upright</code>: the text is composed horizontally into the space of one upright
+ character, one em along the line).
+ <p>
+ 세로쓰기 텍스트 조각의 글리프를 놓는 방식을 반환한다(CSS Writing Modes Level 3): <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#GLYPHS_SIDEWAYS"><CODE>GLYPHS_SIDEWAYS</CODE></A>(조각이 회전한 하나의 구간이다.
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getTextRotation()"><CODE>getTextRotation()</CODE></A> 참조. 가로쓰기 텍스트의 모든 조각도 같다), <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#GLYPHS_UPRIGHT"><CODE>GLYPHS_UPRIGHT</CODE></A>(글자가 똑바로 서며 글자 클러스터마다 줄을 따라 1em 한 칸이다.
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getClusterOffsets()"><CODE>getClusterOffsets()</CODE></A> 참조), <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#GLYPHS_COMBINED"><CODE>GLYPHS_COMBINED</CODE></A>(<code>text-combine-upright</code>: 텍스트를 가로로 짜서 똑바로 선 글자 하나의 공간, 줄을 따라
+ 1em 에 넣는다).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>one of the <code>GLYPHS_*</code> constants / <code>GLYPHS_*</code> 상수 중 하나</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getClusterOffsets()"><!-- --></A><H3>
+getClusterOffsets</H3>
+<PRE>
+public int[] <B>getClusterOffsets</B>()</PRE>
+<DL>
+<DD>Returns the start offsets of the character clusters of the text of an upright fragment followed by the length of the text: cluster
+ <i>k</i> is the range from element <i>k</i> to element <i>k+1</i> and takes the <i>k</i>-th cell of the fragment along the line.
+ <p>
+ 똑바로 선 조각의 텍스트의 글자 클러스터 시작 위치와 마지막에 텍스트 길이를 반환한다: 클러스터 <i>k</i> 는 원소 <i>k</i> 부터 <i>k+1</i> 까지의 범위이며 조각의
+ 줄을 따라 <i>k</i> 번째 칸을 차지한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the offsets (a new array) / 위치(새 배열)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getColumnCount()"><!-- --></A><H3>
+getColumnCount</H3>
+<PRE>
+public int <B>getColumnCount</B>()</PRE>
+<DL>
+<DD>Returns the number of columns that a multi-column container was laid out in (the used columns, including the overflow columns that
+ appear when the content does not fit the height).
+ <p>
+ 다단 컨테이너가 배치된 열의 수를 반환한다(내용이 높이에 들어가지 않을 때 생기는 넘침 열 포함).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of column boxes / 열 상자 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getColumnRules()"><!-- --></A><H3>
+getColumnRules</H3>
+<PRE>
+public double[][] <B>getColumnRules</B>()</PRE>
+<DL>
+<DD>Returns the column rules of a multi-column container in document coordinates as {x, y, width, height} rectangles (empty if the
+ rule style is none or the container has fewer than two columns). The renderer paints each rectangle as a left border of the width
+ and style of <code>column-rule</code>.
+ <p>
+ 다단 컨테이너의 열 구분선을 문서 좌표의 {x, y, 너비, 높이} 사각형으로 반환한다(구분선 스타일이 none 이거나 열이 둘 미만이면 비어 있음). 렌더러는 각 사각형을
+ <code>column-rule</code> 의 너비와 스타일을 가진 왼쪽 border 로 그린다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the rectangles (a copy) / 사각형(복사본)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getGridRectangle()"><!-- --></A><H3>
+getGridRectangle</H3>
+<PRE>
+public double[] <B>getGridRectangle</B>()</PRE>
+<DL>
+<DD>Returns the grid rectangle of a table box in document coordinates as {x, y, width, height}: the area that the table background, the
+ table border and the cells occupy (the captions are outside of it). For other boxes it is the border box.
+ <p>
+ 표 상자의 격자 사각형을 문서 좌표의 {x, y, 너비, 높이}로 반환한다: 표 배경, 표 border, 셀이 차지하는 영역(caption 은 그 밖). 다른 상자는 border box 이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the rectangle / 사각형</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isCollapsedBorderModel()"><!-- --></A><H3>
+isCollapsedBorderModel</H3>
+<PRE>
+public boolean <B>isCollapsedBorderModel</B>()</PRE>
+<DL>
+<DD>Tells whether the borders of a table, its rows and its cells are collapsed (<code>border-collapse:collapse</code>): they are then
+ painted by the table as <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getCollapsedBorders()"><CODE>segments</CODE></A>, not by the boxes.
+ <p>
+ 표, 그 행, 그 셀의 border 가 합쳐지는지(<code>border-collapse:collapse</code>) 알려 준다. 그러면 상자가 아니라 표가 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getCollapsedBorders()"><CODE>선분</CODE></A>으로 그린다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if the borders are collapsed / 합쳐지면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCollapsedBorders()"><!-- --></A><H3>
+getCollapsedBorders</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TableBorder.html" title="class in org.duckdns.hjow.swingwebpanel.layout">TableBorder</A>&gt; <B>getCollapsedBorders</B>()</PRE>
+<DL>
+<DD>Returns the collapsed border segments of a table in document coordinates (empty for other boxes and for the separated model).
+ <p>
+ 표의 합쳐진 border 선분을 문서 좌표로 반환한다(다른 상자와 분리 모델은 빈 목록).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the segments in painting order / 그리기 순서의 선분</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isHiddenEmptyCell()"><!-- --></A><H3>
+isHiddenEmptyCell</H3>
+<PRE>
+public boolean <B>isHiddenEmptyCell</B>()</PRE>
+<DL>
+<DD>Tells whether a table cell is hidden because it is empty and <code>empty-cells:hide</code> applies: neither its background nor
+ its border is painted.
+ <p>
+ 셀이 비어 있고 <code>empty-cells:hide</code> 가 적용되어 숨겨지는지 알려 준다: 배경도 border 도 그리지 않는다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if hidden / 숨겨지면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTableRow()"><!-- --></A><H3>
+getTableRow</H3>
+<PRE>
+public int <B>getTableRow</B>()</PRE>
+<DL>
+<DD>Returns the first grid row of a table cell or row (0-based).
+ <p>
+ 표 셀이나 행의 첫 격자 행(0부터)을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the row index / 행 번호</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTableColumn()"><!-- --></A><H3>
+getTableColumn</H3>
+<PRE>
+public int <B>getTableColumn</B>()</PRE>
+<DL>
+<DD>Returns the first grid column of a table cell or column (0-based).
+ <p>
+ 표 셀이나 열의 첫 격자 열(0부터)을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the column index / 열 번호</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRowSpan()"><!-- --></A><H3>
+getRowSpan</H3>
+<PRE>
+public int <B>getRowSpan</B>()</PRE>
+<DL>
+<DD>Returns the number of grid rows that a table cell spans (after the limit to its row group).
+ <p>
+ 표 셀이 차지하는 격자 행 수를 반환한다(행 그룹 한도 적용 후).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the row span / 행 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getColumnSpan()"><!-- --></A><H3>
+getColumnSpan</H3>
+<PRE>
+public int <B>getColumnSpan</B>()</PRE>
+<DL>
+<DD>Returns the number of grid columns that a table cell or column spans.
+ <p>
+ 표 셀이나 열이 차지하는 격자 열 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the column span / 열 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getClipRectangle()"><!-- --></A><H3>
+getClipRectangle</H3>
+<PRE>
+public double[] <B>getClipRectangle</B>()</PRE>
+<DL>
+<DD>Returns the rectangle of <code>clip: rect()</code> of an absolutely positioned box in document coordinates as {x, y, width, height},
+ or null if the box has no such clip.
+ <p>
+ 절대 배치 상자의 <code>clip: rect()</code> 영역을 문서 좌표의 {x, y, 너비, 높이}로 반환한다. 그런 자르기가 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the rectangle or null / 사각형 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="contains(double, double)"><!-- --></A><H3>
+contains</H3>
+<PRE>
+public boolean <B>contains</B>(double&nbsp;px,
+                        double&nbsp;py)</PRE>
+<DL>
+<DD>Tells whether a point (document coordinates) lies inside the border box.
+ <p>
+ 점(문서 좌표)이 border box 안에 있는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>px</CODE> - x / x<DD><CODE>py</CODE> - y / y
+<DT><B>Returns:</B><DD>true if inside / 안에 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toString()"><!-- --></A><H3>
+toString</H3>
+<PRE>
+public java.lang.String <B>toString</B>()</PRE>
+<DL>
+<DD>Returns a short description for diagnostics.
+ <p>
+ 진단용 짧은 설명을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>toString</CODE> in class <CODE>java.lang.Object</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>description / 설명</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPlaceholderStyle()"><!-- --></A><H3>
+getPlaceholderStyle</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A> <B>getPlaceholderStyle</B>()</PRE>
+<DL>
+<DD>Returns the computed style of the <code>::placeholder</code> pseudo-element of a text field or a text area (the color of the
+ placeholder text), or null for the other boxes.
+ <p>
+ 텍스트 필드나 텍스트 영역의 <code>::placeholder</code> 의사 요소의 계산 스타일(placeholder 글의 색)을 반환한다. 다른 상자는 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the style or null / 스타일. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMarkerImage()"><!-- --></A><H3>
+getMarkerImage</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A> <B>getMarkerImage</B>()</PRE>
+<DL>
+<DD>Returns the image that a MARKER box shows (<code>list-style-image</code>), or null for a text marker.
+ <p>
+ MARKER 상자가 보여 주는 이미지(<code>list-style-image</code>)를 반환한다. 텍스트 표식이면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the image value or null / 이미지 값 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFileButtonStyle()"><!-- --></A><H3>
+getFileButtonStyle</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A> <B>getFileButtonStyle</B>()</PRE>
+<DL>
+<DD>Returns the computed style of the <code>::file-selector-button</code> pseudo-element of a file control (the button that the painter draws), or null if no
+ rule targets it or the box is not a file control.
+ <p>
+ 파일 컨트롤의 <code>::file-selector-button</code> 의사 요소(그리는 쪽이 그리는 단추)의 계산 스타일을 반환한다. 그것을 가리키는 규칙이 없거나 파일 컨트롤이 아니면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the style or null / 스타일. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFileButtonDeclared()"><!-- --></A><H3>
+getFileButtonDeclared</H3>
+<PRE>
+public java.util.BitSet <B>getFileButtonDeclared</B>()</PRE>
+<DL>
+<DD>Returns the properties that the rules of <code>::file-selector-button</code> declare (the painter keeps its own look for the others), or null.
+ <p>
+ <code>::file-selector-button</code> 규칙이 선언하는 속성을 반환한다(그리는 쪽은 나머지 속성에 대해 자신의 모양을 지킨다). 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a copy of the property ids, or null / 속성 id 의 복사본. 없으면 null</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FontFeatures.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.Type.html" title="enum in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="LayoutBox.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

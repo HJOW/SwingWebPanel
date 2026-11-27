@@ -1,0 +1,305 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+StyleSource
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="StyleSource";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StickyConstraint.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TableBorder.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/StyleSource.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="StyleSource.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.layout</FONT>
+<BR>
+Interface StyleSource</H2>
+<DL>
+<DT><B>All Known Implementing Classes:</B> <DD><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/CssStyleSource.html" title="class in org.duckdns.hjow.swingwebpanel.layout">CssStyleSource</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public interface <B>StyleSource</B></DL>
+</PRE>
+
+<P>
+Supplies the computed styles that the layout engine needs. The CSS style resolver implements it (or is adapted to it); tests may supply
+ fixed styles. Both methods are called on the thread that runs the layout and must return immutable <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade"><CODE>ComputedStyle</CODE></A> objects.
+ <p>
+ 레이아웃 엔진이 필요로 하는 계산 스타일을 제공한다. CSS 스타일 리졸버가 구현하거나 어댑터로 연결하며 시험은 고정 스타일을 줄 수 있다. 두 메서드는
+ 레이아웃을 실행하는 스레드에서 호출되며 불변 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade"><CODE>ComputedStyle</CODE></A> 을 반환해야 한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StyleSource.html#getHighlightStyle(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)">getHighlightStyle</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element,
+                  java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the style of the custom highlight pseudo-element <code>::highlight(name)</code> of an element (CSS Custom Highlight API 1): the highlight
+ properties (<code>color</code>, <code>background-color</code>, <code>text-decoration</code>...) inherit from the highlight of the parent element when no
+ rule sets them, the other properties are those of the element; <code>color</code> may be the keyword <code>currentcolor</code> (the color of the text).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.BitSet</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StyleSource.html#getPseudoDeclared(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)">getPseudoDeclared</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element,
+                  java.lang.String&nbsp;pseudo)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the properties that the rules of a pseudo-element declare (the renderer of a part that it draws itself, such as the button of a file control,
+ keeps its own look for the others).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StyleSource.html#getPseudoStyle(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)">getPseudoStyle</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element,
+               java.lang.String&nbsp;pseudo)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the computed style of a generated pseudo-element (<code>before</code> or <code>after</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StyleSource.html#getStyle(org.duckdns.hjow.swingwebpanel.dom.Element)">getStyle</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the computed style of an element.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getStyle(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+getStyle</H3>
+<PRE>
+<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A> <B>getStyle</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element)</PRE>
+<DL>
+<DD>Returns the computed style of an element.
+ <p>
+ 요소의 계산 스타일을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>element</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>its style, never null / 스타일(null 이 아님)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPseudoStyle(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)"><!-- --></A><H3>
+getPseudoStyle</H3>
+<PRE>
+<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A> <B>getPseudoStyle</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element,
+                             java.lang.String&nbsp;pseudo)</PRE>
+<DL>
+<DD>Returns the computed style of a generated pseudo-element (<code>before</code> or <code>after</code>).
+ <p>
+ 생성되는 의사 요소(<code>before</code> 또는 <code>after</code>)의 계산 스타일을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>element</CODE> - the originating element / 기원 요소<DD><CODE>pseudo</CODE> - <code>before</code> or <code>after</code> / <code>before</code> 또는 <code>after</code>
+<DT><B>Returns:</B><DD>the style, or null if no rule generates the pseudo-element / 스타일. 규칙이 의사 요소를 만들지 않으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHighlightStyle(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)"><!-- --></A><H3>
+getHighlightStyle</H3>
+<PRE>
+<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A> <B>getHighlightStyle</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element,
+                                java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns the style of the custom highlight pseudo-element <code>::highlight(name)</code> of an element (CSS Custom Highlight API 1): the highlight
+ properties (<code>color</code>, <code>background-color</code>, <code>text-decoration</code>...) inherit from the highlight of the parent element when no
+ rule sets them, the other properties are those of the element; <code>color</code> may be the keyword <code>currentcolor</code> (the color of the text).
+ <p>
+ 요소의 사용자 정의 하이라이트 의사 요소 <code>::highlight(이름)</code> 의 스타일을 반환한다(CSS Custom Highlight API 1): 규칙이 정하지 않은 하이라이트 속성(<code>color</code>,
+ <code>background-color</code>, <code>text-decoration</code> 등)은 부모 요소의 하이라이트에서 물려받고 나머지 속성은 요소의 것이다. <code>color</code> 는 키워드
+ <code>currentcolor</code>(텍스트의 색)일 수 있다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>element</CODE> - the originating element / 원본 요소<DD><CODE>name</CODE> - the custom highlight name / 사용자 정의 하이라이트 이름
+<DT><B>Returns:</B><DD>the style, never null / 스타일(null 이 아님)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPseudoDeclared(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)"><!-- --></A><H3>
+getPseudoDeclared</H3>
+<PRE>
+java.util.BitSet <B>getPseudoDeclared</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element,
+                                   java.lang.String&nbsp;pseudo)</PRE>
+<DL>
+<DD>Returns the properties that the rules of a pseudo-element declare (the renderer of a part that it draws itself, such as the button of a file control,
+ keeps its own look for the others).
+ <p>
+ 의사 요소의 규칙이 선언하는 속성을 반환한다(파일 컨트롤의 단추처럼 렌더러가 직접 그리는 부분은 나머지 속성에 대해 자신의 모양을 지킨다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>element</CODE> - the originating element / 원본 요소<DD><CODE>pseudo</CODE> - the pseudo-element name / 의사 요소 이름
+<DT><B>Returns:</B><DD>the property ids, never null / 속성 id(null 이 아님)</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StickyConstraint.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TableBorder.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/StyleSource.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="StyleSource.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

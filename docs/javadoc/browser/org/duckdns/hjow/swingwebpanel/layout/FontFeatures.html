@@ -1,0 +1,412 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+FontFeatures
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="FontFeatures";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.Resolver.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/FontFeatures.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="FontFeatures.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.layout</FONT>
+<BR>
+Class FontFeatures</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.layout.FontFeatures</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>FontFeatures</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The OpenType features that a style asks for (CSS Fonts Level 4, <a href="https://www.w3.org/TR/css-fonts-4/#feature-precedence">https://www.w3.org/TR/css-fonts-4/#feature-precedence</a>):
+ the <code>font-variant-*</code> properties (and the <code>font-variant</code> shorthand) and <code>font-kerning</code> turn into feature tags, and the
+ tags of <code>font-feature-settings</code> are applied after them, so that the settings win (the order of precedence of the specification). Java2D of
+ JRE 6 cannot switch OpenType features of a font, so only the features that this engine can reproduce have an effect on the page, and the engine
+ reproduces them itself: small capitals (<code>smcp</code>, <code>c2sc</code>, <code>pcap</code>, <code>c2pc</code>: the lower case letters are drawn as smaller capitals),
+ superscript and subscript (<code>sups</code>, <code>subs</code>: the text is made smaller and moved) and full width forms (<code>fwid</code>). Everything else
+ (ligatures, numerals, alternates ...) is resolved here and can be asked for with <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FontFeatures.html#value(java.lang.String)"><CODE>value(java.lang.String)</CODE></A>, but changes nothing on the screen.
+ <p>
+ Usage: <code>FontFeatures.of(style).caps()</code> is the effective capitals variant, <code>FontFeatures.of(style).value("tnum")</code> the value of a tag.
+ <p>
+ 스타일이 요구하는 OpenType 기능(CSS Fonts Level 4 기능 우선순위): <code>font-variant-*</code> 속성(과 <code>font-variant</code> 단축 속성)과 <code>font-kerning</code> 이 기능
+ 태그가 되고, <code>font-feature-settings</code> 의 태그는 그 뒤에 적용되어 이긴다(규격의 우선순위). JRE 6 의 Java2D 는 글꼴의 OpenType 기능을 켜고 끌 수 없으므로 이 엔진이 직접
+ 재현할 수 있는 기능만 화면에 효과가 있다: 작은 대문자(<code>smcp</code>, <code>c2sc</code>, <code>pcap</code>, <code>c2pc</code>. 소문자를 더 작은 대문자로 그린다), 위첨자와 아래첨자
+ (<code>sups</code>, <code>subs</code>. 글자를 줄이고 옮긴다), 전각 형태(<code>fwid</code>). 나머지(합자, 숫자, 대체 형태 등)는 여기서 해석되어 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FontFeatures.html#value(java.lang.String)"><CODE>value(java.lang.String)</CODE></A> 로 물을 수 있지만
+ 화면에는 아무 변화가 없다.
+ <p>
+ 사용법: <code>FontFeatures.of(style).caps()</code> 는 실제 대문자 변형, <code>FontFeatures.of(style).value("tnum")</code> 은 태그의 값이다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FontFeatures.html#caps()">caps</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the capitals variant that the features give: <code>normal</code>, <code>small-caps</code>, <code>all-small-caps</code>, <code>petite-caps</code>,
+ <code>all-petite-caps</code>, <code>unicase</code> or <code>titling-caps</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FontFeatures.html#fullWidth()">fullWidth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the full width forms are asked for (<code>fwid</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.Map&lt;java.lang.String,java.lang.Integer&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FontFeatures.html#glyphFeatures(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, java.util.List, java.lang.String)">glyphFeatures</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s,
+              java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/FontFeatureValuesRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">FontFeatureValuesRule</A>&gt;&nbsp;rules,
+              java.lang.String&nbsp;family)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the glyph alternate features that a style asks for from a font of a family (CSS Fonts 4 sections 6.8 and 6.9): the function values of
+ <code>font-variant-alternates</code> with their names looked up in the <code>@font-feature-values</code> rules of the family (<code>stylistic(n)</code>
+ is <code>salt</code>, <code>styleset(n#)</code> turns on <code>ss01</code> to <code>ss99</code>, <code>character-variant(n#)</code> sets
+ <code>cv01</code> to <code>cv99</code>, <code>swash(n)</code> is <code>swsh</code> and <code>cswh</code>, <code>ornaments(n)</code> is <code>ornm</code>,
+ <code>annotation(n)</code> is <code>nalt</code>, <code>historical-forms</code> is <code>hist</code>; an undefined name does nothing), then the same tags
+ of <code>font-feature-settings</code>, which win (feature precedence).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FontFeatures.html#mayRealize(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, java.lang.String)">mayRealize</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s,
+           java.lang.String&nbsp;kind)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the user agent may synthesize a face or a variant that the font does not have: the longhand of the kind (<code>font-synthesis-weight</code>,
+ <code>-style</code>, <code>-small-caps</code> or <code>-position</code>, set together by the shorthand <code>font-synthesis</code>) must not be <code>none</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FontFeatures.html" title="class in org.duckdns.hjow.swingwebpanel.layout">FontFeatures</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FontFeatures.html#of(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)">of</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Resolves the features of a style.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FontFeatures.html#position()">position</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the position variant: <code>normal</code>, <code>sub</code> or <code>super</code> (<code>sups</code> wins when both are on).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FontFeatures.html#value(java.lang.String)">value</A></B>(java.lang.String&nbsp;tag)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the value of a feature: what was set, otherwise 1 for the features that are on by default and 0 for the rest.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="of(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)"><!-- --></A><H3>
+of</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FontFeatures.html" title="class in org.duckdns.hjow.swingwebpanel.layout">FontFeatures</A> <B>of</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s)</PRE>
+<DL>
+<DD>Resolves the features of a style. A style that sets none of the font feature properties gets a shared default result without any work.
+ <p>
+ 스타일의 기능을 해석한다. 글꼴 기능 속성을 하나도 정하지 않은 스타일은 아무 작업 없이 공유 기본 결과를 받는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - the style, may be null / 스타일. null 가능
+<DT><B>Returns:</B><DD>the features / 기능</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="glyphFeatures(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, java.util.List, java.lang.String)"><!-- --></A><H3>
+glyphFeatures</H3>
+<PRE>
+public static java.util.Map&lt;java.lang.String,java.lang.Integer&gt; <B>glyphFeatures</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s,
+                                                                              java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/FontFeatureValuesRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">FontFeatureValuesRule</A>&gt;&nbsp;rules,
+                                                                              java.lang.String&nbsp;family)</PRE>
+<DL>
+<DD>Returns the glyph alternate features that a style asks for from a font of a family (CSS Fonts 4 sections 6.8 and 6.9): the function values of
+ <code>font-variant-alternates</code> with their names looked up in the <code>@font-feature-values</code> rules of the family (<code>stylistic(n)</code>
+ is <code>salt</code>, <code>styleset(n#)</code> turns on <code>ss01</code> to <code>ss99</code>, <code>character-variant(n#)</code> sets
+ <code>cv01</code> to <code>cv99</code>, <code>swash(n)</code> is <code>swsh</code> and <code>cswh</code>, <code>ornaments(n)</code> is <code>ornm</code>,
+ <code>annotation(n)</code> is <code>nalt</code>, <code>historical-forms</code> is <code>hist</code>; an undefined name does nothing), then the same tags
+ of <code>font-feature-settings</code>, which win (feature precedence).
+ <p>
+ 스타일이 패밀리의 글꼴에 요구하는 대체 글리프 기능을 반환한다(CSS Fonts 4 6.8, 6.9 절): <code>font-variant-alternates</code> 의 함수 값의 이름을 그 패밀리의
+ <code>@font-feature-values</code> 규칙에서 찾은 것(<code>stylistic(n)</code> 은 <code>salt</code>, <code>styleset(n#)</code> 은 <code>ss01</code>~<code>ss99</code> 를 켬,
+ <code>character-variant(n#)</code> 은 <code>cv01</code>~<code>cv99</code> 를 정함, <code>swash(n)</code> 은 <code>swsh</code> 와 <code>cswh</code>, <code>ornaments(n)</code> 은
+ <code>ornm</code>, <code>annotation(n)</code> 은 <code>nalt</code>, <code>historical-forms</code> 는 <code>hist</code>. 정의되지 않은 이름은 아무것도 하지 않는다), 그다음 이기는
+ <code>font-feature-settings</code> 의 같은 태그(기능 우선순위).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - the style / 스타일<DD><CODE>rules</CODE> - the <code>@font-feature-values</code> rules in document order, may be null / 문서 순서의 <code>@font-feature-values</code> 규칙. null 가능<DD><CODE>family</CODE> - the family of the font / 글꼴의 패밀리
+<DT><B>Returns:</B><DD>the tags and their values (empty if none) / 태그와 값(없으면 비어 있음)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="value(java.lang.String)"><!-- --></A><H3>
+value</H3>
+<PRE>
+public int <B>value</B>(java.lang.String&nbsp;tag)</PRE>
+<DL>
+<DD>Returns the value of a feature: what was set, otherwise 1 for the features that are on by default and 0 for the rest.
+ <p>
+ 기능의 값을 반환한다: 정해진 값, 없으면 기본으로 켜진 기능은 1, 나머지는 0.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>tag</CODE> - the four character tag / 네 글자 태그
+<DT><B>Returns:</B><DD>the value (0 is off) / 값(0 이면 꺼짐)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="caps()"><!-- --></A><H3>
+caps</H3>
+<PRE>
+public java.lang.String <B>caps</B>()</PRE>
+<DL>
+<DD>Returns the capitals variant that the features give: <code>normal</code>, <code>small-caps</code>, <code>all-small-caps</code>, <code>petite-caps</code>,
+ <code>all-petite-caps</code>, <code>unicase</code> or <code>titling-caps</code>.
+ <p>
+ 기능이 주는 대문자 변형을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the variant / 변형</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="position()"><!-- --></A><H3>
+position</H3>
+<PRE>
+public java.lang.String <B>position</B>()</PRE>
+<DL>
+<DD>Returns the position variant: <code>normal</code>, <code>sub</code> or <code>super</code> (<code>sups</code> wins when both are on).
+ <p>
+ 위치 변형을 반환한다: <code>normal</code>, <code>sub</code>, <code>super</code>(둘 다 켜지면 <code>sups</code> 가 이긴다).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the variant / 변형</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fullWidth()"><!-- --></A><H3>
+fullWidth</H3>
+<PRE>
+public boolean <B>fullWidth</B>()</PRE>
+<DL>
+<DD>Tells whether the full width forms are asked for (<code>fwid</code>).
+ <p>
+ 전각 형태를 요구하는지(<code>fwid</code>) 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for full width forms / 전각이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mayRealize(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, java.lang.String)"><!-- --></A><H3>
+mayRealize</H3>
+<PRE>
+public static boolean <B>mayRealize</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s,
+                                 java.lang.String&nbsp;kind)</PRE>
+<DL>
+<DD>Tells whether the user agent may synthesize a face or a variant that the font does not have: the longhand of the kind (<code>font-synthesis-weight</code>,
+ <code>-style</code>, <code>-small-caps</code> or <code>-position</code>, set together by the shorthand <code>font-synthesis</code>) must not be <code>none</code>.
+ This engine has no OpenType glyphs for small capitals and the positions, so every one of them is synthesized; the bold and the italic are made by the JRE.
+ <p>
+ 글꼴에 없는 면이나 변형을 사용자 에이전트가 합성해도 되는지 알려 준다: 그 종류의 개별 속성(<code>font-synthesis-weight</code>, <code>-style</code>, <code>-small-caps</code>,
+ <code>-position</code>. 단축 속성 <code>font-synthesis</code> 가 함께 정한다)이 <code>none</code> 이 아니어야 한다. 이 엔진에는 작은 대문자와 위치 변형의 OpenType 글리프가 없으므로
+ 모두 합성하며, 굵게와 기울임은 JRE 가 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - the style / 스타일<DD><CODE>kind</CODE> - <code>weight</code>, <code>style</code>, <code>small-caps</code> or <code>position</code> / 합성의 종류
+<DT><B>Returns:</B><DD>true if the synthesis is allowed / 합성이 허용되면 true</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.Resolver.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/FontFeatures.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="FontFeatures.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

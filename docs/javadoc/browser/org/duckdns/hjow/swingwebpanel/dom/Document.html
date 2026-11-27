@@ -1,0 +1,2331 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+Document
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Document";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DataTransferItemList.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentFragment.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/Document.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Document.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_classes_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.EventTarget">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom</FONT>
+<BR>
+Class Document</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">org.duckdns.hjow.swingwebpanel.dom.EventTarget</A>
+      <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">org.duckdns.hjow.swingwebpanel.dom.Node</A>
+          <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.dom.Document</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public class <B>Document</B><DT>extends <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A></DL>
+</PRE>
+
+<P>
+A document: the root of a DOM tree and the factory of its nodes (DOM Standard <code>Document</code>). It also holds the state shared
+ by all nodes of the tree: the mutation version used by live collections, the listeners of DOM changes, the id index, and the services
+ that other layers install (element factory, selector engine, markup parser/serializer, error handler for event listeners and the
+ window that follows the document in the event path). All nodes of a document must be used on the same thread, the document
+ thread of the owning browser component.
+ <p>
+ 문서: DOM 트리의 루트이자 그 노드들의 팩터리(DOM 표준 <code>Document</code>). 트리의 모든 노드가 공유하는 상태도 가진다: 라이브 컬렉션이 쓰는
+ 변경 버전, DOM 변경 리스너, id 색인, 그리고 다른 계층이 설치하는 서비스(요소 팩터리, 선택자 엔진, 마크업 파서/직렬화기, 이벤트 리스너 오류
+ 핸들러, 이벤트 경로에서 문서 뒤에 오는 window). 문서의 모든 노드는 같은 스레드, 즉 소유 브라우저 컴포넌트의 문서 스레드에서 써야 한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="nested_classes_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.EventTarget"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Nested classes/interfaces inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.ListenerSignal.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">EventTarget.ListenerSignal</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#LIMITED_QUIRKS_MODE">LIMITED_QUIRKS_MODE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Compatibility mode value: limited quirks mode (almost standards).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#NO_QUIRKS_MODE">NO_QUIRKS_MODE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Compatibility mode value: standards mode (<code>CSS1Compat</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#QUIRKS_MODE">QUIRKS_MODE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Compatibility mode value: quirks mode (<code>BackCompat</code>).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.Node"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#ATTRIBUTE_NODE">ATTRIBUTE_NODE</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#CDATA_SECTION_NODE">CDATA_SECTION_NODE</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#COMMENT_NODE">COMMENT_NODE</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#DOCUMENT_FRAGMENT_NODE">DOCUMENT_FRAGMENT_NODE</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#DOCUMENT_NODE">DOCUMENT_NODE</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#DOCUMENT_POSITION_CONTAINED_BY">DOCUMENT_POSITION_CONTAINED_BY</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#DOCUMENT_POSITION_CONTAINS">DOCUMENT_POSITION_CONTAINS</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#DOCUMENT_POSITION_DISCONNECTED">DOCUMENT_POSITION_DISCONNECTED</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#DOCUMENT_POSITION_FOLLOWING">DOCUMENT_POSITION_FOLLOWING</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC">DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#DOCUMENT_POSITION_PRECEDING">DOCUMENT_POSITION_PRECEDING</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#DOCUMENT_TYPE_NODE">DOCUMENT_TYPE_NODE</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#ELEMENT_NODE">ELEMENT_NODE</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#PROCESSING_INSTRUCTION_NODE">PROCESSING_INSTRUCTION_NODE</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#TEXT_NODE">TEXT_NODE</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.EventTarget"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#PRINTING_HANDLER">PRINTING_HANDLER</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#Document(boolean, java.lang.String)">Document</A></B>(boolean&nbsp;html,
+         java.lang.String&nbsp;contentType)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an empty document.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#addMutationListener(org.duckdns.hjow.swingwebpanel.dom.DomMutationListener)">addMutationListener</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMutationListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">DomMutationListener</A>&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Registers a listener of DOM changes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#addToTopLayer(org.duckdns.hjow.swingwebpanel.dom.Element)">addToTopLayer</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adds an element to the top layer, moving it to the end if it is already there (CSS Positioned Layout 4 section 3.3, "add an element to the top layer").</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#adoptNode(org.duckdns.hjow.swingwebpanel.dom.Node)">adoptNode</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Moves a node (with its subtree) into this document (<code>adoptNode</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Attr.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Attr</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#createAttribute(java.lang.String)">createAttribute</A></B>(java.lang.String&nbsp;localName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an attribute without namespace (<code>createAttribute</code>); the name is lower-cased in HTML documents.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Attr.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Attr</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#createAttributeNS(java.lang.String, java.lang.String)">createAttributeNS</A></B>(java.lang.String&nbsp;namespace,
+                  java.lang.String&nbsp;qualifiedName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an attribute with a namespace (<code>createAttributeNS</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/CDATASection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">CDATASection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#createCDATASection(java.lang.String)">createCDATASection</A></B>(java.lang.String&nbsp;data)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a CDATA section (XML documents only).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Comment.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Comment</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#createComment(java.lang.String)">createComment</A></B>(java.lang.String&nbsp;data)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a comment.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentFragment.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentFragment</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#createDocumentFragment()">createDocumentFragment</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an empty document fragment.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentType.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentType</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#createDocumentType(java.lang.String, java.lang.String, java.lang.String)">createDocumentType</A></B>(java.lang.String&nbsp;name,
+                   java.lang.String&nbsp;publicId,
+                   java.lang.String&nbsp;systemId)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a document type node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#createElement(java.lang.String)">createElement</A></B>(java.lang.String&nbsp;localName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an element (<code>createElement</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#createElementInternal(java.lang.String, java.lang.String, java.lang.String)">createElementInternal</A></B>(java.lang.String&nbsp;namespace,
+                      java.lang.String&nbsp;prefix,
+                      java.lang.String&nbsp;local)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an element through the installed factory without any name validation.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#createElementNS(java.lang.String, java.lang.String)">createElementNS</A></B>(java.lang.String&nbsp;namespace,
+                java.lang.String&nbsp;qualifiedName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an element with a namespace (<code>createElementNS</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Event</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#createEvent(java.lang.String)">createEvent</A></B>(java.lang.String&nbsp;interfaceName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an event object by interface name (<code>createEvent</code>): <code>Event</code>, <code>Events</code>,
+ <code>HTMLEvents</code>, <code>CustomEvent</code> and the UI events (<code>UIEvent</code>, <code>MouseEvent</code>, <code>WheelEvent</code>,
+ <code>KeyboardEvent</code>, <code>FocusEvent</code>, <code>InputEvent</code>, <code>CompositionEvent</code>; case-insensitive).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#createHtmlDocument()">createHtmlDocument</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an empty HTML document.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeIterator.html" title="class in org.duckdns.hjow.swingwebpanel.dom">NodeIterator</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#createNodeIterator(org.duckdns.hjow.swingwebpanel.dom.Node, long, org.duckdns.hjow.swingwebpanel.dom.NodeFilter)">createNodeIterator</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;root,
+                   long&nbsp;whatToShow,
+                   <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">NodeFilter</A>&nbsp;filter)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a node iterator (DOM Standard, <code>document.createNodeIterator()</code>); it starts before the root.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ProcessingInstruction.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ProcessingInstruction</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#createProcessingInstruction(java.lang.String, java.lang.String)">createProcessingInstruction</A></B>(java.lang.String&nbsp;target,
+                            java.lang.String&nbsp;data)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a processing instruction.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#createRange()">createRange</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a range that is collapsed at the start of this document (DOM Standard, <code>document.createRange()</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Text.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Text</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#createTextNode(java.lang.String)">createTextNode</A></B>(java.lang.String&nbsp;data)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a text node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/TreeWalker.html" title="class in org.duckdns.hjow.swingwebpanel.dom">TreeWalker</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#createTreeWalker(org.duckdns.hjow.swingwebpanel.dom.Node, long, org.duckdns.hjow.swingwebpanel.dom.NodeFilter)">createTreeWalker</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;root,
+                 long&nbsp;whatToShow,
+                 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">NodeFilter</A>&nbsp;filter)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a tree walker (DOM Standard, <code>document.createTreeWalker()</code>); its current node is the root.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#createXmlDocument(java.lang.String)">createXmlDocument</A></B>(java.lang.String&nbsp;contentType)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an empty XML document of a content type.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/AllElements.html" title="class in org.duckdns.hjow.swingwebpanel.dom">AllElements</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getAll()">getAll</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the live legacy collection of every element in this document.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getBaseUri()">getBaseUri</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the base URL for relative addresses (<code>document.baseURI</code>): the URL of the first <code>base</code> element if the
+ parser set one, otherwise the document URL.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getCharacterSet()">getCharacterSet</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the character set name.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getCompatibilityMode()">getCompatibilityMode</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the compatibility mode (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#NO_QUIRKS_MODE"><CODE>NO_QUIRKS_MODE</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#LIMITED_QUIRKS_MODE"><CODE>LIMITED_QUIRKS_MODE</CODE></A> or <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#QUIRKS_MODE"><CODE>QUIRKS_MODE</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getCompatMode()">getCompatMode</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>CSS1Compat</code> for standards and limited quirks mode and <code>BackCompat</code> for quirks mode
+ (<code>document.compatMode</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getContainerFrame()">getContainerFrame</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the frame element that contains this document.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getContentType()">getContentType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the MIME type of the document.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentType.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentType</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getDoctype()">getDoctype</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the document type child, or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getDocumentElement()">getDocumentElement</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the document element (the root element), or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html" title="class in org.duckdns.hjow.swingwebpanel.dom.edit">Editor</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getEditor()">getEditor</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the editor of this document (the editing commands, the undo history and the input events); the same object every time.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getElementById(java.lang.String)">getElementById</A></B>(java.lang.String&nbsp;id)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the first element in tree order with an id (<code>getElementById</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getElementsByClassName(java.lang.String)">getElementsByClassName</A></B>(java.lang.String&nbsp;classNames)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the live collection of all elements that have all the class names.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getElementsByTagName(java.lang.String)">getElementsByTagName</A></B>(java.lang.String&nbsp;qualifiedName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the live collection of all elements with a tag name.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getElementsByTagNameNS(java.lang.String, java.lang.String)">getElementsByTagNameNS</A></B>(java.lang.String&nbsp;namespace,
+                       java.lang.String&nbsp;localName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the live collection of all elements with a namespace and local name.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getEventParent(org.duckdns.hjow.swingwebpanel.dom.Event)">getEventParent</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Event</A>&nbsp;event)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the window as the next event target, except for <code>load</code> events.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormHost.html" title="interface in org.duckdns.hjow.swingwebpanel.dom.html">FormHost</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getFormHost()">getFormHost</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the host of the form controls, or null if none was installed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormSupport.html" title="class in org.duckdns.hjow.swingwebpanel.dom.html">FormSupport</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getFormSupport()">getFormSupport</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the support object of the HTML form controls of this document, creating it when needed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html" title="class in org.duckdns.hjow.swingwebpanel.dom">HighlightRegistry</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getHighlights()">getHighlights</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the highlight registry of this document, creating it when needed (CSS Custom Highlight API Level 1, section 3.2).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomImplementation.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomImplementation</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getImplementation()">getImplementation</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the DOM implementation object (<code>document.implementation</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getLastRememberedSize(org.duckdns.hjow.swingwebpanel.dom.Element)">getLastRememberedSize</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the last remembered size of an element: the inner width and height of its principal box when it last had
+ <code>contain-intrinsic-size: auto</code> without size containment (CSS Box Sizing 4 section 5.2.1), or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getMutationVersion()">getMutationVersion</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the mutation version: it grows whenever the tree structure or an attribute changes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getNodeName()">getNodeName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>#document</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getNodeType()">getNodeType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#DOCUMENT_NODE"><CODE>Node.DOCUMENT_NODE</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getOriginUrl()">getOriginUrl</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the address that the origin of the document is computed from: the origin address if one was set, otherwise the document URL.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Selection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getSelection()">getSelection</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the selection of this document (W3C Selection API, <code>document.getSelection()</code>); the same object every time.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/SelectorEngine.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">SelectorEngine</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getSelectorEngine()">getSelectorEngine</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the installed selector engine, or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getTopLayer()">getTopLayer</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the elements of the top layer in order (the last is on top); elements that left the document are dropped from the layer (the removing steps of
+ a dialog).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getUrl()">getUrl</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the document URL (<code>document.URL</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#hasVisibilityListener()">hasVisibilityListener</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a <code>visibilitychange</code> listener was ever registered at this document (readable from any thread).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#importNode(org.duckdns.hjow.swingwebpanel.dom.Node, boolean)">importNode</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+           boolean&nbsp;deep)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Imports a copy of a node from another document (<code>importNode</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#isDesignMode()">isDesignMode</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the document is in design mode.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#isHtmlDocument()">isHtmlDocument</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether this is an HTML document.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#isInTopLayer(org.duckdns.hjow.swingwebpanel.dom.Element)">isInTopLayer</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether an element is in the top layer of this document (an element that left the document is not).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#isScriptingEnabled()">isScriptingEnabled</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the document's scripting flag. / 문서의 스크립트 사용 여부를 반환한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#isWindowFocused()">isWindowFocused</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the window (the component) of this document has the focus.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#listenerAdded(java.lang.String)">listenerAdded</A></B>(java.lang.String&nbsp;type)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adds a listener and remembers that a <code>visibilitychange</code> listener exists (the host asks it from any thread, to know whether a page that is left
+ has anyone to tell).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html" title="class in org.duckdns.hjow.swingwebpanel.dom">HighlightRegistry</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#peekHighlights()">peekHighlights</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the highlight registry of this document without creating it (the renderer asks this).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#querySelector(java.lang.String)">querySelector</A></B>(java.lang.String&nbsp;selectors)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the first element in the document that matches a selector list.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeList.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">NodeList</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#querySelectorAll(java.lang.String)">querySelectorAll</A></B>(java.lang.String&nbsp;selectors)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns all elements of the document that match a selector list as a static list.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#removeFromTopLayer(org.duckdns.hjow.swingwebpanel.dom.Element)">removeFromTopLayer</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes an element from the top layer.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#removeMutationListener(org.duckdns.hjow.swingwebpanel.dom.DomMutationListener)">removeMutationListener</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMutationListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">DomMutationListener</A>&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes a listener of DOM changes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#setBaseUri(java.lang.String)">setBaseUri</A></B>(java.lang.String&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the base URL, or null to use the document URL.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#setCharacterSet(java.lang.String)">setCharacterSet</A></B>(java.lang.String&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the character set name.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#setCompatibilityMode(int)">setCompatibilityMode</A></B>(int&nbsp;mode)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the compatibility mode (done by the HTML parser from the doctype).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#setContainerFrame(org.duckdns.hjow.swingwebpanel.dom.Element)">setContainerFrame</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;frame)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the frame element that contains this document (the host does it before the document is parsed).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#setDesignMode(boolean)">setDesignMode</A></B>(boolean&nbsp;on)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Switches design mode.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#setElementFactory(org.duckdns.hjow.swingwebpanel.dom.ElementFactory)">setElementFactory</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">ElementFactory</A>&nbsp;factory)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Installs the element factory (the HTML layer installs the one for specialized HTML elements); null restores the plain one.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#setEventWindow(org.duckdns.hjow.swingwebpanel.dom.EventTarget)">setEventWindow</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A>&nbsp;window)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the window that follows the document in the event path (all events except <code>load</code> propagate from the document to it).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#setFormHost(org.duckdns.hjow.swingwebpanel.dom.html.FormHost)">setFormHost</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormHost.html" title="interface in org.duckdns.hjow.swingwebpanel.dom.html">FormHost</A>&nbsp;host)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Installs the host of the form controls of this document (navigation of submissions, validation bubbles, file choosers, state change
+ notifications); null removes it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#setLastRememberedSize(org.duckdns.hjow.swingwebpanel.dom.Element, double[])">setLastRememberedSize</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                      double[]&nbsp;size)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Records or removes the last remembered size of an element (the layout does it after every layout, as at the time of the resize observations).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#setListenerErrorHandler(org.duckdns.hjow.swingwebpanel.dom.ListenerErrorHandler)">setListenerErrorHandler</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ListenerErrorHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">ListenerErrorHandler</A>&nbsp;handler)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Installs the handler that receives failures of event listeners; null restores the printing handler.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#setMarkupSupport(org.duckdns.hjow.swingwebpanel.dom.MarkupSupport)">setMarkupSupport</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MarkupSupport.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">MarkupSupport</A>&nbsp;support)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Installs the markup parser and serializer.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#setOriginUrl(java.lang.String)">setOriginUrl</A></B>(java.lang.String&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the address that the origin of the document is computed from, or null to use the document URL.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#setScriptingEnabled(boolean)">setScriptingEnabled</A></B>(boolean&nbsp;enabled)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stores the scripting flag used by the document's media and styles. / 문서의 미디어와 스타일이 사용할 스크립트 설정을 저장한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#setSelectionListener(org.duckdns.hjow.swingwebpanel.dom.SelectionListener)">setSelectionListener</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/SelectionListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">SelectionListener</A>&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the listener that is told about every change of the selection of this document (null removes it).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#setSelectorEngine(org.duckdns.hjow.swingwebpanel.dom.SelectorEngine)">setSelectorEngine</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/SelectorEngine.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">SelectorEngine</A>&nbsp;engine)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Installs the selector engine.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#setUrl(java.lang.String)">setUrl</A></B>(java.lang.String&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the document URL.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#setWindowFocused(boolean)">setWindowFocused</A></B>(boolean&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Records that the window (the component) gained or lost the focus; the host calls this together with
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/FocusManager.html#windowFocusChanged(org.duckdns.hjow.swingwebpanel.dom.Document, boolean)"><CODE>FocusManager.windowFocusChanged(Document, boolean)</CODE></A>.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.Node"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#adoptedFrom(org.duckdns.hjow.swingwebpanel.dom.Document)">adoptedFrom</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#after(java.lang.Object...)">after</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#append(java.lang.Object...)">append</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#appendChild(org.duckdns.hjow.swingwebpanel.dom.Node)">appendChild</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#before(java.lang.Object...)">before</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#cloneNode(boolean)">cloneNode</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#compareDocumentPosition(org.duckdns.hjow.swingwebpanel.dom.Node)">compareDocumentPosition</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#connectedChanged(boolean)">connectedChanged</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#contains(org.duckdns.hjow.swingwebpanel.dom.Node)">contains</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#document()">document</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#getChildElementCount()">getChildElementCount</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#getChildNodes()">getChildNodes</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#getFirstChild()">getFirstChild</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#getFirstElementChild()">getFirstElementChild</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#getLastChild()">getLastChild</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#getLastElementChild()">getLastElementChild</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#getListenerErrorHandler()">getListenerErrorHandler</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#getNextElementSibling()">getNextElementSibling</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#getNextSibling()">getNextSibling</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#getNodeValue()">getNodeValue</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#getOwnerDocument()">getOwnerDocument</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#getParentElement()">getParentElement</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#getParentNode()">getParentNode</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#getPreviousElementSibling()">getPreviousElementSibling</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#getPreviousSibling()">getPreviousSibling</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#getRootNode()">getRootNode</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#getTextContent()">getTextContent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#hasChildNodes()">hasChildNodes</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#insertBefore(org.duckdns.hjow.swingwebpanel.dom.Node, org.duckdns.hjow.swingwebpanel.dom.Node)">insertBefore</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#isConnected()">isConnected</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#isEqualNode(org.duckdns.hjow.swingwebpanel.dom.Node)">isEqualNode</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#isSameNode(org.duckdns.hjow.swingwebpanel.dom.Node)">isSameNode</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#nextInTree(org.duckdns.hjow.swingwebpanel.dom.Node, org.duckdns.hjow.swingwebpanel.dom.Node)">nextInTree</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#normalize()">normalize</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#prepend(java.lang.Object...)">prepend</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#remove()">remove</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#removeChild(org.duckdns.hjow.swingwebpanel.dom.Node)">removeChild</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#replaceChild(org.duckdns.hjow.swingwebpanel.dom.Node, org.duckdns.hjow.swingwebpanel.dom.Node)">replaceChild</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#replaceChildren(java.lang.Object...)">replaceChildren</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#replaceWith(java.lang.Object...)">replaceWith</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#setNodeValue(java.lang.String)">setNodeValue</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#setTextContent(java.lang.String)">setTextContent</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.EventTarget"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#addEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener)">addEventListener</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#addEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener, boolean)">addEventListener</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#addEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener, boolean, boolean, boolean)">addEventListener</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#addEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener, boolean, boolean, boolean, org.duckdns.hjow.swingwebpanel.dom.EventTarget.ListenerSignal)">addEventListener</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#dispatchEvent(org.duckdns.hjow.swingwebpanel.dom.Event)">dispatchEvent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#dispatchTrustedEvent(org.duckdns.hjow.swingwebpanel.dom.Event)">dispatchTrustedEvent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#getEventListenerCount()">getEventListenerCount</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#hasEventListeners(java.lang.String)">hasEventListeners</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#removeAllEventListeners()">removeAllEventListeners</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#removeEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener)">removeEventListener</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#removeEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener, boolean)">removeEventListener</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="NO_QUIRKS_MODE"><!-- --></A><H3>
+NO_QUIRKS_MODE</H3>
+<PRE>
+public static final int <B>NO_QUIRKS_MODE</B></PRE>
+<DL>
+<DD>Compatibility mode value: standards mode (<code>CSS1Compat</code>).
+ <p>
+ 호환 모드 값: 표준 모드(<code>CSS1Compat</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.Document.NO_QUIRKS_MODE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LIMITED_QUIRKS_MODE"><!-- --></A><H3>
+LIMITED_QUIRKS_MODE</H3>
+<PRE>
+public static final int <B>LIMITED_QUIRKS_MODE</B></PRE>
+<DL>
+<DD>Compatibility mode value: limited quirks mode (almost standards).
+ <p>
+ 호환 모드 값: 제한 호환 모드(거의 표준).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.Document.LIMITED_QUIRKS_MODE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="QUIRKS_MODE"><!-- --></A><H3>
+QUIRKS_MODE</H3>
+<PRE>
+public static final int <B>QUIRKS_MODE</B></PRE>
+<DL>
+<DD>Compatibility mode value: quirks mode (<code>BackCompat</code>).
+ <p>
+ 호환 모드 값: 호환 모드(<code>BackCompat</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.Document.QUIRKS_MODE">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="Document(boolean, java.lang.String)"><!-- --></A><H3>
+Document</H3>
+<PRE>
+public <B>Document</B>(boolean&nbsp;html,
+                java.lang.String&nbsp;contentType)</PRE>
+<DL>
+<DD>Creates an empty document.
+ <p>
+ 빈 문서를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>html</CODE> - true for an HTML document / HTML 문서이면 true<DD><CODE>contentType</CODE> - MIME type, for example <code>text/html</code> or <code>application/xhtml+xml</code> / MIME 타입</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="createHtmlDocument()"><!-- --></A><H3>
+createHtmlDocument</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A> <B>createHtmlDocument</B>()</PRE>
+<DL>
+<DD>Creates an empty HTML document.
+ <p>
+ 빈 HTML 문서를 만든다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the document / 문서</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createXmlDocument(java.lang.String)"><!-- --></A><H3>
+createXmlDocument</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A> <B>createXmlDocument</B>(java.lang.String&nbsp;contentType)</PRE>
+<DL>
+<DD>Creates an empty XML document of a content type.
+ <p>
+ 콘텐츠 타입이 정해진 빈 XML 문서를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>contentType</CODE> - content type such as <code>application/xhtml+xml</code> / 콘텐츠 타입
+<DT><B>Returns:</B><DD>the document / 문서</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getNodeType()"><!-- --></A><H3>
+getNodeType</H3>
+<PRE>
+public short <B>getNodeType</B>()</PRE>
+<DL>
+<DD>Returns <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#DOCUMENT_NODE"><CODE>Node.DOCUMENT_NODE</CODE></A>.
+ <p>
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#DOCUMENT_NODE"><CODE>Node.DOCUMENT_NODE</CODE></A> 를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#getNodeType()">getNodeType</A></CODE> in class <CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>node type / 노드 종류</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getNodeName()"><!-- --></A><H3>
+getNodeName</H3>
+<PRE>
+public java.lang.String <B>getNodeName</B>()</PRE>
+<DL>
+<DD>Returns <code>#document</code>.
+ <p>
+ <code>#document</code> 를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#getNodeName()">getNodeName</A></CODE> in class <CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>node name / 노드 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isHtmlDocument()"><!-- --></A><H3>
+isHtmlDocument</H3>
+<PRE>
+public boolean <B>isHtmlDocument</B>()</PRE>
+<DL>
+<DD>Tells whether this is an HTML document.
+ <p>
+ HTML 문서인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for HTML documents / HTML 문서이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getContentType()"><!-- --></A><H3>
+getContentType</H3>
+<PRE>
+public java.lang.String <B>getContentType</B>()</PRE>
+<DL>
+<DD>Returns the MIME type of the document.
+ <p>
+ 문서의 MIME 타입을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>content type / 콘텐츠 타입</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getUrl()"><!-- --></A><H3>
+getUrl</H3>
+<PRE>
+public java.lang.String <B>getUrl</B>()</PRE>
+<DL>
+<DD>Returns the document URL (<code>document.URL</code>).
+ <p>
+ 문서 URL 을 반환한다(<code>document.URL</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>URL / URL</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setUrl(java.lang.String)"><!-- --></A><H3>
+setUrl</H3>
+<PRE>
+public void <B>setUrl</B>(java.lang.String&nbsp;value)</PRE>
+<DL>
+<DD>Sets the document URL.
+ <p>
+ 문서 URL 을 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - new URL / 새 URL</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getContainerFrame()"><!-- --></A><H3>
+getContainerFrame</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>getContainerFrame</B>()</PRE>
+<DL>
+<DD>Returns the frame element that contains this document.
+ <p>
+ 이 문서를 포함한 프레임 요소를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the <code>iframe</code> or <code>frame</code> element, or null / <code>iframe</code> 또는 <code>frame</code> 요소. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setContainerFrame(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+setContainerFrame</H3>
+<PRE>
+public void <B>setContainerFrame</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;frame)</PRE>
+<DL>
+<DD>Sets the frame element that contains this document (the host does it before the document is parsed).
+ <p>
+ 이 문서를 포함한 프레임 요소를 정한다(호스트가 문서를 파싱하기 전에 한다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>frame</CODE> - the frame element or null / 프레임 요소. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOriginUrl()"><!-- --></A><H3>
+getOriginUrl</H3>
+<PRE>
+public java.lang.String <B>getOriginUrl</B>()</PRE>
+<DL>
+<DD>Returns the address that the origin of the document is computed from: the origin address if one was set, otherwise the document URL.
+ <p>
+ 문서의 오리진을 계산하는 원천 주소를 반환한다: 지정했으면 그 주소, 아니면 문서 URL.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the address / 주소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setOriginUrl(java.lang.String)"><!-- --></A><H3>
+setOriginUrl</H3>
+<PRE>
+public void <B>setOriginUrl</B>(java.lang.String&nbsp;value)</PRE>
+<DL>
+<DD>Sets the address that the origin of the document is computed from, or null to use the document URL.
+ <p>
+ 문서의 오리진을 계산하는 원천 주소를 지정한다. null 이면 문서 URL 을 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - the address or null / 주소 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBaseUri()"><!-- --></A><H3>
+getBaseUri</H3>
+<PRE>
+public java.lang.String <B>getBaseUri</B>()</PRE>
+<DL>
+<DD>Returns the base URL for relative addresses (<code>document.baseURI</code>): the URL of the first <code>base</code> element if the
+ parser set one, otherwise the document URL.
+ <p>
+ 상대 주소의 기준 URL 을 반환한다(<code>document.baseURI</code>): 파서가 정했다면 첫 <code>base</code> 요소의 URL, 아니면 문서 URL.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>base URL / 기준 URL</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setBaseUri(java.lang.String)"><!-- --></A><H3>
+setBaseUri</H3>
+<PRE>
+public void <B>setBaseUri</B>(java.lang.String&nbsp;value)</PRE>
+<DL>
+<DD>Sets the base URL, or null to use the document URL.
+ <p>
+ 기준 URL 을 지정한다. null 이면 문서 URL 을 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - base URL or null / 기준 URL 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCharacterSet()"><!-- --></A><H3>
+getCharacterSet</H3>
+<PRE>
+public java.lang.String <B>getCharacterSet</B>()</PRE>
+<DL>
+<DD>Returns the character set name.
+ <p>
+ 문자셋 이름을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>character set / 문자셋</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setCharacterSet(java.lang.String)"><!-- --></A><H3>
+setCharacterSet</H3>
+<PRE>
+public void <B>setCharacterSet</B>(java.lang.String&nbsp;value)</PRE>
+<DL>
+<DD>Sets the character set name.
+ <p>
+ 문자셋 이름을 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - character set / 문자셋</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCompatibilityMode()"><!-- --></A><H3>
+getCompatibilityMode</H3>
+<PRE>
+public int <B>getCompatibilityMode</B>()</PRE>
+<DL>
+<DD>Returns the compatibility mode (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#NO_QUIRKS_MODE"><CODE>NO_QUIRKS_MODE</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#LIMITED_QUIRKS_MODE"><CODE>LIMITED_QUIRKS_MODE</CODE></A> or <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#QUIRKS_MODE"><CODE>QUIRKS_MODE</CODE></A>).
+ <p>
+ 호환 모드(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#NO_QUIRKS_MODE"><CODE>NO_QUIRKS_MODE</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#LIMITED_QUIRKS_MODE"><CODE>LIMITED_QUIRKS_MODE</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#QUIRKS_MODE"><CODE>QUIRKS_MODE</CODE></A>)를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>mode / 모드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setCompatibilityMode(int)"><!-- --></A><H3>
+setCompatibilityMode</H3>
+<PRE>
+public void <B>setCompatibilityMode</B>(int&nbsp;mode)</PRE>
+<DL>
+<DD>Sets the compatibility mode (done by the HTML parser from the doctype).
+ <p>
+ 호환 모드를 지정한다(HTML 파서가 문서 유형으로 정한다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>mode</CODE> - new mode / 새 모드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCompatMode()"><!-- --></A><H3>
+getCompatMode</H3>
+<PRE>
+public java.lang.String <B>getCompatMode</B>()</PRE>
+<DL>
+<DD>Returns <code>CSS1Compat</code> for standards and limited quirks mode and <code>BackCompat</code> for quirks mode
+ (<code>document.compatMode</code>).
+ <p>
+ 표준과 제한 호환 모드는 <code>CSS1Compat</code>, 호환 모드는 <code>BackCompat</code> 를 반환한다(<code>document.compatMode</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>compat mode string / 호환 모드 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDocumentElement()"><!-- --></A><H3>
+getDocumentElement</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>getDocumentElement</B>()</PRE>
+<DL>
+<DD>Returns the document element (the root element), or null.
+ <p>
+ 문서 요소(루트 요소)를 반환한다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>root element or null / 루트 요소 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDoctype()"><!-- --></A><H3>
+getDoctype</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentType.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentType</A> <B>getDoctype</B>()</PRE>
+<DL>
+<DD>Returns the document type child, or null.
+ <p>
+ 문서 유형 자식을 반환한다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>document type or null / 문서 유형 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createElement(java.lang.String)"><!-- --></A><H3>
+createElement</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>createElement</B>(java.lang.String&nbsp;localName)</PRE>
+<DL>
+<DD>Creates an element (<code>createElement</code>). In HTML documents the name is lower-cased and the element is in the HTML
+ namespace; in XHTML documents the element is in the HTML namespace; otherwise it has no namespace.
+ <p>
+ 요소를 만든다(<code>createElement</code>). HTML 문서에서는 이름을 소문자로 바꾸고 HTML 네임스페이스에 속하며, XHTML 문서에서도 HTML
+ 네임스페이스에 속하고, 그 밖에는 네임스페이스가 없다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>localName</CODE> - element name / 요소 이름
+<DT><B>Returns:</B><DD>the element / 요소
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidCharacterError if the name is not valid / 이름이 올바르지 않으면 InvalidCharacterError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createElementNS(java.lang.String, java.lang.String)"><!-- --></A><H3>
+createElementNS</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>createElementNS</B>(java.lang.String&nbsp;namespace,
+                               java.lang.String&nbsp;qualifiedName)</PRE>
+<DL>
+<DD>Creates an element with a namespace (<code>createElementNS</code>).
+ <p>
+ 네임스페이스가 있는 요소를 만든다(<code>createElementNS</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>namespace</CODE> - namespace or null / 네임스페이스 또는 null<DD><CODE>qualifiedName</CODE> - qualified name / 정규화된 이름
+<DT><B>Returns:</B><DD>the element / 요소
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidCharacterError or NamespaceError / InvalidCharacterError 또는 NamespaceError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createElementInternal(java.lang.String, java.lang.String, java.lang.String)"><!-- --></A><H3>
+createElementInternal</H3>
+<PRE>
+public final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>createElementInternal</B>(java.lang.String&nbsp;namespace,
+                                           java.lang.String&nbsp;prefix,
+                                           java.lang.String&nbsp;local)</PRE>
+<DL>
+<DD>Creates an element through the installed factory without any name validation.
+ <p>
+ 이름 검증 없이 설치된 팩터리로 요소를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>namespace</CODE> - namespace or null / 네임스페이스 또는 null<DD><CODE>prefix</CODE> - prefix or null / 접두사 또는 null<DD><CODE>local</CODE> - local name / 로컬 이름
+<DT><B>Returns:</B><DD>the element / 요소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createTextNode(java.lang.String)"><!-- --></A><H3>
+createTextNode</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Text.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Text</A> <B>createTextNode</B>(java.lang.String&nbsp;data)</PRE>
+<DL>
+<DD>Creates a text node.
+ <p>
+ 텍스트 노드를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - text / 텍스트
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createComment(java.lang.String)"><!-- --></A><H3>
+createComment</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Comment.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Comment</A> <B>createComment</B>(java.lang.String&nbsp;data)</PRE>
+<DL>
+<DD>Creates a comment.
+ <p>
+ 주석을 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - comment text / 주석 텍스트
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createCDATASection(java.lang.String)"><!-- --></A><H3>
+createCDATASection</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/CDATASection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">CDATASection</A> <B>createCDATASection</B>(java.lang.String&nbsp;data)</PRE>
+<DL>
+<DD>Creates a CDATA section (XML documents only).
+ <p>
+ CDATA 섹션을 만든다(XML 문서만).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - text, must not contain <code>]]&gt;</code> / 텍스트(<code>]]&gt;</code> 포함 불가)
+<DT><B>Returns:</B><DD>the node / 노드
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - NotSupportedError in HTML documents, InvalidCharacterError for <code>]]&gt;</code> / HTML 문서에서는 NotSupportedError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createProcessingInstruction(java.lang.String, java.lang.String)"><!-- --></A><H3>
+createProcessingInstruction</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ProcessingInstruction.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ProcessingInstruction</A> <B>createProcessingInstruction</B>(java.lang.String&nbsp;target,
+                                                         java.lang.String&nbsp;data)</PRE>
+<DL>
+<DD>Creates a processing instruction.
+ <p>
+ 처리 명령을 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>target</CODE> - target name / 대상 이름<DD><CODE>data</CODE> - data, must not contain <code>?&gt;</code> / 데이터(<code>?&gt;</code> 포함 불가)
+<DT><B>Returns:</B><DD>the node / 노드
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidCharacterError for an invalid target or data / 대상이나 데이터가 올바르지 않으면 InvalidCharacterError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createDocumentFragment()"><!-- --></A><H3>
+createDocumentFragment</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentFragment.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentFragment</A> <B>createDocumentFragment</B>()</PRE>
+<DL>
+<DD>Creates an empty document fragment.
+ <p>
+ 빈 문서 조각을 만든다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the fragment / 조각</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createRange()"><!-- --></A><H3>
+createRange</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A> <B>createRange</B>()</PRE>
+<DL>
+<DD>Creates a range that is collapsed at the start of this document (DOM Standard, <code>document.createRange()</code>). The range is
+ live: it follows the changes of the tree.
+ <p>
+ 이 문서의 시작에 접힌 범위를 만든다(DOM 표준 <code>document.createRange()</code>). 범위는 살아 있어 트리의 변경을 따라간다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the range / 범위</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createNodeIterator(org.duckdns.hjow.swingwebpanel.dom.Node, long, org.duckdns.hjow.swingwebpanel.dom.NodeFilter)"><!-- --></A><H3>
+createNodeIterator</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeIterator.html" title="class in org.duckdns.hjow.swingwebpanel.dom">NodeIterator</A> <B>createNodeIterator</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;root,
+                                       long&nbsp;whatToShow,
+                                       <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">NodeFilter</A>&nbsp;filter)</PRE>
+<DL>
+<DD>Creates a node iterator (DOM Standard, <code>document.createNodeIterator()</code>); it starts before the root.
+ <p>
+ 노드 반복자를 만든다(DOM 표준 <code>document.createNodeIterator()</code>). 루트 앞에서 시작한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>root</CODE> - the root node, not null / 루트 노드(null 불가)<DD><CODE>whatToShow</CODE> - the bit mask of the node kinds to show (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><CODE>NodeFilter</CODE></A>) / 보여 줄 노드 종류의 비트 마스크(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><CODE>NodeFilter</CODE></A> 참조)<DD><CODE>filter</CODE> - the filter or null / 필터 또는 null
+<DT><B>Returns:</B><DD>the iterator / 반복자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createTreeWalker(org.duckdns.hjow.swingwebpanel.dom.Node, long, org.duckdns.hjow.swingwebpanel.dom.NodeFilter)"><!-- --></A><H3>
+createTreeWalker</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/TreeWalker.html" title="class in org.duckdns.hjow.swingwebpanel.dom">TreeWalker</A> <B>createTreeWalker</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;root,
+                                   long&nbsp;whatToShow,
+                                   <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">NodeFilter</A>&nbsp;filter)</PRE>
+<DL>
+<DD>Creates a tree walker (DOM Standard, <code>document.createTreeWalker()</code>); its current node is the root.
+ <p>
+ 트리 걷기 도구를 만든다(DOM 표준 <code>document.createTreeWalker()</code>). 현재 노드는 루트이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>root</CODE> - the root node, not null / 루트 노드(null 불가)<DD><CODE>whatToShow</CODE> - the bit mask of the node kinds to show (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><CODE>NodeFilter</CODE></A>) / 보여 줄 노드 종류의 비트 마스크(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><CODE>NodeFilter</CODE></A> 참조)<DD><CODE>filter</CODE> - the filter or null / 필터 또는 null
+<DT><B>Returns:</B><DD>the walker / 걷는 도구</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSelection()"><!-- --></A><H3>
+getSelection</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Selection</A> <B>getSelection</B>()</PRE>
+<DL>
+<DD>Returns the selection of this document (W3C Selection API, <code>document.getSelection()</code>); the same object every time.
+ <p>
+ 이 문서의 선택을 반환한다(W3C Selection API <code>document.getSelection()</code>). 언제나 같은 객체이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the selection / 선택</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isDesignMode()"><!-- --></A><H3>
+isDesignMode</H3>
+<PRE>
+public boolean <B>isDesignMode</B>()</PRE>
+<DL>
+<DD>Tells whether the document is in design mode.
+ <p>
+ 문서가 디자인 모드인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if <code>designMode</code> is "on" / <code>designMode</code> 가 "on" 이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setDesignMode(boolean)"><!-- --></A><H3>
+setDesignMode</H3>
+<PRE>
+public void <B>setDesignMode</B>(boolean&nbsp;on)</PRE>
+<DL>
+<DD>Switches design mode. Turning it on puts the selection at the start of the document (HTML Standard: "reset the active range's start and
+ end boundary points to be at the start of the document"; here inside the body so that the caret has a text position).
+ <p>
+ 디자인 모드를 바꾼다. 켜면 선택을 문서의 시작에 둔다(HTML Standard: "active range 의 시작과 끝을 문서의 시작으로 되돌린다". 여기서는 캐럿이 텍스트 위치를
+ 가지도록 body 안에 둔다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>on</CODE> - true to switch it on / 켜려면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEditor()"><!-- --></A><H3>
+getEditor</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html" title="class in org.duckdns.hjow.swingwebpanel.dom.edit">Editor</A> <B>getEditor</B>()</PRE>
+<DL>
+<DD>Returns the editor of this document (the editing commands, the undo history and the input events); the same object every time.
+ <p>
+ 이 문서의 편집기(편집 명령, 되돌리기 이력, 입력 이벤트)를 반환한다. 언제나 같은 객체이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the editor / 편집기</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setSelectionListener(org.duckdns.hjow.swingwebpanel.dom.SelectionListener)"><!-- --></A><H3>
+setSelectionListener</H3>
+<PRE>
+public void <B>setSelectionListener</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/SelectionListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">SelectionListener</A>&nbsp;listener)</PRE>
+<DL>
+<DD>Sets the listener that is told about every change of the selection of this document (null removes it). Install it before the page is
+ shared with other threads: the component of the page does it right after the document is created, so that scripts and the user act
+ on the same selection and the same notifications.
+ <p>
+ 이 문서의 선택이 바뀔 때마다 알리는 리스너를 지정한다(null 이면 제거). 페이지를 다른 스레드와 공유하기 전에 설치한다: 페이지의 컴포넌트는 문서를 만든
+ 직후 설치하므로, 스크립트와 사용자가 같은 선택과 같은 통지를 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>listener</CODE> - the listener or null / 리스너. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHighlights()"><!-- --></A><H3>
+getHighlights</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html" title="class in org.duckdns.hjow.swingwebpanel.dom">HighlightRegistry</A> <B>getHighlights</B>()</PRE>
+<DL>
+<DD>Returns the highlight registry of this document, creating it when needed (CSS Custom Highlight API Level 1, section 3.2).
+ <p>
+ 이 문서의 하이라이트 등록부를 반환하며 필요하면 만든다(CSS Custom Highlight API Level 1, 3.2 절).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the registry / 등록부</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addToTopLayer(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+addToTopLayer</H3>
+<PRE>
+public void <B>addToTopLayer</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Adds an element to the top layer, moving it to the end if it is already there (CSS Positioned Layout 4 section 3.3, "add an element to the top layer").
+ <p>
+ 요소를 최상위 계층에 더한다. 이미 있으면 끝으로 옮긴다(CSS Positioned Layout 4 3.3 절의 "add an element to the top layer").
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeFromTopLayer(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+removeFromTopLayer</H3>
+<PRE>
+public boolean <B>removeFromTopLayer</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Removes an element from the top layer.
+ <p>
+ 요소를 최상위 계층에서 뺀다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>true if it was there / 있었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isInTopLayer(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+isInTopLayer</H3>
+<PRE>
+public boolean <B>isInTopLayer</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Tells whether an element is in the top layer of this document (an element that left the document is not).
+ <p>
+ 요소가 이 문서의 최상위 계층에 있는지 알려 준다(문서를 떠난 요소는 아니다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>true if it is / 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTopLayer()"><!-- --></A><H3>
+getTopLayer</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&gt; <B>getTopLayer</B>()</PRE>
+<DL>
+<DD>Returns the elements of the top layer in order (the last is on top); elements that left the document are dropped from the layer (the removing steps of
+ a dialog).
+ <p>
+ 최상위 계층의 요소를 순서대로 반환한다(마지막 것이 가장 위). 문서를 떠난 요소는 계층에서 뺀다(대화상자의 제거 단계).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a new list / 새 목록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLastRememberedSize(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+getLastRememberedSize</H3>
+<PRE>
+public double[] <B>getLastRememberedSize</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Returns the last remembered size of an element: the inner width and height of its principal box when it last had
+ <code>contain-intrinsic-size: auto</code> without size containment (CSS Box Sizing 4 section 5.2.1), or null.
+ <p>
+ 요소의 마지막으로 기억한 크기를 반환한다: 크기 격리 없이 <code>contain-intrinsic-size: auto</code> 를 마지막으로 가졌을 때 주 상자의 안쪽 너비와 높이(CSS Box Sizing 4
+ 5.2.1 절). 없으면 null.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>{width, height} or null / {너비, 높이} 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setLastRememberedSize(org.duckdns.hjow.swingwebpanel.dom.Element, double[])"><!-- --></A><H3>
+setLastRememberedSize</H3>
+<PRE>
+public void <B>setLastRememberedSize</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                                  double[]&nbsp;size)</PRE>
+<DL>
+<DD>Records or removes the last remembered size of an element (the layout does it after every layout, as at the time of the resize observations).
+ <p>
+ 요소의 마지막으로 기억한 크기를 기록하거나 지운다(배치가 배치마다, 크기 관찰 시점처럼 한다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소<DD><CODE>size</CODE> - {width, height}, or null to remove it / {너비, 높이}. 지우려면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="peekHighlights()"><!-- --></A><H3>
+peekHighlights</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html" title="class in org.duckdns.hjow.swingwebpanel.dom">HighlightRegistry</A> <B>peekHighlights</B>()</PRE>
+<DL>
+<DD>Returns the highlight registry of this document without creating it (the renderer asks this).
+ <p>
+ 이 문서의 하이라이트 등록부를 만들지 않고 반환한다(렌더러가 묻는다).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the registry or null / 등록부. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createDocumentType(java.lang.String, java.lang.String, java.lang.String)"><!-- --></A><H3>
+createDocumentType</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentType.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentType</A> <B>createDocumentType</B>(java.lang.String&nbsp;name,
+                                       java.lang.String&nbsp;publicId,
+                                       java.lang.String&nbsp;systemId)</PRE>
+<DL>
+<DD>Creates a document type node.
+ <p>
+ 문서 유형 노드를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - name / 이름<DD><CODE>publicId</CODE> - public identifier or null / 공개 식별자 또는 null<DD><CODE>systemId</CODE> - system identifier or null / 시스템 식별자 또는 null
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createAttribute(java.lang.String)"><!-- --></A><H3>
+createAttribute</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Attr.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Attr</A> <B>createAttribute</B>(java.lang.String&nbsp;localName)</PRE>
+<DL>
+<DD>Creates an attribute without namespace (<code>createAttribute</code>); the name is lower-cased in HTML documents.
+ <p>
+ 네임스페이스 없는 속성을 만든다(<code>createAttribute</code>). HTML 문서에서는 이름을 소문자로 바꾼다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>localName</CODE> - attribute name / 속성 이름
+<DT><B>Returns:</B><DD>the attribute / 속성
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidCharacterError if the name is not valid / 이름이 올바르지 않으면 InvalidCharacterError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createAttributeNS(java.lang.String, java.lang.String)"><!-- --></A><H3>
+createAttributeNS</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Attr.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Attr</A> <B>createAttributeNS</B>(java.lang.String&nbsp;namespace,
+                              java.lang.String&nbsp;qualifiedName)</PRE>
+<DL>
+<DD>Creates an attribute with a namespace (<code>createAttributeNS</code>).
+ <p>
+ 네임스페이스가 있는 속성을 만든다(<code>createAttributeNS</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>namespace</CODE> - namespace or null / 네임스페이스 또는 null<DD><CODE>qualifiedName</CODE> - qualified name / 정규화된 이름
+<DT><B>Returns:</B><DD>the attribute / 속성
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidCharacterError or NamespaceError / InvalidCharacterError 또는 NamespaceError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isWindowFocused()"><!-- --></A><H3>
+isWindowFocused</H3>
+<PRE>
+public boolean <B>isWindowFocused</B>()</PRE>
+<DL>
+<DD>Tells whether the window (the component) of this document has the focus.
+ <p>
+ 이 문서의 창(컴포넌트)에 포커스가 있는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if it has the focus / 포커스가 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isScriptingEnabled()"><!-- --></A><H3>
+isScriptingEnabled</H3>
+<PRE>
+public boolean <B>isScriptingEnabled</B>()</PRE>
+<DL>
+<DD>Returns the document's scripting flag. / 문서의 스크립트 사용 여부를 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setScriptingEnabled(boolean)"><!-- --></A><H3>
+setScriptingEnabled</H3>
+<PRE>
+public void <B>setScriptingEnabled</B>(boolean&nbsp;enabled)</PRE>
+<DL>
+<DD>Stores the scripting flag used by the document's media and styles. / 문서의 미디어와 스타일이 사용할 스크립트 설정을 저장한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>enabled</CODE> - true when author scripts can run / 작성자 스크립트가 실행 가능하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setWindowFocused(boolean)"><!-- --></A><H3>
+setWindowFocused</H3>
+<PRE>
+public void <B>setWindowFocused</B>(boolean&nbsp;value)</PRE>
+<DL>
+<DD>Records that the window (the component) gained or lost the focus; the host calls this together with
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/FocusManager.html#windowFocusChanged(org.duckdns.hjow.swingwebpanel.dom.Document, boolean)"><CODE>FocusManager.windowFocusChanged(Document, boolean)</CODE></A>.
+ <p>
+ 창(컴포넌트)이 포커스를 얻거나 잃었음을 기록한다. 호스트가 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/FocusManager.html#windowFocusChanged(org.duckdns.hjow.swingwebpanel.dom.Document, boolean)"><CODE>FocusManager.windowFocusChanged(Document, boolean)</CODE></A> 와 함께 호출한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - the new state / 새 상태</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="listenerAdded(java.lang.String)"><!-- --></A><H3>
+listenerAdded</H3>
+<PRE>
+protected void <B>listenerAdded</B>(java.lang.String&nbsp;type)</PRE>
+<DL>
+<DD>Adds a listener and remembers that a <code>visibilitychange</code> listener exists (the host asks it from any thread, to know whether a page that is left
+ has anyone to tell).
+ <p>
+ 리스너를 추가하고 <code>visibilitychange</code> 리스너가 있다는 것을 기억한다(떠나는 페이지에 알릴 상대가 있는지 호스트가 아무 스레드에서나 묻는다).
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#listenerAdded(java.lang.String)">listenerAdded</A></CODE> in class <CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - the registered event type / 등록한 이벤트 종류</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasVisibilityListener()"><!-- --></A><H3>
+hasVisibilityListener</H3>
+<PRE>
+public boolean <B>hasVisibilityListener</B>()</PRE>
+<DL>
+<DD>Tells whether a <code>visibilitychange</code> listener was ever registered at this document (readable from any thread).
+ <p>
+ 이 문서에 <code>visibilitychange</code> 리스너가 등록된 적이 있는지 알려 준다(어느 스레드에서나 읽을 수 있다).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if one was registered / 등록된 적이 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createEvent(java.lang.String)"><!-- --></A><H3>
+createEvent</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Event</A> <B>createEvent</B>(java.lang.String&nbsp;interfaceName)</PRE>
+<DL>
+<DD>Creates an event object by interface name (<code>createEvent</code>): <code>Event</code>, <code>Events</code>,
+ <code>HTMLEvents</code>, <code>CustomEvent</code> and the UI events (<code>UIEvent</code>, <code>MouseEvent</code>, <code>WheelEvent</code>,
+ <code>KeyboardEvent</code>, <code>FocusEvent</code>, <code>InputEvent</code>, <code>CompositionEvent</code>; case-insensitive). The event must be initialized with
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#initEvent(java.lang.String, boolean, boolean)"><CODE>Event.initEvent(String, boolean, boolean)</CODE></A> before it is dispatched.
+ <p>
+ 인터페이스 이름으로 이벤트 객체를 만든다(<code>createEvent</code>): <code>Event</code>, <code>Events</code>, <code>HTMLEvents</code>,
+ <code>CustomEvent</code>(대소문자 무시). 전달하기 전에 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#initEvent(java.lang.String, boolean, boolean)"><CODE>Event.initEvent(String, boolean, boolean)</CODE></A> 로 초기화해야 한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>interfaceName</CODE> - interface name / 인터페이스 이름
+<DT><B>Returns:</B><DD>the uninitialized event / 초기화되지 않은 이벤트
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - NotSupportedError for unknown interfaces / 알 수 없는 인터페이스이면 NotSupportedError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="importNode(org.duckdns.hjow.swingwebpanel.dom.Node, boolean)"><!-- --></A><H3>
+importNode</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A> <B>importNode</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+                       boolean&nbsp;deep)</PRE>
+<DL>
+<DD>Imports a copy of a node from another document (<code>importNode</code>).
+ <p>
+ 다른 문서의 노드의 복사본을 가져온다(<code>importNode</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - node to copy / 복사할 노드<DD><CODE>deep</CODE> - true to copy the descendants / 후손도 복사하려면 true
+<DT><B>Returns:</B><DD>the copy, owned by this document / 이 문서가 소유한 복사본
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - NotSupportedError for documents / 문서이면 NotSupportedError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="adoptNode(org.duckdns.hjow.swingwebpanel.dom.Node)"><!-- --></A><H3>
+adoptNode</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A> <B>adoptNode</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</PRE>
+<DL>
+<DD>Moves a node (with its subtree) into this document (<code>adoptNode</code>).
+ <p>
+ 노드(와 하위 트리)를 이 문서로 옮긴다(<code>adoptNode</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - node to adopt / 옮길 노드
+<DT><B>Returns:</B><DD>the same node / 같은 노드
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - NotSupportedError for documents / 문서이면 NotSupportedError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getElementById(java.lang.String)"><!-- --></A><H3>
+getElementById</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>getElementById</B>(java.lang.String&nbsp;id)</PRE>
+<DL>
+<DD>Returns the first element in tree order with an id (<code>getElementById</code>). The index is rebuilt only when the document changed.
+ <p>
+ 트리 순서로 id 가 같은 첫 요소를 반환한다(<code>getElementById</code>). 색인은 문서가 바뀐 경우에만 다시 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - id value / id 값
+<DT><B>Returns:</B><DD>element or null / 요소 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getAll()"><!-- --></A><H3>
+getAll</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/AllElements.html" title="class in org.duckdns.hjow.swingwebpanel.dom">AllElements</A> <B>getAll</B>()</PRE>
+<DL>
+<DD>Returns the live legacy collection of every element in this document.
+ <p>
+ 문서의 모든 요소를 담은 라이브 레거시 컬렉션을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the legacy collection for this document / 이 문서의 레거시 컬렉션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getElementsByTagName(java.lang.String)"><!-- --></A><H3>
+getElementsByTagName</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A> <B>getElementsByTagName</B>(java.lang.String&nbsp;qualifiedName)</PRE>
+<DL>
+<DD>Returns the live collection of all elements with a tag name.
+ <p>
+ 태그 이름을 가진 모든 요소의 라이브 컬렉션을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>qualifiedName</CODE> - name or * / 이름 또는 *
+<DT><B>Returns:</B><DD>collection / 컬렉션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getElementsByTagNameNS(java.lang.String, java.lang.String)"><!-- --></A><H3>
+getElementsByTagNameNS</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A> <B>getElementsByTagNameNS</B>(java.lang.String&nbsp;namespace,
+                                                java.lang.String&nbsp;localName)</PRE>
+<DL>
+<DD>Returns the live collection of all elements with a namespace and local name.
+ <p>
+ 네임스페이스와 로컬 이름을 가진 모든 요소의 라이브 컬렉션을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>namespace</CODE> - namespace or * / 네임스페이스 또는 *<DD><CODE>localName</CODE> - local name or * / 로컬 이름 또는 *
+<DT><B>Returns:</B><DD>collection / 컬렉션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getElementsByClassName(java.lang.String)"><!-- --></A><H3>
+getElementsByClassName</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A> <B>getElementsByClassName</B>(java.lang.String&nbsp;classNames)</PRE>
+<DL>
+<DD>Returns the live collection of all elements that have all the class names.
+ <p>
+ 모든 클래스 이름을 가진 모든 요소의 라이브 컬렉션을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>classNames</CODE> - space separated class names / 공백으로 구분한 클래스 이름
+<DT><B>Returns:</B><DD>collection / 컬렉션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="querySelector(java.lang.String)"><!-- --></A><H3>
+querySelector</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>querySelector</B>(java.lang.String&nbsp;selectors)</PRE>
+<DL>
+<DD>Returns the first element in the document that matches a selector list.
+ <p>
+ 문서에서 선택자 목록에 일치하는 첫 요소를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>selectors</CODE> - selector list / 선택자 목록
+<DT><B>Returns:</B><DD>element or null / 요소 또는 null
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - SyntaxError or NotSupportedError / SyntaxError 또는 NotSupportedError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="querySelectorAll(java.lang.String)"><!-- --></A><H3>
+querySelectorAll</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeList.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">NodeList</A> <B>querySelectorAll</B>(java.lang.String&nbsp;selectors)</PRE>
+<DL>
+<DD>Returns all elements of the document that match a selector list as a static list.
+ <p>
+ 선택자 목록에 일치하는 문서의 모든 요소를 정적 목록으로 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>selectors</CODE> - selector list / 선택자 목록
+<DT><B>Returns:</B><DD>static list / 정적 목록
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - SyntaxError or NotSupportedError / SyntaxError 또는 NotSupportedError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getImplementation()"><!-- --></A><H3>
+getImplementation</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomImplementation.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomImplementation</A> <B>getImplementation</B>()</PRE>
+<DL>
+<DD>Returns the DOM implementation object (<code>document.implementation</code>).
+ <p>
+ DOM 구현 객체를 반환한다(<code>document.implementation</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>implementation / 구현 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMutationVersion()"><!-- --></A><H3>
+getMutationVersion</H3>
+<PRE>
+public long <B>getMutationVersion</B>()</PRE>
+<DL>
+<DD>Returns the mutation version: it grows whenever the tree structure or an attribute changes. Live collections and the id index compare it
+ to decide whether to refresh.
+ <p>
+ 변경 버전을 반환한다: 트리 구조나 속성이 바뀔 때마다 증가한다. 라이브 컬렉션과 id 색인은 이것을 비교해 갱신 여부를 정한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>version / 버전</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addMutationListener(org.duckdns.hjow.swingwebpanel.dom.DomMutationListener)"><!-- --></A><H3>
+addMutationListener</H3>
+<PRE>
+public void <B>addMutationListener</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMutationListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">DomMutationListener</A>&nbsp;listener)</PRE>
+<DL>
+<DD>Registers a listener of DOM changes.
+ <p>
+ DOM 변경 리스너를 등록한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>listener</CODE> - listener, not null / 리스너(null 불가)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeMutationListener(org.duckdns.hjow.swingwebpanel.dom.DomMutationListener)"><!-- --></A><H3>
+removeMutationListener</H3>
+<PRE>
+public void <B>removeMutationListener</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMutationListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">DomMutationListener</A>&nbsp;listener)</PRE>
+<DL>
+<DD>Removes a listener of DOM changes.
+ <p>
+ DOM 변경 리스너를 제거한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>listener</CODE> - listener / 리스너</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setElementFactory(org.duckdns.hjow.swingwebpanel.dom.ElementFactory)"><!-- --></A><H3>
+setElementFactory</H3>
+<PRE>
+public void <B>setElementFactory</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">ElementFactory</A>&nbsp;factory)</PRE>
+<DL>
+<DD>Installs the element factory (the HTML layer installs the one for specialized HTML elements); null restores the plain one.
+ <p>
+ 요소 팩터리를 설치한다(HTML 계층이 특화된 HTML 요소용 팩터리를 설치한다). null 이면 기본 팩터리로 되돌린다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>factory</CODE> - factory or null / 팩터리 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFormSupport()"><!-- --></A><H3>
+getFormSupport</H3>
+<PRE>
+public final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormSupport.html" title="class in org.duckdns.hjow.swingwebpanel.dom.html">FormSupport</A> <B>getFormSupport</B>()</PRE>
+<DL>
+<DD>Returns the support object of the HTML form controls of this document, creating it when needed. It owns the form host, the
+ observation of the tree changes that radio button groups and <code>select</code> elements depend on, and the state version.
+ <p>
+ 이 문서의 HTML 폼 컨트롤 지원 객체를 반환하며 필요하면 만든다. 폼 호스트, 라디오 버튼 그룹과 <code>select</code> 요소가 의존하는 트리 변경의 관찰,
+ 상태 버전을 가진다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the support object / 지원 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setFormHost(org.duckdns.hjow.swingwebpanel.dom.html.FormHost)"><!-- --></A><H3>
+setFormHost</H3>
+<PRE>
+public void <B>setFormHost</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormHost.html" title="interface in org.duckdns.hjow.swingwebpanel.dom.html">FormHost</A>&nbsp;host)</PRE>
+<DL>
+<DD>Installs the host of the form controls of this document (navigation of submissions, validation bubbles, file choosers, state change
+ notifications); null removes it.
+ <p>
+ 이 문서의 폼 컨트롤의 호스트(제출 이동, 검증 말풍선, 파일 선택기, 상태 변경 통지)를 설치한다. null 이면 제거한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>host</CODE> - the host or null / 호스트 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFormHost()"><!-- --></A><H3>
+getFormHost</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormHost.html" title="interface in org.duckdns.hjow.swingwebpanel.dom.html">FormHost</A> <B>getFormHost</B>()</PRE>
+<DL>
+<DD>Returns the host of the form controls, or null if none was installed.
+ <p>
+ 폼 컨트롤의 호스트를 반환한다. 설치하지 않았으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the host or null / 호스트 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setSelectorEngine(org.duckdns.hjow.swingwebpanel.dom.SelectorEngine)"><!-- --></A><H3>
+setSelectorEngine</H3>
+<PRE>
+public void <B>setSelectorEngine</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/SelectorEngine.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">SelectorEngine</A>&nbsp;engine)</PRE>
+<DL>
+<DD>Installs the selector engine.
+ <p>
+ 선택자 엔진을 설치한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>engine</CODE> - engine or null / 엔진 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSelectorEngine()"><!-- --></A><H3>
+getSelectorEngine</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/SelectorEngine.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">SelectorEngine</A> <B>getSelectorEngine</B>()</PRE>
+<DL>
+<DD>Returns the installed selector engine, or null.
+ <p>
+ 설치된 선택자 엔진을 반환한다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>engine or null / 엔진 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMarkupSupport(org.duckdns.hjow.swingwebpanel.dom.MarkupSupport)"><!-- --></A><H3>
+setMarkupSupport</H3>
+<PRE>
+public void <B>setMarkupSupport</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MarkupSupport.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">MarkupSupport</A>&nbsp;support)</PRE>
+<DL>
+<DD>Installs the markup parser and serializer.
+ <p>
+ 마크업 파서와 직렬화기를 설치한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>support</CODE> - support object or null / 지원 객체 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setListenerErrorHandler(org.duckdns.hjow.swingwebpanel.dom.ListenerErrorHandler)"><!-- --></A><H3>
+setListenerErrorHandler</H3>
+<PRE>
+public void <B>setListenerErrorHandler</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ListenerErrorHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">ListenerErrorHandler</A>&nbsp;handler)</PRE>
+<DL>
+<DD>Installs the handler that receives failures of event listeners; null restores the printing handler.
+ <p>
+ 이벤트 리스너의 실패를 받는 핸들러를 설치한다. null 이면 출력 핸들러로 되돌린다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>handler</CODE> - handler or null / 핸들러 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setEventWindow(org.duckdns.hjow.swingwebpanel.dom.EventTarget)"><!-- --></A><H3>
+setEventWindow</H3>
+<PRE>
+public void <B>setEventWindow</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A>&nbsp;window)</PRE>
+<DL>
+<DD>Sets the window that follows the document in the event path (all events except <code>load</code> propagate from the document to it).
+ <p>
+ 이벤트 경로에서 문서 뒤에 오는 window 를 지정한다(<code>load</code> 를 제외한 모든 이벤트가 문서에서 그것으로 전파된다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>window</CODE> - event target or null / 이벤트 대상 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEventParent(org.duckdns.hjow.swingwebpanel.dom.Event)"><!-- --></A><H3>
+getEventParent</H3>
+<PRE>
+protected <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A> <B>getEventParent</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Event</A>&nbsp;event)</PRE>
+<DL>
+<DD>Returns the window as the next event target, except for <code>load</code> events.
+ <p>
+ <code>load</code> 이벤트를 제외하고 window 를 다음 이벤트 대상으로 반환한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html#getEventParent(org.duckdns.hjow.swingwebpanel.dom.Event)">getEventParent</A></CODE> in class <CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>event</CODE> - the event / 이벤트
+<DT><B>Returns:</B><DD>the window or null / window 또는 null</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DataTransferItemList.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentFragment.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/Document.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Document.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_classes_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.EventTarget">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,479 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+InputEvent
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="InputEvent";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/KeyboardEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/InputEvent.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="InputEvent.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.Event">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom</FONT>
+<BR>
+Class InputEvent</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html" title="class in org.duckdns.hjow.swingwebpanel.dom">org.duckdns.hjow.swingwebpanel.dom.Event</A>
+      <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">org.duckdns.hjow.swingwebpanel.dom.UiEvent</A>
+          <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.dom.InputEvent</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public class <B>InputEvent</B><DT>extends <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">UiEvent</A></DL>
+</PRE>
+
+<P>
+An input event (UI Events and Input Events): a change of the value of an editable element, with the text that was inserted and the
+ kind of change (<code>insertText</code>, <code>deleteContentBackward</code> ...), also used for <code>beforeinput</code>.
+ <p>
+ 입력 이벤트(UI Events, Input Events): 편집 가능한 요소의 값이 바뀌었다는 이벤트이며 삽입한 텍스트와 변경 종류(<code>insertText</code>,
+ <code>deleteContentBackward</code> 등)를 가진다. <code>beforeinput</code> 에도 쓴다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.Event"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Event</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#AT_TARGET">AT_TARGET</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#BUBBLING_PHASE">BUBBLING_PHASE</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#CAPTURING_PHASE">CAPTURING_PHASE</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#NONE">NONE</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/InputEvent.html#InputEvent(java.lang.String, boolean, boolean)">InputEvent</A></B>(java.lang.String&nbsp;type,
+           boolean&nbsp;bubbles,
+           boolean&nbsp;cancelable)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an input event.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/InputEvent.html#getData()">getData</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the inserted text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ClipboardData</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/InputEvent.html#getDataTransfer()">getDataTransfer</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the data transfer of the event (<code>dataTransfer</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/InputEvent.html#getInputType()">getInputType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the kind of change.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/StaticRange.html" title="class in org.duckdns.hjow.swingwebpanel.dom">StaticRange</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/InputEvent.html#getTargetRanges()">getTargetRanges</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy of the target ranges (<code>getTargetRanges()</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/InputEvent.html#isComposing()">isComposing</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether an input method composes text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/InputEvent.html#setDataTransfer(org.duckdns.hjow.swingwebpanel.dom.ClipboardData)">setDataTransfer</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ClipboardData</A>&nbsp;transfer)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the data transfer of the event.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/InputEvent.html#setInput(java.lang.String, java.lang.String, boolean)">setInput</A></B>(java.lang.String&nbsp;text,
+         java.lang.String&nbsp;kind,
+         boolean&nbsp;isComposing)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets what the event reports.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/InputEvent.html#setTargetRanges(java.util.List)">setTargetRanges</A></B>(java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/StaticRange.html" title="class in org.duckdns.hjow.swingwebpanel.dom">StaticRange</A>&gt;&nbsp;ranges)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the target ranges of the event (copied).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.UiEvent"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">UiEvent</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#getDetail()">getDetail</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#getModifierState(java.lang.String)">getModifierState</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#isAltKey()">isAltKey</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#isCtrlKey()">isCtrlKey</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#isMetaKey()">isMetaKey</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#isShiftKey()">isShiftKey</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#setDetail(int)">setDetail</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#setModifiers(boolean, boolean, boolean, boolean)">setModifiers</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.Event"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Event</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#composedPath()">composedPath</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#getCurrentTarget()">getCurrentTarget</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#getEventPhase()">getEventPhase</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#getTarget()">getTarget</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#getTimeStamp()">getTimeStamp</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#getType()">getType</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#initEvent(java.lang.String, boolean, boolean)">initEvent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isBubbles()">isBubbles</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isCancelable()">isCancelable</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isComposed()">isComposed</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isDefaultPrevented()">isDefaultPrevented</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isTrusted()">isTrusted</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#preventDefault()">preventDefault</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#setComposed(boolean)">setComposed</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#setTrusted(boolean)">setTrusted</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#stopImmediatePropagation()">stopImmediatePropagation</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#stopPropagation()">stopPropagation</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="InputEvent(java.lang.String, boolean, boolean)"><!-- --></A><H3>
+InputEvent</H3>
+<PRE>
+public <B>InputEvent</B>(java.lang.String&nbsp;type,
+                  boolean&nbsp;bubbles,
+                  boolean&nbsp;cancelable)</PRE>
+<DL>
+<DD>Creates an input event.
+ <p>
+ 입력 이벤트를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - the event type / 이벤트 종류<DD><CODE>bubbles</CODE> - whether it bubbles / 버블링 여부<DD><CODE>cancelable</CODE> - whether it can be cancelled / 취소 가능 여부</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="setInput(java.lang.String, java.lang.String, boolean)"><!-- --></A><H3>
+setInput</H3>
+<PRE>
+public void <B>setInput</B>(java.lang.String&nbsp;text,
+                     java.lang.String&nbsp;kind,
+                     boolean&nbsp;isComposing)</PRE>
+<DL>
+<DD>Sets what the event reports.
+ <p>
+ 이벤트가 알리는 내용을 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the inserted text or null / 삽입한 텍스트. 없으면 null<DD><CODE>kind</CODE> - the kind of change / 변경 종류<DD><CODE>isComposing</CODE> - whether an input method composes / 입력기가 조합 중인지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getData()"><!-- --></A><H3>
+getData</H3>
+<PRE>
+public java.lang.String <B>getData</B>()</PRE>
+<DL>
+<DD>Returns the inserted text.
+ <p>
+ 삽입한 텍스트를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the text or null / 텍스트. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getInputType()"><!-- --></A><H3>
+getInputType</H3>
+<PRE>
+public java.lang.String <B>getInputType</B>()</PRE>
+<DL>
+<DD>Returns the kind of change.
+ <p>
+ 변경 종류를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the kind / 종류</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isComposing()"><!-- --></A><H3>
+isComposing</H3>
+<PRE>
+public boolean <B>isComposing</B>()</PRE>
+<DL>
+<DD>Tells whether an input method composes text.
+ <p>
+ 입력기가 텍스트를 조합 중인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if composing / 조합 중이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setDataTransfer(org.duckdns.hjow.swingwebpanel.dom.ClipboardData)"><!-- --></A><H3>
+setDataTransfer</H3>
+<PRE>
+public void <B>setDataTransfer</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ClipboardData</A>&nbsp;transfer)</PRE>
+<DL>
+<DD>Sets the data transfer of the event.
+ <p>
+ 이벤트의 데이터 전달 객체를 정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>transfer</CODE> - the data or null / 데이터. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDataTransfer()"><!-- --></A><H3>
+getDataTransfer</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ClipboardData</A> <B>getDataTransfer</B>()</PRE>
+<DL>
+<DD>Returns the data transfer of the event (<code>dataTransfer</code>).
+ <p>
+ 이벤트의 데이터 전달 객체를 반환한다(<code>dataTransfer</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the data or null / 데이터. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setTargetRanges(java.util.List)"><!-- --></A><H3>
+setTargetRanges</H3>
+<PRE>
+public void <B>setTargetRanges</B>(java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/StaticRange.html" title="class in org.duckdns.hjow.swingwebpanel.dom">StaticRange</A>&gt;&nbsp;ranges)</PRE>
+<DL>
+<DD>Sets the target ranges of the event (copied).
+ <p>
+ 이벤트의 대상 범위를 정한다(복사한다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ranges</CODE> - the ranges, null for none / 범위. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTargetRanges()"><!-- --></A><H3>
+getTargetRanges</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/StaticRange.html" title="class in org.duckdns.hjow.swingwebpanel.dom">StaticRange</A>&gt; <B>getTargetRanges</B>()</PRE>
+<DL>
+<DD>Returns a copy of the target ranges (<code>getTargetRanges()</code>).
+ <p>
+ 대상 범위의 복사본을 반환한다(<code>getTargetRanges()</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the ranges / 범위</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/KeyboardEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/InputEvent.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="InputEvent.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.Event">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

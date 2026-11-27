@@ -1,0 +1,590 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+NodeFilter
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="NodeFilter";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeIterator.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="NodeFilter.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom</FONT>
+<BR>
+Interface NodeFilter</H2>
+<DL>
+<DT><B>All Known Implementing Classes:</B> <DD><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/dom/JsNodeFilter.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom">JsNodeFilter</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public interface <B>NodeFilter</B></DL>
+</PRE>
+
+<P>
+A filter that a <code>NodeIterator</code> or a <code>TreeWalker</code> asks about every node it looks at (the <code>NodeFilter</code>
+ callback interface of the DOM Standard, "Interface NodeFilter"). It also holds the constants of the interface: the three results and the
+ bits of <code>whatToShow</code>.
+ <p>
+ <code>NodeIterator</code> 나 <code>TreeWalker</code> 가 살펴보는 모든 노드에 대해 묻는 필터(DOM 표준의 <code>NodeFilter</code> 콜백 인터페이스,
+ "Interface NodeFilter"). 인터페이스의 상수인 세 가지 결과와 <code>whatToShow</code> 의 비트도 함께 가진다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#FILTER_ACCEPT">FILTER_ACCEPT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Result: the node is accepted.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#FILTER_REJECT">FILTER_REJECT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Result: the node and its descendants are rejected (a <code>NodeIterator</code> treats this like skip).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#FILTER_SKIP">FILTER_SKIP</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Result: the node is skipped but its descendants are still looked at.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_ALL">SHOW_ALL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bit mask that shows every kind of node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_ATTRIBUTE">SHOW_ATTRIBUTE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bit of attribute nodes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_CDATA_SECTION">SHOW_CDATA_SECTION</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bit of CDATA section nodes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_COMMENT">SHOW_COMMENT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bit of comment nodes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_DOCUMENT">SHOW_DOCUMENT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bit of document nodes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_DOCUMENT_FRAGMENT">SHOW_DOCUMENT_FRAGMENT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bit of document fragment nodes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_DOCUMENT_TYPE">SHOW_DOCUMENT_TYPE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bit of document type nodes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_ELEMENT">SHOW_ELEMENT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bit of element nodes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_ENTITY">SHOW_ENTITY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bit of entity nodes (obsolete).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_ENTITY_REFERENCE">SHOW_ENTITY_REFERENCE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bit of entity reference nodes (obsolete).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_NOTATION">SHOW_NOTATION</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bit of notation nodes (obsolete).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_PROCESSING_INSTRUCTION">SHOW_PROCESSING_INSTRUCTION</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bit of processing instruction nodes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_TEXT">SHOW_TEXT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bit of text nodes.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#acceptNode(org.duckdns.hjow.swingwebpanel.dom.Node)">acceptNode</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Decides whether the walk accepts a node.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="FILTER_ACCEPT"><!-- --></A><H3>
+FILTER_ACCEPT</H3>
+<PRE>
+static final short <B>FILTER_ACCEPT</B></PRE>
+<DL>
+<DD>Result: the node is accepted.
+ <p>
+ 결과: 노드를 받아들인다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.NodeFilter.FILTER_ACCEPT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FILTER_REJECT"><!-- --></A><H3>
+FILTER_REJECT</H3>
+<PRE>
+static final short <B>FILTER_REJECT</B></PRE>
+<DL>
+<DD>Result: the node and its descendants are rejected (a <code>NodeIterator</code> treats this like skip).
+ <p>
+ 결과: 노드와 그 후손을 거부한다(<code>NodeIterator</code> 는 건너뛰기와 같게 다룬다).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.NodeFilter.FILTER_REJECT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FILTER_SKIP"><!-- --></A><H3>
+FILTER_SKIP</H3>
+<PRE>
+static final short <B>FILTER_SKIP</B></PRE>
+<DL>
+<DD>Result: the node is skipped but its descendants are still looked at.
+ <p>
+ 결과: 노드는 건너뛰지만 후손은 계속 살펴본다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.NodeFilter.FILTER_SKIP">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SHOW_ALL"><!-- --></A><H3>
+SHOW_ALL</H3>
+<PRE>
+static final long <B>SHOW_ALL</B></PRE>
+<DL>
+<DD>Bit mask that shows every kind of node.
+ <p>
+ 모든 종류의 노드를 보이는 비트 마스크.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.NodeFilter.SHOW_ALL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SHOW_ELEMENT"><!-- --></A><H3>
+SHOW_ELEMENT</H3>
+<PRE>
+static final long <B>SHOW_ELEMENT</B></PRE>
+<DL>
+<DD>Bit of element nodes.
+ <p>
+ 요소 노드의 비트.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.NodeFilter.SHOW_ELEMENT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SHOW_ATTRIBUTE"><!-- --></A><H3>
+SHOW_ATTRIBUTE</H3>
+<PRE>
+static final long <B>SHOW_ATTRIBUTE</B></PRE>
+<DL>
+<DD>Bit of attribute nodes.
+ <p>
+ 속성 노드의 비트.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.NodeFilter.SHOW_ATTRIBUTE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SHOW_TEXT"><!-- --></A><H3>
+SHOW_TEXT</H3>
+<PRE>
+static final long <B>SHOW_TEXT</B></PRE>
+<DL>
+<DD>Bit of text nodes.
+ <p>
+ 텍스트 노드의 비트.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.NodeFilter.SHOW_TEXT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SHOW_CDATA_SECTION"><!-- --></A><H3>
+SHOW_CDATA_SECTION</H3>
+<PRE>
+static final long <B>SHOW_CDATA_SECTION</B></PRE>
+<DL>
+<DD>Bit of CDATA section nodes.
+ <p>
+ CDATA 섹션 노드의 비트.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.NodeFilter.SHOW_CDATA_SECTION">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SHOW_ENTITY_REFERENCE"><!-- --></A><H3>
+SHOW_ENTITY_REFERENCE</H3>
+<PRE>
+static final long <B>SHOW_ENTITY_REFERENCE</B></PRE>
+<DL>
+<DD>Bit of entity reference nodes (obsolete).
+ <p>
+ 엔티티 참조 노드의 비트(폐기됨).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.NodeFilter.SHOW_ENTITY_REFERENCE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SHOW_ENTITY"><!-- --></A><H3>
+SHOW_ENTITY</H3>
+<PRE>
+static final long <B>SHOW_ENTITY</B></PRE>
+<DL>
+<DD>Bit of entity nodes (obsolete).
+ <p>
+ 엔티티 노드의 비트(폐기됨).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.NodeFilter.SHOW_ENTITY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SHOW_PROCESSING_INSTRUCTION"><!-- --></A><H3>
+SHOW_PROCESSING_INSTRUCTION</H3>
+<PRE>
+static final long <B>SHOW_PROCESSING_INSTRUCTION</B></PRE>
+<DL>
+<DD>Bit of processing instruction nodes.
+ <p>
+ 처리 명령 노드의 비트.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.NodeFilter.SHOW_PROCESSING_INSTRUCTION">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SHOW_COMMENT"><!-- --></A><H3>
+SHOW_COMMENT</H3>
+<PRE>
+static final long <B>SHOW_COMMENT</B></PRE>
+<DL>
+<DD>Bit of comment nodes.
+ <p>
+ 주석 노드의 비트.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.NodeFilter.SHOW_COMMENT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SHOW_DOCUMENT"><!-- --></A><H3>
+SHOW_DOCUMENT</H3>
+<PRE>
+static final long <B>SHOW_DOCUMENT</B></PRE>
+<DL>
+<DD>Bit of document nodes.
+ <p>
+ 문서 노드의 비트.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.NodeFilter.SHOW_DOCUMENT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SHOW_DOCUMENT_TYPE"><!-- --></A><H3>
+SHOW_DOCUMENT_TYPE</H3>
+<PRE>
+static final long <B>SHOW_DOCUMENT_TYPE</B></PRE>
+<DL>
+<DD>Bit of document type nodes.
+ <p>
+ 문서 유형 노드의 비트.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.NodeFilter.SHOW_DOCUMENT_TYPE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SHOW_DOCUMENT_FRAGMENT"><!-- --></A><H3>
+SHOW_DOCUMENT_FRAGMENT</H3>
+<PRE>
+static final long <B>SHOW_DOCUMENT_FRAGMENT</B></PRE>
+<DL>
+<DD>Bit of document fragment nodes.
+ <p>
+ 문서 조각 노드의 비트.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.NodeFilter.SHOW_DOCUMENT_FRAGMENT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SHOW_NOTATION"><!-- --></A><H3>
+SHOW_NOTATION</H3>
+<PRE>
+static final long <B>SHOW_NOTATION</B></PRE>
+<DL>
+<DD>Bit of notation nodes (obsolete).
+ <p>
+ 표기법 노드의 비트(폐기됨).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.NodeFilter.SHOW_NOTATION">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="acceptNode(org.duckdns.hjow.swingwebpanel.dom.Node)"><!-- --></A><H3>
+acceptNode</H3>
+<PRE>
+short <B>acceptNode</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</PRE>
+<DL>
+<DD>Decides whether the walk accepts a node. An exception that this method throws goes through the traversal call to its caller.
+ <p>
+ 탐색이 노드를 받아들일지 정한다. 이 메서드가 던진 예외는 탐색 호출을 거쳐 호출자에게 전달된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node to look at / 살펴볼 노드
+<DT><B>Returns:</B><DD><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#FILTER_ACCEPT"><CODE>FILTER_ACCEPT</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#FILTER_REJECT"><CODE>FILTER_REJECT</CODE></A> or <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#FILTER_SKIP"><CODE>FILTER_SKIP</CODE></A> / 세 결과 중 하나</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeIterator.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="NodeFilter.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

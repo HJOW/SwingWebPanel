@@ -1,0 +1,705 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+CssColor
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="CssColor";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.FunctionMapper.html" title="interface in org.duckdns.hjow.swingwebpanel.css.values"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssDimension.html" title="class in org.duckdns.hjow.swingwebpanel.css.values"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CssColor.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.values</FONT>
+<BR>
+Class CssColor</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">org.duckdns.hjow.swingwebpanel.css.values.CssValue</A>
+      <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.values.CssColor</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>CssColor</B><DT>extends <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A></DL>
+</PRE>
+
+<P>
+An sRGB color with an alpha channel, stored as four 8-bit channels. The parser accepts every notation of CSS Color Level 3 and Level 4 that does
+ not need a context: named colors, system colors (light scheme), <code>#rgb</code> <code>#rgba</code> <code>#rrggbb</code> <code>#rrggbbaa</code>,
+ <code>rgb()</code>, <code>rgba()</code>, <code>hsl()</code>, <code>hsla()</code>, <code>hwb()</code>, <code>lab()</code>, <code>lch()</code>,
+ <code>oklab()</code>, <code>oklch()</code>, <code>color()</code> (srgb, srgb-linear, display-p3, a98-rgb, prophoto-rgb, rec2020, xyz, xyz-d50, xyz-d65),
+ <code>color-mix()</code> in sRGB and <code>light-dark()</code> (the light value). Colors outside the sRGB gamut are clipped. Relative color syntax
+ (<code>from</code>) is not supported and makes the value invalid. <code>currentcolor</code> is not a CssColor; it is the keyword
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssKeyword.html#CURRENTCOLOR"><CODE>CssKeyword.CURRENTCOLOR</CODE></A>.
+ <p>
+ 알파 채널이 있는 sRGB 색. 8비트 채널 넷으로 저장한다. 파서는 컨텍스트 없이 쓸 수 있는 CSS Color Level 3 와 4 의 모든 표기를 받아들인다: 이름 있는 색,
+ 시스템 색(밝은 구성표), <code>#rgb</code> <code>#rgba</code> <code>#rrggbb</code> <code>#rrggbbaa</code>, <code>rgb()</code>, <code>rgba()</code>, <code>hsl()</code>,
+ <code>hsla()</code>, <code>hwb()</code>, <code>lab()</code>, <code>lch()</code>, <code>oklab()</code>, <code>oklch()</code>, <code>color()</code>(srgb, srgb-linear, display-p3,
+ a98-rgb, prophoto-rgb, rec2020, xyz, xyz-d50, xyz-d65), sRGB 의 <code>color-mix()</code>, <code>light-dark()</code>(밝은 값). sRGB 범위 밖의 색은 잘라 낸다.
+ 상대 색 문법(<code>from</code>)은 지원하지 않으며 값을 무효로 한다. <code>currentcolor</code> 는 CssColor 가 아니라 키워드 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssKeyword.html#CURRENTCOLOR"><CODE>CssKeyword.CURRENTCOLOR</CODE></A> 이다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#BLACK">BLACK</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opaque black. / 불투명한 검정.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#TRANSPARENT">TRANSPARENT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fully transparent black. / 완전히 투명한 검정.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#WHITE">WHITE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opaque white. / 불투명한 흰색.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#equals(java.lang.Object)">equals</A></B>(java.lang.Object&nbsp;o)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Compares the channels.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#getAlpha()">getAlpha</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the alpha channel.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#getArgb()">getArgb</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the color as 0xAARRGGBB.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#getBlue()">getBlue</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the blue channel.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#getGreen()">getGreen</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the green channel.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#getRed()">getRed</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the red channel.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#hashCode()">hashCode</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hash of the channels.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#lightDark(org.duckdns.hjow.swingwebpanel.css.values.CssColor, org.duckdns.hjow.swingwebpanel.css.values.CssColor)">lightDark</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A>&nbsp;light,
+          <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A>&nbsp;dark)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the color <code>light-dark(light, dark)</code> (CSS Color Level 5): the light color in a light color scheme and the dark color in a dark
+ one; the scheme of an element is known when its style is computed (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#resolve(boolean)"><CODE>resolve(boolean)</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#of(int)">of</A></B>(int&nbsp;argb)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a color from channels.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#parse(java.lang.String)">parse</A></B>(java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a color from text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#parseValue(org.duckdns.hjow.swingwebpanel.css.syntax.ComponentValue)">parseValue</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses one component value as a color.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#plain()">plain</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy without the keyword spelling (used for computed values, which always serialize as rgb()).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#resolve(boolean)">resolve</A></B>(boolean&nbsp;darkScheme)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the color for a color scheme: the dark color of a color that depends on the scheme in a dark scheme, the plain color otherwise.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#rgba(int, int, int, int)">rgba</A></B>(int&nbsp;r,
+     int&nbsp;g,
+     int&nbsp;b,
+     int&nbsp;a)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a color from 8-bit channels (each clamped to 0..255).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#toCssText()">toCssText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serializes as written for named colors, else as <code>rgb()</code> or <code>rgba()</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#toRgbText()">toRgbText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serializes as <code>rgb()</code> or <code>rgba()</code> (the form of computed and resolved values).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.css.values.CssValue"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.css.values.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html#isKeyword(java.lang.String)">isKeyword</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html#toString()">toString</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, finalize, getClass, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="TRANSPARENT"><!-- --></A><H3>
+TRANSPARENT</H3>
+<PRE>
+public static final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A> <B>TRANSPARENT</B></PRE>
+<DL>
+<DD>Fully transparent black. / 완전히 투명한 검정.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="BLACK"><!-- --></A><H3>
+BLACK</H3>
+<PRE>
+public static final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A> <B>BLACK</B></PRE>
+<DL>
+<DD>Opaque black. / 불투명한 검정.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="WHITE"><!-- --></A><H3>
+WHITE</H3>
+<PRE>
+public static final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A> <B>WHITE</B></PRE>
+<DL>
+<DD>Opaque white. / 불투명한 흰색.
+<P>
+<DL>
+</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="lightDark(org.duckdns.hjow.swingwebpanel.css.values.CssColor, org.duckdns.hjow.swingwebpanel.css.values.CssColor)"><!-- --></A><H3>
+lightDark</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A> <B>lightDark</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A>&nbsp;light,
+                                 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A>&nbsp;dark)</PRE>
+<DL>
+<DD>Creates the color <code>light-dark(light, dark)</code> (CSS Color Level 5): the light color in a light color scheme and the dark color in a dark
+ one; the scheme of an element is known when its style is computed (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#resolve(boolean)"><CODE>resolve(boolean)</CODE></A>).
+ <p>
+ <code>light-dark(light, dark)</code> 색을 만든다(CSS Color Level 5): 밝은 색 구성표에서는 밝은 색, 어두운 구성표에서는 어두운 색. 요소의 구성표는 스타일을 계산할 때
+ 알려진다(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html#resolve(boolean)"><CODE>resolve(boolean)</CODE></A>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>light</CODE> - the color of the light scheme / 밝은 구성표의 색<DD><CODE>dark</CODE> - the color of the dark scheme / 어두운 구성표의 색
+<DT><B>Returns:</B><DD>the color / 색</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="resolve(boolean)"><!-- --></A><H3>
+resolve</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A> <B>resolve</B>(boolean&nbsp;darkScheme)</PRE>
+<DL>
+<DD>Returns the color for a color scheme: the dark color of a color that depends on the scheme in a dark scheme, the plain color otherwise.
+ <p>
+ 색 구성표에 맞는 색을 반환한다: 구성표에 따라 달라지는 색은 어두운 구성표에서 어두운 색, 그 밖에는 일반 색.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>darkScheme</CODE> - true for the dark color scheme / 어두운 색 구성표이면 true
+<DT><B>Returns:</B><DD>the color without keyword spelling / 키워드 표기가 없는 색</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="of(int)"><!-- --></A><H3>
+of</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A> <B>of</B>(int&nbsp;argb)</PRE>
+<DL>
+<DD>Creates a color from channels.
+ <p>
+ 채널로 색을 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>argb</CODE> - 0xAARRGGBB / 0xAARRGGBB
+<DT><B>Returns:</B><DD>the color / 색</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="rgba(int, int, int, int)"><!-- --></A><H3>
+rgba</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A> <B>rgba</B>(int&nbsp;r,
+                            int&nbsp;g,
+                            int&nbsp;b,
+                            int&nbsp;a)</PRE>
+<DL>
+<DD>Creates a color from 8-bit channels (each clamped to 0..255).
+ <p>
+ 8비트 채널로 색을 만든다(각각 0..255 로 제한).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>r</CODE> - red / 빨강<DD><CODE>g</CODE> - green / 초록<DD><CODE>b</CODE> - blue / 파랑<DD><CODE>a</CODE> - alpha / 알파
+<DT><B>Returns:</B><DD>the color / 색</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getArgb()"><!-- --></A><H3>
+getArgb</H3>
+<PRE>
+public int <B>getArgb</B>()</PRE>
+<DL>
+<DD>Returns the color as 0xAARRGGBB.
+ <p>
+ 색을 0xAARRGGBB 로 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>packed color / 묶은 색</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRed()"><!-- --></A><H3>
+getRed</H3>
+<PRE>
+public int <B>getRed</B>()</PRE>
+<DL>
+<DD>Returns the red channel.
+ <p>
+ 빨강 채널을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>0..255 / 0..255</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getGreen()"><!-- --></A><H3>
+getGreen</H3>
+<PRE>
+public int <B>getGreen</B>()</PRE>
+<DL>
+<DD>Returns the green channel.
+ <p>
+ 초록 채널을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>0..255 / 0..255</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBlue()"><!-- --></A><H3>
+getBlue</H3>
+<PRE>
+public int <B>getBlue</B>()</PRE>
+<DL>
+<DD>Returns the blue channel.
+ <p>
+ 파랑 채널을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>0..255 / 0..255</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getAlpha()"><!-- --></A><H3>
+getAlpha</H3>
+<PRE>
+public int <B>getAlpha</B>()</PRE>
+<DL>
+<DD>Returns the alpha channel.
+ <p>
+ 알파 채널을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>0..255 / 0..255</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="plain()"><!-- --></A><H3>
+plain</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssColor</A> <B>plain</B>()</PRE>
+<DL>
+<DD>Returns a copy without the keyword spelling (used for computed values, which always serialize as rgb()).
+ <p>
+ 키워드 표기를 없앤 복사본을 반환한다(계산 값은 항상 rgb() 로 직렬화하므로 쓴다).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the plain color / 일반 색</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toCssText()"><!-- --></A><H3>
+toCssText</H3>
+<PRE>
+public java.lang.String <B>toCssText</B>()</PRE>
+<DL>
+<DD>Serializes as written for named colors, else as <code>rgb()</code> or <code>rgba()</code>.
+ <p>
+ 이름 있는 색은 쓰인 그대로, 나머지는 <code>rgb()</code> 나 <code>rgba()</code> 로 직렬화한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html#toCssText()">toCssText</A></CODE> in class <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>CSS text / CSS 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toRgbText()"><!-- --></A><H3>
+toRgbText</H3>
+<PRE>
+public java.lang.String <B>toRgbText</B>()</PRE>
+<DL>
+<DD>Serializes as <code>rgb()</code> or <code>rgba()</code> (the form of computed and resolved values).
+ <p>
+ <code>rgb()</code> 나 <code>rgba()</code> 로 직렬화한다(계산 값과 확정 값의 형태).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>CSS text / CSS 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="equals(java.lang.Object)"><!-- --></A><H3>
+equals</H3>
+<PRE>
+public boolean <B>equals</B>(java.lang.Object&nbsp;o)</PRE>
+<DL>
+<DD>Compares the channels.
+ <p>
+ 채널을 비교한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>equals</CODE> in class <CODE>java.lang.Object</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>o</CODE> - other object / 다른 객체
+<DT><B>Returns:</B><DD>true if equal / 같으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hashCode()"><!-- --></A><H3>
+hashCode</H3>
+<PRE>
+public int <B>hashCode</B>()</PRE>
+<DL>
+<DD>Hash of the channels.
+ <p>
+ 채널의 해시.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>hashCode</CODE> in class <CODE>java.lang.Object</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>hash code / 해시 코드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parse(java.lang.String)"><!-- --></A><H3>
+parse</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A> <B>parse</B>(java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Parses a color from text.
+ <p>
+ 문자열에서 색을 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - color text / 색 문자열
+<DT><B>Returns:</B><DD>a CssColor or <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssKeyword.html#CURRENTCOLOR"><CODE>CssKeyword.CURRENTCOLOR</CODE></A>, or null if the text is not a single valid color / CssColor 또는 CURRENTCOLOR. 올바른 색 하나가 아니면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseValue(org.duckdns.hjow.swingwebpanel.css.syntax.ComponentValue)"><!-- --></A><H3>
+parseValue</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A> <B>parseValue</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&nbsp;v)</PRE>
+<DL>
+<DD>Parses one component value as a color.
+ <p>
+ 컴포넌트 값 하나를 색으로 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - a token or function / 토큰 또는 함수
+<DT><B>Returns:</B><DD>a CssColor or <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssKeyword.html#CURRENTCOLOR"><CODE>CssKeyword.CURRENTCOLOR</CODE></A>, or null if it is not a color / CssColor 또는 CURRENTCOLOR. 색이 아니면 null</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.FunctionMapper.html" title="interface in org.duckdns.hjow.swingwebpanel.css.values"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssDimension.html" title="class in org.duckdns.hjow.swingwebpanel.css.values"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/values/CssColor.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CssColor.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,503 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+DecodeLimits
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="DecodeLimits";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="DecodeLimits.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media</FONT>
+<BR>
+Class DecodeLimits</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.DecodeLimits</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>DecodeLimits</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Limits that every decoder must respect so that damaged or hostile data cannot exhaust memory or time (plan items P18-10, P22-09).
+ A decoder checks the limits <em>before</em> it allocates buffers from sizes found in the data, and reports
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.Kind.html#TOO_LARGE"><CODE>MediaException.Kind.TOO_LARGE</CODE></A> when one is exceeded.
+ <p>
+ 손상되었거나 악의적인 데이터가 메모리나 시간을 고갈시키지 못하도록 모든 디코더가 지켜야 하는 제한(계획 P18-10, P22-09). 디코더는 데이터에서
+ 읽은 크기로 버퍼를 할당하기 <em>전에</em> 제한을 확인하며 초과하면 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.Kind.html#TOO_LARGE"><CODE>MediaException.Kind.TOO_LARGE</CODE></A> 를 보고한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html" title="class in org.duckdns.hjow.swingwebpanel.media">DecodeLimits</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html#DEFAULT">DEFAULT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The default limits.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html#DEFAULT_MAX_BYTES">DEFAULT_MAX_BYTES</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default maximum size of the encoded data in bytes: 64 MiB.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html#DEFAULT_MAX_FRAMES">DEFAULT_MAX_FRAMES</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default maximum number of frames of an animation: 4096.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html#DEFAULT_MAX_PIXELS">DEFAULT_MAX_PIXELS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default maximum number of pixels of one image (width times height): 64 million.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html#DEFAULT_MAX_TOTAL_PIXELS">DEFAULT_MAX_TOTAL_PIXELS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default maximum total number of decoded pixels over all frames of an animation: 256 million.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html#DecodeLimits(long, long, int, long)">DecodeLimits</A></B>(long&nbsp;maxPixels,
+             long&nbsp;maxBytes,
+             int&nbsp;maxFrames,
+             long&nbsp;maxTotalPixels)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates limits.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html#checkImageSize(long, long)">checkImageSize</A></B>(long&nbsp;width,
+               long&nbsp;height)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Checks the size of an image against the limits and fails before any buffer is allocated.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html#getMaxBytes()">getMaxBytes</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the maximum encoded size.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html#getMaxFrames()">getMaxFrames</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the maximum number of frames.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html#getMaxPixels()">getMaxPixels</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the maximum pixels of one image.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html#getMaxTotalPixels()">getMaxTotalPixels</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the maximum total pixels over all frames.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="DEFAULT_MAX_PIXELS"><!-- --></A><H3>
+DEFAULT_MAX_PIXELS</H3>
+<PRE>
+public static final long <B>DEFAULT_MAX_PIXELS</B></PRE>
+<DL>
+<DD>Default maximum number of pixels of one image (width times height): 64 million.
+ <p>
+ 이미지 하나의 기본 최대 픽셀 수(가로 × 세로): 6,400만.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.DecodeLimits.DEFAULT_MAX_PIXELS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_MAX_BYTES"><!-- --></A><H3>
+DEFAULT_MAX_BYTES</H3>
+<PRE>
+public static final long <B>DEFAULT_MAX_BYTES</B></PRE>
+<DL>
+<DD>Default maximum size of the encoded data in bytes: 64 MiB.
+ <p>
+ 인코딩된 데이터의 기본 최대 크기(바이트): 64 MiB.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.DecodeLimits.DEFAULT_MAX_BYTES">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_MAX_FRAMES"><!-- --></A><H3>
+DEFAULT_MAX_FRAMES</H3>
+<PRE>
+public static final int <B>DEFAULT_MAX_FRAMES</B></PRE>
+<DL>
+<DD>Default maximum number of frames of an animation: 4096.
+ <p>
+ 애니메이션의 기본 최대 프레임 수: 4096.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.DecodeLimits.DEFAULT_MAX_FRAMES">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_MAX_TOTAL_PIXELS"><!-- --></A><H3>
+DEFAULT_MAX_TOTAL_PIXELS</H3>
+<PRE>
+public static final long <B>DEFAULT_MAX_TOTAL_PIXELS</B></PRE>
+<DL>
+<DD>Default maximum total number of decoded pixels over all frames of an animation: 256 million.
+ <p>
+ 애니메이션의 모든 프레임에 걸친 디코딩된 픽셀 수의 기본 최대 합계: 2억 5,600만.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.DecodeLimits.DEFAULT_MAX_TOTAL_PIXELS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT"><!-- --></A><H3>
+DEFAULT</H3>
+<PRE>
+public static final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html" title="class in org.duckdns.hjow.swingwebpanel.media">DecodeLimits</A> <B>DEFAULT</B></PRE>
+<DL>
+<DD>The default limits.
+ <p>
+ 기본 제한.
+<P>
+<DL>
+</DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="DecodeLimits(long, long, int, long)"><!-- --></A><H3>
+DecodeLimits</H3>
+<PRE>
+public <B>DecodeLimits</B>(long&nbsp;maxPixels,
+                    long&nbsp;maxBytes,
+                    int&nbsp;maxFrames,
+                    long&nbsp;maxTotalPixels)</PRE>
+<DL>
+<DD>Creates limits.
+ <p>
+ 제한을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>maxPixels</CODE> - maximum pixels of one image / 이미지 하나의 최대 픽셀 수<DD><CODE>maxBytes</CODE> - maximum encoded size in bytes / 인코딩 데이터의 최대 바이트 수<DD><CODE>maxFrames</CODE> - maximum number of frames / 최대 프레임 수<DD><CODE>maxTotalPixels</CODE> - maximum pixels over all frames / 모든 프레임의 최대 픽셀 합계</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getMaxPixels()"><!-- --></A><H3>
+getMaxPixels</H3>
+<PRE>
+public long <B>getMaxPixels</B>()</PRE>
+<DL>
+<DD>Returns the maximum pixels of one image.
+ <p>
+ 이미지 하나의 최대 픽셀 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>pixels / 픽셀 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMaxBytes()"><!-- --></A><H3>
+getMaxBytes</H3>
+<PRE>
+public long <B>getMaxBytes</B>()</PRE>
+<DL>
+<DD>Returns the maximum encoded size.
+ <p>
+ 인코딩 데이터의 최대 크기를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>bytes / 바이트 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMaxFrames()"><!-- --></A><H3>
+getMaxFrames</H3>
+<PRE>
+public int <B>getMaxFrames</B>()</PRE>
+<DL>
+<DD>Returns the maximum number of frames.
+ <p>
+ 최대 프레임 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>frames / 프레임 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMaxTotalPixels()"><!-- --></A><H3>
+getMaxTotalPixels</H3>
+<PRE>
+public long <B>getMaxTotalPixels</B>()</PRE>
+<DL>
+<DD>Returns the maximum total pixels over all frames.
+ <p>
+ 모든 프레임의 최대 픽셀 합계를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>pixels / 픽셀 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="checkImageSize(long, long)"><!-- --></A><H3>
+checkImageSize</H3>
+<PRE>
+public void <B>checkImageSize</B>(long&nbsp;width,
+                           long&nbsp;height)
+                    throws <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></PRE>
+<DL>
+<DD>Checks the size of an image against the limits and fails before any buffer is allocated.
+ <p>
+ 이미지 크기를 제한과 대조하며 버퍼를 할당하기 전에 실패한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>width</CODE> - width in pixels / 가로 픽셀 수<DD><CODE>height</CODE> - height in pixels / 세로 픽셀 수
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></CODE> - CORRUPT for a non-positive size, TOO_LARGE for a size over the limit / 크기가 0 이하이면 CORRUPT, 제한을 넘으면 TOO_LARGE</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="DecodeLimits.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

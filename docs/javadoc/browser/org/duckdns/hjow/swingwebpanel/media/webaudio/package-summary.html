@@ -1,0 +1,460 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+org.duckdns.hjow.swingwebpanel.media.webaudio
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="org.duckdns.hjow.swingwebpanel.media.webaudio";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<H2>
+Package org.duckdns.hjow.swingwebpanel.media.webaudio
+</H2>
+The audio graph engine of the Web Audio API (plan items P25-01 to P25-04): the nodes, their connections, the parameters with their
+ automation timeline, the channel mixing rules and the rendering loop that processes one render quantum at a time.
+<P>
+<B>See:</B>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="#package_description"><B>Description</B></A>
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Interface Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ErrorListener.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioWorkletNode.ErrorListener</A></B></TD>
+<TD>Told on the control side that the processor failed (the <code>processorerror</code> event).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.Processor.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioWorkletNode.Processor</A></B></TD>
+<TD>The code that produces the audio of the node, once per render quantum on the rendering thread.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ProcessorFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioWorkletNode.ProcessorFactory</A></B></TD>
+<TD>Creates the processor of a node, on the rendering thread at the start of a render quantum.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.TaskSink.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">BaseAudioContext.TaskSink</A></B></TD>
+<TD>The sink of the tasks that the rendering thread posts to the control side (the <code>ended</code> event of a source, for example).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">MediaElementPcmSource</A></B></TD>
+<TD>The supplier of the audio of a media element (an <code>&lt;audio&gt;</code> element of the page) for a
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementAudioSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>MediaElementAudioSourceNode</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Driver.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">RealtimeAudioContext.Driver</A></B></TD>
+<TD>Drives the rendering of a real-time context: it calls <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Renderer.html#renderQuantum()"><CODE>RealtimeAudioContext.Renderer.renderQuantum()</CODE></A> at the pace of its output while it is started.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Renderer.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">RealtimeAudioContext.Renderer</A></B></TD>
+<TD>What a driver needs to render: it calls <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Renderer.html#renderQuantum()"><CODE>RealtimeAudioContext.Renderer.renderQuantum()</CODE></A> once per quantum and reads the position of the context.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.ProcessListener.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">ScriptProcessorNode.ProcessListener</A></B></TD>
+<TD>The code that the control side runs for a block (the <code>audioprocess</code> event).</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AnalyserNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AnalyserNode</A></B></TD>
+<TD>Real-time frequency and time-domain analysis (Web Audio API 1.8).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBuffer</A></B></TD>
+<TD>An in-memory audio asset: linear PCM floats in a number of channels with a sample rate (Web Audio API 1.4).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBufferSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBufferSourceNode</A></B></TD>
+<TD>A source that plays an <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>AudioBuffer</CODE></A> (Web Audio API 1.9).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBus.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBus</A></B></TD>
+<TD>A block of audio: a number of channels of one render quantum of float samples.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioDestinationNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioDestinationNode</A></B></TD>
+<TD>The final destination of a context (Web Audio API 1.10): all audio that is heard is routed to it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioListener.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioListener</A></B></TD>
+<TD>The listener of a context: its position and the two vectors that give its orientation, in the right-handed coordinate system of the
+ spatialization (Web Audio API 1.11).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioNode</A></B></TD>
+<TD>The base of all audio nodes (Web Audio API 1.5).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioParam.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioParam</A></B></TD>
+<TD>A parameter of an audio node (Web Audio API 1.6): a value that can be set at once, scheduled with automation events, and modulated by
+ the output of other nodes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioScheduledSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioScheduledSourceNode</A></B></TD>
+<TD>The base of the source nodes that are started and stopped at a time: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OscillatorNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>OscillatorNode</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ConstantSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>ConstantSourceNode</CODE></A> and
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBufferSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>AudioBufferSourceNode</CODE></A> (Web Audio API 1.7).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioWorkletNode</A></B></TD>
+<TD>The engine side of an <code>AudioWorkletNode</code> (Web Audio API 1.0, 1.32): a node with a configurable number of inputs and outputs and a set of
+ named <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioParam.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>AudioParam</CODE></A>s whose audio is produced by a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.Processor.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>AudioWorkletNode.Processor</CODE></A>, code that lives outside the engine (the script layer runs a JavaScript
+ <code>AudioWorkletProcessor</code> there).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ParamDescriptor.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioWorkletNode.ParamDescriptor</A></B></TD>
+<TD>The description of a parameter of the node: what <code>AudioParamDescriptor</code> gives (1.32.4.4).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">BaseAudioContext</A></B></TD>
+<TD>A set of audio nodes and their connections, and the loop that renders them (Web Audio API 1.1 and 2): the base of the real-time and the
+ offline context.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BiquadFilterNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">BiquadFilterNode</A></B></TD>
+<TD>A second-order filter of one of the eight <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BiquadFilterType.html" title="enum in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>types</CODE></A> (Web Audio API 1.13).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ChannelMergerNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">ChannelMergerNode</A></B></TD>
+<TD>Combines the channels of several inputs into one stream (Web Audio API 1.14): it has a number of inputs and one output whose number of
+ channels equals the number of inputs while any input is active.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ChannelMixing.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">ChannelMixing</A></B></TD>
+<TD>The channel up-mixing and down-mixing of Web Audio API section 4.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ChannelSplitterNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">ChannelSplitterNode</A></B></TD>
+<TD>Gives access to the individual channels of its input (Web Audio API 1.15): it has one input and a fixed number of outputs of one
+ channel each.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ClockRenderDriver.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">ClockRenderDriver</A></B></TD>
+<TD>The driver of a real-time context that has no sound device (or does not use one): a daemon thread renders the graph at the pace of the wall clock
+ and throws the output away, so the <code>currentTime</code> of the context advances like the time of a context that plays, the sources start and
+ end on time, the analysers and the script processors see the audio, and nothing is heard.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ConstantSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">ConstantSourceNode</A></B></TD>
+<TD>A source whose single output channel is the constant value of its <code>offset</code> parameter (Web Audio API 1.16).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ConvolverNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">ConvolverNode</A></B></TD>
+<TD>A linear convolution effect given an impulse response (Web Audio API 1.17), as used for reverbs.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/DelayNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">DelayNode</A></B></TD>
+<TD>Delays its input by the value of <code>delayTime</code> seconds (Web Audio API 1.18): <code>output(t) = input(t - delayTime(t))</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/DynamicsCompressorNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">DynamicsCompressorNode</A></B></TD>
+<TD>A dynamics compression effect (Web Audio API 1.19): it lowers the volume of the loudest parts of the signal, so that loud and soft
+ sounds that play together stay under control and clipping is avoided.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/GainNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">GainNode</A></B></TD>
+<TD>Multiplies every sample of every channel of its input by the computed value of the <code>gain</code> parameter (Web Audio API 1.20).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/IIRFilterNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">IIRFilterNode</A></B></TD>
+<TD>A general IIR filter with fixed coefficients (Web Audio API 1.21): <code>H(z) = sum b[m] z^-m / sum a[n] z^-n</code> with at most 20
+ coefficients in each array.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementAudioSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">MediaElementAudioSourceNode</A></B></TD>
+<TD>A source that takes the audio of a media element into the graph (Web Audio API 1.22).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementTap.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">MediaElementTap</A></B></TD>
+<TD>The connection between the player of a media element (an <code>audio</code> element of the page, see <code>MediaPlayer</code>) and a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementAudioSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>MediaElementAudioSourceNode</CODE></A> of an audio graph
+ (plan item P25-04, P25-07): the player of the element plays <em>into</em> this object instead of into the speakers, and the node of the graph pulls what the player produced, one
+ render quantum at a time.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OfflineAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">OfflineAudioContext</A></B></TD>
+<TD>A context that renders a graph as fast as possible into an <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>AudioBuffer</CODE></A> instead of to a device (Web Audio API 1.3).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OscillatorNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">OscillatorNode</A></B></TD>
+<TD>A source that generates a periodic waveform (Web Audio API 1.26): a sine, square, sawtooth or triangle wave, or a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/PeriodicWave.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>PeriodicWave</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">OutputRenderDriver</A></B></TD>
+<TD>The driver of a real-time context that plays through a sound output (plan item P25-07): it replaces the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ClockRenderDriver.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>ClockRenderDriver</CODE></A> when the
+ audio should be heard.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.Timestamp.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">OutputRenderDriver.Timestamp</A></B></TD>
+<TD>The estimate of when a frame is heard (the result of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#getOutputTimestamp()"><CODE>OutputRenderDriver.getOutputTimestamp()</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/PannerNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">PannerNode</A></B></TD>
+<TD>Positions an incoming audio stream in three-dimensional space in relation to the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioListener.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>AudioListener</CODE></A> of the context (Web Audio API
+ 1.27).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/PeriodicWave.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">PeriodicWave</A></B></TD>
+<TD>An arbitrary periodic waveform of an <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OscillatorNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>OscillatorNode</CODE></A> (Web Audio API 1.28): the Fourier coefficients
+ <code>x(t) = sum (a[k] cos 2 pi k t + b[k] sin 2 pi k t)</code> turned into band-limited wave tables.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">RealtimeAudioContext</A></B></TD>
+<TD>A context whose time advances with the wall clock and whose graph is rendered by a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Driver.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>RealtimeAudioContext.Driver</CODE></A> (Web Audio API 1.2, <code>AudioContext</code>):
+ the real-time counterpart of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OfflineAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>OfflineAudioContext</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">ScriptProcessorNode</A></B></TD>
+<TD>The deprecated node that lets a script generate or process audio directly (Web Audio API 1.0, 1.29 <code>ScriptProcessorNode</code> and
+ 1.12 <code>AudioProcessingEvent</code>), implemented for old pages.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/Spatial.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">Spatial</A></B></TD>
+<TD>The geometry of the spatialization (Web Audio API 6.2, 6.4 and 6.5): the azimuth and the elevation of a source as the listener
+ perceives them, the distance, the distance gain of the three distance models, and the gain of the sound cone.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/StereoPannerNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">StereoPannerNode</A></B></TD>
+<TD>Positions its input in a stereo image with the low-cost equal power panning of the specification (Web Audio API 1.30, section 6.3.3).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WaveShaperNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">WaveShaperNode</A></B></TD>
+<TD>A non-linear distortion effect (Web Audio API 1.31).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WebAudioLimits.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">WebAudioLimits</A></B></TD>
+<TD>The limits and fixed sizes of the Web Audio engine (plan item P25-02).</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Enum Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioException.Kind.html" title="enum in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioException.Kind</A></B></TD>
+<TD>The kinds of error.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AutomationRate.html" title="enum in org.duckdns.hjow.swingwebpanel.media.webaudio">AutomationRate</A></B></TD>
+<TD>The <code>AutomationRate</code> of an audio parameter: whether its value is computed for every sample frame or once per render quantum
+ (Web Audio API 1.6, <code>AutomationRate</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BiquadFilterType.html" title="enum in org.duckdns.hjow.swingwebpanel.media.webaudio">BiquadFilterType</A></B></TD>
+<TD>The <code>BiquadFilterType</code> of a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BiquadFilterNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>BiquadFilterNode</CODE></A> (Web Audio API 1.13).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ChannelCountMode.html" title="enum in org.duckdns.hjow.swingwebpanel.media.webaudio">ChannelCountMode</A></B></TD>
+<TD>The <code>ChannelCountMode</code> of an audio node: how the number of channels of an input is decided from its connections and the
+ <code>channelCount</code> of the node (Web Audio API 1.5, <code>ChannelCountMode</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ChannelInterpretation.html" title="enum in org.duckdns.hjow.swingwebpanel.media.webaudio">ChannelInterpretation</A></B></TD>
+<TD>The <code>ChannelInterpretation</code> of an audio node: whether channels are mixed with the speaker layout rules or one by one
+ (Web Audio API 1.5, <code>ChannelInterpretation</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ContextState.html" title="enum in org.duckdns.hjow.swingwebpanel.media.webaudio">ContextState</A></B></TD>
+<TD>The <code>AudioContextState</code> of a context (Web Audio API 1.1, <code>AudioContextState</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/DistanceModelType.html" title="enum in org.duckdns.hjow.swingwebpanel.media.webaudio">DistanceModelType</A></B></TD>
+<TD>The <code>DistanceModelType</code> of a panner: how the volume of a source falls with the distance from the listener (Web Audio API
+ 1.27).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OscillatorType.html" title="enum in org.duckdns.hjow.swingwebpanel.media.webaudio">OscillatorType</A></B></TD>
+<TD>The <code>OscillatorType</code> of an <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OscillatorNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>OscillatorNode</CODE></A>: the shape of the periodic waveform (Web Audio API 1.26).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OverSampleType.html" title="enum in org.duckdns.hjow.swingwebpanel.media.webaudio">OverSampleType</A></B></TD>
+<TD>The <code>OverSampleType</code> of a wave shaper: whether the shaping curve is applied to the input directly or to a signal that is
+ up-sampled to two or four times the sample rate (Web Audio API 1.31, <code>OverSampleType</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/PanningModelType.html" title="enum in org.duckdns.hjow.swingwebpanel.media.webaudio">PanningModelType</A></B></TD>
+<TD>The <code>PanningModelType</code> of a panner: the spatialization algorithm (Web Audio API 1.27).</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Exception Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioException</A></B></TD>
+<TD>The error of a Web Audio operation.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WorkletProcessorException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">WorkletProcessorException</A></B></TD>
+<TD>The failure of an audio worklet processor (Web Audio API 1.32): the constructor or the <code>process()</code> method of the processor threw, or a
+ limit stopped it.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+<A NAME="package_description"><!-- --></A><H2>
+Package org.duckdns.hjow.swingwebpanel.media.webaudio Description
+</H2>
+
+<P>
+The audio graph engine of the Web Audio API (plan items P25-01 to P25-04): the nodes, their connections, the parameters with their
+ automation timeline, the channel mixing rules and the rendering loop that processes one render quantum at a time. The package is pure
+ Java: it knows nothing about JavaScript, the DOM or Swing, so the script bindings (<code>js.host.webaudio</code>) are a thin layer on top
+ of it. Control methods may be called from any thread; they validate at once and the rendering thread applies the change at the next
+ render quantum boundary. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OfflineAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>OfflineAudioContext</CODE></A> renders on the calling thread.
+ <p>
+ Web Audio API 의 오디오 그래프 엔진(계획 P25-01~P25-04): 노드, 연결, 자동화 타임라인을 가진 파라미터, 채널 믹스 규칙, render quantum 한 개씩
+ 처리하는 렌더링 루프. 이 패키지는 순수 Java 이며 JavaScript, DOM, Swing 을 모르므로 스크립트 바인딩(<code>js.host.webaudio</code>)은 이 위의
+ 얇은 층이다. 제어 메서드는 어느 스레드에서나 부를 수 있고 즉시 검증하며, 렌더링 스레드가 다음 render quantum 경계에서 변경을 적용한다.
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OfflineAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>OfflineAudioContext</CODE></A> 는 호출한 스레드에서 렌더링한다.
+<P>
+
+<P>
+<DL>
+</DL>
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

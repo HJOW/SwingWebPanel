@@ -1,0 +1,264 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ChannelMixing
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ChannelMixing";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ChannelMergerNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ChannelSplitterNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/ChannelMixing.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ChannelMixing.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.webaudio</FONT>
+<BR>
+Class ChannelMixing</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.webaudio.ChannelMixing</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ChannelMixing</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The channel up-mixing and down-mixing of Web Audio API section 4. With the interpretation <code>speakers</code> the layouts mono (1),
+ stereo (2), quad (4: L R SL SR) and 5.1 (6: L R C LFE SL SR) are mixed with the equations of the specification; every other pair of
+ channel counts, and the interpretation <code>discrete</code>, fill the channels one by one and drop or zero the rest. The matrices are
+ the equations of sections 4.4 and 4.5 written as weights.
+ <p>
+ Web Audio API 4절의 채널 업믹스/다운믹스. 해석이 <code>speakers</code> 이면 모노(1), 스테레오(2), 쿼드(4: L R SL SR), 5.1(6: L R C LFE SL SR)
+ 배치를 규격의 식으로 섞고, 그 밖의 채널 수 쌍과 해석 <code>discrete</code> 는 채널을 하나씩 채우고 남는 것은 버리거나 0 으로 둔다. 행렬은 4.4절과
+ 4.5절의 식을 가중치로 적은 것이다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ChannelMixing.html#mix(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioBus, org.duckdns.hjow.swingwebpanel.media.webaudio.AudioBus, org.duckdns.hjow.swingwebpanel.media.webaudio.ChannelInterpretation, boolean)">mix</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBus.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBus</A>&nbsp;src,
+    <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBus.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBus</A>&nbsp;dst,
+    <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ChannelInterpretation.html" title="enum in org.duckdns.hjow.swingwebpanel.media.webaudio">ChannelInterpretation</A>&nbsp;interpretation,
+    boolean&nbsp;accumulate)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mixes the source bus into the destination bus, converting the channel count with the interpretation.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;float[][]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ChannelMixing.html#speakersMatrix(int, int)">speakersMatrix</A></B>(int&nbsp;in,
+               int&nbsp;out)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the weight matrix of the speaker layouts for a pair of channel counts: <code>m[outputChannel][inputChannel]</code>.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="speakersMatrix(int, int)"><!-- --></A><H3>
+speakersMatrix</H3>
+<PRE>
+public static float[][] <B>speakersMatrix</B>(int&nbsp;in,
+                                       int&nbsp;out)</PRE>
+<DL>
+<DD>Returns the weight matrix of the speaker layouts for a pair of channel counts: <code>m[outputChannel][inputChannel]</code>.
+ <p>
+ 채널 수 쌍에 대한 스피커 배치 가중치 행렬을 반환한다: <code>m[출력 채널][입력 채널]</code>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>in</CODE> - the number of input channels / 입력 채널 수<DD><CODE>out</CODE> - the number of output channels / 출력 채널 수
+<DT><B>Returns:</B><DD>the matrix, or null if the pair is not a speaker layout pair (mixed as discrete) / 행렬. 스피커 배치 쌍이 아니면 null(discrete 로 섞는다)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mix(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioBus, org.duckdns.hjow.swingwebpanel.media.webaudio.AudioBus, org.duckdns.hjow.swingwebpanel.media.webaudio.ChannelInterpretation, boolean)"><!-- --></A><H3>
+mix</H3>
+<PRE>
+public static void <B>mix</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBus.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBus</A>&nbsp;src,
+                       <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBus.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBus</A>&nbsp;dst,
+                       <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ChannelInterpretation.html" title="enum in org.duckdns.hjow.swingwebpanel.media.webaudio">ChannelInterpretation</A>&nbsp;interpretation,
+                       boolean&nbsp;accumulate)</PRE>
+<DL>
+<DD>Mixes the source bus into the destination bus, converting the channel count with the interpretation. The two buses have the same
+ number of frames (the shorter one decides if they differ).
+ <p>
+ 원본 버스를 대상 버스로 섞으며 해석에 따라 채널 수를 변환한다. 두 버스는 프레임 수가 같다(다르면 짧은 쪽을 따른다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>src</CODE> - the source / 원본<DD><CODE>dst</CODE> - the destination; its number of channels decides the result / 대상. 채널 수가 결과를 정한다<DD><CODE>interpretation</CODE> - how to convert the channels / 채널 변환 방식<DD><CODE>accumulate</CODE> - true to add to the destination, false to overwrite it / 대상에 더하면 true, 덮어쓰면 false</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ChannelMergerNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ChannelSplitterNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/ChannelMixing.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ChannelMixing.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

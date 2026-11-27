@@ -1,0 +1,547 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+DownloadRequest
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="DownloadRequest";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadHandle.html" title="interface in org.duckdns.hjow.swingwebpanel.download"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadState.html" title="enum in org.duckdns.hjow.swingwebpanel.download"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="DownloadRequest.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.download</FONT>
+<BR>
+Class DownloadRequest</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.download.DownloadRequest</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>DownloadRequest</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Everything a download needs to know: where to fetch it, how to ask for it (the user agent and extra headers of the component that found
+ it) and what the server said about it (type, declared size, Content-Disposition), plus the safe file name derived from that. It is
+ immutable and can be handed to a popup implementation and to the transfer thread.
+ <p>
+ 다운로드에 필요한 모든 정보: 어디서 가져올지, 어떻게 요청할지(발견한 컴포넌트의 User-Agent 와 추가 헤더), 서버가 알려 준 것(형식, 선언된 크기,
+ Content-Disposition), 그리고 그로부터 정한 안전한 파일 이름. 불변이며 팝업 구현과 전송 스레드에 넘길 수 있다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html#DownloadRequest(java.lang.String, java.lang.String, java.lang.String, java.lang.String, long, java.lang.String, org.duckdns.hjow.swingwebpanel.net.RequestHeaders)">DownloadRequest</A></B>(java.lang.String&nbsp;url,
+                java.lang.String&nbsp;requestedUrl,
+                java.lang.String&nbsp;mimeType,
+                java.lang.String&nbsp;contentDisposition,
+                long&nbsp;length,
+                java.lang.String&nbsp;userAgent,
+                <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/RequestHeaders.html" title="class in org.duckdns.hjow.swingwebpanel.net">RequestHeaders</A>&nbsp;headers)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a request.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html#getContentDisposition()">getContentDisposition</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the Content-Disposition header value or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html#getFileName()">getFileName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the safe file name chosen for this download.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/RequestHeaders.html" title="class in org.duckdns.hjow.swingwebpanel.net">RequestHeaders</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html#getHeaders()">getHeaders</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy of the extra headers, or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html#getLength()">getLength</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the declared size in bytes or -1.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html#getMimeType()">getMimeType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the MIME type (empty if unknown).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;byte[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html#getPostBody()">getPostBody</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the body of the form that is sent again to save the response.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html#getPostContentType()">getPostContentType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the media type of the form body.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html#getPostReferrer()">getPostReferrer</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the address of the page that contained the form.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html#getRequestedUrl()">getRequestedUrl</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the address the user asked for.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html#getUrl()">getUrl</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the final address to fetch.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html#getUserAgent()">getUserAgent</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the user agent for the transfer or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html" title="class in org.duckdns.hjow.swingwebpanel.download">DownloadRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html#of(org.duckdns.hjow.swingwebpanel.core.NavigationRequest, org.duckdns.hjow.swingwebpanel.core.DownloadRequiredException)">of</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/NavigationRequest.html" title="class in org.duckdns.hjow.swingwebpanel.core">NavigationRequest</A>&nbsp;navigation,
+   <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DownloadRequiredException.html" title="class in org.duckdns.hjow.swingwebpanel.core">DownloadRequiredException</A>&nbsp;download)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a request from the navigation that discovered the download.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="DownloadRequest(java.lang.String, java.lang.String, java.lang.String, java.lang.String, long, java.lang.String, org.duckdns.hjow.swingwebpanel.net.RequestHeaders)"><!-- --></A><H3>
+DownloadRequest</H3>
+<PRE>
+public <B>DownloadRequest</B>(java.lang.String&nbsp;url,
+                       java.lang.String&nbsp;requestedUrl,
+                       java.lang.String&nbsp;mimeType,
+                       java.lang.String&nbsp;contentDisposition,
+                       long&nbsp;length,
+                       java.lang.String&nbsp;userAgent,
+                       <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/RequestHeaders.html" title="class in org.duckdns.hjow.swingwebpanel.net">RequestHeaders</A>&nbsp;headers)</PRE>
+<DL>
+<DD>Creates a request.
+ <p>
+ 요청을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - final address / 최종 주소<DD><CODE>requestedUrl</CODE> - requested address / 요청한 주소<DD><CODE>mimeType</CODE> - MIME type or null / MIME 타입 또는 null<DD><CODE>contentDisposition</CODE> - Content-Disposition value or null / Content-Disposition 값 또는 null<DD><CODE>length</CODE> - declared size or -1 / 선언된 크기 또는 -1<DD><CODE>userAgent</CODE> - user agent or null for the default / User-Agent. 기본값이면 null<DD><CODE>headers</CODE> - extra headers or null / 추가 헤더 또는 null</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="of(org.duckdns.hjow.swingwebpanel.core.NavigationRequest, org.duckdns.hjow.swingwebpanel.core.DownloadRequiredException)"><!-- --></A><H3>
+of</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html" title="class in org.duckdns.hjow.swingwebpanel.download">DownloadRequest</A> <B>of</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/NavigationRequest.html" title="class in org.duckdns.hjow.swingwebpanel.core">NavigationRequest</A>&nbsp;navigation,
+                                 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DownloadRequiredException.html" title="class in org.duckdns.hjow.swingwebpanel.core">DownloadRequiredException</A>&nbsp;download)</PRE>
+<DL>
+<DD>Creates a request from the navigation that discovered the download.
+ <p>
+ 다운로드를 발견한 이동으로 요청을 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>navigation</CODE> - the navigation request (user agent, headers) / 이동 요청(User-Agent, 헤더)<DD><CODE>download</CODE> - the description of the response / 응답의 설명
+<DT><B>Returns:</B><DD>the download request / 다운로드 요청</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPostBody()"><!-- --></A><H3>
+getPostBody</H3>
+<PRE>
+public byte[] <B>getPostBody</B>()</PRE>
+<DL>
+<DD>Returns the body of the form that is sent again to save the response.
+ <p>
+ 응답을 저장하려고 다시 보내는 폼의 본문을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a copy of the body, or null for a plain GET / 본문의 복사본. 일반 GET 이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPostContentType()"><!-- --></A><H3>
+getPostContentType</H3>
+<PRE>
+public java.lang.String <B>getPostContentType</B>()</PRE>
+<DL>
+<DD>Returns the media type of the form body.
+ <p>
+ 폼 본문의 미디어 타입을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the media type, or null for a plain GET / 미디어 타입. 일반 GET 이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPostReferrer()"><!-- --></A><H3>
+getPostReferrer</H3>
+<PRE>
+public java.lang.String <B>getPostReferrer</B>()</PRE>
+<DL>
+<DD>Returns the address of the page that contained the form.
+ <p>
+ 폼이 있던 페이지의 주소를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the address, or null / 주소. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getUrl()"><!-- --></A><H3>
+getUrl</H3>
+<PRE>
+public java.lang.String <B>getUrl</B>()</PRE>
+<DL>
+<DD>Returns the final address to fetch.
+ <p>
+ 가져올 최종 주소를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>address / 주소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRequestedUrl()"><!-- --></A><H3>
+getRequestedUrl</H3>
+<PRE>
+public java.lang.String <B>getRequestedUrl</B>()</PRE>
+<DL>
+<DD>Returns the address the user asked for.
+ <p>
+ 사용자가 요청한 주소를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>address / 주소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMimeType()"><!-- --></A><H3>
+getMimeType</H3>
+<PRE>
+public java.lang.String <B>getMimeType</B>()</PRE>
+<DL>
+<DD>Returns the MIME type (empty if unknown).
+ <p>
+ MIME 타입을 반환한다(모르면 빈 문자열).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>MIME type / MIME 타입</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getContentDisposition()"><!-- --></A><H3>
+getContentDisposition</H3>
+<PRE>
+public java.lang.String <B>getContentDisposition</B>()</PRE>
+<DL>
+<DD>Returns the Content-Disposition header value or null.
+ <p>
+ Content-Disposition 헤더 값을 반환한다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>value or null / 값 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLength()"><!-- --></A><H3>
+getLength</H3>
+<PRE>
+public long <B>getLength</B>()</PRE>
+<DL>
+<DD>Returns the declared size in bytes or -1.
+ <p>
+ 선언된 크기(바이트)를 반환한다. 모르면 -1.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>size or -1 / 크기 또는 -1</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getUserAgent()"><!-- --></A><H3>
+getUserAgent</H3>
+<PRE>
+public java.lang.String <B>getUserAgent</B>()</PRE>
+<DL>
+<DD>Returns the user agent for the transfer or null.
+ <p>
+ 전송에 쓸 User-Agent 를 반환한다. 기본값이면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>user agent or null / User-Agent 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHeaders()"><!-- --></A><H3>
+getHeaders</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/RequestHeaders.html" title="class in org.duckdns.hjow.swingwebpanel.net">RequestHeaders</A> <B>getHeaders</B>()</PRE>
+<DL>
+<DD>Returns a copy of the extra headers, or null.
+ <p>
+ 추가 헤더의 복사본을 반환한다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>headers or null / 헤더 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFileName()"><!-- --></A><H3>
+getFileName</H3>
+<PRE>
+public java.lang.String <B>getFileName</B>()</PRE>
+<DL>
+<DD>Returns the safe file name chosen for this download.
+ <p>
+ 이 다운로드를 위해 정한 안전한 파일 이름을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>file name / 파일 이름</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadHandle.html" title="interface in org.duckdns.hjow.swingwebpanel.download"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadState.html" title="enum in org.duckdns.hjow.swingwebpanel.download"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="DownloadRequest.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

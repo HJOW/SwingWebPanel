@@ -1,0 +1,623 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+JsArrayHandle
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="JsArrayHandle";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsCallable.html" title="interface in org.duckdns.hjow.swingwebpanel.js.embed"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/embed/JsArrayHandle.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="JsArrayHandle.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_java.util.AbstractList">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.embed</FONT>
+<BR>
+Class JsArrayHandle</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by ">java.util.AbstractCollection&lt;E&gt;
+      <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by ">java.util.AbstractList&lt;java.lang.Object&gt;
+          <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.embed.JsArrayHandle</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD>java.lang.Iterable&lt;java.lang.Object&gt;, java.util.Collection&lt;java.lang.Object&gt;, java.util.List&lt;java.lang.Object&gt;, java.util.RandomAccess, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsHandle.html" title="interface in org.duckdns.hjow.swingwebpanel.js.embed">JsHandle</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public final class <B>JsArrayHandle</B><DT>extends java.util.AbstractList&lt;java.lang.Object&gt;<DT>implements <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsHandle.html" title="interface in org.duckdns.hjow.swingwebpanel.js.embed">JsHandle</A>, java.util.RandomAccess</DL>
+</PRE>
+
+<P>
+A live view of a script array as a <code>List&lt;Object&gt;</code>. The size is the <code>length</code> of the array; reading and writing an
+ element reads and writes the array; <code>add</code> and <code>remove</code> change the array the way <code>push</code> and
+ <code>splice</code> do. Holes of a sparse array read as <code>JsEngine.UNDEFINED</code>. Elements follow the conversion rules of
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsEngine</CODE></A>. Two handles are equal when they refer to the same script array; the <code>equals</code>, <code>hashCode</code> and
+ <code>toString</code> of the <code>List</code> interface are not used because they would not terminate for an array that contains itself.
+ <p>
+ 스크립트 배열을 <code>List&lt;Object&gt;</code> 로 보여 주는 살아 있는 보기. 크기는 배열의 <code>length</code> 이고, 요소를 읽고 쓰면 배열을 읽고 쓰며,
+ <code>add</code> 와 <code>remove</code> 는 <code>push</code> 와 <code>splice</code> 처럼 배열을 바꾼다. 희소 배열의 구멍은
+ <code>JsEngine.UNDEFINED</code> 로 읽힌다. 요소는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsEngine</CODE></A> 의 변환 규칙을 따른다. 핸들 두 개는 같은 스크립트 배열을 가리킬 때 같다. 자기 자신을
+ 포함한 배열에서는 끝나지 않으므로 <code>List</code> 인터페이스의 <code>equals</code>, <code>hashCode</code>, <code>toString</code> 은 쓰지 않는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_java.util.AbstractList"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class java.util.AbstractList</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>modCount</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsArrayHandle.html#add(int, java.lang.Object)">add</A></B>(int&nbsp;index,
+    java.lang.Object&nbsp;element)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inserts an element (like <code>splice(index, 0, element)</code>, or <code>push</code> at the end).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsArrayHandle.html#callMember(java.lang.String, java.lang.Object...)">callMember</A></B>(java.lang.String&nbsp;name,
+           java.lang.Object...&nbsp;args)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calls a method of the array, for example <code>join</code>: <code>array[name](args)</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsArrayHandle.html#clear()">clear</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes all elements (sets the length to 0).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsArrayHandle.html#equals(java.lang.Object)">equals</A></B>(java.lang.Object&nbsp;o)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether another object is a handle of the same script array.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsArrayHandle.html#get(int)">get</A></B>(int&nbsp;index)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reads an element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed">JsEngine</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsArrayHandle.html#getEngine()">getEngine</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the engine that owns the array.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsArrayHandle.html#getJsObject()">getJsObject</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the script array itself.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsArrayHandle.html#hashCode()">hashCode</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a hash code of the script array's identity.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsArrayHandle.html#isCallable()">isCallable</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the array is callable (never).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsArrayHandle.html#remove(int)">remove</A></B>(int&nbsp;index)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes an element (like <code>splice(index, 1)</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsArrayHandle.html#set(int, java.lang.Object)">set</A></B>(int&nbsp;index,
+    java.lang.Object&nbsp;element)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Replaces an element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsArrayHandle.html#size()">size</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the length of the array.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsArrayHandle.html#toString()">toString</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Describes the array (without running script code).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.util.AbstractList"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.util.AbstractList</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>add, addAll, indexOf, iterator, lastIndexOf, listIterator, listIterator, removeRange, subList</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.util.AbstractCollection"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.util.AbstractCollection</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>addAll, contains, containsAll, isEmpty, remove, removeAll, retainAll, toArray, toArray</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, finalize, getClass, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.util.List"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from interface java.util.List</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>addAll, contains, containsAll, isEmpty, remove, removeAll, retainAll, toArray, toArray</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getEngine()"><!-- --></A><H3>
+getEngine</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed">JsEngine</A> <B>getEngine</B>()</PRE>
+<DL>
+<DD>Returns the engine that owns the array.
+ <p>
+ 배열을 가진 엔진을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsHandle.html#getEngine()">getEngine</A></CODE> in interface <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsHandle.html" title="interface in org.duckdns.hjow.swingwebpanel.js.embed">JsHandle</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the engine / 엔진</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getJsObject()"><!-- --></A><H3>
+getJsObject</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>getJsObject</B>()</PRE>
+<DL>
+<DD>Returns the script array itself.
+ <p>
+ 스크립트 배열 자체를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsHandle.html#getJsObject()">getJsObject</A></CODE> in interface <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsHandle.html" title="interface in org.duckdns.hjow.swingwebpanel.js.embed">JsHandle</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the array / 배열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isCallable()"><!-- --></A><H3>
+isCallable</H3>
+<PRE>
+public boolean <B>isCallable</B>()</PRE>
+<DL>
+<DD>Tells whether the array is callable (never).
+ <p>
+ 배열이 호출 가능한지 알려 준다(항상 false).
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsHandle.html#isCallable()">isCallable</A></CODE> in interface <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsHandle.html" title="interface in org.duckdns.hjow.swingwebpanel.js.embed">JsHandle</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>false / false</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="callMember(java.lang.String, java.lang.Object...)"><!-- --></A><H3>
+callMember</H3>
+<PRE>
+public java.lang.Object <B>callMember</B>(java.lang.String&nbsp;name,
+                                   java.lang.Object...&nbsp;args)</PRE>
+<DL>
+<DD>Calls a method of the array, for example <code>join</code>: <code>array[name](args)</code>.
+ <p>
+ 배열의 메서드를 호출한다. 예: <code>join</code>. <code>array[name](args)</code>.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsHandle.html#callMember(java.lang.String, java.lang.Object...)">callMember</A></CODE> in interface <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsHandle.html" title="interface in org.duckdns.hjow.swingwebpanel.js.embed">JsHandle</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the method name / 메서드 이름<DD><CODE>args</CODE> - the arguments / 인수
+<DT><B>Returns:</B><DD>the result / 결과</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="size()"><!-- --></A><H3>
+size</H3>
+<PRE>
+public int <B>size</B>()</PRE>
+<DL>
+<DD>Returns the length of the array.
+ <p>
+ 배열의 길이를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>size</CODE> in interface <CODE>java.util.Collection&lt;java.lang.Object&gt;</CODE><DT><B>Specified by:</B><DD><CODE>size</CODE> in interface <CODE>java.util.List&lt;java.lang.Object&gt;</CODE><DT><B>Specified by:</B><DD><CODE>size</CODE> in class <CODE>java.util.AbstractCollection&lt;java.lang.Object&gt;</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of elements (at most Integer.MAX_VALUE) / 요소 수(최대 Integer.MAX_VALUE)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="get(int)"><!-- --></A><H3>
+get</H3>
+<PRE>
+public java.lang.Object <B>get</B>(int&nbsp;index)</PRE>
+<DL>
+<DD>Reads an element.
+ <p>
+ 요소를 읽는다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>get</CODE> in interface <CODE>java.util.List&lt;java.lang.Object&gt;</CODE><DT><B>Specified by:</B><DD><CODE>get</CODE> in class <CODE>java.util.AbstractList&lt;java.lang.Object&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>index</CODE> - the index / 인덱스
+<DT><B>Returns:</B><DD>the element / 요소
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IndexOutOfBoundsException</CODE> - if the index is outside the array / 인덱스가 배열 밖이면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="set(int, java.lang.Object)"><!-- --></A><H3>
+set</H3>
+<PRE>
+public java.lang.Object <B>set</B>(int&nbsp;index,
+                            java.lang.Object&nbsp;element)</PRE>
+<DL>
+<DD>Replaces an element.
+ <p>
+ 요소를 바꾼다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>set</CODE> in interface <CODE>java.util.List&lt;java.lang.Object&gt;</CODE><DT><B>Overrides:</B><DD><CODE>set</CODE> in class <CODE>java.util.AbstractList&lt;java.lang.Object&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>index</CODE> - the index / 인덱스<DD><CODE>element</CODE> - the new element / 새 요소
+<DT><B>Returns:</B><DD>the previous element / 이전 요소
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IndexOutOfBoundsException</CODE> - if the index is outside the array / 인덱스가 배열 밖이면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="add(int, java.lang.Object)"><!-- --></A><H3>
+add</H3>
+<PRE>
+public void <B>add</B>(int&nbsp;index,
+                java.lang.Object&nbsp;element)</PRE>
+<DL>
+<DD>Inserts an element (like <code>splice(index, 0, element)</code>, or <code>push</code> at the end).
+ <p>
+ 요소를 삽입한다(<code>splice(index, 0, element)</code> 처럼. 끝이면 <code>push</code>).
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>add</CODE> in interface <CODE>java.util.List&lt;java.lang.Object&gt;</CODE><DT><B>Overrides:</B><DD><CODE>add</CODE> in class <CODE>java.util.AbstractList&lt;java.lang.Object&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>index</CODE> - the index, 0 to size() / 인덱스. 0 이상 size() 이하<DD><CODE>element</CODE> - the element / 요소
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IndexOutOfBoundsException</CODE> - if the index is outside 0..size() / 인덱스가 0..size() 밖이면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="remove(int)"><!-- --></A><H3>
+remove</H3>
+<PRE>
+public java.lang.Object <B>remove</B>(int&nbsp;index)</PRE>
+<DL>
+<DD>Removes an element (like <code>splice(index, 1)</code>).
+ <p>
+ 요소를 제거한다(<code>splice(index, 1)</code> 처럼).
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>remove</CODE> in interface <CODE>java.util.List&lt;java.lang.Object&gt;</CODE><DT><B>Overrides:</B><DD><CODE>remove</CODE> in class <CODE>java.util.AbstractList&lt;java.lang.Object&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>index</CODE> - the index / 인덱스
+<DT><B>Returns:</B><DD>the removed element / 제거한 요소
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IndexOutOfBoundsException</CODE> - if the index is outside the array / 인덱스가 배열 밖이면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="clear()"><!-- --></A><H3>
+clear</H3>
+<PRE>
+public void <B>clear</B>()</PRE>
+<DL>
+<DD>Removes all elements (sets the length to 0).
+ <p>
+ 모든 요소를 제거한다(길이를 0 으로 한다).
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>clear</CODE> in interface <CODE>java.util.Collection&lt;java.lang.Object&gt;</CODE><DT><B>Specified by:</B><DD><CODE>clear</CODE> in interface <CODE>java.util.List&lt;java.lang.Object&gt;</CODE><DT><B>Overrides:</B><DD><CODE>clear</CODE> in class <CODE>java.util.AbstractList&lt;java.lang.Object&gt;</CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="equals(java.lang.Object)"><!-- --></A><H3>
+equals</H3>
+<PRE>
+public boolean <B>equals</B>(java.lang.Object&nbsp;o)</PRE>
+<DL>
+<DD>Tells whether another object is a handle of the same script array.
+ <p>
+ 다른 객체가 같은 스크립트 배열의 핸들인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>equals</CODE> in interface <CODE>java.util.Collection&lt;java.lang.Object&gt;</CODE><DT><B>Specified by:</B><DD><CODE>equals</CODE> in interface <CODE>java.util.List&lt;java.lang.Object&gt;</CODE><DT><B>Overrides:</B><DD><CODE>equals</CODE> in class <CODE>java.util.AbstractList&lt;java.lang.Object&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>o</CODE> - the other object / 다른 객체
+<DT><B>Returns:</B><DD>true if both refer to the same script array / 같은 스크립트 배열을 가리키면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hashCode()"><!-- --></A><H3>
+hashCode</H3>
+<PRE>
+public int <B>hashCode</B>()</PRE>
+<DL>
+<DD>Returns a hash code of the script array's identity.
+ <p>
+ 스크립트 배열의 동일성에 대한 해시 코드를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>hashCode</CODE> in interface <CODE>java.util.Collection&lt;java.lang.Object&gt;</CODE><DT><B>Specified by:</B><DD><CODE>hashCode</CODE> in interface <CODE>java.util.List&lt;java.lang.Object&gt;</CODE><DT><B>Overrides:</B><DD><CODE>hashCode</CODE> in class <CODE>java.util.AbstractList&lt;java.lang.Object&gt;</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the hash code / 해시 코드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toString()"><!-- --></A><H3>
+toString</H3>
+<PRE>
+public java.lang.String <B>toString</B>()</PRE>
+<DL>
+<DD>Describes the array (without running script code).
+ <p>
+ 배열을 설명한다(스크립트 코드를 실행하지 않는다).
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>toString</CODE> in class <CODE>java.util.AbstractCollection&lt;java.lang.Object&gt;</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the description / 설명</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsCallable.html" title="interface in org.duckdns.hjow.swingwebpanel.js.embed"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/embed/JsArrayHandle.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="JsArrayHandle.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_java.util.AbstractList">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

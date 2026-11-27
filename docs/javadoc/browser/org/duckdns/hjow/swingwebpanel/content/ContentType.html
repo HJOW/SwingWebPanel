@@ -1,0 +1,573 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ContentType
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ContentType";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentKind.html" title="enum in org.duckdns.hjow.swingwebpanel.content"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/content/ContentType.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ContentType.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.content</FONT>
+<BR>
+Class ContentType</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.content.ContentType</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ContentType</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+A parsed <code>Content-Type</code> value (plan item P17-01): the lower-cased <code>type</code> and <code>subtype</code> and all
+ parameters. The algorithm is the "parse a MIME type" algorithm of the WHATWG MIME Sniffing Standard
+ (<code>https://mimesniff.spec.whatwg.org/#parse-a-mime-type</code>): leading and trailing HTTP white space is removed, the type and
+ the subtype must consist of HTTP token characters, parameter names are lower-cased, parameter values may be quoted strings with
+ backslash escapes, parameters without a valid value are skipped and the <em>first</em> parameter of a name wins. A value that does not
+ follow this form (no slash, empty parts, white space inside a part, <code>*&#47;*</code>, several comma separated types) is not valid:
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html#isValid()"><CODE>isValid()</CODE></A> is false and <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html#getMime()"><CODE>getMime()</CODE></A> is the empty string, which the content layer treats as "the type is missing".
+ <p>
+ Use: <code>ContentType.parse("TEXT/HTML ; Charset=\"UTF-8\"").getMime()</code> is <code>text/html</code> and
+ <code>getCharset()</code> is <code>UTF-8</code>. Instances are immutable and thread safe. The older, smaller
+ <code>org.duckdns.hjow.swingwebpanel.net.ContentType</code> keeps only the media type and the charset; this class additionally keeps every parameter
+ and tells the structured suffix (<code>+xml</code>).
+ <p>
+ 해석한 <code>Content-Type</code> 값(계획 P17-01): 소문자 <code>type</code>, <code>subtype</code> 과 모든 매개변수. 알고리즘은 WHATWG MIME Sniffing
+ 표준의 "parse a MIME type"(<code>https://mimesniff.spec.whatwg.org/#parse-a-mime-type</code>)이다: 앞뒤 HTTP 공백을 제거하고, type 과 subtype 은
+ HTTP 토큰 문자로만 이루어져야 하며, 매개변수 이름은 소문자로 바꾸고, 값은 백슬래시 이스케이프가 있는 따옴표 문자열일 수 있으며, 올바른 값이 없는
+ 매개변수는 건너뛰고 같은 이름은 <em>처음 것</em>이 이긴다. 이 형식을 따르지 않는 값(슬래시 없음, 빈 부분, 부분 안의 공백, <code>*&#47;*</code>,
+ 쉼표로 이은 여러 타입)은 올바르지 않다: <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html#isValid()"><CODE>isValid()</CODE></A> 는 false 이고 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html#getMime()"><CODE>getMime()</CODE></A> 은 빈 문자열이며 콘텐츠 계층은 이를 "타입이 없음"으로 본다.
+ <p>
+ 사용: <code>ContentType.parse("TEXT/HTML ; Charset=\"UTF-8\"").getMime()</code> 은 <code>text/html</code> 이고 <code>getCharset()</code> 은
+ <code>UTF-8</code> 이다. 인스턴스는 불변이며 스레드에 안전하다. 더 작은 <code>org.duckdns.hjow.swingwebpanel.net.ContentType</code> 은 미디어 타입과 charset 만
+ 보관하지만, 이 클래스는 모든 매개변수를 보관하고 구조적 접미사(<code>+xml</code>)를 알려 준다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html#getCharset()">getCharset</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <code>charset</code> parameter, or null if there is none or it is empty.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html#getMime()">getMime</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the media type <code>type/subtype</code> in lower case without parameters, or "" if the value is not valid.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html#getParameter(java.lang.String)">getParameter</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the value of a parameter.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Map&lt;java.lang.String,java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html#getParameters()">getParameters</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns all parameters (names in lower case, in order of appearance) as a read only map.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html#getSubtype()">getSubtype</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the lower-case <code>subtype</code> (for example <code>xhtml+xml</code>), or "" if the value is not valid.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html#getSuffix()">getSuffix</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the structured syntax suffix of the subtype without the plus sign, for example <code>xml</code> for
+ <code>application/xhtml+xml</code>, or "" if there is none.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html#getType()">getType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the lower-case <code>type</code> (for example <code>text</code>), or "" if the value is not valid.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html#isJson()">isJson</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether this is a JSON media type: <code>application/json</code>, <code>text/json</code> or any type with the suffix
+ <code>+json</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html#isMime(java.lang.String)">isMime</A></B>(java.lang.String&nbsp;mime)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the media type equals a given media type.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html#isValid()">isValid</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the header value could be parsed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html#isXml()">isXml</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether this is an XML media type: <code>application/xml</code>, <code>text/xml</code> or any type with the suffix
+ <code>+xml</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html#mimeOf(java.lang.String)">mimeOf</A></B>(java.lang.String&nbsp;header)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the media type of a header value in the form <code>type/subtype</code> in lower case, or "" for a missing or malformed value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html" title="class in org.duckdns.hjow.swingwebpanel.content">ContentType</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html#parse(java.lang.String)">parse</A></B>(java.lang.String&nbsp;header)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a header value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html#toString()">toString</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the canonical form: <code>type/subtype</code> followed by <code>; name=value</code> for every parameter; a value is
+ quoted if it is empty or contains a character that is not a token character.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="parse(java.lang.String)"><!-- --></A><H3>
+parse</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html" title="class in org.duckdns.hjow.swingwebpanel.content">ContentType</A> <B>parse</B>(java.lang.String&nbsp;header)</PRE>
+<DL>
+<DD>Parses a header value. A null, empty or malformed value gives an invalid result (never an exception).
+ <p>
+ 헤더 값을 해석한다. null, 빈 값, 잘못된 값은 예외 없이 올바르지 않은 결과가 된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>header</CODE> - header value or null / 헤더 값 또는 null
+<DT><B>Returns:</B><DD>the parsed value, never null / 해석한 값(null 아님)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mimeOf(java.lang.String)"><!-- --></A><H3>
+mimeOf</H3>
+<PRE>
+public static java.lang.String <B>mimeOf</B>(java.lang.String&nbsp;header)</PRE>
+<DL>
+<DD>Returns the media type of a header value in the form <code>type/subtype</code> in lower case, or "" for a missing or malformed value.
+ This is the shortcut for <code>parse(header).getMime()</code>.
+ <p>
+ 헤더 값의 미디어 타입을 소문자 <code>type/subtype</code> 로 반환한다. 없거나 잘못된 값이면 "". <code>parse(header).getMime()</code> 의 줄임이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>header</CODE> - header value or null / 헤더 값 또는 null
+<DT><B>Returns:</B><DD>the media type or "" / 미디어 타입 또는 ""</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isValid()"><!-- --></A><H3>
+isValid</H3>
+<PRE>
+public boolean <B>isValid</B>()</PRE>
+<DL>
+<DD>Tells whether the header value could be parsed.
+ <p>
+ 헤더 값을 해석할 수 있었는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if valid / 올바르면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getType()"><!-- --></A><H3>
+getType</H3>
+<PRE>
+public java.lang.String <B>getType</B>()</PRE>
+<DL>
+<DD>Returns the lower-case <code>type</code> (for example <code>text</code>), or "" if the value is not valid.
+ <p>
+ 소문자 <code>type</code>(예: <code>text</code>)을 반환한다. 올바르지 않으면 "".
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the type / type</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSubtype()"><!-- --></A><H3>
+getSubtype</H3>
+<PRE>
+public java.lang.String <B>getSubtype</B>()</PRE>
+<DL>
+<DD>Returns the lower-case <code>subtype</code> (for example <code>xhtml+xml</code>), or "" if the value is not valid.
+ <p>
+ 소문자 <code>subtype</code>(예: <code>xhtml+xml</code>)을 반환한다. 올바르지 않으면 "".
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the subtype / subtype</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMime()"><!-- --></A><H3>
+getMime</H3>
+<PRE>
+public java.lang.String <B>getMime</B>()</PRE>
+<DL>
+<DD>Returns the media type <code>type/subtype</code> in lower case without parameters, or "" if the value is not valid.
+ <p>
+ 매개변수를 뺀 소문자 미디어 타입 <code>type/subtype</code> 을 반환한다. 올바르지 않으면 "".
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the media type or "" / 미디어 타입 또는 ""</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSuffix()"><!-- --></A><H3>
+getSuffix</H3>
+<PRE>
+public java.lang.String <B>getSuffix</B>()</PRE>
+<DL>
+<DD>Returns the structured syntax suffix of the subtype without the plus sign, for example <code>xml</code> for
+ <code>application/xhtml+xml</code>, or "" if there is none.
+ <p>
+ subtype 의 구조적 구문 접미사를 더하기 기호 없이 반환한다. 예: <code>application/xhtml+xml</code> 이면 <code>xml</code>. 없으면 "".
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the suffix or "" / 접미사 또는 ""</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getParameter(java.lang.String)"><!-- --></A><H3>
+getParameter</H3>
+<PRE>
+public java.lang.String <B>getParameter</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns the value of a parameter.
+ <p>
+ 매개변수의 값을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - parameter name, compared ignoring case / 매개변수 이름(대소문자 무시)
+<DT><B>Returns:</B><DD>the value (quotes removed) or null / 값(따옴표 제거). 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getParameters()"><!-- --></A><H3>
+getParameters</H3>
+<PRE>
+public java.util.Map&lt;java.lang.String,java.lang.String&gt; <B>getParameters</B>()</PRE>
+<DL>
+<DD>Returns all parameters (names in lower case, in order of appearance) as a read only map.
+ <p>
+ 모든 매개변수(이름은 소문자, 나타난 순서)를 읽기 전용 맵으로 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the parameters / 매개변수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCharset()"><!-- --></A><H3>
+getCharset</H3>
+<PRE>
+public java.lang.String <B>getCharset</B>()</PRE>
+<DL>
+<DD>Returns the <code>charset</code> parameter, or null if there is none or it is empty. The value is returned as written (a label such
+ as <code>EUC-KR</code>, not yet a canonical encoding name).
+ <p>
+ <code>charset</code> 매개변수를 반환한다. 없거나 비어 있으면 null. 값은 쓰인 그대로 반환한다(<code>EUC-KR</code> 같은 라벨이며 표준 인코딩
+ 이름이 아직 아니다).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the charset label or null / charset 라벨 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isMime(java.lang.String)"><!-- --></A><H3>
+isMime</H3>
+<PRE>
+public boolean <B>isMime</B>(java.lang.String&nbsp;mime)</PRE>
+<DL>
+<DD>Tells whether the media type equals a given media type.
+ <p>
+ 미디어 타입이 주어진 미디어 타입과 같은지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>mime</CODE> - media type in any letter case / 미디어 타입(대소문자 무관)
+<DT><B>Returns:</B><DD>true if equal / 같으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isXml()"><!-- --></A><H3>
+isXml</H3>
+<PRE>
+public boolean <B>isXml</B>()</PRE>
+<DL>
+<DD>Tells whether this is an XML media type: <code>application/xml</code>, <code>text/xml</code> or any type with the suffix
+ <code>+xml</code>.
+ <p>
+ XML 미디어 타입인지 알려 준다: <code>application/xml</code>, <code>text/xml</code>, 또는 접미사가 <code>+xml</code> 인 모든 타입.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for an XML type / XML 타입이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isJson()"><!-- --></A><H3>
+isJson</H3>
+<PRE>
+public boolean <B>isJson</B>()</PRE>
+<DL>
+<DD>Tells whether this is a JSON media type: <code>application/json</code>, <code>text/json</code> or any type with the suffix
+ <code>+json</code>.
+ <p>
+ JSON 미디어 타입인지 알려 준다: <code>application/json</code>, <code>text/json</code>, 또는 접미사가 <code>+json</code> 인 모든 타입.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for a JSON type / JSON 타입이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toString()"><!-- --></A><H3>
+toString</H3>
+<PRE>
+public java.lang.String <B>toString</B>()</PRE>
+<DL>
+<DD>Returns the canonical form: <code>type/subtype</code> followed by <code>; name=value</code> for every parameter; a value is
+ quoted if it is empty or contains a character that is not a token character. An invalid value gives the empty string.
+ <p>
+ 정규 형태를 반환한다: <code>type/subtype</code> 뒤에 매개변수마다 <code>; name=value</code>. 값이 비었거나 토큰 문자가 아닌 문자를 포함하면
+ 따옴표로 감싼다. 올바르지 않은 값은 빈 문자열이다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>toString</CODE> in class <CODE>java.lang.Object</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the canonical text / 정규 형태의 문자열</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentKind.html" title="enum in org.duckdns.hjow.swingwebpanel.content"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/content/ContentType.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ContentType.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,913 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+KeyframeEffectModel
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="KeyframeEffectModel";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Interpolator.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.Keyframe.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="KeyframeEffectModel.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.anim</FONT>
+<BR>
+Class KeyframeEffectModel</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.anim.KeyframeEffectModel</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>KeyframeEffectModel</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+A keyframe effect of Web Animations Level 1 (sections 5.3 and 6.6, <code>KeyframeEffect</code>): an effect target (an element and an optional
+ pseudo-element such as <code>::before</code>), the timing properties (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><CODE>EffectTiming</CODE></A>), the composite operation of the effect and the list
+ of keyframes. A <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.Keyframe.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><CODE>KeyframeEffectModel.Keyframe</CODE></A> holds its offset (null for automatic spacing), its computed offset, its timing function, its keyframe-specific
+ composite operation (null for <code>auto</code>) and its property values as specified (CSS names and serialized values, what
+ <code>getKeyframes()</code> reports) together with the parsed declarations. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#apply(org.duckdns.hjow.swingwebpanel.css.cascade.StyleResolver, org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, double)"><CODE>apply(org.duckdns.hjow.swingwebpanel.css.cascade.StyleResolver, org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, double)</CODE></A> computes the effect value of every target property for
+ an iteration progress (section 5.3.4: property-specific keyframes, the implicit keyframes at 0 and 1 with the underlying value, the interval,
+ the keyframe timing function, interpolation by <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Interpolator.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><CODE>Interpolator</CODE></A> and composition by <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Compositor.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><CODE>Compositor</CODE></A>) and returns the style with these values.
+ The values of the keyframes are computed against the target element (relative lengths use its font size, logical properties map to physical ones)
+ and cached while the keyframes, the font size, the color and the writing mode of the target do not change. The iteration composite operation of
+ Web Animations Level 2 is stored and reported but not applied.
+ <p>
+ Web Animations Level 1 의 키프레임 효과(5.3 절과 6.6 절, <code>KeyframeEffect</code>): 효과 대상(요소와 <code>::before</code> 같은 선택적 의사 요소), 시간 속성
+ (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><CODE>EffectTiming</CODE></A>), 효과의 합성 연산, 키프레임 목록. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.Keyframe.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><CODE>KeyframeEffectModel.Keyframe</CODE></A> 는 오프셋(자동 간격이면 null), 계산된 오프셋, 완화 함수, 키프레임별 합성 연산
+ (<code>auto</code> 이면 null), 지정한 속성 값(CSS 이름과 직렬화한 값, <code>getKeyframes()</code> 가 알려 주는 것)과 해석한 선언을 가진다. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#apply(org.duckdns.hjow.swingwebpanel.css.cascade.StyleResolver, org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, double)"><CODE>apply(org.duckdns.hjow.swingwebpanel.css.cascade.StyleResolver, org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, double)</CODE></A> 는 반복
+ 진행도에 대한 모든 대상 속성의 효과 값을 계산하고(5.3.4 절: 속성별 키프레임, 기저 값을 가진 0 과 1 의 암묵 키프레임, 구간, 키프레임 완화 함수,
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Interpolator.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><CODE>Interpolator</CODE></A> 의 보간, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Compositor.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><CODE>Compositor</CODE></A> 의 합성) 그 값을 가진 스타일을 반환한다. 키프레임의 값은 대상 요소를 기준으로 계산하며(상대 길이는 그 글꼴 크기,
+ 논리 속성은 물리 속성으로) 키프레임, 대상의 글꼴 크기, 색, 쓰기 모드가 바뀌지 않는 동안 캐시한다. Web Animations Level 2 의 반복 합성 연산은 보관하고 알려 주지만
+ 적용하지 않는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.Keyframe.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">KeyframeEffectModel.Keyframe</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;One keyframe as the script specified it, with its parsed declarations.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#KeyframeEffectModel(org.duckdns.hjow.swingwebpanel.css.anim.EffectTiming)">KeyframeEffectModel</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">EffectTiming</A>&nbsp;timing)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an effect without target, keyframes or delays, with the given timing.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#animatableProperty(java.lang.String)">animatableProperty</A></B>(java.lang.String&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a key of a keyframe object names a property that keyframes can animate: a custom property, or the IDL name of a longhand or
+ shorthand that this engine knows and that is animatable.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#apply(org.duckdns.hjow.swingwebpanel.css.cascade.StyleResolver, org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, double)">apply</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">StyleResolver</A>&nbsp;resolver,
+      <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+      <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;style,
+      double&nbsp;progress)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Applies the effect values at an iteration progress on a style (5.3.4 and 5.4.3): for every target property the value of the keyframes is
+ combined with the value of the style, which is the underlying value, and replaces it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#changed()">changed</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells the animation of the effect that the timing or the keyframes changed (the finished state and the style follow).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#checkOffsets(java.util.List)">checkOffsets</A></B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.Keyframe.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">KeyframeEffectModel.Keyframe</A>&gt;&nbsp;list)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Checks a list of keyframes before it is used (6.6.3): the offsets that are not null must be loosely sorted and between 0 and 1.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#checkOffsetValues(java.util.List)">checkOffsetValues</A></B>(java.util.List&lt;java.lang.Double&gt;&nbsp;offsets)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Checks a list of keyframe offsets (6.6.3): the values that are not null must be loosely sorted and between 0 and 1.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#collectCustom(org.duckdns.hjow.swingwebpanel.css.cascade.StyleResolver, org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, double, java.util.Map)">collectCustom</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">StyleResolver</A>&nbsp;resolver,
+              <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+              <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;style,
+              double&nbsp;progress,
+              java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;out)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collects the effect values of the custom properties at an iteration progress (as CSS text, for a restyle with them).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#computeMissingOffsets(java.util.List)">computeMissingOffsets</A></B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.Keyframe.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">KeyframeEffectModel.Keyframe</A>&gt;&nbsp;list)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Computes the missing keyframe offsets (5.3.3 "compute missing keyframe offsets"): a null first offset is 0 when there are several keyframes, a
+ null last offset is 1, and the keyframes between two known offsets are spaced evenly.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">KeyframeEffectModel</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#copyOf(org.duckdns.hjow.swingwebpanel.css.anim.KeyframeEffectModel)">copyOf</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">KeyframeEffectModel</A>&nbsp;source)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a copy of an effect (the <code>KeyframeEffect(source)</code> constructor): the target, the keyframes, the composite operation and
+ the specified timing are copied; the copy has no animation.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#cssName(java.lang.String)">cssName</A></B>(java.lang.String&nbsp;idl)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Converts an IDL attribute name to a CSS property name (6.6.2 "IDL attribute name to animation property name"): custom property names stay,
+ <code>cssFloat</code> is <code>float</code>, <code>cssOffset</code> is <code>offset</code>, the other names lose their capitals for dashes
+ (<code>webkitX</code> becomes <code>-webkit-x</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimation.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">WebAnimation</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#getAnimation()">getAnimation</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the animation that the effect is associated with.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#getComposite()">getComposite</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the composite operation of the effect.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#getIterationComposite()">getIterationComposite</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the iteration composite operation (Web Animations Level 2; stored only).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.Keyframe.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">KeyframeEffectModel.Keyframe</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#getKeyframes()">getKeyframes</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the keyframes with their computed offsets (<code>getKeyframes()</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#getPseudoElement()">getPseudoElement</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the target pseudo-selector.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#getTarget()">getTarget</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the target element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Set&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#getTargetCustomProperties()">getTargetCustomProperties</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the custom properties that the keyframes declare.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Set&lt;java.lang.Integer&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#getTargetProperties()">getTargetProperties</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the longhand property ids that the keyframes declare (the target properties, logical ones as declared).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">EffectTiming</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#getTiming()">getTiming</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the timing properties.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#idlName(java.lang.String)">idlName</A></B>(java.lang.String&nbsp;css)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Converts a CSS property name to its IDL attribute name (6.6.2 "animation property name to IDL attribute name").</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.Keyframe.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">KeyframeEffectModel.Keyframe</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#newKeyframe(java.lang.Double, java.lang.String, java.lang.String, java.util.Map)">newKeyframe</A></B>(java.lang.Double&nbsp;offset,
+            java.lang.String&nbsp;easing,
+            java.lang.String&nbsp;composite,
+            java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;pairs)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a keyframe from the values of a script (the result of "process a keyframe-like object" for one keyframe): the property-value pairs
+ whose value does not parse for the property are discarded (section 6.6.3).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#normalizePseudo(java.lang.String)">normalizePseudo</A></B>(java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Normalizes a pseudo-element selector for <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#setTarget(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)"><CODE>setTarget(Element, String)</CODE></A> (6.6 "pseudoElement"): the legacy single-colon forms of
+ <code>:before</code>, <code>:after</code>, <code>:first-letter</code> and <code>:first-line</code> get two colons; the selectors that this
+ engine animates are <code>::before</code>, <code>::after</code> and <code>::marker</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#setComposite(java.lang.String)">setComposite</A></B>(java.lang.String&nbsp;op)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the composite operation of the effect.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#setIterationComposite(java.lang.String)">setIterationComposite</A></B>(java.lang.String&nbsp;op)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the iteration composite operation (stored only, not applied).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#setKeyframes(java.util.List)">setKeyframes</A></B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.Keyframe.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">KeyframeEffectModel.Keyframe</A>&gt;&nbsp;list)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Replaces the keyframes (<code>setKeyframes()</code>); the list must have passed <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#checkOffsets(java.util.List)"><CODE>checkOffsets(List)</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#setTarget(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)">setTarget</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element,
+          java.lang.String&nbsp;pseudoSelector)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Changes the effect target; the old and the new target are restyled.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="KeyframeEffectModel(org.duckdns.hjow.swingwebpanel.css.anim.EffectTiming)"><!-- --></A><H3>
+KeyframeEffectModel</H3>
+<PRE>
+public <B>KeyframeEffectModel</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">EffectTiming</A>&nbsp;timing)</PRE>
+<DL>
+<DD>Creates an effect without target, keyframes or delays, with the given timing.
+ <p>
+ 대상, 키프레임, 지연이 없는 효과를 주어진 시간으로 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>timing</CODE> - the timing, not null / 시간(null 불가)</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="copyOf(org.duckdns.hjow.swingwebpanel.css.anim.KeyframeEffectModel)"><!-- --></A><H3>
+copyOf</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">KeyframeEffectModel</A> <B>copyOf</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">KeyframeEffectModel</A>&nbsp;source)</PRE>
+<DL>
+<DD>Creates a copy of an effect (the <code>KeyframeEffect(source)</code> constructor): the target, the keyframes, the composite operation and
+ the specified timing are copied; the copy has no animation.
+ <p>
+ 효과의 복사본을 만든다(<code>KeyframeEffect(source)</code> 생성자): 대상, 키프레임, 합성 연산, 지정한 시간을 복사한다. 복사본에는 애니메이션이 없다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>source</CODE> - the effect to copy / 복사할 효과
+<DT><B>Returns:</B><DD>the copy / 복사본</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newKeyframe(java.lang.Double, java.lang.String, java.lang.String, java.util.Map)"><!-- --></A><H3>
+newKeyframe</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.Keyframe.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">KeyframeEffectModel.Keyframe</A> <B>newKeyframe</B>(java.lang.Double&nbsp;offset,
+                                                       java.lang.String&nbsp;easing,
+                                                       java.lang.String&nbsp;composite,
+                                                       java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;pairs)</PRE>
+<DL>
+<DD>Creates a keyframe from the values of a script (the result of "process a keyframe-like object" for one keyframe): the property-value pairs
+ whose value does not parse for the property are discarded (section 6.6.3). When several pairs name the same longhand, a longhand wins over a
+ shorthand, a shorthand with fewer longhands over one with more, and among equal shorthands the one whose IDL name sorts first (5.3.3).
+ <p>
+ 스크립트의 값으로 키프레임을 만든다(키프레임 하나에 대한 "process a keyframe-like object" 의 결과): 속성에 대해 해석되지 않는 값을 가진 쌍은 버린다(6.6.3 절). 여러 쌍이
+ 같은 개별 속성을 가리키면 개별 속성이 단축 속성을, 개별 속성이 적은 단축 속성이 많은 것을, 같은 단축 속성끼리는 IDL 이름이 먼저 오는 것이 이긴다(5.3.3).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>offset</CODE> - the offset or null / 오프셋 또는 null<DD><CODE>easing</CODE> - the easing text, which must parse (see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#parseEasing(java.lang.String)"><CODE>EffectTiming.parseEasing(String)</CODE></A>) / 완화 문자열. 해석되어야 한다<DD><CODE>composite</CODE> - <code>replace</code>, <code>add</code>, <code>accumulate</code> or null for <code>auto</code> / 합성 연산. <code>auto</code> 이면 null<DD><CODE>pairs</CODE> - the property values by CSS property name, in the order of their IDL names / IDL 이름 순서의 CSS 속성 이름별 값
+<DT><B>Returns:</B><DD>the keyframe / 키프레임</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="cssName(java.lang.String)"><!-- --></A><H3>
+cssName</H3>
+<PRE>
+public static java.lang.String <B>cssName</B>(java.lang.String&nbsp;idl)</PRE>
+<DL>
+<DD>Converts an IDL attribute name to a CSS property name (6.6.2 "IDL attribute name to animation property name"): custom property names stay,
+ <code>cssFloat</code> is <code>float</code>, <code>cssOffset</code> is <code>offset</code>, the other names lose their capitals for dashes
+ (<code>webkitX</code> becomes <code>-webkit-x</code>).
+ <p>
+ IDL 속성 이름을 CSS 속성 이름으로 바꾼다(6.6.2 "IDL attribute name to animation property name"): 사용자 정의 속성 이름은 그대로, <code>cssFloat</code> 는
+ <code>float</code>, <code>cssOffset</code> 는 <code>offset</code>, 나머지는 대문자를 대시로 바꾼다(<code>webkitX</code> 는 <code>-webkit-x</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>idl</CODE> - the IDL name / IDL 이름
+<DT><B>Returns:</B><DD>the CSS name / CSS 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="idlName(java.lang.String)"><!-- --></A><H3>
+idlName</H3>
+<PRE>
+public static java.lang.String <B>idlName</B>(java.lang.String&nbsp;css)</PRE>
+<DL>
+<DD>Converts a CSS property name to its IDL attribute name (6.6.2 "animation property name to IDL attribute name").
+ <p>
+ CSS 속성 이름을 IDL 속성 이름으로 바꾼다(6.6.2 "animation property name to IDL attribute name").
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>css</CODE> - the CSS name / CSS 이름
+<DT><B>Returns:</B><DD>the IDL name / IDL 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="animatableProperty(java.lang.String)"><!-- --></A><H3>
+animatableProperty</H3>
+<PRE>
+public static java.lang.String <B>animatableProperty</B>(java.lang.String&nbsp;key)</PRE>
+<DL>
+<DD>Tells whether a key of a keyframe object names a property that keyframes can animate: a custom property, or the IDL name of a longhand or
+ shorthand that this engine knows and that is animatable.
+ <p>
+ 키프레임 객체의 키가 키프레임이 애니메이션할 수 있는 속성을 가리키는지 알려 준다: 사용자 정의 속성, 또는 이 엔진이 알고 애니메이션할 수 있는 개별·단축 속성의 IDL 이름.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key / 키
+<DT><B>Returns:</B><DD>the CSS name, or null if the key is not such a property / CSS 이름. 그런 속성이 아니면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="checkOffsets(java.util.List)"><!-- --></A><H3>
+checkOffsets</H3>
+<PRE>
+public static java.lang.String <B>checkOffsets</B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.Keyframe.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">KeyframeEffectModel.Keyframe</A>&gt;&nbsp;list)</PRE>
+<DL>
+<DD>Checks a list of keyframes before it is used (6.6.3): the offsets that are not null must be loosely sorted and between 0 and 1.
+ <p>
+ 키프레임 목록을 쓰기 전에 검사한다(6.6.3): null 이 아닌 오프셋은 느슨하게 정렬되어 있고 0 과 1 사이여야 한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>list</CODE> - the keyframes / 키프레임
+<DT><B>Returns:</B><DD>null if valid, otherwise the message of the TypeError / 올바르면 null. 아니면 TypeError 의 메시지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="checkOffsetValues(java.util.List)"><!-- --></A><H3>
+checkOffsetValues</H3>
+<PRE>
+public static java.lang.String <B>checkOffsetValues</B>(java.util.List&lt;java.lang.Double&gt;&nbsp;offsets)</PRE>
+<DL>
+<DD>Checks a list of keyframe offsets (6.6.3): the values that are not null must be loosely sorted and between 0 and 1.
+ <p>
+ 키프레임 오프셋 목록을 검사한다(6.6.3): null 이 아닌 값은 느슨하게 정렬되어 있고 0 과 1 사이여야 한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>offsets</CODE> - the offsets, null for automatic spacing / 오프셋. 자동 간격이면 null
+<DT><B>Returns:</B><DD>null if valid, otherwise the message of the TypeError / 올바르면 null. 아니면 TypeError 의 메시지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="computeMissingOffsets(java.util.List)"><!-- --></A><H3>
+computeMissingOffsets</H3>
+<PRE>
+public static void <B>computeMissingOffsets</B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.Keyframe.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">KeyframeEffectModel.Keyframe</A>&gt;&nbsp;list)</PRE>
+<DL>
+<DD>Computes the missing keyframe offsets (5.3.3 "compute missing keyframe offsets"): a null first offset is 0 when there are several keyframes, a
+ null last offset is 1, and the keyframes between two known offsets are spaced evenly.
+ <p>
+ 빠진 키프레임 오프셋을 계산한다(5.3.3 "compute missing keyframe offsets"): 키프레임이 여럿일 때 null 인 첫 오프셋은 0, null 인 마지막 오프셋은 1 이며, 알려진 두 오프셋
+ 사이의 키프레임은 고르게 놓는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>list</CODE> - the keyframes / 키프레임</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setKeyframes(java.util.List)"><!-- --></A><H3>
+setKeyframes</H3>
+<PRE>
+public void <B>setKeyframes</B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.Keyframe.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">KeyframeEffectModel.Keyframe</A>&gt;&nbsp;list)</PRE>
+<DL>
+<DD>Replaces the keyframes (<code>setKeyframes()</code>); the list must have passed <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#checkOffsets(java.util.List)"><CODE>checkOffsets(List)</CODE></A>.
+ <p>
+ 키프레임을 바꾼다(<code>setKeyframes()</code>). 목록은 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#checkOffsets(java.util.List)"><CODE>checkOffsets(List)</CODE></A> 를 통과해야 한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>list</CODE> - the keyframes / 키프레임</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getKeyframes()"><!-- --></A><H3>
+getKeyframes</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.Keyframe.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">KeyframeEffectModel.Keyframe</A>&gt; <B>getKeyframes</B>()</PRE>
+<DL>
+<DD>Returns the keyframes with their computed offsets (<code>getKeyframes()</code>).
+ <p>
+ 계산된 오프셋과 함께 키프레임을 반환한다(<code>getKeyframes()</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>an unmodifiable list / 수정할 수 없는 목록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTiming()"><!-- --></A><H3>
+getTiming</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">EffectTiming</A> <B>getTiming</B>()</PRE>
+<DL>
+<DD>Returns the timing properties.
+ <p>
+ 시간 속성을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the timing / 시간</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getAnimation()"><!-- --></A><H3>
+getAnimation</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimation.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">WebAnimation</A> <B>getAnimation</B>()</PRE>
+<DL>
+<DD>Returns the animation that the effect is associated with.
+ <p>
+ 효과가 연결된 애니메이션을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the animation or null / 애니메이션 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTarget()"><!-- --></A><H3>
+getTarget</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>getTarget</B>()</PRE>
+<DL>
+<DD>Returns the target element.
+ <p>
+ 대상 요소를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the element or null / 요소 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPseudoElement()"><!-- --></A><H3>
+getPseudoElement</H3>
+<PRE>
+public java.lang.String <B>getPseudoElement</B>()</PRE>
+<DL>
+<DD>Returns the target pseudo-selector.
+ <p>
+ 대상 의사 선택자를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD><code>::before</code> and the like, or null / <code>::before</code> 등. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="normalizePseudo(java.lang.String)"><!-- --></A><H3>
+normalizePseudo</H3>
+<PRE>
+public static java.lang.String <B>normalizePseudo</B>(java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Normalizes a pseudo-element selector for <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#setTarget(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)"><CODE>setTarget(Element, String)</CODE></A> (6.6 "pseudoElement"): the legacy single-colon forms of
+ <code>:before</code>, <code>:after</code>, <code>:first-letter</code> and <code>:first-line</code> get two colons; the selectors that this
+ engine animates are <code>::before</code>, <code>::after</code> and <code>::marker</code>.
+ <p>
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html#setTarget(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)"><CODE>setTarget(Element, String)</CODE></A> 를 위해 의사 요소 선택자를 정규화한다(6.6 "pseudoElement"): <code>:before</code>, <code>:after</code>,
+ <code>:first-letter</code>, <code>:first-line</code> 의 옛 한 콜론 형식은 두 콜론이 된다. 이 엔진이 애니메이션하는 선택자는 <code>::before</code>,
+ <code>::after</code>, <code>::marker</code> 이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the selector / 선택자
+<DT><B>Returns:</B><DD>the normalized selector, or null if it is not a valid pseudo-element selector (a SyntaxError) / 정규화한 선택자. 올바른 의사 요소 선택자가 아니면(SyntaxError) null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setTarget(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)"><!-- --></A><H3>
+setTarget</H3>
+<PRE>
+public void <B>setTarget</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element,
+                      java.lang.String&nbsp;pseudoSelector)</PRE>
+<DL>
+<DD>Changes the effect target; the old and the new target are restyled.
+ <p>
+ 효과 대상을 바꾼다. 이전 대상과 새 대상의 스타일을 다시 계산한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>element</CODE> - the element or null / 요소 또는 null<DD><CODE>pseudoSelector</CODE> - the normalized pseudo-selector or null / 정규화한 의사 선택자 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getComposite()"><!-- --></A><H3>
+getComposite</H3>
+<PRE>
+public java.lang.String <B>getComposite</B>()</PRE>
+<DL>
+<DD>Returns the composite operation of the effect.
+ <p>
+ 효과의 합성 연산을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD><code>replace</code>, <code>add</code> or <code>accumulate</code> / 연산</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setComposite(java.lang.String)"><!-- --></A><H3>
+setComposite</H3>
+<PRE>
+public void <B>setComposite</B>(java.lang.String&nbsp;op)</PRE>
+<DL>
+<DD>Sets the composite operation of the effect.
+ <p>
+ 효과의 합성 연산을 정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>op</CODE> - <code>replace</code>, <code>add</code> or <code>accumulate</code> / 연산</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getIterationComposite()"><!-- --></A><H3>
+getIterationComposite</H3>
+<PRE>
+public java.lang.String <B>getIterationComposite</B>()</PRE>
+<DL>
+<DD>Returns the iteration composite operation (Web Animations Level 2; stored only).
+ <p>
+ 반복 합성 연산을 반환한다(Web Animations Level 2. 보관만 한다).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD><code>replace</code> or <code>accumulate</code> / 연산</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setIterationComposite(java.lang.String)"><!-- --></A><H3>
+setIterationComposite</H3>
+<PRE>
+public void <B>setIterationComposite</B>(java.lang.String&nbsp;op)</PRE>
+<DL>
+<DD>Sets the iteration composite operation (stored only, not applied).
+ <p>
+ 반복 합성 연산을 정한다(보관만 하고 적용하지 않는다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>op</CODE> - <code>replace</code> or <code>accumulate</code> / 연산</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="changed()"><!-- --></A><H3>
+changed</H3>
+<PRE>
+public void <B>changed</B>()</PRE>
+<DL>
+<DD>Tells the animation of the effect that the timing or the keyframes changed (the finished state and the style follow).
+ <p>
+ 효과의 애니메이션에 시간이나 키프레임이 바뀌었음을 알린다(끝남 상태와 스타일이 따라간다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTargetProperties()"><!-- --></A><H3>
+getTargetProperties</H3>
+<PRE>
+public java.util.Set&lt;java.lang.Integer&gt; <B>getTargetProperties</B>()</PRE>
+<DL>
+<DD>Returns the longhand property ids that the keyframes declare (the target properties, logical ones as declared).
+ <p>
+ 키프레임이 선언한 개별 속성 id(대상 속성, 논리 속성은 선언한 그대로)를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the ids / id</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTargetCustomProperties()"><!-- --></A><H3>
+getTargetCustomProperties</H3>
+<PRE>
+public java.util.Set&lt;java.lang.String&gt; <B>getTargetCustomProperties</B>()</PRE>
+<DL>
+<DD>Returns the custom properties that the keyframes declare.
+ <p>
+ 키프레임이 선언한 사용자 정의 속성을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the names / 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="apply(org.duckdns.hjow.swingwebpanel.css.cascade.StyleResolver, org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, double)"><!-- --></A><H3>
+apply</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A> <B>apply</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">StyleResolver</A>&nbsp;resolver,
+                           <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                           <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;style,
+                           double&nbsp;progress)</PRE>
+<DL>
+<DD>Applies the effect values at an iteration progress on a style (5.3.4 and 5.4.3): for every target property the value of the keyframes is
+ combined with the value of the style, which is the underlying value, and replaces it.
+ <p>
+ 반복 진행도에서의 효과 값을 스타일에 적용한다(5.3.4 와 5.4.3): 대상 속성마다 키프레임의 값을 스타일의 값(기저 값)과 결합해 그것을 바꾼다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>resolver</CODE> - the style resolver / 스타일 리졸버<DD><CODE>e</CODE> - the target element / 대상 요소<DD><CODE>style</CODE> - the underlying style / 기저 스타일<DD><CODE>progress</CODE> - the iteration progress / 반복 진행도
+<DT><B>Returns:</B><DD>the style with the effect values / 효과 값을 가진 스타일</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="collectCustom(org.duckdns.hjow.swingwebpanel.css.cascade.StyleResolver, org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, double, java.util.Map)"><!-- --></A><H3>
+collectCustom</H3>
+<PRE>
+public void <B>collectCustom</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">StyleResolver</A>&nbsp;resolver,
+                          <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                          <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;style,
+                          double&nbsp;progress,
+                          java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;out)</PRE>
+<DL>
+<DD>Collects the effect values of the custom properties at an iteration progress (as CSS text, for a restyle with them).
+ <p>
+ 반복 진행도에서 사용자 정의 속성의 효과 값을 모은다(그것으로 스타일을 다시 계산하도록 CSS 문자열로).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>resolver</CODE> - the style resolver / 스타일 리졸버<DD><CODE>e</CODE> - the target element / 대상 요소<DD><CODE>style</CODE> - the underlying style / 기저 스타일<DD><CODE>progress</CODE> - the iteration progress / 반복 진행도<DD><CODE>out</CODE> - receives the values by name / 이름별 값을 받는다</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Interpolator.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.Keyframe.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="KeyframeEffectModel.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

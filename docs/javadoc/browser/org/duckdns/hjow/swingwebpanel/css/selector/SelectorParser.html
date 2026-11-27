@@ -1,0 +1,310 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+SelectorParser
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="SelectorParser";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorMatcher.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/selector/SelectorParser.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SelectorParser.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.selector</FONT>
+<BR>
+Class SelectorParser</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.selector.SelectorParser</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>SelectorParser</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The parser of Selectors Level 3/4 selector text. It works on the component values produced by the CSS parser, resolves namespace prefixes
+ against a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/NamespaceMap.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector"><CODE>NamespaceMap</CODE></A>, and reports anything it does not understand with a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector"><CODE>SelectorSyntaxException</CODE></A>: a rule with an invalid
+ selector is dropped as a whole, and <code>querySelector</code> raises a <code>SyntaxError</code>. Inside <code>:is()</code> and
+ <code>:where()</code> invalid entries are ignored (forgiving lists).
+ <p>
+ Supported: type, universal, id, class, attribute (all operators and the <code>i</code>/<code>s</code> flags), the combinators
+ <code>' '</code> <code>&gt;</code> <code>+</code> <code>~</code>, every pseudo-class of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector"><CODE>PseudoClasses</CODE></A>, the pseudo-elements listed there.
+ <p>
+ Selectors Level 3/4 선택자 텍스트의 파서. CSS 파서가 만든 컴포넌트 값 위에서 동작하며 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/NamespaceMap.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector"><CODE>NamespaceMap</CODE></A> 으로 네임스페이스 접두사를 해석하고,
+ 이해하지 못하는 것은 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector"><CODE>SelectorSyntaxException</CODE></A> 으로 알린다. 올바르지 않은 선택자를 가진 규칙은 통째로 버려지고 <code>querySelector</code> 는
+ <code>SyntaxError</code> 를 낸다. <code>:is()</code> 와 <code>:where()</code> 안에서는 잘못된 항목을 무시한다(관대한 목록).
+ <p>
+ 지원: 타입, 전체, id, 클래스, 속성(모든 연산자와 <code>i</code>/<code>s</code> 플래그), 결합자 <code>' '</code> <code>&gt;</code> <code>+</code> <code>~</code>,
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector"><CODE>PseudoClasses</CODE></A> 의 모든 의사 클래스와 거기 나열한 의사 요소.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorParser.html#MAX_NESTING">MAX_NESTING</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Maximum nesting depth of selector arguments (<code>:is(:not(...))</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorList.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">SelectorList</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorParser.html#parse(java.util.List, org.duckdns.hjow.swingwebpanel.css.selector.NamespaceMap)">parse</A></B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&nbsp;values,
+      <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/NamespaceMap.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">NamespaceMap</A>&nbsp;namespaces)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a selector list given as component values (for example the prelude of a style rule).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorList.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">SelectorList</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorParser.html#parse(java.lang.String, org.duckdns.hjow.swingwebpanel.css.selector.NamespaceMap)">parse</A></B>(java.lang.String&nbsp;text,
+      <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/NamespaceMap.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">NamespaceMap</A>&nbsp;namespaces)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses selector text (a comma separated list).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="MAX_NESTING"><!-- --></A><H3>
+MAX_NESTING</H3>
+<PRE>
+public static final int <B>MAX_NESTING</B></PRE>
+<DL>
+<DD>Maximum nesting depth of selector arguments (<code>:is(:not(...))</code>), which keeps hostile input from overflowing the stack. / 선택자 인수의 최대 중첩 깊이(<code>:is(:not(...))</code>). 악의적인 입력이 스택을 넘치게 하지 못하게 한다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.SelectorParser.MAX_NESTING">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="parse(java.lang.String, org.duckdns.hjow.swingwebpanel.css.selector.NamespaceMap)"><!-- --></A><H3>
+parse</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorList.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">SelectorList</A> <B>parse</B>(java.lang.String&nbsp;text,
+                                 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/NamespaceMap.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">NamespaceMap</A>&nbsp;namespaces)
+                          throws <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">SelectorSyntaxException</A></PRE>
+<DL>
+<DD>Parses selector text (a comma separated list).
+ <p>
+ 선택자 텍스트(쉼표로 구분한 목록)를 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - selector text / 선택자 문자열<DD><CODE>namespaces</CODE> - namespace declarations or null (prefixes are then invalid) / 네임스페이스 선언 또는 null(접두사는 무효)
+<DT><B>Returns:</B><DD>the list, never empty / 목록(비어 있지 않음)
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">SelectorSyntaxException</A></CODE> - if the text is not a valid selector list / 올바른 선택자 목록이 아니면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parse(java.util.List, org.duckdns.hjow.swingwebpanel.css.selector.NamespaceMap)"><!-- --></A><H3>
+parse</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorList.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">SelectorList</A> <B>parse</B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&nbsp;values,
+                                 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/NamespaceMap.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">NamespaceMap</A>&nbsp;namespaces)
+                          throws <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">SelectorSyntaxException</A></PRE>
+<DL>
+<DD>Parses a selector list given as component values (for example the prelude of a style rule).
+ <p>
+ 컴포넌트 값으로 주어진 선택자 목록(예: 스타일 규칙의 전문)을 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>values</CODE> - component values / 컴포넌트 값<DD><CODE>namespaces</CODE> - namespace declarations or null / 네임스페이스 선언 또는 null
+<DT><B>Returns:</B><DD>the list / 목록
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">SelectorSyntaxException</A></CODE> - if invalid / 올바르지 않으면</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorMatcher.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/selector/SelectorParser.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SelectorParser.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

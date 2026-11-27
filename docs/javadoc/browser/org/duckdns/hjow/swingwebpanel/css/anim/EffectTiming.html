@@ -1,0 +1,954 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+EffectTiming
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="EffectTiming";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Easing.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.Computed.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="EffectTiming.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.anim</FONT>
+<BR>
+Class EffectTiming</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.anim.EffectTiming</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>EffectTiming</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The timing properties of an animation effect and the timing calculations of Web Animations Level 1 (W3C Working Draft 5 June 2023,
+ https://www.w3.org/TR/2023/WD-web-animations-1-20230605/, sections 4.5 to 4.11 and 6.5): the start delay, the end delay, the fill mode, the
+ iteration start, the iteration count, the iteration duration (<code>auto</code> is zero in this level), the playback direction and the timing
+ function. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#compute(double, boolean, boolean)"><CODE>compute(double, boolean, boolean)</CODE></A> turns a local time into the phase, the active time, the overall progress, the simple
+ iteration progress, the current iteration and the transformed progress with the endpoint-exclusive rules of the specification. An unresolved
+ time is <code>NaN</code>. Use: create one, change the members through <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#setDelay(double)"><CODE>setDelay(double)</CODE></A> and the other setters (which do not check:
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#validate(double, java.lang.Double, java.lang.Double, java.lang.String)"><CODE>validate(double, java.lang.Double, java.lang.Double, java.lang.String)</CODE></A> checks the values that a script passes first), then call <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#compute(double, boolean, boolean)"><CODE>compute(double, boolean, boolean)</CODE></A>. Not thread-safe; it belongs to the document thread.
+ <p>
+ 애니메이션 효과의 시간 속성과 Web Animations Level 1(W3C Working Draft 2023-06-05, https://www.w3.org/TR/2023/WD-web-animations-1-20230605/,
+ 4.5~4.11 절과 6.5 절)의 시간 계산: 시작 지연, 끝 지연, 채움 모드, 반복 시작, 반복 횟수, 반복 지속 시간(<code>auto</code> 는 이 수준에서 0), 재생 방향,
+ 완화 함수. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#compute(double, boolean, boolean)"><CODE>compute(double, boolean, boolean)</CODE></A> 은 지역 시간을 규격의 끝점 제외 규칙에 따라 단계, 활성 시간, 전체 진행도, 단순 반복 진행도, 현재 반복,
+ 변환된 진행도로 바꾼다. 결정되지 않은 시간은 <code>NaN</code> 이다. 사용법: 만들고 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#setDelay(double)"><CODE>setDelay(double)</CODE></A> 등의 설정자로 값을 바꾼 뒤(설정자는 검사하지
+ 않는다. 스크립트가 넘긴 값은 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#validate(double, java.lang.Double, java.lang.Double, java.lang.String)"><CODE>validate(double, java.lang.Double, java.lang.Double, java.lang.String)</CODE></A> 로 먼저 검사한다) <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#compute(double, boolean, boolean)"><CODE>compute(double, boolean, boolean)</CODE></A> 를 부른다. 스레드 안전하지 않으며 문서 스레드에 속한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.Computed.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">EffectTiming.Computed</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The result of the timing calculations at one local time.</TD>
+</TR>
+</TABLE>
+&nbsp;<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#PHASE_ACTIVE">PHASE_ACTIVE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The active phase. active 단계.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#PHASE_AFTER">PHASE_AFTER</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The after phase. after 단계.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#PHASE_BEFORE">PHASE_BEFORE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The before phase. before 단계.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#PHASE_IDLE">PHASE_IDLE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The phase of an effect without a local time (the idle phase).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#EffectTiming()">EffectTiming</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the default timing: no delays, fill <code>auto</code>, one iteration, duration <code>auto</code>, direction <code>normal</code>,
+ easing <code>linear</code>.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.Computed.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">EffectTiming.Computed</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#compute(double, boolean, boolean)">compute</A></B>(double&nbsp;localTime,
+        boolean&nbsp;backwards,
+        boolean&nbsp;keyframe)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Runs the timing calculations of sections 4.5.5 to 4.10 for a local time.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">EffectTiming</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#copy()">copy</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy (the <code>KeyframeEffect(source)</code> constructor copies the specified timing).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#getActiveDuration()">getActiveDuration</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the active duration: iteration duration times iteration count, zero if either is zero (4.8.2).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#getComputedFill()">getComputedFill</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the fill mode used by the calculations: <code>auto</code> is <code>none</code> for a keyframe effect (6.5.1).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#getDelay()">getDelay</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the start delay.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#getDirection()">getDirection</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the playback direction.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#getDuration()">getDuration</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the specified iteration duration, NaN for <code>auto</code> (<code>getTiming().duration</code> shows it as the string).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#getEasing()">getEasing</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the timing function as serialized text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#getEndDelay()">getEndDelay</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the end delay.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#getEndTime()">getEndTime</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the end time: <code>max(start delay + active duration + end delay, 0)</code> (4.5.3).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#getFill()">getFill</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the fill mode as specified (<code>getTiming().fill</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#getIterationDuration()">getIterationDuration</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the iteration duration used by the calculations: <code>auto</code> is zero in this level.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#getIterations()">getIterations</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the iteration count.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#getIterationStart()">getIterationStart</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the iteration start.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#parseEasing(java.lang.String)">parseEasing</A></B>(java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a timing function (the <code>easing</code> member of the timing dictionaries and of the keyframes): the text must be one
+ <code>&lt;easing-function&gt;</code> of CSS Easing Level 1 (a keyword, <code>cubic-bezier()</code>, <code>steps()</code> or
+ <code>linear()</code>); CSS comments and escapes are allowed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#setDelay(double)">setDelay</A></B>(double&nbsp;ms)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the start delay.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#setDirection(java.lang.String)">setDirection</A></B>(java.lang.String&nbsp;d)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the playback direction (<code>normal</code>, <code>reverse</code>, <code>alternate</code>, <code>alternate-reverse</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#setDuration(double)">setDuration</A></B>(double&nbsp;ms)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the iteration duration; NaN stands for <code>auto</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#setEasing(java.lang.String)">setEasing</A></B>(java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the timing function from text that <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#parseEasing(java.lang.String)"><CODE>parseEasing(String)</CODE></A> accepts; text that it refuses leaves the timing function unchanged.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#setEndDelay(double)">setEndDelay</A></B>(double&nbsp;ms)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the end delay.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#setFill(java.lang.String)">setFill</A></B>(java.lang.String&nbsp;fill)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the fill mode as specified (<code>none</code>, <code>forwards</code>, <code>backwards</code>, <code>both</code> or <code>auto</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#setIterations(double)">setIterations</A></B>(double&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the iteration count.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#setIterationStart(double)">setIterationStart</A></B>(double&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the iteration start.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#validate(double, java.lang.Double, java.lang.Double, java.lang.String)">validate</A></B>(double&nbsp;iterationStart,
+         java.lang.Double&nbsp;iterations,
+         java.lang.Double&nbsp;duration,
+         java.lang.String&nbsp;easing)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Checks the members of a timing dictionary before they are assigned (Web Animations 6.5.4 "update the timing properties"): the iteration start
+ must not be negative, the iteration count and the duration must not be negative or NaN, the easing must parse.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="PHASE_IDLE"><!-- --></A><H3>
+PHASE_IDLE</H3>
+<PRE>
+public static final int <B>PHASE_IDLE</B></PRE>
+<DL>
+<DD>The phase of an effect without a local time (the idle phase). 지역 시간이 없는 효과의 단계(유휴 단계).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.anim.EffectTiming.PHASE_IDLE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PHASE_BEFORE"><!-- --></A><H3>
+PHASE_BEFORE</H3>
+<PRE>
+public static final int <B>PHASE_BEFORE</B></PRE>
+<DL>
+<DD>The before phase. before 단계.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.anim.EffectTiming.PHASE_BEFORE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PHASE_ACTIVE"><!-- --></A><H3>
+PHASE_ACTIVE</H3>
+<PRE>
+public static final int <B>PHASE_ACTIVE</B></PRE>
+<DL>
+<DD>The active phase. active 단계.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.anim.EffectTiming.PHASE_ACTIVE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PHASE_AFTER"><!-- --></A><H3>
+PHASE_AFTER</H3>
+<PRE>
+public static final int <B>PHASE_AFTER</B></PRE>
+<DL>
+<DD>The after phase. after 단계.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.anim.EffectTiming.PHASE_AFTER">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="EffectTiming()"><!-- --></A><H3>
+EffectTiming</H3>
+<PRE>
+public <B>EffectTiming</B>()</PRE>
+<DL>
+<DD>Creates the default timing: no delays, fill <code>auto</code>, one iteration, duration <code>auto</code>, direction <code>normal</code>,
+ easing <code>linear</code>.
+ <p>
+ 기본 시간을 만든다: 지연 없음, 채움 <code>auto</code>, 반복 1 회, 지속 시간 <code>auto</code>, 방향 <code>normal</code>, 완화 <code>linear</code>.
+<P>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="copy()"><!-- --></A><H3>
+copy</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">EffectTiming</A> <B>copy</B>()</PRE>
+<DL>
+<DD>Returns a copy (the <code>KeyframeEffect(source)</code> constructor copies the specified timing).
+ <p>
+ 복사본을 반환한다(<code>KeyframeEffect(source)</code> 생성자가 지정한 시간을 복사한다).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the copy / 복사본</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseEasing(java.lang.String)"><!-- --></A><H3>
+parseEasing</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A> <B>parseEasing</B>(java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Parses a timing function (the <code>easing</code> member of the timing dictionaries and of the keyframes): the text must be one
+ <code>&lt;easing-function&gt;</code> of CSS Easing Level 1 (a keyword, <code>cubic-bezier()</code>, <code>steps()</code> or
+ <code>linear()</code>); CSS comments and escapes are allowed.
+ <p>
+ 완화 함수를 해석한다(시간 사전과 키프레임의 <code>easing</code> 멤버): 문자열은 CSS Easing Level 1 의 <code>&lt;easing-function&gt;</code> 하나여야 한다(키워드,
+ <code>cubic-bezier()</code>, <code>steps()</code>, <code>linear()</code>). CSS 주석과 이스케이프를 허용한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the text / 문자열
+<DT><B>Returns:</B><DD>the parsed value, or null if the text is not one easing function / 해석한 값. 완화 함수 하나가 아니면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="validate(double, java.lang.Double, java.lang.Double, java.lang.String)"><!-- --></A><H3>
+validate</H3>
+<PRE>
+public static java.lang.String <B>validate</B>(double&nbsp;iterationStart,
+                                        java.lang.Double&nbsp;iterations,
+                                        java.lang.Double&nbsp;duration,
+                                        java.lang.String&nbsp;easing)</PRE>
+<DL>
+<DD>Checks the members of a timing dictionary before they are assigned (Web Animations 6.5.4 "update the timing properties"): the iteration start
+ must not be negative, the iteration count and the duration must not be negative or NaN, the easing must parse.
+ <p>
+ 시간 사전의 멤버를 할당하기 전에 검사한다(Web Animations 6.5.4 "update the timing properties"): 반복 시작은 음수가 아니어야 하고, 반복 횟수와 지속 시간은
+ 음수나 NaN 이 아니어야 하며, 완화는 해석되어야 한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>iterationStart</CODE> - the iteration start or NaN when the member is missing / 반복 시작. 멤버가 없으면 NaN<DD><CODE>iterations</CODE> - the iteration count or null when missing / 반복 횟수. 없으면 null<DD><CODE>duration</CODE> - the duration in milliseconds, null when missing or <code>auto</code> / 지속 시간(밀리초). 없거나 <code>auto</code> 이면 null<DD><CODE>easing</CODE> - the easing text or null when missing / 완화 문자열. 없으면 null
+<DT><B>Returns:</B><DD>null if everything is valid, otherwise the message of the TypeError / 모두 올바르면 null. 아니면 TypeError 의 메시지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setDelay(double)"><!-- --></A><H3>
+setDelay</H3>
+<PRE>
+public void <B>setDelay</B>(double&nbsp;ms)</PRE>
+<DL>
+<DD>Sets the start delay.
+ <p>
+ 시작 지연을 정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ms</CODE> - milliseconds, finite / 밀리초. 유한</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDelay()"><!-- --></A><H3>
+getDelay</H3>
+<PRE>
+public double <B>getDelay</B>()</PRE>
+<DL>
+<DD>Returns the start delay.
+ <p>
+ 시작 지연을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>milliseconds / 밀리초</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setEndDelay(double)"><!-- --></A><H3>
+setEndDelay</H3>
+<PRE>
+public void <B>setEndDelay</B>(double&nbsp;ms)</PRE>
+<DL>
+<DD>Sets the end delay.
+ <p>
+ 끝 지연을 정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ms</CODE> - milliseconds, finite / 밀리초. 유한</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEndDelay()"><!-- --></A><H3>
+getEndDelay</H3>
+<PRE>
+public double <B>getEndDelay</B>()</PRE>
+<DL>
+<DD>Returns the end delay.
+ <p>
+ 끝 지연을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>milliseconds / 밀리초</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setFill(java.lang.String)"><!-- --></A><H3>
+setFill</H3>
+<PRE>
+public void <B>setFill</B>(java.lang.String&nbsp;fill)</PRE>
+<DL>
+<DD>Sets the fill mode as specified (<code>none</code>, <code>forwards</code>, <code>backwards</code>, <code>both</code> or <code>auto</code>).
+ <p>
+ 지정한 채움 모드를 정한다(<code>none</code>, <code>forwards</code>, <code>backwards</code>, <code>both</code>, <code>auto</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>fill</CODE> - the keyword / 키워드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFill()"><!-- --></A><H3>
+getFill</H3>
+<PRE>
+public java.lang.String <B>getFill</B>()</PRE>
+<DL>
+<DD>Returns the fill mode as specified (<code>getTiming().fill</code>).
+ <p>
+ 지정한 채움 모드를 반환한다(<code>getTiming().fill</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the keyword / 키워드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getComputedFill()"><!-- --></A><H3>
+getComputedFill</H3>
+<PRE>
+public java.lang.String <B>getComputedFill</B>()</PRE>
+<DL>
+<DD>Returns the fill mode used by the calculations: <code>auto</code> is <code>none</code> for a keyframe effect (6.5.1).
+ <p>
+ 계산에 쓰는 채움 모드를 반환한다: 키프레임 효과에서 <code>auto</code> 는 <code>none</code> 이다(6.5.1).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the keyword / 키워드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setIterationStart(double)"><!-- --></A><H3>
+setIterationStart</H3>
+<PRE>
+public void <B>setIterationStart</B>(double&nbsp;v)</PRE>
+<DL>
+<DD>Sets the iteration start.
+ <p>
+ 반복 시작을 정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the value, 0 or more / 값. 0 이상</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getIterationStart()"><!-- --></A><H3>
+getIterationStart</H3>
+<PRE>
+public double <B>getIterationStart</B>()</PRE>
+<DL>
+<DD>Returns the iteration start.
+ <p>
+ 반복 시작을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the value / 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setIterations(double)"><!-- --></A><H3>
+setIterations</H3>
+<PRE>
+public void <B>setIterations</B>(double&nbsp;v)</PRE>
+<DL>
+<DD>Sets the iteration count.
+ <p>
+ 반복 횟수를 정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the count, 0 or more, infinity allowed / 횟수. 0 이상이며 무한대 허용</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getIterations()"><!-- --></A><H3>
+getIterations</H3>
+<PRE>
+public double <B>getIterations</B>()</PRE>
+<DL>
+<DD>Returns the iteration count.
+ <p>
+ 반복 횟수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the count / 횟수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setDuration(double)"><!-- --></A><H3>
+setDuration</H3>
+<PRE>
+public void <B>setDuration</B>(double&nbsp;ms)</PRE>
+<DL>
+<DD>Sets the iteration duration; NaN stands for <code>auto</code>.
+ <p>
+ 반복 지속 시간을 정한다. NaN 은 <code>auto</code> 를 뜻한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ms</CODE> - milliseconds, 0 or more, infinity allowed, or NaN / 밀리초. 0 이상, 무한대 허용, 또는 NaN</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDuration()"><!-- --></A><H3>
+getDuration</H3>
+<PRE>
+public double <B>getDuration</B>()</PRE>
+<DL>
+<DD>Returns the specified iteration duration, NaN for <code>auto</code> (<code>getTiming().duration</code> shows it as the string).
+ <p>
+ 지정한 반복 지속 시간을 반환한다. <code>auto</code> 이면 NaN(<code>getTiming().duration</code> 은 문자열로 보인다).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>milliseconds or NaN / 밀리초 또는 NaN</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getIterationDuration()"><!-- --></A><H3>
+getIterationDuration</H3>
+<PRE>
+public double <B>getIterationDuration</B>()</PRE>
+<DL>
+<DD>Returns the iteration duration used by the calculations: <code>auto</code> is zero in this level.
+ <p>
+ 계산에 쓰는 반복 지속 시간을 반환한다: 이 수준에서 <code>auto</code> 는 0 이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>milliseconds / 밀리초</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setDirection(java.lang.String)"><!-- --></A><H3>
+setDirection</H3>
+<PRE>
+public void <B>setDirection</B>(java.lang.String&nbsp;d)</PRE>
+<DL>
+<DD>Sets the playback direction (<code>normal</code>, <code>reverse</code>, <code>alternate</code>, <code>alternate-reverse</code>).
+ <p>
+ 재생 방향을 정한다(<code>normal</code>, <code>reverse</code>, <code>alternate</code>, <code>alternate-reverse</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>d</CODE> - the keyword / 키워드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDirection()"><!-- --></A><H3>
+getDirection</H3>
+<PRE>
+public java.lang.String <B>getDirection</B>()</PRE>
+<DL>
+<DD>Returns the playback direction.
+ <p>
+ 재생 방향을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the keyword / 키워드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setEasing(java.lang.String)"><!-- --></A><H3>
+setEasing</H3>
+<PRE>
+public boolean <B>setEasing</B>(java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Sets the timing function from text that <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#parseEasing(java.lang.String)"><CODE>parseEasing(String)</CODE></A> accepts; text that it refuses leaves the timing function unchanged.
+ <p>
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html#parseEasing(java.lang.String)"><CODE>parseEasing(String)</CODE></A> 가 받아들이는 문자열로 완화 함수를 정한다. 거부하는 문자열은 완화 함수를 바꾸지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the text / 문자열
+<DT><B>Returns:</B><DD>true if it was set / 정했으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEasing()"><!-- --></A><H3>
+getEasing</H3>
+<PRE>
+public java.lang.String <B>getEasing</B>()</PRE>
+<DL>
+<DD>Returns the timing function as serialized text.
+ <p>
+ 완화 함수를 직렬화한 문자열로 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the text / 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getActiveDuration()"><!-- --></A><H3>
+getActiveDuration</H3>
+<PRE>
+public double <B>getActiveDuration</B>()</PRE>
+<DL>
+<DD>Returns the active duration: iteration duration times iteration count, zero if either is zero (4.8.2).
+ <p>
+ 활성 지속 시간을 반환한다: 반복 지속 시간 곱하기 반복 횟수. 어느 쪽이든 0 이면 0(4.8.2).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>milliseconds, may be infinite / 밀리초. 무한대일 수 있다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEndTime()"><!-- --></A><H3>
+getEndTime</H3>
+<PRE>
+public double <B>getEndTime</B>()</PRE>
+<DL>
+<DD>Returns the end time: <code>max(start delay + active duration + end delay, 0)</code> (4.5.3).
+ <p>
+ 끝 시간을 반환한다: <code>max(시작 지연 + 활성 지속 시간 + 끝 지연, 0)</code>(4.5.3).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>milliseconds, may be infinite / 밀리초. 무한대일 수 있다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="compute(double, boolean, boolean)"><!-- --></A><H3>
+compute</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.Computed.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">EffectTiming.Computed</A> <B>compute</B>(double&nbsp;localTime,
+                                     boolean&nbsp;backwards,
+                                     boolean&nbsp;keyframe)</PRE>
+<DL>
+<DD>Runs the timing calculations of sections 4.5.5 to 4.10 for a local time.
+ <p>
+ 지역 시간에 대해 4.5.5~4.10 절의 시간 계산을 실행한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>localTime</CODE> - the local time (the current time of the animation), NaN if unresolved / 지역 시간(애니메이션의 현재 시간). 결정되지 않았으면 NaN<DD><CODE>backwards</CODE> - true if the animation direction is backwards (the playback rate of the animation is negative) / 애니메이션 방향이 역방향(재생 속도가 음수)이면 true<DD><CODE>keyframe</CODE> - true for a keyframe effect (fill <code>auto</code> is <code>none</code>) / 키프레임 효과이면 true(채움 <code>auto</code> 는 <code>none</code>)
+<DT><B>Returns:</B><DD>the result / 결과</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Easing.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.Computed.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="EffectTiming.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

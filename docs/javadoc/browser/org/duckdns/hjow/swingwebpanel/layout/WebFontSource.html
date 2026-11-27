@@ -1,0 +1,344 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+WebFontSource
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="WebFontSource";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSet.TimedLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Woff.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/WebFontSource.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WebFontSource.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.layout</FONT>
+<BR>
+Interface WebFontSource</H2>
+<DL>
+<DT><B>All Known Implementing Classes:</B> <DD><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSet.html" title="class in org.duckdns.hjow.swingwebpanel.layout">WebFontSet</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public interface <B>WebFontSource</B></DL>
+</PRE>
+
+<P>
+The web fonts of a page for the layout (plan item P10-05, CSS Fonts Level 3 <code>@font-face</code>): the font resolver asks it for
+ every family name of <code>font-family</code> before it looks for an installed font of that name. An implementation answers with the
+ font of a loaded <code>@font-face</code> of that family, or null if the family is not a web font family, the font is still loading
+ (the text then uses the next family, as with <code>font-display: swap</code>), failed, or does not cover the text.
+ <p>
+ 레이아웃을 위한 페이지의 웹 글꼴(계획 P10-05, CSS Fonts Level 3 <code>@font-face</code>): 글꼴 리졸버는 <code>font-family</code> 의 패밀리 이름마다 그 이름의 설치된 글꼴을
+ 찾기 전에 이것에 묻는다. 구현은 그 패밀리의 읽힌 <code>@font-face</code> 글꼴로 답하거나, 패밀리가 웹 글꼴 패밀리가 아니거나 글꼴을 아직 읽는 중이거나(그러면 텍스트는
+ <code>font-display: swap</code> 처럼 다음 패밀리를 쓴다) 실패했거나 텍스트를 덮지 못하면 null 로 답한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSource.html#blockedUntil(java.lang.String, int, boolean, java.lang.String)">blockedUntil</A></B>(java.lang.String&nbsp;family,
+             int&nbsp;weight,
+             boolean&nbsp;italic,
+             java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells until when a text that asks for a family must be invisible: the face that would show it is still loading and in the block period of its
+ <code>font-display</code> (CSS Fonts 4 section 4.8).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.awt.Font</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSource.html#find(java.lang.String, int, boolean, java.lang.String, float)">find</A></B>(java.lang.String&nbsp;family,
+     int&nbsp;weight,
+     boolean&nbsp;italic,
+     java.lang.String&nbsp;text,
+     float&nbsp;size)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Finds the font for a family, weight and style.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.awt.Font</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSource.html#find(java.lang.String, int, boolean, java.lang.String, float, boolean, boolean)">find</A></B>(java.lang.String&nbsp;family,
+     int&nbsp;weight,
+     boolean&nbsp;italic,
+     java.lang.String&nbsp;text,
+     float&nbsp;size,
+     boolean&nbsp;synthBold,
+     boolean&nbsp;synthItalic)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Finds the font for a family, weight and style, and says whether a bold or an italic that the face lacks may be synthesized
+ (<code>font-synthesis-weight</code> and <code>font-synthesis-style</code>, CSS Fonts Level 4): when it may not, the face is used as it is.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.awt.Font</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSource.html#find(java.lang.String, int, boolean, java.lang.String, float, boolean, boolean, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)">find</A></B>(java.lang.String&nbsp;family,
+     int&nbsp;weight,
+     boolean&nbsp;italic,
+     java.lang.String&nbsp;text,
+     float&nbsp;size,
+     boolean&nbsp;synthBold,
+     boolean&nbsp;synthItalic,
+     <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;style)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Finds a font like <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSource.html#find(java.lang.String, int, boolean, java.lang.String, float, boolean, boolean)"><CODE>find(String, int, boolean, String, float, boolean, boolean)</CODE></A> with the glyph alternates that a style asks for
+ (<code>font-variant-alternates</code> and <code>font-feature-settings</code>, CSS Fonts 4 sections 6.8, 6.9 and 6.12).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="find(java.lang.String, int, boolean, java.lang.String, float)"><!-- --></A><H3>
+find</H3>
+<PRE>
+java.awt.Font <B>find</B>(java.lang.String&nbsp;family,
+                   int&nbsp;weight,
+                   boolean&nbsp;italic,
+                   java.lang.String&nbsp;text,
+                   float&nbsp;size)</PRE>
+<DL>
+<DD>Finds the font for a family, weight and style.
+ <p>
+ 패밀리, 굵기, 스타일에 맞는 글꼴을 찾는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>family</CODE> - the family name of <code>font-family</code> / <code>font-family</code> 의 패밀리 이름<DD><CODE>weight</CODE> - the requested weight, 100 to 900 / 요청한 굵기. 100~900<DD><CODE>italic</CODE> - true for an italic or oblique style / 이탤릭이나 oblique 스타일이면 true<DD><CODE>text</CODE> - the text that the font has to show, may be null / 글꼴이 보여야 하는 텍스트. null 가능<DD><CODE>size</CODE> - the font size in pixels / 글꼴 크기(픽셀)
+<DT><B>Returns:</B><DD>the font derived to the size (with a synthetic bold or italic if the face lacks the requested one), or null / 크기에 맞춘 글꼴(글꼴 면에 요청한 굵기나 이탤릭이 없으면 합성 굵게/기울임). 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="find(java.lang.String, int, boolean, java.lang.String, float, boolean, boolean)"><!-- --></A><H3>
+find</H3>
+<PRE>
+java.awt.Font <B>find</B>(java.lang.String&nbsp;family,
+                   int&nbsp;weight,
+                   boolean&nbsp;italic,
+                   java.lang.String&nbsp;text,
+                   float&nbsp;size,
+                   boolean&nbsp;synthBold,
+                   boolean&nbsp;synthItalic)</PRE>
+<DL>
+<DD>Finds the font for a family, weight and style, and says whether a bold or an italic that the face lacks may be synthesized
+ (<code>font-synthesis-weight</code> and <code>font-synthesis-style</code>, CSS Fonts Level 4): when it may not, the face is used as it is.
+ <p>
+ 패밀리, 굵기, 스타일에 맞는 글꼴을 찾고, 면에 없는 굵게나 기울임을 합성해도 되는지(CSS Fonts Level 4 <code>font-synthesis-weight</code>, <code>font-synthesis-style</code>)
+ 함께 받는다. 합성하면 안 되면 면을 있는 그대로 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>family</CODE> - the family name of <code>font-family</code> / <code>font-family</code> 의 패밀리 이름<DD><CODE>weight</CODE> - the requested weight, 100 to 900 / 요청한 굵기. 100~900<DD><CODE>italic</CODE> - true for an italic or oblique style / 이탤릭이나 oblique 스타일이면 true<DD><CODE>text</CODE> - the text that the font has to show, may be null / 글꼴이 보여야 하는 텍스트. null 가능<DD><CODE>size</CODE> - the font size in pixels / 글꼴 크기(픽셀)<DD><CODE>synthBold</CODE> - true if a bold may be made up for a face that is not bold / 굵지 않은 면의 굵게를 만들어 내도 되면 true<DD><CODE>synthItalic</CODE> - true if an italic may be made up for a face that is not italic / 이탤릭이 아닌 면의 기울임을 만들어 내도 되면 true
+<DT><B>Returns:</B><DD>the font derived to the size, or null / 크기에 맞춘 글꼴. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="find(java.lang.String, int, boolean, java.lang.String, float, boolean, boolean, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)"><!-- --></A><H3>
+find</H3>
+<PRE>
+java.awt.Font <B>find</B>(java.lang.String&nbsp;family,
+                   int&nbsp;weight,
+                   boolean&nbsp;italic,
+                   java.lang.String&nbsp;text,
+                   float&nbsp;size,
+                   boolean&nbsp;synthBold,
+                   boolean&nbsp;synthItalic,
+                   <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;style)</PRE>
+<DL>
+<DD>Finds a font like <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSource.html#find(java.lang.String, int, boolean, java.lang.String, float, boolean, boolean)"><CODE>find(String, int, boolean, String, float, boolean, boolean)</CODE></A> with the glyph alternates that a style asks for
+ (<code>font-variant-alternates</code> and <code>font-feature-settings</code>, CSS Fonts 4 sections 6.8, 6.9 and 6.12).
+ <p>
+ 스타일이 요구하는 대체 글리프(<code>font-variant-alternates</code> 와 <code>font-feature-settings</code>, CSS Fonts 4 6.8, 6.9, 6.12 절)를 가진 글꼴을
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSource.html#find(java.lang.String, int, boolean, java.lang.String, float, boolean, boolean)"><CODE>find(String, int, boolean, String, float, boolean, boolean)</CODE></A> 처럼 찾는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>family</CODE> - the family name / 패밀리 이름<DD><CODE>weight</CODE> - the requested weight / 요청한 굵기<DD><CODE>italic</CODE> - true for italic / 이탤릭이면 true<DD><CODE>text</CODE> - the text, may be null / 텍스트. null 가능<DD><CODE>size</CODE> - the size in px / 크기(px)<DD><CODE>synthBold</CODE> - true if a bold may be synthesized / 굵게를 합성해도 되면 true<DD><CODE>synthItalic</CODE> - true if an italic may be synthesized / 기울임을 합성해도 되면 true<DD><CODE>style</CODE> - the computed style, may be null / 계산 스타일. null 가능
+<DT><B>Returns:</B><DD>the font or null / 글꼴 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="blockedUntil(java.lang.String, int, boolean, java.lang.String)"><!-- --></A><H3>
+blockedUntil</H3>
+<PRE>
+long <B>blockedUntil</B>(java.lang.String&nbsp;family,
+                  int&nbsp;weight,
+                  boolean&nbsp;italic,
+                  java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Tells until when a text that asks for a family must be invisible: the face that would show it is still loading and in the block period of its
+ <code>font-display</code> (CSS Fonts 4 section 4.8). The font resolver asks after <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSource.html#find(java.lang.String, int, boolean, java.lang.String, float)"><CODE>find(java.lang.String, int, boolean, java.lang.String, float)</CODE></A> returned null; a blocked text is laid out with the next
+ family that is available and is not painted.
+ <p>
+ 패밀리를 요청한 텍스트가 언제까지 보이지 않아야 하는지 알려 준다: 그 텍스트를 보일 면이 아직 읽는 중이고 <code>font-display</code> 의 block 기간에 있을 때이다(CSS Fonts 4
+ 4.8 절). 글꼴 리졸버는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSource.html#find(java.lang.String, int, boolean, java.lang.String, float)"><CODE>find(java.lang.String, int, boolean, java.lang.String, float)</CODE></A> 가 null 을 반환한 뒤에 묻는다. 막힌 텍스트는 쓸 수 있는 다음 패밀리로 배치하고 그리지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>family</CODE> - the family name of <code>font-family</code> / <code>font-family</code> 의 패밀리 이름<DD><CODE>weight</CODE> - the requested weight, 100 to 900 / 요청한 굵기. 100~900<DD><CODE>italic</CODE> - true for an italic or oblique style / 이탤릭이나 oblique 스타일이면 true<DD><CODE>text</CODE> - the text that the font has to show, may be null / 글꼴이 보여야 하는 텍스트. null 가능
+<DT><B>Returns:</B><DD>the end of the block period in milliseconds of the system clock, or 0 if the text is not blocked / block 기간의 끝(시스템 시계 ms). 막히지 않았으면 0</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSet.TimedLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Woff.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/WebFontSource.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WebFontSource.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

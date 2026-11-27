@@ -1,0 +1,705 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+DomMatrix
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="DomMatrix";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomImplementation.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixParser.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="DomMatrix.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.DomMatrixReadOnly">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom</FONT>
+<BR>
+Class DomMatrix</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html" title="class in org.duckdns.hjow.swingwebpanel.dom">org.duckdns.hjow.swingwebpanel.dom.DomMatrixReadOnly</A>
+      <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.dom.DomMatrix</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public class <B>DomMatrix</B><DT>extends <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrixReadOnly</A></DL>
+</PRE>
+
+<P>
+A matrix that scripts and the canvas may change (<code>DOMMatrix</code>, Geometry Interfaces Module Level 1, section 6): the transformation
+ methods of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>DomMatrixReadOnly</CODE></A> that change the matrix itself (<code>multiplySelf</code>, <code>translateSelf</code>,
+ <code>scaleSelf</code>, <code>rotateSelf</code>, <code>skewXSelf</code>, <code>invertSelf</code> ...). Every method post-multiplies the
+ transformation (the new transformation is applied to a point first) and returns this matrix, so calls can be chained. The
+ <code>is2D</code> flag turns false as soon as a 3D operation or a 3D element is applied and never comes back (only
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html#setValues(double[], boolean)"><CODE>setValues(double[], boolean)</CODE></A> restores it). A rotation or skew by 0 and a scale around the origin do not touch the elements they cannot change, so an
+ infinite element is not turned into NaN by a multiplication with zero.
+ <p>
+ 스크립트와 캔버스가 바꿀 수 있는 행렬(<code>DOMMatrix</code>, Geometry Interfaces Module Level 1, 6 절): <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>DomMatrixReadOnly</CODE></A> 의 변환 메서드 중
+ 행렬 자신을 바꾸는 것들(<code>multiplySelf</code>, <code>translateSelf</code>, <code>scaleSelf</code>, <code>rotateSelf</code>, <code>skewXSelf</code>,
+ <code>invertSelf</code> 등). 모든 메서드는 변환을 뒤에 곱하고(새 변환이 점에 먼저 적용된다) 이 행렬을 반환하므로 호출을 이어 쓸 수 있다.
+ <code>is2D</code> 플래그는 3D 연산이나 3D 요소가 적용되는 즉시 false 가 되며 되돌아오지 않는다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html#setValues(double[], boolean)"><CODE>setValues(double[], boolean)</CODE></A> 만 복원한다).
+ 0 도 회전과 기울이기, 원점 둘레의 확대는 바꿀 수 없는 요소를 건드리지 않으므로 무한대 요소가 0 과의 곱으로 NaN 이 되지 않는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.DomMatrixReadOnly"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrixReadOnly</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html#M11">M11</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html#M12">M12</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html#M21">M21</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html#M22">M22</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html#M41">M41</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html#M42">M42</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html#DomMatrix()">DomMatrix</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the identity matrix.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html#DomMatrix(org.duckdns.hjow.swingwebpanel.dom.DomMatrixReadOnly)">DomMatrix</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrixReadOnly</A>&nbsp;other)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a copy of a matrix.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html#DomMatrix(double[])">DomMatrix</A></B>(double[]&nbsp;values)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a 3D matrix from sixteen numbers in column-major order.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html#DomMatrix(double, double, double, double, double, double)">DomMatrix</A></B>(double&nbsp;a,
+          double&nbsp;b,
+          double&nbsp;c,
+          double&nbsp;d,
+          double&nbsp;e,
+          double&nbsp;f)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a 2D matrix from the six numbers <code>a</code> to <code>f</code>.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html#invertSelf()">invertSelf</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Turns the matrix into its inverse (<code>invertSelf</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html#multiplySelf(org.duckdns.hjow.swingwebpanel.dom.DomMatrixReadOnly)">multiplySelf</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrixReadOnly</A>&nbsp;other)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Post-multiplies a matrix: this = this x other (<code>multiplySelf</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html#preMultiplySelf(org.duckdns.hjow.swingwebpanel.dom.DomMatrixReadOnly)">preMultiplySelf</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrixReadOnly</A>&nbsp;other)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pre-multiplies a matrix: this = other x this (<code>preMultiplySelf</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html#rotateAxisAngleSelf(double, double, double, double)">rotateAxisAngleSelf</A></B>(double&nbsp;x,
+                    double&nbsp;y,
+                    double&nbsp;z,
+                    double&nbsp;angle)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Post-multiplies a rotation around an axis (<code>rotateAxisAngleSelf</code>); the angle is in degrees.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html#rotateFromVectorSelf(double, double)">rotateFromVectorSelf</A></B>(double&nbsp;x,
+                     double&nbsp;y)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Post-multiplies the 2D rotation by the angle of the vector (x, y) (<code>rotateFromVectorSelf</code>); the angle of the zero vector is 0.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html#rotateSelf(double, double, double)">rotateSelf</A></B>(double&nbsp;rotX,
+           double&nbsp;rotY,
+           double&nbsp;rotZ)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Post-multiplies the rotations around z, then y, then x (<code>rotateSelf</code>); the angles are in degrees and the caller has already
+ resolved the missing arguments.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html#scale3dSelf(double, double, double, double)">scale3dSelf</A></B>(double&nbsp;scale,
+            double&nbsp;ox,
+            double&nbsp;oy,
+            double&nbsp;oz)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Post-multiplies a uniform 3D scale around an origin (<code>scale3dSelf</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html#scaleSelf(double, double, double, double, double, double)">scaleSelf</A></B>(double&nbsp;sx,
+          double&nbsp;sy,
+          double&nbsp;sz,
+          double&nbsp;ox,
+          double&nbsp;oy,
+          double&nbsp;oz)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Post-multiplies a scale around an origin (<code>scaleSelf</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html#set(int, double)">set</A></B>(int&nbsp;index,
+    double&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets one element (the attribute setters <code>m11</code> to <code>m44</code> and <code>a</code> to <code>f</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html#setValues(double[], boolean)">setValues</A></B>(double[]&nbsp;values,
+          boolean&nbsp;is2D)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Replaces the whole matrix (<code>setMatrixValue</code> and the constructors of the scripts): the only way for a matrix to become 2D again.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html#skewXSelf(double)">skewXSelf</A></B>(double&nbsp;sx)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Post-multiplies a skew along x by an angle in degrees (<code>skewXSelf</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html#skewYSelf(double)">skewYSelf</A></B>(double&nbsp;sy)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Post-multiplies a skew along y by an angle in degrees (<code>skewYSelf</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html#translateSelf(double, double, double)">translateSelf</A></B>(double&nbsp;tx,
+              double&nbsp;ty,
+              double&nbsp;tz)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Post-multiplies a translation (<code>translateSelf</code>).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.DomMatrixReadOnly"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrixReadOnly</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html#get(int)">get</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html#is2D()">is2D</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html#isFinite()">isFinite</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html#isIdentity()">isIdentity</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html#to2DArray()">to2DArray</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html#toArray()">toArray</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html#transformPoint(org.duckdns.hjow.swingwebpanel.dom.DomPointReadOnly)">transformPoint</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="DomMatrix()"><!-- --></A><H3>
+DomMatrix</H3>
+<PRE>
+public <B>DomMatrix</B>()</PRE>
+<DL>
+<DD>Creates the identity matrix.
+ <p>
+ 단위 행렬을 만든다.
+<P>
+</DL>
+<HR>
+
+<A NAME="DomMatrix(org.duckdns.hjow.swingwebpanel.dom.DomMatrixReadOnly)"><!-- --></A><H3>
+DomMatrix</H3>
+<PRE>
+public <B>DomMatrix</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrixReadOnly</A>&nbsp;other)</PRE>
+<DL>
+<DD>Creates a copy of a matrix.
+ <p>
+ 행렬의 복사본을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>other</CODE> - the matrix to copy / 복사할 행렬</DL>
+</DL>
+<HR>
+
+<A NAME="DomMatrix(double, double, double, double, double, double)"><!-- --></A><H3>
+DomMatrix</H3>
+<PRE>
+public <B>DomMatrix</B>(double&nbsp;a,
+                 double&nbsp;b,
+                 double&nbsp;c,
+                 double&nbsp;d,
+                 double&nbsp;e,
+                 double&nbsp;f)</PRE>
+<DL>
+<DD>Creates a 2D matrix from the six numbers <code>a</code> to <code>f</code>.
+ <p>
+ 숫자 여섯 개 <code>a</code> ~ <code>f</code> 로 2D 행렬을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>a</CODE> - m11 / m11<DD><CODE>b</CODE> - m12 / m12<DD><CODE>c</CODE> - m21 / m21<DD><CODE>d</CODE> - m22 / m22<DD><CODE>e</CODE> - m41 / m41<DD><CODE>f</CODE> - m42 / m42</DL>
+</DL>
+<HR>
+
+<A NAME="DomMatrix(double[])"><!-- --></A><H3>
+DomMatrix</H3>
+<PRE>
+public <B>DomMatrix</B>(double[]&nbsp;values)</PRE>
+<DL>
+<DD>Creates a 3D matrix from sixteen numbers in column-major order.
+ <p>
+ 열 우선 순서의 숫자 열여섯 개로 3D 행렬을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>values</CODE> - sixteen numbers / 숫자 열여섯 개</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="set(int, double)"><!-- --></A><H3>
+set</H3>
+<PRE>
+public void <B>set</B>(int&nbsp;index,
+                double&nbsp;value)</PRE>
+<DL>
+<DD>Sets one element (the attribute setters <code>m11</code> to <code>m44</code> and <code>a</code> to <code>f</code>). A 3D element
+ (everything except <code>m11</code>, <code>m12</code>, <code>m21</code>, <code>m22</code>, <code>m41</code>, <code>m42</code>) that is set to a
+ value other than the identity value (1 for <code>m33</code> and <code>m44</code>, 0 or -0 for the others) turns <code>is2D</code> false.
+ <p>
+ 요소 하나를 정한다(속성 설정자 <code>m11</code> ~ <code>m44</code>, <code>a</code> ~ <code>f</code>). 3D 요소(<code>m11</code>, <code>m12</code>,
+ <code>m21</code>, <code>m22</code>, <code>m41</code>, <code>m42</code> 를 뺀 모든 요소)를 단위 행렬의 값(<code>m33</code>, <code>m44</code> 는 1, 나머지는
+ 0 또는 -0)이 아닌 값으로 정하면 <code>is2D</code> 가 false 가 된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>index</CODE> - the position in column-major order, 0 to 15 / 열 우선 순서의 위치(0 ~ 15)<DD><CODE>value</CODE> - the new value / 새 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setValues(double[], boolean)"><!-- --></A><H3>
+setValues</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A> <B>setValues</B>(double[]&nbsp;values,
+                           boolean&nbsp;is2D)</PRE>
+<DL>
+<DD>Replaces the whole matrix (<code>setMatrixValue</code> and the constructors of the scripts): the only way for a matrix to become 2D again.
+ <p>
+ 행렬 전체를 바꾼다(<code>setMatrixValue</code> 와 스크립트 생성자). 행렬이 다시 2D 가 될 수 있는 유일한 방법이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>values</CODE> - sixteen numbers in column-major order / 열 우선 순서의 숫자 열여섯 개<DD><CODE>is2D</CODE> - the new <code>is2D</code> flag / 새 <code>is2D</code> 플래그
+<DT><B>Returns:</B><DD>this matrix / 이 행렬</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="multiplySelf(org.duckdns.hjow.swingwebpanel.dom.DomMatrixReadOnly)"><!-- --></A><H3>
+multiplySelf</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A> <B>multiplySelf</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrixReadOnly</A>&nbsp;other)</PRE>
+<DL>
+<DD>Post-multiplies a matrix: this = this x other (<code>multiplySelf</code>). The result is 3D if the other matrix is.
+ <p>
+ 행렬을 뒤에 곱한다: this = this x other(<code>multiplySelf</code>). 상대 행렬이 3D 이면 결과도 3D 이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>other</CODE> - the other matrix / 상대 행렬
+<DT><B>Returns:</B><DD>this matrix / 이 행렬</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="preMultiplySelf(org.duckdns.hjow.swingwebpanel.dom.DomMatrixReadOnly)"><!-- --></A><H3>
+preMultiplySelf</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A> <B>preMultiplySelf</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrixReadOnly</A>&nbsp;other)</PRE>
+<DL>
+<DD>Pre-multiplies a matrix: this = other x this (<code>preMultiplySelf</code>). The result is 3D if the other matrix is.
+ <p>
+ 행렬을 앞에 곱한다: this = other x this(<code>preMultiplySelf</code>). 상대 행렬이 3D 이면 결과도 3D 이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>other</CODE> - the other matrix / 상대 행렬
+<DT><B>Returns:</B><DD>this matrix / 이 행렬</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="translateSelf(double, double, double)"><!-- --></A><H3>
+translateSelf</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A> <B>translateSelf</B>(double&nbsp;tx,
+                               double&nbsp;ty,
+                               double&nbsp;tz)</PRE>
+<DL>
+<DD>Post-multiplies a translation (<code>translateSelf</code>). A <code>tz</code> other than 0 or -0 makes the matrix 3D.
+ <p>
+ 이동을 뒤에 곱한다(<code>translateSelf</code>). 0 이나 -0 이 아닌 <code>tz</code> 는 행렬을 3D 로 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>tx</CODE> - the x distance / x 거리<DD><CODE>ty</CODE> - the y distance / y 거리<DD><CODE>tz</CODE> - the z distance / z 거리
+<DT><B>Returns:</B><DD>this matrix / 이 행렬</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="scaleSelf(double, double, double, double, double, double)"><!-- --></A><H3>
+scaleSelf</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A> <B>scaleSelf</B>(double&nbsp;sx,
+                           double&nbsp;sy,
+                           double&nbsp;sz,
+                           double&nbsp;ox,
+                           double&nbsp;oy,
+                           double&nbsp;oz)</PRE>
+<DL>
+<DD>Post-multiplies a scale around an origin (<code>scaleSelf</code>). A <code>sz</code> other than 1 makes the matrix 3D.
+ <p>
+ 기준점 둘레의 확대를 뒤에 곱한다(<code>scaleSelf</code>). 1 이 아닌 <code>sz</code> 는 행렬을 3D 로 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>sx</CODE> - the x factor / x 비율<DD><CODE>sy</CODE> - the y factor / y 비율<DD><CODE>sz</CODE> - the z factor / z 비율<DD><CODE>ox</CODE> - the x of the origin / 기준점 x<DD><CODE>oy</CODE> - the y of the origin / 기준점 y<DD><CODE>oz</CODE> - the z of the origin / 기준점 z
+<DT><B>Returns:</B><DD>this matrix / 이 행렬</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="scale3dSelf(double, double, double, double)"><!-- --></A><H3>
+scale3dSelf</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A> <B>scale3dSelf</B>(double&nbsp;scale,
+                             double&nbsp;ox,
+                             double&nbsp;oy,
+                             double&nbsp;oz)</PRE>
+<DL>
+<DD>Post-multiplies a uniform 3D scale around an origin (<code>scale3dSelf</code>). A <code>scale</code> other than 1 makes the matrix 3D.
+ <p>
+ 기준점 둘레의 균일한 3D 확대를 뒤에 곱한다(<code>scale3dSelf</code>). 1 이 아닌 <code>scale</code> 은 행렬을 3D 로 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>scale</CODE> - the factor / 비율<DD><CODE>ox</CODE> - the x of the origin / 기준점 x<DD><CODE>oy</CODE> - the y of the origin / 기준점 y<DD><CODE>oz</CODE> - the z of the origin / 기준점 z
+<DT><B>Returns:</B><DD>this matrix / 이 행렬</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="rotateSelf(double, double, double)"><!-- --></A><H3>
+rotateSelf</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A> <B>rotateSelf</B>(double&nbsp;rotX,
+                            double&nbsp;rotY,
+                            double&nbsp;rotZ)</PRE>
+<DL>
+<DD>Post-multiplies the rotations around z, then y, then x (<code>rotateSelf</code>); the angles are in degrees and the caller has already
+ resolved the missing arguments. A rotation about x or y other than 0 or -0 makes the matrix 3D. A rotation by 0 is skipped.
+ <p>
+ z, y, x 축 둘레의 회전을 차례로 뒤에 곱한다(<code>rotateSelf</code>). 각도는 도이며 빠진 인수는 호출자가 이미 정했다. 0 이나 -0 이 아닌 x 나 y 축 회전은
+ 행렬을 3D 로 만든다. 0 도 회전은 건너뛴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>rotX</CODE> - the angle around x / x 축 각도<DD><CODE>rotY</CODE> - the angle around y / y 축 각도<DD><CODE>rotZ</CODE> - the angle around z / z 축 각도
+<DT><B>Returns:</B><DD>this matrix / 이 행렬</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="rotateFromVectorSelf(double, double)"><!-- --></A><H3>
+rotateFromVectorSelf</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A> <B>rotateFromVectorSelf</B>(double&nbsp;x,
+                                      double&nbsp;y)</PRE>
+<DL>
+<DD>Post-multiplies the 2D rotation by the angle of the vector (x, y) (<code>rotateFromVectorSelf</code>); the angle of the zero vector is 0.
+ <p>
+ 벡터 (x, y) 의 각도만큼의 2D 회전을 뒤에 곱한다(<code>rotateFromVectorSelf</code>). 영 벡터의 각도는 0 이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - the x of the vector / 벡터 x<DD><CODE>y</CODE> - the y of the vector / 벡터 y
+<DT><B>Returns:</B><DD>this matrix / 이 행렬</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="rotateAxisAngleSelf(double, double, double, double)"><!-- --></A><H3>
+rotateAxisAngleSelf</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A> <B>rotateAxisAngleSelf</B>(double&nbsp;x,
+                                     double&nbsp;y,
+                                     double&nbsp;z,
+                                     double&nbsp;angle)</PRE>
+<DL>
+<DD>Post-multiplies a rotation around an axis (<code>rotateAxisAngleSelf</code>); the angle is in degrees. A rotation around an axis whose x
+ or y is not 0 or -0 makes the matrix 3D; the zero axis and the angle 0 change nothing.
+ <p>
+ 축 둘레의 회전을 뒤에 곱한다(<code>rotateAxisAngleSelf</code>). 각도는 도이다. x 나 y 가 0 또는 -0 이 아닌 축 둘레의 회전은 행렬을 3D 로 만든다.
+ 영 축과 0 도는 아무것도 바꾸지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - the x of the axis / 축 x<DD><CODE>y</CODE> - the y of the axis / 축 y<DD><CODE>z</CODE> - the z of the axis / 축 z<DD><CODE>angle</CODE> - the angle in degrees / 도 단위 각도
+<DT><B>Returns:</B><DD>this matrix / 이 행렬</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="skewXSelf(double)"><!-- --></A><H3>
+skewXSelf</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A> <B>skewXSelf</B>(double&nbsp;sx)</PRE>
+<DL>
+<DD>Post-multiplies a skew along x by an angle in degrees (<code>skewXSelf</code>).
+ <p>
+ x 방향 기울이기(도)를 뒤에 곱한다(<code>skewXSelf</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>sx</CODE> - the angle in degrees / 도 단위 각도
+<DT><B>Returns:</B><DD>this matrix / 이 행렬</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="skewYSelf(double)"><!-- --></A><H3>
+skewYSelf</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A> <B>skewYSelf</B>(double&nbsp;sy)</PRE>
+<DL>
+<DD>Post-multiplies a skew along y by an angle in degrees (<code>skewYSelf</code>).
+ <p>
+ y 방향 기울이기(도)를 뒤에 곱한다(<code>skewYSelf</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>sy</CODE> - the angle in degrees / 도 단위 각도
+<DT><B>Returns:</B><DD>this matrix / 이 행렬</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="invertSelf()"><!-- --></A><H3>
+invertSelf</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A> <B>invertSelf</B>()</PRE>
+<DL>
+<DD>Turns the matrix into its inverse (<code>invertSelf</code>). A matrix that cannot be inverted (a determinant that is 0, NaN or infinite)
+ becomes sixteen NaN and is not 2D any more.
+ <p>
+ 행렬을 역행렬로 바꾼다(<code>invertSelf</code>). 뒤집을 수 없는 행렬(행렬식이 0, NaN, 무한대)은 NaN 열여섯 개가 되고 2D 가 아니게 된다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>this matrix / 이 행렬</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomImplementation.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixParser.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="DomMatrix.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.DomMatrixReadOnly">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

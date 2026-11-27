@@ -1,0 +1,821 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+PageSelection
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="PageSelection";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.InputMethodSwitch.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/PageSelection.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PageSelection.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.core</FONT>
+<BR>
+Class PageSelection</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.core.PageSelection</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>PageSelection</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The selection of the text of the page by the user (plan item P11-08): the mouse gestures that select (drag, double click for a word,
+ triple click for a paragraph, a drag that goes on from those, Shift+click), Select All, the copy of the selection, and the highlight that
+ the page shows. The model is the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>Selection</CODE></A> of the DOM document, the same one that <code>window.getSelection()</code> gives to
+ scripts, so a script sees what the user selected and the highlight shows what a script selected with <code>addRange</code>. All work on
+ the DOM (and the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>TextSelections</CODE></A> geometry of the rendered page) happens on the document queue; the event dispatch thread only
+ paints the immutable <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/SelectionHighlight.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>SelectionHighlight</CODE></A> that the document thread published, and writes to the clipboard.
+ <p>
+ Every change of the selection (whoever makes it) fires <code>selectionchange</code> at the document once per burst of changes, as a task
+ of the document queue, and rebuilds the highlight; a new layout of the page rebuilds the highlight as well.
+ <p>
+ 사용자의 페이지 텍스트 선택(계획 P11-08): 선택하는 마우스 동작(드래그, 더블 클릭의 낱말, 트리플 클릭의 문단, 그 뒤에 이어지는 드래그, Shift+클릭), 전체 선택,
+ 선택의 복사, 페이지가 보여 주는 강조. 모델은 DOM 문서의 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>Selection</CODE></A> 이며 <code>window.getSelection()</code> 이 스크립트에 주는 것과 같다. 그래서
+ 스크립트는 사용자가 선택한 것을 보고, 강조는 스크립트가 <code>addRange</code> 로 선택한 것을 보여 준다. DOM(과 렌더링된 페이지의 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>TextSelections</CODE></A> 기하)에
+ 대한 모든 일은 문서 큐에서 일어나고, 이벤트 디스패치 스레드는 문서 스레드가 게시한 불변 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/SelectionHighlight.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>SelectionHighlight</CODE></A> 를 그리고 클립보드에 쓰기만 한다.
+ <p>
+ 선택이 바뀔 때마다(누가 바꾸든) 문서에 <code>selectionchange</code> 를 변경 묶음마다 한 번 문서 큐의 작업으로 보내고 강조를 다시 만든다. 페이지의 새 레이아웃도
+ 강조를 다시 만든다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.InputMethodSwitch.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageSelection.InputMethodSwitch</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;What turns the input methods of the component on and off (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#setInputMethodSwitch(org.duckdns.hjow.swingwebpanel.core.PageSelection.InputMethodSwitch)"><CODE>setInputMethodSwitch(org.duckdns.hjow.swingwebpanel.core.PageSelection.InputMethodSwitch)</CODE></A>).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#PageSelection(javax.swing.JComponent, org.duckdns.hjow.swingwebpanel.core.BrowserSession, org.duckdns.hjow.swingwebpanel.core.PageView)">PageSelection</A></B>(javax.swing.JComponent&nbsp;component,
+              <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" title="class in org.duckdns.hjow.swingwebpanel.core">BrowserSession</A>&nbsp;session,
+              <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageView</A>&nbsp;view)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the controller of a page component.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.Caret.html" title="class in org.duckdns.hjow.swingwebpanel.render">TextSelections.Caret</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#caretAtPoint(org.duckdns.hjow.swingwebpanel.core.PageSnapshot, double, double)">caretAtPoint</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot,
+             double&nbsp;docX,
+             double&nbsp;docY)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the caret position (a text node and an offset) that a point of the page stands for, as a drop there puts its text (document
+ queue), or null if the page has no selectable text there.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#clear(org.duckdns.hjow.swingwebpanel.core.PageSnapshot)">clear</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Empties the selection of the page (document queue).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#copy(org.duckdns.hjow.swingwebpanel.core.PageSnapshot)">copy</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Copies the selection (document queue): fires the cancelable <code>copy</code> event at the focused element (the body if none has the
+ focus) with the selected text (<code>text/plain</code>) and markup (<code>text/html</code>) in its <code>clipboardData</code>; if no
+ listener cancelled it, the selection goes to the clipboard, otherwise what the listener put into <code>clipboardData</code> does.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#cut(org.duckdns.hjow.swingwebpanel.core.PageSnapshot, java.lang.Runnable)">cut</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot,
+    java.lang.Runnable&nbsp;remove)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cuts the selection of an editing host (document queue): like <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#copy(org.duckdns.hjow.swingwebpanel.core.PageSnapshot)"><CODE>copy(org.duckdns.hjow.swingwebpanel.core.PageSnapshot)</CODE></A>, but the event is <code>cut</code>, and the selected
+ content is removed after it was written to the clipboard if no listener cancelled the event.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#dispose()">dispose</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stops all work (the component was disposed).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#dragged(org.duckdns.hjow.swingwebpanel.core.PageSnapshot, double, double)">dragged</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot,
+        double&nbsp;docX,
+        double&nbsp;docY)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Asks to extend the selection to a pointer position while the button is down (from the event dispatch thread).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#extendByKey(org.duckdns.hjow.swingwebpanel.core.PageSnapshot, java.lang.String, boolean)">extendByKey</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot,
+            java.lang.String&nbsp;key,
+            boolean&nbsp;byWord)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Extends the selection with a key (Shift+arrow keys, Shift+Home, Shift+End; document queue): the focus of the selection moves one
+ character (or one word with Ctrl) to the left or right, one line up or down, or to the start or the end of the line, while the anchor
+ stays.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/SelectionHighlight.html" title="class in org.duckdns.hjow.swingwebpanel.render">SelectionHighlight</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#getCaret()">getCaret</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the mark of the editing caret that is drawn over the page, or null (for the event dispatch thread).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/SelectionHighlight.html" title="class in org.duckdns.hjow.swingwebpanel.render">SelectionHighlight</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#getHighlight()">getHighlight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the highlight that is drawn over the page, or null (for the event dispatch thread).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#isCaretOn()">isCaretOn</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the caret is in the visible half of its blink period.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#isEditableFocus()">isEditableFocus</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the keyboard focus of the page is in an editing host, so that the caret keys belong to the caret (they must not scroll
+ the scroll pane).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#isInsideSelection(org.duckdns.hjow.swingwebpanel.core.PageSnapshot, double, double)">isInsideSelection</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot,
+                  double&nbsp;docX,
+                  double&nbsp;docY)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a point of the page is inside the highlight of the selection, as when a press can start dragging the selected text
+ (document queue).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#moveByKey(org.duckdns.hjow.swingwebpanel.core.PageSnapshot, java.lang.String, boolean)">moveByKey</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot,
+          java.lang.String&nbsp;key,
+          boolean&nbsp;byWord)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Moves the caret with a key (the arrow keys, Home and End without Shift; document queue): a selection with a range collapses to its
+ start (left) or its end (right) for the horizontal keys, as in browsers; otherwise the caret moves one character (or one word), one
+ line or to the edge of the line.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#pressed(org.duckdns.hjow.swingwebpanel.core.PageSnapshot, org.duckdns.hjow.swingwebpanel.render.RenderedPage, double, double, int, boolean)">pressed</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot,
+        <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html" title="class in org.duckdns.hjow.swingwebpanel.render">RenderedPage</A>&nbsp;page,
+        double&nbsp;docX,
+        double&nbsp;docY,
+        int&nbsp;clickCount,
+        boolean&nbsp;shift)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Handles the press of the main mouse button on the document queue, after the <code>mousedown</code> event was not cancelled: starts a
+ selection (a caret where the press is, a word for a double click, a paragraph for a triple click), or extends the selection with
+ Shift.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#released()">released</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ends a drag (the main mouse button was released; document queue).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#selectAll(org.duckdns.hjow.swingwebpanel.core.PageSnapshot)">selectAll</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Selects all the content of the page (document queue): everything inside the body (the document element if there is no body).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#selectedMarkup(org.duckdns.hjow.swingwebpanel.core.PageSnapshot)">selectedMarkup</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the markup of the selection (the serialized content of its range), or an empty text if nothing is selected (document queue).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#selectedText(org.duckdns.hjow.swingwebpanel.core.PageSnapshot)">selectedText</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text of the selection as the user would copy it (document queue): the rules of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>TextSelections</CODE></A>; the text of
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#toString()"><CODE>Range.toString()</CODE></A> if the page has no rendering yet.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#setClipboard(org.duckdns.hjow.swingwebpanel.core.ClipboardSink)">setClipboard</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ClipboardSink.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ClipboardSink</A>&nbsp;sink)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets where copied text goes (null: nowhere, copying only fires the <code>copy</code> event).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#setInputMethodSwitch(org.duckdns.hjow.swingwebpanel.core.PageSelection.InputMethodSwitch)">setInputMethodSwitch</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.InputMethodSwitch.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageSelection.InputMethodSwitch</A>&nbsp;inputMethods)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets what turns the input methods on and off: they are on while an editing host of the page has the keyboard focus, so that the user
+ can compose Korean and other text there, and off otherwise.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="PageSelection(javax.swing.JComponent, org.duckdns.hjow.swingwebpanel.core.BrowserSession, org.duckdns.hjow.swingwebpanel.core.PageView)"><!-- --></A><H3>
+PageSelection</H3>
+<PRE>
+public <B>PageSelection</B>(javax.swing.JComponent&nbsp;component,
+                     <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" title="class in org.duckdns.hjow.swingwebpanel.core">BrowserSession</A>&nbsp;session,
+                     <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageView</A>&nbsp;view)</PRE>
+<DL>
+<DD>Creates the controller of a page component.
+ <p>
+ 페이지 컴포넌트의 제어기를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>component</CODE> - the page component / 페이지 컴포넌트<DD><CODE>session</CODE> - the session / 세션<DD><CODE>view</CODE> - the view / 뷰</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="setClipboard(org.duckdns.hjow.swingwebpanel.core.ClipboardSink)"><!-- --></A><H3>
+setClipboard</H3>
+<PRE>
+public void <B>setClipboard</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ClipboardSink.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ClipboardSink</A>&nbsp;sink)</PRE>
+<DL>
+<DD>Sets where copied text goes (null: nowhere, copying only fires the <code>copy</code> event).
+ <p>
+ 복사한 텍스트가 갈 곳을 정한다(null 이면 어디로도 가지 않고, 복사는 <code>copy</code> 이벤트만 보낸다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>sink</CODE> - the clipboard or null / 클립보드. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispose()"><!-- --></A><H3>
+dispose</H3>
+<PRE>
+public void <B>dispose</B>()</PRE>
+<DL>
+<DD>Stops all work (the component was disposed).
+ <p>
+ 모든 일을 멈춘다(컴포넌트가 폐기되었다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCaret()"><!-- --></A><H3>
+getCaret</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/SelectionHighlight.html" title="class in org.duckdns.hjow.swingwebpanel.render">SelectionHighlight</A> <B>getCaret</B>()</PRE>
+<DL>
+<DD>Returns the mark of the editing caret that is drawn over the page, or null (for the event dispatch thread).
+ <p>
+ 페이지 위에 그려지는 편집 캐럿 표시를 반환한다. 없으면 null(이벤트 디스패치 스레드용).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the mark or null / 표시. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isCaretOn()"><!-- --></A><H3>
+isCaretOn</H3>
+<PRE>
+public boolean <B>isCaretOn</B>()</PRE>
+<DL>
+<DD>Tells whether the caret is in the visible half of its blink period.
+ <p>
+ 캐럿이 깜박임 주기의 보이는 절반에 있는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if it is to be drawn now / 지금 그려야 하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isEditableFocus()"><!-- --></A><H3>
+isEditableFocus</H3>
+<PRE>
+public boolean <B>isEditableFocus</B>()</PRE>
+<DL>
+<DD>Tells whether the keyboard focus of the page is in an editing host, so that the caret keys belong to the caret (they must not scroll
+ the scroll pane). It is updated on the document thread when the selection, the layout or the focus changed.
+ <p>
+ 페이지의 키보드 포커스가 편집 호스트 안에 있어서 캐럿 키가 캐럿의 것인지(스크롤 창을 스크롤하면 안 되는지) 알려 준다. 선택, 레이아웃, 포커스가 바뀔 때 문서
+ 스레드에서 갱신된다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if the caret keys edit / 캐럿 키가 편집이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setInputMethodSwitch(org.duckdns.hjow.swingwebpanel.core.PageSelection.InputMethodSwitch)"><!-- --></A><H3>
+setInputMethodSwitch</H3>
+<PRE>
+public void <B>setInputMethodSwitch</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.InputMethodSwitch.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageSelection.InputMethodSwitch</A>&nbsp;inputMethods)</PRE>
+<DL>
+<DD>Sets what turns the input methods on and off: they are on while an editing host of the page has the keyboard focus, so that the user
+ can compose Korean and other text there, and off otherwise.
+ <p>
+ 입력기를 켜고 끄는 쪽을 정한다: 페이지의 편집 호스트가 키보드 포커스를 가진 동안에는 켜져 사용자가 거기서 한글 등을 조합할 수 있고, 아니면 꺼진다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>inputMethods</CODE> - the switch or null / 스위치. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHighlight()"><!-- --></A><H3>
+getHighlight</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/SelectionHighlight.html" title="class in org.duckdns.hjow.swingwebpanel.render">SelectionHighlight</A> <B>getHighlight</B>()</PRE>
+<DL>
+<DD>Returns the highlight that is drawn over the page, or null (for the event dispatch thread).
+ <p>
+ 페이지 위에 그려지는 강조를 반환한다. 없으면 null(이벤트 디스패치 스레드용).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the highlight or null / 강조. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="pressed(org.duckdns.hjow.swingwebpanel.core.PageSnapshot, org.duckdns.hjow.swingwebpanel.render.RenderedPage, double, double, int, boolean)"><!-- --></A><H3>
+pressed</H3>
+<PRE>
+public void <B>pressed</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot,
+                    <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html" title="class in org.duckdns.hjow.swingwebpanel.render">RenderedPage</A>&nbsp;page,
+                    double&nbsp;docX,
+                    double&nbsp;docY,
+                    int&nbsp;clickCount,
+                    boolean&nbsp;shift)</PRE>
+<DL>
+<DD>Handles the press of the main mouse button on the document queue, after the <code>mousedown</code> event was not cancelled: starts a
+ selection (a caret where the press is, a word for a double click, a paragraph for a triple click), or extends the selection with
+ Shift. A press on a form control clears the selection; a press on text with <code>user-select: none</code> changes nothing.
+ <p>
+ <code>mousedown</code> 이벤트가 취소되지 않은 뒤 문서 큐에서 주 마우스 버튼의 누름을 처리한다: 선택을 시작하거나(누른 곳의 캐럿, 더블 클릭이면 낱말,
+ 트리플 클릭이면 문단) Shift 가 눌려 있으면 선택을 확장한다. 폼 컨트롤을 누르면 선택을 비우고 <code>user-select: none</code> 텍스트를 누르면 아무것도
+ 바꾸지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>snapshot</CODE> - the page / 페이지<DD><CODE>page</CODE> - the rendering of the page / 페이지의 렌더링<DD><CODE>docX</CODE> - x in document coordinates / 문서 좌표 x<DD><CODE>docY</CODE> - y in document coordinates / 문서 좌표 y<DD><CODE>clickCount</CODE> - the click count of the press (1, 2, 3 ...) / 누름의 클릭 횟수<DD><CODE>shift</CODE> - true if Shift is down / Shift 가 눌려 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dragged(org.duckdns.hjow.swingwebpanel.core.PageSnapshot, double, double)"><!-- --></A><H3>
+dragged</H3>
+<PRE>
+public void <B>dragged</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot,
+                    double&nbsp;docX,
+                    double&nbsp;docY)</PRE>
+<DL>
+<DD>Asks to extend the selection to a pointer position while the button is down (from the event dispatch thread). Several requests that
+ arrive before the document thread is free are merged into the last one.
+ <p>
+ 버튼이 눌린 채 포인터 위치까지 선택을 확장해 달라고 요청한다(이벤트 디스패치 스레드에서). 문서 스레드가 한가해지기 전에 온 요청은 마지막 것으로 합친다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>snapshot</CODE> - the page / 페이지<DD><CODE>docX</CODE> - x in document coordinates / 문서 좌표 x<DD><CODE>docY</CODE> - y in document coordinates / 문서 좌표 y</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="released()"><!-- --></A><H3>
+released</H3>
+<PRE>
+public void <B>released</B>()</PRE>
+<DL>
+<DD>Ends a drag (the main mouse button was released; document queue).
+ <p>
+ 드래그를 끝낸다(주 마우스 버튼을 뗐다. 문서 큐).
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="selectAll(org.duckdns.hjow.swingwebpanel.core.PageSnapshot)"><!-- --></A><H3>
+selectAll</H3>
+<PRE>
+public boolean <B>selectAll</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot)</PRE>
+<DL>
+<DD>Selects all the content of the page (document queue): everything inside the body (the document element if there is no body).
+ <p>
+ 페이지의 모든 내용을 선택한다(문서 큐): body 안의 모든 것(body 가 없으면 문서 요소).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>snapshot</CODE> - the page / 페이지
+<DT><B>Returns:</B><DD>true if something was selected / 선택했으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="extendByKey(org.duckdns.hjow.swingwebpanel.core.PageSnapshot, java.lang.String, boolean)"><!-- --></A><H3>
+extendByKey</H3>
+<PRE>
+public boolean <B>extendByKey</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot,
+                           java.lang.String&nbsp;key,
+                           boolean&nbsp;byWord)</PRE>
+<DL>
+<DD>Extends the selection with a key (Shift+arrow keys, Shift+Home, Shift+End; document queue): the focus of the selection moves one
+ character (or one word with Ctrl) to the left or right, one line up or down, or to the start or the end of the line, while the anchor
+ stays. Nothing happens if the page has no selection (a click makes a collapsed one) or if the focus cannot be located.
+ <p>
+ 키로 선택을 확장한다(Shift+화살표, Shift+Home, Shift+End. 문서 큐): 선택의 focus 가 anchor 는 그대로인 채 왼쪽이나 오른쪽으로 글자 하나(Ctrl 이면 낱말 하나),
+ 위나 아래로 한 줄, 줄의 처음이나 끝으로 움직인다. 페이지에 선택이 없거나(클릭하면 접힌 선택이 생긴다) focus 의 위치를 찾을 수 없으면 아무 일도 없다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>snapshot</CODE> - the page / 페이지<DD><CODE>key</CODE> - the DOM key value: <code>ArrowLeft</code>, <code>ArrowRight</code>, <code>ArrowUp</code>, <code>ArrowDown</code>,
+                 <code>Home</code> or <code>End</code> / DOM key 값<DD><CODE>byWord</CODE> - true to move by words (Ctrl) / 낱말 단위(Ctrl)이면 true
+<DT><B>Returns:</B><DD>true if the focus moved / focus 가 움직였으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="moveByKey(org.duckdns.hjow.swingwebpanel.core.PageSnapshot, java.lang.String, boolean)"><!-- --></A><H3>
+moveByKey</H3>
+<PRE>
+public boolean <B>moveByKey</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot,
+                         java.lang.String&nbsp;key,
+                         boolean&nbsp;byWord)</PRE>
+<DL>
+<DD>Moves the caret with a key (the arrow keys, Home and End without Shift; document queue): a selection with a range collapses to its
+ start (left) or its end (right) for the horizontal keys, as in browsers; otherwise the caret moves one character (or one word), one
+ line or to the edge of the line. The caret is scrolled into view afterwards.
+ <p>
+ 키로 캐럿을 옮긴다(Shift 없는 화살표 키, Home, End. 문서 큐): 범위가 있는 선택은 가로 키에서 브라우저처럼 시작(왼쪽)이나 끝(오른쪽)으로 접히고, 아니면
+ 캐럿이 글자 하나(또는 낱말 하나), 한 줄, 줄의 가장자리로 움직인다. 그 뒤 캐럿이 보이도록 스크롤한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>snapshot</CODE> - the page / 페이지<DD><CODE>key</CODE> - the DOM key value / DOM key 값<DD><CODE>byWord</CODE> - true to move by words (Ctrl) / 낱말 단위(Ctrl)이면 true
+<DT><B>Returns:</B><DD>true if the selection changed / 선택이 바뀌었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="clear(org.duckdns.hjow.swingwebpanel.core.PageSnapshot)"><!-- --></A><H3>
+clear</H3>
+<PRE>
+public void <B>clear</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot)</PRE>
+<DL>
+<DD>Empties the selection of the page (document queue).
+ <p>
+ 페이지의 선택을 비운다(문서 큐).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>snapshot</CODE> - the page / 페이지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="selectedText(org.duckdns.hjow.swingwebpanel.core.PageSnapshot)"><!-- --></A><H3>
+selectedText</H3>
+<PRE>
+public java.lang.String <B>selectedText</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot)</PRE>
+<DL>
+<DD>Returns the text of the selection as the user would copy it (document queue): the rules of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>TextSelections</CODE></A>; the text of
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#toString()"><CODE>Range.toString()</CODE></A> if the page has no rendering yet.
+ <p>
+ 사용자가 복사할 때의 선택 텍스트를 반환한다(문서 큐): <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>TextSelections</CODE></A> 의 규칙. 페이지에 렌더링이 아직 없으면 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#toString()"><CODE>Range.toString()</CODE></A> 의 텍스트.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>snapshot</CODE> - the page / 페이지
+<DT><B>Returns:</B><DD>the text, empty if nothing is selected / 텍스트. 선택이 없으면 빈 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="selectedMarkup(org.duckdns.hjow.swingwebpanel.core.PageSnapshot)"><!-- --></A><H3>
+selectedMarkup</H3>
+<PRE>
+public java.lang.String <B>selectedMarkup</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot)</PRE>
+<DL>
+<DD>Returns the markup of the selection (the serialized content of its range), or an empty text if nothing is selected (document queue).
+ <p>
+ 선택의 마크업(범위 내용의 직렬화)을 반환한다. 선택이 없으면 빈 문자열(문서 큐).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>snapshot</CODE> - the page / 페이지
+<DT><B>Returns:</B><DD>the markup / 마크업</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isInsideSelection(org.duckdns.hjow.swingwebpanel.core.PageSnapshot, double, double)"><!-- --></A><H3>
+isInsideSelection</H3>
+<PRE>
+public boolean <B>isInsideSelection</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot,
+                                 double&nbsp;docX,
+                                 double&nbsp;docY)</PRE>
+<DL>
+<DD>Tells whether a point of the page is inside the highlight of the selection, as when a press can start dragging the selected text
+ (document queue).
+ <p>
+ 페이지의 한 점이 선택의 강조 안에 있는지 알려 준다. 누름이 선택한 텍스트를 끌기 시작할 수 있는지 볼 때 쓴다(문서 큐).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>snapshot</CODE> - the page / 페이지<DD><CODE>docX</CODE> - x in document coordinates / 문서 좌표 x<DD><CODE>docY</CODE> - y in document coordinates / 문서 좌표 y
+<DT><B>Returns:</B><DD>true if the selection is drawn there / 선택이 거기 그려져 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="caretAtPoint(org.duckdns.hjow.swingwebpanel.core.PageSnapshot, double, double)"><!-- --></A><H3>
+caretAtPoint</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.Caret.html" title="class in org.duckdns.hjow.swingwebpanel.render">TextSelections.Caret</A> <B>caretAtPoint</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot,
+                                         double&nbsp;docX,
+                                         double&nbsp;docY)</PRE>
+<DL>
+<DD>Returns the caret position (a text node and an offset) that a point of the page stands for, as a drop there puts its text (document
+ queue), or null if the page has no selectable text there.
+ <p>
+ 페이지의 한 점이 가리키는 캐럿 위치(텍스트 노드와 오프셋)를 반환한다. 거기에 놓은 텍스트가 들어가는 자리이다(문서 큐). 거기에 선택할 수 있는 텍스트가 없으면 null.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>snapshot</CODE> - the page / 페이지<DD><CODE>docX</CODE> - x in document coordinates / 문서 좌표 x<DD><CODE>docY</CODE> - y in document coordinates / 문서 좌표 y
+<DT><B>Returns:</B><DD>the position or null / 위치. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="copy(org.duckdns.hjow.swingwebpanel.core.PageSnapshot)"><!-- --></A><H3>
+copy</H3>
+<PRE>
+public boolean <B>copy</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot)</PRE>
+<DL>
+<DD>Copies the selection (document queue): fires the cancelable <code>copy</code> event at the focused element (the body if none has the
+ focus) with the selected text (<code>text/plain</code>) and markup (<code>text/html</code>) in its <code>clipboardData</code>; if no
+ listener cancelled it, the selection goes to the clipboard, otherwise what the listener put into <code>clipboardData</code> does.
+ Nothing is written when there is nothing to copy.
+ <p>
+ 선택을 복사한다(문서 큐): 취소할 수 있는 <code>copy</code> 이벤트를 포커스를 가진 요소(없으면 body)에 선택한 텍스트(<code>text/plain</code>)와
+ 마크업(<code>text/html</code>)을 <code>clipboardData</code> 에 담아 보낸다. 리스너가 취소하지 않았으면 선택이, 취소했으면 리스너가
+ <code>clipboardData</code> 에 넣은 것이 클립보드로 간다. 복사할 것이 없으면 아무것도 쓰지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>snapshot</CODE> - the page / 페이지
+<DT><B>Returns:</B><DD>true if data was written (handed to the clipboard sink) / 데이터를 썼으면(클립보드 쪽에 넘겼으면) true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="cut(org.duckdns.hjow.swingwebpanel.core.PageSnapshot, java.lang.Runnable)"><!-- --></A><H3>
+cut</H3>
+<PRE>
+public boolean <B>cut</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot,
+                   java.lang.Runnable&nbsp;remove)</PRE>
+<DL>
+<DD>Cuts the selection of an editing host (document queue): like <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#copy(org.duckdns.hjow.swingwebpanel.core.PageSnapshot)"><CODE>copy(org.duckdns.hjow.swingwebpanel.core.PageSnapshot)</CODE></A>, but the event is <code>cut</code>, and the selected
+ content is removed after it was written to the clipboard if no listener cancelled the event.
+ <p>
+ 편집 호스트의 선택을 잘라낸다(문서 큐): <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#copy(org.duckdns.hjow.swingwebpanel.core.PageSnapshot)"><CODE>copy(org.duckdns.hjow.swingwebpanel.core.PageSnapshot)</CODE></A> 와 같으나 이벤트가 <code>cut</code> 이고, 리스너가 이벤트를 취소하지 않았으면 클립보드에 쓴 뒤 선택한
+ 내용을 지운다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>snapshot</CODE> - the page / 페이지<DD><CODE>remove</CODE> - removes the selected content (run on the document queue) / 선택한 내용을 지우는 작업(문서 큐에서 실행)
+<DT><B>Returns:</B><DD>true if data was written / 데이터를 썼으면 true</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.InputMethodSwitch.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/PageSelection.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PageSelection.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

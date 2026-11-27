@@ -1,0 +1,572 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+HrtfDatabase
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="HrtfDatabase";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/Fft.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfRenderer.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="HrtfDatabase.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.webaudio.dsp</FONT>
+<BR>
+Class HrtfDatabase</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.HrtfDatabase</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>HrtfDatabase</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The head-related transfer functions (HRTF) that the <code>HRTF</code> panning model of the <code>PannerNode</code> uses: the
+ measurements of the MIT KEMAR dummy head microphone, loaded from the resource <code>kemar-compact.hrtf</code> that sits next to this
+ class (it is part of the product JAR and is read from the class path).
+ <p>
+ <b>Credit.</b> HRTF Measurements of a KEMAR Dummy-Head Microphone, Bill Gardner and Keith Martin, MIT Media Lab Machine Listening
+ Group, 1994 (the compact data set; <a href="https://sound.media.mit.edu/resources/KEMAR.html">https://sound.media.mit.edu/resources/KEMAR.html</a>,
+ <code>compact.zip</code>, retrieved 2026-11-22, last modified 2000-07-14). Copyright 1994 by the MIT Media Laboratory. The data is
+ provided free with no restrictions on use, provided the authors are cited when the data is used in any research or commercial
+ application. An application that uses the HRTF panning of SwingWebPanel must keep this credit.
+ <p>
+ The resource was made by <code>tools/hrtfgen</code> from the 368 measured directions (elevations -40 to 90 degrees, azimuths 0 to 180
+ degrees to the right; the left side follows from the symmetry of the head): for every direction and ear a 128 tap minimum phase
+ kernel at 44100 Hz and a delay in samples (the interaural time difference is the difference of the two delays). The format is
+ big-endian: the magic <code>SWPHRTF1</code>, the version 1, the sample rate, the number of taps, the number of elevations, for every
+ elevation its angle and its azimuths, then for every direction the two delays and the two kernels (floats), and the credit text.
+ <p>
+ 오디오 엔진의 <code>PannerNode</code> 가 <code>HRTF</code> 패닝 모델에 쓰는 머리전달함수(HRTF): MIT KEMAR 더미 헤드 마이크의 측정 자료이며, 이 클래스 옆의
+ 자원 <code>kemar-compact.hrtf</code> 에서 읽는다(제품 JAR 에 들어 있고 클래스 경로에서 읽는다).
+ <p>
+ <b>저자 표기.</b> HRTF Measurements of a KEMAR Dummy-Head Microphone, Bill Gardner and Keith Martin, MIT Media Lab Machine Listening Group, 1994(compact 자료.
+ <a href="https://sound.media.mit.edu/resources/KEMAR.html">https://sound.media.mit.edu/resources/KEMAR.html</a>, <code>compact.zip</code>, 2026-11-22 조회,
+ 최종 수정 2000-07-14). 저작권은 MIT Media Laboratory(1994)에 있다. 이 자료는 연구나 상업 용도에 쓸 때 저자를 표기하는 조건으로 제한 없이 자유롭게 쓸 수 있다.
+ SwingWebPanel 의 HRTF 패닝을 쓰는 응용 프로그램은 이 저자 표기를 유지해야 한다.
+ <p>
+ 자원은 <code>tools/hrtfgen</code> 이 측정한 368 방향(고도 -40 ~ 90도, 오른쪽 방위각 0 ~ 180도. 왼쪽은 머리의 대칭에서 나온다)으로 만들었다. 방향과 귀마다 44100 Hz 의
+ 128탭 최소 위상 커널과 지연(샘플)이 있다(두 귀 사이의 시간차는 두 지연의 차이). 형식은 빅 엔디언이다: 매직 <code>SWPHRTF1</code>, 버전 1, 샘플링 주파수, 탭 수, 고도
+ 수, 고도마다 각도와 방위각, 방향마다 지연 둘과 커널 둘(float), 출처 표기 문장.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html#RESOURCE">RESOURCE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The name of the resource, relative to this package.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html#getAzimuth(int, int)">getAzimuth</A></B>(int&nbsp;e,
+           int&nbsp;a)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a measured azimuth in degrees (0 is the front, 90 is to the right, 180 is the back).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html#getAzimuthCount(int)">getAzimuthCount</A></B>(int&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of measured azimuths of an elevation.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html#getCredit()">getCredit</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the credit text of the resource (the authors, the source, the retrieval date).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;float</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html#getDelay(int, int, int)">getDelay</A></B>(int&nbsp;e,
+         int&nbsp;a,
+         int&nbsp;ear)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the delay of a direction and an ear in samples at <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html#getSampleRate()"><CODE>getSampleRate()</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html#getDirectionCount()">getDirectionCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the total number of measured directions.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html#getElevation(int)">getElevation</A></B>(int&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns an elevation in degrees.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html#getElevationCount()">getElevationCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of elevations.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;float[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html#getKernel(int, int, int)">getKernel</A></B>(int&nbsp;e,
+          int&nbsp;a,
+          int&nbsp;ear)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the minimum phase kernel of a direction and an ear.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html#getSampleRate()">getSampleRate</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the sample rate of the data in Hz.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html#getTaps()">getTaps</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of taps of every kernel.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp">HrtfDatabase</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html#load()">load</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loads the data of the product from the resource next to this class.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp">HrtfDatabase</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html#read(java.io.InputStream)">read</A></B>(java.io.InputStream&nbsp;stream)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reads the data from a stream in the format of the resource; the stream is closed.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="RESOURCE"><!-- --></A><H3>
+RESOURCE</H3>
+<PRE>
+public static final java.lang.String <B>RESOURCE</B></PRE>
+<DL>
+<DD>The name of the resource, relative to this package.
+ <p>
+ 자원 이름(이 패키지 기준 상대 경로).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.HrtfDatabase.RESOURCE">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="load()"><!-- --></A><H3>
+load</H3>
+<PRE>
+public static <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp">HrtfDatabase</A> <B>load</B>()
+                         throws java.io.IOException</PRE>
+<DL>
+<DD>Loads the data of the product from the resource next to this class.
+ <p>
+ 이 클래스 옆의 자원에서 제품의 자료를 읽는다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the database / 데이터베이스
+<DT><B>Throws:</B>
+<DD><CODE>java.io.IOException</CODE> - if the resource is missing or damaged / 자원이 없거나 손상되었으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="read(java.io.InputStream)"><!-- --></A><H3>
+read</H3>
+<PRE>
+public static <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp">HrtfDatabase</A> <B>read</B>(java.io.InputStream&nbsp;stream)
+                         throws java.io.IOException</PRE>
+<DL>
+<DD>Reads the data from a stream in the format of the resource; the stream is closed.
+ <p>
+ 자원 형식의 스트림에서 자료를 읽는다. 스트림은 닫는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>stream</CODE> - the stream / 스트림
+<DT><B>Returns:</B><DD>the database / 데이터베이스
+<DT><B>Throws:</B>
+<DD><CODE>java.io.IOException</CODE> - if the data is not valid / 자료가 올바르지 않으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSampleRate()"><!-- --></A><H3>
+getSampleRate</H3>
+<PRE>
+public int <B>getSampleRate</B>()</PRE>
+<DL>
+<DD>Returns the sample rate of the data in Hz.
+ <p>
+ 자료의 샘플링 주파수(Hz)를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the sample rate / 샘플링 주파수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTaps()"><!-- --></A><H3>
+getTaps</H3>
+<PRE>
+public int <B>getTaps</B>()</PRE>
+<DL>
+<DD>Returns the number of taps of every kernel.
+ <p>
+ 모든 커널의 탭 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of taps / 탭 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getElevationCount()"><!-- --></A><H3>
+getElevationCount</H3>
+<PRE>
+public int <B>getElevationCount</B>()</PRE>
+<DL>
+<DD>Returns the number of elevations.
+ <p>
+ 고도의 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number / 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getElevation(int)"><!-- --></A><H3>
+getElevation</H3>
+<PRE>
+public int <B>getElevation</B>(int&nbsp;e)</PRE>
+<DL>
+<DD>Returns an elevation in degrees.
+ <p>
+ 고도(도)를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the index of the elevation / 고도의 인덱스
+<DT><B>Returns:</B><DD>the elevation / 고도</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getAzimuthCount(int)"><!-- --></A><H3>
+getAzimuthCount</H3>
+<PRE>
+public int <B>getAzimuthCount</B>(int&nbsp;e)</PRE>
+<DL>
+<DD>Returns the number of measured azimuths of an elevation.
+ <p>
+ 고도의 측정한 방위각 수를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the index of the elevation / 고도의 인덱스
+<DT><B>Returns:</B><DD>the number / 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getAzimuth(int, int)"><!-- --></A><H3>
+getAzimuth</H3>
+<PRE>
+public int <B>getAzimuth</B>(int&nbsp;e,
+                      int&nbsp;a)</PRE>
+<DL>
+<DD>Returns a measured azimuth in degrees (0 is the front, 90 is to the right, 180 is the back).
+ <p>
+ 측정한 방위각(도)을 반환한다(0 은 정면, 90 은 오른쪽, 180 은 뒤).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the index of the elevation / 고도의 인덱스<DD><CODE>a</CODE> - the index of the azimuth / 방위각의 인덱스
+<DT><B>Returns:</B><DD>the azimuth / 방위각</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDirectionCount()"><!-- --></A><H3>
+getDirectionCount</H3>
+<PRE>
+public int <B>getDirectionCount</B>()</PRE>
+<DL>
+<DD>Returns the total number of measured directions.
+ <p>
+ 측정한 방향의 총 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number / 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getKernel(int, int, int)"><!-- --></A><H3>
+getKernel</H3>
+<PRE>
+public float[] <B>getKernel</B>(int&nbsp;e,
+                         int&nbsp;a,
+                         int&nbsp;ear)</PRE>
+<DL>
+<DD>Returns the minimum phase kernel of a direction and an ear. The array belongs to the database and must not be changed.
+ <p>
+ 방향과 귀의 최소 위상 커널을 반환한다. 배열은 데이터베이스의 것이므로 바꾸면 안 된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the index of the elevation / 고도의 인덱스<DD><CODE>a</CODE> - the index of the azimuth / 방위각의 인덱스<DD><CODE>ear</CODE> - 0 for the left ear, 1 for the right ear / 0 이면 왼쪽 귀, 1 이면 오른쪽 귀
+<DT><B>Returns:</B><DD>the kernel / 커널</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDelay(int, int, int)"><!-- --></A><H3>
+getDelay</H3>
+<PRE>
+public float <B>getDelay</B>(int&nbsp;e,
+                      int&nbsp;a,
+                      int&nbsp;ear)</PRE>
+<DL>
+<DD>Returns the delay of a direction and an ear in samples at <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html#getSampleRate()"><CODE>getSampleRate()</CODE></A>. The delay that all directions share was
+ removed; the difference of the two ears is the interaural time difference (positive for the ear that is farther from the source).
+ <p>
+ 방향과 귀의 지연을 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html#getSampleRate()"><CODE>getSampleRate()</CODE></A> 의 샘플로 반환한다. 모든 방향에 공통인 지연은 뺐다. 두 귀의 차이가 두 귀 사이의 시간차이다(음원에서 먼 귀가 양수).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the index of the elevation / 고도의 인덱스<DD><CODE>a</CODE> - the index of the azimuth / 방위각의 인덱스<DD><CODE>ear</CODE> - 0 for the left ear, 1 for the right ear / 0 이면 왼쪽 귀, 1 이면 오른쪽 귀
+<DT><B>Returns:</B><DD>the delay / 지연</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCredit()"><!-- --></A><H3>
+getCredit</H3>
+<PRE>
+public java.lang.String <B>getCredit</B>()</PRE>
+<DL>
+<DD>Returns the credit text of the resource (the authors, the source, the retrieval date).
+ <p>
+ 자원의 출처 표기 문장(저자, 출처, 조회 날짜)을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the text / 문장</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/Fft.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfRenderer.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="HrtfDatabase.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

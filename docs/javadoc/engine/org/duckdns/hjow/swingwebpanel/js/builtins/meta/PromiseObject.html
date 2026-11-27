@@ -1,0 +1,403 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+PromiseObject
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="PromiseObject";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseJobs.html" title="class in org.duckdns.hjow.swingwebpanel.js.builtins.meta"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseRejectionTracker.html" title="interface in org.duckdns.hjow.swingwebpanel.js.builtins.meta"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseObject.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PromiseObject.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.builtins.meta</FONT>
+<BR>
+Class PromiseObject</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">org.duckdns.hjow.swingwebpanel.js.JsValue</A>
+      <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsWeakKey.html" title="class in org.duckdns.hjow.swingwebpanel.js">org.duckdns.hjow.swingwebpanel.js.JsWeakKey</A>
+          <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">org.duckdns.hjow.swingwebpanel.js.JsObject</A>
+              <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseObject</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>PromiseObject</B><DT>extends <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></DL>
+</PRE>
+
+<P>
+A Promise instance (ECMA-262 6th edition 25.4): the internal slots [[PromiseState]], [[PromiseResult]],
+ [[PromiseFulfillReactions]], [[PromiseRejectReactions]] and [[PromiseIsHandled]] (the last one comes from the host rejection tracker
+ model of later editions and drives <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseRejectionTracker.html" title="interface in org.duckdns.hjow.swingwebpanel.js.builtins.meta"><CODE>PromiseRejectionTracker</CODE></A>). Only the promise built-ins change the state; hosts and tests read it
+ with the getters.
+ <p>
+ Promise 인스턴스(ECMA-262 6판 25.4): 내부 슬롯 [[PromiseState]], [[PromiseResult]], [[PromiseFulfillReactions]],
+ [[PromiseRejectReactions]], [[PromiseIsHandled]]([[PromiseIsHandled]] 는 후속 판의 호스트 거부 추적 모델에서 온 것으로
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseRejectionTracker.html" title="interface in org.duckdns.hjow.swingwebpanel.js.builtins.meta"><CODE>PromiseRejectionTracker</CODE></A> 를 움직인다). promise 내장 객체만 상태를 바꾸며 호스트와 시험은 getter 로 읽는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseObject.html#FULFILLED">FULFILLED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;State: fulfilled with a value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseObject.html#PENDING">PENDING</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;State: not settled yet.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseObject.html#REJECTED">REJECTED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;State: rejected with a reason.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsObject"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class org.duckdns.hjow.swingwebpanel.js.<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#extensible">extensible</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#properties">properties</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#prototype">prototype</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseObject.html#getResult()">getResult</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the fulfillment value or rejection reason (undefined while pending).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseObject.html#getState()">getState</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the state: <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseObject.html#PENDING"><CODE>PENDING</CODE></A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseObject.html#FULFILLED"><CODE>FULFILLED</CODE></A> or <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseObject.html#REJECTED"><CODE>REJECTED</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseObject.html#isHandled()">isHandled</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a handler was ever added with then.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsObject"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.js.<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#call(org.duckdns.hjow.swingwebpanel.js.JsValue, org.duckdns.hjow.swingwebpanel.js.JsValue[])">call</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#className()">className</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#construct(org.duckdns.hjow.swingwebpanel.js.JsValue[], org.duckdns.hjow.swingwebpanel.js.JsObject)">construct</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#createDataProperty(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">createDataProperty</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#createDataPropertyOrThrow(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">createDataPropertyOrThrow</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#defineAccessor(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsObject, org.duckdns.hjow.swingwebpanel.js.JsObject, boolean, boolean)">defineAccessor</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#defineBuiltin(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">defineBuiltin</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#defineData(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue, boolean, boolean, boolean)">defineData</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#defineOwnProperty(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor)">defineOwnProperty</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#definePropertyOrThrow(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor)">definePropertyOrThrow</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#delete(java.lang.Object)">delete</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#ensureCanAddPrivateElement()">ensureCanAddPrivateElement</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#get(java.lang.Object)">get</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#get(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">get</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#getOwnProperty(java.lang.Object)">getOwnProperty</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#getOwnPropertySlot(java.lang.Object)">getOwnPropertySlot</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#getPrototypeOf()">getPrototypeOf</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#getString(java.lang.Object)">getString</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#hasOwnProperty(java.lang.Object)">hasOwnProperty</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#hasProperty(java.lang.Object)">hasProperty</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#isArray()">isArray</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#isCallable()">isCallable</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#isConstructor()">isConstructor</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#isExtensible()">isExtensible</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#ownKeys()">ownKeys</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#preventExtensions()">preventExtensions</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#removeProperty(java.lang.Object)">removeProperty</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#set(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">set</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#set(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue, org.duckdns.hjow.swingwebpanel.js.JsValue)">set</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#setPrototypeOf(org.duckdns.hjow.swingwebpanel.js.JsObject)">setPrototypeOf</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#setStrict(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">setStrict</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#storeProperty(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.Property)">storeProperty</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#toString()">toString</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#type()">type</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#validateAndApply(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor, org.duckdns.hjow.swingwebpanel.js.Property)">validateAndApply</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsWeakKey"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.js.<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsWeakKey.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsWeakKey</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsWeakKey.html#getWeakAssociation(java.lang.Object)">getWeakAssociation</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsWeakKey.html#putWeakAssociation(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">putWeakAssociation</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsWeakKey.html#removeWeakAssociation(java.lang.Object)">removeWeakAssociation</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsValue"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.js.<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html#hasIsHtmlDda()">hasIsHtmlDda</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html#isNull()">isNull</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html#isNullOrUndefined()">isNullOrUndefined</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html#isObject()">isObject</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html#isUndefined()">isUndefined</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html#typeOf()">typeOf</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="PENDING"><!-- --></A><H3>
+PENDING</H3>
+<PRE>
+public static final int <B>PENDING</B></PRE>
+<DL>
+<DD>State: not settled yet.
+ <p>
+ 상태: 아직 확정되지 않음.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseObject.PENDING">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FULFILLED"><!-- --></A><H3>
+FULFILLED</H3>
+<PRE>
+public static final int <B>FULFILLED</B></PRE>
+<DL>
+<DD>State: fulfilled with a value.
+ <p>
+ 상태: 값으로 이행됨.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseObject.FULFILLED">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="REJECTED"><!-- --></A><H3>
+REJECTED</H3>
+<PRE>
+public static final int <B>REJECTED</B></PRE>
+<DL>
+<DD>State: rejected with a reason.
+ <p>
+ 상태: 이유와 함께 거부됨.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.builtins.meta.PromiseObject.REJECTED">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getState()"><!-- --></A><H3>
+getState</H3>
+<PRE>
+public int <B>getState</B>()</PRE>
+<DL>
+<DD>Returns the state: <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseObject.html#PENDING"><CODE>PENDING</CODE></A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseObject.html#FULFILLED"><CODE>FULFILLED</CODE></A> or <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseObject.html#REJECTED"><CODE>REJECTED</CODE></A>.
+ <p>
+ 상태를 반환한다: <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseObject.html#PENDING"><CODE>PENDING</CODE></A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseObject.html#FULFILLED"><CODE>FULFILLED</CODE></A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseObject.html#REJECTED"><CODE>REJECTED</CODE></A>.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the state / 상태</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getResult()"><!-- --></A><H3>
+getResult</H3>
+<PRE>
+public <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A> <B>getResult</B>()</PRE>
+<DL>
+<DD>Returns the fulfillment value or rejection reason (undefined while pending).
+ <p>
+ 이행 값 또는 거부 이유를 반환한다(대기 중에는 undefined).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the result / 결과</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isHandled()"><!-- --></A><H3>
+isHandled</H3>
+<PRE>
+public boolean <B>isHandled</B>()</PRE>
+<DL>
+<DD>Tells whether a handler was ever added with then.
+ <p>
+ then 으로 처리기가 추가된 적이 있는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if handled / 처리기가 있으면 true</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseJobs.html" title="class in org.duckdns.hjow.swingwebpanel.js.builtins.meta"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseRejectionTracker.html" title="interface in org.duckdns.hjow.swingwebpanel.js.builtins.meta"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseObject.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PromiseObject.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

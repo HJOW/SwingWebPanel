@@ -1,0 +1,1993 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+Parser
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Parser";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.State.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.EvalOptions.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/parser/Parser.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Parser.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.parser</FONT>
+<BR>
+Class Parser</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.parser.Parser</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>Parser</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The JavaScript parser (ECMA-262 6th edition clauses 12 to 15) with the early errors of the specification:
+ statements, declarations with redeclaration checks, strict mode, labels, break/continue/return validity, automatic
+ semicolon insertion, the Script and Module goals (import/export), eval code and the Function constructor.
+ Syntax that is not part of ES2015 is reported as a SyntaxError with its position; nothing is silently ignored.
+ <p>
+ Use the static methods: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseScript(java.lang.String, java.lang.String)"><CODE>parseScript(String, String)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseModule(java.lang.String, java.lang.String)"><CODE>parseModule(String, String)</CODE></A>,
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseEval(java.lang.String, java.lang.String, org.duckdns.hjow.swingwebpanel.js.parser.Parser.EvalOptions)"><CODE>parseEval(String, String, EvalOptions)</CODE></A> and <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseFunctionConstructor(java.lang.String, java.lang.String, boolean, java.lang.String)"><CODE>parseFunctionConstructor(String, String, boolean, String)</CODE></A>.
+ Each returns a PROGRAM node (or a FUNCTION node) of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>Node</CODE></A>.
+ <p>
+ ECMA-262 6판 12~15장의 JavaScript 파서이며 규격의 조기 오류를 구현한다: 문장, 재선언 검사가 있는 선언, 엄격 모드, 레이블,
+ break/continue/return 유효성, 자동 세미콜론 삽입, Script 와 Module 목표(import/export), eval 코드, Function 생성자.
+ ES2015 에 없는 문법은 위치가 있는 SyntaxError 로 보고하며 조용히 무시하지 않는다.
+ <p>
+ 정적 메서드를 사용한다: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseScript(java.lang.String, java.lang.String)"><CODE>parseScript(String, String)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseModule(java.lang.String, java.lang.String)"><CODE>parseModule(String, String)</CODE></A>,
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseEval(java.lang.String, java.lang.String, org.duckdns.hjow.swingwebpanel.js.parser.Parser.EvalOptions)"><CODE>parseEval(String, String, EvalOptions)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseFunctionConstructor(java.lang.String, java.lang.String, boolean, java.lang.String)"><CODE>parseFunctionConstructor(String, String, boolean, String)</CODE></A>.
+ 각각 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>Node</CODE></A> 의 PROGRAM 노드(또는 FUNCTION 노드)를 반환한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.EvalOptions.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Parser.EvalOptions</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Context of the caller of eval that affects how eval code may be parsed.</TD>
+</TR>
+</TABLE>
+&nbsp;<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#coverError">coverError</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The first pending cover-grammar error token (a shorthand default like {a = 1} or a duplicate __proto__), or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#coverMessage">coverMessage</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The message of the pending cover-grammar error.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.FuncCtx</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#fc">fc</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The current function context.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#keyComputed">keyComputed</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;True if the last call of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parsePropertyName()"><CODE>parsePropertyName()</CODE></A> read a computed key.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Lexer</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#lexer">lexer</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The lexer.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#moduleGoal">moduleGoal</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;True for the Module goal.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#prev">prev</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The last consumed token.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/RegExpValidator.html" title="interface in org.duckdns.hjow.swingwebpanel.js.parser">RegExpValidator</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#regExpValidator">regExpValidator</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The validator for regular expression literals (may be null).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.Scope</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#scope">scope</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The current scope.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#source">source</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The source text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#sourceName">sourceName</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The source name.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#tok">tok</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The current (not yet consumed) token.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#boundNames(org.duckdns.hjow.swingwebpanel.js.ast.Node, java.util.List)">boundNames</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A>&nbsp;n,
+           java.util.List&lt;java.lang.String&gt;&nbsp;out)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collects the names bound by a binding pattern or identifier node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#checkBindingName(org.duckdns.hjow.swingwebpanel.js.parser.Token)">checkBindingName</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validates an identifier used as a binding name (declaration, parameter, function name).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#checkIdentifier(org.duckdns.hjow.swingwebpanel.js.parser.Token, boolean)">checkIdentifier</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t,
+                boolean&nbsp;binding)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validates an identifier used as a reference or binding.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#checkSimpleTarget(org.duckdns.hjow.swingwebpanel.js.ast.Node, java.lang.String)">checkSimpleTarget</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A>&nbsp;n,
+                  java.lang.String&nbsp;msg)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Checks that a node can be the target of a compound assignment or update: an identifier (not eval or arguments in strict
+ code) or a member access.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#consumeSemicolon()">consumeSemicolon</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Implements automatic semicolon insertion: a semicolon, a closing brace, the end of input or a preceding line terminator
+ ends the statement.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#declareBinding(java.lang.String, int, org.duckdns.hjow.swingwebpanel.js.parser.Token)">declareBinding</A></B>(java.lang.String&nbsp;name,
+               int&nbsp;kind,
+               <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Declares a name bound by a binding pattern.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#declareFunction(java.lang.String, org.duckdns.hjow.swingwebpanel.js.ast.Node, org.duckdns.hjow.swingwebpanel.js.parser.Token)">declareFunction</A></B>(java.lang.String&nbsp;name,
+                <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A>&nbsp;decl,
+                <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Declares a function declaration name: var-like at the top level of functions and scripts, lexical in blocks and at the
+ top level of modules.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#declareLexical(java.lang.String, boolean, org.duckdns.hjow.swingwebpanel.js.parser.Token)">declareLexical</A></B>(java.lang.String&nbsp;name,
+               boolean&nbsp;isConst,
+               <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Declares a let, const or class name in the current scope.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#declareVar(java.lang.String, org.duckdns.hjow.swingwebpanel.js.parser.Token)">declareVar</A></B>(java.lang.String&nbsp;name,
+           <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Declares a var name in the current scope chain up to the enclosing function scope.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#done(org.duckdns.hjow.swingwebpanel.js.ast.Node)">done</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A>&nbsp;n)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Completes a node: sets its end offset and propagates the yield flag from its children.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#eatP(java.lang.String)">eatP</A></B>(java.lang.String&nbsp;p)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Consumes the punctuator if it is the current token.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#error(java.lang.String)">error</A></B>(java.lang.String&nbsp;msg)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a SyntaxError at the current token.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#error(java.lang.String, org.duckdns.hjow.swingwebpanel.js.ast.Node)">error</A></B>(java.lang.String&nbsp;msg,
+      <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A>&nbsp;n)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a SyntaxError at a node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#error(java.lang.String, org.duckdns.hjow.swingwebpanel.js.parser.Token)">error</A></B>(java.lang.String&nbsp;msg,
+      <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a SyntaxError at a token.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#expectN(java.lang.String)">expectN</A></B>(java.lang.String&nbsp;kw)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Consumes the keyword or fails.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#expectP(java.lang.String)">expectP</A></B>(java.lang.String&nbsp;p)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Consumes the punctuator or fails.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#finishFunction(org.duckdns.hjow.swingwebpanel.js.ast.FunctionInfo, org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.FuncCtx, org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.Scope, org.duckdns.hjow.swingwebpanel.js.parser.Token, boolean)">finishFunction</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/FunctionInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">FunctionInfo</A>&nbsp;info,
+               org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.FuncCtx&nbsp;ctx,
+               org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.Scope&nbsp;fs,
+               <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;nameTok,
+               boolean&nbsp;wasStrict)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Completes a function: strict mode checks that depend on the body, duplicate parameters, hoisting and scope description.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#initInfo(org.duckdns.hjow.swingwebpanel.js.ast.FunctionInfo)">initInfo</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/FunctionInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">FunctionInfo</A>&nbsp;info)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fills the shared fields of a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/FunctionInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>FunctionInfo</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#isLegacyCallTarget(org.duckdns.hjow.swingwebpanel.js.ast.Node)">isLegacyCallTarget</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A>&nbsp;node)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Identifies an ordinary non-strict call that Annex B.3.9 allows as a runtime-invalid target.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#isN(java.lang.String)">isN</A></B>(java.lang.String&nbsp;kw)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tests whether the current token is the given unescaped keyword.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#isP(java.lang.String)">isP</A></B>(java.lang.String&nbsp;p)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tests whether the current token is the given punctuator.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#isReservedWord(java.lang.String)">isReservedWord</A></B>(java.lang.String&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tests for the ES2015 reserved words that are always reserved (keywords, future reserved word enum, and the literals).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#isStrictReserved(java.lang.String)">isStrictReserved</A></B>(java.lang.String&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tests for the words reserved only in strict mode code.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#markArguments()">markArguments</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Records that the code refers to arguments: the nearest non-arrow function uses it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#mk(int, org.duckdns.hjow.swingwebpanel.js.parser.Token)">mk</A></B>(int&nbsp;type,
+   <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a node positioned at a token.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#next()">next</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Consumes the current token and reads the next one.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseAssignment(boolean)">parseAssignment</A></B>(boolean&nbsp;noIn)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses an AssignmentExpression.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseAssignmentCover(boolean, boolean)">parseAssignmentCover</A></B>(boolean&nbsp;noIn,
+                     boolean&nbsp;allowCover)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses an AssignmentExpression, optionally keeping a pending cover-grammar error for the caller (array and object
+ literal elements may still become destructuring patterns).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseBindingElement(int)">parseBindingElement</A></B>(int&nbsp;kind)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a binding target with an optional default value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseBindingTarget(int)">parseBindingTarget</A></B>(int&nbsp;kind)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a binding identifier or a binding pattern.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseClass(boolean, boolean)">parseClass</A></B>(boolean&nbsp;declaration,
+           boolean&nbsp;allowAnonymous)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a class expression or declaration.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseEval(java.lang.String, java.lang.String, org.duckdns.hjow.swingwebpanel.js.parser.Parser.EvalOptions)">parseEval</A></B>(java.lang.String&nbsp;source,
+          java.lang.String&nbsp;sourceName,
+          <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.EvalOptions.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Parser.EvalOptions</A>&nbsp;options)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses eval code (a Script that inherits some context from the caller).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseExpression(boolean)">parseExpression</A></B>(boolean&nbsp;noIn)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses an Expression (comma operator).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseFormalParameters(org.duckdns.hjow.swingwebpanel.js.ast.FunctionInfo)">parseFormalParameters</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/FunctionInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">FunctionInfo</A>&nbsp;info)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a formal parameter list in parentheses.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseFunctionConstructor(java.lang.String, java.lang.String, boolean, boolean, java.lang.String)">parseFunctionConstructor</A></B>(java.lang.String&nbsp;params,
+                         java.lang.String&nbsp;body,
+                         boolean&nbsp;generator,
+                         boolean&nbsp;async,
+                         java.lang.String&nbsp;sourceName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a dynamic function with separate parameter and body validation for its function kind.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseFunctionConstructor(java.lang.String, java.lang.String, boolean, java.lang.String)">parseFunctionConstructor</A></B>(java.lang.String&nbsp;params,
+                         java.lang.String&nbsp;body,
+                         boolean&nbsp;generator,
+                         java.lang.String&nbsp;sourceName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses the source for the Function constructor (CreateDynamicFunction, ECMA-262 6th edition 19.2.1.1.1).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseFunctionExpression()">parseFunctionExpression</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a function expression.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseFunctionTail(org.duckdns.hjow.swingwebpanel.js.parser.Token, org.duckdns.hjow.swingwebpanel.js.ast.FunctionInfo, org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.FuncCtx, org.duckdns.hjow.swingwebpanel.js.parser.Token)">parseFunctionTail</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;start,
+                  <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/FunctionInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">FunctionInfo</A>&nbsp;info,
+                  org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.FuncCtx&nbsp;ctx,
+                  <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;nameTok)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses the parameters and body of a function whose header has been read, and builds the FUNCTION node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseLeftHandSide()">parseLeftHandSide</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a LeftHandSideExpression: new, call and member expressions.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseMethodFunction(org.duckdns.hjow.swingwebpanel.js.parser.Token, org.duckdns.hjow.swingwebpanel.js.ast.Node, boolean, boolean, boolean, boolean, boolean, boolean)">parseMethodFunction</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;start,
+                    <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A>&nbsp;member,
+                    boolean&nbsp;generator,
+                    boolean&nbsp;getter,
+                    boolean&nbsp;setter,
+                    boolean&nbsp;classCtor,
+                    boolean&nbsp;derived,
+                    boolean&nbsp;async)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a method (object literal method, accessor, generator method or class method) from the opening parenthesis.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseModule(java.lang.String, java.lang.String)">parseModule</A></B>(java.lang.String&nbsp;source,
+            java.lang.String&nbsp;sourceName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a Module (always strict, import and export allowed).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parsePropertyName()">parsePropertyName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a property name: an identifier name, a string, a number or a computed key in brackets.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseScript(java.lang.String, java.lang.String)">parseScript</A></B>(java.lang.String&nbsp;source,
+            java.lang.String&nbsp;sourceName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a Script.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseStatementListItem()">parseStatementListItem</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a StatementListItem: a declaration or a statement.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parseTemplate(boolean)">parseTemplate</A></B>(boolean&nbsp;tagged)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a template literal; untagged templates must not contain invalid escapes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#peek()">peek</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the token after the current one without consuming anything.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#peek(int)">peek</A></B>(int&nbsp;distance)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a token a selected distance ahead without consuming anything.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.Scope</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#popScope()">popScope</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Closes the current scope and returns it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.Scope</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#pushScope(int)">pushScope</A></B>(int&nbsp;kind)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opens a scope.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#redeclared(java.lang.String, org.duckdns.hjow.swingwebpanel.js.parser.Token)">redeclared</A></B>(java.lang.String&nbsp;name,
+           <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the redeclaration error.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#resolveCandidates(org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.Scope)">resolveCandidates</A></B>(org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.Scope&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Resolves the Annex B hoisting candidates of a function scope: a block function is also a var if that would not cause
+ an early error and the name is not a parameter.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#resolvePrivateNames()">resolvePrivateNames</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Resolves all deferred private-name uses against enclosing class environments.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#setDefaultRegExpValidator(org.duckdns.hjow.swingwebpanel.js.parser.RegExpValidator)">setDefaultRegExpValidator</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/RegExpValidator.html" title="interface in org.duckdns.hjow.swingwebpanel.js.parser">RegExpValidator</A>&nbsp;validator)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the validator that checks regular expression literal patterns for all parsers created afterwards.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#setParams(org.duckdns.hjow.swingwebpanel.js.ast.FunctionInfo, java.util.List)">setParams</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/FunctionInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">FunctionInfo</A>&nbsp;info,
+          java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A>&gt;&nbsp;params)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stores parameters in the function description and derives simple/length/expression information.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#startsPropertyName(org.duckdns.hjow.swingwebpanel.js.parser.Token)">startsPropertyName</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;n)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns true if the token after get/set starts a property name, which makes it an accessor.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#toAssignmentTarget(org.duckdns.hjow.swingwebpanel.js.ast.Node)">toAssignmentTarget</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A>&nbsp;n)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Converts an array or object literal (or a simple target) into an assignment pattern for destructuring assignment
+ and for-in/of heads.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/ScopeInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">ScopeInfo</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#toInfo(org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.Scope)">toInfo</A></B>(org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.Scope&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Converts the parse-time scope into the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/ScopeInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>ScopeInfo</CODE></A> for the interpreter.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#unexpected(org.duckdns.hjow.swingwebpanel.js.parser.Token)">unexpected</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the "Unexpected ..." error for a token.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="keyComputed"><!-- --></A><H3>
+keyComputed</H3>
+<PRE>
+protected boolean <B>keyComputed</B></PRE>
+<DL>
+<DD>True if the last call of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parsePropertyName()"><CODE>parsePropertyName()</CODE></A> read a computed key.
+ <p>
+ 마지막 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#parsePropertyName()"><CODE>parsePropertyName()</CODE></A> 호출이 계산된 키를 읽었으면 true.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="lexer"><!-- --></A><H3>
+lexer</H3>
+<PRE>
+protected final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Lexer</A> <B>lexer</B></PRE>
+<DL>
+<DD>The lexer.
+ <p>
+ 렉서.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="source"><!-- --></A><H3>
+source</H3>
+<PRE>
+protected final java.lang.String <B>source</B></PRE>
+<DL>
+<DD>The source text.
+ <p>
+ 소스 텍스트.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="sourceName"><!-- --></A><H3>
+sourceName</H3>
+<PRE>
+protected final java.lang.String <B>sourceName</B></PRE>
+<DL>
+<DD>The source name.
+ <p>
+ 소스 이름.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="moduleGoal"><!-- --></A><H3>
+moduleGoal</H3>
+<PRE>
+protected final boolean <B>moduleGoal</B></PRE>
+<DL>
+<DD>True for the Module goal.
+ <p>
+ Module 목표이면 true.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="tok"><!-- --></A><H3>
+tok</H3>
+<PRE>
+protected <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A> <B>tok</B></PRE>
+<DL>
+<DD>The current (not yet consumed) token.
+ <p>
+ 현재(아직 소비하지 않은) 토큰.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="prev"><!-- --></A><H3>
+prev</H3>
+<PRE>
+protected <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A> <B>prev</B></PRE>
+<DL>
+<DD>The last consumed token.
+ <p>
+ 마지막으로 소비한 토큰.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="fc"><!-- --></A><H3>
+fc</H3>
+<PRE>
+protected org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.FuncCtx <B>fc</B></PRE>
+<DL>
+<DD>The current function context.
+ <p>
+ 현재 함수 문맥.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="scope"><!-- --></A><H3>
+scope</H3>
+<PRE>
+protected org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.Scope <B>scope</B></PRE>
+<DL>
+<DD>The current scope.
+ <p>
+ 현재 스코프.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="coverError"><!-- --></A><H3>
+coverError</H3>
+<PRE>
+protected <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A> <B>coverError</B></PRE>
+<DL>
+<DD>The first pending cover-grammar error token (a shorthand default like {a = 1} or a duplicate __proto__), or null.
+ <p>
+ 처리되지 않은 첫 커버 문법 오류 토큰({a = 1} 같은 축약 기본값이나 중복 __proto__). 없으면 null.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="coverMessage"><!-- --></A><H3>
+coverMessage</H3>
+<PRE>
+protected java.lang.String <B>coverMessage</B></PRE>
+<DL>
+<DD>The message of the pending cover-grammar error.
+ <p>
+ 처리되지 않은 커버 문법 오류의 메시지.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="regExpValidator"><!-- --></A><H3>
+regExpValidator</H3>
+<PRE>
+protected <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/RegExpValidator.html" title="interface in org.duckdns.hjow.swingwebpanel.js.parser">RegExpValidator</A> <B>regExpValidator</B></PRE>
+<DL>
+<DD>The validator for regular expression literals (may be null).
+ <p>
+ 정규식 리터럴 검증기(null 일 수 있다).
+<P>
+<DL>
+</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="setDefaultRegExpValidator(org.duckdns.hjow.swingwebpanel.js.parser.RegExpValidator)"><!-- --></A><H3>
+setDefaultRegExpValidator</H3>
+<PRE>
+public static void <B>setDefaultRegExpValidator</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/RegExpValidator.html" title="interface in org.duckdns.hjow.swingwebpanel.js.parser">RegExpValidator</A>&nbsp;validator)</PRE>
+<DL>
+<DD>Sets the validator that checks regular expression literal patterns for all parsers created afterwards.
+ <p>
+ 이후 만들어지는 모든 파서가 정규식 리터럴 패턴을 검사하는 데 쓸 검증기를 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>validator</CODE> - replacement, or null to skip pattern validation / 대체 검증기, 또는 패턴 검사를 건너뛰려면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseScript(java.lang.String, java.lang.String)"><!-- --></A><H3>
+parseScript</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>parseScript</B>(java.lang.String&nbsp;source,
+                               java.lang.String&nbsp;sourceName)</PRE>
+<DL>
+<DD>Parses a Script.
+ <p>
+ Script 를 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>source</CODE> - the source text / 소스 텍스트<DD><CODE>sourceName</CODE> - the source name for errors / 오류에 쓰는 소스 이름
+<DT><B>Returns:</B><DD>the PROGRAM node / PROGRAM 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseModule(java.lang.String, java.lang.String)"><!-- --></A><H3>
+parseModule</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>parseModule</B>(java.lang.String&nbsp;source,
+                               java.lang.String&nbsp;sourceName)</PRE>
+<DL>
+<DD>Parses a Module (always strict, import and export allowed).
+ <p>
+ Module 을 파싱한다(항상 엄격, import/export 허용).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>source</CODE> - the source text / 소스 텍스트<DD><CODE>sourceName</CODE> - the source name for errors / 오류에 쓰는 소스 이름
+<DT><B>Returns:</B><DD>the PROGRAM node / PROGRAM 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseEval(java.lang.String, java.lang.String, org.duckdns.hjow.swingwebpanel.js.parser.Parser.EvalOptions)"><!-- --></A><H3>
+parseEval</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>parseEval</B>(java.lang.String&nbsp;source,
+                             java.lang.String&nbsp;sourceName,
+                             <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.EvalOptions.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Parser.EvalOptions</A>&nbsp;options)</PRE>
+<DL>
+<DD>Parses eval code (a Script that inherits some context from the caller).
+ <p>
+ eval 코드를 파싱한다(호출자의 일부 문맥을 이어받는 Script).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>source</CODE> - the source text / 소스 텍스트<DD><CODE>sourceName</CODE> - the source name / 소스 이름<DD><CODE>options</CODE> - the caller context / 호출자 문맥
+<DT><B>Returns:</B><DD>the PROGRAM node / PROGRAM 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseFunctionConstructor(java.lang.String, java.lang.String, boolean, java.lang.String)"><!-- --></A><H3>
+parseFunctionConstructor</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>parseFunctionConstructor</B>(java.lang.String&nbsp;params,
+                                            java.lang.String&nbsp;body,
+                                            boolean&nbsp;generator,
+                                            java.lang.String&nbsp;sourceName)</PRE>
+<DL>
+<DD>Parses the source for the Function constructor (CreateDynamicFunction, ECMA-262 6th edition 19.2.1.1.1). The parameter
+ text and the body text are checked separately so that neither can break out of its part, then the complete text
+ <code>function anonymous(params\n) {\nbody\n}</code> is parsed.
+ <p>
+ Function 생성자용 소스를 파싱한다(CreateDynamicFunction, ECMA-262 6판 19.2.1.1.1). 매개변수 텍스트와 본문 텍스트를 따로 검사해
+ 어느 쪽도 자기 부분을 벗어날 수 없게 한 뒤, 전체 텍스트 <code>function anonymous(params\n) {\nbody\n}</code> 를 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>params</CODE> - the parameter list text / 매개변수 목록 텍스트<DD><CODE>body</CODE> - the body text / 본문 텍스트<DD><CODE>generator</CODE> - true for GeneratorFunction / GeneratorFunction 이면 true<DD><CODE>sourceName</CODE> - the source name / 소스 이름
+<DT><B>Returns:</B><DD>the FUNCTION node (its FunctionInfo source text is the full function text) / FUNCTION 노드(FunctionInfo 의 소스 텍스트가 전체 함수 텍스트)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseFunctionConstructor(java.lang.String, java.lang.String, boolean, boolean, java.lang.String)"><!-- --></A><H3>
+parseFunctionConstructor</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>parseFunctionConstructor</B>(java.lang.String&nbsp;params,
+                                            java.lang.String&nbsp;body,
+                                            boolean&nbsp;generator,
+                                            boolean&nbsp;async,
+                                            java.lang.String&nbsp;sourceName)</PRE>
+<DL>
+<DD>Parses a dynamic function with separate parameter and body validation for its function kind.
+ <p>
+ 함수 종류에 따라 매개변수와 본문을 각각 검증한 후 동적 함수를 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>params</CODE> - the formal parameter source / 매개변수 원문<DD><CODE>body</CODE> - the body source / 본문 원문<DD><CODE>generator</CODE> - whether yield is enabled in the body / 본문의 yield 사용 여부<DD><CODE>async</CODE> - whether await is enabled in the body / 본문의 await 사용 여부<DD><CODE>sourceName</CODE> - the diagnostics label / 오류 위치 이름
+<DT><B>Returns:</B><DD>the parsed function / 파싱한 함수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseStatementListItem()"><!-- --></A><H3>
+parseStatementListItem</H3>
+<PRE>
+protected <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>parseStatementListItem</B>()</PRE>
+<DL>
+<DD>Parses a StatementListItem: a declaration or a statement.
+ <p>
+ StatementListItem 을 파싱한다: 선언 또는 문장.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="resolvePrivateNames()"><!-- --></A><H3>
+resolvePrivateNames</H3>
+<PRE>
+protected final void <B>resolvePrivateNames</B>()</PRE>
+<DL>
+<DD>Resolves all deferred private-name uses against enclosing class environments.
+ <p>
+ 모든 지연된 private 이름 사용을 바깥 클래스 환경에서 해석한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseExpression(boolean)"><!-- --></A><H3>
+parseExpression</H3>
+<PRE>
+protected <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>parseExpression</B>(boolean&nbsp;noIn)</PRE>
+<DL>
+<DD>Parses an Expression (comma operator).
+ <p>
+ Expression(쉼표 연산자)을 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>noIn</CODE> - true to forbid the in operator (for-loop initializers) / in 연산자를 금지하려면 true(for 초기화)
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseAssignment(boolean)"><!-- --></A><H3>
+parseAssignment</H3>
+<PRE>
+protected <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>parseAssignment</B>(boolean&nbsp;noIn)</PRE>
+<DL>
+<DD>Parses an AssignmentExpression.
+ <p>
+ AssignmentExpression 을 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>noIn</CODE> - true to forbid the in operator / in 연산자를 금지하려면 true
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseAssignmentCover(boolean, boolean)"><!-- --></A><H3>
+parseAssignmentCover</H3>
+<PRE>
+protected <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>parseAssignmentCover</B>(boolean&nbsp;noIn,
+                                    boolean&nbsp;allowCover)</PRE>
+<DL>
+<DD>Parses an AssignmentExpression, optionally keeping a pending cover-grammar error for the caller (array and object
+ literal elements may still become destructuring patterns).
+ <p>
+ AssignmentExpression 을 파싱한다. 필요하면 처리되지 않은 커버 문법 오류를 호출자에게 남긴다(배열/객체 리터럴의 요소는
+ 나중에 구조 분해 패턴이 될 수 있다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>noIn</CODE> - true to forbid in / in 을 금지하려면 true<DD><CODE>allowCover</CODE> - true if the caller may still convert the result to a pattern / 호출자가 결과를 패턴으로 바꿀 수 있으면 true
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="checkSimpleTarget(org.duckdns.hjow.swingwebpanel.js.ast.Node, java.lang.String)"><!-- --></A><H3>
+checkSimpleTarget</H3>
+<PRE>
+protected final void <B>checkSimpleTarget</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A>&nbsp;n,
+                                       java.lang.String&nbsp;msg)</PRE>
+<DL>
+<DD>Checks that a node can be the target of a compound assignment or update: an identifier (not eval or arguments in strict
+ code) or a member access.
+ <p>
+ 노드가 복합 대입이나 증감의 대상이 될 수 있는지 검사한다: 식별자(엄격 코드에서는 eval, arguments 제외) 또는 멤버 접근.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>n</CODE> - the node / 노드<DD><CODE>msg</CODE> - the error message / 오류 메시지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isLegacyCallTarget(org.duckdns.hjow.swingwebpanel.js.ast.Node)"><!-- --></A><H3>
+isLegacyCallTarget</H3>
+<PRE>
+protected final boolean <B>isLegacyCallTarget</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A>&nbsp;node)</PRE>
+<DL>
+<DD>Identifies an ordinary non-strict call that Annex B.3.9 allows as a runtime-invalid target.
+ <p>
+ 부속서 B.3.9가 런타임 오류 대상으로 허용하는 일반 비엄격 호출을 판정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - potential assignment target / 대입 대상 후보
+<DT><B>Returns:</B><DD>true if the call uses the legacy rule / 레거시 규칙을 적용하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseLeftHandSide()"><!-- --></A><H3>
+parseLeftHandSide</H3>
+<PRE>
+protected final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>parseLeftHandSide</B>()</PRE>
+<DL>
+<DD>Parses a LeftHandSideExpression: new, call and member expressions.
+ <p>
+ LeftHandSideExpression 을 파싱한다: new, 호출, 멤버 표현식.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="markArguments()"><!-- --></A><H3>
+markArguments</H3>
+<PRE>
+protected final void <B>markArguments</B>()</PRE>
+<DL>
+<DD>Records that the code refers to arguments: the nearest non-arrow function uses it.
+ <p>
+ 코드가 arguments 를 참조함을 기록한다: 가장 가까운 비 화살표 함수가 사용하는 것이다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseTemplate(boolean)"><!-- --></A><H3>
+parseTemplate</H3>
+<PRE>
+protected final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>parseTemplate</B>(boolean&nbsp;tagged)</PRE>
+<DL>
+<DD>Parses a template literal; untagged templates must not contain invalid escapes.
+ <p>
+ 템플릿 리터럴을 파싱한다. 태그가 없는 템플릿은 잘못된 이스케이프를 가질 수 없다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>tagged</CODE> - true for the template of a tagged template / 태그 템플릿의 템플릿이면 true
+<DT><B>Returns:</B><DD>the TEMPLATE node / TEMPLATE 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parsePropertyName()"><!-- --></A><H3>
+parsePropertyName</H3>
+<PRE>
+protected final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>parsePropertyName</B>()</PRE>
+<DL>
+<DD>Parses a property name: an identifier name, a string, a number or a computed key in brackets. The result is a
+ LITERAL string node (or the key expression when computed); <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#keyComputed"><CODE>keyComputed</CODE></A> tells which.
+ <p>
+ 프로퍼티 이름을 파싱한다: 식별자 이름, 문자열, 숫자, 대괄호의 계산된 키. 결과는 문자열 LITERAL 노드(계산된 키이면 키 식)이며
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.html#keyComputed"><CODE>keyComputed</CODE></A> 로 구분한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the key node / 키 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="startsPropertyName(org.duckdns.hjow.swingwebpanel.js.parser.Token)"><!-- --></A><H3>
+startsPropertyName</H3>
+<PRE>
+protected final boolean <B>startsPropertyName</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;n)</PRE>
+<DL>
+<DD>Returns true if the token after get/set starts a property name, which makes it an accessor.
+ <p>
+ get/set 다음 토큰이 프로퍼티 이름의 시작이면 true(그러면 접근자이다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>n</CODE> - the token after get or set / get 또는 set 다음 토큰
+<DT><B>Returns:</B><DD>true if it starts a property name / 프로퍼티 이름의 시작이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toAssignmentTarget(org.duckdns.hjow.swingwebpanel.js.ast.Node)"><!-- --></A><H3>
+toAssignmentTarget</H3>
+<PRE>
+protected final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>toAssignmentTarget</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A>&nbsp;n)</PRE>
+<DL>
+<DD>Converts an array or object literal (or a simple target) into an assignment pattern for destructuring assignment
+ and for-in/of heads.
+ <p>
+ 배열이나 객체 리터럴(또는 단순 대상)을 구조 분해 대입과 for-in/of 머리용 대입 패턴으로 변환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>n</CODE> - the expression / 식
+<DT><B>Returns:</B><DD>the pattern / 패턴</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="declareBinding(java.lang.String, int, org.duckdns.hjow.swingwebpanel.js.parser.Token)"><!-- --></A><H3>
+declareBinding</H3>
+<PRE>
+protected final void <B>declareBinding</B>(java.lang.String&nbsp;name,
+                                    int&nbsp;kind,
+                                    <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t)</PRE>
+<DL>
+<DD>Declares a name bound by a binding pattern.
+ <p>
+ 바인딩 패턴이 묶는 이름을 선언한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the name / 이름<DD><CODE>kind</CODE> - the BIND_ kind / BIND_ 종류<DD><CODE>t</CODE> - the token for errors / 오류 위치 토큰</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseBindingTarget(int)"><!-- --></A><H3>
+parseBindingTarget</H3>
+<PRE>
+protected final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>parseBindingTarget</B>(int&nbsp;kind)</PRE>
+<DL>
+<DD>Parses a binding identifier or a binding pattern.
+ <p>
+ 바인딩 식별자나 바인딩 패턴을 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>kind</CODE> - the BIND_ kind that declares the names / 이름을 선언하는 BIND_ 종류
+<DT><B>Returns:</B><DD>the IDENT or pattern node / IDENT 또는 패턴 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseBindingElement(int)"><!-- --></A><H3>
+parseBindingElement</H3>
+<PRE>
+protected final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>parseBindingElement</B>(int&nbsp;kind)</PRE>
+<DL>
+<DD>Parses a binding target with an optional default value.
+ <p>
+ 기본값이 있을 수 있는 바인딩 대상을 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>kind</CODE> - the BIND_ kind / BIND_ 종류
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseFunctionExpression()"><!-- --></A><H3>
+parseFunctionExpression</H3>
+<PRE>
+protected final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>parseFunctionExpression</B>()</PRE>
+<DL>
+<DD>Parses a function expression.
+ <p>
+ 함수 표현식을 파싱한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the FUNCTION node / FUNCTION 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseFunctionTail(org.duckdns.hjow.swingwebpanel.js.parser.Token, org.duckdns.hjow.swingwebpanel.js.ast.FunctionInfo, org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.FuncCtx, org.duckdns.hjow.swingwebpanel.js.parser.Token)"><!-- --></A><H3>
+parseFunctionTail</H3>
+<PRE>
+protected final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>parseFunctionTail</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;start,
+                                       <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/FunctionInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">FunctionInfo</A>&nbsp;info,
+                                       org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.FuncCtx&nbsp;ctx,
+                                       <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;nameTok)</PRE>
+<DL>
+<DD>Parses the parameters and body of a function whose header has been read, and builds the FUNCTION node.
+ <p>
+ 머리부를 읽은 함수의 매개변수와 본문을 파싱하고 FUNCTION 노드를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>start</CODE> - the first token of the function / 함수의 첫 토큰<DD><CODE>info</CODE> - the function description / 함수 설명<DD><CODE>ctx</CODE> - the function context / 함수 문맥<DD><CODE>nameTok</CODE> - the name token or null / 이름 토큰 또는 null
+<DT><B>Returns:</B><DD>the FUNCTION node / FUNCTION 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseFormalParameters(org.duckdns.hjow.swingwebpanel.js.ast.FunctionInfo)"><!-- --></A><H3>
+parseFormalParameters</H3>
+<PRE>
+protected final void <B>parseFormalParameters</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/FunctionInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">FunctionInfo</A>&nbsp;info)</PRE>
+<DL>
+<DD>Parses a formal parameter list in parentheses.
+ <p>
+ 괄호로 둘러싼 형식 매개변수 목록을 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>info</CODE> - the function description to fill / 채울 함수 설명</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setParams(org.duckdns.hjow.swingwebpanel.js.ast.FunctionInfo, java.util.List)"><!-- --></A><H3>
+setParams</H3>
+<PRE>
+protected final void <B>setParams</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/FunctionInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">FunctionInfo</A>&nbsp;info,
+                               java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A>&gt;&nbsp;params)</PRE>
+<DL>
+<DD>Stores parameters in the function description and derives simple/length/expression information.
+ <p>
+ 매개변수를 함수 설명에 저장하고 단순 여부, length, 표현식 포함 여부를 계산한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>info</CODE> - the function description / 함수 설명<DD><CODE>params</CODE> - the parameters / 매개변수들</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="finishFunction(org.duckdns.hjow.swingwebpanel.js.ast.FunctionInfo, org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.FuncCtx, org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.Scope, org.duckdns.hjow.swingwebpanel.js.parser.Token, boolean)"><!-- --></A><H3>
+finishFunction</H3>
+<PRE>
+protected final void <B>finishFunction</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/FunctionInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">FunctionInfo</A>&nbsp;info,
+                                    org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.FuncCtx&nbsp;ctx,
+                                    org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.Scope&nbsp;fs,
+                                    <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;nameTok,
+                                    boolean&nbsp;wasStrict)</PRE>
+<DL>
+<DD>Completes a function: strict mode checks that depend on the body, duplicate parameters, hoisting and scope description.
+ <p>
+ 함수를 마무리한다: 본문에 따라 달라지는 엄격 모드 검사, 중복 매개변수, 끌어올림, 스코프 설명.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>info</CODE> - the function description / 함수 설명<DD><CODE>ctx</CODE> - the function context / 함수 문맥<DD><CODE>fs</CODE> - the function scope / 함수 스코프<DD><CODE>nameTok</CODE> - the function name token or null / 함수 이름 토큰 또는 null<DD><CODE>wasStrict</CODE> - true if the context was already strict before the body / 본문 전에 이미 엄격했으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseMethodFunction(org.duckdns.hjow.swingwebpanel.js.parser.Token, org.duckdns.hjow.swingwebpanel.js.ast.Node, boolean, boolean, boolean, boolean, boolean, boolean)"><!-- --></A><H3>
+parseMethodFunction</H3>
+<PRE>
+protected final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>parseMethodFunction</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;start,
+                                         <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A>&nbsp;member,
+                                         boolean&nbsp;generator,
+                                         boolean&nbsp;getter,
+                                         boolean&nbsp;setter,
+                                         boolean&nbsp;classCtor,
+                                         boolean&nbsp;derived,
+                                         boolean&nbsp;async)</PRE>
+<DL>
+<DD>Parses a method (object literal method, accessor, generator method or class method) from the opening parenthesis.
+ <p>
+ 메서드(객체 리터럴 메서드, 접근자, 제너레이터 메서드, 클래스 메서드)를 여는 괄호부터 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>start</CODE> - the first token of the member / 멤버의 첫 토큰<DD><CODE>member</CODE> - the PROPERTY or CLASS_MEMBER node (its key a is already set) / PROPERTY 또는 CLASS_MEMBER 노드(키 a 는 이미 설정됨)<DD><CODE>generator</CODE> - true for generator methods / 제너레이터 메서드이면 true<DD><CODE>getter</CODE> - true for getters / getter 이면 true<DD><CODE>setter</CODE> - true for setters / setter 이면 true<DD><CODE>classCtor</CODE> - true for the class constructor / 클래스 생성자이면 true<DD><CODE>derived</CODE> - true if the class has an extends clause / 클래스에 extends 가 있으면 true
+<DT><B>Returns:</B><DD>the FUNCTION node / FUNCTION 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseClass(boolean, boolean)"><!-- --></A><H3>
+parseClass</H3>
+<PRE>
+protected final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>parseClass</B>(boolean&nbsp;declaration,
+                                boolean&nbsp;allowAnonymous)</PRE>
+<DL>
+<DD>Parses a class expression or declaration.
+ <p>
+ 클래스 표현식 또는 선언을 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>declaration</CODE> - true for declarations (a name is required unless allowed) / 선언이면 true(허용되지 않으면 이름 필수)<DD><CODE>allowAnonymous</CODE> - true if an anonymous class declaration is allowed (export default) / 익명 클래스 선언을 허용하면 true(export default)
+<DT><B>Returns:</B><DD>the CLASS node / CLASS 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="next()"><!-- --></A><H3>
+next</H3>
+<PRE>
+protected void <B>next</B>()</PRE>
+<DL>
+<DD>Consumes the current token and reads the next one.
+ <p>
+ 현재 토큰을 소비하고 다음 토큰을 읽는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="peek()"><!-- --></A><H3>
+peek</H3>
+<PRE>
+protected <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A> <B>peek</B>()</PRE>
+<DL>
+<DD>Returns the token after the current one without consuming anything.
+ <p>
+ 아무것도 소비하지 않고 현재 토큰 다음 토큰을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the following token / 다음 토큰</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="peek(int)"><!-- --></A><H3>
+peek</H3>
+<PRE>
+protected <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A> <B>peek</B>(int&nbsp;distance)</PRE>
+<DL>
+<DD>Returns a token a selected distance ahead without consuming anything.
+ <p>
+ 지정한 거리 앞의 토큰을 소비하지 않고 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>distance</CODE> - number of tokens after the current token (at least 1) / 현재 토큰 뒤 거리(1 이상)
+<DT><B>Returns:</B><DD>the lookahead token / 미리 본 토큰</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isP(java.lang.String)"><!-- --></A><H3>
+isP</H3>
+<PRE>
+protected final boolean <B>isP</B>(java.lang.String&nbsp;p)</PRE>
+<DL>
+<DD>Tests whether the current token is the given punctuator.
+ <p>
+ 현재 토큰이 주어진 구두점인지 검사한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>p</CODE> - the punctuator / 구두점
+<DT><B>Returns:</B><DD>true if it matches / 같으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isN(java.lang.String)"><!-- --></A><H3>
+isN</H3>
+<PRE>
+protected final boolean <B>isN</B>(java.lang.String&nbsp;kw)</PRE>
+<DL>
+<DD>Tests whether the current token is the given unescaped keyword.
+ <p>
+ 현재 토큰이 주어진 이스케이프 없는 키워드인지 검사한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>kw</CODE> - the keyword / 키워드
+<DT><B>Returns:</B><DD>true if it matches / 같으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="eatP(java.lang.String)"><!-- --></A><H3>
+eatP</H3>
+<PRE>
+protected final boolean <B>eatP</B>(java.lang.String&nbsp;p)</PRE>
+<DL>
+<DD>Consumes the punctuator if it is the current token.
+ <p>
+ 현재 토큰이 그 구두점이면 소비한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>p</CODE> - the punctuator / 구두점
+<DT><B>Returns:</B><DD>true if consumed / 소비했으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="expectP(java.lang.String)"><!-- --></A><H3>
+expectP</H3>
+<PRE>
+protected final void <B>expectP</B>(java.lang.String&nbsp;p)</PRE>
+<DL>
+<DD>Consumes the punctuator or fails.
+ <p>
+ 그 구두점을 소비하거나 오류를 낸다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>p</CODE> - the punctuator / 구두점</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="expectN(java.lang.String)"><!-- --></A><H3>
+expectN</H3>
+<PRE>
+protected final void <B>expectN</B>(java.lang.String&nbsp;kw)</PRE>
+<DL>
+<DD>Consumes the keyword or fails.
+ <p>
+ 그 키워드를 소비하거나 오류를 낸다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>kw</CODE> - the keyword / 키워드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="consumeSemicolon()"><!-- --></A><H3>
+consumeSemicolon</H3>
+<PRE>
+protected final void <B>consumeSemicolon</B>()</PRE>
+<DL>
+<DD>Implements automatic semicolon insertion: a semicolon, a closing brace, the end of input or a preceding line terminator
+ ends the statement.
+ <p>
+ 자동 세미콜론 삽입을 구현한다: 세미콜론, 닫는 중괄호, 입력의 끝, 앞선 줄 끝이 있으면 문장이 끝난다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="unexpected(org.duckdns.hjow.swingwebpanel.js.parser.Token)"><!-- --></A><H3>
+unexpected</H3>
+<PRE>
+protected final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A> <B>unexpected</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t)</PRE>
+<DL>
+<DD>Creates the "Unexpected ..." error for a token.
+ <p>
+ 토큰에 대한 "Unexpected ..." 오류를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - the token / 토큰
+<DT><B>Returns:</B><DD>the exception to throw / 던질 예외</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="error(java.lang.String, org.duckdns.hjow.swingwebpanel.js.parser.Token)"><!-- --></A><H3>
+error</H3>
+<PRE>
+protected final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A> <B>error</B>(java.lang.String&nbsp;msg,
+                                  <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t)</PRE>
+<DL>
+<DD>Creates a SyntaxError at a token.
+ <p>
+ 토큰 위치에 SyntaxError 를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>msg</CODE> - the message / 메시지<DD><CODE>t</CODE> - the token / 토큰
+<DT><B>Returns:</B><DD>the exception to throw / 던질 예외</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="error(java.lang.String, org.duckdns.hjow.swingwebpanel.js.ast.Node)"><!-- --></A><H3>
+error</H3>
+<PRE>
+protected final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A> <B>error</B>(java.lang.String&nbsp;msg,
+                                  <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A>&nbsp;n)</PRE>
+<DL>
+<DD>Creates a SyntaxError at a node.
+ <p>
+ 노드 위치에 SyntaxError 를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>msg</CODE> - the message / 메시지<DD><CODE>n</CODE> - the node / 노드
+<DT><B>Returns:</B><DD>the exception to throw / 던질 예외</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="error(java.lang.String)"><!-- --></A><H3>
+error</H3>
+<PRE>
+protected final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A> <B>error</B>(java.lang.String&nbsp;msg)</PRE>
+<DL>
+<DD>Creates a SyntaxError at the current token.
+ <p>
+ 현재 토큰 위치에 SyntaxError 를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>msg</CODE> - the message / 메시지
+<DT><B>Returns:</B><DD>the exception to throw / 던질 예외</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isReservedWord(java.lang.String)"><!-- --></A><H3>
+isReservedWord</H3>
+<PRE>
+protected static boolean <B>isReservedWord</B>(java.lang.String&nbsp;s)</PRE>
+<DL>
+<DD>Tests for the ES2015 reserved words that are always reserved (keywords, future reserved word enum, and the literals).
+ <p>
+ 항상 예약된 ES2015 예약어(키워드, 미래 예약어 enum, 리터럴)인지 검사한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - the identifier name / 식별자 이름
+<DT><B>Returns:</B><DD>true if reserved / 예약어이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isStrictReserved(java.lang.String)"><!-- --></A><H3>
+isStrictReserved</H3>
+<PRE>
+protected static boolean <B>isStrictReserved</B>(java.lang.String&nbsp;s)</PRE>
+<DL>
+<DD>Tests for the words reserved only in strict mode code.
+ <p>
+ 엄격 모드 코드에서만 예약된 단어인지 검사한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - the identifier name / 식별자 이름
+<DT><B>Returns:</B><DD>true if reserved in strict mode / 엄격 모드에서 예약어이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="checkBindingName(org.duckdns.hjow.swingwebpanel.js.parser.Token)"><!-- --></A><H3>
+checkBindingName</H3>
+<PRE>
+protected final void <B>checkBindingName</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t)</PRE>
+<DL>
+<DD>Validates an identifier used as a binding name (declaration, parameter, function name).
+ <p>
+ 바인딩 이름(선언, 매개변수, 함수 이름)으로 쓰인 식별자를 검증한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - the NAME token / NAME 토큰</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="checkIdentifier(org.duckdns.hjow.swingwebpanel.js.parser.Token, boolean)"><!-- --></A><H3>
+checkIdentifier</H3>
+<PRE>
+protected final void <B>checkIdentifier</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t,
+                                     boolean&nbsp;binding)</PRE>
+<DL>
+<DD>Validates an identifier used as a reference or binding.
+ <p>
+ 참조나 바인딩으로 쓰인 식별자를 검증한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - the NAME token / NAME 토큰<DD><CODE>binding</CODE> - true for bindings (eval and arguments are then forbidden in strict code) / 바인딩이면 true(엄격 코드에서 eval, arguments 금지)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mk(int, org.duckdns.hjow.swingwebpanel.js.parser.Token)"><!-- --></A><H3>
+mk</H3>
+<PRE>
+protected final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>mk</B>(int&nbsp;type,
+                        <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t)</PRE>
+<DL>
+<DD>Creates a node positioned at a token.
+ <p>
+ 토큰 위치에 노드를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - the node type / 노드 종류<DD><CODE>t</CODE> - the first token / 첫 토큰
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="done(org.duckdns.hjow.swingwebpanel.js.ast.Node)"><!-- --></A><H3>
+done</H3>
+<PRE>
+protected final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A> <B>done</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A>&nbsp;n)</PRE>
+<DL>
+<DD>Completes a node: sets its end offset and propagates the yield flag from its children.
+ <p>
+ 노드를 마무리한다: 끝 오프셋을 정하고 자식의 yield 플래그를 전파한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>n</CODE> - the node / 노드
+<DT><B>Returns:</B><DD>the same node / 같은 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="pushScope(int)"><!-- --></A><H3>
+pushScope</H3>
+<PRE>
+protected final org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.Scope <B>pushScope</B>(int&nbsp;kind)</PRE>
+<DL>
+<DD>Opens a scope.
+ <p>
+ 스코프를 연다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>kind</CODE> - the scope kind / 스코프 종류
+<DT><B>Returns:</B><DD>the new scope / 새 스코프</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="popScope()"><!-- --></A><H3>
+popScope</H3>
+<PRE>
+protected final org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.Scope <B>popScope</B>()</PRE>
+<DL>
+<DD>Closes the current scope and returns it.
+ <p>
+ 현재 스코프를 닫고 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the closed scope / 닫은 스코프</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="redeclared(java.lang.String, org.duckdns.hjow.swingwebpanel.js.parser.Token)"><!-- --></A><H3>
+redeclared</H3>
+<PRE>
+protected final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A> <B>redeclared</B>(java.lang.String&nbsp;name,
+                                       <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t)</PRE>
+<DL>
+<DD>Creates the redeclaration error.
+ <p>
+ 재선언 오류를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the name / 이름<DD><CODE>t</CODE> - the token / 토큰
+<DT><B>Returns:</B><DD>the exception to throw / 던질 예외</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="declareVar(java.lang.String, org.duckdns.hjow.swingwebpanel.js.parser.Token)"><!-- --></A><H3>
+declareVar</H3>
+<PRE>
+protected final void <B>declareVar</B>(java.lang.String&nbsp;name,
+                                <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t)</PRE>
+<DL>
+<DD>Declares a var name in the current scope chain up to the enclosing function scope.
+ <p>
+ var 이름을 현재 스코프에서 바깥 함수 스코프까지 선언한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the name / 이름<DD><CODE>t</CODE> - the token for errors / 오류 위치 토큰</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="declareLexical(java.lang.String, boolean, org.duckdns.hjow.swingwebpanel.js.parser.Token)"><!-- --></A><H3>
+declareLexical</H3>
+<PRE>
+protected final void <B>declareLexical</B>(java.lang.String&nbsp;name,
+                                    boolean&nbsp;isConst,
+                                    <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t)</PRE>
+<DL>
+<DD>Declares a let, const or class name in the current scope.
+ <p>
+ let, const, class 이름을 현재 스코프에 선언한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the name / 이름<DD><CODE>isConst</CODE> - true for const and imports / const 와 import 이면 true<DD><CODE>t</CODE> - the token for errors / 오류 위치 토큰</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="declareFunction(java.lang.String, org.duckdns.hjow.swingwebpanel.js.ast.Node, org.duckdns.hjow.swingwebpanel.js.parser.Token)"><!-- --></A><H3>
+declareFunction</H3>
+<PRE>
+protected final void <B>declareFunction</B>(java.lang.String&nbsp;name,
+                                     <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A>&nbsp;decl,
+                                     <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t)</PRE>
+<DL>
+<DD>Declares a function declaration name: var-like at the top level of functions and scripts, lexical in blocks and at the
+ top level of modules. Sloppy mode allows duplicate function declarations in a block (Annex B.3.3.4).
+ <p>
+ 함수 선언 이름을 선언한다: 함수와 스크립트의 최상위에서는 var 처럼, 블록과 모듈 최상위에서는 렉시컬로 선언한다.
+ 느슨한 모드에서는 블록 안의 중복 함수 선언을 허용한다(부속서 B.3.3.4).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the name / 이름<DD><CODE>decl</CODE> - the FUNCTION_DECL node / FUNCTION_DECL 노드<DD><CODE>t</CODE> - the token for errors / 오류 위치 토큰</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="resolveCandidates(org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.Scope)"><!-- --></A><H3>
+resolveCandidates</H3>
+<PRE>
+protected final void <B>resolveCandidates</B>(org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.Scope&nbsp;s)</PRE>
+<DL>
+<DD>Resolves the Annex B hoisting candidates of a function scope: a block function is also a var if that would not cause
+ an early error and the name is not a parameter.
+ <p>
+ 함수 스코프의 부속서 B 끌어올림 후보를 확정한다: 조기 오류가 생기지 않고 매개변수 이름이 아니면 블록 함수는 var 도 된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - the function-level scope that is being closed / 닫는 함수 수준 스코프</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toInfo(org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.Scope)"><!-- --></A><H3>
+toInfo</H3>
+<PRE>
+protected final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/ScopeInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">ScopeInfo</A> <B>toInfo</B>(org.duckdns.hjow.swingwebpanel.js.parser.ParserBase.Scope&nbsp;s)</PRE>
+<DL>
+<DD>Converts the parse-time scope into the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/ScopeInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>ScopeInfo</CODE></A> for the interpreter.
+ <p>
+ 파싱 중 스코프를 인터프리터용 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/ScopeInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>ScopeInfo</CODE></A> 로 변환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - the scope / 스코프
+<DT><B>Returns:</B><DD>the description / 설명</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="initInfo(org.duckdns.hjow.swingwebpanel.js.ast.FunctionInfo)"><!-- --></A><H3>
+initInfo</H3>
+<PRE>
+protected final void <B>initInfo</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/FunctionInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">FunctionInfo</A>&nbsp;info)</PRE>
+<DL>
+<DD>Fills the shared fields of a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/FunctionInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>FunctionInfo</CODE></A>.
+ <p>
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/FunctionInfo.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast"><CODE>FunctionInfo</CODE></A> 의 공통 필드를 채운다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>info</CODE> - the function description / 함수 설명</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="boundNames(org.duckdns.hjow.swingwebpanel.js.ast.Node, java.util.List)"><!-- --></A><H3>
+boundNames</H3>
+<PRE>
+protected final void <B>boundNames</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ast/Node.html" title="class in org.duckdns.hjow.swingwebpanel.js.ast">Node</A>&nbsp;n,
+                                java.util.List&lt;java.lang.String&gt;&nbsp;out)</PRE>
+<DL>
+<DD>Collects the names bound by a binding pattern or identifier node.
+ <p>
+ 바인딩 패턴이나 식별자 노드가 묶는 이름들을 모은다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>n</CODE> - the pattern / 패턴<DD><CODE>out</CODE> - receives the names / 이름을 받는다</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.State.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Parser.EvalOptions.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/parser/Parser.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Parser.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

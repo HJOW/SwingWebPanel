@@ -1,0 +1,753 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+PageView
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="PageView";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.Host.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/PageView.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PageView.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.core</FONT>
+<BR>
+Class PageView</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.core.PageView</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>PageView</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Connects a session's DOM/CSS/layout to Swing. DOM reads and rebuilding run on the session's document thread; only immutable
+ drawing commands and dimensions cross to the EDT. Page identity is checked again before painting or delivering a callback.
+ Viewport and DOM changes are coalesced, and equal viewport sizes do not schedule another layout (P09-07).
+ <p>
+ 세션의 DOM·CSS·배치를 Swing에 연결한다. DOM 접근과 재배치는 문서 스레드에서, 불변 그림 명령과 크기의 게시 및 그리기는 EDT에서 처리한다.
+ 그리기와 통지 전에도 페이지 동일성을 확인한다. 뷰포트·DOM 변경은 합치며 같은 뷰포트 크기는 재배치를 예약하지 않는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.Host.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageView.Host</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EDT notification supplied by the Swing host. / Swing 호스트가 제공하는 EDT 통지.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.HostWithScriptLimits.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageView.HostWithScriptLimits</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Optional script time policy supplied by the Swing host. / Swing 호스트가 선택적으로 제공하는 스크립트 시간 정책.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html#PageView(org.duckdns.hjow.swingwebpanel.core.BrowserSession, org.duckdns.hjow.swingwebpanel.core.ViewMetrics, org.duckdns.hjow.swingwebpanel.core.PageView.Host)">PageView</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" title="class in org.duckdns.hjow.swingwebpanel.core">BrowserSession</A>&nbsp;session,
+         <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ViewMetrics.html" title="class in org.duckdns.hjow.swingwebpanel.core">ViewMetrics</A>&nbsp;metrics,
+         <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.Host.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageView.Host</A>&nbsp;host)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a view without starting threads of its own.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html#PageView(org.duckdns.hjow.swingwebpanel.core.BrowserSession, org.duckdns.hjow.swingwebpanel.core.ViewMetrics, org.duckdns.hjow.swingwebpanel.core.PageView.Host, org.duckdns.hjow.swingwebpanel.net.ResourceFetcher, org.duckdns.hjow.swingwebpanel.net.CookieStore)">PageView</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" title="class in org.duckdns.hjow.swingwebpanel.core">BrowserSession</A>&nbsp;session,
+         <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ViewMetrics.html" title="class in org.duckdns.hjow.swingwebpanel.core">ViewMetrics</A>&nbsp;metrics,
+         <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.Host.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageView.Host</A>&nbsp;host,
+         <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceFetcher.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceFetcher</A>&nbsp;fetcher,
+         <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CookieStore.html" title="class in org.duckdns.hjow.swingwebpanel.net">CookieStore</A>&nbsp;cookies)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a view using the same policies, SSL hook and cookies as main-document requests.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html#clear()">clear</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Invalidates the current drawing immediately and drops page observers on the document queue.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html#dispose()">dispose</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stops this view permanently; repeated calls are safe. / 이 뷰를 영구 중지하며 반복 호출은 안전하다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.playback">AudioOutputFactory</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html#getAudioOutputFactory()">getAudioOutputFactory</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the factory of the sound outputs of the media elements, or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/FontDefaults.html" title="class in org.duckdns.hjow.swingwebpanel.core">FontDefaults</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html#getFontDefaults()">getFontDefaults</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the default fonts of the component.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html" title="class in org.duckdns.hjow.swingwebpanel.render">RenderedPage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html#getRenderedPage()">getRenderedPage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the current immutable drawing/layout snapshot for internal hosting code.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSelection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html#getSelection()">getSelection</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the selection controller of the component, or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output">OutputFactory</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html#getWebAudioOutputFactory()">getWebAudioOutputFactory</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the factory of the outputs of the real-time Web Audio contexts, or null for the system output.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html#getZoom()">getZoom</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the page zoom factor: component pixels per CSS pixel (1 for 100 percent).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html#pageConfirmed(org.duckdns.hjow.swingwebpanel.core.PageSnapshot)">pageConfirmed</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Installs the confirmed snapshot.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html#paint(java.awt.Graphics2D)">paint</A></B>(java.awt.Graphics2D&nbsp;graphics)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Paints immutable commands on the EDT in component/document coordinates.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html#setAudioOutputFactory(org.duckdns.hjow.swingwebpanel.media.playback.AudioOutputFactory)">setAudioOutputFactory</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.playback">AudioOutputFactory</A>&nbsp;factory)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the factory that opens the sound outputs of the media elements of the pages that this view shows (null for none: the elements then
+ fail to play).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html#setControlOverlays(org.duckdns.hjow.swingwebpanel.core.ControlOverlays)">setControlOverlays</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html" title="class in org.duckdns.hjow.swingwebpanel.core">ControlOverlays</A>&nbsp;overlays)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the Swing overlays (editors over text controls, validation bubbles, file chooser) that the form controls of the pages use.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html#setFontDefaults(org.duckdns.hjow.swingwebpanel.core.FontDefaults)">setFontDefaults</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/FontDefaults.html" title="class in org.duckdns.hjow.swingwebpanel.core">FontDefaults</A>&nbsp;defaults)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the default fonts of the component: the pages that are shown now (frames included) are styled and laid out again, and pages
+ that are loaded later start with the new defaults.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html#setFormSubmitSink(org.duckdns.hjow.swingwebpanel.core.FormSubmitSink)">setFormSubmitSink</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/FormSubmitSink.html" title="interface in org.duckdns.hjow.swingwebpanel.core">FormSubmitSink</A>&nbsp;sink)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the receiver of the form submissions of the pages that this view shows (the navigation of the component).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html#setSelection(org.duckdns.hjow.swingwebpanel.core.PageSelection)">setSelection</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSelection</A>&nbsp;controller)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the selection controller of the component (null for none): it paints the highlight over the page and is told about every new layout.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html#setViewport(int, int)">setViewport</A></B>(int&nbsp;w,
+            int&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Updates the viewport extent, not the possibly overflowing component size.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html#setViewportPosition(int, int)">setViewportPosition</A></B>(int&nbsp;x,
+                    int&nbsp;y)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Copies the viewport position on the EDT; the document queue never reads Swing widgets. / EDT에서 뷰포트 위치를 복사하며 문서 큐는 Swing 위젯을 읽지 않는다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html#setWebAudioOutputFactory(org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory)">setWebAudioOutputFactory</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output">OutputFactory</A>&nbsp;factory)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the factory that opens the outputs of the real-time <code>AudioContext</code> objects of the pages that this view shows (null for the system output, Java Sound).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html#setZoom(double)">setZoom</A></B>(double&nbsp;factor)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the page zoom factor.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="PageView(org.duckdns.hjow.swingwebpanel.core.BrowserSession, org.duckdns.hjow.swingwebpanel.core.ViewMetrics, org.duckdns.hjow.swingwebpanel.core.PageView.Host)"><!-- --></A><H3>
+PageView</H3>
+<PRE>
+public <B>PageView</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" title="class in org.duckdns.hjow.swingwebpanel.core">BrowserSession</A>&nbsp;session,
+                <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ViewMetrics.html" title="class in org.duckdns.hjow.swingwebpanel.core">ViewMetrics</A>&nbsp;metrics,
+                <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.Host.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageView.Host</A>&nbsp;host)</PRE>
+<DL>
+<DD>Creates a view without starting threads of its own.
+ <p>자체 스레드를 시작하지 않고 뷰를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>session</CODE> - session and document queue / 세션과 문서 큐<DD><CODE>metrics</CODE> - scroll dimensions / 스크롤 크기<DD><CODE>host</CODE> - EDT callback / EDT 콜백</DL>
+</DL>
+<HR>
+
+<A NAME="PageView(org.duckdns.hjow.swingwebpanel.core.BrowserSession, org.duckdns.hjow.swingwebpanel.core.ViewMetrics, org.duckdns.hjow.swingwebpanel.core.PageView.Host, org.duckdns.hjow.swingwebpanel.net.ResourceFetcher, org.duckdns.hjow.swingwebpanel.net.CookieStore)"><!-- --></A><H3>
+PageView</H3>
+<PRE>
+public <B>PageView</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" title="class in org.duckdns.hjow.swingwebpanel.core">BrowserSession</A>&nbsp;session,
+                <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ViewMetrics.html" title="class in org.duckdns.hjow.swingwebpanel.core">ViewMetrics</A>&nbsp;metrics,
+                <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.Host.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageView.Host</A>&nbsp;host,
+                <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceFetcher.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceFetcher</A>&nbsp;fetcher,
+                <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CookieStore.html" title="class in org.duckdns.hjow.swingwebpanel.net">CookieStore</A>&nbsp;cookies)</PRE>
+<DL>
+<DD>Creates a view using the same policies, SSL hook and cookies as main-document requests.
+ <p>주 문서 요청과 같은 정책·SSL 훅·쿠키를 사용하는 뷰를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>session</CODE> - owning session / 소유 세션<DD><CODE>metrics</CODE> - scroll metrics / 스크롤 정보<DD><CODE>host</CODE> - EDT callback / EDT 콜백<DD><CODE>fetcher</CODE> - shared resource fetcher / 공용 리소스 가져오기 객체<DD><CODE>cookies</CODE> - component cookies / 컴포넌트 쿠키</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="setAudioOutputFactory(org.duckdns.hjow.swingwebpanel.media.playback.AudioOutputFactory)"><!-- --></A><H3>
+setAudioOutputFactory</H3>
+<PRE>
+public void <B>setAudioOutputFactory</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.playback">AudioOutputFactory</A>&nbsp;factory)</PRE>
+<DL>
+<DD>Sets the factory that opens the sound outputs of the media elements of the pages that this view shows (null for none: the elements then
+ fail to play). The component sets it once, when it is created.
+ <p>
+ 이 뷰가 보여 주는 페이지의 미디어 요소를 위한 소리 출력을 여는 팩터리를 정한다(null 이면 없음. 요소는 재생에 실패한다). 컴포넌트가 만들어질 때
+ 한 번 정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>factory</CODE> - the factory or null / 팩터리 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setWebAudioOutputFactory(org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory)"><!-- --></A><H3>
+setWebAudioOutputFactory</H3>
+<PRE>
+public void <B>setWebAudioOutputFactory</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output">OutputFactory</A>&nbsp;factory)</PRE>
+<DL>
+<DD>Sets the factory that opens the outputs of the real-time <code>AudioContext</code> objects of the pages that this view shows (null for the system output, Java Sound).
+ The component sets it once, when it is created.
+ <p>
+ 이 뷰가 보여 주는 페이지의 실시간 <code>AudioContext</code> 의 출력을 여는 팩터리를 정한다(null 이면 시스템 출력, Java Sound). 컴포넌트가 만들어질 때 한 번 정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>factory</CODE> - the factory or null / 팩터리 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setControlOverlays(org.duckdns.hjow.swingwebpanel.core.ControlOverlays)"><!-- --></A><H3>
+setControlOverlays</H3>
+<PRE>
+public void <B>setControlOverlays</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html" title="class in org.duckdns.hjow.swingwebpanel.core">ControlOverlays</A>&nbsp;overlays)</PRE>
+<DL>
+<DD>Sets the Swing overlays (editors over text controls, validation bubbles, file chooser) that the form controls of the pages use. The
+ component sets them once, when it is created; without them the form controls have no editors and no dialogs.
+ <p>
+ 페이지의 폼 컨트롤이 쓰는 Swing 오버레이(텍스트 컨트롤 위의 편집기, 검증 말풍선, 파일 선택기)를 정한다. 컴포넌트가 만들어질 때 한 번 정한다. 없으면 폼
+ 컨트롤에 편집기와 대화상자가 없다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>overlays</CODE> - the overlays or null / 오버레이 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setFormSubmitSink(org.duckdns.hjow.swingwebpanel.core.FormSubmitSink)"><!-- --></A><H3>
+setFormSubmitSink</H3>
+<PRE>
+public void <B>setFormSubmitSink</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/FormSubmitSink.html" title="interface in org.duckdns.hjow.swingwebpanel.core">FormSubmitSink</A>&nbsp;sink)</PRE>
+<DL>
+<DD>Sets the receiver of the form submissions of the pages that this view shows (the navigation of the component).
+ <p>
+ 이 뷰가 보여 주는 페이지의 폼 제출을 받는 쪽(컴포넌트의 이동)을 정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>sink</CODE> - the receiver or null / 받는 쪽 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getAudioOutputFactory()"><!-- --></A><H3>
+getAudioOutputFactory</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.playback">AudioOutputFactory</A> <B>getAudioOutputFactory</B>()</PRE>
+<DL>
+<DD>Returns the factory of the sound outputs of the media elements, or null.
+ <p>
+ 미디어 요소의 소리 출력 팩터리를 반환한다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the factory or null / 팩터리 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getWebAudioOutputFactory()"><!-- --></A><H3>
+getWebAudioOutputFactory</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output">OutputFactory</A> <B>getWebAudioOutputFactory</B>()</PRE>
+<DL>
+<DD>Returns the factory of the outputs of the real-time Web Audio contexts, or null for the system output.
+ <p>
+ 실시간 Web Audio 컨텍스트의 출력 팩터리를 반환한다. 시스템 출력이면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the factory or null / 팩터리 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="pageConfirmed(org.duckdns.hjow.swingwebpanel.core.PageSnapshot)"><!-- --></A><H3>
+pageConfirmed</H3>
+<PRE>
+public void <B>pageConfirmed</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A>&nbsp;snapshot)</PRE>
+<DL>
+<DD>Installs the confirmed snapshot. Delayed notifications for replaced pages are ignored. Call on the EDT.
+ <p>확정된 스냅샷을 설치한다. 이미 교체된 페이지의 늦은 통지는 무시한다. EDT에서 호출한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>snapshot</CODE> - confirmed page / 확정된 페이지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setViewportPosition(int, int)"><!-- --></A><H3>
+setViewportPosition</H3>
+<PRE>
+public void <B>setViewportPosition</B>(int&nbsp;x,
+                                int&nbsp;y)</PRE>
+<DL>
+<DD>Copies the viewport position on the EDT; the document queue never reads Swing widgets. / EDT에서 뷰포트 위치를 복사하며 문서 큐는 Swing 위젯을 읽지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - horizontal scroll / 가로 스크롤<DD><CODE>y</CODE> - vertical scroll / 세로 스크롤</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFontDefaults()"><!-- --></A><H3>
+getFontDefaults</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/FontDefaults.html" title="class in org.duckdns.hjow.swingwebpanel.core">FontDefaults</A> <B>getFontDefaults</B>()</PRE>
+<DL>
+<DD>Returns the default fonts of the component.
+ <p>
+ 컴포넌트의 기본 글꼴을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the defaults; never null / 기본값. null 이 아니다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setFontDefaults(org.duckdns.hjow.swingwebpanel.core.FontDefaults)"><!-- --></A><H3>
+setFontDefaults</H3>
+<PRE>
+public void <B>setFontDefaults</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/FontDefaults.html" title="class in org.duckdns.hjow.swingwebpanel.core">FontDefaults</A>&nbsp;defaults)</PRE>
+<DL>
+<DD>Sets the default fonts of the component: the pages that are shown now (frames included) are styled and laid out again, and pages
+ that are loaded later start with the new defaults.
+ <p>
+ 컴포넌트의 기본 글꼴을 정한다: 지금 보이는 페이지(프레임 포함)의 스타일과 배치를 다시 계산하고, 나중에 읽는 페이지는 새 기본값으로 시작한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>defaults</CODE> - the defaults, null for the built-in ones / 기본값. 내장 기본값이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setViewport(int, int)"><!-- --></A><H3>
+setViewport</H3>
+<PRE>
+public void <B>setViewport</B>(int&nbsp;w,
+                        int&nbsp;h)</PRE>
+<DL>
+<DD>Updates the viewport extent, not the possibly overflowing component size. Equal sizes do no work.
+ <p>넘칠 수 있는 컴포넌트 크기가 아닌 뷰포트 범위를 갱신한다. 같은 크기면 작업하지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>w</CODE> - viewport width; nonpositive values keep the previous width / 뷰포트 폭. 0 이하는 이전 값 유지<DD><CODE>h</CODE> - viewport height; nonpositive values keep the previous height / 뷰포트 높이. 0 이하는 이전 값 유지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getZoom()"><!-- --></A><H3>
+getZoom</H3>
+<PRE>
+public double <B>getZoom</B>()</PRE>
+<DL>
+<DD>Returns the page zoom factor: component pixels per CSS pixel (1 for 100 percent).
+ <p>
+ 페이지 확대 배율을 반환한다: CSS 픽셀 하나당 컴포넌트 픽셀 수(1 이면 100 %).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the factor / 배율</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setZoom(double)"><!-- --></A><H3>
+setZoom</H3>
+<PRE>
+public void <B>setZoom</B>(double&nbsp;factor)</PRE>
+<DL>
+<DD>Sets the page zoom factor. The layout works in CSS pixels, so the CSS viewport (extent divided by the factor) and the scroll position
+ in CSS pixels are computed again, and a layout is scheduled if the viewport changed; painting, hit testing and the scroll size use the
+ factor from now on. Call it on the event dispatch thread.
+ <p>
+ 페이지 확대 배율을 정한다. 레이아웃은 CSS 픽셀로 일하므로 CSS 뷰포트(크기를 배율로 나눈 값)와 CSS 픽셀 스크롤 위치를 다시 계산하고, 뷰포트가 바뀌었으면
+ 재배치를 예약한다. 그리기, 좌표 조회, 스크롤 크기는 이제부터 배율을 쓴다. 이벤트 디스패치 스레드에서 호출한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>factor</CODE> - the factor, a finite positive number / 배율. 유한한 양수
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - for NaN, infinite or not positive numbers / NaN, 무한, 양수가 아닌 수일 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setSelection(org.duckdns.hjow.swingwebpanel.core.PageSelection)"><!-- --></A><H3>
+setSelection</H3>
+<PRE>
+public void <B>setSelection</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSelection</A>&nbsp;controller)</PRE>
+<DL>
+<DD>Sets the selection controller of the component (null for none): it paints the highlight over the page and is told about every new layout.
+ <p>
+ 컴포넌트의 선택 제어기를 정한다(없으면 null). 페이지 위에 강조를 그리고 새 레이아웃을 알게 된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>controller</CODE> - the controller or null / 제어기. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSelection()"><!-- --></A><H3>
+getSelection</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSelection</A> <B>getSelection</B>()</PRE>
+<DL>
+<DD>Returns the selection controller of the component, or null.
+ <p>
+ 컴포넌트의 선택 제어기를 반환한다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the controller or null / 제어기. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRenderedPage()"><!-- --></A><H3>
+getRenderedPage</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html" title="class in org.duckdns.hjow.swingwebpanel.render">RenderedPage</A> <B>getRenderedPage</B>()</PRE>
+<DL>
+<DD>Returns the current immutable drawing/layout snapshot for internal hosting code. DOM-linked hit testing must still
+ run on the document thread. A superseded or unfinished page returns null.
+ <p>내부 호스트용 현재 불변 그림·배치 스냅샷을 반환한다. DOM과 연결된 좌표 조회는 문서 스레드에서 수행한다. 교체되거나 미완성이면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>rendered snapshot or null / 렌더링 스냅샷 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="paint(java.awt.Graphics2D)"><!-- --></A><H3>
+paint</H3>
+<PRE>
+public void <B>paint</B>(java.awt.Graphics2D&nbsp;graphics)</PRE>
+<DL>
+<DD>Paints immutable commands on the EDT in component/document coordinates. JScrollPane supplies scrolling by translating
+ the component, so no second scroll translation is applied here. The caller owns the graphics context.
+ <p>EDT에서 컴포넌트·문서 좌표의 불변 명령을 그린다. JScrollPane이 컴포넌트를 옮기므로 추가 스크롤 변환은 하지 않는다. 그래픽스는 호출자가 소유한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>graphics</CODE> - graphics context / 그래픽스 컨텍스트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="clear()"><!-- --></A><H3>
+clear</H3>
+<PRE>
+public void <B>clear</B>()</PRE>
+<DL>
+<DD>Invalidates the current drawing immediately and drops page observers on the document queue. It is safe from any thread.
+ <p>현재 그림을 즉시 무효화하고 문서 큐에서 페이지 관찰자를 해제한다. 어느 스레드에서나 안전하다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispose()"><!-- --></A><H3>
+dispose</H3>
+<PRE>
+public void <B>dispose</B>()</PRE>
+<DL>
+<DD>Stops this view permanently; repeated calls are safe. / 이 뷰를 영구 중지하며 반복 호출은 안전하다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.Host.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/PageView.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PageView.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

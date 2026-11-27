@@ -1,0 +1,628 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ConsoleRecord
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ConsoleRecord";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleHook.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.Kind.html" title="enum in org.duckdns.hjow.swingwebpanel.js"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ConsoleRecord.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js</FONT>
+<BR>
+Class ConsoleRecord</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.ConsoleRecord</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ConsoleRecord</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+One message of the script's <code>console</code> object, or one diagnostic that the host reports on behalf of the script (an uncaught
+ exception, an unhandled promise rejection, a dialog function). It is immutable and holds only Java strings and numbers, never a
+ reference to a script object, so a host may keep it and hand it to another thread. A host that wants the structured form implements
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecordHook.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><CODE>ConsoleRecordHook</CODE></A>; every other <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleHook.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><CODE>ConsoleHook</CODE></A> receives <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#getText()"><CODE>getText()</CODE></A> and <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#getLegacyLevel()"><CODE>getLegacyLevel()</CODE></A> as before.
+ <p>
+ 스크립트의 <code>console</code> 객체의 메시지 하나, 또는 호스트가 스크립트를 대신해 보고하는 진단 하나(잡히지 않은 예외, 처리되지 않은
+ promise 거부, 대화 상자 함수). 불변이며 Java 문자열과 숫자만 가지고 스크립트 객체를 참조하지 않으므로 호스트가 보관하거나 다른 스레드에
+ 넘겨도 된다. 구조화된 형태가 필요한 호스트는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecordHook.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><CODE>ConsoleRecordHook</CODE></A> 을 구현하고, 다른 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleHook.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><CODE>ConsoleHook</CODE></A> 은 지금까지처럼
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#getText()"><CODE>getText()</CODE></A> 와 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#getLegacyLevel()"><CODE>getLegacyLevel()</CODE></A> 을 받는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.Kind.html" title="enum in org.duckdns.hjow.swingwebpanel.js">ConsoleRecord.Kind</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;What produced a record.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html" title="class in org.duckdns.hjow.swingwebpanel.js">ConsoleRecord</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#call(java.lang.String, java.lang.String, java.lang.String, java.util.List, java.lang.String, int, int, int)">call</A></B>(java.lang.String&nbsp;method,
+     java.lang.String&nbsp;level,
+     java.lang.String&nbsp;text,
+     java.util.List&lt;java.lang.String&gt;&nbsp;arguments,
+     java.lang.String&nbsp;sourceName,
+     int&nbsp;line,
+     int&nbsp;column,
+     int&nbsp;groupDepth)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the record of a console method call.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#deliver(org.duckdns.hjow.swingwebpanel.js.ConsoleHook, org.duckdns.hjow.swingwebpanel.js.ConsoleRecord)">deliver</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleHook.html" title="interface in org.duckdns.hjow.swingwebpanel.js">ConsoleHook</A>&nbsp;hook,
+        <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html" title="class in org.duckdns.hjow.swingwebpanel.js">ConsoleRecord</A>&nbsp;record)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sends a record to a hook: through <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecordHook.html#record(org.duckdns.hjow.swingwebpanel.js.ConsoleRecord)"><CODE>ConsoleRecordHook.record(ConsoleRecord)</CODE></A> when the hook understands records, otherwise
+ through <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleHook.html#message(java.lang.String, java.lang.String)"><CODE>ConsoleHook.message(String, String)</CODE></A> with <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#getLegacyLevel()"><CODE>getLegacyLevel()</CODE></A> and <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#getText()"><CODE>getText()</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html" title="class in org.duckdns.hjow.swingwebpanel.js">ConsoleRecord</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#dialog(java.lang.String, java.lang.String, java.lang.String, int, int)">dialog</A></B>(java.lang.String&nbsp;method,
+       java.lang.String&nbsp;message,
+       java.lang.String&nbsp;sourceName,
+       int&nbsp;line,
+       int&nbsp;column)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the record of a dialog function call; its level is <code>info</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#getArguments()">getArguments</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the texts of the arguments of the call, each as the console prints it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#getColumn()">getColumn</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the 1-based column of the call, or 0 when it is not known.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#getGroupDepth()">getGroupDepth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of <code>console.group</code> levels that were open when the record was made.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.Kind.html" title="enum in org.duckdns.hjow.swingwebpanel.js">ConsoleRecord.Kind</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#getKind()">getKind</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the kind.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#getLegacyLevel()">getLegacyLevel</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the level that the plain <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleHook.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><CODE>ConsoleHook</CODE></A> always got: the level, except for the dialog functions whose name
+ (<code>alert</code>, <code>confirm</code>, <code>prompt</code>) was passed in its place.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#getLevel()">getLevel</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the level: <code>log</code>, <code>info</code>, <code>warn</code>, <code>error</code> or <code>debug</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#getLine()">getLine</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the 1-based line of the call, or 0 when it is not known.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#getMethod()">getMethod</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the name of the console method or dialog function, or the empty string for a report of the host.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#getSourceName()">getSourceName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the name (URL) of the script that made the call, or the empty string when it is not known.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#getText()">getText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the message text (after the Formatter operation, indented by the open groups).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html" title="class in org.duckdns.hjow.swingwebpanel.js">ConsoleRecord</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#report(org.duckdns.hjow.swingwebpanel.js.ConsoleRecord.Kind, java.lang.String, java.lang.String, int, int)">report</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.Kind.html" title="enum in org.duckdns.hjow.swingwebpanel.js">ConsoleRecord.Kind</A>&nbsp;kind,
+       java.lang.String&nbsp;text,
+       java.lang.String&nbsp;sourceName,
+       int&nbsp;line,
+       int&nbsp;column)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the record of a problem that the host reports (not a console call): level <code>error</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#toString()">toString</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a short description for logs.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="call(java.lang.String, java.lang.String, java.lang.String, java.util.List, java.lang.String, int, int, int)"><!-- --></A><H3>
+call</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html" title="class in org.duckdns.hjow.swingwebpanel.js">ConsoleRecord</A> <B>call</B>(java.lang.String&nbsp;method,
+                                 java.lang.String&nbsp;level,
+                                 java.lang.String&nbsp;text,
+                                 java.util.List&lt;java.lang.String&gt;&nbsp;arguments,
+                                 java.lang.String&nbsp;sourceName,
+                                 int&nbsp;line,
+                                 int&nbsp;column,
+                                 int&nbsp;groupDepth)</PRE>
+<DL>
+<DD>Creates the record of a console method call.
+ <p>
+ 콘솔 메서드 호출의 기록을 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>method</CODE> - the method name, for example <code>log</code> / 메서드 이름. 예: <code>log</code><DD><CODE>level</CODE> - the level / 수준<DD><CODE>text</CODE> - the formatted, indented text / 서식과 들여쓰기를 마친 문자열<DD><CODE>arguments</CODE> - the texts of the arguments / 인수의 문자열<DD><CODE>sourceName</CODE> - the script name or null / 스크립트 이름 또는 null<DD><CODE>line</CODE> - the line or 0 / 줄 또는 0<DD><CODE>column</CODE> - the column or 0 / 열 또는 0<DD><CODE>groupDepth</CODE> - the open group levels / 열린 그룹 단계 수
+<DT><B>Returns:</B><DD>the record / 기록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dialog(java.lang.String, java.lang.String, java.lang.String, int, int)"><!-- --></A><H3>
+dialog</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html" title="class in org.duckdns.hjow.swingwebpanel.js">ConsoleRecord</A> <B>dialog</B>(java.lang.String&nbsp;method,
+                                   java.lang.String&nbsp;message,
+                                   java.lang.String&nbsp;sourceName,
+                                   int&nbsp;line,
+                                   int&nbsp;column)</PRE>
+<DL>
+<DD>Creates the record of a dialog function call; its level is <code>info</code>.
+ <p>
+ 대화 상자 함수 호출의 기록을 만든다. 수준은 <code>info</code> 이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>method</CODE> - <code>alert</code>, <code>confirm</code> or <code>prompt</code> / <code>alert</code>, <code>confirm</code>, <code>prompt</code><DD><CODE>message</CODE> - the message the script passed / 스크립트가 넘긴 메시지<DD><CODE>sourceName</CODE> - the script name or null / 스크립트 이름 또는 null<DD><CODE>line</CODE> - the line or 0 / 줄 또는 0<DD><CODE>column</CODE> - the column or 0 / 열 또는 0
+<DT><B>Returns:</B><DD>the record / 기록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="report(org.duckdns.hjow.swingwebpanel.js.ConsoleRecord.Kind, java.lang.String, java.lang.String, int, int)"><!-- --></A><H3>
+report</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html" title="class in org.duckdns.hjow.swingwebpanel.js">ConsoleRecord</A> <B>report</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.Kind.html" title="enum in org.duckdns.hjow.swingwebpanel.js">ConsoleRecord.Kind</A>&nbsp;kind,
+                                   java.lang.String&nbsp;text,
+                                   java.lang.String&nbsp;sourceName,
+                                   int&nbsp;line,
+                                   int&nbsp;column)</PRE>
+<DL>
+<DD>Creates the record of a problem that the host reports (not a console call): level <code>error</code>.
+ <p>
+ 호스트가 보고하는 문제(콘솔 호출이 아님)의 기록을 만든다. 수준은 <code>error</code> 이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>kind</CODE> - the kind, not <code>CALL</code> or <code>DIALOG</code> / 종류(<code>CALL</code>, <code>DIALOG</code> 가 아님)<DD><CODE>text</CODE> - the message / 메시지<DD><CODE>sourceName</CODE> - the script name or null / 스크립트 이름 또는 null<DD><CODE>line</CODE> - the line or 0 / 줄 또는 0<DD><CODE>column</CODE> - the column or 0 / 열 또는 0
+<DT><B>Returns:</B><DD>the record / 기록
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the kind is null, <code>CALL</code> or <code>DIALOG</code> / 종류가 null, <code>CALL</code>, <code>DIALOG</code> 일 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="deliver(org.duckdns.hjow.swingwebpanel.js.ConsoleHook, org.duckdns.hjow.swingwebpanel.js.ConsoleRecord)"><!-- --></A><H3>
+deliver</H3>
+<PRE>
+public static void <B>deliver</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleHook.html" title="interface in org.duckdns.hjow.swingwebpanel.js">ConsoleHook</A>&nbsp;hook,
+                           <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html" title="class in org.duckdns.hjow.swingwebpanel.js">ConsoleRecord</A>&nbsp;record)</PRE>
+<DL>
+<DD>Sends a record to a hook: through <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecordHook.html#record(org.duckdns.hjow.swingwebpanel.js.ConsoleRecord)"><CODE>ConsoleRecordHook.record(ConsoleRecord)</CODE></A> when the hook understands records, otherwise
+ through <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleHook.html#message(java.lang.String, java.lang.String)"><CODE>ConsoleHook.message(String, String)</CODE></A> with <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#getLegacyLevel()"><CODE>getLegacyLevel()</CODE></A> and <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#getText()"><CODE>getText()</CODE></A>.
+ <p>
+ 기록을 연결에 보낸다: 연결이 기록을 이해하면 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecordHook.html#record(org.duckdns.hjow.swingwebpanel.js.ConsoleRecord)"><CODE>ConsoleRecordHook.record(ConsoleRecord)</CODE></A> 로, 아니면
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#getLegacyLevel()"><CODE>getLegacyLevel()</CODE></A> 와 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html#getText()"><CODE>getText()</CODE></A> 로 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleHook.html#message(java.lang.String, java.lang.String)"><CODE>ConsoleHook.message(String, String)</CODE></A> 를 호출한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>hook</CODE> - the hook, not null / 연결(null 불가)<DD><CODE>record</CODE> - the record, not null / 기록(null 불가)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getKind()"><!-- --></A><H3>
+getKind</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.Kind.html" title="enum in org.duckdns.hjow.swingwebpanel.js">ConsoleRecord.Kind</A> <B>getKind</B>()</PRE>
+<DL>
+<DD>Returns the kind.
+ <p>
+ 종류를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the kind / 종류</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMethod()"><!-- --></A><H3>
+getMethod</H3>
+<PRE>
+public java.lang.String <B>getMethod</B>()</PRE>
+<DL>
+<DD>Returns the name of the console method or dialog function, or the empty string for a report of the host.
+ <p>
+ 콘솔 메서드나 대화 상자 함수의 이름을 반환한다. 호스트의 보고이면 빈 문자열.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the name / 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLevel()"><!-- --></A><H3>
+getLevel</H3>
+<PRE>
+public java.lang.String <B>getLevel</B>()</PRE>
+<DL>
+<DD>Returns the level: <code>log</code>, <code>info</code>, <code>warn</code>, <code>error</code> or <code>debug</code>.
+ <p>
+ 수준을 반환한다: <code>log</code>, <code>info</code>, <code>warn</code>, <code>error</code>, <code>debug</code>.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the level / 수준</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLegacyLevel()"><!-- --></A><H3>
+getLegacyLevel</H3>
+<PRE>
+public java.lang.String <B>getLegacyLevel</B>()</PRE>
+<DL>
+<DD>Returns the level that the plain <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleHook.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><CODE>ConsoleHook</CODE></A> always got: the level, except for the dialog functions whose name
+ (<code>alert</code>, <code>confirm</code>, <code>prompt</code>) was passed in its place.
+ <p>
+ 일반 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleHook.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><CODE>ConsoleHook</CODE></A> 이 지금까지 받은 수준을 반환한다: 수준 그대로이며, 대화 상자 함수는 그 자리에 함수 이름
+ (<code>alert</code>, <code>confirm</code>, <code>prompt</code>)을 넘겼다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the level for plain hooks / 일반 연결용 수준</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getText()"><!-- --></A><H3>
+getText</H3>
+<PRE>
+public java.lang.String <B>getText</B>()</PRE>
+<DL>
+<DD>Returns the message text (after the Formatter operation, indented by the open groups).
+ <p>
+ 메시지 문자열을 반환한다(Formatter 연산을 거치고 열린 그룹만큼 들여 쓴 것).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the text / 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getArguments()"><!-- --></A><H3>
+getArguments</H3>
+<PRE>
+public java.util.List&lt;java.lang.String&gt; <B>getArguments</B>()</PRE>
+<DL>
+<DD>Returns the texts of the arguments of the call, each as the console prints it. The list is read-only.
+ <p>
+ 호출 인수의 문자열을 반환한다. 각각 콘솔이 출력하는 형태이다. 목록은 읽기 전용이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the argument texts / 인수 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSourceName()"><!-- --></A><H3>
+getSourceName</H3>
+<PRE>
+public java.lang.String <B>getSourceName</B>()</PRE>
+<DL>
+<DD>Returns the name (URL) of the script that made the call, or the empty string when it is not known.
+ <p>
+ 호출한 스크립트의 이름(URL)을 반환한다. 알 수 없으면 빈 문자열.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the script name / 스크립트 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLine()"><!-- --></A><H3>
+getLine</H3>
+<PRE>
+public int <B>getLine</B>()</PRE>
+<DL>
+<DD>Returns the 1-based line of the call, or 0 when it is not known.
+ <p>
+ 호출의 1부터 시작하는 줄 번호를 반환한다. 알 수 없으면 0.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the line / 줄</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getColumn()"><!-- --></A><H3>
+getColumn</H3>
+<PRE>
+public int <B>getColumn</B>()</PRE>
+<DL>
+<DD>Returns the 1-based column of the call, or 0 when it is not known.
+ <p>
+ 호출의 1부터 시작하는 열 번호를 반환한다. 알 수 없으면 0.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the column / 열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getGroupDepth()"><!-- --></A><H3>
+getGroupDepth</H3>
+<PRE>
+public int <B>getGroupDepth</B>()</PRE>
+<DL>
+<DD>Returns the number of <code>console.group</code> levels that were open when the record was made.
+ <p>
+ 기록을 만들 때 열려 있던 <code>console.group</code> 단계 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the group depth / 그룹 단계 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toString()"><!-- --></A><H3>
+toString</H3>
+<PRE>
+public java.lang.String <B>toString</B>()</PRE>
+<DL>
+<DD>Returns a short description for logs.
+ <p>
+ 로그용 짧은 설명을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>toString</CODE> in class <CODE>java.lang.Object</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the description / 설명</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleHook.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.Kind.html" title="enum in org.duckdns.hjow.swingwebpanel.js"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/ConsoleRecord.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ConsoleRecord.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

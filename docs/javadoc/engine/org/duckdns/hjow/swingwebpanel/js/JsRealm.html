@@ -1,0 +1,1635 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+JsRealm
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="JsRealm";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsPrimitiveObject.html" title="class in org.duckdns.hjow.swingwebpanel.js"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.NamedGlobals.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/JsRealm.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="JsRealm.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js</FONT>
+<BR>
+Class JsRealm</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.JsRealm</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public class <B>JsRealm</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+A realm (ECMA-262 6th edition 8.2): a global object together with a complete, independent set of built-in objects.
+ One realm is created per web page by the host. This class is the host-facing facade of the engine and the registry of the
+ intrinsic objects that built-ins and the interpreter need.
+ <p>
+ Built-in authors: create functions with <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#newFunction(java.lang.String, int, org.duckdns.hjow.swingwebpanel.js.NativeFunction.Call)"><CODE>newFunction(String, int, NativeFunction.Call)</CODE></A>, attach them with
+ <CODE>#method(JsObject, String, int, NativeFunction.Call)</CODE>, throw errors with <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>JsException</CODE></A>, look up prototypes
+ with the getters of this class or <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getIntrinsic(java.lang.String)"><CODE>getIntrinsic(String)</CODE></A>, and install whole groups through a
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/BuiltinInstaller.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><CODE>BuiltinInstaller</CODE></A>.
+ <p>
+ realm (ECMA-262 6판 8.2): 전역 객체와 독립적이고 완전한 내장 객체 집합. 호스트가 웹 페이지마다 realm 하나를 만든다.
+ 이 클래스는 엔진의 호스트용 창구이며, 내장 객체와 인터프리터가 필요로 하는 내장(intrinsic) 객체의 등록부이다.
+ <p>
+ 내장 객체 작성자: <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#newFunction(java.lang.String, int, org.duckdns.hjow.swingwebpanel.js.NativeFunction.Call)"><CODE>newFunction(String, int, NativeFunction.Call)</CODE></A> 로 함수를 만들고
+ <CODE>#method(JsObject, String, int, NativeFunction.Call)</CODE> 로 붙이며, 오류는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>JsException</CODE></A> 으로 던지고,
+ 프로토타입은 이 클래스의 getter 나 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getIntrinsic(java.lang.String)"><CODE>getIntrinsic(String)</CODE></A> 으로 찾고, 묶음 설치는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/BuiltinInstaller.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><CODE>BuiltinInstaller</CODE></A> 로 한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.NamedGlobals.html" title="interface in org.duckdns.hjow.swingwebpanel.js">JsRealm.NamedGlobals</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The names that a host gives to the global object besides its properties (the named properties of the <code>Window</code> object of a
+ page: the ids of its elements and the names of some of them).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#JsRealm()">JsRealm</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a realm with the fundamental prototype objects but without any built-in library.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#create()">create</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a realm with the complete standard built-in library installed (the normal way to get a ready-to-use realm).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#create(org.duckdns.hjow.swingwebpanel.js.JsObject)">create</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;hostThis)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a complete realm with a host-provided global this value, such as a browsing context's window proxy.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#createError(org.duckdns.hjow.swingwebpanel.js.ErrorKind, java.lang.String)">createError</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ErrorKind.html" title="enum in org.duckdns.hjow.swingwebpanel.js">ErrorKind</A>&nbsp;kind,
+            java.lang.String&nbsp;message)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an error object of a native kind (used when a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>JsException</CODE></A> is caught by script code).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#enableHtmlJobCallbacks()">enableHtmlJobCallbacks</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enables HTML's Promise callback rules when creating a window, worker, or worklet realm.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#enqueueExternalJob(java.lang.Runnable)">enqueueExternalJob</A></B>(java.lang.Runnable&nbsp;job)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Schedules a job submitted by another agent or a host timer.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#enqueueJob(java.lang.Runnable)">enqueueJob</A></B>(java.lang.Runnable&nbsp;job)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enqueues a job (used by Promise and other built-ins; the host decides when it runs).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#evaluateModule(java.lang.String, java.lang.String)">evaluateModule</A></B>(java.lang.String&nbsp;key,
+               java.lang.String&nbsp;source)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loads, links and evaluates a module (and everything it imports through the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ModuleLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><CODE>ModuleLoader</CODE></A>) and returns its
+ namespace object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#evaluateScript(org.duckdns.hjow.swingwebpanel.js.ParsedScript)">evaluateScript</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ParsedScript.html" title="interface in org.duckdns.hjow.swingwebpanel.js">ParsedScript</A>&nbsp;script)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Runs a script that was parsed with <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#parseScript(java.lang.String, java.lang.String)"><CODE>parseScript(String, String)</CODE></A> in the global scope, with the same error and thread rules as
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#evaluateScript(java.lang.String, java.lang.String)"><CODE>evaluateScript(String, String)</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#evaluateScript(java.lang.String, java.lang.String)">evaluateScript</A></B>(java.lang.String&nbsp;source,
+               java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses and runs a script in the global scope.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getArrayPrototype()">getArrayPrototype</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns %ArrayPrototype%.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getBigIntPrototype()">getBigIntPrototype</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns %BigInt.prototype%.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getBooleanPrototype()">getBooleanPrototype</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns %BooleanPrototype%.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getCallColumn()">getCallColumn</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the column of the latest call of a native function, or 0.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getCallLine()">getCallLine</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the line of the latest call of a native function, or 0.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getCallSourceName()">getCallSourceName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the name of the script that made the latest call of a native function, or the empty string.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleHook.html" title="interface in org.duckdns.hjow.swingwebpanel.js">ConsoleHook</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getConsole()">getConsole</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the console hook.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getErrorPrototype(org.duckdns.hjow.swingwebpanel.js.ErrorKind)">getErrorPrototype</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ErrorKind.html" title="enum in org.duckdns.hjow.swingwebpanel.js">ErrorKind</A>&nbsp;kind)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the prototype of a native error type (the prototype of Error itself for <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ErrorKind.html#ERROR"><CODE>ErrorKind.ERROR</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getFunctionPrototype()">getFunctionPrototype</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns %FunctionPrototype%.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getGlobalObject()">getGlobalObject</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the global object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getGlobalThisValue()">getGlobalThisValue</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the value used for the global this binding and the initial globalThis property.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/interp/Interpreter.html" title="class in org.duckdns.hjow.swingwebpanel.js.interp">Interpreter</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getInterpreter()">getInterpreter</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the interpreter of this realm, creating it on first use.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getIntrinsic(java.lang.String)">getIntrinsic</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a named intrinsic object or null if none is registered.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getIteratorPrototype()">getIteratorPrototype</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the common ancestor of all iterator prototypes and the standard Iterator.prototype.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JobQueue.html" title="interface in org.duckdns.hjow.swingwebpanel.js">JobQueue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getJobQueue()">getJobQueue</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the job queue that receives microtasks of this realm.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html" title="class in org.duckdns.hjow.swingwebpanel.js">ExecutionLimits</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getLimits()">getLimits</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the execution limits and the cancellation switch of this realm.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ModuleLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.js">ModuleLoader</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getModuleLoader()">getModuleLoader</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the module loader hook, or null if none was set.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getNumberPrototype()">getNumberPrototype</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns %NumberPrototype%.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getObjectPrototype()">getObjectPrototype</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns %ObjectPrototype%.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getStringPrototype()">getStringPrototype</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns %StringPrototype%.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getSymbolPrototype()">getSymbolPrototype</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns %SymbolPrototype%.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/NativeFunction.html" title="class in org.duckdns.hjow.swingwebpanel.js">NativeFunction</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#getter(org.duckdns.hjow.swingwebpanel.js.JsObject, java.lang.Object, org.duckdns.hjow.swingwebpanel.js.NativeFunction.Call)">getter</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;target,
+       java.lang.Object&nbsp;key,
+       <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/NativeFunction.Call.html" title="interface in org.duckdns.hjow.swingwebpanel.js">NativeFunction.Call</A>&nbsp;call)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Defines a read-only accessor property (getter only; non-enumerable, configurable) such as <code>Map.prototype.size</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#isAtomicsWaitAllowed()">isAtomicsWaitAllowed</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reports whether the host permits blocking the current script agent.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#isDynamicImportEnabled()">isDynamicImportEnabled</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tests whether the host allows dynamic imports in this realm.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#keepWeaklyHeld(org.duckdns.hjow.swingwebpanel.js.JsObject)">keepWeaklyHeld</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;target)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Keeps an object target alive until the end of the current task.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#keepWeaklyHeld(org.duckdns.hjow.swingwebpanel.js.JsValue)">keepWeaklyHeld</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;target)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Keeps a WeakRef target alive until the end of the current task.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ModuleGraph.html" title="interface in org.duckdns.hjow.swingwebpanel.js">ModuleGraph</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#loadModule(java.lang.String, java.lang.String)">loadModule</A></B>(java.lang.String&nbsp;key,
+           java.lang.String&nbsp;source)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fetches and parses a module and everything it imports through the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ModuleLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><CODE>ModuleLoader</CODE></A>, without running any of it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/NativeFunction.html" title="class in org.duckdns.hjow.swingwebpanel.js">NativeFunction</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#method(org.duckdns.hjow.swingwebpanel.js.JsObject, java.lang.Object, int, org.duckdns.hjow.swingwebpanel.js.NativeFunction.Call)">method</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;target,
+       java.lang.Object&nbsp;key,
+       int&nbsp;length,
+       <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/NativeFunction.Call.html" title="interface in org.duckdns.hjow.swingwebpanel.js">NativeFunction.Call</A>&nbsp;call)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a native function and defines it on an object as a built-in method (writable, non-enumerable, configurable).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsArray</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#newArray()">newArray</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an empty array with Array.prototype.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsArray</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#newArray(org.duckdns.hjow.swingwebpanel.js.JsValue[])">newArray</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>[]&nbsp;elements)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an array holding the given elements.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsArray</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#newArray(java.util.List)">newArray</A></B>(java.util.List&lt;? extends <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&gt;&nbsp;elements)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an array holding the elements of a list.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/NativeFunction.html" title="class in org.duckdns.hjow.swingwebpanel.js">NativeFunction</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#newFunction(java.lang.String, int, org.duckdns.hjow.swingwebpanel.js.NativeFunction.Call)">newFunction</A></B>(java.lang.String&nbsp;name,
+            int&nbsp;length,
+            <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/NativeFunction.Call.html" title="interface in org.duckdns.hjow.swingwebpanel.js">NativeFunction.Call</A>&nbsp;call)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a native function with this realm's Function.prototype.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#newObject()">newObject</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an ordinary object with Object.prototype.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ParsedScript.html" title="interface in org.duckdns.hjow.swingwebpanel.js">ParsedScript</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#parseScript(java.lang.String, java.lang.String)">parseScript</A></B>(java.lang.String&nbsp;source,
+            java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a script without running it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#runJobs()">runJobs</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Runs all pending jobs when the default <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/SimpleJobQueue.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>SimpleJobQueue</CODE></A> is in use (each job is a separate task for the limits).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#setAtomicsWaitAllowed(boolean)">setAtomicsWaitAllowed</A></B>(boolean&nbsp;allowed)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Configures whether Atomics.wait may block scripts in the realm.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#setCallSite(java.lang.String, int, int)">setCallSite</A></B>(java.lang.String&nbsp;sourceName,
+            int&nbsp;line,
+            int&nbsp;column)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Remembers where the script code is that calls a native function.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#setConsole(org.duckdns.hjow.swingwebpanel.js.ConsoleHook)">setConsole</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleHook.html" title="interface in org.duckdns.hjow.swingwebpanel.js">ConsoleHook</A>&nbsp;hook)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the hook that receives <code>console</code> and <code>print</code> output (the default writes to standard
+ output).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#setDynamicImportEnabled(boolean)">setDynamicImportEnabled</A></B>(boolean&nbsp;enabled)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the host policy for import calls.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#setExternalJobExecutor(java.util.concurrent.Executor)">setExternalJobExecutor</A></B>(java.util.concurrent.Executor&nbsp;executor)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Connects jobs from other agents or timers to the host's task queue.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#setIntrinsic(java.lang.String, org.duckdns.hjow.swingwebpanel.js.JsObject)">setIntrinsic</A></B>(java.lang.String&nbsp;name,
+             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;obj)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Registers (or replaces) a named intrinsic object, for example "%IteratorPrototype%".</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#setJobQueue(org.duckdns.hjow.swingwebpanel.js.JobQueue)">setJobQueue</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JobQueue.html" title="interface in org.duckdns.hjow.swingwebpanel.js">JobQueue</A>&nbsp;queue)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Replaces the job queue (a browser host connects its event loop here).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#setModuleLoader(org.duckdns.hjow.swingwebpanel.js.ModuleLoader)">setModuleLoader</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ModuleLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.js">ModuleLoader</A>&nbsp;loader)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the hook that resolves and loads modules for <code>import</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#setNamedGlobals(org.duckdns.hjow.swingwebpanel.js.JsRealm.NamedGlobals)">setNamedGlobals</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.NamedGlobals.html" title="interface in org.duckdns.hjow.swingwebpanel.js">JsRealm.NamedGlobals</A>&nbsp;named)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the names that the host gives to the global object (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.NamedGlobals.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><CODE>JsRealm.NamedGlobals</CODE></A>); null removes them.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsSymbol.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsSymbol</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#symbolFor(java.lang.String)">symbolFor</A></B>(java.lang.String&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the global symbol registry entry for a key, creating it if needed (Symbol.for).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#usesHtmlJobCallbacks()">usesHtmlJobCallbacks</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reports whether the host uses HTML's Promise callback rules.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="JsRealm()"><!-- --></A><H3>
+JsRealm</H3>
+<PRE>
+public <B>JsRealm</B>()</PRE>
+<DL>
+<DD>Creates a realm with the fundamental prototype objects but without any built-in library.
+ Built-ins are added by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/BuiltinInstaller.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><CODE>BuiltinInstaller</CODE></A>s (see the subclass or factory that creates fully initialised realms).
+ <p>
+ 기본 프로토타입 객체는 있으나 내장 라이브러리는 없는 realm 을 만든다. 내장 객체는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/BuiltinInstaller.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><CODE>BuiltinInstaller</CODE></A> 가 추가한다
+ (완전히 초기화된 realm 을 만드는 하위 클래스나 팩터리를 참조).
+<P>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="setNamedGlobals(org.duckdns.hjow.swingwebpanel.js.JsRealm.NamedGlobals)"><!-- --></A><H3>
+setNamedGlobals</H3>
+<PRE>
+public void <B>setNamedGlobals</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.NamedGlobals.html" title="interface in org.duckdns.hjow.swingwebpanel.js">JsRealm.NamedGlobals</A>&nbsp;named)</PRE>
+<DL>
+<DD>Sets the names that the host gives to the global object (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.NamedGlobals.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><CODE>JsRealm.NamedGlobals</CODE></A>); null removes them.
+ <p>
+ 호스트가 전역 객체에 주는 이름을 정한다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.NamedGlobals.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><CODE>JsRealm.NamedGlobals</CODE></A> 참조). null 이면 없앤다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>named</CODE> - the lookup or null / 이름 조회. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getIteratorPrototype()"><!-- --></A><H3>
+getIteratorPrototype</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>getIteratorPrototype</B>()</PRE>
+<DL>
+<DD>Returns the common ancestor of all iterator prototypes and the standard Iterator.prototype.
+ Also registered as the intrinsic "%IteratorPrototype%".
+ <p>
+ 모든 이터레이터 프로토타입의 공통 조상이자 표준 Iterator.prototype을 반환한다.
+ 내장 객체 "%IteratorPrototype%" 으로도 등록되어 있다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the iterator prototype / 이터레이터 프로토타입</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getGlobalObject()"><!-- --></A><H3>
+getGlobalObject</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>getGlobalObject</B>()</PRE>
+<DL>
+<DD>Returns the global object.
+ <p>
+ 전역 객체를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the global object / 전역 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getGlobalThisValue()"><!-- --></A><H3>
+getGlobalThisValue</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>getGlobalThisValue</B>()</PRE>
+<DL>
+<DD>Returns the value used for the global this binding and the initial globalThis property.
+ <p>
+ 전역 this 바인딩과 globalThis 속성의 초기값에 쓰는 객체를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the realm's global this value / realm의 전역 this 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getObjectPrototype()"><!-- --></A><H3>
+getObjectPrototype</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>getObjectPrototype</B>()</PRE>
+<DL>
+<DD>Returns %ObjectPrototype%.
+ <p>
+ %ObjectPrototype% 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>Object.prototype / Object.prototype</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFunctionPrototype()"><!-- --></A><H3>
+getFunctionPrototype</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>getFunctionPrototype</B>()</PRE>
+<DL>
+<DD>Returns %FunctionPrototype%.
+ <p>
+ %FunctionPrototype% 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>Function.prototype / Function.prototype</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getArrayPrototype()"><!-- --></A><H3>
+getArrayPrototype</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>getArrayPrototype</B>()</PRE>
+<DL>
+<DD>Returns %ArrayPrototype%.
+ <p>
+ %ArrayPrototype% 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>Array.prototype / Array.prototype</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStringPrototype()"><!-- --></A><H3>
+getStringPrototype</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>getStringPrototype</B>()</PRE>
+<DL>
+<DD>Returns %StringPrototype%.
+ <p>
+ %StringPrototype% 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>String.prototype / String.prototype</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getNumberPrototype()"><!-- --></A><H3>
+getNumberPrototype</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>getNumberPrototype</B>()</PRE>
+<DL>
+<DD>Returns %NumberPrototype%.
+ <p>
+ %NumberPrototype% 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>Number.prototype / Number.prototype</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBigIntPrototype()"><!-- --></A><H3>
+getBigIntPrototype</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>getBigIntPrototype</B>()</PRE>
+<DL>
+<DD>Returns %BigInt.prototype%.
+ <p>
+ %BigInt.prototype% 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>BigInt.prototype / BigInt.prototype</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBooleanPrototype()"><!-- --></A><H3>
+getBooleanPrototype</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>getBooleanPrototype</B>()</PRE>
+<DL>
+<DD>Returns %BooleanPrototype%.
+ <p>
+ %BooleanPrototype% 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>Boolean.prototype / Boolean.prototype</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSymbolPrototype()"><!-- --></A><H3>
+getSymbolPrototype</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>getSymbolPrototype</B>()</PRE>
+<DL>
+<DD>Returns %SymbolPrototype%.
+ <p>
+ %SymbolPrototype% 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>Symbol.prototype / Symbol.prototype</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getErrorPrototype(org.duckdns.hjow.swingwebpanel.js.ErrorKind)"><!-- --></A><H3>
+getErrorPrototype</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>getErrorPrototype</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ErrorKind.html" title="enum in org.duckdns.hjow.swingwebpanel.js">ErrorKind</A>&nbsp;kind)</PRE>
+<DL>
+<DD>Returns the prototype of a native error type (the prototype of Error itself for <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ErrorKind.html#ERROR"><CODE>ErrorKind.ERROR</CODE></A>).
+ <p>
+ 기본 오류 형식의 프로토타입을 반환한다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ErrorKind.html#ERROR"><CODE>ErrorKind.ERROR</CODE></A> 는 Error 자신의 프로토타입).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>kind</CODE> - the error kind / 오류 종류
+<DT><B>Returns:</B><DD>the prototype / 프로토타입</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setIntrinsic(java.lang.String, org.duckdns.hjow.swingwebpanel.js.JsObject)"><!-- --></A><H3>
+setIntrinsic</H3>
+<PRE>
+public void <B>setIntrinsic</B>(java.lang.String&nbsp;name,
+                         <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;obj)</PRE>
+<DL>
+<DD>Registers (or replaces) a named intrinsic object, for example "%IteratorPrototype%".
+ <p>
+ 이름 있는 내장 객체를 등록한다(이미 있으면 교체). 예: "%IteratorPrototype%".
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the name including the percent signs / 퍼센트 기호를 포함한 이름<DD><CODE>obj</CODE> - the object / 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getIntrinsic(java.lang.String)"><!-- --></A><H3>
+getIntrinsic</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>getIntrinsic</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns a named intrinsic object or null if none is registered.
+ <p>
+ 이름 있는 내장 객체를 반환한다. 등록된 것이 없으면 null.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the name including the percent signs / 퍼센트 기호를 포함한 이름
+<DT><B>Returns:</B><DD>the object or null / 객체 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="symbolFor(java.lang.String)"><!-- --></A><H3>
+symbolFor</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsSymbol.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsSymbol</A> <B>symbolFor</B>(java.lang.String&nbsp;key)</PRE>
+<DL>
+<DD>Returns the global symbol registry entry for a key, creating it if needed (Symbol.for).
+ <p>
+ 키에 해당하는 전역 심볼 레지스트리 항목을 반환한다. 없으면 만든다(Symbol.for).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the registry key / 레지스트리 키
+<DT><B>Returns:</B><DD>the registered symbol / 등록된 심볼</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newObject()"><!-- --></A><H3>
+newObject</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>newObject</B>()</PRE>
+<DL>
+<DD>Creates an ordinary object with Object.prototype.
+ <p>
+ Object.prototype 을 프로토타입으로 갖는 일반 객체를 만든다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a new object / 새 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newArray()"><!-- --></A><H3>
+newArray</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsArray</A> <B>newArray</B>()</PRE>
+<DL>
+<DD>Creates an empty array with Array.prototype.
+ <p>
+ Array.prototype 을 프로토타입으로 갖는 빈 배열을 만든다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a new array / 새 배열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newArray(org.duckdns.hjow.swingwebpanel.js.JsValue[])"><!-- --></A><H3>
+newArray</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsArray</A> <B>newArray</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>[]&nbsp;elements)</PRE>
+<DL>
+<DD>Creates an array holding the given elements.
+ <p>
+ 주어진 요소를 담은 배열을 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>elements</CODE> - the elements / 요소들
+<DT><B>Returns:</B><DD>a new array / 새 배열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newArray(java.util.List)"><!-- --></A><H3>
+newArray</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsArray.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsArray</A> <B>newArray</B>(java.util.List&lt;? extends <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&gt;&nbsp;elements)</PRE>
+<DL>
+<DD>Creates an array holding the elements of a list.
+ <p>
+ 목록의 요소를 담은 배열을 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>elements</CODE> - the elements / 요소들
+<DT><B>Returns:</B><DD>a new array / 새 배열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newFunction(java.lang.String, int, org.duckdns.hjow.swingwebpanel.js.NativeFunction.Call)"><!-- --></A><H3>
+newFunction</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/NativeFunction.html" title="class in org.duckdns.hjow.swingwebpanel.js">NativeFunction</A> <B>newFunction</B>(java.lang.String&nbsp;name,
+                                  int&nbsp;length,
+                                  <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/NativeFunction.Call.html" title="interface in org.duckdns.hjow.swingwebpanel.js">NativeFunction.Call</A>&nbsp;call)</PRE>
+<DL>
+<DD>Creates a native function with this realm's Function.prototype.
+ <p>
+ 이 realm 의 Function.prototype 을 쓰는 네이티브 함수를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - function name / 함수 이름<DD><CODE>length</CODE> - expected number of arguments / 기대 인수 개수<DD><CODE>call</CODE> - the behaviour / 동작
+<DT><B>Returns:</B><DD>the function / 함수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="method(org.duckdns.hjow.swingwebpanel.js.JsObject, java.lang.Object, int, org.duckdns.hjow.swingwebpanel.js.NativeFunction.Call)"><!-- --></A><H3>
+method</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/NativeFunction.html" title="class in org.duckdns.hjow.swingwebpanel.js">NativeFunction</A> <B>method</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;target,
+                             java.lang.Object&nbsp;key,
+                             int&nbsp;length,
+                             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/NativeFunction.Call.html" title="interface in org.duckdns.hjow.swingwebpanel.js">NativeFunction.Call</A>&nbsp;call)</PRE>
+<DL>
+<DD>Creates a native function and defines it on an object as a built-in method (writable, non-enumerable, configurable).
+ For symbol-keyed methods pass the symbol as key; the function name is then "[description]".
+ <p>
+ 네이티브 함수를 만들어 내장 메서드(writable, 열거 불가, configurable)로 객체에 정의한다.
+ 심볼 키 메서드는 키에 심볼을 넘기며 함수 이름은 "[설명]" 이 된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>target</CODE> - the object receiving the method / 메서드를 받을 객체<DD><CODE>key</CODE> - the key: a String or a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsSymbol.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>JsSymbol</CODE></A> / 키: String 또는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsSymbol.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>JsSymbol</CODE></A><DD><CODE>length</CODE> - expected number of arguments / 기대 인수 개수<DD><CODE>call</CODE> - the behaviour / 동작
+<DT><B>Returns:</B><DD>the function / 함수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getter(org.duckdns.hjow.swingwebpanel.js.JsObject, java.lang.Object, org.duckdns.hjow.swingwebpanel.js.NativeFunction.Call)"><!-- --></A><H3>
+getter</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/NativeFunction.html" title="class in org.duckdns.hjow.swingwebpanel.js">NativeFunction</A> <B>getter</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;target,
+                             java.lang.Object&nbsp;key,
+                             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/NativeFunction.Call.html" title="interface in org.duckdns.hjow.swingwebpanel.js">NativeFunction.Call</A>&nbsp;call)</PRE>
+<DL>
+<DD>Defines a read-only accessor property (getter only; non-enumerable, configurable) such as <code>Map.prototype.size</code>.
+ <p>
+ 읽기 전용 접근자 프로퍼티(getter 만, 열거 불가, configurable)를 정의한다. 예: <code>Map.prototype.size</code>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>target</CODE> - the object / 객체<DD><CODE>key</CODE> - the key / 키<DD><CODE>call</CODE> - the getter behaviour / getter 동작
+<DT><B>Returns:</B><DD>the getter function / getter 함수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="create()"><!-- --></A><H3>
+create</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A> <B>create</B>()</PRE>
+<DL>
+<DD>Creates a realm with the complete standard built-in library installed (the normal way to get a ready-to-use realm).
+ <p>
+ 완전한 표준 내장 라이브러리가 설치된 realm 을 만든다(바로 쓸 수 있는 realm 을 얻는 일반적인 방법).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the new realm / 새 realm</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="create(org.duckdns.hjow.swingwebpanel.js.JsObject)"><!-- --></A><H3>
+create</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A> <B>create</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;hostThis)</PRE>
+<DL>
+<DD>Creates a complete realm with a host-provided global this value, such as a browsing context's window proxy.
+ Global identifier and declaration operations use the realm's global object.
+ <p>
+ 브라우징 문맥의 창 프록시 같은 호스트의 전역 this 값으로 완전한 realm을 만든다.
+ 전역 식별자 조회와 선언에는 realm의 전역 객체를 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>hostThis</CODE> - host-provided this value, or null to use the global object / 호스트의 this 값. null이면 전역 객체
+<DT><B>Returns:</B><DD>the new realm / 새 realm</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLimits()"><!-- --></A><H3>
+getLimits</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html" title="class in org.duckdns.hjow.swingwebpanel.js">ExecutionLimits</A> <B>getLimits</B>()</PRE>
+<DL>
+<DD>Returns the execution limits and the cancellation switch of this realm.
+ <p>
+ 이 realm 의 실행 제한과 취소 스위치를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the limits / 제한</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getInterpreter()"><!-- --></A><H3>
+getInterpreter</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/interp/Interpreter.html" title="class in org.duckdns.hjow.swingwebpanel.js.interp">Interpreter</A> <B>getInterpreter</B>()</PRE>
+<DL>
+<DD>Returns the interpreter of this realm, creating it on first use.
+ <p>
+ 이 realm 의 인터프리터를 반환한다. 처음 쓸 때 만든다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the interpreter / 인터프리터</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="evaluateScript(java.lang.String, java.lang.String)"><!-- --></A><H3>
+evaluateScript</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A> <B>evaluateScript</B>(java.lang.String&nbsp;source,
+                              java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Parses and runs a script in the global scope. Syntax errors and uncaught script exceptions are thrown as
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>JsException</CODE></A>; an aborted run (limits, cancellation) throws <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ScriptAbortedException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>ScriptAbortedException</CODE></A>.
+ Must be called on the thread that owns the realm.
+ <p>
+ 전역 스코프에서 스크립트를 파싱하고 실행한다. 구문 오류와 잡히지 않은 스크립트 예외는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>JsException</CODE></A> 으로, 제한이나 취소로 중단되면
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ScriptAbortedException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>ScriptAbortedException</CODE></A> 으로 던진다. realm 을 소유한 스레드에서 호출해야 한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>source</CODE> - the source text / 소스 텍스트<DD><CODE>name</CODE> - the source name (file name or URL) used in errors / 오류에 쓰는 소스 이름(파일 이름이나 URL)
+<DT><B>Returns:</B><DD>the completion value of the last statement, or undefined / 마지막 문장의 완료 값. 없으면 undefined</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseScript(java.lang.String, java.lang.String)"><!-- --></A><H3>
+parseScript</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ParsedScript.html" title="interface in org.duckdns.hjow.swingwebpanel.js">ParsedScript</A> <B>parseScript</B>(java.lang.String&nbsp;source,
+                                java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Parses a script without running it. A syntax error is thrown as <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>JsException</CODE></A> (with the position of the error). Run the
+ result any number of times with <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#evaluateScript(org.duckdns.hjow.swingwebpanel.js.ParsedScript)"><CODE>evaluateScript(ParsedScript)</CODE></A>.
+ <p>
+ 스크립트를 실행하지 않고 파싱한다. 구문 오류는 오류 위치와 함께 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>JsException</CODE></A> 으로 던진다. 결과는
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#evaluateScript(org.duckdns.hjow.swingwebpanel.js.ParsedScript)"><CODE>evaluateScript(ParsedScript)</CODE></A> 로 몇 번이든 실행할 수 있다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>source</CODE> - the source text / 소스 텍스트<DD><CODE>name</CODE> - the source name (file name or URL) used in errors / 오류에 쓰는 소스 이름(파일 이름이나 URL)
+<DT><B>Returns:</B><DD>the parsed script / 파싱된 스크립트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="evaluateScript(org.duckdns.hjow.swingwebpanel.js.ParsedScript)"><!-- --></A><H3>
+evaluateScript</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A> <B>evaluateScript</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ParsedScript.html" title="interface in org.duckdns.hjow.swingwebpanel.js">ParsedScript</A>&nbsp;script)</PRE>
+<DL>
+<DD>Runs a script that was parsed with <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#parseScript(java.lang.String, java.lang.String)"><CODE>parseScript(String, String)</CODE></A> in the global scope, with the same error and thread rules as
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#evaluateScript(java.lang.String, java.lang.String)"><CODE>evaluateScript(String, String)</CODE></A>.
+ <p>
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#parseScript(java.lang.String, java.lang.String)"><CODE>parseScript(String, String)</CODE></A> 로 파싱한 스크립트를 전역 스코프에서 실행한다. 오류와 스레드 규칙은
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#evaluateScript(java.lang.String, java.lang.String)"><CODE>evaluateScript(String, String)</CODE></A> 과 같다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>script</CODE> - the parsed script / 파싱된 스크립트
+<DT><B>Returns:</B><DD>the completion value of the last statement, or undefined / 마지막 문장의 완료 값. 없으면 undefined</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="evaluateModule(java.lang.String, java.lang.String)"><!-- --></A><H3>
+evaluateModule</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>evaluateModule</B>(java.lang.String&nbsp;key,
+                               java.lang.String&nbsp;source)</PRE>
+<DL>
+<DD>Loads, links and evaluates a module (and everything it imports through the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ModuleLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><CODE>ModuleLoader</CODE></A>) and returns its
+ namespace object.
+ <p>
+ 모듈(과 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ModuleLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><CODE>ModuleLoader</CODE></A> 로 import 하는 모든 모듈)을 불러와 링크하고 평가한 뒤 네임스페이스 객체를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the unique module key (for example the absolute URL) / 고유한 모듈 키(예: 절대 URL)<DD><CODE>source</CODE> - the module source text, or null to fetch it through the loader / 모듈 소스 텍스트. null 이면 로더로 가져온다
+<DT><B>Returns:</B><DD>the namespace object / 네임스페이스 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="loadModule(java.lang.String, java.lang.String)"><!-- --></A><H3>
+loadModule</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ModuleGraph.html" title="interface in org.duckdns.hjow.swingwebpanel.js">ModuleGraph</A> <B>loadModule</B>(java.lang.String&nbsp;key,
+                              java.lang.String&nbsp;source)</PRE>
+<DL>
+<DD>Fetches and parses a module and everything it imports through the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ModuleLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><CODE>ModuleLoader</CODE></A>, without running any of it. A failure of
+ the loader or a syntax error is thrown here; call <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ModuleGraph.html#evaluate()"><CODE>ModuleGraph.evaluate()</CODE></A> on the result to link and run the modules.
+ <p>
+ 모듈과 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ModuleLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><CODE>ModuleLoader</CODE></A> 로 import 하는 모든 모듈을 실행하지 않고 가져와 파싱한다. 로더의 실패나 구문 오류는 여기서 던져지며,
+ 결과의 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ModuleGraph.html#evaluate()"><CODE>ModuleGraph.evaluate()</CODE></A> 를 불러 모듈을 링크하고 실행한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the unique module key (for example the absolute URL) / 고유한 모듈 키(예: 절대 URL)<DD><CODE>source</CODE> - the module source text, or null to fetch it through the loader / 모듈 소스 텍스트. null 이면 로더로 가져온다
+<DT><B>Returns:</B><DD>the loaded graph / 불러온 그래프</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getJobQueue()"><!-- --></A><H3>
+getJobQueue</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JobQueue.html" title="interface in org.duckdns.hjow.swingwebpanel.js">JobQueue</A> <B>getJobQueue</B>()</PRE>
+<DL>
+<DD>Returns the job queue that receives microtasks of this realm.
+ <p>
+ 이 realm 의 마이크로태스크를 받는 작업 큐를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the queue / 큐</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setJobQueue(org.duckdns.hjow.swingwebpanel.js.JobQueue)"><!-- --></A><H3>
+setJobQueue</H3>
+<PRE>
+public void <B>setJobQueue</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JobQueue.html" title="interface in org.duckdns.hjow.swingwebpanel.js">JobQueue</A>&nbsp;queue)</PRE>
+<DL>
+<DD>Replaces the job queue (a browser host connects its event loop here).
+ <p>
+ 작업 큐를 바꾼다(브라우저 호스트가 이곳에 이벤트 루프를 연결한다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>queue</CODE> - the queue / 큐</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="enqueueJob(java.lang.Runnable)"><!-- --></A><H3>
+enqueueJob</H3>
+<PRE>
+public void <B>enqueueJob</B>(java.lang.Runnable&nbsp;job)</PRE>
+<DL>
+<DD>Enqueues a job (used by Promise and other built-ins; the host decides when it runs).
+ <p>
+ 작업을 큐에 넣는다(Promise 등 내장 객체가 사용. 실행 시점은 호스트가 정한다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>job</CODE> - the job / 작업</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="enqueueExternalJob(java.lang.Runnable)"><!-- --></A><H3>
+enqueueExternalJob</H3>
+<PRE>
+public void <B>enqueueExternalJob</B>(java.lang.Runnable&nbsp;job)</PRE>
+<DL>
+<DD>Schedules a job submitted by another agent or a host timer. The job runs on the receiving agent.
+ <p>
+ 다른 에이전트나 호스트 타이머가 등록한 작업을 예약한다. 작업은 받는 에이전트에서 실행된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>job</CODE> - work to execute on this agent / 이 에이전트에서 실행할 작업</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setExternalJobExecutor(java.util.concurrent.Executor)"><!-- --></A><H3>
+setExternalJobExecutor</H3>
+<PRE>
+public void <B>setExternalJobExecutor</B>(java.util.concurrent.Executor&nbsp;executor)</PRE>
+<DL>
+<DD>Connects jobs from other agents or timers to the host's task queue.
+ The executor must accept submissions from any thread and run them as tasks of this realm.
+ <p>
+ 다른 에이전트나 타이머의 작업을 호스트 작업 큐에 연결한다.
+ 실행기는 어느 스레드에서나 요청을 받아 이 realm의 작업으로 실행해야 한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>executor</CODE> - realm task scheduler, or null to use the job queue / realm 작업 스케줄러. 작업 큐를 쓰려면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isAtomicsWaitAllowed()"><!-- --></A><H3>
+isAtomicsWaitAllowed</H3>
+<PRE>
+public boolean <B>isAtomicsWaitAllowed</B>()</PRE>
+<DL>
+<DD>Reports whether the host permits blocking the current script agent.
+ <p>
+ 호스트가 현재 스크립트 에이전트의 차단을 허용하는지 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if Atomics.wait may suspend this agent / Atomics.wait가 이 에이전트를 멈출 수 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setAtomicsWaitAllowed(boolean)"><!-- --></A><H3>
+setAtomicsWaitAllowed</H3>
+<PRE>
+public void <B>setAtomicsWaitAllowed</B>(boolean&nbsp;allowed)</PRE>
+<DL>
+<DD>Configures whether Atomics.wait may block scripts in the realm. Configure on the owning thread.
+ <p>
+ Atomics.wait가 이 realm의 스크립트를 차단할 수 있는지 설정한다. realm 소유 스레드에서 설정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>allowed</CODE> - whether synchronous waiting is allowed / 동기 대기 허용 여부</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="keepWeaklyHeld(org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+keepWeaklyHeld</H3>
+<PRE>
+public void <B>keepWeaklyHeld</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;target)</PRE>
+<DL>
+<DD>Keeps a WeakRef target alive until the end of the current task.
+ <p>
+ WeakRef 대상을 현재 작업이 끝날 때까지 살아 있게 둔다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>target</CODE> - the target / 대상</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="keepWeaklyHeld(org.duckdns.hjow.swingwebpanel.js.JsObject)"><!-- --></A><H3>
+keepWeaklyHeld</H3>
+<PRE>
+public void <B>keepWeaklyHeld</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;target)</PRE>
+<DL>
+<DD>Keeps an object target alive until the end of the current task.
+ <p>
+ 현재 작업이 끝날 때까지 객체 대상을 살아 있게 유지한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>target</CODE> - the target object / 대상 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="runJobs()"><!-- --></A><H3>
+runJobs</H3>
+<PRE>
+public void <B>runJobs</B>()</PRE>
+<DL>
+<DD>Runs all pending jobs when the default <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/SimpleJobQueue.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>SimpleJobQueue</CODE></A> is in use (each job is a separate task for the limits).
+ With a host-provided queue the host drains it itself and this method does nothing.
+ <p>
+ 기본 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/SimpleJobQueue.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>SimpleJobQueue</CODE></A> 를 쓰는 경우 대기 중인 모든 작업을 실행한다(작업마다 제한 측정은 별개의 작업이다).
+ 호스트가 준 큐를 쓰면 호스트가 직접 비우므로 이 메서드는 아무 일도 하지 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getModuleLoader()"><!-- --></A><H3>
+getModuleLoader</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ModuleLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.js">ModuleLoader</A> <B>getModuleLoader</B>()</PRE>
+<DL>
+<DD>Returns the module loader hook, or null if none was set.
+ <p>
+ 모듈 로더 연결을 반환한다. 지정하지 않았으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the loader or null / 로더 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setModuleLoader(org.duckdns.hjow.swingwebpanel.js.ModuleLoader)"><!-- --></A><H3>
+setModuleLoader</H3>
+<PRE>
+public void <B>setModuleLoader</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ModuleLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.js">ModuleLoader</A>&nbsp;loader)</PRE>
+<DL>
+<DD>Sets the hook that resolves and loads modules for <code>import</code>.
+ <p>
+ <code>import</code> 를 위해 모듈을 해석하고 불러오는 연결을 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>loader</CODE> - the loader / 로더</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isDynamicImportEnabled()"><!-- --></A><H3>
+isDynamicImportEnabled</H3>
+<PRE>
+public boolean <B>isDynamicImportEnabled</B>()</PRE>
+<DL>
+<DD>Tests whether the host allows dynamic imports in this realm.
+ <p>
+ 호스트가 이 realm에서 동적 가져오기를 허용하는지 확인한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if import() is allowed / import()를 허용하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setDynamicImportEnabled(boolean)"><!-- --></A><H3>
+setDynamicImportEnabled</H3>
+<PRE>
+public void <B>setDynamicImportEnabled</B>(boolean&nbsp;enabled)</PRE>
+<DL>
+<DD>Sets the host policy for import calls. Static loading uses the configured module loader.
+ <p>
+ import 호출에 적용할 호스트 정책을 지정한다. 정적 가져오기는 지정한 모듈 로더를 사용한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>enabled</CODE> - whether the host allows import() / 호스트가 import()를 허용하는지 여부</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="usesHtmlJobCallbacks()"><!-- --></A><H3>
+usesHtmlJobCallbacks</H3>
+<PRE>
+public boolean <B>usesHtmlJobCallbacks</B>()</PRE>
+<DL>
+<DD>Reports whether the host uses HTML's Promise callback rules.
+ <p>
+ 호스트가 HTML의 Promise 콜백 규칙을 쓰는지 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>whether HTML behavior is enabled / HTML 동작의 활성 여부</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="enableHtmlJobCallbacks()"><!-- --></A><H3>
+enableHtmlJobCallbacks</H3>
+<PRE>
+public void <B>enableHtmlJobCallbacks</B>()</PRE>
+<DL>
+<DD>Enables HTML's Promise callback rules when creating a window, worker, or worklet realm.
+ <p>
+ 창, 워커, 워클릿 realm을 만들 때 HTML의 Promise 콜백 규칙을 활성화한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getConsole()"><!-- --></A><H3>
+getConsole</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleHook.html" title="interface in org.duckdns.hjow.swingwebpanel.js">ConsoleHook</A> <B>getConsole</B>()</PRE>
+<DL>
+<DD>Returns the console hook.
+ <p>
+ 콘솔 연결을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the hook / 연결</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setConsole(org.duckdns.hjow.swingwebpanel.js.ConsoleHook)"><!-- --></A><H3>
+setConsole</H3>
+<PRE>
+public void <B>setConsole</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ConsoleHook.html" title="interface in org.duckdns.hjow.swingwebpanel.js">ConsoleHook</A>&nbsp;hook)</PRE>
+<DL>
+<DD>Sets the hook that receives <code>console</code> and <code>print</code> output (the default writes to standard
+ output).
+ <p>
+ <code>console</code> 과 <code>print</code> 출력을 받는 연결을 지정한다(기본값은 표준 출력).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>hook</CODE> - the hook / 연결</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setCallSite(java.lang.String, int, int)"><!-- --></A><H3>
+setCallSite</H3>
+<PRE>
+public void <B>setCallSite</B>(java.lang.String&nbsp;sourceName,
+                        int&nbsp;line,
+                        int&nbsp;column)</PRE>
+<DL>
+<DD>Remembers where the script code is that calls a native function. The interpreter calls it just before each call of a native
+ function, so a native function (for example <code>console.log</code>) can tell where it was called from. The values are only valid
+ while the native function runs, on the thread that runs the script.
+ <p>
+ 기본 함수를 호출하는 스크립트 코드의 위치를 기억한다. 인터프리터가 기본 함수를 호출하기 직전마다 부르므로, 기본 함수(예:
+ <code>console.log</code>)가 자신이 어디서 호출되었는지 알 수 있다. 값은 기본 함수가 실행되는 동안, 스크립트를 실행하는 스레드에서만
+ 유효하다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>sourceName</CODE> - the script name or null / 스크립트 이름 또는 null<DD><CODE>line</CODE> - the 1-based line / 1부터 시작하는 줄<DD><CODE>column</CODE> - the 1-based column / 1부터 시작하는 열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCallSourceName()"><!-- --></A><H3>
+getCallSourceName</H3>
+<PRE>
+public java.lang.String <B>getCallSourceName</B>()</PRE>
+<DL>
+<DD>Returns the name of the script that made the latest call of a native function, or the empty string.
+ <p>
+ 기본 함수를 마지막으로 호출한 스크립트의 이름을 반환한다. 없으면 빈 문자열.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the script name / 스크립트 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCallLine()"><!-- --></A><H3>
+getCallLine</H3>
+<PRE>
+public int <B>getCallLine</B>()</PRE>
+<DL>
+<DD>Returns the line of the latest call of a native function, or 0.
+ <p>
+ 기본 함수의 마지막 호출의 줄을 반환한다. 없으면 0.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the line / 줄</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCallColumn()"><!-- --></A><H3>
+getCallColumn</H3>
+<PRE>
+public int <B>getCallColumn</B>()</PRE>
+<DL>
+<DD>Returns the column of the latest call of a native function, or 0.
+ <p>
+ 기본 함수의 마지막 호출의 열을 반환한다. 없으면 0.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the column / 열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createError(org.duckdns.hjow.swingwebpanel.js.ErrorKind, java.lang.String)"><!-- --></A><H3>
+createError</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>createError</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ErrorKind.html" title="enum in org.duckdns.hjow.swingwebpanel.js">ErrorKind</A>&nbsp;kind,
+                            java.lang.String&nbsp;message)</PRE>
+<DL>
+<DD>Creates an error object of a native kind (used when a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>JsException</CODE></A> is caught by script code).
+ <p>
+ 기본 종류의 오류 객체를 만든다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>JsException</CODE></A> 을 스크립트 코드가 잡을 때 사용).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>kind</CODE> - error kind / 오류 종류<DD><CODE>message</CODE> - message or null / 메시지 또는 null
+<DT><B>Returns:</B><DD>the error object / 오류 객체</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsPrimitiveObject.html" title="class in org.duckdns.hjow.swingwebpanel.js"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.NamedGlobals.html" title="interface in org.duckdns.hjow.swingwebpanel.js"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/JsRealm.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="JsRealm.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

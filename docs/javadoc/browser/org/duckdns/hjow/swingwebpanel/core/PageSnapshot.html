@@ -1,0 +1,730 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+PageSnapshot
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="PageSnapshot";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.InputMethodSwitch.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PageSnapshot.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.core</FONT>
+<BR>
+Class PageSnapshot</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.core.PageSnapshot</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>PageSnapshot</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+An immutable snapshot of one confirmed page: its URL, the received source text, MIME type, base URL and kind.
+ The browser session replaces the whole snapshot at once when a navigation is confirmed, so the URL and the content
+ that callers read always belong to the same page. The source text is never overwritten by DOM changes or by
+ conversions such as Markdown to HTML (API contract 5.9). A snapshot may carry a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDocument.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><CODE>PageDocument</CODE></A> with the page's live objects.
+ <p>
+ 확정된 페이지 하나의 불변 스냅샷: URL, 수신한 원문, MIME 타입, 기준 URL, 종류. 이동이 확정되면 브라우저 세션이
+ 스냅샷 전체를 한 번에 교체하므로 호출자가 읽는 URL 과 콘텐츠는 항상 같은 페이지에 속한다. 원문은 DOM 변경이나
+ Markdown 의 HTML 변환 같은 가공으로 덮어쓰지 않는다(API 계약 5.9). 스냅샷은 페이지의 살아 있는 객체인
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDocument.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><CODE>PageDocument</CODE></A> 를 가질 수 있다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html#blank()">blank</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the empty page snapshot (<code>about:blank</code>, empty source).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html#dispose()">dispose</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Releases the live objects of this snapshot, if any.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html#error(java.lang.String, java.lang.String, java.lang.String, int)">error</A></B>(java.lang.String&nbsp;url,
+      java.lang.String&nbsp;content,
+      java.lang.String&nbsp;mimeType,
+      int&nbsp;statusCode)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a snapshot for a generated or server supplied error page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html#getBaseUrl()">getBaseUrl</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the base URL, or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html#getContent()">getContent</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the received source text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDocument.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageDocument</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html#getDocument()">getDocument</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the live objects of the page, or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html#getEncoding()">getEncoding</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the name of the character encoding that the source was decoded with.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html#getHistoryState()">getHistoryState</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the state object of this history entry.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKind.html" title="enum in org.duckdns.hjow.swingwebpanel.core">PageKind</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html#getKind()">getKind</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the page kind.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html#getMimeType()">getMimeType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the MIME type (no parameters, lower case).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PostData.html" title="class in org.duckdns.hjow.swingwebpanel.core">PostData</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html#getPost()">getPost</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the form submission that made this page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html#getStatusCode()">getStatusCode</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the HTTP status code, or 0.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html#getTitle()">getTitle</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the document title (empty if unknown).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html#getUrl()">getUrl</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the page URL.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html#loaded(java.lang.String, java.lang.String, java.lang.String, java.lang.String, int)">loaded</A></B>(java.lang.String&nbsp;url,
+       java.lang.String&nbsp;content,
+       java.lang.String&nbsp;mimeType,
+       java.lang.String&nbsp;baseUrl,
+       int&nbsp;statusCode)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a snapshot for a page loaded from a URL.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html#text(java.lang.String, java.lang.String)">text</A></B>(java.lang.String&nbsp;content,
+     java.lang.String&nbsp;mimeType)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a snapshot for content given with <code>setContent</code> (URL <code>about:text</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html#withDocument(org.duckdns.hjow.swingwebpanel.core.PageDocument)">withDocument</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDocument.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageDocument</A>&nbsp;doc)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy that carries the given live objects.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html#withEncoding(java.lang.String)">withEncoding</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy that records the character encoding that the source was decoded with.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html#withoutDocument()">withoutDocument</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy without live objects (what a history entry keeps).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html#withPost(org.duckdns.hjow.swingwebpanel.core.PostData)">withPost</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PostData.html" title="class in org.duckdns.hjow.swingwebpanel.core">PostData</A>&nbsp;data)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy of this snapshot that remembers the form submission that made the page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html#withTitle(java.lang.String)">withTitle</A></B>(java.lang.String&nbsp;newTitle)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy with another title.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="blank()"><!-- --></A><H3>
+blank</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A> <B>blank</B>()</PRE>
+<DL>
+<DD>Returns the empty page snapshot (<code>about:blank</code>, empty source).
+ <p>
+ 빈 페이지 스냅샷(<code>about:blank</code>, 빈 원문)을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the blank snapshot / 빈 스냅샷</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="text(java.lang.String, java.lang.String)"><!-- --></A><H3>
+text</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A> <B>text</B>(java.lang.String&nbsp;content,
+                                java.lang.String&nbsp;mimeType)</PRE>
+<DL>
+<DD>Creates a snapshot for content given with <code>setContent</code> (URL <code>about:text</code>).
+ <p>
+ <code>setContent</code> 로 받은 콘텐츠의 스냅샷(URL <code>about:text</code>)을 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>content</CODE> - source text kept as given / 입력 그대로 보관하는 원문<DD><CODE>mimeType</CODE> - normalized MIME type / 정규화한 MIME 타입
+<DT><B>Returns:</B><DD>the snapshot / 스냅샷</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="loaded(java.lang.String, java.lang.String, java.lang.String, java.lang.String, int)"><!-- --></A><H3>
+loaded</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A> <B>loaded</B>(java.lang.String&nbsp;url,
+                                  java.lang.String&nbsp;content,
+                                  java.lang.String&nbsp;mimeType,
+                                  java.lang.String&nbsp;baseUrl,
+                                  int&nbsp;statusCode)</PRE>
+<DL>
+<DD>Creates a snapshot for a page loaded from a URL.
+ <p>
+ URL 에서 읽은 페이지의 스냅샷을 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - final URL / 최종 URL<DD><CODE>content</CODE> - received source / 수신 원문<DD><CODE>mimeType</CODE> - normalized MIME type / 정규화한 MIME 타입<DD><CODE>baseUrl</CODE> - base URL (normally the final URL) / 기준 URL(보통 최종 URL)<DD><CODE>statusCode</CODE> - HTTP status code or 0 / HTTP 상태 코드 또는 0
+<DT><B>Returns:</B><DD>the snapshot / 스냅샷</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="error(java.lang.String, java.lang.String, java.lang.String, int)"><!-- --></A><H3>
+error</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A> <B>error</B>(java.lang.String&nbsp;url,
+                                 java.lang.String&nbsp;content,
+                                 java.lang.String&nbsp;mimeType,
+                                 int&nbsp;statusCode)</PRE>
+<DL>
+<DD>Creates a snapshot for a generated or server supplied error page.
+ <p>
+ 생성한 또는 서버가 보낸 오류 페이지의 스냅샷을 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - URL the user asked for / 사용자가 요청한 URL<DD><CODE>content</CODE> - source text of the error page / 오류 페이지 원문<DD><CODE>mimeType</CODE> - normalized MIME type / 정규화한 MIME 타입<DD><CODE>statusCode</CODE> - HTTP status code or 0 / HTTP 상태 코드 또는 0
+<DT><B>Returns:</B><DD>the snapshot / 스냅샷</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="withDocument(org.duckdns.hjow.swingwebpanel.core.PageDocument)"><!-- --></A><H3>
+withDocument</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A> <B>withDocument</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDocument.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageDocument</A>&nbsp;doc)</PRE>
+<DL>
+<DD>Returns a copy that carries the given live objects.
+ <p>
+ 주어진 살아 있는 객체를 가진 복사본을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>doc</CODE> - live objects / 살아 있는 객체
+<DT><B>Returns:</B><DD>the new snapshot / 새 스냅샷</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="withEncoding(java.lang.String)"><!-- --></A><H3>
+withEncoding</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A> <B>withEncoding</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns a copy that records the character encoding that the source was decoded with.
+ <p>
+ 원문을 디코딩한 문자 인코딩을 기록한 복사본을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - encoding name, null or empty keeps UTF-8 / 인코딩 이름. null 이나 빈 값이면 UTF-8
+<DT><B>Returns:</B><DD>the new snapshot / 새 스냅샷</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEncoding()"><!-- --></A><H3>
+getEncoding</H3>
+<PRE>
+public java.lang.String <B>getEncoding</B>()</PRE>
+<DL>
+<DD>Returns the name of the character encoding that the source was decoded with.
+ <p>
+ 원문을 디코딩한 문자 인코딩의 이름을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the encoding name / 인코딩 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="withPost(org.duckdns.hjow.swingwebpanel.core.PostData)"><!-- --></A><H3>
+withPost</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A> <B>withPost</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PostData.html" title="class in org.duckdns.hjow.swingwebpanel.core">PostData</A>&nbsp;data)</PRE>
+<DL>
+<DD>Returns a copy of this snapshot that remembers the form submission that made the page. A history move then shows the stored source
+ instead of sending the form again, and a refresh sends it again only after the user agreed.
+ <p>
+ 페이지를 만든 폼 제출을 기억하는 이 스냅샷의 복사본을 반환한다. 그러면 이력 이동은 폼을 다시 보내는 대신 저장한 원문을 보여 주고, 새로고침은
+ 사용자가 동의한 뒤에만 다시 보낸다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - the form submission, or null / 폼 제출. 없으면 null
+<DT><B>Returns:</B><DD>the copy / 복사본</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPost()"><!-- --></A><H3>
+getPost</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PostData.html" title="class in org.duckdns.hjow.swingwebpanel.core">PostData</A> <B>getPost</B>()</PRE>
+<DL>
+<DD>Returns the form submission that made this page.
+ <p>
+ 이 페이지를 만든 폼 제출을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the submission, or null if the page was loaded by a plain request / 제출. 일반 요청으로 읽은 페이지이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="withoutDocument()"><!-- --></A><H3>
+withoutDocument</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A> <B>withoutDocument</B>()</PRE>
+<DL>
+<DD>Returns a copy without live objects (what a history entry keeps).
+ <p>
+ 살아 있는 객체가 없는 복사본을 반환한다(이력 항목이 보관하는 형태).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the new snapshot / 새 스냅샷</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="withTitle(java.lang.String)"><!-- --></A><H3>
+withTitle</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A> <B>withTitle</B>(java.lang.String&nbsp;newTitle)</PRE>
+<DL>
+<DD>Returns a copy with another title.
+ <p>
+ 제목을 바꾼 복사본을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>newTitle</CODE> - new title (null means empty) / 새 제목(null 이면 빈 문자열)
+<DT><B>Returns:</B><DD>the new snapshot / 새 스냅샷</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHistoryState()"><!-- --></A><H3>
+getHistoryState</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A> <B>getHistoryState</B>()</PRE>
+<DL>
+<DD>Returns the state object of this history entry.
+ <p>
+ 이 이력 항목의 상태 객체를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the serialized state, or null if the entry has none / 직렬화된 상태. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispose()"><!-- --></A><H3>
+dispose</H3>
+<PRE>
+public void <B>dispose</B>()</PRE>
+<DL>
+<DD>Releases the live objects of this snapshot, if any.
+ <p>
+ 이 스냅샷의 살아 있는 객체가 있으면 해제한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getUrl()"><!-- --></A><H3>
+getUrl</H3>
+<PRE>
+public java.lang.String <B>getUrl</B>()</PRE>
+<DL>
+<DD>Returns the page URL.
+ <p>
+ 페이지 URL 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>URL / URL</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getContent()"><!-- --></A><H3>
+getContent</H3>
+<PRE>
+public java.lang.String <B>getContent</B>()</PRE>
+<DL>
+<DD>Returns the received source text.
+ <p>
+ 수신 원문을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>source text / 원문</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMimeType()"><!-- --></A><H3>
+getMimeType</H3>
+<PRE>
+public java.lang.String <B>getMimeType</B>()</PRE>
+<DL>
+<DD>Returns the MIME type (no parameters, lower case).
+ <p>
+ MIME 타입(매개변수 없음, 소문자)을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>MIME type / MIME 타입</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBaseUrl()"><!-- --></A><H3>
+getBaseUrl</H3>
+<PRE>
+public java.lang.String <B>getBaseUrl</B>()</PRE>
+<DL>
+<DD>Returns the base URL, or null.
+ <p>
+ 기준 URL 을 반환한다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>base URL or null / 기준 URL 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getKind()"><!-- --></A><H3>
+getKind</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKind.html" title="enum in org.duckdns.hjow.swingwebpanel.core">PageKind</A> <B>getKind</B>()</PRE>
+<DL>
+<DD>Returns the page kind.
+ <p>
+ 페이지 종류를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>kind / 종류</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTitle()"><!-- --></A><H3>
+getTitle</H3>
+<PRE>
+public java.lang.String <B>getTitle</B>()</PRE>
+<DL>
+<DD>Returns the document title (empty if unknown).
+ <p>
+ 문서 제목(모르면 빈 문자열)을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>title / 제목</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStatusCode()"><!-- --></A><H3>
+getStatusCode</H3>
+<PRE>
+public int <B>getStatusCode</B>()</PRE>
+<DL>
+<DD>Returns the HTTP status code, or 0.
+ <p>
+ HTTP 상태 코드를 반환한다. 없으면 0.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>status code / 상태 코드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDocument()"><!-- --></A><H3>
+getDocument</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDocument.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageDocument</A> <B>getDocument</B>()</PRE>
+<DL>
+<DD>Returns the live objects of the page, or null.
+ <p>
+ 페이지의 살아 있는 객체를 반환한다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>live objects or null / 살아 있는 객체 또는 null</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.InputMethodSwitch.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PageSnapshot.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

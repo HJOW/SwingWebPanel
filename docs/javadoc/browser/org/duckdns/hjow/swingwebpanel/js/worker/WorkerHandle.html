@@ -1,0 +1,400 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+WorkerHandle
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="WorkerHandle";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerApi.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerLimits.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/worker/WorkerHandle.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WorkerHandle.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_classes_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.EventTarget">NESTED</A>&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.EventTarget">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.worker</FONT>
+<BR>
+Class WorkerHandle</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">org.duckdns.hjow.swingwebpanel.dom.EventTarget</A>
+      <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.worker.WorkerHandle</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>WorkerHandle</B><DT>extends <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A></DL>
+</PRE>
+
+<P>
+The Java side of a <code>Worker</code> object of the page (HTML Standard "Web workers", interface <code>Worker</code>): the event target at
+ which the page receives the <code>message</code> events of the worker and its <code>error</code> events, and the handle with which the page
+ posts messages to the worker and terminates it. It lives on the page; the worker is a separate <CODE>WorkerScope</CODE>. The calls from the
+ worker arrive on the worker thread and are handed over to the page as page tasks, so an event of the worker is dispatched on the thread that
+ owns the page and never while a page script runs. After <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerHandle.html#terminate()"><CODE>terminate()</CODE></A> nothing is dispatched any more, also not what was already
+ posted to the page.
+ <p>
+ 페이지의 <code>Worker</code> 객체(HTML 표준 "Web workers", 인터페이스 <code>Worker</code>)의 Java 쪽: 페이지가 worker 의 <code>message</code> 이벤트와
+ <code>error</code> 이벤트를 받는 이벤트 대상이며, 페이지가 worker 에 메시지를 보내고 종료하는 핸들이다. 페이지에 있으며 worker 는 별개의
+ <CODE>WorkerScope</CODE> 이다. worker 에서 오는 호출은 worker 스레드에 도착해 페이지 작업으로 넘겨지므로 worker 의 이벤트는 페이지를 소유한 스레드에서,
+ 페이지 스크립트가 실행되는 동안이 아닐 때 전달된다. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerHandle.html#terminate()"><CODE>terminate()</CODE></A> 뒤에는 이미 페이지에 올려 보낸 것도 포함해 아무것도 전달되지 않는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="nested_classes_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.EventTarget"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Nested classes/interfaces inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.ListenerSignal.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">EventTarget.ListenerSignal</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.EventTarget"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#PRINTING_HANDLER">PRINTING_HANDLER</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerHandle.html#console(org.duckdns.hjow.swingwebpanel.js.ConsoleRecord)">console</A></B>(org.duckdns.hjow.swingwebpanel.js.ConsoleRecord&nbsp;record)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writes the console output of the worker to the console of the page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerHandle.html#errorFromWorker(java.lang.String, java.lang.String, int, int)">errorFromWorker</A></B>(java.lang.String&nbsp;message,
+                java.lang.String&nbsp;filename,
+                int&nbsp;line,
+                int&nbsp;column)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reports an uncaught error of the worker: an <code>error</code> event (cancelable, with the message, file and position, without the
+ thrown value) at the <code>Worker</code> object; if nobody cancels it, it is written to the console of the page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerHandle.html#loadFailed(java.lang.String)">loadFailed</A></B>(java.lang.String&nbsp;reason)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reports that the worker could not start: a plain <code>error</code> event at the <code>Worker</code> object and a console message.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerHandle.html#messageFromWorker(org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue)">messageFromWorker</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A>&nbsp;data)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Posts a message of the worker to the page: a <code>message</code> event follows in a task of the page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerHandle.html#terminate()">terminate</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Terminates the worker at once (<code>Worker.terminate()</code>): the running script is cancelled, no message and no event is delivered
+ any more, and its thread ends.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.EventTarget"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#addEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener)">addEventListener</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#addEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener, boolean)">addEventListener</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#addEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener, boolean, boolean, boolean)">addEventListener</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#addEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener, boolean, boolean, boolean, org.duckdns.hjow.swingwebpanel.dom.EventTarget.ListenerSignal)">addEventListener</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#dispatchEvent(org.duckdns.hjow.swingwebpanel.dom.Event)">dispatchEvent</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#dispatchTrustedEvent(org.duckdns.hjow.swingwebpanel.dom.Event)">dispatchTrustedEvent</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#getEventListenerCount()">getEventListenerCount</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#getEventParent(org.duckdns.hjow.swingwebpanel.dom.Event)">getEventParent</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#getListenerErrorHandler()">getListenerErrorHandler</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#hasEventListeners(java.lang.String)">hasEventListeners</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#listenerAdded(java.lang.String)">listenerAdded</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#removeAllEventListeners()">removeAllEventListeners</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#removeEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener)">removeEventListener</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#removeEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener, boolean)">removeEventListener</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="terminate()"><!-- --></A><H3>
+terminate</H3>
+<PRE>
+public void <B>terminate</B>()</PRE>
+<DL>
+<DD>Terminates the worker at once (<code>Worker.terminate()</code>): the running script is cancelled, no message and no event is delivered
+ any more, and its thread ends. Calling it again does nothing.
+ <p>
+ worker 를 즉시 종료한다(<code>Worker.terminate()</code>): 실행 중인 스크립트는 취소되고, 더 이상 메시지도 이벤트도 전달되지 않으며, 스레드가
+ 끝난다. 다시 불러도 아무 일도 없다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="messageFromWorker(org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue)"><!-- --></A><H3>
+messageFromWorker</H3>
+<PRE>
+public void <B>messageFromWorker</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A>&nbsp;data)</PRE>
+<DL>
+<DD>Posts a message of the worker to the page: a <code>message</code> event follows in a task of the page.
+ <p>
+ worker 의 메시지를 페이지에 올려 보낸다: 페이지의 작업으로 <code>message</code> 이벤트가 뒤따른다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - the serialized message / 직렬화된 메시지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="errorFromWorker(java.lang.String, java.lang.String, int, int)"><!-- --></A><H3>
+errorFromWorker</H3>
+<PRE>
+public void <B>errorFromWorker</B>(java.lang.String&nbsp;message,
+                            java.lang.String&nbsp;filename,
+                            int&nbsp;line,
+                            int&nbsp;column)</PRE>
+<DL>
+<DD>Reports an uncaught error of the worker: an <code>error</code> event (cancelable, with the message, file and position, without the
+ thrown value) at the <code>Worker</code> object; if nobody cancels it, it is written to the console of the page.
+ <p>
+ worker 의 잡히지 않은 오류를 보고한다: <code>Worker</code> 객체에 <code>error</code> 이벤트(취소 가능, 메시지, 파일, 위치를 가지며 던져진 값은
+ 없음)를 전달한다. 아무도 취소하지 않으면 페이지의 콘솔에 기록한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>message</CODE> - the message / 메시지<DD><CODE>filename</CODE> - the script URL / 스크립트 URL<DD><CODE>line</CODE> - the line / 줄<DD><CODE>column</CODE> - the column / 열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="loadFailed(java.lang.String)"><!-- --></A><H3>
+loadFailed</H3>
+<PRE>
+public void <B>loadFailed</B>(java.lang.String&nbsp;reason)</PRE>
+<DL>
+<DD>Reports that the worker could not start: a plain <code>error</code> event at the <code>Worker</code> object and a console message.
+ <p>
+ worker 를 시작할 수 없음을 보고한다: <code>Worker</code> 객체에 일반 <code>error</code> 이벤트를 전달하고 콘솔에 메시지를 남긴다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>reason</CODE> - the reason / 이유</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="console(org.duckdns.hjow.swingwebpanel.js.ConsoleRecord)"><!-- --></A><H3>
+console</H3>
+<PRE>
+public void <B>console</B>(org.duckdns.hjow.swingwebpanel.js.ConsoleRecord&nbsp;record)</PRE>
+<DL>
+<DD>Writes the console output of the worker to the console of the page.
+ <p>
+ worker 의 콘솔 출력을 페이지의 콘솔에 기록한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>record</CODE> - the record of the worker's console / worker 콘솔의 기록</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerApi.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerLimits.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/worker/WorkerHandle.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WorkerHandle.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_classes_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.EventTarget">NESTED</A>&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.EventTarget">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

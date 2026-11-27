@@ -1,0 +1,347 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+OggPageWriter
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="OggPageWriter";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggPage.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio.ogg"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggReader.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio.ogg"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggPageWriter.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="OggPageWriter.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.audio.ogg</FONT>
+<BR>
+Class OggPageWriter</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggPageWriter</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>OggPageWriter</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Writes one logical Ogg stream to a caller-owned sink. At most one page is buffered, including across split packets.
+ <p>
+ 호출자가 소유하는 출력에 Ogg 논리 스트림 하나를 쓴다. 패킷이 여러 페이지로 나뉘어도 페이지 하나만 버퍼에 둔다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggPageWriter.html#OggPageWriter(java.io.OutputStream, int)">OggPageWriter</A></B>(java.io.OutputStream&nbsp;out,
+              int&nbsp;serial)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts a stream with the given serial number. / 주어진 시리얼 번호로 스트림을 시작한다.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggPageWriter.html#flush(boolean)">flush</A></B>(boolean&nbsp;last)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writes the buffered page and its checksum. / 버퍼의 페이지와 체크섬을 쓴다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggPageWriter.html#packet(byte[], long)">packet</A></B>(byte[]&nbsp;bytes,
+       long&nbsp;endGranule)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writes an array packet. / 배열 패킷을 쓴다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggPageWriter.html#packet(org.duckdns.hjow.swingwebpanel.media.audio.ByteSource, int, int, long)">packet</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio">ByteSource</A>&nbsp;data,
+       int&nbsp;offset,
+       int&nbsp;length,
+       long&nbsp;endGranule)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Copies one packet in lacing segments without allocating a packet-sized buffer. / 패킷 크기의 버퍼를 할당하지 않고 세그먼트별로 패킷을 복사한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggPageWriter.html#segments()">segments</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the buffered segment count. / 버퍼의 세그먼트 수를 반환한다.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="OggPageWriter(java.io.OutputStream, int)"><!-- --></A><H3>
+OggPageWriter</H3>
+<PRE>
+public <B>OggPageWriter</B>(java.io.OutputStream&nbsp;out,
+                     int&nbsp;serial)</PRE>
+<DL>
+<DD>Starts a stream with the given serial number. / 주어진 시리얼 번호로 스트림을 시작한다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>out</CODE> - the output, closed by the caller / 출력. 호출자가 닫는다<DD><CODE>serial</CODE> - stream serial number / 스트림 시리얼 번호</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="segments()"><!-- --></A><H3>
+segments</H3>
+<PRE>
+public int <B>segments</B>()</PRE>
+<DL>
+<DD>Returns the buffered segment count. / 버퍼의 세그먼트 수를 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="packet(byte[], long)"><!-- --></A><H3>
+packet</H3>
+<PRE>
+public void <B>packet</B>(byte[]&nbsp;bytes,
+                   long&nbsp;endGranule)
+            throws java.io.IOException,
+                   <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></PRE>
+<DL>
+<DD>Writes an array packet. / 배열 패킷을 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>bytes</CODE> - packet bytes / 패킷 바이트<DD><CODE>endGranule</CODE> - its ending granule position / 이 패킷의 마지막 그라뉼
+<DT><B>Throws:</B>
+<DD><CODE>java.io.IOException</CODE> - if the sink fails / 출력에 실패하면
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></CODE> - if the packet exceeds the decoder limit / 디코더의 패킷 제한을 넘으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="packet(org.duckdns.hjow.swingwebpanel.media.audio.ByteSource, int, int, long)"><!-- --></A><H3>
+packet</H3>
+<PRE>
+public void <B>packet</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio">ByteSource</A>&nbsp;data,
+                   int&nbsp;offset,
+                   int&nbsp;length,
+                   long&nbsp;endGranule)
+            throws java.io.IOException,
+                   <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></PRE>
+<DL>
+<DD>Copies one packet in lacing segments without allocating a packet-sized buffer. / 패킷 크기의 버퍼를 할당하지 않고 세그먼트별로 패킷을 복사한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - the source / 원천<DD><CODE>offset</CODE> - offset of the packet / 패킷 위치<DD><CODE>length</CODE> - packet length / 패킷 길이<DD><CODE>endGranule</CODE> - its ending granule position / 이 패킷의 마지막 그라뉼
+<DT><B>Throws:</B>
+<DD><CODE>java.io.IOException</CODE> - if the sink fails / 출력에 실패하면
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></CODE> - if the packet range is invalid or exceeds the decoder limit / 패킷 범위가 잘못되었거나 디코더 제한을 넘으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="flush(boolean)"><!-- --></A><H3>
+flush</H3>
+<PRE>
+public void <B>flush</B>(boolean&nbsp;last)
+           throws java.io.IOException</PRE>
+<DL>
+<DD>Writes the buffered page and its checksum. / 버퍼의 페이지와 체크섬을 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>last</CODE> - true for the last page of the stream / 스트림의 마지막 페이지이면 true
+<DT><B>Throws:</B>
+<DD><CODE>java.io.IOException</CODE> - if the sink fails / 출력에 실패하면</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggPage.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio.ogg"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggReader.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio.ogg"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggPageWriter.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="OggPageWriter.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

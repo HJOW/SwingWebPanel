@@ -1,0 +1,521 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+TextTrackValue
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="TextTrackValue";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/TextTrackListValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/ThreadScheduler.html" title="class in org.duckdns.hjow.swingwebpanel.js.host"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/TextTrackValue.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="TextTrackValue.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_classes_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.EventTarget">NESTED</A>&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.EventTarget">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.host</FONT>
+<BR>
+Class TextTrackValue</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">org.duckdns.hjow.swingwebpanel.dom.EventTarget</A>
+      <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.host.TextTrackValue</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>TextTrackValue</B><DT>extends <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A></DL>
+</PRE>
+
+<P>
+The script object of a text track (<code>TextTrack</code>, HTML 4.8.11.11.1 and 4.8.11.11.5) and the state that goes with it: the kind, label, language
+ and identifier, the readiness state, the mode, the list of cues and what the track processing model needs while the file of a
+ <code>track</code> element is fetched. A track either belongs to a <code>track</code> element (its kind, label, language and identifier are read
+ from the element when they are asked for, so they change with the attributes) or was made by <code>addTextTrack()</code> (the values are fixed). The
+ cues are kept in the text track cue order: the start time, then the end time (the later one first), then the order of insertion. <code>cuechange</code>
+ fires at the track. The class is public because the DOM bridge reads its accessors by reflection; everything that changes the state of the page
+ goes through the <CODE>TextTracks</CODE> manager.
+ <p>
+ 텍스트 트랙의 스크립트 객체(<code>TextTrack</code>, HTML 4.8.11.11.1, 4.8.11.11.5)와 거기 딸린 상태: 종류, 레이블, 언어, 식별자, 준비 상태, 모드, cue 목록,
+ <code>track</code> 요소의 파일을 가져오는 동안 트랙 처리 모델이 필요로 하는 것. 트랙은 <code>track</code> 요소에 속하거나(종류, 레이블, 언어, 식별자는
+ 물을 때 요소에서 읽으므로 속성을 따라 바뀐다) <code>addTextTrack()</code> 이 만든 것이다(값이 고정). cue 는 텍스트 트랙 cue 순서로 보관한다: 시작 시각,
+ 끝 시각(늦은 것 먼저), 들어온 순서. <code>cuechange</code> 는 트랙에서 발생한다. DOM 브리지가 접근자를 리플렉션으로 읽으므로 클래스는 public 이며
+ 페이지의 상태를 바꾸는 모든 것은 <CODE>TextTracks</CODE> 관리자를 거친다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="nested_classes_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.EventTarget"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Nested classes/interfaces inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.ListenerSignal.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">EventTarget.ListenerSignal</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.EventTarget"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#PRINTING_HANDLER">PRINTING_HANDLER</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/TextTrackValue.html#addCue(java.lang.Object)">addCue</A></B>(java.lang.Object&nbsp;cue)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Implements <code>addCue(cue)</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/TextTrackValue.html#getActiveCues()">getActiveCues</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>activeCues</code>: null while the mode is <code>disabled</code>, else the live list of the cues that are active.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/TextTrackValue.html#getCues()">getCues</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>cues</code>: null while the mode is <code>disabled</code>, else the live list of the cues (the same object every time).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/TextTrackValue.html#getId()">getId</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>id</code>: the <code>id</code> of the <code>track</code> element, empty for a scripted track.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/TextTrackValue.html#getInBandMetadataTrackDispatchType()">getInBandMetadataTrackDispatchType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>inBandMetadataTrackDispatchType</code>: always empty, because no track comes from inside a media resource.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/TextTrackValue.html#getKind()">getKind</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>kind</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/TextTrackValue.html#getLabel()">getLabel</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>label</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/TextTrackValue.html#getLanguage()">getLanguage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>language</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/TextTrackValue.html#getMode()">getMode</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>mode</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/TextTrackValue.html#removeCue(java.lang.Object)">removeCue</A></B>(java.lang.Object&nbsp;cue)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Implements <code>removeCue(cue)</code>: a cue that is not in the list is a <code>NotFoundError</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/TextTrackValue.html#setMode(java.lang.String)">setMode</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets <code>mode</code>; a value that is none of the keywords is ignored (an enumeration attribute).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.EventTarget"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#addEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener)">addEventListener</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#addEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener, boolean)">addEventListener</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#addEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener, boolean, boolean, boolean)">addEventListener</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#addEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener, boolean, boolean, boolean, org.duckdns.hjow.swingwebpanel.dom.EventTarget.ListenerSignal)">addEventListener</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#dispatchEvent(org.duckdns.hjow.swingwebpanel.dom.Event)">dispatchEvent</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#dispatchTrustedEvent(org.duckdns.hjow.swingwebpanel.dom.Event)">dispatchTrustedEvent</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#getEventListenerCount()">getEventListenerCount</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#getEventParent(org.duckdns.hjow.swingwebpanel.dom.Event)">getEventParent</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#getListenerErrorHandler()">getListenerErrorHandler</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#hasEventListeners(java.lang.String)">hasEventListeners</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#listenerAdded(java.lang.String)">listenerAdded</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#removeAllEventListeners()">removeAllEventListeners</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#removeEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener)">removeEventListener</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#removeEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener, boolean)">removeEventListener</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getKind()"><!-- --></A><H3>
+getKind</H3>
+<PRE>
+public java.lang.String <B>getKind</B>()</PRE>
+<DL>
+<DD>Returns <code>kind</code>.
+ <p>
+ <code>kind</code> 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the kind / 종류</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLabel()"><!-- --></A><H3>
+getLabel</H3>
+<PRE>
+public java.lang.String <B>getLabel</B>()</PRE>
+<DL>
+<DD>Returns <code>label</code>.
+ <p>
+ <code>label</code> 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the label, empty if there is none / 레이블. 없으면 빈 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLanguage()"><!-- --></A><H3>
+getLanguage</H3>
+<PRE>
+public java.lang.String <B>getLanguage</B>()</PRE>
+<DL>
+<DD>Returns <code>language</code>.
+ <p>
+ <code>language</code> 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the language, empty if there is none / 언어. 없으면 빈 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getId()"><!-- --></A><H3>
+getId</H3>
+<PRE>
+public java.lang.String <B>getId</B>()</PRE>
+<DL>
+<DD>Returns <code>id</code>: the <code>id</code> of the <code>track</code> element, empty for a scripted track.
+ <p>
+ <code>id</code> 를 반환한다: <code>track</code> 요소의 <code>id</code>. 스크립트가 만든 트랙은 빈 문자열.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the identifier / 식별자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getInBandMetadataTrackDispatchType()"><!-- --></A><H3>
+getInBandMetadataTrackDispatchType</H3>
+<PRE>
+public java.lang.String <B>getInBandMetadataTrackDispatchType</B>()</PRE>
+<DL>
+<DD>Returns <code>inBandMetadataTrackDispatchType</code>: always empty, because no track comes from inside a media resource.
+ <p>
+ <code>inBandMetadataTrackDispatchType</code> 을 반환한다: 미디어 리소스 안에서 오는 트랙이 없으므로 항상 빈 문자열.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>an empty string / 빈 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMode()"><!-- --></A><H3>
+getMode</H3>
+<PRE>
+public java.lang.String <B>getMode</B>()</PRE>
+<DL>
+<DD>Returns <code>mode</code>.
+ <p>
+ <code>mode</code> 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD><code>disabled</code>, <code>hidden</code> or <code>showing</code> / <code>disabled</code>, <code>hidden</code>, <code>showing</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMode(java.lang.String)"><!-- --></A><H3>
+setMode</H3>
+<PRE>
+public void <B>setMode</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets <code>mode</code>; a value that is none of the keywords is ignored (an enumeration attribute).
+ <p>
+ <code>mode</code> 를 정한다. 키워드가 아닌 값은 무시한다(열거형 속성).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the mode / 모드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCues()"><!-- --></A><H3>
+getCues</H3>
+<PRE>
+public java.lang.Object <B>getCues</B>()</PRE>
+<DL>
+<DD>Returns <code>cues</code>: null while the mode is <code>disabled</code>, else the live list of the cues (the same object every time).
+ <p>
+ <code>cues</code> 를 반환한다: 모드가 <code>disabled</code> 인 동안은 null, 아니면 cue 의 살아 있는 목록(매번 같은 객체).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the list or null / 목록. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getActiveCues()"><!-- --></A><H3>
+getActiveCues</H3>
+<PRE>
+public java.lang.Object <B>getActiveCues</B>()</PRE>
+<DL>
+<DD>Returns <code>activeCues</code>: null while the mode is <code>disabled</code>, else the live list of the cues that are active.
+ <p>
+ <code>activeCues</code> 를 반환한다: 모드가 <code>disabled</code> 인 동안은 null, 아니면 활성인 cue 의 살아 있는 목록.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the list or null / 목록. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addCue(java.lang.Object)"><!-- --></A><H3>
+addCue</H3>
+<PRE>
+public void <B>addCue</B>(java.lang.Object&nbsp;cue)</PRE>
+<DL>
+<DD>Implements <code>addCue(cue)</code>.
+ <p>
+ <code>addCue(cue)</code> 를 구현한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>cue</CODE> - the cue / cue</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeCue(java.lang.Object)"><!-- --></A><H3>
+removeCue</H3>
+<PRE>
+public void <B>removeCue</B>(java.lang.Object&nbsp;cue)</PRE>
+<DL>
+<DD>Implements <code>removeCue(cue)</code>: a cue that is not in the list is a <code>NotFoundError</code>.
+ <p>
+ <code>removeCue(cue)</code> 를 구현한다: 목록에 없는 cue 는 <code>NotFoundError</code> 이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>cue</CODE> - the cue / cue</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/TextTrackListValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/ThreadScheduler.html" title="class in org.duckdns.hjow.swingwebpanel.js.host"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/TextTrackValue.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="TextTrackValue.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_classes_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.EventTarget">NESTED</A>&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.EventTarget">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

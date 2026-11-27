@@ -1,0 +1,793 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+OpenRequest
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="OpenRequest";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/NetworkPageLoader.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageComposition.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/OpenRequest.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="OpenRequest.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.core</FONT>
+<BR>
+Class OpenRequest</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.core.OpenRequest</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>OpenRequest</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+What a page asked for when it needs a new window (plan item P31-08): a call of <code>window.open</code>, a link or form whose target
+ names no existing browsing context, or a link that the user chose to open elsewhere (Ctrl, Shift or the middle button). The session
+ builds the request and gives it to the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/WindowOpener.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><CODE>WindowOpener</CODE></A> of its component, which decides whether and where the window appears.
+ <p>
+ 페이지가 새 창을 필요로 할 때 요청한 것(계획 P31-08): <code>window.open</code> 호출, 대상이 기존 브라우징 문맥을 가리키지 않는 링크나 폼,
+ 사용자가 다른 곳에서 열기로 고른 링크(Ctrl, Shift, 가운데 단추). 세션이 요청을 만들어 컴포넌트의 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/WindowOpener.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><CODE>WindowOpener</CODE></A> 에 주고, 그것이 창을
+ 보일지와 어디에 보일지를 정한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#LINK">LINK</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A link or a form whose target needs a new window. / 대상이 새 창을 필요로 하는 링크나 폼.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#PLACE_TAB">PLACE_TAB</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The user asked for a new tab (Ctrl+click, middle click). / 사용자가 새 탭을 요청했다(Ctrl+클릭, 가운데 클릭).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#PLACE_WINDOW">PLACE_WINDOW</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The user asked for a new window (Shift+click). / 사용자가 새 창을 요청했다(Shift+클릭).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#SCRIPT">SCRIPT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A call of <code>window.open</code>. / <code>window.open</code> 호출.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#USER">USER</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A link that the user chose to open in a new tab or window. / 사용자가 새 탭이나 창에서 열기로 고른 링크.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#OpenRequest(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.duckdns.hjow.swingwebpanel.js.host.BrowsingContext, java.lang.String, java.lang.String, org.duckdns.hjow.swingwebpanel.core.PostData, java.lang.String)">OpenRequest</A></B>(int&nbsp;kind,
+            java.lang.String&nbsp;url,
+            java.lang.String&nbsp;target,
+            java.lang.String&nbsp;features,
+            java.lang.String&nbsp;documentUrl,
+            <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/host/BrowsingContext.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">BrowsingContext</A>&nbsp;opener,
+            java.lang.String&nbsp;originUrl,
+            java.lang.String&nbsp;baseUri,
+            <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PostData.html" title="class in org.duckdns.hjow.swingwebpanel.core">PostData</A>&nbsp;post,
+            java.lang.String&nbsp;place)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a request.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#getBaseUri()">getBaseUri</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the base address that the first empty document of the window inherits.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#getDocumentUrl()">getDocumentUrl</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the address of the document that asked.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#getFeatures()">getFeatures</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the window features text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#getHeight()">getHeight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the requested height of the content area.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#getKind()">getKind</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the kind of the request.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#getLeft()">getLeft</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the requested left edge on the screen.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/host/BrowsingContext.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">BrowsingContext</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#getOpener()">getOpener</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the context of the document that asked.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#getOriginUrl()">getOriginUrl</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the origin address that the first empty document of the window inherits.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#getPlace()">getPlace</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the place that the user chose.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PostData.html" title="class in org.duckdns.hjow.swingwebpanel.core">PostData</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#getPost()">getPost</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the body of the form submission that goes to the new window.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#getTarget()">getTarget</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the target name.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#getTop()">getTop</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the requested top edge on the screen.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#getUrl()">getUrl</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the address to open.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#getWidth()">getWidth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the requested width of the content area.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#isActivated()">isActivated</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether an action of the user stands behind the request.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#isNoOpener()">isNoOpener</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the new window has no connection to the window that asked: it runs on its own document thread, has no opener, and
+ <code>window.open</code> returns null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html" title="class in org.duckdns.hjow.swingwebpanel.core">OpenRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#withActivation(boolean)">withActivation</A></B>(boolean&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Notes whether an action of the user stands behind the request (a form that a script submits into a new window has none).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="SCRIPT"><!-- --></A><H3>
+SCRIPT</H3>
+<PRE>
+public static final int <B>SCRIPT</B></PRE>
+<DL>
+<DD>A call of <code>window.open</code>. / <code>window.open</code> 호출.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.core.OpenRequest.SCRIPT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LINK"><!-- --></A><H3>
+LINK</H3>
+<PRE>
+public static final int <B>LINK</B></PRE>
+<DL>
+<DD>A link or a form whose target needs a new window. / 대상이 새 창을 필요로 하는 링크나 폼.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.core.OpenRequest.LINK">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="USER"><!-- --></A><H3>
+USER</H3>
+<PRE>
+public static final int <B>USER</B></PRE>
+<DL>
+<DD>A link that the user chose to open in a new tab or window. / 사용자가 새 탭이나 창에서 열기로 고른 링크.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.core.OpenRequest.USER">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PLACE_TAB"><!-- --></A><H3>
+PLACE_TAB</H3>
+<PRE>
+public static final java.lang.String <B>PLACE_TAB</B></PRE>
+<DL>
+<DD>The user asked for a new tab (Ctrl+click, middle click). / 사용자가 새 탭을 요청했다(Ctrl+클릭, 가운데 클릭).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.core.OpenRequest.PLACE_TAB">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PLACE_WINDOW"><!-- --></A><H3>
+PLACE_WINDOW</H3>
+<PRE>
+public static final java.lang.String <B>PLACE_WINDOW</B></PRE>
+<DL>
+<DD>The user asked for a new window (Shift+click). / 사용자가 새 창을 요청했다(Shift+클릭).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.core.OpenRequest.PLACE_WINDOW">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="OpenRequest(int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, org.duckdns.hjow.swingwebpanel.js.host.BrowsingContext, java.lang.String, java.lang.String, org.duckdns.hjow.swingwebpanel.core.PostData, java.lang.String)"><!-- --></A><H3>
+OpenRequest</H3>
+<PRE>
+public <B>OpenRequest</B>(int&nbsp;kind,
+                   java.lang.String&nbsp;url,
+                   java.lang.String&nbsp;target,
+                   java.lang.String&nbsp;features,
+                   java.lang.String&nbsp;documentUrl,
+                   <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/host/BrowsingContext.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">BrowsingContext</A>&nbsp;opener,
+                   java.lang.String&nbsp;originUrl,
+                   java.lang.String&nbsp;baseUri,
+                   <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PostData.html" title="class in org.duckdns.hjow.swingwebpanel.core">PostData</A>&nbsp;post,
+                   java.lang.String&nbsp;place)</PRE>
+<DL>
+<DD>Creates a request.
+ <p>
+ 요청을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>kind</CODE> - <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#SCRIPT"><CODE>SCRIPT</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#LINK"><CODE>LINK</CODE></A> or <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#USER"><CODE>USER</CODE></A> / <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#SCRIPT"><CODE>SCRIPT</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#LINK"><CODE>LINK</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#USER"><CODE>USER</CODE></A> 중 하나<DD><CODE>url</CODE> - the absolute address or the empty string / 절대 주소 또는 빈 문자열<DD><CODE>target</CODE> - the target name / 대상 이름<DD><CODE>features</CODE> - the window features text / 창 기능 문자열<DD><CODE>documentUrl</CODE> - the address of the asking document / 요청한 문서의 주소<DD><CODE>opener</CODE> - the context of the asking document or null / 요청한 문서의 문맥 또는 null<DD><CODE>originUrl</CODE> - the origin address to inherit / 물려줄 오리진 주소<DD><CODE>baseUri</CODE> - the base address to inherit / 물려줄 기준 주소<DD><CODE>post</CODE> - the form body or null / 폼 본문 또는 null<DD><CODE>place</CODE> - the place that the user chose, or the empty string / 사용자가 고른 장소 또는 빈 문자열</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="withActivation(boolean)"><!-- --></A><H3>
+withActivation</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html" title="class in org.duckdns.hjow.swingwebpanel.core">OpenRequest</A> <B>withActivation</B>(boolean&nbsp;value)</PRE>
+<DL>
+<DD>Notes whether an action of the user stands behind the request (a form that a script submits into a new window has none).
+ <p>
+ 요청 뒤에 사용자의 조작이 있는지 기록한다(스크립트가 새 창으로 제출한 폼에는 없다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - true if the user acted / 사용자가 조작했으면 true
+<DT><B>Returns:</B><DD>this request / 이 요청</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isActivated()"><!-- --></A><H3>
+isActivated</H3>
+<PRE>
+public boolean <B>isActivated</B>()</PRE>
+<DL>
+<DD>Tells whether an action of the user stands behind the request.
+ <p>
+ 요청 뒤에 사용자의 조작이 있는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>false if the popup blocker applies to it / 팝업 차단이 적용되면 false</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getKind()"><!-- --></A><H3>
+getKind</H3>
+<PRE>
+public int <B>getKind</B>()</PRE>
+<DL>
+<DD>Returns the kind of the request.
+ <p>
+ 요청의 종류를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#SCRIPT"><CODE>SCRIPT</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#LINK"><CODE>LINK</CODE></A> or <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#USER"><CODE>USER</CODE></A> / <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#SCRIPT"><CODE>SCRIPT</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#LINK"><CODE>LINK</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#USER"><CODE>USER</CODE></A> 중 하나</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getUrl()"><!-- --></A><H3>
+getUrl</H3>
+<PRE>
+public java.lang.String <B>getUrl</B>()</PRE>
+<DL>
+<DD>Returns the address to open.
+ <p>
+ 열 주소를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the absolute address, or the empty string for the empty page / 절대 주소. 빈 페이지이면 빈 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTarget()"><!-- --></A><H3>
+getTarget</H3>
+<PRE>
+public java.lang.String <B>getTarget</B>()</PRE>
+<DL>
+<DD>Returns the target name.
+ <p>
+ 대상 이름을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the name, or the empty string for <code>_blank</code> / 이름. <code>_blank</code> 이면 빈 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFeatures()"><!-- --></A><H3>
+getFeatures</H3>
+<PRE>
+public java.lang.String <B>getFeatures</B>()</PRE>
+<DL>
+<DD>Returns the window features text.
+ <p>
+ 창 기능 문자열을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the text as the script gave it, or the empty string / 스크립트가 준 그대로의 글. 없으면 빈 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDocumentUrl()"><!-- --></A><H3>
+getDocumentUrl</H3>
+<PRE>
+public java.lang.String <B>getDocumentUrl</B>()</PRE>
+<DL>
+<DD>Returns the address of the document that asked.
+ <p>
+ 요청한 문서의 주소를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the address / 주소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOpener()"><!-- --></A><H3>
+getOpener</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/host/BrowsingContext.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">BrowsingContext</A> <B>getOpener</B>()</PRE>
+<DL>
+<DD>Returns the context of the document that asked.
+ <p>
+ 요청한 문서의 문맥을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the context, or null / 문맥. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOriginUrl()"><!-- --></A><H3>
+getOriginUrl</H3>
+<PRE>
+public java.lang.String <B>getOriginUrl</B>()</PRE>
+<DL>
+<DD>Returns the origin address that the first empty document of the window inherits.
+ <p>
+ 창의 처음 빈 문서가 물려받는 오리진 주소를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the address, or null / 주소. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBaseUri()"><!-- --></A><H3>
+getBaseUri</H3>
+<PRE>
+public java.lang.String <B>getBaseUri</B>()</PRE>
+<DL>
+<DD>Returns the base address that the first empty document of the window inherits.
+ <p>
+ 창의 처음 빈 문서가 물려받는 기준 주소를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the address, or null / 주소. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPost()"><!-- --></A><H3>
+getPost</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PostData.html" title="class in org.duckdns.hjow.swingwebpanel.core">PostData</A> <B>getPost</B>()</PRE>
+<DL>
+<DD>Returns the body of the form submission that goes to the new window.
+ <p>
+ 새 창으로 가는 폼 제출의 본문을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the body, or null for a plain address / 본문. 보통 주소이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPlace()"><!-- --></A><H3>
+getPlace</H3>
+<PRE>
+public java.lang.String <B>getPlace</B>()</PRE>
+<DL>
+<DD>Returns the place that the user chose.
+ <p>
+ 사용자가 고른 장소를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#PLACE_TAB"><CODE>PLACE_TAB</CODE></A> or <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#PLACE_WINDOW"><CODE>PLACE_WINDOW</CODE></A> for <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#USER"><CODE>USER</CODE></A>, otherwise the empty string / <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#USER"><CODE>USER</CODE></A> 이면
+         <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#PLACE_TAB"><CODE>PLACE_TAB</CODE></A> 또는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html#PLACE_WINDOW"><CODE>PLACE_WINDOW</CODE></A>. 그 밖에는 빈 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isNoOpener()"><!-- --></A><H3>
+isNoOpener</H3>
+<PRE>
+public boolean <B>isNoOpener</B>()</PRE>
+<DL>
+<DD>Tells whether the new window has no connection to the window that asked: it runs on its own document thread, has no opener, and
+ <code>window.open</code> returns null.
+ <p>
+ 새 창이 요청한 창과 관계가 없는지 알려 준다: 자기 문서 스레드에서 실행되고, opener 가 없으며, <code>window.open</code> 은 null 을 돌려준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true without a connection / 관계가 없으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getWidth()"><!-- --></A><H3>
+getWidth</H3>
+<PRE>
+public int <B>getWidth</B>()</PRE>
+<DL>
+<DD>Returns the requested width of the content area.
+ <p>
+ 요청한 내용 영역의 폭을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>CSS pixels, or -1 if none was given / CSS 픽셀. 주지 않았으면 -1</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHeight()"><!-- --></A><H3>
+getHeight</H3>
+<PRE>
+public int <B>getHeight</B>()</PRE>
+<DL>
+<DD>Returns the requested height of the content area.
+ <p>
+ 요청한 내용 영역의 높이를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>CSS pixels, or -1 if none was given / CSS 픽셀. 주지 않았으면 -1</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLeft()"><!-- --></A><H3>
+getLeft</H3>
+<PRE>
+public int <B>getLeft</B>()</PRE>
+<DL>
+<DD>Returns the requested left edge on the screen.
+ <p>
+ 요청한 화면의 왼쪽 가장자리를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>pixels, or -1 if none was given / 픽셀. 주지 않았으면 -1</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTop()"><!-- --></A><H3>
+getTop</H3>
+<PRE>
+public int <B>getTop</B>()</PRE>
+<DL>
+<DD>Returns the requested top edge on the screen.
+ <p>
+ 요청한 화면의 위쪽 가장자리를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>pixels, or -1 if none was given / 픽셀. 주지 않았으면 -1</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/NetworkPageLoader.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageComposition.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/OpenRequest.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="OpenRequest.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

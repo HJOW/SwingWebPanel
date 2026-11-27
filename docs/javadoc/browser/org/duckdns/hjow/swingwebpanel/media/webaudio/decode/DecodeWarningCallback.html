@@ -1,0 +1,234 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+DecodeWarningCallback
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="DecodeWarningCallback";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeResult.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeWarningCallback.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="DecodeWarningCallback.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.webaudio.decode</FONT>
+<BR>
+Interface DecodeWarningCallback</H2>
+<DL>
+<DT><B>All Superinterfaces:</B> <DD><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCallback.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">DecodeCallback</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public interface <B>DecodeWarningCallback</B><DT>extends <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCallback.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">DecodeCallback</A></DL>
+</PRE>
+
+<P>
+A <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCallback.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><CODE>DecodeCallback</CODE></A> that also wants to know when the data was decoded only in part: the specification (Web Audio API 1.1 draft) encourages
+ an implementation to warn the author when the compressed data is corrupted but the decoding can otherwise proceed, for example in the developer tools. The
+ service calls <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeWarningCallback.html#onWarning(java.lang.String)"><CODE>onWarning(String)</CODE></A> <em>before</em> <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCallback.html#onSuccess(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioBuffer)"><CODE>DecodeCallback.onSuccess(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioBuffer)</CODE></A> of the same result, on the same thread, only for a result that is truncated
+ (see <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeResult.html#isTruncated()"><CODE>DecodeResult.isTruncated()</CODE></A>); a callback that does not implement this interface simply does not hear of it, and
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCallback.html#onSuccess(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioBuffer)"><CODE>DecodeCallback.onSuccess(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioBuffer)</CODE></A> is unchanged.
+ <p>
+ 데이터가 일부만 디코딩되었을 때 그것도 알고 싶은 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCallback.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><CODE>DecodeCallback</CODE></A>: 규격(Web Audio API 1.1 초안)은 압축된 데이터가 손상되었지만 디코딩을 계속할 수 있을 때 구현이
+ 작성자에게(예: 개발자 도구에) 경고하도록 권장한다. 서비스는 잘린 결과에 대해서만 같은 결과의 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCallback.html#onSuccess(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioBuffer)"><CODE>DecodeCallback.onSuccess(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioBuffer)</CODE></A> <em>앞에서</em> 같은 스레드에서
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeWarningCallback.html#onWarning(java.lang.String)"><CODE>onWarning(String)</CODE></A> 을 부른다. 이 인터페이스를 구현하지 않은 콜백은 그것을 듣지 못할 뿐이며 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCallback.html#onSuccess(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioBuffer)"><CODE>DecodeCallback.onSuccess(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioBuffer)</CODE></A> 는 바뀌지 않는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeWarningCallback.html#onWarning(java.lang.String)">onWarning</A></B>(java.lang.String&nbsp;message)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Called before <code>onSuccess</code> when the buffer holds only the part of the data that could be decoded.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.media.webaudio.decode.DecodeCallback"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from interface org.duckdns.hjow.swingwebpanel.media.webaudio.decode.<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCallback.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">DecodeCallback</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCallback.html#onError(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioException)">onError</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCallback.html#onSuccess(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioBuffer)">onSuccess</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="onWarning(java.lang.String)"><!-- --></A><H3>
+onWarning</H3>
+<PRE>
+void <B>onWarning</B>(java.lang.String&nbsp;message)</PRE>
+<DL>
+<DD>Called before <code>onSuccess</code> when the buffer holds only the part of the data that could be decoded.
+ <p>
+ 버퍼가 디코딩할 수 있었던 데이터의 일부만 담고 있을 때 <code>onSuccess</code> 앞에서 불린다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>message</CODE> - what was wrong with the data / 데이터가 어땠는지</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeResult.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeWarningCallback.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="DecodeWarningCallback.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

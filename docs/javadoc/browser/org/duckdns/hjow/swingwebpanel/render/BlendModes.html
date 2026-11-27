@@ -1,0 +1,654 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+BlendModes
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="BlendModes";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/CanvasFilters.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/render/BlendModes.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="BlendModes.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.render</FONT>
+<BR>
+Class BlendModes</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.render.BlendModes</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>BlendModes</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The blend modes of CSS Compositing and Blending Level 1 (https://www.w3.org/TR/compositing-1/, Candidate Recommendation Draft 2024-03-21,
+ retrieved 2026-11-17, section 10 "Blending"): the separable modes <code>multiply</code>, <code>screen</code>, <code>overlay</code>,
+ <code>darken</code>, <code>lighten</code>, <code>color-dodge</code>, <code>color-burn</code>, <code>hard-light</code>,
+ <code>soft-light</code>, <code>difference</code> and <code>exclusion</code>, the non-separable modes <code>hue</code>,
+ <code>saturation</code>, <code>color</code> and <code>luminosity</code>, and <code>plus-lighter</code> (the sum of the premultiplied
+ colors, limited to 1). <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#blend(int, int, int, float)"><CODE>blend(int, int, int, float)</CODE></A> computes the result of drawing one source pixel over a backdrop pixel with the formula of section
+ 9 (source over with the blended color): <code>Cr = (1 - as/ar) * Cb + as/ar * ((1 - ab) * Cs + ab * B(Cb, Cs))</code>,
+ <code>ar = as + ab * (1 - as)</code>. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#composite(int, float)"><CODE>composite(int, float)</CODE></A> wraps that in a <CODE>Composite</CODE> that is used to draw the buffer of a group
+ onto the graphics, so that the group is blended with what has been painted so far. Java2D public API only.
+ <p>
+ CSS Compositing and Blending Level 1 의 혼합 모드(https://www.w3.org/TR/compositing-1/, Candidate Recommendation Draft 2024-03-21, 조회 2026-11-17, 10 절 "Blending"):
+ 분리 가능한 모드 <code>multiply</code>, <code>screen</code>, <code>overlay</code>, <code>darken</code>, <code>lighten</code>, <code>color-dodge</code>,
+ <code>color-burn</code>, <code>hard-light</code>, <code>soft-light</code>, <code>difference</code>, <code>exclusion</code>, 분리 불가능한 모드 <code>hue</code>,
+ <code>saturation</code>, <code>color</code>, <code>luminosity</code>, 그리고 <code>plus-lighter</code>(미리 곱한 색의 합, 1 로 제한). <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#blend(int, int, int, float)"><CODE>blend(int, int, int, float)</CODE></A> 는 9 절의 식(혼합한 색을 쓰는
+ source over)으로 원본 픽셀 하나를 배경 픽셀 위에 그린 결과를 계산한다. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#composite(int, float)"><CODE>composite(int, float)</CODE></A> 는 이것을 <CODE>Composite</CODE> 로 감싸 그룹의 버퍼를 그래픽스에 그릴 때 쓰며,
+ 그룹은 지금까지 그려진 것과 혼합된다. Java2D 공개 API 만 쓴다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#COLOR">COLOR</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constant of the blend mode <code>color</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#COLOR_BURN">COLOR_BURN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constant of the blend mode <code>color-burn</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#COLOR_DODGE">COLOR_DODGE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constant of the blend mode <code>color-dodge</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#DARKEN">DARKEN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constant of the blend mode <code>darken</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#DIFFERENCE">DIFFERENCE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constant of the blend mode <code>difference</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#EXCLUSION">EXCLUSION</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constant of the blend mode <code>exclusion</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#HARD_LIGHT">HARD_LIGHT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constant of the blend mode <code>hard-light</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#HUE">HUE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constant of the blend mode <code>hue</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#LIGHTEN">LIGHTEN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constant of the blend mode <code>lighten</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#LUMINOSITY">LUMINOSITY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constant of the blend mode <code>luminosity</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#MULTIPLY">MULTIPLY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constant of the blend mode <code>multiply</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#NORMAL">NORMAL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constant of the blend mode <code>normal</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#OVERLAY">OVERLAY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constant of the blend mode <code>overlay</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#PLUS_LIGHTER">PLUS_LIGHTER</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constant of the blend mode <code>plus-lighter</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#SATURATION">SATURATION</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constant of the blend mode <code>saturation</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#SCREEN">SCREEN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constant of the blend mode <code>screen</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#SOFT_LIGHT">SOFT_LIGHT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constant of the blend mode <code>soft-light</code>.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#blend(int, int, int, float)">blend</A></B>(int&nbsp;mode,
+      int&nbsp;src,
+      int&nbsp;dst,
+      float&nbsp;alpha)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Draws one source pixel over a backdrop pixel with a blend mode and a group opacity (CSS Compositing 1 section 9).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.awt.Composite</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#composite(int, float)">composite</A></B>(int&nbsp;mode,
+          float&nbsp;alpha)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the composite that draws with a blend mode and an opacity.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#modeOf(java.lang.String)">modeOf</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the constant of a mode name.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="NORMAL"><!-- --></A><H3>
+NORMAL</H3>
+<PRE>
+public static final int <B>NORMAL</B></PRE>
+<DL>
+<DD>Constant of the blend mode <code>normal</code>. 혼합 모드 <code>normal</code> 의 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.BlendModes.NORMAL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MULTIPLY"><!-- --></A><H3>
+MULTIPLY</H3>
+<PRE>
+public static final int <B>MULTIPLY</B></PRE>
+<DL>
+<DD>Constant of the blend mode <code>multiply</code>. 혼합 모드 <code>multiply</code> 의 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.BlendModes.MULTIPLY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SCREEN"><!-- --></A><H3>
+SCREEN</H3>
+<PRE>
+public static final int <B>SCREEN</B></PRE>
+<DL>
+<DD>Constant of the blend mode <code>screen</code>. 혼합 모드 <code>screen</code> 의 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.BlendModes.SCREEN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="OVERLAY"><!-- --></A><H3>
+OVERLAY</H3>
+<PRE>
+public static final int <B>OVERLAY</B></PRE>
+<DL>
+<DD>Constant of the blend mode <code>overlay</code>. 혼합 모드 <code>overlay</code> 의 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.BlendModes.OVERLAY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DARKEN"><!-- --></A><H3>
+DARKEN</H3>
+<PRE>
+public static final int <B>DARKEN</B></PRE>
+<DL>
+<DD>Constant of the blend mode <code>darken</code>. 혼합 모드 <code>darken</code> 의 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.BlendModes.DARKEN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LIGHTEN"><!-- --></A><H3>
+LIGHTEN</H3>
+<PRE>
+public static final int <B>LIGHTEN</B></PRE>
+<DL>
+<DD>Constant of the blend mode <code>lighten</code>. 혼합 모드 <code>lighten</code> 의 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.BlendModes.LIGHTEN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="COLOR_DODGE"><!-- --></A><H3>
+COLOR_DODGE</H3>
+<PRE>
+public static final int <B>COLOR_DODGE</B></PRE>
+<DL>
+<DD>Constant of the blend mode <code>color-dodge</code>. 혼합 모드 <code>color-dodge</code> 의 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.BlendModes.COLOR_DODGE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="COLOR_BURN"><!-- --></A><H3>
+COLOR_BURN</H3>
+<PRE>
+public static final int <B>COLOR_BURN</B></PRE>
+<DL>
+<DD>Constant of the blend mode <code>color-burn</code>. 혼합 모드 <code>color-burn</code> 의 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.BlendModes.COLOR_BURN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="HARD_LIGHT"><!-- --></A><H3>
+HARD_LIGHT</H3>
+<PRE>
+public static final int <B>HARD_LIGHT</B></PRE>
+<DL>
+<DD>Constant of the blend mode <code>hard-light</code>. 혼합 모드 <code>hard-light</code> 의 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.BlendModes.HARD_LIGHT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SOFT_LIGHT"><!-- --></A><H3>
+SOFT_LIGHT</H3>
+<PRE>
+public static final int <B>SOFT_LIGHT</B></PRE>
+<DL>
+<DD>Constant of the blend mode <code>soft-light</code>. 혼합 모드 <code>soft-light</code> 의 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.BlendModes.SOFT_LIGHT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DIFFERENCE"><!-- --></A><H3>
+DIFFERENCE</H3>
+<PRE>
+public static final int <B>DIFFERENCE</B></PRE>
+<DL>
+<DD>Constant of the blend mode <code>difference</code>. 혼합 모드 <code>difference</code> 의 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.BlendModes.DIFFERENCE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="EXCLUSION"><!-- --></A><H3>
+EXCLUSION</H3>
+<PRE>
+public static final int <B>EXCLUSION</B></PRE>
+<DL>
+<DD>Constant of the blend mode <code>exclusion</code>. 혼합 모드 <code>exclusion</code> 의 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.BlendModes.EXCLUSION">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="HUE"><!-- --></A><H3>
+HUE</H3>
+<PRE>
+public static final int <B>HUE</B></PRE>
+<DL>
+<DD>Constant of the blend mode <code>hue</code>. 혼합 모드 <code>hue</code> 의 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.BlendModes.HUE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SATURATION"><!-- --></A><H3>
+SATURATION</H3>
+<PRE>
+public static final int <B>SATURATION</B></PRE>
+<DL>
+<DD>Constant of the blend mode <code>saturation</code>. 혼합 모드 <code>saturation</code> 의 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.BlendModes.SATURATION">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="COLOR"><!-- --></A><H3>
+COLOR</H3>
+<PRE>
+public static final int <B>COLOR</B></PRE>
+<DL>
+<DD>Constant of the blend mode <code>color</code>. 혼합 모드 <code>color</code> 의 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.BlendModes.COLOR">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LUMINOSITY"><!-- --></A><H3>
+LUMINOSITY</H3>
+<PRE>
+public static final int <B>LUMINOSITY</B></PRE>
+<DL>
+<DD>Constant of the blend mode <code>luminosity</code>. 혼합 모드 <code>luminosity</code> 의 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.BlendModes.LUMINOSITY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PLUS_LIGHTER"><!-- --></A><H3>
+PLUS_LIGHTER</H3>
+<PRE>
+public static final int <B>PLUS_LIGHTER</B></PRE>
+<DL>
+<DD>Constant of the blend mode <code>plus-lighter</code>. 혼합 모드 <code>plus-lighter</code> 의 상수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.BlendModes.PLUS_LIGHTER">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="modeOf(java.lang.String)"><!-- --></A><H3>
+modeOf</H3>
+<PRE>
+public static int <B>modeOf</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns the constant of a mode name.
+ <p>
+ 모드 이름의 상수를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the keyword of <code>mix-blend-mode</code> / <code>mix-blend-mode</code> 키워드
+<DT><B>Returns:</B><DD>the constant, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#NORMAL"><CODE>NORMAL</CODE></A> for an unknown name / 상수. 모르는 이름이면 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html#NORMAL"><CODE>NORMAL</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="composite(int, float)"><!-- --></A><H3>
+composite</H3>
+<PRE>
+public static java.awt.Composite <B>composite</B>(int&nbsp;mode,
+                                           float&nbsp;alpha)</PRE>
+<DL>
+<DD>Creates the composite that draws with a blend mode and an opacity.
+ <p>
+ 혼합 모드와 불투명도로 그리는 합성기를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>mode</CODE> - the mode constant / 모드 상수<DD><CODE>alpha</CODE> - the opacity of the group between 0 and 1 / 0~1 의 그룹 불투명도
+<DT><B>Returns:</B><DD>the composite / 합성기</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="blend(int, int, int, float)"><!-- --></A><H3>
+blend</H3>
+<PRE>
+public static int <B>blend</B>(int&nbsp;mode,
+                        int&nbsp;src,
+                        int&nbsp;dst,
+                        float&nbsp;alpha)</PRE>
+<DL>
+<DD>Draws one source pixel over a backdrop pixel with a blend mode and a group opacity (CSS Compositing 1 section 9).
+ <p>
+ 원본 픽셀 하나를 혼합 모드와 그룹 불투명도로 배경 픽셀 위에 그린다(CSS Compositing 1 9 절).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>mode</CODE> - the mode constant / 모드 상수<DD><CODE>src</CODE> - the source color, ARGB not premultiplied / 원본 색(ARGB, 미리 곱하지 않음)<DD><CODE>dst</CODE> - the backdrop color, ARGB not premultiplied / 배경 색(ARGB, 미리 곱하지 않음)<DD><CODE>alpha</CODE> - the opacity of the group / 그룹 불투명도
+<DT><B>Returns:</B><DD>the result, ARGB not premultiplied / 결과(ARGB, 미리 곱하지 않음)</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/CanvasFilters.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/render/BlendModes.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="BlendModes.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

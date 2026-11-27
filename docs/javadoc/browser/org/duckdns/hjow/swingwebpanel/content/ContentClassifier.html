@@ -1,0 +1,520 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ContentClassifier
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ContentClassifier";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentDecision.html" title="class in org.duckdns.hjow.swingwebpanel.content"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ContentClassifier.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.content</FONT>
+<BR>
+Class ContentClassifier</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.content.ContentClassifier</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ContentClassifier</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Decides which processor shows a body (plan items P17-01, P01-17, P01-18). One decision table serves the network (a response with
+ a <code>Content-Type</code> and maybe <code>Content-Disposition: attachment</code>) and <code>setContent</code> (a MIME argument), so
+ both paths use the same content handling.
+ <p>
+ <b>Policy for responses</b> (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html#classifyResponse(java.lang.String, boolean, byte[])"><CODE>classifyResponse(String, boolean, byte[])</CODE></A>):
+ <ol>
+ <li><code>Content-Disposition: attachment</code> always means a download.</li>
+ <li>A missing or malformed <code>Content-Type</code> is not an error: the type is found by looking at the first bytes
+ (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html#sniff(byte[])"><CODE>sniff(byte[])</CODE></A>, the "unknown MIME type" algorithm of the WHATWG MIME Sniffing Standard in a reduced form: HTML tags,
+ <code>&lt;?xml</code>, PDF, image/audio/video signatures, archives, then "text or binary"). The result is text/html, text/plain or a
+ binary type, never an error page.</li>
+ <li><code>text/html</code> is HTML, <code>application/xhtml+xml</code> is XHTML, <code>text/markdown</code> (and the older
+ <code>text/x-markdown</code>) is Markdown, <code>text/plain</code> is plain text.</li>
+ <li>Every other <code>text/*</code> type, JavaScript types, <code>application/json</code> and <code>+json</code> types and
+ <code>application/xml</code>, <code>+xml</code> types (RSS, Atom, ...) are shown as plain text, so their source is readable. Two
+ exceptions: the <code>text/*</code> types that Chromium does not show as text (calendar, vCard, CSV, RTF and similar: the list
+ <code>kUnsupportedTextTypes</code> of <code>third_party/blink/common/mime_util/mime_util.cc</code>, read on 2026-11-16, current
+ development revision of the Chromium repository) go to the download path; and an <code>application/xml</code> or <code>text/xml</code>
+ body whose root element is <code>html</code> in the XHTML namespace is XHTML, as in browsers.</li>
+ <li><code>image/*</code> is an image (<code>image/svg+xml</code> included), <code>audio/*</code> and <code>application/ogg</code> are
+ audio, <code>video/*</code> is video (shown as an unsupported-video placeholder).</li>
+ <li>Everything else (<code>application/octet-stream</code>, PDF, archives, fonts, <code>multipart/*</code>, ...) is a download.</li>
+ </ol>
+ <b>Policy for setContent</b> (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html#classifySetContent(java.lang.String)"><CODE>classifySetContent(String)</CODE></A>): the MIME argument must be one of <code>text/html</code>,
+ <code>text/plain</code>, <code>text/markdown</code>, <code>application/xhtml+xml</code>; parameters are removed and the type is
+ compared ignoring case; null, empty and every other type is an <code>IllegalArgumentException</code> (not a download).
+ <p>
+ Not covered: the "text or binary" check for servers that send binary data as <code>text/plain</code>, and the
+ <code>X-Content-Type-Options: nosniff</code> header.
+ <p>
+ 본문을 어느 처리기가 보여 줄지 정한다(계획 P17-01, P01-17, P01-18). 결정 표 하나가 네트워크(<code>Content-Type</code> 과 경우에 따라
+ <code>Content-Disposition: attachment</code> 가 있는 응답)와 <code>setContent</code>(MIME 인수)를 함께 맡으므로 두 경로가 같은 콘텐츠 처리를 쓴다.
+ <p>
+ <b>응답 정책</b>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html#classifyResponse(java.lang.String, boolean, byte[])"><CODE>classifyResponse(String, boolean, byte[])</CODE></A>):
+ <ol>
+ <li><code>Content-Disposition: attachment</code> 는 언제나 다운로드이다.</li>
+ <li>없거나 잘못된 <code>Content-Type</code> 은 오류가 아니다: 첫 바이트를 살펴 타입을 알아낸다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html#sniff(byte[])"><CODE>sniff(byte[])</CODE></A>. WHATWG MIME Sniffing 표준의
+ "unknown MIME type" 알고리즘을 줄인 것: HTML 태그, <code>&lt;?xml</code>, PDF, 이미지/오디오/비디오 시그니처, 압축 파일, 그 뒤 "텍스트인지 바이너리인지").
+ 결과는 text/html, text/plain 또는 바이너리 타입이며 오류 페이지가 아니다.</li>
+ <li><code>text/html</code> 은 HTML, <code>application/xhtml+xml</code> 은 XHTML, <code>text/markdown</code>(과 옛 <code>text/x-markdown</code>)은
+ Markdown, <code>text/plain</code> 은 일반 텍스트이다.</li>
+ <li>그 밖의 <code>text/*</code> 타입, JavaScript 타입, <code>application/json</code> 과 <code>+json</code> 타입, <code>application/xml</code> 과
+ <code>+xml</code> 타입(RSS, Atom 등)은 소스를 읽을 수 있도록 일반 텍스트로 보인다. 예외 둘: Chromium 이 텍스트로 보이지 않는 <code>text/*</code>
+ 타입(캘린더, vCard, CSV, RTF 등. <code>third_party/blink/common/mime_util/mime_util.cc</code> 의 <code>kUnsupportedTextTypes</code> 목록, 2026-11-16 에
+ Chromium 저장소의 당시 개발 판에서 확인)은 다운로드 경로로 가고, 루트 요소가 XHTML 네임스페이스의 <code>html</code> 인 <code>application/xml</code>,
+ <code>text/xml</code> 본문은 브라우저처럼 XHTML 이다.</li>
+ <li><code>image/*</code> 는 이미지(<code>image/svg+xml</code> 포함), <code>audio/*</code> 와 <code>application/ogg</code> 는 오디오, <code>video/*</code> 는
+ 비디오(미지원 비디오 대체 표시)이다.</li>
+ <li>그 밖의 모든 것(<code>application/octet-stream</code>, PDF, 압축 파일, 글꼴, <code>multipart/*</code> 등)은 다운로드이다.</li>
+ </ol>
+ <b>setContent 정책</b>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html#classifySetContent(java.lang.String)"><CODE>classifySetContent(String)</CODE></A>): MIME 인수는 <code>text/html</code>, <code>text/plain</code>, <code>text/markdown</code>,
+ <code>application/xhtml+xml</code> 중 하나여야 한다. 매개변수는 제거하고 대소문자를 무시하여 비교한다. null, 빈 값, 그 밖의 모든 타입은
+ <code>IllegalArgumentException</code> 이다(다운로드가 아니다).
+ <p>
+ 다루지 않는 것: 서버가 바이너리를 <code>text/plain</code> 으로 보내는 경우의 "텍스트인지 바이너리인지" 검사, <code>X-Content-Type-Options: nosniff</code> 헤더.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html#OCTET_STREAM">OCTET_STREAM</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The media type for binary data.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html#SNIFF_LENGTH">SNIFF_LENGTH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The number of bytes that the sniffing algorithm looks at (the resource header length of the MIME Sniffing Standard).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentDecision.html" title="class in org.duckdns.hjow.swingwebpanel.content">ContentDecision</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html#classifyResponse(org.duckdns.hjow.swingwebpanel.content.ContentType, boolean, byte[])">classifyResponse</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html" title="class in org.duckdns.hjow.swingwebpanel.content">ContentType</A>&nbsp;type,
+                 boolean&nbsp;attachment,
+                 byte[]&nbsp;head)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Decides how to show a response whose header has been parsed already.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentDecision.html" title="class in org.duckdns.hjow.swingwebpanel.content">ContentDecision</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html#classifyResponse(java.lang.String, boolean, byte[])">classifyResponse</A></B>(java.lang.String&nbsp;contentTypeHeader,
+                 boolean&nbsp;attachment,
+                 byte[]&nbsp;head)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Decides how to show a response (see the class description for the policy).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentKind.html" title="enum in org.duckdns.hjow.swingwebpanel.content">ContentKind</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html#classifySetContent(java.lang.String)">classifySetContent</A></B>(java.lang.String&nbsp;mime)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Checks the MIME argument of <code>setContent</code> and returns its kind.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html#isSetContentMime(java.lang.String)">isSetContentMime</A></B>(java.lang.String&nbsp;mime)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether <code>setContent</code> accepts a MIME argument.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentKind.html" title="enum in org.duckdns.hjow.swingwebpanel.content">ContentKind</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html#kindOfMime(java.lang.String)">kindOfMime</A></B>(java.lang.String&nbsp;mime)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Looks at a media type alone.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html#requireSetContentMime(java.lang.String)">requireSetContentMime</A></B>(java.lang.String&nbsp;mime)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Checks the MIME argument of <code>setContent</code> and returns the normalized type.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html#sniff(byte[])">sniff</A></B>(byte[]&nbsp;head)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Finds the media type of a body that came without a usable <code>Content-Type</code> ("identifying a resource with an unknown MIME
+ type" of the WHATWG MIME Sniffing Standard, reduced).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="SNIFF_LENGTH"><!-- --></A><H3>
+SNIFF_LENGTH</H3>
+<PRE>
+public static final int <B>SNIFF_LENGTH</B></PRE>
+<DL>
+<DD>The number of bytes that the sniffing algorithm looks at (the resource header length of the MIME Sniffing Standard).
+ <p>
+ 판별 알고리즘이 살펴보는 바이트 수(MIME Sniffing 표준의 resource header 길이).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.content.ContentClassifier.SNIFF_LENGTH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="OCTET_STREAM"><!-- --></A><H3>
+OCTET_STREAM</H3>
+<PRE>
+public static final java.lang.String <B>OCTET_STREAM</B></PRE>
+<DL>
+<DD>The media type for binary data.
+ <p>
+ 바이너리 데이터의 미디어 타입.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.content.ContentClassifier.OCTET_STREAM">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="kindOfMime(java.lang.String)"><!-- --></A><H3>
+kindOfMime</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentKind.html" title="enum in org.duckdns.hjow.swingwebpanel.content">ContentKind</A> <B>kindOfMime</B>(java.lang.String&nbsp;mime)</PRE>
+<DL>
+<DD>Looks at a media type alone. A missing or malformed type gives <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentKind.html#UNKNOWN"><CODE>ContentKind.UNKNOWN</CODE></A>; there is no sniffing, no
+ XHTML detection for XML types and no attachment handling here (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html#classifyResponse(java.lang.String, boolean, byte[])"><CODE>classifyResponse(String, boolean, byte[])</CODE></A>).
+ <p>
+ 미디어 타입만 보고 판정한다. 없거나 잘못된 타입은 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentKind.html#UNKNOWN"><CODE>ContentKind.UNKNOWN</CODE></A> 이다. 내용 판별, XML 타입의 XHTML 검출, 첨부 처리는 여기에 없다
+ (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html#classifyResponse(java.lang.String, boolean, byte[])"><CODE>classifyResponse(String, boolean, byte[])</CODE></A> 참조).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>mime</CODE> - the media type in any letter case, parameters are not allowed; null or "" means missing / 미디어 타입(대소문자 무관, 매개변수 불가).
+             null 이나 ""은 없음
+<DT><B>Returns:</B><DD>the kind / 종류</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="classifyResponse(java.lang.String, boolean, byte[])"><!-- --></A><H3>
+classifyResponse</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentDecision.html" title="class in org.duckdns.hjow.swingwebpanel.content">ContentDecision</A> <B>classifyResponse</B>(java.lang.String&nbsp;contentTypeHeader,
+                                               boolean&nbsp;attachment,
+                                               byte[]&nbsp;head)</PRE>
+<DL>
+<DD>Decides how to show a response (see the class description for the policy).
+ <p>
+ 응답을 어떻게 보여 줄지 정한다(정책은 클래스 설명 참조).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>contentTypeHeader</CODE> - the <code>Content-Type</code> header value or null / <code>Content-Type</code> 헤더 값 또는 null<DD><CODE>attachment</CODE> - true if the response has <code>Content-Disposition: attachment</code> / 응답에 <code>Content-Disposition: attachment</code> 가 있으면 true<DD><CODE>head</CODE> - the first bytes of the body (at least <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html#SNIFF_LENGTH"><CODE>SNIFF_LENGTH</CODE></A> if available; more helps to recognize an XHTML root
+                          element behind a long DOCTYPE); null is treated as empty / 본문의 첫 바이트(가능하면 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html#SNIFF_LENGTH"><CODE>SNIFF_LENGTH</CODE></A> 이상. 더 많으면
+                          긴 DOCTYPE 뒤의 XHTML 루트 요소를 알아보는 데 도움이 된다). null 은 빈 배열
+<DT><B>Returns:</B><DD>the decision, never null / 결정(null 아님)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="classifyResponse(org.duckdns.hjow.swingwebpanel.content.ContentType, boolean, byte[])"><!-- --></A><H3>
+classifyResponse</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentDecision.html" title="class in org.duckdns.hjow.swingwebpanel.content">ContentDecision</A> <B>classifyResponse</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentType.html" title="class in org.duckdns.hjow.swingwebpanel.content">ContentType</A>&nbsp;type,
+                                               boolean&nbsp;attachment,
+                                               byte[]&nbsp;head)</PRE>
+<DL>
+<DD>Decides how to show a response whose header has been parsed already.
+ <p>
+ 헤더를 이미 해석한 응답을 어떻게 보여 줄지 정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - the parsed <code>Content-Type</code>, not null / 해석한 <code>Content-Type</code>(null 불가)<DD><CODE>attachment</CODE> - true for an attachment / 첨부이면 true<DD><CODE>head</CODE> - the first bytes of the body or null / 본문의 첫 바이트 또는 null
+<DT><B>Returns:</B><DD>the decision, never null / 결정(null 아님)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="classifySetContent(java.lang.String)"><!-- --></A><H3>
+classifySetContent</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentKind.html" title="enum in org.duckdns.hjow.swingwebpanel.content">ContentKind</A> <B>classifySetContent</B>(java.lang.String&nbsp;mime)</PRE>
+<DL>
+<DD>Checks the MIME argument of <code>setContent</code> and returns its kind.
+ <p>
+ <code>setContent</code> 의 MIME 인수를 검사하고 종류를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>mime</CODE> - the argument, for example <code>"Text/HTML; charset=utf-8"</code> / 인수. 예: <code>"Text/HTML; charset=utf-8"</code>
+<DT><B>Returns:</B><DD><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentKind.html#HTML"><CODE>ContentKind.HTML</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentKind.html#PLAIN_TEXT"><CODE>ContentKind.PLAIN_TEXT</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentKind.html#MARKDOWN"><CODE>ContentKind.MARKDOWN</CODE></A> or <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentKind.html#XHTML"><CODE>ContentKind.XHTML</CODE></A> /
+         네 가지 중 하나
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the argument is null, empty or not one of the four supported types / 인수가 null, 빈 값이거나
+                                  지원하는 네 타입이 아니면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="requireSetContentMime(java.lang.String)"><!-- --></A><H3>
+requireSetContentMime</H3>
+<PRE>
+public static java.lang.String <B>requireSetContentMime</B>(java.lang.String&nbsp;mime)</PRE>
+<DL>
+<DD>Checks the MIME argument of <code>setContent</code> and returns the normalized type.
+ <p>
+ <code>setContent</code> 의 MIME 인수를 검사하고 정규화한 타입을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>mime</CODE> - the argument / 인수
+<DT><B>Returns:</B><DD>one of <code>text/html</code>, <code>text/plain</code>, <code>text/markdown</code>, <code>application/xhtml+xml</code> / 네 가지 중 하나
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the argument is null, empty or not one of the four supported types / 인수가 null, 빈 값이거나
+                                  지원하는 네 타입이 아니면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isSetContentMime(java.lang.String)"><!-- --></A><H3>
+isSetContentMime</H3>
+<PRE>
+public static boolean <B>isSetContentMime</B>(java.lang.String&nbsp;mime)</PRE>
+<DL>
+<DD>Tells whether <code>setContent</code> accepts a MIME argument.
+ <p>
+ <code>setContent</code> 가 MIME 인수를 받는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>mime</CODE> - the argument or null / 인수 또는 null
+<DT><B>Returns:</B><DD>true if it is one of the four supported types / 지원하는 네 타입 중 하나이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="sniff(byte[])"><!-- --></A><H3>
+sniff</H3>
+<PRE>
+public static java.lang.String <B>sniff</B>(byte[]&nbsp;head)</PRE>
+<DL>
+<DD>Finds the media type of a body that came without a usable <code>Content-Type</code> ("identifying a resource with an unknown MIME
+ type" of the WHATWG MIME Sniffing Standard, reduced). The steps, in order, on at most <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html#SNIFF_LENGTH"><CODE>SNIFF_LENGTH</CODE></A> bytes: an HTML tag
+ after optional white space (<code>&lt;!DOCTYPE HTML</code>, <code>&lt;html</code>, <code>&lt;head</code>, <code>&lt;script</code>,
+ <code>&lt;iframe</code>, <code>&lt;h1</code>, <code>&lt;div</code>, <code>&lt;font</code>, <code>&lt;table</code>, <code>&lt;a</code>,
+ <code>&lt;style</code>, <code>&lt;title</code>, <code>&lt;b</code>, <code>&lt;body</code>, <code>&lt;br</code>, <code>&lt;p</code> or
+ <code>&lt;!--</code>, each followed by a space or <code>&gt;</code>, ignoring case) is <code>text/html</code>; <code>&lt;?xml</code>
+ is <code>text/xml</code>; <code>%PDF-</code> is PDF; a byte order mark means <code>text/plain</code>; then the signatures of GIF, PNG,
+ JPEG, BMP, WebP, ICO and AVIF images, of WAVE, AIFF, AU, MIDI, MP3 (ID3), Ogg, FLAC and MP4/M4A/WebM media and of gzip, ZIP and RAR
+ archives; finally a body that contains binary control bytes is <code>application/octet-stream</code> and everything else is
+ <code>text/plain</code>.
+ <p>
+ 쓸 만한 <code>Content-Type</code> 없이 온 본문의 미디어 타입을 찾는다(WHATWG MIME Sniffing 표준의 "identifying a resource with an unknown MIME
+ type"을 줄인 것). 최대 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html#SNIFF_LENGTH"><CODE>SNIFF_LENGTH</CODE></A> 바이트에 대해 순서대로: 공백이 있을 수 있는 앞부분 뒤의 HTML 태그(영문 설명의 목록. 모두 뒤에 공백 또는
+ <code>&gt;</code> 가 오며 대소문자 무시)는 <code>text/html</code>, <code>&lt;?xml</code> 은 <code>text/xml</code>, <code>%PDF-</code> 는 PDF, 바이트 순서 표시는
+ <code>text/plain</code>, 이어서 GIF, PNG, JPEG, BMP, WebP, ICO, AVIF 이미지와 WAVE, AIFF, AU, MIDI, MP3(ID3), Ogg, FLAC, MP4/M4A/WebM 미디어와 gzip, ZIP, RAR
+ 압축 파일의 시그니처, 마지막으로 바이너리 제어 바이트가 있으면 <code>application/octet-stream</code>, 나머지는 <code>text/plain</code> 이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>head</CODE> - the first bytes of the body or null (treated as empty, which gives <code>text/plain</code>) / 본문의 첫 바이트. null 은 빈 배열로 보며
+             <code>text/plain</code> 이 된다
+<DT><B>Returns:</B><DD>the media type in lower case / 소문자 미디어 타입</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/ContentDecision.html" title="class in org.duckdns.hjow.swingwebpanel.content"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/content/ContentClassifier.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ContentClassifier.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

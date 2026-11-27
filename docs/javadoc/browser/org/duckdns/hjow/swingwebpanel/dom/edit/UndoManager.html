@@ -1,0 +1,536 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+UndoManager
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="UndoManager";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.Environment.html" title="interface in org.duckdns.hjow.swingwebpanel.dom.edit"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="UndoManager.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom.edit</FONT>
+<BR>
+Class UndoManager</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.dom.edit.UndoManager</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMutationListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">DomMutationListener</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public final class <B>UndoManager</B><DT>extends java.lang.Object<DT>implements <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMutationListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">DomMutationListener</A></DL>
+</PRE>
+
+<P>
+The undo history of the editor: every editing operation is recorded as the list of DOM mutations that it caused (the
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/MutationRecord.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>MutationRecord</CODE></A>s of the document, which carry the old values), and undoing replays the inverse of those mutations in reverse
+ order, so that the DOM is exactly as it was and the nodes keep their identity. The selection before and after an operation is stored
+ with it. Undoing a step records the inverse mutations as a step of the redo list, which makes redo the same operation again.
+ Consecutive typing can be merged into one step with a key (the browsers undo a word of typing at a time, not a letter).
+ <p>
+ 편집기의 되돌리기 이력: 편집 작업마다 그것이 일으킨 DOM 변경 목록(옛 값을 가진 문서의 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/MutationRecord.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>MutationRecord</CODE></A>)을 기록하고, 되돌릴 때는 그 변경의 역을 거꾸로
+ 다시 실행하므로 DOM 이 정확히 이전과 같고 노드의 동일성도 유지된다. 작업 전후의 선택도 함께 보관한다. 단계를 되돌리면 그 역변경이 다시 하기 목록의 한
+ 단계로 기록되어, 다시 하기는 같은 작업을 다시 한다. 이어지는 글자 입력은 키로 한 단계에 합칠 수 있다(브라우저는 글자 하나가 아니라 입력 덩어리를 되돌린다).
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html#LIMIT">LIMIT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The most steps that are kept (the oldest are dropped).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html#UndoManager(org.duckdns.hjow.swingwebpanel.dom.Document)">UndoManager</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the history of a document.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html#begin()">begin</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opens a step: the mutations of the document are collected until <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html#end(java.lang.String)"><CODE>end(java.lang.String)</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html#breakMerging()">breakMerging</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ends the merging: the next step starts a new step of its own (called when something other than typing happens, for example a click).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html#canRedo()">canRedo</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether there is something to redo.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html#canUndo()">canUndo</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether there is something to undo.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html#clear()">clear</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Forgets the whole history (the document was replaced or a script rewrote it).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html#end(java.lang.String)">end</A></B>(java.lang.String&nbsp;mergeKey)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Closes the step that <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html#begin()"><CODE>begin()</CODE></A> opened.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html#mutated(org.duckdns.hjow.swingwebpanel.dom.MutationRecord, boolean)">mutated</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/MutationRecord.html" title="class in org.duckdns.hjow.swingwebpanel.dom">MutationRecord</A>&nbsp;record,
+        boolean&nbsp;connected)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collects a mutation while a step is open.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html#redo()">redo</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Redoes the step that was undone last and puts the selection that was after it back.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html#undo()">undo</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Undoes the newest step and puts the selection that was before it back.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="LIMIT"><!-- --></A><H3>
+LIMIT</H3>
+<PRE>
+public static final int <B>LIMIT</B></PRE>
+<DL>
+<DD>The most steps that are kept (the oldest are dropped).
+ <p>
+ 보관하는 최대 단계 수(가장 오래된 것부터 버린다).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.edit.UndoManager.LIMIT">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="UndoManager(org.duckdns.hjow.swingwebpanel.dom.Document)"><!-- --></A><H3>
+UndoManager</H3>
+<PRE>
+public <B>UndoManager</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc)</PRE>
+<DL>
+<DD>Creates the history of a document.
+ <p>
+ 문서의 이력을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>doc</CODE> - the document / 문서</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="mutated(org.duckdns.hjow.swingwebpanel.dom.MutationRecord, boolean)"><!-- --></A><H3>
+mutated</H3>
+<PRE>
+public void <B>mutated</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/MutationRecord.html" title="class in org.duckdns.hjow.swingwebpanel.dom">MutationRecord</A>&nbsp;record,
+                    boolean&nbsp;connected)</PRE>
+<DL>
+<DD>Collects a mutation while a step is open.
+ <p>
+ 단계가 열려 있는 동안 변경을 모은다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMutationListener.html#mutated(org.duckdns.hjow.swingwebpanel.dom.MutationRecord, boolean)">mutated</A></CODE> in interface <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMutationListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">DomMutationListener</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>record</CODE> - the mutation / 변경<DD><CODE>connected</CODE> - whether the node is connected / 노드가 연결되어 있는지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="begin()"><!-- --></A><H3>
+begin</H3>
+<PRE>
+public boolean <B>begin</B>()</PRE>
+<DL>
+<DD>Opens a step: the mutations of the document are collected until <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html#end(java.lang.String)"><CODE>end(java.lang.String)</CODE></A>. Steps do not nest (a second call while one is open is
+ ignored and its <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html#end(java.lang.String)"><CODE>end(java.lang.String)</CODE></A> does nothing).
+ <p>
+ 단계를 연다: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html#end(java.lang.String)"><CODE>end(java.lang.String)</CODE></A> 까지 문서의 변경을 모은다. 단계는 중첩되지 않는다(열려 있는 동안의 두 번째 호출은 무시되고 그 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html#end(java.lang.String)"><CODE>end(java.lang.String)</CODE></A> 도 아무것도 하지 않는다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if this call opened the step (the caller must call <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html#end(java.lang.String)"><CODE>end(java.lang.String)</CODE></A>) / 이 호출이 단계를 열었으면 true(호출자가 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html#end(java.lang.String)"><CODE>end(java.lang.String)</CODE></A> 를 불러야 한다)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="end(java.lang.String)"><!-- --></A><H3>
+end</H3>
+<PRE>
+public void <B>end</B>(java.lang.String&nbsp;mergeKey)</PRE>
+<DL>
+<DD>Closes the step that <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html#begin()"><CODE>begin()</CODE></A> opened. A step without mutations is dropped. Otherwise it joins the history; with a merge key equal
+ to that of the previous step, and when the selection before it is the one that the previous step left, it is merged into the previous
+ step (typing is undone by the word, not by the letter).
+ <p>
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html#begin()"><CODE>begin()</CODE></A> 이 연 단계를 닫는다. 변경이 없는 단계는 버린다. 아니면 이력에 들어가며, 병합 키가 이전 단계와 같고 그 전의 선택이 이전 단계가 남긴 선택이면
+ 이전 단계에 합쳐진다(글자가 아니라 낱말 단위로 되돌린다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>mergeKey</CODE> - the key for merging with the previous step, or null / 이전 단계와 합치는 키. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="breakMerging()"><!-- --></A><H3>
+breakMerging</H3>
+<PRE>
+public void <B>breakMerging</B>()</PRE>
+<DL>
+<DD>Ends the merging: the next step starts a new step of its own (called when something other than typing happens, for example a click).
+ <p>
+ 병합을 끝낸다: 다음 단계는 자기만의 새 단계가 된다(클릭처럼 글자 입력이 아닌 일이 생겼을 때 부른다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="canUndo()"><!-- --></A><H3>
+canUndo</H3>
+<PRE>
+public boolean <B>canUndo</B>()</PRE>
+<DL>
+<DD>Tells whether there is something to undo.
+ <p>
+ 되돌릴 것이 있는지 알려 준다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if there is / 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="canRedo()"><!-- --></A><H3>
+canRedo</H3>
+<PRE>
+public boolean <B>canRedo</B>()</PRE>
+<DL>
+<DD>Tells whether there is something to redo.
+ <p>
+ 다시 할 것이 있는지 알려 준다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if there is / 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="clear()"><!-- --></A><H3>
+clear</H3>
+<PRE>
+public void <B>clear</B>()</PRE>
+<DL>
+<DD>Forgets the whole history (the document was replaced or a script rewrote it).
+ <p>
+ 이력 전체를 잊는다(문서가 교체되었거나 스크립트가 다시 썼다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="undo()"><!-- --></A><H3>
+undo</H3>
+<PRE>
+public boolean <B>undo</B>()</PRE>
+<DL>
+<DD>Undoes the newest step and puts the selection that was before it back.
+ <p>
+ 가장 최근 단계를 되돌리고 그 전의 선택을 되돌려 놓는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if a step was undone / 되돌렸으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="redo()"><!-- --></A><H3>
+redo</H3>
+<PRE>
+public boolean <B>redo</B>()</PRE>
+<DL>
+<DD>Redoes the step that was undone last and puts the selection that was after it back.
+ <p>
+ 마지막으로 되돌린 단계를 다시 하고 그 뒤의 선택을 되돌려 놓는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if a step was redone / 다시 했으면 true</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.Environment.html" title="interface in org.duckdns.hjow.swingwebpanel.dom.edit"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="UndoManager.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

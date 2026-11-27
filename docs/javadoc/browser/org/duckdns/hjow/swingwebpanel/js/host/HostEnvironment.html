@@ -1,0 +1,1787 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+HostEnvironment
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="HostEnvironment";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostConsole.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.ClipboardResult.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="HostEnvironment.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.host</FONT>
+<BR>
+Class HostEnvironment</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.host.HostEnvironment</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public abstract class <B>HostEnvironment</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+What a page needs from the component around it: the user agent, how to fetch scripts, timers, cookies, storage, the viewport size, and
+ the hooks for navigation and repaint requests. Every method has a harmless default, so a test or an embedder overrides only what it
+ provides. The component creates one environment per page.
+ <p>
+ 페이지가 주변 컴포넌트에 필요로 하는 것: User-Agent, 스크립트를 가져오는 방법, 타이머, 쿠키, 저장소, 뷰포트 크기, 이동과 다시 그리기 요청용 훅.
+ 모든 메서드에 무해한 기본값이 있으므로 시험이나 임베더는 제공하는 것만 재정의한다. 컴포넌트가 페이지마다 환경 하나를 만든다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.ClipboardResult.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">HostEnvironment.ClipboardResult</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Receives the result of an asynchronous clipboard text operation on the document thread.</TD>
+</TR>
+</TABLE>
+&nbsp;<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#DEFAULT_TASK_TIME_LIMIT_MILLIS">DEFAULT_TASK_TIME_LIMIT_MILLIS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default duration of one browser script task in milliseconds. / 브라우저 스크립트 작업 하나의 기본 제한(밀리초).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected </CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#HostEnvironment()">HostEnvironment</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the environment.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#activateObjectDownload(org.duckdns.hjow.swingwebpanel.dom.Element)">activateObjectDownload</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;link)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Performs the object URL download action of an uncancelled synthetic anchor click.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#allowsMediaAutoplay()">allowsMediaAutoplay</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the document permits declarative media autoplay.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#animationsChanged()">animationsChanged</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Called after a script animation (Web Animations, <code>element.animate()</code>) changed the animated style of the page, so that the component
+ renders again.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#canvasChanged(org.duckdns.hjow.swingwebpanel.dom.Element)">canvasChanged</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;canvas)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells the component that the picture of a canvas changed, so that the renderer paints it again (without laying the page out again).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#documentChanged()">documentChanged</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Called after the document changed so that the component can schedule layout and repaint; may be called often, so it must be cheap.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.playback">AudioOutputFactory</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getAudioOutputFactory()">getAudioOutputFactory</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the factory that opens the sound outputs for the media elements of the page, or null if there is no sound output (the elements can
+ load and seek but <code>play()</code> then fails with an <code>error</code> event).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/net/BlobUrlStore.Scope.html" title="class in org.duckdns.hjow.swingwebpanel.net">BlobUrlStore.Scope</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getBlobUrlScope()">getBlobUrlScope</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the component's object URL scope for this document if it has one.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/BrowsingContext.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">BrowsingContext</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getBrowsingContext()">getBrowsingContext</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the browsing context of the document: the top-level document of the component or a nested context of a frame.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/net/CookieStore.html" title="class in org.duckdns.hjow.swingwebpanel.net">CookieStore</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getCookies()">getCookies</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the cookie store of the component, or null for no cookies.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssEngine</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getCssEngine()">getCssEngine</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the CSS engine of the page, the owner of the style sheets that the resolver uses (the component creates one per page); the engine has
+ the pending changes of the document applied (a <code>style</code> element that was added is collected).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getElementAt(double, double)">getElementAt</A></B>(double&nbsp;x,
+             double&nbsp;y)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the topmost element at a point of the viewport in viewport pixels (the layout hook for <code>document.elementFromPoint</code>),
+ or null when the point is outside the viewport or no layout exists.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getElementBounds(org.duckdns.hjow.swingwebpanel.dom.Element)">getElementBounds</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the border box of an element in viewport pixels as <code>{x, y, width, height}</code> (the layout hook for
+ <code>getBoundingClientRect</code> and the <code>offset*</code> sizes); all zero until layout exists.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double[][]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getElementRects(org.duckdns.hjow.swingwebpanel.dom.Element)">getElementRects</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the border boxes of an element in viewport pixels, one <code>{x, y, width, height}</code> per box (the layout hook for
+ <code>getClientRects</code>; an inline element that wraps has one per line).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/net/CrossOriginPolicy.Embedder.html" title="enum in org.duckdns.hjow.swingwebpanel.net">CrossOriginPolicy.Embedder</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getEmbedderPolicy()">getEmbedderPolicy</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the policy inherited by requests and used to check worker responses.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getHistoryLength()">getHistoryLength</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of entries of the session history (<code>history.length</code>); the default is 1, the page alone.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getHostMessageOrigin()">getHostMessageOrigin</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the Java host message origin when this document belongs to a messaging component.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/ImageRequestSource.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">ImageRequestSource</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getImageRequestSource()">getImageRequestSource</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the service that loads the images of <code>img</code> elements, or null if the page cannot load images (their
+ <code>load</code> and <code>error</code> events never fire and <code>complete</code> stays false).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getInnerText(org.duckdns.hjow.swingwebpanel.dom.Element)">getInnerText</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reads the rendered text of an element, or null without a layout. / 요소의 렌더링 텍스트를 읽는다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/render/ImageResource.html" title="class in org.duckdns.hjow.swingwebpanel.render">ImageResource</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getLoadedImage(java.lang.String)">getLoadedImage</A></B>(java.lang.String&nbsp;absoluteUrl)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the state and pixels of an image that the page already requested (for the <code>drawImage()</code> of a canvas), without
+ starting a request.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/render/ImageResource.html" title="class in org.duckdns.hjow.swingwebpanel.render">ImageResource</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getLoadedImage(java.lang.String, java.lang.String)">getLoadedImage</A></B>(java.lang.String&nbsp;absoluteUrl,
+               java.lang.String&nbsp;cors)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the state and the pixels of an image that an element with a <code>crossorigin</code> attribute already requested in CORS mode, without
+ starting a request.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html" title="class in org.duckdns.hjow.swingwebpanel.storage">LocalStorageManager</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getLocalStorage()">getLocalStorage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the process-wide localStorage, or null if the page has none.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/MediaRequestSource.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">MediaRequestSource</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getMediaRequestSource()">getMediaRequestSource</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the service that fetches the resources of <code>audio</code> and <code>video</code> elements, or null if the page cannot load
+ media (the elements then fail with an <code>error</code> event, as for an unsupported resource).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getNavigationType()">getNavigationType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells what kind of navigation made the page (Navigation Timing: the <code>type</code> of the navigation entry): <code>navigate</code>, <code>reload</code>
+ or <code>back_forward</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PointerService.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">PointerService</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getPointerService()">getPointerService</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the pointer capture service, or null if the host has no pointer (<code>setPointerCapture</code> then fails with a
+ <code>NotFoundError</code> for every pointer id).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double[][]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getRangeRects(org.duckdns.hjow.swingwebpanel.dom.Range)">getRangeRects</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A>&nbsp;range)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the client rectangles of a range in viewport pixels, each as <code>{x, y, width, height}</code> (the layout hook for
+ <code>Range.getClientRects</code>): the real geometry of the selected characters, one rectangle per line, and the border boxes of
+ the elements that the range selects.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getRangeText(org.duckdns.hjow.swingwebpanel.dom.Range)">getRangeText</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A>&nbsp;range)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text of a range the way copying it gives it (rendered text: collapsed white space, line feeds between blocks), the
+ meaning of <code>Selection.toString()</code>; null if the host has no layout.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getReferrer()">getReferrer</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the URL of the referring page (<code>document.referrer</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/Scheduler.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">Scheduler</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getScheduler()">getScheduler</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the scheduler for timers and animation frames; null means that timers never fire.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/ScriptSource.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">ScriptSource</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getScriptSource()">getScriptSource</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the source of external scripts, or null if scripts cannot be fetched (they then fail with an <code>error</code> event).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getScrollX()">getScrollX</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the horizontal scroll position of the viewport in document pixels (<code>scrollX</code>); 0 without a scrolling viewport.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getScrollY()">getScrollY</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the vertical scroll position of the viewport in document pixels (<code>scrollY</code>); 0 without a scrolling viewport.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/storage/SessionStorage.html" title="class in org.duckdns.hjow.swingwebpanel.storage">SessionStorage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getSessionStorage()">getSessionStorage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the sessionStorage of the component, or null if the page has none.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getSharedMemoryCluster()">getSharedMemoryCluster</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the stable cluster token for the component that owns this environment.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">StyleResolver</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getStyleResolver()">getStyleResolver</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the style resolver of the page (the component creates a CSS engine per page), or null if styles are not computed; used by
+ <code>getComputedStyle</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getTaskTimeLimitMillis()">getTaskTimeLimitMillis</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the time limit of one script task in milliseconds (0 for none); a script that runs longer is aborted.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getUserAgent()">getUserAgent</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the user agent that <code>navigator.userAgent</code> reports.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getViewportHeight()">getViewportHeight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the viewport height in pixels (<code>innerHeight</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getViewportWidth()">getViewportWidth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the viewport width in pixels (<code>innerWidth</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output">OutputFactory</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getWebAudioOutputFactory()">getWebAudioOutputFactory</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the factory that opens the outputs of the real-time <code>AudioContext</code> objects of the page (Web Audio, plan item P25-07), or null for the system output
+ (Java Sound, with a silent output that keeps the time running when there is no device or it cannot be opened).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequestSource.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">WebRequestSource</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getWebRequestSource()">getWebRequestSource</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the service for <code>XMLHttpRequest</code> and <code>fetch()</code>, or null if the page cannot make requests (they then
+ fail like a network error).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#hasPendingResources()">hasPendingResources</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether sub-resources that the component started for this page (stylesheets and images) are still loading.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#historyGo(int)">historyGo</A></B>(int&nbsp;delta)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Asks the component to move in the history (<code>history.go</code>, <code>back</code>, <code>forward</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#isCrossOriginIsolated()">isCrossOriginIsolated</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reports whether this document is allowed to use the isolated agent capabilities.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#isDocumentVisible()">isDocumentVisible</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the document counts as visible to the user (<code>document.visibilityState</code> is <code>visible</code>, <code>document.hidden</code> is false): the
+ component that shows it is on the screen.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#isOnline()">isOnline</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the host has a network connection (<code>navigator.onLine</code>); the host reports a change through the
+ <code>online</code>/<code>offline</code> events of the window.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#isScriptingEnabled()">isScriptingEnabled</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether scripts run (the component's <code>setJavascriptEnabled</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#matchesMedia(java.lang.String)">matchesMedia</A></B>(java.lang.String&nbsp;query)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a media query (<code>window.matchMedia</code>) matches the page now.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#mediaControlsChanged(org.duckdns.hjow.swingwebpanel.dom.Element)">mediaControlsChanged</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;media)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells the component that what the control bar of an <code>audio</code> element shows changed (the position, play or pause, the
+ volume), so that the renderer paints it again without laying the page out again.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#mediaStateChanged(java.lang.String, java.lang.String)">mediaStateChanged</A></B>(java.lang.String&nbsp;absoluteUrl,
+                  java.lang.String&nbsp;error)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells the component what a media element found out about a resource, so that the renderer can show it: the resource can be played
+ (<code>error</code> is null) or cannot (a failed fetch, an unsupported or damaged format).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#navigate(java.lang.String, boolean)">navigate</A></B>(java.lang.String&nbsp;url,
+         boolean&nbsp;replace)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Asks the component to navigate (<code>location.href = ...</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#noteUserActivation()">noteUserActivation</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Notes an action of the user in the document (a press of a mouse button or a key), which allows the page to open one window for a
+ short time (the transient activation of the HTML Standard).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#pageLoaded()">pageLoaded</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Called once, on the thread that owns the DOM, after the window <code>load</code> event of the page was fired.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#prepareParserScript(org.duckdns.hjow.swingwebpanel.dom.Element)">prepareParserScript</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;script)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Waits for preceding parser-blocking styles before a classic parser/deferred script.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#publishHostMessage(org.duckdns.hjow.swingwebpanel.js.host.structured.HostMessageValues.JavaMessage)">publishHostMessage</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/HostMessageValues.JavaMessage.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">HostMessageValues.JavaMessage</A>&nbsp;data)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Offers a script message to the Java host.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#reload()">reload</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Asks the component to reload the page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#requestClipboardText(java.lang.String, org.duckdns.hjow.swingwebpanel.js.host.HostEnvironment.ClipboardResult)">requestClipboardText</A></B>(java.lang.String&nbsp;write,
+                     <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.ClipboardResult.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">HostEnvironment.ClipboardResult</A>&nbsp;result)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Requests access to plain clipboard text after the caller checked user activation.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#scrollTo(double, double)">scrollTo</A></B>(double&nbsp;x,
+         double&nbsp;y)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Asks the component to scroll the viewport so that a point of the document is at its top left (<code>scrollTo</code>); the position is
+ clamped to the content and nothing happens without a scrolling viewport.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#updateHistoryState(org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue, java.lang.String, boolean)">updateHistoryState</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A>&nbsp;state,
+                   java.lang.String&nbsp;url,
+                   boolean&nbsp;replace)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Applies <code>history.pushState</code> or <code>replaceState</code> of the page: the history entry of the page takes the new URL and
+ the serialized state object, without a request and without a navigation (the page itself has already changed its own document URL and
+ its <code>history.state</code>).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="DEFAULT_TASK_TIME_LIMIT_MILLIS"><!-- --></A><H3>
+DEFAULT_TASK_TIME_LIMIT_MILLIS</H3>
+<PRE>
+public static final long <B>DEFAULT_TASK_TIME_LIMIT_MILLIS</B></PRE>
+<DL>
+<DD>Default duration of one browser script task in milliseconds. / 브라우저 스크립트 작업 하나의 기본 제한(밀리초).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.HostEnvironment.DEFAULT_TASK_TIME_LIMIT_MILLIS">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="HostEnvironment()"><!-- --></A><H3>
+HostEnvironment</H3>
+<PRE>
+protected <B>HostEnvironment</B>()</PRE>
+<DL>
+<DD>Creates the environment.
+ <p>
+ 환경을 만든다.
+<P>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getSharedMemoryCluster()"><!-- --></A><H3>
+getSharedMemoryCluster</H3>
+<PRE>
+public java.lang.Object <B>getSharedMemoryCluster</B>()</PRE>
+<DL>
+<DD>Returns the stable cluster token for the component that owns this environment.
+ <p>
+ 이 환경을 소유한 컴포넌트의 고정 클러스터 토큰을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>standalone identity token / 독립 식별 토큰</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isCrossOriginIsolated()"><!-- --></A><H3>
+isCrossOriginIsolated</H3>
+<PRE>
+public boolean <B>isCrossOriginIsolated</B>()</PRE>
+<DL>
+<DD>Reports whether this document is allowed to use the isolated agent capabilities.
+ <p>
+ 이 문서가 격리된 에이전트의 권한을 사용할 수 있는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for an isolated document / 격리된 문서이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEmbedderPolicy()"><!-- --></A><H3>
+getEmbedderPolicy</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/net/CrossOriginPolicy.Embedder.html" title="enum in org.duckdns.hjow.swingwebpanel.net">CrossOriginPolicy.Embedder</A> <B>getEmbedderPolicy</B>()</PRE>
+<DL>
+<DD>Returns the policy inherited by requests and used to check worker responses.
+ <p>
+ 요청이 물려받고 워커 응답 검사에 사용하는 정책을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the document embedder policy / 문서의 삽입 정책</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getUserAgent()"><!-- --></A><H3>
+getUserAgent</H3>
+<PRE>
+public java.lang.String <B>getUserAgent</B>()</PRE>
+<DL>
+<DD>Returns the user agent that <code>navigator.userAgent</code> reports.
+ <p>
+ <code>navigator.userAgent</code> 가 알리는 User-Agent 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the user agent / User-Agent</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="noteUserActivation()"><!-- --></A><H3>
+noteUserActivation</H3>
+<PRE>
+public void <B>noteUserActivation</B>()</PRE>
+<DL>
+<DD>Notes an action of the user in the document (a press of a mouse button or a key), which allows the page to open one window for a
+ short time (the transient activation of the HTML Standard). The default does nothing.
+ <p>
+ 문서에서 일어난 사용자의 조작(마우스 단추나 키를 누름)을 기록한다. 잠시 동안 페이지가 창 하나를 열 수 있게 한다(HTML 표준의 일시적 활성화).
+ 기본 구현은 아무것도 하지 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBrowsingContext()"><!-- --></A><H3>
+getBrowsingContext</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/BrowsingContext.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">BrowsingContext</A> <B>getBrowsingContext</B>()</PRE>
+<DL>
+<DD>Returns the browsing context of the document: the top-level document of the component or a nested context of a frame. The scripts use
+ it for <code>parent</code>, <code>top</code>, <code>frames</code> and <code>frameElement</code>; the default is null, a document that
+ stands alone (it is its own parent and top).
+ <p>
+ 문서의 브라우징 문맥을 반환한다: 컴포넌트의 최상위 문서 또는 프레임의 중첩 문맥. 스크립트가 <code>parent</code>, <code>top</code>,
+ <code>frames</code>, <code>frameElement</code> 에 쓴다. 기본값은 null 이며 혼자 있는 문서(자기가 부모이자 최상위)이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the context or null / 문맥 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHostMessageOrigin()"><!-- --></A><H3>
+getHostMessageOrigin</H3>
+<PRE>
+public java.lang.String <B>getHostMessageOrigin</B>()</PRE>
+<DL>
+<DD>Returns the Java host message origin when this document belongs to a messaging component.
+ <p>
+ 이 문서가 메시지를 쓰는 컴포넌트에 있으면 Java 호스트 메시지의 오리진을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>host origin or null / 호스트 오리진 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="publishHostMessage(org.duckdns.hjow.swingwebpanel.js.host.structured.HostMessageValues.JavaMessage)"><!-- --></A><H3>
+publishHostMessage</H3>
+<PRE>
+public void <B>publishHostMessage</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/HostMessageValues.JavaMessage.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">HostMessageValues.JavaMessage</A>&nbsp;data)</PRE>
+<DL>
+<DD>Offers a script message to the Java host.
+ <p>
+ Java 호스트에 스크립트 메시지를 전달한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - copied Java data / 복사한 Java 데이터</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getScriptSource()"><!-- --></A><H3>
+getScriptSource</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/ScriptSource.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">ScriptSource</A> <B>getScriptSource</B>()</PRE>
+<DL>
+<DD>Returns the source of external scripts, or null if scripts cannot be fetched (they then fail with an <code>error</code> event).
+ <p>
+ 외부 스크립트의 공급원을 반환한다. 가져올 수 없으면 null 이며 스크립트는 <code>error</code> 이벤트로 실패한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the source or null / 공급원 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isDocumentVisible()"><!-- --></A><H3>
+isDocumentVisible</H3>
+<PRE>
+public boolean <B>isDocumentVisible</B>()</PRE>
+<DL>
+<DD>Tells whether the document counts as visible to the user (<code>document.visibilityState</code> is <code>visible</code>, <code>document.hidden</code> is false): the
+ component that shows it is on the screen. The default is true.
+ <p>
+ 문서가 사용자에게 보이는 것으로 치는지 알려 준다(<code>document.visibilityState</code> 가 <code>visible</code>, <code>document.hidden</code> 이 false): 문서를 보여 주는
+ 컴포넌트가 화면에 있다. 기본값은 true.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true while visible / 보이는 동안 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getNavigationType()"><!-- --></A><H3>
+getNavigationType</H3>
+<PRE>
+public java.lang.String <B>getNavigationType</B>()</PRE>
+<DL>
+<DD>Tells what kind of navigation made the page (Navigation Timing: the <code>type</code> of the navigation entry): <code>navigate</code>, <code>reload</code>
+ or <code>back_forward</code>. The default is <code>navigate</code>.
+ <p>
+ 페이지를 만든 이동의 종류를 알려 준다(Navigation Timing 탐색 항목의 <code>type</code>): <code>navigate</code>, <code>reload</code>, <code>back_forward</code>.
+ 기본값은 <code>navigate</code>.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the type / 종류</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isOnline()"><!-- --></A><H3>
+isOnline</H3>
+<PRE>
+public boolean <B>isOnline</B>()</PRE>
+<DL>
+<DD>Tells whether the host has a network connection (<code>navigator.onLine</code>); the host reports a change through the
+ <code>online</code>/<code>offline</code> events of the window. The default is true.
+ <p>
+ 호스트에 네트워크 연결이 있는지 알려 준다(<code>navigator.onLine</code>). 호스트는 변화를 window 의 <code>online</code>/<code>offline</code> 이벤트로 알린다.
+ 기본값은 true.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true while online / 연결된 동안 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPointerService()"><!-- --></A><H3>
+getPointerService</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PointerService.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">PointerService</A> <B>getPointerService</B>()</PRE>
+<DL>
+<DD>Returns the pointer capture service, or null if the host has no pointer (<code>setPointerCapture</code> then fails with a
+ <code>NotFoundError</code> for every pointer id).
+ <p>
+ 포인터 캡처 서비스를 반환한다. 호스트에 포인터가 없으면 null 이며 <code>setPointerCapture</code> 는 모든 포인터 ID 에 대해
+ <code>NotFoundError</code> 로 실패한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the service or null / 서비스 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getWebRequestSource()"><!-- --></A><H3>
+getWebRequestSource</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequestSource.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">WebRequestSource</A> <B>getWebRequestSource</B>()</PRE>
+<DL>
+<DD>Returns the service for <code>XMLHttpRequest</code> and <code>fetch()</code>, or null if the page cannot make requests (they then
+ fail like a network error).
+ <p>
+ <code>XMLHttpRequest</code> 와 <code>fetch()</code> 용 서비스를 반환한다. 페이지가 요청을 할 수 없으면 null 이며 요청은 네트워크 오류처럼 실패한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the service or null / 서비스 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getImageRequestSource()"><!-- --></A><H3>
+getImageRequestSource</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/ImageRequestSource.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">ImageRequestSource</A> <B>getImageRequestSource</B>()</PRE>
+<DL>
+<DD>Returns the service that loads the images of <code>img</code> elements, or null if the page cannot load images (their
+ <code>load</code> and <code>error</code> events never fire and <code>complete</code> stays false).
+ <p>
+ <code>img</code> 요소의 이미지를 로드하는 서비스를 반환한다. 페이지가 이미지를 로드할 수 없으면 null 이며 <code>load</code>, <code>error</code>
+ 이벤트가 발생하지 않고 <code>complete</code> 는 false 로 남는다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the service or null / 서비스 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMediaRequestSource()"><!-- --></A><H3>
+getMediaRequestSource</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/MediaRequestSource.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">MediaRequestSource</A> <B>getMediaRequestSource</B>()</PRE>
+<DL>
+<DD>Returns the service that fetches the resources of <code>audio</code> and <code>video</code> elements, or null if the page cannot load
+ media (the elements then fail with an <code>error</code> event, as for an unsupported resource).
+ <p>
+ <code>audio</code> 와 <code>video</code> 요소의 리소스를 가져오는 서비스를 반환한다. 페이지가 미디어를 로드할 수 없으면 null 이며 요소는 지원하지
+ 않는 리소스처럼 <code>error</code> 이벤트로 실패한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the service or null / 서비스 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getAudioOutputFactory()"><!-- --></A><H3>
+getAudioOutputFactory</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.playback">AudioOutputFactory</A> <B>getAudioOutputFactory</B>()</PRE>
+<DL>
+<DD>Returns the factory that opens the sound outputs for the media elements of the page, or null if there is no sound output (the elements can
+ load and seek but <code>play()</code> then fails with an <code>error</code> event).
+ <p>
+ 페이지의 미디어 요소를 위한 소리 출력을 여는 팩터리를 반환한다. 소리 출력이 없으면 null 이며 요소는 로드하고 탐색할 수 있지만
+ <code>play()</code> 는 <code>error</code> 이벤트로 실패한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the factory or null / 팩터리 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="allowsMediaAutoplay()"><!-- --></A><H3>
+allowsMediaAutoplay</H3>
+<PRE>
+public boolean <B>allowsMediaAutoplay</B>()</PRE>
+<DL>
+<DD>Tells whether the document permits declarative media autoplay.
+ <p>
+ 문서에서 선언적 미디어 자동 재생을 허용하는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true when the document permits autoplay / 자동 재생을 문서에서 허용하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getWebAudioOutputFactory()"><!-- --></A><H3>
+getWebAudioOutputFactory</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output">OutputFactory</A> <B>getWebAudioOutputFactory</B>()</PRE>
+<DL>
+<DD>Returns the factory that opens the outputs of the real-time <code>AudioContext</code> objects of the page (Web Audio, plan item P25-07), or null for the system output
+ (Java Sound, with a silent output that keeps the time running when there is no device or it cannot be opened). It is the Web Audio counterpart of
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getAudioOutputFactory()"><CODE>getAudioOutputFactory()</CODE></A>: the two are chosen independently, because the outputs differ in kind (a Web Audio output takes floating point audio and blocks until the device has
+ room, the output of a media element takes 16 bit PCM and never blocks).
+ <p>
+ 페이지의 실시간 <code>AudioContext</code> 의 출력을 여는 팩터리를 반환한다(Web Audio, 계획 P25-07). 없으면 null 이며 시스템 출력(Java Sound. 장치가 없거나 열 수 없으면 시간을 계속
+ 흐르게 하는 무음 출력)을 쓴다. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getAudioOutputFactory()"><CODE>getAudioOutputFactory()</CODE></A> 의 Web Audio 짝이다: 둘은 따로 고른다. 출력의 성격이 다르기 때문이다(Web Audio 출력은 부동 소수점 오디오를 받고
+ 장치에 빈 곳이 생길 때까지 기다리며, 미디어 요소의 출력은 16비트 PCM 을 받고 기다리지 않는다).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the factory or null for the system output / 팩터리. 시스템 출력이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mediaStateChanged(java.lang.String, java.lang.String)"><!-- --></A><H3>
+mediaStateChanged</H3>
+<PRE>
+public void <B>mediaStateChanged</B>(java.lang.String&nbsp;absoluteUrl,
+                              java.lang.String&nbsp;error)</PRE>
+<DL>
+<DD>Tells the component what a media element found out about a resource, so that the renderer can show it: the resource can be played
+ (<code>error</code> is null) or cannot (a failed fetch, an unsupported or damaged format). Called on the thread that owns the DOM; the
+ default does nothing.
+ <p>
+ 미디어 요소가 리소스에 대해 알아낸 것을 컴포넌트에 알려 렌더러가 보여 줄 수 있게 한다: 리소스를 재생할 수 있거나(<code>error</code> 가 null)
+ 재생할 수 없다(가져오기 실패, 지원하지 않거나 손상된 형식). DOM 을 소유한 스레드에서 호출되며 기본은 아무것도 하지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>absoluteUrl</CODE> - the absolute URL of the resource / 리소스의 절대 URL<DD><CODE>error</CODE> - null if it can be played, else a short description of the failure / 재생할 수 있으면 null, 아니면 실패의 짧은 설명</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLoadedImage(java.lang.String)"><!-- --></A><H3>
+getLoadedImage</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/render/ImageResource.html" title="class in org.duckdns.hjow.swingwebpanel.render">ImageResource</A> <B>getLoadedImage</B>(java.lang.String&nbsp;absoluteUrl)</PRE>
+<DL>
+<DD>Returns the state and pixels of an image that the page already requested (for the <code>drawImage()</code> of a canvas), without
+ starting a request. Called on the thread that owns the DOM; the default knows no images.
+ <p>
+ 페이지가 이미 요청한 이미지의 상태와 화소를 요청을 시작하지 않고 반환한다(캔버스의 <code>drawImage()</code> 용). DOM 을 소유한 스레드에서 호출되며
+ 기본은 이미지를 모른다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>absoluteUrl</CODE> - the absolute URL of the image / 이미지의 절대 URL
+<DT><B>Returns:</B><DD>the image, or null if it was never requested / 이미지. 요청한 적이 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLoadedImage(java.lang.String, java.lang.String)"><!-- --></A><H3>
+getLoadedImage</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/render/ImageResource.html" title="class in org.duckdns.hjow.swingwebpanel.render">ImageResource</A> <B>getLoadedImage</B>(java.lang.String&nbsp;absoluteUrl,
+                                    java.lang.String&nbsp;cors)</PRE>
+<DL>
+<DD>Returns the state and the pixels of an image that an element with a <code>crossorigin</code> attribute already requested in CORS mode, without
+ starting a request. The default gives the plain image of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getLoadedImage(java.lang.String)"><CODE>getLoadedImage(String)</CODE></A>.
+ <p>
+ <code>crossorigin</code> 속성이 있는 요소가 이미 CORS 모드로 요청한 이미지의 상태와 화소를 요청을 시작하지 않고 반환한다. 기본은
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#getLoadedImage(java.lang.String)"><CODE>getLoadedImage(String)</CODE></A> 의 일반 이미지를 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>absoluteUrl</CODE> - the absolute URL of the image / 이미지의 절대 URL<DD><CODE>cors</CODE> - <code>anonymous</code>, <code>use-credentials</code> or null for a plain image / <code>anonymous</code>, <code>use-credentials</code>. 일반 이미지는 null
+<DT><B>Returns:</B><DD>the image, or null if it was never requested / 이미지. 요청한 적이 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="canvasChanged(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+canvasChanged</H3>
+<PRE>
+public void <B>canvasChanged</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;canvas)</PRE>
+<DL>
+<DD>Tells the component that the picture of a canvas changed, so that the renderer paints it again (without laying the page out again).
+ It only posts work and may be called while the canvas is locked; the default does nothing.
+ <p>
+ 캔버스의 그림이 바뀌었음을 컴포넌트에 알려 렌더러가 (페이지를 다시 배치하지 않고) 다시 그리게 한다. 작업을 올리기만 하며 캔버스가 잠긴 채 불릴 수
+ 있다. 기본은 아무것도 하지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>canvas</CODE> - the <code>canvas</code> element / <code>canvas</code> 요소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mediaControlsChanged(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+mediaControlsChanged</H3>
+<PRE>
+public void <B>mediaControlsChanged</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;media)</PRE>
+<DL>
+<DD>Tells the component that what the control bar of an <code>audio</code> element shows changed (the position, play or pause, the
+ volume), so that the renderer paints it again without laying the page out again. It only posts work; the default does nothing.
+ <p>
+ <code>audio</code> 요소의 컨트롤 막대가 보여 주는 것(위치, 재생이나 일시정지, 음량)이 바뀌었음을 컴포넌트에 알려, 렌더러가 페이지를 다시 배치하지
+ 않고 다시 그리게 한다. 작업을 올리기만 하며 기본은 아무것도 하지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>media</CODE> - the <code>audio</code> element / <code>audio</code> 요소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getScheduler()"><!-- --></A><H3>
+getScheduler</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/Scheduler.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">Scheduler</A> <B>getScheduler</B>()</PRE>
+<DL>
+<DD>Returns the scheduler for timers and animation frames; null means that timers never fire.
+ <p>
+ 타이머와 애니메이션 프레임용 스케줄러를 반환한다. null 이면 타이머가 절대 실행되지 않는다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the scheduler or null / 스케줄러 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBlobUrlScope()"><!-- --></A><H3>
+getBlobUrlScope</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/net/BlobUrlStore.Scope.html" title="class in org.duckdns.hjow.swingwebpanel.net">BlobUrlStore.Scope</A> <B>getBlobUrlScope</B>()</PRE>
+<DL>
+<DD>Returns the component's object URL scope for this document if it has one.
+ <p>
+ 컴포넌트가 이 문서의 객체 URL 범위를 제공하면 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the document scope or null / 문서 범위 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="requestClipboardText(java.lang.String, org.duckdns.hjow.swingwebpanel.js.host.HostEnvironment.ClipboardResult)"><!-- --></A><H3>
+requestClipboardText</H3>
+<PRE>
+public void <B>requestClipboardText</B>(java.lang.String&nbsp;write,
+                                 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.ClipboardResult.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">HostEnvironment.ClipboardResult</A>&nbsp;result)</PRE>
+<DL>
+<DD>Requests access to plain clipboard text after the caller checked user activation.
+ <p>
+ 호출자가 사용자 활성화를 검증한 뒤 클립보드의 일반 텍스트 접근을 요청한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>write</CODE> - text to write, or null for a read / 쓸 텍스트. 읽으려면 null<DD><CODE>result</CODE> - completion on the document thread / 문서 스레드에서 받을 완료 결과</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCookies()"><!-- --></A><H3>
+getCookies</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/net/CookieStore.html" title="class in org.duckdns.hjow.swingwebpanel.net">CookieStore</A> <B>getCookies</B>()</PRE>
+<DL>
+<DD>Returns the cookie store of the component, or null for no cookies.
+ <p>
+ 컴포넌트의 쿠키 저장소를 반환한다. 쿠키가 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the store or null / 저장소 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLocalStorage()"><!-- --></A><H3>
+getLocalStorage</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html" title="class in org.duckdns.hjow.swingwebpanel.storage">LocalStorageManager</A> <B>getLocalStorage</B>()</PRE>
+<DL>
+<DD>Returns the process-wide localStorage, or null if the page has none.
+ <p>
+ 프로세스 공용 localStorage 를 반환한다. 페이지에 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the manager or null / 관리자 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSessionStorage()"><!-- --></A><H3>
+getSessionStorage</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/storage/SessionStorage.html" title="class in org.duckdns.hjow.swingwebpanel.storage">SessionStorage</A> <B>getSessionStorage</B>()</PRE>
+<DL>
+<DD>Returns the sessionStorage of the component, or null if the page has none.
+ <p>
+ 컴포넌트의 sessionStorage 를 반환한다. 페이지에 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the storage or null / 저장소 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getViewportWidth()"><!-- --></A><H3>
+getViewportWidth</H3>
+<PRE>
+public int <B>getViewportWidth</B>()</PRE>
+<DL>
+<DD>Returns the viewport width in pixels (<code>innerWidth</code>).
+ <p>
+ 뷰포트 폭(픽셀)을 반환한다(<code>innerWidth</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the width / 폭</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getViewportHeight()"><!-- --></A><H3>
+getViewportHeight</H3>
+<PRE>
+public int <B>getViewportHeight</B>()</PRE>
+<DL>
+<DD>Returns the viewport height in pixels (<code>innerHeight</code>).
+ <p>
+ 뷰포트 높이(픽셀)를 반환한다(<code>innerHeight</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the height / 높이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isScriptingEnabled()"><!-- --></A><H3>
+isScriptingEnabled</H3>
+<PRE>
+public boolean <B>isScriptingEnabled</B>()</PRE>
+<DL>
+<DD>Tells whether scripts run (the component's <code>setJavascriptEnabled</code>).
+ <p>
+ 스크립트를 실행하는지 알려 준다(컴포넌트의 <code>setJavascriptEnabled</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if scripts run / 스크립트를 실행하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTaskTimeLimitMillis()"><!-- --></A><H3>
+getTaskTimeLimitMillis</H3>
+<PRE>
+public long <B>getTaskTimeLimitMillis</B>()</PRE>
+<DL>
+<DD>Returns the time limit of one script task in milliseconds (0 for none); a script that runs longer is aborted.
+ <p>
+ 스크립트 작업 하나의 시간 제한(밀리초)을 반환한다(0 이면 없음). 더 오래 실행되는 스크립트는 중단된다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the limit / 제한</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getReferrer()"><!-- --></A><H3>
+getReferrer</H3>
+<PRE>
+public java.lang.String <B>getReferrer</B>()</PRE>
+<DL>
+<DD>Returns the URL of the referring page (<code>document.referrer</code>).
+ <p>
+ 참조 페이지 URL 을 반환한다(<code>document.referrer</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the URL or "" / URL 또는 ""</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="navigate(java.lang.String, boolean)"><!-- --></A><H3>
+navigate</H3>
+<PRE>
+public void <B>navigate</B>(java.lang.String&nbsp;url,
+                     boolean&nbsp;replace)</PRE>
+<DL>
+<DD>Asks the component to navigate (<code>location.href = ...</code>, <code>location.assign</code>, <code>replace</code>); the target is
+ checked by the component's navigation policy, never by the page.
+ <p>
+ 컴포넌트에 이동을 요청한다(<code>location.href = ...</code>, <code>location.assign</code>, <code>replace</code>). 대상은 페이지가 아니라
+ 컴포넌트의 이동 정책이 검사한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - the absolute URL / 절대 URL<DD><CODE>replace</CODE> - true to replace the history entry / 이력 항목을 바꾸려면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="activateObjectDownload(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+activateObjectDownload</H3>
+<PRE>
+public void <B>activateObjectDownload</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;link)</PRE>
+<DL>
+<DD>Performs the object URL download action of an uncancelled synthetic anchor click.
+ <p>
+ 취소하지 않은 합성 앵커 클릭의 객체 URL 다운로드 기본 동작을 수행한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>link</CODE> - the anchor element / 앵커 요소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="reload()"><!-- --></A><H3>
+reload</H3>
+<PRE>
+public void <B>reload</B>()</PRE>
+<DL>
+<DD>Asks the component to reload the page.
+ <p>
+ 컴포넌트에 페이지 새로고침을 요청한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="historyGo(int)"><!-- --></A><H3>
+historyGo</H3>
+<PRE>
+public void <B>historyGo</B>(int&nbsp;delta)</PRE>
+<DL>
+<DD>Asks the component to move in the history (<code>history.go</code>, <code>back</code>, <code>forward</code>).
+ <p>
+ 컴포넌트에 이력 이동을 요청한다(<code>history.go</code>, <code>back</code>, <code>forward</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>delta</CODE> - the number of steps, negative for back / 이동 칸 수(뒤로는 음수)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="updateHistoryState(org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue, java.lang.String, boolean)"><!-- --></A><H3>
+updateHistoryState</H3>
+<PRE>
+public void <B>updateHistoryState</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A>&nbsp;state,
+                               java.lang.String&nbsp;url,
+                               boolean&nbsp;replace)</PRE>
+<DL>
+<DD>Applies <code>history.pushState</code> or <code>replaceState</code> of the page: the history entry of the page takes the new URL and
+ the serialized state object, without a request and without a navigation (the page itself has already changed its own document URL and
+ its <code>history.state</code>). The default does nothing.
+ <p>
+ 페이지의 <code>history.pushState</code>, <code>replaceState</code> 를 적용한다: 페이지의 이력 항목이 요청이나 이동 없이 새 URL과 직렬화된 상태
+ 객체를 갖는다(페이지는 이미 자기 문서 URL과 <code>history.state</code> 를 바꾸었다). 기본은 아무것도 하지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>state</CODE> - the serialized state object, or null / 직렬화된 상태 객체. 없으면 null<DD><CODE>url</CODE> - the new absolute URL (of the origin of the document) / 새 절대 URL(문서와 같은 오리진)<DD><CODE>replace</CODE> - true to replace the current entry, false to add one / 현재 항목을 바꾸려면 true, 추가하려면 false</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHistoryLength()"><!-- --></A><H3>
+getHistoryLength</H3>
+<PRE>
+public int <B>getHistoryLength</B>()</PRE>
+<DL>
+<DD>Returns the number of entries of the session history (<code>history.length</code>); the default is 1, the page alone.
+ <p>
+ 세션 이력의 항목 수를 반환한다(<code>history.length</code>). 기본값은 페이지 하나뿐인 1.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of entries / 항목 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="documentChanged()"><!-- --></A><H3>
+documentChanged</H3>
+<PRE>
+public void <B>documentChanged</B>()</PRE>
+<DL>
+<DD>Called after the document changed so that the component can schedule layout and repaint; may be called often, so it must be cheap.
+ <p>
+ 문서가 바뀐 뒤에 호출되어 컴포넌트가 배치와 다시 그리기를 예약할 수 있게 한다. 자주 호출될 수 있으므로 가벼워야 한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="animationsChanged()"><!-- --></A><H3>
+animationsChanged</H3>
+<PRE>
+public void <B>animationsChanged</B>()</PRE>
+<DL>
+<DD>Called after a script animation (Web Animations, <code>element.animate()</code>) changed the animated style of the page, so that the component
+ renders again. The default asks for a new rendering through <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#canvasChanged(org.duckdns.hjow.swingwebpanel.dom.Element)"><CODE>canvasChanged(Element)</CODE></A>, which renders the page and ticks its animation
+ engine; the engine reports the changed styles of the script animations, so the page is laid out again. Cheap, may be called often.
+ <p>
+ 스크립트 애니메이션(Web Animations, <code>element.animate()</code>)이 페이지의 애니메이션 스타일을 바꾼 뒤 컴포넌트가 다시 렌더링하도록 불린다. 기본 구현은
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html#canvasChanged(org.duckdns.hjow.swingwebpanel.dom.Element)"><CODE>canvasChanged(Element)</CODE></A> 로 새 렌더링을 요청하며, 그 렌더링이 애니메이션 엔진을 진행하고 엔진이 스크립트 애니메이션의 바뀐 스타일을 알려 페이지가 다시
+ 배치된다. 가벼우며 자주 불릴 수 있다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasPendingResources()"><!-- --></A><H3>
+hasPendingResources</H3>
+<PRE>
+public boolean <B>hasPendingResources</B>()</PRE>
+<DL>
+<DD>Tells whether sub-resources that the component started for this page (stylesheets and images) are still loading. The window
+ <code>load</code> event waits for them; the default is false, for hosts that load nothing.
+ <p>
+ 컴포넌트가 이 페이지를 위해 시작한 하위 리소스(스타일시트와 이미지)가 아직 로딩 중인지 알려 준다. window <code>load</code> 이벤트는 이것을
+ 기다린다. 기본값은 false 이며 아무것도 로드하지 않는 호스트를 위한 것이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true while one is loading / 로딩 중인 것이 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="pageLoaded()"><!-- --></A><H3>
+pageLoaded</H3>
+<PRE>
+public void <B>pageLoaded</B>()</PRE>
+<DL>
+<DD>Called once, on the thread that owns the DOM, after the window <code>load</code> event of the page was fired. The component uses it to
+ finish the progress of the load.
+ <p>
+ 페이지의 window <code>load</code> 이벤트가 발생한 뒤 DOM 을 소유한 스레드에서 한 번 호출된다. 컴포넌트는 이것으로 로딩 진행률을 마무리한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="prepareParserScript(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+prepareParserScript</H3>
+<PRE>
+public void <B>prepareParserScript</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;script)</PRE>
+<DL>
+<DD>Waits for preceding parser-blocking styles before a classic parser/deferred script. Called on the loader owner,
+ before the script task/time limit begins; async and dynamically inserted scripts do not call this hook.
+ <p>일반 파서·defer 스크립트 전에 앞선 파서 차단 스타일을 기다린다. 스크립트 작업·시간 제한 시작 전 로더 소유자에서 호출하며
+ async와 동적 삽입 스크립트는 이 훅을 호출하지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>script</CODE> - parser-created script about to run / 실행 직전 파서 생성 스크립트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStyleResolver()"><!-- --></A><H3>
+getStyleResolver</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">StyleResolver</A> <B>getStyleResolver</B>()</PRE>
+<DL>
+<DD>Returns the style resolver of the page (the component creates a CSS engine per page), or null if styles are not computed; used by
+ <code>getComputedStyle</code>.
+ <p>
+ 페이지의 스타일 리졸버를 반환한다(컴포넌트가 페이지마다 CSS 엔진을 만든다). 스타일을 계산하지 않으면 null. <code>getComputedStyle</code> 이 쓴다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the resolver or null / 리졸버 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCssEngine()"><!-- --></A><H3>
+getCssEngine</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssEngine</A> <B>getCssEngine</B>()</PRE>
+<DL>
+<DD>Returns the CSS engine of the page, the owner of the style sheets that the resolver uses (the component creates one per page); the engine has
+ the pending changes of the document applied (a <code>style</code> element that was added is collected). The CSSOM of the page
+ (<code>document.styleSheets</code>, the rules, <code>adoptedStyleSheets</code>) works on the sheets of this engine, so a change that a script makes
+ to a rule changes the styles that the resolver computes. Null if styles are not computed.
+ <p>
+ 페이지의 CSS 엔진을 반환한다. 리졸버가 쓰는 스타일 시트의 소유자이다(컴포넌트가 페이지마다 만든다). 엔진에는 문서의 대기 중인 변경이 적용되어 있다(추가된
+ <code>style</code> 요소를 수집한다). 페이지의 CSSOM(<code>document.styleSheets</code>, 규칙, <code>adoptedStyleSheets</code>)은 이 엔진의 시트에서 일하므로
+ 스크립트가 규칙에 한 변경이 리졸버가 계산하는 스타일을 바꾼다. 스타일을 계산하지 않으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the engine or null / 엔진 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getElementBounds(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+getElementBounds</H3>
+<PRE>
+public double[] <B>getElementBounds</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element)</PRE>
+<DL>
+<DD>Returns the border box of an element in viewport pixels as <code>{x, y, width, height}</code> (the layout hook for
+ <code>getBoundingClientRect</code> and the <code>offset*</code> sizes); all zero until layout exists.
+ <p>
+ 요소의 테두리 상자를 뷰포트 픽셀의 <code>{x, y, width, height}</code> 로 반환한다(<code>getBoundingClientRect</code> 와 <code>offset*</code> 크기의
+ 레이아웃 훅). 레이아웃이 생기기 전에는 모두 0.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>element</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>four numbers / 숫자 네 개</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRangeRects(org.duckdns.hjow.swingwebpanel.dom.Range)"><!-- --></A><H3>
+getRangeRects</H3>
+<PRE>
+public double[][] <B>getRangeRects</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A>&nbsp;range)</PRE>
+<DL>
+<DD>Returns the client rectangles of a range in viewport pixels, each as <code>{x, y, width, height}</code> (the layout hook for
+ <code>Range.getClientRects</code>): the real geometry of the selected characters, one rectangle per line, and the border boxes of
+ the elements that the range selects. Null means that the host has no layout, and the caller falls back to an approximation from
+ element boxes.
+ <p>
+ 범위의 클라이언트 사각형을 뷰포트 픽셀의 <code>{x, y, 폭, 높이}</code> 로 반환한다(<code>Range.getClientRects</code> 의 레이아웃 훅): 선택된 글자의
+ 실제 기하(줄마다 하나)와 범위가 선택한 요소의 border box. null 이면 호스트에 레이아웃이 없는 것이며 호출자는 요소 상자로 근사한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>range</CODE> - the range / 범위
+<DT><B>Returns:</B><DD>the rectangles or null / 사각형 목록. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRangeText(org.duckdns.hjow.swingwebpanel.dom.Range)"><!-- --></A><H3>
+getRangeText</H3>
+<PRE>
+public java.lang.String <B>getRangeText</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A>&nbsp;range)</PRE>
+<DL>
+<DD>Returns the text of a range the way copying it gives it (rendered text: collapsed white space, line feeds between blocks), the
+ meaning of <code>Selection.toString()</code>; null if the host has no layout.
+ <p>
+ 범위를 복사했을 때 나오는 텍스트(렌더링된 텍스트: 접힌 공백, 블록 사이의 줄바꿈)를 반환한다. <code>Selection.toString()</code> 의 뜻이다. 호스트에
+ 레이아웃이 없으면 null.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>range</CODE> - the range / 범위
+<DT><B>Returns:</B><DD>the text or null / 텍스트. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getInnerText(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+getInnerText</H3>
+<PRE>
+public java.lang.String <B>getInnerText</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element)</PRE>
+<DL>
+<DD>Reads the rendered text of an element, or null without a layout. / 요소의 렌더링 텍스트를 읽는다. 배치가 없으면 null을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>element</CODE> - the element whose descendants are read / 자손을 읽을 요소
+<DT><B>Returns:</B><DD>the text or null / 텍스트 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getElementRects(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+getElementRects</H3>
+<PRE>
+public double[][] <B>getElementRects</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element)</PRE>
+<DL>
+<DD>Returns the border boxes of an element in viewport pixels, one <code>{x, y, width, height}</code> per box (the layout hook for
+ <code>getClientRects</code>; an inline element that wraps has one per line). Null means that the host has no layout.
+ <p>
+ 요소의 border box 를 뷰포트 픽셀의 상자마다 하나씩 <code>{x, y, 폭, 높이}</code> 로 반환한다(<code>getClientRects</code> 의 레이아웃 훅. 줄바꿈된
+ 인라인 요소는 줄마다 하나). null 이면 호스트에 레이아웃이 없다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>element</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>the rectangles or null / 사각형 목록. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getElementAt(double, double)"><!-- --></A><H3>
+getElementAt</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>getElementAt</B>(double&nbsp;x,
+                            double&nbsp;y)</PRE>
+<DL>
+<DD>Returns the topmost element at a point of the viewport in viewport pixels (the layout hook for <code>document.elementFromPoint</code>),
+ or null when the point is outside the viewport or no layout exists.
+ <p>
+ 뷰포트 픽셀 좌표의 점에 있는 최상위 요소를 반환한다(<code>document.elementFromPoint</code> 의 레이아웃 훅). 점이 뷰포트 밖이거나 레이아웃이
+ 없으면 null.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - the x of the point / 점의 x<DD><CODE>y</CODE> - the y of the point / 점의 y
+<DT><B>Returns:</B><DD>the element or null / 요소 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="matchesMedia(java.lang.String)"><!-- --></A><H3>
+matchesMedia</H3>
+<PRE>
+public boolean <B>matchesMedia</B>(java.lang.String&nbsp;query)</PRE>
+<DL>
+<DD>Tells whether a media query (<code>window.matchMedia</code>) matches the page now. The default evaluates it against the size of the
+ viewport with the default environment (screen, 24 bit colour, 1 dppx).
+ <p>
+ 미디어 질의(<code>window.matchMedia</code>)가 지금 페이지에 일치하는지 알려 준다. 기본 구현은 기본 환경(screen, 24비트 색, 1 dppx)과 뷰포트
+ 크기로 평가한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>query</CODE> - the media query list text / 미디어 질의 목록 문자열
+<DT><B>Returns:</B><DD>true if it matches / 일치하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getScrollX()"><!-- --></A><H3>
+getScrollX</H3>
+<PRE>
+public int <B>getScrollX</B>()</PRE>
+<DL>
+<DD>Returns the horizontal scroll position of the viewport in document pixels (<code>scrollX</code>); 0 without a scrolling viewport.
+ <p>
+ 뷰포트의 가로 스크롤 위치를 문서 픽셀로 반환한다(<code>scrollX</code>). 스크롤하는 뷰포트가 없으면 0.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the position / 위치</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getScrollY()"><!-- --></A><H3>
+getScrollY</H3>
+<PRE>
+public int <B>getScrollY</B>()</PRE>
+<DL>
+<DD>Returns the vertical scroll position of the viewport in document pixels (<code>scrollY</code>); 0 without a scrolling viewport.
+ <p>
+ 뷰포트의 세로 스크롤 위치를 문서 픽셀로 반환한다(<code>scrollY</code>). 스크롤하는 뷰포트가 없으면 0.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the position / 위치</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="scrollTo(double, double)"><!-- --></A><H3>
+scrollTo</H3>
+<PRE>
+public void <B>scrollTo</B>(double&nbsp;x,
+                     double&nbsp;y)</PRE>
+<DL>
+<DD>Asks the component to scroll the viewport so that a point of the document is at its top left (<code>scrollTo</code>); the position is
+ clamped to the content and nothing happens without a scrolling viewport. The scroll itself happens later on the event dispatch thread.
+ <p>
+ 문서의 한 점이 뷰포트의 왼쪽 위에 오도록 스크롤하라고 컴포넌트에 요청한다(<code>scrollTo</code>). 위치는 내용 범위로 제한되며 스크롤하는
+ 뷰포트가 없으면 아무 일도 없다. 실제 스크롤은 나중에 이벤트 디스패치 스레드에서 일어난다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - the x in document pixels / 문서 픽셀의 x<DD><CODE>y</CODE> - the y in document pixels / 문서 픽셀의 y</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostConsole.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.ClipboardResult.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/HostEnvironment.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="HostEnvironment.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

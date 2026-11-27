@@ -1,0 +1,684 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ElementCollections
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ElementCollections";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ElementCollections.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom</FONT>
+<BR>
+Class ElementCollections</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.dom.ElementCollections</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ElementCollections</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Factory of the live element collections of the DOM Standard: by tag name, by namespace and local name, by class names, and the
+ element children of a node. The matching rules follow the standard, including the case rules of HTML documents (HTML elements match
+ a lower-cased tag name) and quirks mode (class names compare case-insensitively).
+ <p>
+ DOM 표준의 라이브 요소 컬렉션 팩터리: 태그 이름별, 네임스페이스와 로컬 이름별, 클래스 이름별, 노드의 요소 자식. 일치 규칙은 HTML 문서의 대소문자
+ 규칙(HTML 요소는 소문자로 바꾼 태그 이름과 일치)과 호환 모드(클래스 이름을 대소문자 구분 없이 비교)를 포함해 표준을 따른다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#anchors(org.duckdns.hjow.swingwebpanel.dom.Node)">anchors</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;root)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the live collection of the named anchors of a document (<code>document.anchors</code>): the <code>a</code> elements that have
+ a <code>name</code> attribute.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#byClassName(org.duckdns.hjow.swingwebpanel.dom.Node, java.lang.String)">byClassName</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;root,
+            java.lang.String&nbsp;classNames)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the live collection of the descendants that have all the given class names (<code>getElementsByClassName</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#byNameAttribute(org.duckdns.hjow.swingwebpanel.dom.Node, java.lang.String)">byNameAttribute</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;root,
+                java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the live collection of the HTML elements whose <code>name</code> attribute has a value (<code>document.getElementsByName</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#byTagName(org.duckdns.hjow.swingwebpanel.dom.Node, java.lang.String)">byTagName</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;root,
+          java.lang.String&nbsp;qualifiedName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the live collection of the descendants with a qualified name (<code>getElementsByTagName</code>); <code>*</code>
+ matches all.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#byTagNameNS(org.duckdns.hjow.swingwebpanel.dom.Node, java.lang.String, java.lang.String)">byTagNameNS</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;root,
+            java.lang.String&nbsp;namespace,
+            java.lang.String&nbsp;localName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the live collection of the descendants with a namespace and local name (<code>getElementsByTagNameNS</code>); a null or
+ <code>*</code> namespace and <code>*</code> local name match all.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#children(org.duckdns.hjow.swingwebpanel.dom.Node)">children</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;parent)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the live collection of the element children of a node (<code>children</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#childrenByTagName(org.duckdns.hjow.swingwebpanel.dom.Node, java.lang.String...)">childrenByTagName</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;parent,
+                  java.lang.String...&nbsp;names)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the live collection of the HTML element children of a node that have one of the given local names (the <code>tBodies</code>,
+ <code>rows</code> and <code>cells</code> of the table interfaces).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#documentNamed(org.duckdns.hjow.swingwebpanel.dom.Document, java.lang.String)">documentNamed</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+              java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the live collection of the elements of a document that are named properties of the document under a name (see
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#documentNames(org.duckdns.hjow.swingwebpanel.dom.Element)"><CODE>documentNames(org.duckdns.hjow.swingwebpanel.dom.Element)</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#documentNames(org.duckdns.hjow.swingwebpanel.dom.Element)">documentNames</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the names under which an element is a named property of an HTML document (HTML5 REC 2014-10-28 section 5.3, named access on
+ the <code>Document</code> object, https://www.w3.org/TR/2014/REC-html5-20141028/dom.html#dom-document-nameditem, retrieved
+ 2026-11-17): the <code>name</code> of an <code>applet</code>, <code>embed</code>, <code>form</code>, <code>img</code> or
+ <code>object</code> element, the <code>id</code> of an <code>applet</code> or <code>object</code> element, and the <code>id</code> of
+ an <code>img</code> element that also has a name.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#findMap(org.duckdns.hjow.swingwebpanel.dom.Document, java.lang.String)">findMap</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+        java.lang.String&nbsp;useMap)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the map that a hash-name reference (the <code>usemap</code> of an image) names (HTML5 REC 2014-10-28 section 2.4.9): the
+ first <code>map</code> element in tree order that has an <code>id</code> equal to the text after the first "#", or a
+ <code>name</code> that matches it without regard to case.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#links(org.duckdns.hjow.swingwebpanel.dom.Node)">links</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;root)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the live collection of the hyperlinks of a document (<code>document.links</code>): the <code>a</code> and <code>area</code>
+ elements that have an <code>href</code> attribute.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#mapAreas(org.duckdns.hjow.swingwebpanel.dom.Node)">mapAreas</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;map)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the live collection of the <code>area</code> elements that are descendants of a <code>map</code>
+ (<code>HTMLMapElement.areas</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#mapImages(org.duckdns.hjow.swingwebpanel.dom.Element)">mapImages</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;map)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the live collection of the <code>img</code> and <code>object</code> elements of the document that use a map
+ (<code>HTMLMapElement.images</code>): those with a <code>usemap</code> that names this map by the rules of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#findMap(org.duckdns.hjow.swingwebpanel.dom.Document, java.lang.String)"><CODE>findMap(org.duckdns.hjow.swingwebpanel.dom.Document, java.lang.String)</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#snapshot(org.duckdns.hjow.swingwebpanel.dom.ElementCollection)">snapshot</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A>&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Converts a collection to a plain element list (convenience for callers that need a snapshot).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#tableRows(org.duckdns.hjow.swingwebpanel.dom.Node)">tableRows</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;table)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the live collection of the rows of a table (<code>HTMLTableElement.rows</code>): the <code>tr</code> children of the table
+ and of its <code>thead</code>, <code>tbody</code> and <code>tfoot</code> children, in tree order.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#windowNamed(org.duckdns.hjow.swingwebpanel.dom.Document, java.lang.String)">windowNamed</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+            java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the live collection of the elements of a document that are named properties of the <code>Window</code> under a name (see
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#windowNames(org.duckdns.hjow.swingwebpanel.dom.Element)"><CODE>windowNames(org.duckdns.hjow.swingwebpanel.dom.Element)</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#windowNames(org.duckdns.hjow.swingwebpanel.dom.Element)">windowNames</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the names under which an element is a named property of the <code>Window</code> object (HTML5 REC 2014-10-28 section 5.1.4,
+ named access on the Window object, https://www.w3.org/TR/2014/REC-html5-20141028/browsers.html#named-access-on-the-window-object,
+ retrieved 2026-11-17): the <code>id</code> of every HTML element that has one, and the <code>name</code> of an <code>a</code>,
+ <code>applet</code>, <code>area</code>, <code>embed</code>, <code>form</code>, <code>frameset</code>, <code>img</code> or
+ <code>object</code> element.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="byTagName(org.duckdns.hjow.swingwebpanel.dom.Node, java.lang.String)"><!-- --></A><H3>
+byTagName</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A> <B>byTagName</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;root,
+                                          java.lang.String&nbsp;qualifiedName)</PRE>
+<DL>
+<DD>Creates the live collection of the descendants with a qualified name (<code>getElementsByTagName</code>); <code>*</code>
+ matches all.
+ <p>
+ 정규화된 이름을 가진 후손의 라이브 컬렉션을 만든다(<code>getElementsByTagName</code>). <code>*</code> 은 모두 일치한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>root</CODE> - search root / 검색 루트<DD><CODE>qualifiedName</CODE> - qualified name or * / 정규화된 이름 또는 *
+<DT><B>Returns:</B><DD>the collection / 컬렉션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="byTagNameNS(org.duckdns.hjow.swingwebpanel.dom.Node, java.lang.String, java.lang.String)"><!-- --></A><H3>
+byTagNameNS</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A> <B>byTagNameNS</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;root,
+                                            java.lang.String&nbsp;namespace,
+                                            java.lang.String&nbsp;localName)</PRE>
+<DL>
+<DD>Creates the live collection of the descendants with a namespace and local name (<code>getElementsByTagNameNS</code>); a null or
+ <code>*</code> namespace and <code>*</code> local name match all.
+ <p>
+ 네임스페이스와 로컬 이름을 가진 후손의 라이브 컬렉션을 만든다(<code>getElementsByTagNameNS</code>). null 또는 <code>*</code> 인
+ 네임스페이스와 <code>*</code> 인 로컬 이름은 모두 일치한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>root</CODE> - search root / 검색 루트<DD><CODE>namespace</CODE> - namespace, empty string means no namespace, * means any / 네임스페이스. 빈 문자열은 없음, *는 모두<DD><CODE>localName</CODE> - local name or * / 로컬 이름 또는 *
+<DT><B>Returns:</B><DD>the collection / 컬렉션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="byNameAttribute(org.duckdns.hjow.swingwebpanel.dom.Node, java.lang.String)"><!-- --></A><H3>
+byNameAttribute</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A> <B>byNameAttribute</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;root,
+                                                java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Creates the live collection of the HTML elements whose <code>name</code> attribute has a value (<code>document.getElementsByName</code>).
+ <p>
+ <code>name</code> 속성이 어떤 값인 HTML 요소의 라이브 컬렉션을 만든다(<code>document.getElementsByName</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>root</CODE> - search root / 검색 루트<DD><CODE>name</CODE> - the value of the <code>name</code> attribute / <code>name</code> 속성의 값
+<DT><B>Returns:</B><DD>the collection / 컬렉션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="links(org.duckdns.hjow.swingwebpanel.dom.Node)"><!-- --></A><H3>
+links</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A> <B>links</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;root)</PRE>
+<DL>
+<DD>Creates the live collection of the hyperlinks of a document (<code>document.links</code>): the <code>a</code> and <code>area</code>
+ elements that have an <code>href</code> attribute.
+ <p>
+ 문서의 하이퍼링크 라이브 컬렉션을 만든다(<code>document.links</code>): <code>href</code> 속성이 있는 <code>a</code> 와 <code>area</code> 요소.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>root</CODE> - search root / 검색 루트
+<DT><B>Returns:</B><DD>the collection / 컬렉션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="anchors(org.duckdns.hjow.swingwebpanel.dom.Node)"><!-- --></A><H3>
+anchors</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A> <B>anchors</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;root)</PRE>
+<DL>
+<DD>Creates the live collection of the named anchors of a document (<code>document.anchors</code>): the <code>a</code> elements that have
+ a <code>name</code> attribute.
+ <p>
+ 문서의 이름 있는 앵커 라이브 컬렉션을 만든다(<code>document.anchors</code>): <code>name</code> 속성이 있는 <code>a</code> 요소.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>root</CODE> - search root / 검색 루트
+<DT><B>Returns:</B><DD>the collection / 컬렉션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="childrenByTagName(org.duckdns.hjow.swingwebpanel.dom.Node, java.lang.String...)"><!-- --></A><H3>
+childrenByTagName</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A> <B>childrenByTagName</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;parent,
+                                                  java.lang.String...&nbsp;names)</PRE>
+<DL>
+<DD>Creates the live collection of the HTML element children of a node that have one of the given local names (the <code>tBodies</code>,
+ <code>rows</code> and <code>cells</code> of the table interfaces).
+ <p>
+ 노드의 자식 중 주어진 로컬 이름 가운데 하나를 가진 HTML 요소의 라이브 컬렉션을 만든다(표 인터페이스의 <code>tBodies</code>, <code>rows</code>,
+ <code>cells</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>parent</CODE> - the parent whose children are listed / 자식을 나열할 부모<DD><CODE>names</CODE> - the local names / 로컬 이름
+<DT><B>Returns:</B><DD>the collection / 컬렉션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="tableRows(org.duckdns.hjow.swingwebpanel.dom.Node)"><!-- --></A><H3>
+tableRows</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A> <B>tableRows</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;table)</PRE>
+<DL>
+<DD>Creates the live collection of the rows of a table (<code>HTMLTableElement.rows</code>): the <code>tr</code> children of the table
+ and of its <code>thead</code>, <code>tbody</code> and <code>tfoot</code> children, in tree order.
+ <p>
+ 표의 행(<code>HTMLTableElement.rows</code>)의 라이브 컬렉션을 만든다: 표와 그 <code>thead</code>, <code>tbody</code>, <code>tfoot</code> 자식의
+ <code>tr</code> 자식을 트리 순서로.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>table</CODE> - the table / 표
+<DT><B>Returns:</B><DD>the collection / 컬렉션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="byClassName(org.duckdns.hjow.swingwebpanel.dom.Node, java.lang.String)"><!-- --></A><H3>
+byClassName</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A> <B>byClassName</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;root,
+                                            java.lang.String&nbsp;classNames)</PRE>
+<DL>
+<DD>Creates the live collection of the descendants that have all the given class names (<code>getElementsByClassName</code>). An
+ argument without any class name gives an empty collection.
+ <p>
+ 주어진 클래스 이름을 모두 가진 후손의 라이브 컬렉션을 만든다(<code>getElementsByClassName</code>). 클래스 이름이 하나도 없는 인수는
+ 빈 컬렉션이 된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>root</CODE> - search root / 검색 루트<DD><CODE>classNames</CODE> - space separated class names / 공백으로 구분한 클래스 이름
+<DT><B>Returns:</B><DD>the collection / 컬렉션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="children(org.duckdns.hjow.swingwebpanel.dom.Node)"><!-- --></A><H3>
+children</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A> <B>children</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;parent)</PRE>
+<DL>
+<DD>Creates the live collection of the element children of a node (<code>children</code>).
+ <p>
+ 노드의 요소 자식의 라이브 컬렉션을 만든다(<code>children</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>parent</CODE> - parent node / 부모 노드
+<DT><B>Returns:</B><DD>the collection / 컬렉션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="findMap(org.duckdns.hjow.swingwebpanel.dom.Document, java.lang.String)"><!-- --></A><H3>
+findMap</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>findMap</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+                              java.lang.String&nbsp;useMap)</PRE>
+<DL>
+<DD>Returns the map that a hash-name reference (the <code>usemap</code> of an image) names (HTML5 REC 2014-10-28 section 2.4.9): the
+ first <code>map</code> element in tree order that has an <code>id</code> equal to the text after the first "#", or a
+ <code>name</code> that matches it without regard to case. A value without "#", or with "#" at its end, names no map.
+ <p>
+ 해시 이름 참조(이미지의 <code>usemap</code>)가 가리키는 맵을 반환한다(HTML5 REC 2014-10-28 §2.4.9): 첫 "#" 뒤의 문자열과 <code>id</code> 가 같거나
+ <code>name</code> 이 대소문자 무시로 같은 트리 순서의 첫 <code>map</code> 요소. "#" 이 없거나 맨 끝에 있는 값은 맵을 가리키지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>doc</CODE> - the document / 문서<DD><CODE>useMap</CODE> - the value of the <code>usemap</code> attribute, may be null / <code>usemap</code> 속성 값. null 일 수 있다
+<DT><B>Returns:</B><DD>the map element, or null / map 요소. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mapAreas(org.duckdns.hjow.swingwebpanel.dom.Node)"><!-- --></A><H3>
+mapAreas</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A> <B>mapAreas</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;map)</PRE>
+<DL>
+<DD>Creates the live collection of the <code>area</code> elements that are descendants of a <code>map</code>
+ (<code>HTMLMapElement.areas</code>).
+ <p>
+ <code>map</code> 의 후손인 <code>area</code> 요소의 라이브 컬렉션을 만든다(<code>HTMLMapElement.areas</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>map</CODE> - the map element / map 요소
+<DT><B>Returns:</B><DD>the collection / 컬렉션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mapImages(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+mapImages</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A> <B>mapImages</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;map)</PRE>
+<DL>
+<DD>Creates the live collection of the <code>img</code> and <code>object</code> elements of the document that use a map
+ (<code>HTMLMapElement.images</code>): those with a <code>usemap</code> that names this map by the rules of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#findMap(org.duckdns.hjow.swingwebpanel.dom.Document, java.lang.String)"><CODE>findMap(org.duckdns.hjow.swingwebpanel.dom.Document, java.lang.String)</CODE></A>.
+ <p>
+ 문서에서 맵을 쓰는 <code>img</code> 와 <code>object</code> 요소의 라이브 컬렉션을 만든다(<code>HTMLMapElement.images</code>): <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#findMap(org.duckdns.hjow.swingwebpanel.dom.Document, java.lang.String)"><CODE>findMap(org.duckdns.hjow.swingwebpanel.dom.Document, java.lang.String)</CODE></A> 의 규칙으로 이 맵을
+ 가리키는 <code>usemap</code> 을 가진 요소.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>map</CODE> - the map element / map 요소
+<DT><B>Returns:</B><DD>the collection / 컬렉션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="documentNames(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+documentNames</H3>
+<PRE>
+public static java.util.List&lt;java.lang.String&gt; <B>documentNames</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Returns the names under which an element is a named property of an HTML document (HTML5 REC 2014-10-28 section 5.3, named access on
+ the <code>Document</code> object, https://www.w3.org/TR/2014/REC-html5-20141028/dom.html#dom-document-nameditem, retrieved
+ 2026-11-17): the <code>name</code> of an <code>applet</code>, <code>embed</code>, <code>form</code>, <code>img</code> or
+ <code>object</code> element, the <code>id</code> of an <code>applet</code> or <code>object</code> element, and the <code>id</code> of
+ an <code>img</code> element that also has a name. An <code>embed</code> or <code>object</code> element inside an
+ <code>object</code> element is not exposed. The names are not empty and appear in the order name, id.
+ <p>
+ 요소가 HTML 문서의 이름 있는 프로퍼티가 되는 이름들을 반환한다(HTML5 REC 2014-10-28 §5.3, <code>Document</code> 객체의 이름 접근): <code>applet</code>, <code>embed</code>,
+ <code>form</code>, <code>img</code>, <code>object</code> 요소의 <code>name</code>, <code>applet</code>, <code>object</code> 요소의 <code>id</code>, 이름도 있는
+ <code>img</code> 요소의 <code>id</code>. <code>object</code> 요소 안의 <code>embed</code>, <code>object</code> 요소는 노출되지 않는다. 이름은 비어 있지 않으며 name, id 순서이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>the names, empty for most elements / 이름. 대부분의 요소는 비어 있다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="windowNames(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+windowNames</H3>
+<PRE>
+public static java.util.List&lt;java.lang.String&gt; <B>windowNames</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Returns the names under which an element is a named property of the <code>Window</code> object (HTML5 REC 2014-10-28 section 5.1.4,
+ named access on the Window object, https://www.w3.org/TR/2014/REC-html5-20141028/browsers.html#named-access-on-the-window-object,
+ retrieved 2026-11-17): the <code>id</code> of every HTML element that has one, and the <code>name</code> of an <code>a</code>,
+ <code>applet</code>, <code>area</code>, <code>embed</code>, <code>form</code>, <code>frameset</code>, <code>img</code> or
+ <code>object</code> element. The names are not empty and appear in the order name, id.
+ <p>
+ 요소가 <code>Window</code> 객체의 이름 있는 프로퍼티가 되는 이름들을 반환한다(HTML5 REC 2014-10-28 §5.1.4, Window 객체의 이름 접근): id 가 있는 모든 HTML 요소의
+ <code>id</code> 와 <code>a</code>, <code>applet</code>, <code>area</code>, <code>embed</code>, <code>form</code>, <code>frameset</code>, <code>img</code>,
+ <code>object</code> 요소의 <code>name</code>. 이름은 비어 있지 않으며 name, id 순서이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>the names, empty for an element that has none / 이름. 없는 요소는 비어 있다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="windowNamed(org.duckdns.hjow.swingwebpanel.dom.Document, java.lang.String)"><!-- --></A><H3>
+windowNamed</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A> <B>windowNamed</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+                                            java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Creates the live collection of the elements of a document that are named properties of the <code>Window</code> under a name (see
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#windowNames(org.duckdns.hjow.swingwebpanel.dom.Element)"><CODE>windowNames(org.duckdns.hjow.swingwebpanel.dom.Element)</CODE></A>).
+ <p>
+ 이름 하나로 <code>Window</code> 의 이름 있는 프로퍼티가 되는 문서의 요소의 라이브 컬렉션을 만든다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#windowNames(org.duckdns.hjow.swingwebpanel.dom.Element)"><CODE>windowNames(org.duckdns.hjow.swingwebpanel.dom.Element)</CODE></A> 참조).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>doc</CODE> - the document / 문서<DD><CODE>name</CODE> - the name / 이름
+<DT><B>Returns:</B><DD>the collection / 컬렉션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="documentNamed(org.duckdns.hjow.swingwebpanel.dom.Document, java.lang.String)"><!-- --></A><H3>
+documentNamed</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A> <B>documentNamed</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+                                              java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Creates the live collection of the elements of a document that are named properties of the document under a name (see
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#documentNames(org.duckdns.hjow.swingwebpanel.dom.Element)"><CODE>documentNames(org.duckdns.hjow.swingwebpanel.dom.Element)</CODE></A>).
+ <p>
+ 이름 하나로 문서의 이름 있는 프로퍼티가 되는 문서의 요소의 라이브 컬렉션을 만든다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html#documentNames(org.duckdns.hjow.swingwebpanel.dom.Element)"><CODE>documentNames(org.duckdns.hjow.swingwebpanel.dom.Element)</CODE></A> 참조).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>doc</CODE> - the document / 문서<DD><CODE>name</CODE> - the name / 이름
+<DT><B>Returns:</B><DD>the collection / 컬렉션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="snapshot(org.duckdns.hjow.swingwebpanel.dom.ElementCollection)"><!-- --></A><H3>
+snapshot</H3>
+<PRE>
+public static java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&gt; <B>snapshot</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A>&nbsp;c)</PRE>
+<DL>
+<DD>Converts a collection to a plain element list (convenience for callers that need a snapshot).
+ <p>
+ 컬렉션을 일반 요소 목록으로 바꾼다(스냅샷이 필요한 호출자를 위한 편의).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>c</CODE> - collection / 컬렉션
+<DT><B>Returns:</B><DD>copy of the elements / 요소의 복사본</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ElementCollections.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

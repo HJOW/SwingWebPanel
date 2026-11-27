@@ -1,0 +1,360 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+org.duckdns.hjow.swingwebpanel.render
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="org.duckdns.hjow.swingwebpanel.render";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/render/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<H2>
+Package org.duckdns.hjow.swingwebpanel.render
+</H2>
+Rendering: display list, Java2D painter, coordinate transforms and hit testing.
+<P>
+<B>See:</B>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="#package_description"><B>Description</B></A>
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Interface Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/CanvasSource.html" title="interface in org.duckdns.hjow.swingwebpanel.render">CanvasSource</A></B></TD>
+<TD>Supplies the pictures of <code>canvas</code> elements to the renderer.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/CorsImageSource.html" title="interface in org.duckdns.hjow.swingwebpanel.render">CorsImageSource</A></B></TD>
+<TD>An <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageSource.html" title="interface in org.duckdns.hjow.swingwebpanel.render"><CODE>ImageSource</CODE></A> that can also give the state of an image that is fetched in CORS mode, for an <code>img</code> element with a
+ <code>crossorigin</code> attribute.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/FrameSource.html" title="interface in org.duckdns.hjow.swingwebpanel.render">FrameSource</A></B></TD>
+<TD>Supplies the pictures of nested browsing contexts (<code>iframe</code> and <code>frame</code> elements) to the renderer.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageSource.html" title="interface in org.duckdns.hjow.swingwebpanel.render">ImageSource</A></B></TD>
+<TD>Supplies the images and media states that the renderer needs while it builds a display list.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControlSource.html" title="interface in org.duckdns.hjow.swingwebpanel.render">MediaControlSource</A></B></TD>
+<TD>Supplies the state of the control bars of <code>audio</code> elements to the renderer (plan item P18-08).</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html" title="class in org.duckdns.hjow.swingwebpanel.render">BlendModes</A></B></TD>
+<TD>The blend modes of CSS Compositing and Blending Level 1 (https://www.w3.org/TR/compositing-1/, Candidate Recommendation Draft 2024-03-21,
+ retrieved 2026-11-17, section 10 "Blending"): the separable modes <code>multiply</code>, <code>screen</code>, <code>overlay</code>,
+ <code>darken</code>, <code>lighten</code>, <code>color-dodge</code>, <code>color-burn</code>, <code>hard-light</code>,
+ <code>soft-light</code>, <code>difference</code> and <code>exclusion</code>, the non-separable modes <code>hue</code>,
+ <code>saturation</code>, <code>color</code> and <code>luminosity</code>, and <code>plus-lighter</code> (the sum of the premultiplied
+ colors, limited to 1).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/CanvasFilters.html" title="class in org.duckdns.hjow.swingwebpanel.render">CanvasFilters</A></B></TD>
+<TD>The filter functions of the 2D canvas (<code>context.filter</code>, HTML Living Standard 4.12.5.1.20): the public door to the pixel code of
+ <CODE>FilterRenderer</CODE> that the page layout uses for the CSS <code>filter</code> property, with a parser for a string that is a
+ <code>&lt;filter-value-list&gt;</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/CanvasFilters.Parsed.html" title="class in org.duckdns.hjow.swingwebpanel.render">CanvasFilters.Parsed</A></B></TD>
+<TD>The result of parsing a filter string.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/CanvasSizes.html" title="class in org.duckdns.hjow.swingwebpanel.render">CanvasSizes</A></B></TD>
+<TD>The size rules of the <code>canvas</code> element: the <code>width</code> and <code>height</code> attributes are parsed with the rules for
+ non-negative integers and fall back to 300 and 150 when they are absent or invalid (each independently).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ControlSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.render">ControlSnapshot</A></B></TD>
+<TD>An immutable copy of everything that is needed to draw a form control or to put an editor over it: the kind of control, its boxes in
+ document coordinates, its font and colors, and its state (the shown text, checked, disabled, the rows of a list ...).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ControlSnapshot.Row.html" title="class in org.duckdns.hjow.swingwebpanel.render">ControlSnapshot.Row</A></B></TD>
+<TD>One row of a list box.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayCommand.html" title="class in org.duckdns.hjow.swingwebpanel.render">DisplayCommand</A></B></TD>
+<TD>One drawing command of a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayList.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>DisplayList</CODE></A> (plan items P09-04, P09-05).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayList.html" title="class in org.duckdns.hjow.swingwebpanel.render">DisplayList</A></B></TD>
+<TD>The immutable list of drawing commands of one page in paint order (plan items P09-04, P09-05).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/FramePicture.html" title="class in org.duckdns.hjow.swingwebpanel.render">FramePicture</A></B></TD>
+<TD>The picture of a nested browsing context (<code>iframe</code>, <code>frame</code>) that the renderer paints inside the content box of the
+ frame element: the immutable, fully rendered page of the frame (laid out for the size of the box), the scroll position of the frame and
+ which overlay scrollbars to draw.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/FrameScroll.html" title="class in org.duckdns.hjow.swingwebpanel.render">FrameScroll</A></B></TD>
+<TD>The arithmetic of the scrolling of a frame: how far a frame may scroll, where the thumb of an overlay scrollbar is and how a position
+ of the thumb maps back to a scroll offset.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/HitResult.html" title="class in org.duckdns.hjow.swingwebpanel.render">HitResult</A></B></TD>
+<TD>The result of a hit test (plan item P09-06): the deepest layout box at a point, the DOM element it belongs to, the nearest enclosing link
+ with its absolute URL and, over text, the text node with the character offset.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/HitTester.html" title="class in org.duckdns.hjow.swingwebpanel.render">HitTester</A></B></TD>
+<TD>Maps points to page content and content to rectangles (plan item P09-06), on top of the immutable <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>LayoutResult</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageLookup.html" title="class in org.duckdns.hjow.swingwebpanel.render">ImageLookup</A></B></TD>
+<TD>Finds the image of an <code>img</code> element in an <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageSource.html" title="interface in org.duckdns.hjow.swingwebpanel.render"><CODE>ImageSource</CODE></A>: the element with a <code>crossorigin</code> attribute gets the image
+ that was fetched in CORS mode (when the source offers it, see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/CorsImageSource.html" title="interface in org.duckdns.hjow.swingwebpanel.render"><CODE>CorsImageSource</CODE></A>), every other element the plain image.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageMaps.html" title="class in org.duckdns.hjow.swingwebpanel.render">ImageMaps</A></B></TD>
+<TD>Client-side image maps of HTML (HTML5 REC 2014-10-28 section 4.7.13, https://www.w3.org/TR/2014/REC-html5-20141028/embedded-content-0.html#image-maps,
+ retrieved 2026-11-17): an <code>img</code> with a <code>usemap</code> attribute is associated with the <code>map</code> element that the
+ attribute names, and the <code>area</code> elements of the map are shapes that are layered on the image in reverse tree order (the
+ first <code>area</code> in tree order is the top-most shape).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageReplacedResolver.html" title="class in org.duckdns.hjow.swingwebpanel.render">ImageReplacedResolver</A></B></TD>
+<TD>Gives the layout the natural size of loaded <code>img</code> elements, read from an <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageSource.html" title="interface in org.duckdns.hjow.swingwebpanel.render"><CODE>ImageSource</CODE></A>; images that are not loaded give
+ no content, so the layout falls back to the <code>width</code>/<code>height</code> attributes and its defaults (plan items P09-02,
+ P18-05).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageResource.html" title="class in org.duckdns.hjow.swingwebpanel.render">ImageResource</A></B></TD>
+<TD>The state of an image or media resource as the renderer sees it when it builds a display list (plan items P09-05, P18-06): loaded
+ (with the decoded image for images), failed (with the reason) or still pending.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageSelection.html" title="class in org.duckdns.hjow.swingwebpanel.render">ImageSelection</A></B></TD>
+<TD>Chooses the source of an <code>img</code> element (plan item P18-05): the <code>src</code> attribute, the <code>srcset</code> and
+ <code>sizes</code> attributes, and the <code>source</code> siblings in front of it when its parent is a <code>picture</code> element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageSelection.Choice.html" title="class in org.duckdns.hjow.swingwebpanel.render">ImageSelection.Choice</A></B></TD>
+<TD>The result of a selection: the chosen URL as written in the document and its density.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.html" title="class in org.duckdns.hjow.swingwebpanel.render">MediaControls</A></B></TD>
+<TD>The geometry of the control bar of an <code>audio</code> element with <code>controls</code> (plan item P18-08): where the play button,
+ the time label, the seek bar, the mute button and the volume slider are in a bar of a given size, which one lies under a point, and what
+ position or volume a point on a slider means.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.Layout.html" title="class in org.duckdns.hjow.swingwebpanel.render">MediaControls.Layout</A></B></TD>
+<TD>The rectangles of the parts, each as x, y, width, height relative to the top left corner of the bar, or null if the part is not shown.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControlState.html" title="class in org.duckdns.hjow.swingwebpanel.render">MediaControlState</A></B></TD>
+<TD>An immutable snapshot of what the control bar of an <code>audio</code> element with the <code>controls</code> attribute shows (plan item
+ P18-08): whether a resource is loaded, whether the element is paused or ended, the position and the length in seconds, the volume and
+ the mute flag.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/PagePainter.html" title="class in org.duckdns.hjow.swingwebpanel.render">PagePainter</A></B></TD>
+<TD>Paints a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayList.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>DisplayList</CODE></A> with Java2D (plan items P09-04, P09-05).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/PageRenderer.html" title="class in org.duckdns.hjow.swingwebpanel.render">PageRenderer</A></B></TD>
+<TD>Renders a document: layout followed by the display list (plan items P09-04 to P09-07).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html" title="class in org.duckdns.hjow.swingwebpanel.render">RenderedPage</A></B></TD>
+<TD>An immutable, fully rendered page (plan items P09-04 to P09-07): the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>LayoutResult</CODE></A>, the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayList.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>DisplayList</CODE></A> built from it and a
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/HitTester.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>HitTester</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedText.html" title="class in org.duckdns.hjow.swingwebpanel.render">RenderedText</A></B></TD>
+<TD>Collects the layout text read by <code>HTMLElement.innerText</code> (HTML §3.2.7).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/SelectionHighlight.html" title="class in org.duckdns.hjow.swingwebpanel.render">SelectionHighlight</A></B></TD>
+<TD>The drawn highlight of a selection (plan item P11-08): the area of the selected text and replaced elements of one rendered page, as one
+ shape in document coordinates.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html" title="class in org.duckdns.hjow.swingwebpanel.render">TextSelections</A></B></TD>
+<TD>What a selection means on the screen of one rendered page (plan item P11-08): where the caret goes for a point of the page, which part of
+ the page a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>Range</CODE></A> covers (the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/SelectionHighlight.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>SelectionHighlight</CODE></A>), and which text the user copies.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.Caret.html" title="class in org.duckdns.hjow.swingwebpanel.render">TextSelections.Caret</A></B></TD>
+<TD>The position of the caret for a point: a text node and an offset in its data, with the layout fragment that the point belongs to.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Enum Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ControlSnapshot.Kind.html" title="enum in org.duckdns.hjow.swingwebpanel.render">ControlSnapshot.Kind</A></B></TD>
+<TD>The kinds of drawn control.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayCommand.Type.html" title="enum in org.duckdns.hjow.swingwebpanel.render">DisplayCommand.Type</A></B></TD>
+<TD>The kind of a command.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageResource.State.html" title="enum in org.duckdns.hjow.swingwebpanel.render">ImageResource.State</A></B></TD>
+<TD>The state of a resource.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+<A NAME="package_description"><!-- --></A><H2>
+Package org.duckdns.hjow.swingwebpanel.render Description
+</H2>
+
+<P>
+Rendering: display list, Java2D painter, coordinate transforms and hit testing.
+ <p>
+ 렌더링: 그림 명령, Java2D 렌더러, 좌표 변환, hit testing.
+<P>
+
+<P>
+<DL>
+</DL>
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/render/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

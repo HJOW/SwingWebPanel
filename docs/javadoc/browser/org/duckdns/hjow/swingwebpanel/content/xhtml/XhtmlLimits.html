@@ -1,0 +1,791 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+XhtmlLimits
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="XhtmlLimits";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="XhtmlLimits.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.content.xhtml</FONT>
+<BR>
+Class XhtmlLimits</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.content.xhtml.XhtmlLimits</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>XhtmlLimits</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Upper bounds for parsing one XHTML document (plan item P17-05). They make every attack on the parser end with a bounded error
+ (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlParseError.Kind.html#LIMIT_EXCEEDED"><CODE>XmlParseError.Kind.LIMIT_EXCEEDED</CODE></A>) instead of an endless loop or an exhausted heap: an entity expansion bomb ("billion laughs"
+ or one huge entity used many times), a very deep nesting, millions of nodes or attributes, or a parse that simply takes too long.
+ The defaults suit real documents with a large margin; a host that needs other values changes them with the setters before the
+ parse. The values are copied when a parse starts, so changing an instance during a parse has no effect on it.
+ <p>
+ XHTML 문서 하나를 해석할 때의 상한(계획 P17-05). 파서에 대한 모든 공격이 무한 반복이나 힙 고갈이 아니라 한정된 오류
+ (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlParseError.Kind.html#LIMIT_EXCEEDED"><CODE>XmlParseError.Kind.LIMIT_EXCEEDED</CODE></A>)로 끝나게 한다: 엔티티 확장 폭탄("billion laughs", 또는 큰 엔티티 하나를 여러 번 쓰는 경우), 아주 깊은 중첩,
+ 수백만 개의 노드나 속성, 단순히 너무 오래 걸리는 해석. 기본값은 실제 문서에 넉넉하며 다른 값이 필요한 호스트는 해석 전에 setter 로 바꾼다.
+ 해석을 시작할 때 값을 복사하므로 해석 도중에 인스턴스를 바꿔도 영향이 없다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#DEFAULT_MAX_ATTRIBUTES">DEFAULT_MAX_ATTRIBUTES</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default maximum number of attributes of one element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#DEFAULT_MAX_CHARS">DEFAULT_MAX_CHARS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default maximum size of the input text in characters (the same order as the 16 MiB memory limit of a response).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#DEFAULT_MAX_DEPTH">DEFAULT_MAX_DEPTH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default maximum nesting depth of elements.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#DEFAULT_MAX_ENTITY_EXPANSIONS">DEFAULT_MAX_ENTITY_EXPANSIONS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default maximum number of entity references that are expanded (every <code>&amp;nbsp;</code> counts once, nested references count too).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#DEFAULT_MAX_MILLIS">DEFAULT_MAX_MILLIS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default maximum parse time in milliseconds.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#DEFAULT_MAX_NODES">DEFAULT_MAX_NODES</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default maximum number of nodes (elements, text, comments, ...) in the tree.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#DEFAULT_MAX_TEXT_CHARS">DEFAULT_MAX_TEXT_CHARS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default maximum total number of text and attribute value characters after entity expansion.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#XhtmlLimits()">XhtmlLimits</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the limits with the default values.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#XhtmlLimits(org.duckdns.hjow.swingwebpanel.content.xhtml.XhtmlLimits)">XhtmlLimits</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlLimits</A>&nbsp;other)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a copy of other limits.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#getMaxAttributes()">getMaxAttributes</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the maximum number of attributes of one element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#getMaxChars()">getMaxChars</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the maximum size of the input in characters.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#getMaxDepth()">getMaxDepth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the maximum nesting depth of elements.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#getMaxEntityExpansions()">getMaxEntityExpansions</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the maximum number of entity expansions.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#getMaxMillis()">getMaxMillis</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the maximum parse time in milliseconds.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#getMaxNodes()">getMaxNodes</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the maximum number of nodes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#getMaxTextChars()">getMaxTextChars</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the maximum total number of expanded text and attribute value characters.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlLimits</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#setMaxAttributes(int)">setMaxAttributes</A></B>(int&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the maximum number of attributes of one element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlLimits</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#setMaxChars(int)">setMaxChars</A></B>(int&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the maximum size of the input in characters.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlLimits</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#setMaxDepth(int)">setMaxDepth</A></B>(int&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the maximum nesting depth of elements.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlLimits</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#setMaxEntityExpansions(int)">setMaxEntityExpansions</A></B>(int&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the maximum number of entity expansions.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlLimits</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#setMaxMillis(long)">setMaxMillis</A></B>(long&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the maximum parse time in milliseconds.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlLimits</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#setMaxNodes(int)">setMaxNodes</A></B>(int&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the maximum number of nodes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlLimits</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html#setMaxTextChars(long)">setMaxTextChars</A></B>(long&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the maximum total number of expanded text and attribute value characters.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="DEFAULT_MAX_CHARS"><!-- --></A><H3>
+DEFAULT_MAX_CHARS</H3>
+<PRE>
+public static final int <B>DEFAULT_MAX_CHARS</B></PRE>
+<DL>
+<DD>Default maximum size of the input text in characters (the same order as the 16 MiB memory limit of a response).
+ <p>
+ 입력 텍스트의 기본 최대 크기(문자 수). 응답 메모리 제한 16 MiB 와 같은 수준이다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.content.xhtml.XhtmlLimits.DEFAULT_MAX_CHARS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_MAX_DEPTH"><!-- --></A><H3>
+DEFAULT_MAX_DEPTH</H3>
+<PRE>
+public static final int <B>DEFAULT_MAX_DEPTH</B></PRE>
+<DL>
+<DD>Default maximum nesting depth of elements.
+ <p>
+ 요소 중첩의 기본 최대 깊이.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.content.xhtml.XhtmlLimits.DEFAULT_MAX_DEPTH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_MAX_NODES"><!-- --></A><H3>
+DEFAULT_MAX_NODES</H3>
+<PRE>
+public static final int <B>DEFAULT_MAX_NODES</B></PRE>
+<DL>
+<DD>Default maximum number of nodes (elements, text, comments, ...) in the tree.
+ <p>
+ 트리의 기본 최대 노드 수(요소, 텍스트, 주석 등).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.content.xhtml.XhtmlLimits.DEFAULT_MAX_NODES">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_MAX_ATTRIBUTES"><!-- --></A><H3>
+DEFAULT_MAX_ATTRIBUTES</H3>
+<PRE>
+public static final int <B>DEFAULT_MAX_ATTRIBUTES</B></PRE>
+<DL>
+<DD>Default maximum number of attributes of one element.
+ <p>
+ 요소 하나의 기본 최대 속성 수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.content.xhtml.XhtmlLimits.DEFAULT_MAX_ATTRIBUTES">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_MAX_TEXT_CHARS"><!-- --></A><H3>
+DEFAULT_MAX_TEXT_CHARS</H3>
+<PRE>
+public static final long <B>DEFAULT_MAX_TEXT_CHARS</B></PRE>
+<DL>
+<DD>Default maximum total number of text and attribute value characters after entity expansion.
+ <p>
+ 엔티티를 펼친 뒤 텍스트와 속성 값 문자의 기본 최대 총수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.content.xhtml.XhtmlLimits.DEFAULT_MAX_TEXT_CHARS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_MAX_ENTITY_EXPANSIONS"><!-- --></A><H3>
+DEFAULT_MAX_ENTITY_EXPANSIONS</H3>
+<PRE>
+public static final int <B>DEFAULT_MAX_ENTITY_EXPANSIONS</B></PRE>
+<DL>
+<DD>Default maximum number of entity references that are expanded (every <code>&amp;nbsp;</code> counts once, nested references count too).
+ <p>
+ 펼치는 엔티티 참조의 기본 최대 수(<code>&amp;nbsp;</code> 하나가 한 번이며 중첩된 참조도 센다).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.content.xhtml.XhtmlLimits.DEFAULT_MAX_ENTITY_EXPANSIONS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_MAX_MILLIS"><!-- --></A><H3>
+DEFAULT_MAX_MILLIS</H3>
+<PRE>
+public static final long <B>DEFAULT_MAX_MILLIS</B></PRE>
+<DL>
+<DD>Default maximum parse time in milliseconds.
+ <p>
+ 기본 최대 해석 시간(밀리초).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.content.xhtml.XhtmlLimits.DEFAULT_MAX_MILLIS">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="XhtmlLimits()"><!-- --></A><H3>
+XhtmlLimits</H3>
+<PRE>
+public <B>XhtmlLimits</B>()</PRE>
+<DL>
+<DD>Creates the limits with the default values.
+ <p>
+ 기본값으로 상한을 만든다.
+<P>
+</DL>
+<HR>
+
+<A NAME="XhtmlLimits(org.duckdns.hjow.swingwebpanel.content.xhtml.XhtmlLimits)"><!-- --></A><H3>
+XhtmlLimits</H3>
+<PRE>
+public <B>XhtmlLimits</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlLimits</A>&nbsp;other)</PRE>
+<DL>
+<DD>Creates a copy of other limits.
+ <p>
+ 다른 상한의 복사본을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>other</CODE> - the limits to copy / 복사할 상한</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getMaxChars()"><!-- --></A><H3>
+getMaxChars</H3>
+<PRE>
+public int <B>getMaxChars</B>()</PRE>
+<DL>
+<DD>Returns the maximum size of the input in characters.
+ <p>
+ 입력의 최대 크기(문자 수)를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the limit / 상한</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMaxChars(int)"><!-- --></A><H3>
+setMaxChars</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlLimits</A> <B>setMaxChars</B>(int&nbsp;value)</PRE>
+<DL>
+<DD>Sets the maximum size of the input in characters.
+ <p>
+ 입력의 최대 크기(문자 수)를 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - the limit, at least 1 / 상한(1 이상)
+<DT><B>Returns:</B><DD>this object / 이 객체
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the value is less than 1 / 값이 1 보다 작으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMaxDepth()"><!-- --></A><H3>
+getMaxDepth</H3>
+<PRE>
+public int <B>getMaxDepth</B>()</PRE>
+<DL>
+<DD>Returns the maximum nesting depth of elements.
+ <p>
+ 요소의 최대 중첩 깊이를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the limit / 상한</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMaxDepth(int)"><!-- --></A><H3>
+setMaxDepth</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlLimits</A> <B>setMaxDepth</B>(int&nbsp;value)</PRE>
+<DL>
+<DD>Sets the maximum nesting depth of elements.
+ <p>
+ 요소의 최대 중첩 깊이를 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - the limit, at least 1 / 상한(1 이상)
+<DT><B>Returns:</B><DD>this object / 이 객체
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the value is less than 1 / 값이 1 보다 작으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMaxNodes()"><!-- --></A><H3>
+getMaxNodes</H3>
+<PRE>
+public int <B>getMaxNodes</B>()</PRE>
+<DL>
+<DD>Returns the maximum number of nodes.
+ <p>
+ 최대 노드 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the limit / 상한</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMaxNodes(int)"><!-- --></A><H3>
+setMaxNodes</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlLimits</A> <B>setMaxNodes</B>(int&nbsp;value)</PRE>
+<DL>
+<DD>Sets the maximum number of nodes.
+ <p>
+ 최대 노드 수를 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - the limit, at least 1 / 상한(1 이상)
+<DT><B>Returns:</B><DD>this object / 이 객체
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the value is less than 1 / 값이 1 보다 작으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMaxAttributes()"><!-- --></A><H3>
+getMaxAttributes</H3>
+<PRE>
+public int <B>getMaxAttributes</B>()</PRE>
+<DL>
+<DD>Returns the maximum number of attributes of one element.
+ <p>
+ 요소 하나의 최대 속성 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the limit / 상한</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMaxAttributes(int)"><!-- --></A><H3>
+setMaxAttributes</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlLimits</A> <B>setMaxAttributes</B>(int&nbsp;value)</PRE>
+<DL>
+<DD>Sets the maximum number of attributes of one element.
+ <p>
+ 요소 하나의 최대 속성 수를 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - the limit, at least 1 / 상한(1 이상)
+<DT><B>Returns:</B><DD>this object / 이 객체
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the value is less than 1 / 값이 1 보다 작으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMaxTextChars()"><!-- --></A><H3>
+getMaxTextChars</H3>
+<PRE>
+public long <B>getMaxTextChars</B>()</PRE>
+<DL>
+<DD>Returns the maximum total number of expanded text and attribute value characters.
+ <p>
+ 펼친 텍스트와 속성 값 문자의 최대 총수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the limit / 상한</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMaxTextChars(long)"><!-- --></A><H3>
+setMaxTextChars</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlLimits</A> <B>setMaxTextChars</B>(long&nbsp;value)</PRE>
+<DL>
+<DD>Sets the maximum total number of expanded text and attribute value characters.
+ <p>
+ 펼친 텍스트와 속성 값 문자의 최대 총수를 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - the limit, at least 1 / 상한(1 이상)
+<DT><B>Returns:</B><DD>this object / 이 객체
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the value is less than 1 / 값이 1 보다 작으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMaxMillis()"><!-- --></A><H3>
+getMaxMillis</H3>
+<PRE>
+public long <B>getMaxMillis</B>()</PRE>
+<DL>
+<DD>Returns the maximum parse time in milliseconds.
+ <p>
+ 최대 해석 시간(밀리초)을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the limit / 상한</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMaxMillis(long)"><!-- --></A><H3>
+setMaxMillis</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlLimits</A> <B>setMaxMillis</B>(long&nbsp;value)</PRE>
+<DL>
+<DD>Sets the maximum parse time in milliseconds.
+ <p>
+ 최대 해석 시간(밀리초)을 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - the limit, at least 1 / 상한(1 이상)
+<DT><B>Returns:</B><DD>this object / 이 객체
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the value is less than 1 / 값이 1 보다 작으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMaxEntityExpansions()"><!-- --></A><H3>
+getMaxEntityExpansions</H3>
+<PRE>
+public int <B>getMaxEntityExpansions</B>()</PRE>
+<DL>
+<DD>Returns the maximum number of entity expansions.
+ <p>
+ 엔티티 확장의 최대 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the limit / 상한</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMaxEntityExpansions(int)"><!-- --></A><H3>
+setMaxEntityExpansions</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlLimits</A> <B>setMaxEntityExpansions</B>(int&nbsp;value)</PRE>
+<DL>
+<DD>Sets the maximum number of entity expansions. Every reference to a general entity counts, <code>&amp;nbsp;</code> as well as the
+ references inside the replacement text of an entity; this is what stops "billion laughs" style documents.
+ <p>
+ 엔티티 확장의 최대 수를 지정한다. 일반 엔티티 참조는 모두 센다. <code>&amp;nbsp;</code> 도, 엔티티의 치환 텍스트 안의 참조도 센다. 이것이
+ "billion laughs" 형태의 문서를 막는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - the limit, at least 1 / 상한(1 이상)
+<DT><B>Returns:</B><DD>this object / 이 객체
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the value is less than 1 / 값이 1 보다 작으면</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="XhtmlLimits.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

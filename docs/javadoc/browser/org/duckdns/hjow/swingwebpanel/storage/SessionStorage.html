@@ -1,0 +1,440 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+SessionStorage
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="SessionStorage";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html" title="class in org.duckdns.hjow.swingwebpanel.storage"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/SessionStorage.SlotFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.storage"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/storage/SessionStorage.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SessionStorage.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.storage</FONT>
+<BR>
+Class SessionStorage</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.storage.SessionStorage</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>SessionStorage</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The sessionStorage of one browser component: one <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/StorageArea.html" title="class in org.duckdns.hjow.swingwebpanel.storage"><CODE>StorageArea</CODE></A> per origin, kept in memory as an ordinary field of the
+ component's session. Nothing static refers to it, so it disappears together with the component (plan items P16-02, P21-06). A change of
+ one document is reported to the other documents of the same component and origin (frames); it is never visible to other components.
+ <p>
+ 브라우저 컴포넌트 하나의 sessionStorage: 오리진마다 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/StorageArea.html" title="class in org.duckdns.hjow.swingwebpanel.storage"><CODE>StorageArea</CODE></A> 하나이며 컴포넌트 세션의 일반 필드로 메모리에 둔다. 정적 변수가 이것을
+ 가리키지 않으므로 컴포넌트와 함께 사라진다(계획 P16-02, P21-06). 한 문서의 변경은 같은 컴포넌트·같은 오리진의 다른 문서(프레임)에 보고되며
+ 다른 컴포넌트에는 보이지 않는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/SessionStorage.SlotFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.storage">SessionStorage.SlotFactory</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the object that a slot of the component holds.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/SessionStorage.html#SessionStorage()">SessionStorage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an empty sessionStorage.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/SessionStorage.html#addListener(org.duckdns.hjow.swingwebpanel.storage.StorageListener)">addListener</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/StorageListener.html" title="interface in org.duckdns.hjow.swingwebpanel.storage">StorageListener</A>&nbsp;l)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Registers a listener of a document of this component.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/SessionStorage.html#clear()">clear</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes every item of every origin.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/SessionStorage.html#copyFrom(org.duckdns.hjow.swingwebpanel.storage.SessionStorage)">copyFrom</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/SessionStorage.html" title="class in org.duckdns.hjow.swingwebpanel.storage">SessionStorage</A>&nbsp;other)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Copies every entry of another session storage into this one (the session storage of a window that a page opens starts as a copy
+ of the storage of its opener, WHATWG HTML 12.2.2).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/StorageEntry.html" title="class in org.duckdns.hjow.swingwebpanel.storage">StorageEntry</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/SessionStorage.html#entries()">entries</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a read-only copy of all items of all origins, sorted by origin and key.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/WebStorage.html" title="interface in org.duckdns.hjow.swingwebpanel.storage">WebStorage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/SessionStorage.html#forOrigin(org.duckdns.hjow.swingwebpanel.net.Origin, java.lang.Object)">forOrigin</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;origin,
+          java.lang.Object&nbsp;source)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the storage view of an origin.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/SessionStorage.html#getSlot(java.lang.String, org.duckdns.hjow.swingwebpanel.storage.SessionStorage.SlotFactory)">getSlot</A></B>(java.lang.String&nbsp;name,
+        <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/SessionStorage.SlotFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.storage">SessionStorage.SlotFactory</A>&nbsp;factory)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the object that another part of the product keeps for this component under a name, creating it with the factory the first
+ time.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/SessionStorage.html#removeListener(org.duckdns.hjow.swingwebpanel.storage.StorageListener)">removeListener</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/StorageListener.html" title="interface in org.duckdns.hjow.swingwebpanel.storage">StorageListener</A>&nbsp;l)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes a listener.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="SessionStorage()"><!-- --></A><H3>
+SessionStorage</H3>
+<PRE>
+public <B>SessionStorage</B>()</PRE>
+<DL>
+<DD>Creates an empty sessionStorage.
+ <p>
+ 빈 sessionStorage 를 만든다.
+<P>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getSlot(java.lang.String, org.duckdns.hjow.swingwebpanel.storage.SessionStorage.SlotFactory)"><!-- --></A><H3>
+getSlot</H3>
+<PRE>
+public java.lang.Object <B>getSlot</B>(java.lang.String&nbsp;name,
+                                <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/SessionStorage.SlotFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.storage">SessionStorage.SlotFactory</A>&nbsp;factory)</PRE>
+<DL>
+<DD>Returns the object that another part of the product keeps for this component under a name, creating it with the factory the first
+ time. This is where state that belongs to the whole component, not to one page (for example the shared workers and the broadcast
+ channels of the pages of the component), lives: it is an ordinary field of this object, so it disappears with the component and no
+ static variable has to hold it. It is neither part of the storage areas nor cleared with them.
+ <p>
+ 제품의 다른 부분이 이 컴포넌트를 위해 이름으로 보관하는 객체를 반환하며 처음에는 팩토리로 만든다. 페이지 하나가 아니라 컴포넌트 전체에 속하는 상태(예:
+ 컴포넌트의 페이지들이 공유하는 공유 worker 와 브로드캐스트 채널)가 사는 곳이다. 이 객체의 일반 필드이므로 컴포넌트와 함께 사라지고 정적 변수가 붙잡을
+ 필요가 없다. 저장 영역의 일부가 아니며 영역과 함께 지워지지도 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the slot name / 슬롯 이름<DD><CODE>factory</CODE> - creates the object the first time / 처음에 객체를 만든다
+<DT><B>Returns:</B><DD>the object of the slot / 슬롯의 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="forOrigin(org.duckdns.hjow.swingwebpanel.net.Origin, java.lang.Object)"><!-- --></A><H3>
+forOrigin</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/WebStorage.html" title="interface in org.duckdns.hjow.swingwebpanel.storage">WebStorage</A> <B>forOrigin</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;origin,
+                            java.lang.Object&nbsp;source)</PRE>
+<DL>
+<DD>Returns the storage view of an origin.
+ <p>
+ 오리진의 저장소 뷰를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>origin</CODE> - origin of the document / 문서의 오리진<DD><CODE>source</CODE> - the document that will use the view (excluded from change notifications), may be null / 뷰를 쓸 문서(변경 통지에서 제외). null 가능
+<DT><B>Returns:</B><DD>the view / 뷰
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - SecurityError for opaque origins (about:blank, about:text) / 불투명 오리진(about:blank, about:text)이면 SecurityError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="entries()"><!-- --></A><H3>
+entries</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/StorageEntry.html" title="class in org.duckdns.hjow.swingwebpanel.storage">StorageEntry</A>&gt; <B>entries</B>()</PRE>
+<DL>
+<DD>Returns a read-only copy of all items of all origins, sorted by origin and key.
+ <p>
+ 모든 오리진의 모든 항목의 읽기 전용 복사본을 오리진, 키 순으로 정렬해 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>entries / 항목</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="clear()"><!-- --></A><H3>
+clear</H3>
+<PRE>
+public void <B>clear</B>()</PRE>
+<DL>
+<DD>Removes every item of every origin.
+ <p>
+ 모든 오리진의 모든 항목을 제거한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="copyFrom(org.duckdns.hjow.swingwebpanel.storage.SessionStorage)"><!-- --></A><H3>
+copyFrom</H3>
+<PRE>
+public void <B>copyFrom</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/SessionStorage.html" title="class in org.duckdns.hjow.swingwebpanel.storage">SessionStorage</A>&nbsp;other)</PRE>
+<DL>
+<DD>Copies every entry of another session storage into this one (the session storage of a window that a page opens starts as a copy
+ of the storage of its opener, WHATWG HTML 12.2.2).
+ <p>
+ 다른 sessionStorage 의 모든 항목을 여기로 복사한다(페이지가 연 창의 sessionStorage 는 여는 창의 저장소의 복사본으로 시작한다, WHATWG HTML
+ 12.2.2).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>other</CODE> - the storage to copy from / 복사해 올 저장소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addListener(org.duckdns.hjow.swingwebpanel.storage.StorageListener)"><!-- --></A><H3>
+addListener</H3>
+<PRE>
+public void <B>addListener</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/StorageListener.html" title="interface in org.duckdns.hjow.swingwebpanel.storage">StorageListener</A>&nbsp;l)</PRE>
+<DL>
+<DD>Registers a listener of a document of this component.
+ <p>
+ 이 컴포넌트의 문서의 리스너를 등록한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>l</CODE> - listener / 리스너</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeListener(org.duckdns.hjow.swingwebpanel.storage.StorageListener)"><!-- --></A><H3>
+removeListener</H3>
+<PRE>
+public void <B>removeListener</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/StorageListener.html" title="interface in org.duckdns.hjow.swingwebpanel.storage">StorageListener</A>&nbsp;l)</PRE>
+<DL>
+<DD>Removes a listener.
+ <p>
+ 리스너를 제거한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>l</CODE> - listener / 리스너</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html" title="class in org.duckdns.hjow.swingwebpanel.storage"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/SessionStorage.SlotFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.storage"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/storage/SessionStorage.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SessionStorage.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

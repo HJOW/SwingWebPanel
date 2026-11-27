@@ -1,0 +1,323 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+MediaElementAudioSourceNode
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="MediaElementAudioSourceNode";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/IIRFilterNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementAudioSourceNode.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="MediaElementAudioSourceNode.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.webaudio</FONT>
+<BR>
+Class MediaElementAudioSourceNode</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode</A>
+      <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.webaudio.MediaElementAudioSourceNode</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>MediaElementAudioSourceNode</B><DT>extends <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioNode</A></DL>
+</PRE>
+
+<P>
+A source that takes the audio of a media element into the graph (Web Audio API 1.22). The node has no input and one output with as
+ many channels as the media (one silent channel if the media has no audio). The audio comes from a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>MediaElementPcmSource</CODE></A> that
+ the host implements on top of the player of the element; the node pulls one render quantum of the playing media at a time. While the
+ media is paused or has ended, or while nothing was delivered, the output is silent; if the media is from another origin without the
+ permission of the server (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html#isOutputAllowed()"><CODE>MediaElementPcmSource.isOutputAllowed()</CODE></A> is false) the output is silent too and nothing is pulled.
+ <p>
+ If the sample rate of the media differs from the one of the context the samples are resampled with a linear interpolation (exact
+ for equal rates; for other rates the interpolation is a simple, cheap method that leaves some imaging and aliasing at high
+ frequencies).
+ <p>
+ The context keeps the node processed from its creation until <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementAudioSourceNode.html#close()"><CODE>close()</CODE></A> is called (the host calls it when the element goes
+ away), because the context cannot tell whether the page still refers to the node.
+ <p>
+ 미디어 요소의 오디오를 그래프로 가져오는 원천(Web Audio API 1.22). 노드는 입력이 없고 미디어와 같은 채널 수의 출력 하나를 가진다(미디어에 오디오가 없으면
+ 무음 채널 하나). 오디오는 호스트가 요소의 재생기 위에서 구현한 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>MediaElementPcmSource</CODE></A> 에서 오며, 노드는 재생 중인 미디어를 render quantum 하나씩
+ 가져간다. 미디어가 일시 정지되었거나 끝났거나 아무것도 오지 않는 동안 출력은 무음이다. 미디어가 서버의 허가 없이 가져온 다른 오리진의 것이면
+ (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html#isOutputAllowed()"><CODE>MediaElementPcmSource.isOutputAllowed()</CODE></A> 가 false) 출력은 역시 무음이고 아무것도 가져오지 않는다.
+ <p>
+ 미디어의 샘플링 주파수가 컨텍스트와 다르면 선형 보간으로 리샘플링한다(같은 주파수이면 정확하다. 다른 주파수에서는 단순하고 값싼 방법이라 높은 주파수에
+ 이미징과 앨리어싱이 조금 남는다).
+ <p>
+ 컨텍스트는 페이지가 노드를 아직 참조하는지 알 수 없으므로 노드를 만든 때부터 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementAudioSourceNode.html#close()"><CODE>close()</CODE></A> 가 불릴 때까지 처리 대상으로 붙잡는다(호스트는 요소가 사라질 때
+ 부른다).
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementAudioSourceNode.html#MediaElementAudioSourceNode(org.duckdns.hjow.swingwebpanel.media.webaudio.BaseAudioContext, org.duckdns.hjow.swingwebpanel.media.webaudio.MediaElementPcmSource)">MediaElementAudioSourceNode</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">BaseAudioContext</A>&nbsp;context,
+                            <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">MediaElementPcmSource</A>&nbsp;source)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the node and keeps it processed until <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementAudioSourceNode.html#close()"><CODE>close()</CODE></A>.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementAudioSourceNode.html#close()">close</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Releases the node: the context stops processing it and the output is silent.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">MediaElementPcmSource</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementAudioSourceNode.html#getMediaElementSource()">getMediaElementSource</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the supplier of the audio.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.media.webaudio.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioNode</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#connect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode)">connect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#connect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode, int, int)">connect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#connect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioParam)">connect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#connect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioParam, int)">connect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect()">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode, int)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode, int, int)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioParam)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioParam, int)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(int)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getChannelCount()">getChannelCount</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getChannelCountMode()">getChannelCountMode</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getChannelInterpretation()">getChannelInterpretation</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getContext()">getContext</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getNumberOfInputs()">getNumberOfInputs</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getNumberOfOutputs()">getNumberOfOutputs</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#setChannelCount(int)">setChannelCount</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#setChannelCountMode(org.duckdns.hjow.swingwebpanel.media.webaudio.ChannelCountMode)">setChannelCountMode</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#setChannelInterpretation(org.duckdns.hjow.swingwebpanel.media.webaudio.ChannelInterpretation)">setChannelInterpretation</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="MediaElementAudioSourceNode(org.duckdns.hjow.swingwebpanel.media.webaudio.BaseAudioContext, org.duckdns.hjow.swingwebpanel.media.webaudio.MediaElementPcmSource)"><!-- --></A><H3>
+MediaElementAudioSourceNode</H3>
+<PRE>
+public <B>MediaElementAudioSourceNode</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">BaseAudioContext</A>&nbsp;context,
+                                   <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">MediaElementPcmSource</A>&nbsp;source)</PRE>
+<DL>
+<DD>Creates the node and keeps it processed until <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementAudioSourceNode.html#close()"><CODE>close()</CODE></A>.
+ <p>
+ 노드를 만들고 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementAudioSourceNode.html#close()"><CODE>close()</CODE></A> 까지 처리 대상으로 붙잡는다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>context</CODE> - the context / 컨텍스트<DD><CODE>source</CODE> - the supplier of the audio of the media element / 미디어 요소의 오디오 공급자
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioException</A></CODE> - <code>TypeError</code> if the source is null / 공급자가 null 이면 <code>TypeError</code></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getMediaElementSource()"><!-- --></A><H3>
+getMediaElementSource</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">MediaElementPcmSource</A> <B>getMediaElementSource</B>()</PRE>
+<DL>
+<DD>Returns the supplier of the audio.
+ <p>
+ 오디오 공급자를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the supplier / 공급자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="close()"><!-- --></A><H3>
+close</H3>
+<PRE>
+public void <B>close</B>()</PRE>
+<DL>
+<DD>Releases the node: the context stops processing it and the output is silent. The host calls it when the element goes away.
+ <p>
+ 노드를 놓아 준다: 컨텍스트가 더 처리하지 않고 출력은 무음이다. 호스트는 요소가 사라질 때 부른다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/IIRFilterNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementAudioSourceNode.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="MediaElementAudioSourceNode.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

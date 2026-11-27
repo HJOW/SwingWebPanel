@@ -1,0 +1,840 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ExecutionLimits
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ExecutionLimits";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ErrorKind.html" title="enum in org.duckdns.hjow.swingwebpanel.js"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/IteratorHelper.html" title="class in org.duckdns.hjow.swingwebpanel.js"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ExecutionLimits.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js</FONT>
+<BR>
+Class ExecutionLimits</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.ExecutionLimits</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ExecutionLimits</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Execution limits and cancellation of one realm (plan item P13-12). The interpreter calls <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#tick()"><CODE>tick()</CODE></A> for every executed
+ statement, loop iteration and function call, and built-ins that run long loops should call <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#tick()"><CODE>tick()</CODE></A> too.
+ <ul>
+ <li><b>Steps</b>: after <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#getMaxSteps()"><CODE>getMaxSteps()</CODE></A> ticks in one task a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ScriptAbortedException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>ScriptAbortedException</CODE></A> (STEP_LIMIT) is thrown. Default 200 million.</li>
+ <li><b>Time</b>: after <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#getMaxTimeMillis()"><CODE>getMaxTimeMillis()</CODE></A> milliseconds of one task a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ScriptAbortedException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>ScriptAbortedException</CODE></A> (TIME_LIMIT) is thrown. Default 0 = unlimited
+ (the host normally sets a value).</li>
+ <li><b>Cancellation</b>: <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#cancel()"><CODE>cancel()</CODE></A> may be called from any thread; the running script stops at the next tick with
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ScriptAbortedException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>ScriptAbortedException</CODE></A> (CANCELLED). <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#reset()"><CODE>reset()</CODE></A> clears the flag.</li>
+ <li><b>Call depth</b>: more than <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#getMaxCallDepth()"><CODE>getMaxCallDepth()</CODE></A> nested script calls throw a script-visible RangeError
+ "Maximum call stack size exceeded". Default 400. Each script call uses several Java stack frames, so run the engine on a
+ thread with a large stack (for example 16 MB) when raising this value.</li>
+ <li><b>String length</b>: strings longer than <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#getMaxStringLength()"><CODE>getMaxStringLength()</CODE></A> code units cannot be created by concatenation or
+ repetition (RangeError "Invalid string length"). Default 33,554,432.</li>
+ <li><b>Array length</b>: arrays with a dense storage are limited by memory; the JavaScript maximum 2^32 - 1 applies to the
+ length property. A script cannot allocate more than 50 million dense elements (larger indices switch to sparse mode).</li>
+ </ul>
+ Time and steps are measured per <em>task</em>: the host (or the realm's <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#evaluateScript(java.lang.String, java.lang.String)"><CODE>JsRealm.evaluateScript(String, String)</CODE></A>) calls
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#beginTask()"><CODE>beginTask()</CODE></A> when the outermost script call starts.
+ <p>
+ realm 하나의 실행 제한과 취소(계획 P13-12). 인터프리터는 실행하는 문장, 반복 한 번, 함수 호출마다 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#tick()"><CODE>tick()</CODE></A> 을 호출하며,
+ 긴 반복을 도는 내장 함수도 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#tick()"><CODE>tick()</CODE></A> 을 호출해야 한다.
+ <ul>
+ <li><b>단계 수</b>: 한 작업에서 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#getMaxSteps()"><CODE>getMaxSteps()</CODE></A> 번 넘으면 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ScriptAbortedException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>ScriptAbortedException</CODE></A>(STEP_LIMIT). 기본 2억.</li>
+ <li><b>시간</b>: 한 작업이 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#getMaxTimeMillis()"><CODE>getMaxTimeMillis()</CODE></A> 밀리초를 넘으면 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ScriptAbortedException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>ScriptAbortedException</CODE></A>(TIME_LIMIT). 기본 0 = 무제한(호스트가 보통 지정).</li>
+ <li><b>취소</b>: <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#cancel()"><CODE>cancel()</CODE></A> 은 어느 스레드에서나 호출할 수 있고, 실행 중인 스크립트는 다음 tick 에서 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ScriptAbortedException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>ScriptAbortedException</CODE></A>(CANCELLED)으로 멈춘다.
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#reset()"><CODE>reset()</CODE></A> 이 표시를 지운다.</li>
+ <li><b>호출 깊이</b>: 중첩된 스크립트 호출이 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#getMaxCallDepth()"><CODE>getMaxCallDepth()</CODE></A> 를 넘으면 스크립트가 볼 수 있는 RangeError "Maximum call stack size exceeded".
+ 기본 400. 스크립트 호출마다 Java 스택 프레임이 여러 개 쓰이므로 값을 올릴 때는 큰 스택(예: 16MB)의 스레드에서 엔진을 실행한다.</li>
+ <li><b>문자열 길이</b>: <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#getMaxStringLength()"><CODE>getMaxStringLength()</CODE></A> 코드 단위를 넘는 문자열은 연결이나 반복으로 만들 수 없다(RangeError "Invalid string length"). 기본 33,554,432.</li>
+ <li><b>배열 길이</b>: 조밀 저장 배열은 메모리로 제한된다. length 프로퍼티는 JavaScript 최댓값 2^32 - 1 이다. 조밀 요소는 5천만 개를 넘지 못하며
+ 더 큰 인덱스는 희소 모드로 바뀐다.</li>
+ </ul>
+ 시간과 단계 수는 <em>작업</em> 단위로 측정한다: 호스트(또는 realm 의 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html#evaluateScript(java.lang.String, java.lang.String)"><CODE>JsRealm.evaluateScript(String, String)</CODE></A>)가 가장 바깥 스크립트 호출이
+ 시작될 때 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#beginTask()"><CODE>beginTask()</CODE></A> 를 호출한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#DEFAULT_MAX_CALL_DEPTH">DEFAULT_MAX_CALL_DEPTH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default maximum nesting of script calls.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#DEFAULT_MAX_STEPS">DEFAULT_MAX_STEPS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default step limit per task.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#DEFAULT_MAX_STRING_LENGTH">DEFAULT_MAX_STRING_LENGTH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default maximum string length in UTF-16 code units.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#ExecutionLimits()">ExecutionLimits</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates limits with the default values.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#addCancellationHook(java.lang.Runnable)">addCancellationHook</A></B>(java.lang.Runnable&nbsp;hook)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Registers a pending operation to wake when cancellation is requested.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#beginTask()">beginTask</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Marks the start of a task (an outermost script evaluation or a job); nested calls are counted and ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#cancel()">cancel</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Requests the running script to stop; callable from any thread.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#checkStringLength(long)">checkStringLength</A></B>(long&nbsp;length)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Throws a RangeError if a string would be longer than the limit.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#endTask()">endTask</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Marks the end of a task started with <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#beginTask()"><CODE>beginTask()</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#getMaxCallDepth()">getMaxCallDepth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the call depth limit.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#getMaxSteps()">getMaxSteps</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the step limit.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#getMaxStringLength()">getMaxStringLength</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the string length limit.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#getMaxTimeMillis()">getMaxTimeMillis</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the time limit.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#isAbortRequested()">isAbortRequested</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Non-throwing query for long running native code (regular expression matching, built-in loops): returns true when the
+ running task should stop because cancellation was requested or the time limit of the task is exceeded.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#isCancelled()">isCancelled</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns true if cancellation was requested.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#poll()">poll</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Throwing variant of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#isAbortRequested()"><CODE>isAbortRequested()</CODE></A> for long running native loops: throws <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ScriptAbortedException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>ScriptAbortedException</CODE></A>
+ (CANCELLED or TIME_LIMIT) when the task must stop.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#remainingTaskTimeMillis()">remainingTaskTimeMillis</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the time available for a blocking operation on the running script thread.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#removeCancellationHook(java.lang.Runnable)">removeCancellationHook</A></B>(java.lang.Runnable&nbsp;hook)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unregisters a completed operation.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#reset()">reset</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clears the cancellation flag.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#setMaxCallDepth(int)">setMaxCallDepth</A></B>(int&nbsp;depth)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the call depth limit.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#setMaxSteps(long)">setMaxSteps</A></B>(long&nbsp;maxSteps)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the step limit per task.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#setMaxStringLength(int)">setMaxStringLength</A></B>(int&nbsp;length)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the string length limit.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#setMaxTimeMillis(long)">setMaxTimeMillis</A></B>(long&nbsp;millis)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the time limit per task.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#tick()">tick</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Counts one step and enforces the limits.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="DEFAULT_MAX_STEPS"><!-- --></A><H3>
+DEFAULT_MAX_STEPS</H3>
+<PRE>
+public static final long <B>DEFAULT_MAX_STEPS</B></PRE>
+<DL>
+<DD>Default step limit per task.
+ <p>
+ 작업당 기본 단계 수 제한.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ExecutionLimits.DEFAULT_MAX_STEPS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_MAX_CALL_DEPTH"><!-- --></A><H3>
+DEFAULT_MAX_CALL_DEPTH</H3>
+<PRE>
+public static final int <B>DEFAULT_MAX_CALL_DEPTH</B></PRE>
+<DL>
+<DD>Default maximum nesting of script calls.
+ <p>
+ 스크립트 호출 중첩의 기본 최댓값.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ExecutionLimits.DEFAULT_MAX_CALL_DEPTH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_MAX_STRING_LENGTH"><!-- --></A><H3>
+DEFAULT_MAX_STRING_LENGTH</H3>
+<PRE>
+public static final int <B>DEFAULT_MAX_STRING_LENGTH</B></PRE>
+<DL>
+<DD>Default maximum string length in UTF-16 code units.
+ <p>
+ UTF-16 코드 단위 기준 기본 최대 문자열 길이.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.ExecutionLimits.DEFAULT_MAX_STRING_LENGTH">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="ExecutionLimits()"><!-- --></A><H3>
+ExecutionLimits</H3>
+<PRE>
+public <B>ExecutionLimits</B>()</PRE>
+<DL>
+<DD>Creates limits with the default values.
+ <p>
+ 기본값으로 제한을 만든다.
+<P>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getMaxSteps()"><!-- --></A><H3>
+getMaxSteps</H3>
+<PRE>
+public long <B>getMaxSteps</B>()</PRE>
+<DL>
+<DD>Returns the step limit.
+ <p>
+ 단계 수 제한을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the limit / 제한</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMaxSteps(long)"><!-- --></A><H3>
+setMaxSteps</H3>
+<PRE>
+public void <B>setMaxSteps</B>(long&nbsp;maxSteps)</PRE>
+<DL>
+<DD>Sets the step limit per task.
+ <p>
+ 작업당 단계 수 제한을 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>maxSteps</CODE> - the limit (0 or less = unlimited) / 제한(0 이하이면 무제한)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMaxTimeMillis()"><!-- --></A><H3>
+getMaxTimeMillis</H3>
+<PRE>
+public long <B>getMaxTimeMillis</B>()</PRE>
+<DL>
+<DD>Returns the time limit.
+ <p>
+ 시간 제한을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>milliseconds, 0 for unlimited / 밀리초. 0 이면 무제한</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMaxTimeMillis(long)"><!-- --></A><H3>
+setMaxTimeMillis</H3>
+<PRE>
+public void <B>setMaxTimeMillis</B>(long&nbsp;millis)</PRE>
+<DL>
+<DD>Sets the time limit per task.
+ <p>
+ 작업당 시간 제한을 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>millis</CODE> - milliseconds, 0 for unlimited / 밀리초. 0 이면 무제한
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if millis is negative / millis 가 음수이면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMaxCallDepth()"><!-- --></A><H3>
+getMaxCallDepth</H3>
+<PRE>
+public int <B>getMaxCallDepth</B>()</PRE>
+<DL>
+<DD>Returns the call depth limit.
+ <p>
+ 호출 깊이 제한을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the limit / 제한</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMaxCallDepth(int)"><!-- --></A><H3>
+setMaxCallDepth</H3>
+<PRE>
+public void <B>setMaxCallDepth</B>(int&nbsp;depth)</PRE>
+<DL>
+<DD>Sets the call depth limit.
+ <p>
+ 호출 깊이 제한을 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>depth</CODE> - the limit, at least 1 / 제한. 1 이상
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if depth is less than 1 / depth 가 1 보다 작으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMaxStringLength()"><!-- --></A><H3>
+getMaxStringLength</H3>
+<PRE>
+public int <B>getMaxStringLength</B>()</PRE>
+<DL>
+<DD>Returns the string length limit.
+ <p>
+ 문자열 길이 제한을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>code units / 코드 단위 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMaxStringLength(int)"><!-- --></A><H3>
+setMaxStringLength</H3>
+<PRE>
+public void <B>setMaxStringLength</B>(int&nbsp;length)</PRE>
+<DL>
+<DD>Sets the string length limit.
+ <p>
+ 문자열 길이 제한을 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>length</CODE> - code units, at least 1 / 코드 단위 수. 1 이상
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if length is less than 1 / length 가 1 보다 작으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="cancel()"><!-- --></A><H3>
+cancel</H3>
+<PRE>
+public void <B>cancel</B>()</PRE>
+<DL>
+<DD>Requests the running script to stop; callable from any thread.
+ <p>
+ 실행 중인 스크립트에 중단을 요청한다. 어느 스레드에서나 호출할 수 있다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addCancellationHook(java.lang.Runnable)"><!-- --></A><H3>
+addCancellationHook</H3>
+<PRE>
+public boolean <B>addCancellationHook</B>(java.lang.Runnable&nbsp;hook)</PRE>
+<DL>
+<DD>Registers a pending operation to wake when cancellation is requested.
+ The hook runs on the cancelling thread and must finish promptly without throwing.
+ <p>
+ 취소 요청 시 깨울 대기 연산을 등록한다. 훅은 취소하는 스레드에서 실행되며 예외 없이 신속히 끝나야 한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>hook</CODE> - cancellation action / 취소 시 작업
+<DT><B>Returns:</B><DD>false if cancellation was already requested / 이미 취소를 요청했으면 false</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeCancellationHook(java.lang.Runnable)"><!-- --></A><H3>
+removeCancellationHook</H3>
+<PRE>
+public void <B>removeCancellationHook</B>(java.lang.Runnable&nbsp;hook)</PRE>
+<DL>
+<DD>Unregisters a completed operation.
+ <p>
+ 완료된 연산의 등록을 해제한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>hook</CODE> - cancellation action / 취소 시 작업</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="reset()"><!-- --></A><H3>
+reset</H3>
+<PRE>
+public void <B>reset</B>()</PRE>
+<DL>
+<DD>Clears the cancellation flag.
+ <p>
+ 취소 표시를 지운다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isAbortRequested()"><!-- --></A><H3>
+isAbortRequested</H3>
+<PRE>
+public boolean <B>isAbortRequested</B>()</PRE>
+<DL>
+<DD>Non-throwing query for long running native code (regular expression matching, built-in loops): returns true when the
+ running task should stop because cancellation was requested or the time limit of the task is exceeded. Step counting is not
+ part of this query. Safe to call from the thread that runs the script at any frequency.
+ <p>
+ 오래 걸리는 네이티브 코드(정규식 일치, 내장 객체의 반복)용 비예외 조회: 취소가 요청되었거나 작업의 시간 제한을 넘어 실행 중인 작업을
+ 멈춰야 하면 true 를 반환한다. 단계 수는 이 조회에 포함되지 않는다. 스크립트를 실행하는 스레드에서 얼마든지 자주 호출해도 된다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if the task should stop / 작업을 멈춰야 하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="poll()"><!-- --></A><H3>
+poll</H3>
+<PRE>
+public void <B>poll</B>()</PRE>
+<DL>
+<DD>Throwing variant of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#isAbortRequested()"><CODE>isAbortRequested()</CODE></A> for long running native loops: throws <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ScriptAbortedException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>ScriptAbortedException</CODE></A>
+ (CANCELLED or TIME_LIMIT) when the task must stop. Built-ins that loop over large inputs should call it every few thousand
+ iterations.
+ <p>
+ 오래 걸리는 네이티브 반복을 위한 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#isAbortRequested()"><CODE>isAbortRequested()</CODE></A> 의 예외 버전: 작업을 멈춰야 하면 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ScriptAbortedException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>ScriptAbortedException</CODE></A>
+ (CANCELLED 또는 TIME_LIMIT)을 던진다. 큰 입력을 반복하는 내장 객체는 수천 번 반복마다 호출해야 한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="remainingTaskTimeMillis()"><!-- --></A><H3>
+remainingTaskTimeMillis</H3>
+<PRE>
+public long <B>remainingTaskTimeMillis</B>()</PRE>
+<DL>
+<DD>Returns the time available for a blocking operation on the running script thread.
+ <p>
+ 스크립트 실행 스레드의 차단 연산에 남은 시간을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>whole milliseconds until the next deadline check, or -1 without a limit /
+ 다음 기한 확인까지의 밀리초. 제한이 없으면 -1</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isCancelled()"><!-- --></A><H3>
+isCancelled</H3>
+<PRE>
+public boolean <B>isCancelled</B>()</PRE>
+<DL>
+<DD>Returns true if cancellation was requested.
+ <p>
+ 취소가 요청되었으면 true.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the flag / 표시</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="beginTask()"><!-- --></A><H3>
+beginTask</H3>
+<PRE>
+public void <B>beginTask</B>()</PRE>
+<DL>
+<DD>Marks the start of a task (an outermost script evaluation or a job); nested calls are counted and ignored.
+ <p>
+ 작업(가장 바깥 스크립트 평가나 작업 큐의 작업)의 시작을 표시한다. 중첩 호출은 세기만 하고 무시한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="endTask()"><!-- --></A><H3>
+endTask</H3>
+<PRE>
+public void <B>endTask</B>()</PRE>
+<DL>
+<DD>Marks the end of a task started with <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#beginTask()"><CODE>beginTask()</CODE></A>.
+ <p>
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html#beginTask()"><CODE>beginTask()</CODE></A> 로 시작한 작업의 끝을 표시한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="tick()"><!-- --></A><H3>
+tick</H3>
+<PRE>
+public void <B>tick</B>()</PRE>
+<DL>
+<DD>Counts one step and enforces the limits. Throws <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ScriptAbortedException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>ScriptAbortedException</CODE></A> when a limit is hit or cancellation was
+ requested.
+ <p>
+ 단계 하나를 세고 제한을 검사한다. 제한에 걸렸거나 취소가 요청되었으면 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ScriptAbortedException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>ScriptAbortedException</CODE></A> 을 던진다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="checkStringLength(long)"><!-- --></A><H3>
+checkStringLength</H3>
+<PRE>
+public void <B>checkStringLength</B>(long&nbsp;length)</PRE>
+<DL>
+<DD>Throws a RangeError if a string would be longer than the limit.
+ <p>
+ 문자열이 제한보다 길어질 경우 RangeError 를 던진다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>length</CODE> - the resulting length in code units / 결과 길이(코드 단위)</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ErrorKind.html" title="enum in org.duckdns.hjow.swingwebpanel.js"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/IteratorHelper.html" title="class in org.duckdns.hjow.swingwebpanel.js"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ExecutionLimits.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

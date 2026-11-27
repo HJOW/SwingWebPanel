@@ -1,0 +1,612 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+XmlProlog
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="XmlProlog";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlParseError.Kind.html" title="enum in org.duckdns.hjow.swingwebpanel.content.xhtml"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlText.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="XmlProlog.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.content.xhtml</FONT>
+<BR>
+Class XmlProlog</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.content.xhtml.XmlProlog</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>XmlProlog</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+A lightweight, never-failing scan of the beginning of an XML text: the XML declaration, the DOCTYPE declaration (name, public and system
+ identifier, internal subset and its position in the text) and the start tag of the root element (its name and namespace declarations).
+ It does not validate anything; a text that does not follow the XML syntax simply ends the scan early, and the real parser reports the
+ error. Two users: the XHTML parser rewrites the DOCTYPE with it (so that no external DTD can be named, see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><CODE>XhtmlParser</CODE></A>) and the
+ content classifier looks at the root element to find out whether a <code>text/xml</code> or <code>application/xml</code> document is XHTML.
+ <p>
+ XML 텍스트의 앞부분을 훑는 가볍고 실패하지 않는 검사: XML 선언, DOCTYPE 선언(이름, 공개/시스템 식별자, 내부 서브셋과 텍스트 안의 위치), 루트 요소의
+ 시작 태그(이름과 네임스페이스 선언). 아무것도 검증하지 않는다. XML 구문을 따르지 않는 텍스트는 검사가 일찍 끝날 뿐이며 오류는 실제 파서가 보고한다.
+ 쓰는 곳은 둘이다: XHTML 파서는 이것으로 DOCTYPE 을 다시 써서 외부 DTD 를 지정할 수 없게 하고(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><CODE>XhtmlParser</CODE></A> 참조), 콘텐츠 분류기는 루트 요소를
+ 보고 <code>text/xml</code>, <code>application/xml</code> 문서가 XHTML 인지 판단한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html#XHTML_NAMESPACE">XHTML_NAMESPACE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The XHTML namespace URI.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html#getDoctypeEnd()">getDoctypeEnd</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the index just after the DOCTYPE declaration, or -1.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html#getDoctypeName()">getDoctypeName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the DOCTYPE name, or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html#getDoctypeStart()">getDoctypeStart</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the index of the DOCTYPE declaration in the scanned text, or -1.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html#getInternalSubset()">getInternalSubset</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text of the internal subset, or null if the DOCTYPE has no brackets.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html#getPublicId()">getPublicId</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the public identifier of the DOCTYPE, or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html#getRootName()">getRootName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the qualified name of the root element, or null if the scan did not get there.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html#getRootNamespace()">getRootNamespace</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the namespace that the start tag of the root element gives to the root element, or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html#getSystemId()">getSystemId</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the system identifier of the DOCTYPE, or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html#getXmlEncoding()">getXmlEncoding</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the encoding name from the XML declaration, or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html#getXmlVersion()">getXmlVersion</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the XML version from the declaration, or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html#hasDoctype()">hasDoctype</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a complete DOCTYPE declaration was found before the root element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html#hasExternalId()">hasExternalId</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the DOCTYPE names an external subset (a public or system identifier).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html#isDoctypeMalformed()">isDoctypeMalformed</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a DOCTYPE declaration starts in the prolog but is incomplete or malformed; <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html#getDoctypeStart()"><CODE>getDoctypeStart()</CODE></A> then is the
+ index where it starts.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html#isXhtmlRoot()">isXhtmlRoot</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the root element is <code>html</code> in the XHTML namespace.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XmlProlog</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html#scan(java.lang.String)">scan</A></B>(java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scans the beginning of an XML text.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="XHTML_NAMESPACE"><!-- --></A><H3>
+XHTML_NAMESPACE</H3>
+<PRE>
+public static final java.lang.String <B>XHTML_NAMESPACE</B></PRE>
+<DL>
+<DD>The XHTML namespace URI.
+ <p>
+ XHTML 네임스페이스 URI.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.content.xhtml.XmlProlog.XHTML_NAMESPACE">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="scan(java.lang.String)"><!-- --></A><H3>
+scan</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XmlProlog</A> <B>scan</B>(java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Scans the beginning of an XML text. A leading byte order mark character (U+FEFF) is skipped. The method never throws.
+ <p>
+ XML 텍스트의 앞부분을 훑는다. 앞의 바이트 순서 표시 문자(U+FEFF)는 건너뛴다. 예외를 던지지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the XML text, null is treated as empty / XML 텍스트(null 은 빈 문자열)
+<DT><B>Returns:</B><DD>what was found / 찾아낸 것</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getXmlVersion()"><!-- --></A><H3>
+getXmlVersion</H3>
+<PRE>
+public java.lang.String <B>getXmlVersion</B>()</PRE>
+<DL>
+<DD>Returns the XML version from the declaration, or null.
+ <p>
+ XML 선언의 버전을 반환한다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the version or null / 버전 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getXmlEncoding()"><!-- --></A><H3>
+getXmlEncoding</H3>
+<PRE>
+public java.lang.String <B>getXmlEncoding</B>()</PRE>
+<DL>
+<DD>Returns the encoding name from the XML declaration, or null.
+ <p>
+ XML 선언의 인코딩 이름을 반환한다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the declared encoding or null / 선언된 인코딩 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasDoctype()"><!-- --></A><H3>
+hasDoctype</H3>
+<PRE>
+public boolean <B>hasDoctype</B>()</PRE>
+<DL>
+<DD>Tells whether a complete DOCTYPE declaration was found before the root element.
+ <p>
+ 루트 요소 앞에서 완전한 DOCTYPE 선언을 찾았는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if found / 찾았으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isDoctypeMalformed()"><!-- --></A><H3>
+isDoctypeMalformed</H3>
+<PRE>
+public boolean <B>isDoctypeMalformed</B>()</PRE>
+<DL>
+<DD>Tells whether a DOCTYPE declaration starts in the prolog but is incomplete or malformed; <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html#getDoctypeStart()"><CODE>getDoctypeStart()</CODE></A> then is the
+ index where it starts.
+ <p>
+ 프롤로그에서 DOCTYPE 선언이 시작되지만 불완전하거나 형식이 틀렸는지 알려 준다. 이때 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html#getDoctypeStart()"><CODE>getDoctypeStart()</CODE></A> 가 시작 위치이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if malformed / 틀렸으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDoctypeName()"><!-- --></A><H3>
+getDoctypeName</H3>
+<PRE>
+public java.lang.String <B>getDoctypeName</B>()</PRE>
+<DL>
+<DD>Returns the DOCTYPE name, or null.
+ <p>
+ DOCTYPE 이름을 반환한다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the name or null / 이름 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPublicId()"><!-- --></A><H3>
+getPublicId</H3>
+<PRE>
+public java.lang.String <B>getPublicId</B>()</PRE>
+<DL>
+<DD>Returns the public identifier of the DOCTYPE, or null.
+ <p>
+ DOCTYPE 의 공개 식별자를 반환한다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the public identifier or null / 공개 식별자 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSystemId()"><!-- --></A><H3>
+getSystemId</H3>
+<PRE>
+public java.lang.String <B>getSystemId</B>()</PRE>
+<DL>
+<DD>Returns the system identifier of the DOCTYPE, or null.
+ <p>
+ DOCTYPE 의 시스템 식별자를 반환한다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the system identifier or null / 시스템 식별자 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getInternalSubset()"><!-- --></A><H3>
+getInternalSubset</H3>
+<PRE>
+public java.lang.String <B>getInternalSubset</B>()</PRE>
+<DL>
+<DD>Returns the text of the internal subset, or null if the DOCTYPE has no brackets.
+ <p>
+ 내부 서브셋의 텍스트를 반환한다. DOCTYPE 에 대괄호가 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the internal subset or null / 내부 서브셋 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDoctypeStart()"><!-- --></A><H3>
+getDoctypeStart</H3>
+<PRE>
+public int <B>getDoctypeStart</B>()</PRE>
+<DL>
+<DD>Returns the index of the DOCTYPE declaration in the scanned text, or -1.
+ <p>
+ 검사한 텍스트에서 DOCTYPE 선언의 시작 위치를 반환한다. 없으면 -1.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>start index or -1 / 시작 위치 또는 -1</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDoctypeEnd()"><!-- --></A><H3>
+getDoctypeEnd</H3>
+<PRE>
+public int <B>getDoctypeEnd</B>()</PRE>
+<DL>
+<DD>Returns the index just after the DOCTYPE declaration, or -1.
+ <p>
+ DOCTYPE 선언 바로 다음 위치를 반환한다. 없으면 -1.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>end index or -1 / 끝 위치 또는 -1</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasExternalId()"><!-- --></A><H3>
+hasExternalId</H3>
+<PRE>
+public boolean <B>hasExternalId</B>()</PRE>
+<DL>
+<DD>Tells whether the DOCTYPE names an external subset (a public or system identifier).
+ <p>
+ DOCTYPE 이 외부 서브셋(공개 또는 시스템 식별자)을 지정하는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if there is an external identifier / 외부 식별자가 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRootName()"><!-- --></A><H3>
+getRootName</H3>
+<PRE>
+public java.lang.String <B>getRootName</B>()</PRE>
+<DL>
+<DD>Returns the qualified name of the root element, or null if the scan did not get there.
+ <p>
+ 루트 요소의 정규화된 이름을 반환한다. 검사가 거기까지 가지 못했으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the name or null / 이름 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRootNamespace()"><!-- --></A><H3>
+getRootNamespace</H3>
+<PRE>
+public java.lang.String <B>getRootNamespace</B>()</PRE>
+<DL>
+<DD>Returns the namespace that the start tag of the root element gives to the root element, or null.
+ <p>
+ 루트 요소의 시작 태그가 루트 요소에 주는 네임스페이스를 반환한다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the namespace or null / 네임스페이스 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isXhtmlRoot()"><!-- --></A><H3>
+isXhtmlRoot</H3>
+<PRE>
+public boolean <B>isXhtmlRoot</B>()</PRE>
+<DL>
+<DD>Tells whether the root element is <code>html</code> in the XHTML namespace.
+ <p>
+ 루트 요소가 XHTML 네임스페이스의 <code>html</code> 인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for an XHTML document / XHTML 문서이면 true</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlParseError.Kind.html" title="enum in org.duckdns.hjow.swingwebpanel.content.xhtml"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlText.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/content/xhtml/XmlProlog.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="XmlProlog.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

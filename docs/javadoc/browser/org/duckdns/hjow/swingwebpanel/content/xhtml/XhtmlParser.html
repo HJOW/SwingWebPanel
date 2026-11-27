@@ -1,0 +1,570 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+XhtmlParser
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="XhtmlParser";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="XhtmlParser.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.content.xhtml</FONT>
+<BR>
+Class XhtmlParser</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.content.xhtml.XhtmlParser</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>XhtmlParser</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The parser for <code>application/xhtml+xml</code> documents (plan item P17-05): XML syntax in, the project's own DOM
+ (<code>org.duckdns.hjow.swingwebpanel.dom</code>) out. The tokenizing is done by the XML parser of the Java platform through the public JAXP/SAX API
+ (<code>javax.xml.parsers</code>, <code>org.xml.sax</code>); everything the document can name from outside is switched off, and the tree
+ is built by <CODE>XhtmlBuilder</CODE> into the same node classes that the HTML parser produces.
+ <p>
+ Rules that this class guarantees:
+ <ul>
+ <li><b>No error recovery.</b> XML names are case sensitive and the first well-formedness error ends the parse with a structured
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlParseError.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><CODE>XmlParseError</CODE></A> (line, column, message, source line) in the result. There is no fall back to the forgiving HTML parser.</li>
+ <li><b>Nothing outside the text is read.</b> The external DTD subset and external entities are never loaded, XInclude is off, and
+ every request that reaches the entity resolver gets an empty answer (and is listed in <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html#getRefusedReferences()"><CODE>XhtmlResult.getRefusedReferences()</CODE></A>).
+ The external identifiers of the DOCTYPE are removed from the text before the XML parser sees it (the DOCTYPE node of the DOM keeps
+ them), so the parser cannot even try to open them. The default limits that the JRE puts on entity expansion (64,000 references in JDK 6, less in newer JREs) are lifted (<code>secure-processing</code> off, and the <code>jdk.xml</code> properties where the JRE has them) because <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><CODE>XhtmlLimits</CODE></A> replaces them, with a count of every entity reference.</li>
+ <li><b>Named references.</b> See <CODE>XhtmlEntities</CODE>: XHTML, HTML, MathML and SVG DTD identifiers get the HTML character reference
+ names; any other undeclared entity is an error.</li>
+ <li><b>Bounded work.</b> <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><CODE>XhtmlLimits</CODE></A> bound input size, depth, node count, attribute count, expanded text size and time;
+ an entity bomb ends with <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlParseError.Kind.html#LIMIT_EXCEEDED"><CODE>XmlParseError.Kind.LIMIT_EXCEEDED</CODE></A>.</li>
+ <li><b>Document.</b> The document has the content type <code>application/xhtml+xml</code>, is not an HTML document (names are case
+ sensitive), is in no-quirks mode and gets its character set from the encoding decision (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlDecoder.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><CODE>XmlDecoder</CODE></A>). The XML declaration is
+ not a node; comments, processing instructions (<code>xml-stylesheet</code> included, which this class does not interpret) and the
+ document type are.</li>
+ </ul>
+ Typical use:
+ <pre>
+ XhtmlParser p = new XhtmlParser();
+ p.setListener(scripts.createParserListener());              // optional, same callbacks as HtmlParser
+ XhtmlResult r = p.parse(bytes, "UTF-8", "http://host/page.xhtml");
+ if (!r.isWellFormed()) { show an error page from r.getError(); } else { use r.getDocument(); }
+ </pre>
+ Threading: an instance is used by one thread and parses once; the listener is called on that thread in document order. Because an XML
+ parse cannot be suspended, the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/html/ParserControl.html" title="interface in org.duckdns.hjow.swingwebpanel.html"><CODE>ParserControl</CODE></A> that the listener receives ignores <code>pause()</code> and
+ <code>insertAtInsertionPoint</code>; an external script cannot hold up the parse and must be handled after it.
+ <p>
+ <code>application/xhtml+xml</code> 문서의 파서(계획 P17-05): XML 구문을 받아 프로젝트 자체 DOM(<code>org.duckdns.hjow.swingwebpanel.dom</code>)을 만든다. 토큰화는 Java
+ 플랫폼의 XML 파서를 공개 JAXP/SAX API(<code>javax.xml.parsers</code>, <code>org.xml.sax</code>)로 써서 하며, 문서가 바깥에서 가져올 수 있는 모든 것은
+ 꺼 두고, 트리는 <CODE>XhtmlBuilder</CODE> 가 HTML 파서가 만드는 것과 같은 노드 클래스로 만든다.
+ <p>
+ 이 클래스가 보장하는 규칙:
+ <ul>
+ <li><b>오류 복구 없음.</b> XML 이름은 대소문자를 구분하고 첫 well-formed 오류가 해석을 끝내며 결과에 구조화된 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlParseError.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><CODE>XmlParseError</CODE></A>(줄, 열, 메시지,
+ 소스 줄)가 담긴다. 관대한 HTML 파서로 되돌아가지 않는다.</li>
+ <li><b>텍스트 밖은 읽지 않는다.</b> 외부 DTD 서브셋과 외부 엔티티는 절대 읽지 않고, XInclude 는 꺼져 있으며, 엔티티 해석기에 닿는 모든 요청에는 빈 답을
+ 준다(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html#getRefusedReferences()"><CODE>XhtmlResult.getRefusedReferences()</CODE></A> 에 기록). DOCTYPE 의 외부 식별자는 XML 파서가 보기 전에 텍스트에서 제거하므로(DOM 의 DOCTYPE 노드는
+ 그대로 가진다) 파서가 열어 보려는 시도조차 하지 못한다. JRE 가 엔티티 확장에 두는 기본 상한(JDK 6 은 6만 4천 번, 새 JRE 는 더 적다)은 풀어 둔다(<code>secure-processing</code> 끄기와, 있는 JRE 에서는 <code>jdk.xml</code> 속성). 모든 엔티티 참조를 세는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><CODE>XhtmlLimits</CODE></A> 가 대신하기 때문이다.</li>
+ <li><b>이름 있는 참조.</b> <CODE>XhtmlEntities</CODE> 참조: XHTML, HTML, MathML, SVG DTD 식별자에는 HTML 문자 참조 이름을 주고 그 밖의 선언되지 않은
+ 엔티티는 오류이다.</li>
+ <li><b>한정된 작업.</b> <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><CODE>XhtmlLimits</CODE></A> 가 입력 크기, 깊이, 노드 수, 속성 수, 펼친 텍스트 크기, 시간을 제한한다. 엔티티 폭탄은
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlParseError.Kind.html#LIMIT_EXCEEDED"><CODE>XmlParseError.Kind.LIMIT_EXCEEDED</CODE></A> 로 끝난다.</li>
+ <li><b>문서.</b> 문서의 콘텐츠 타입은 <code>application/xhtml+xml</code>, HTML 문서가 아니며(이름은 대소문자 구분), no-quirks 모드이고, 문자셋은 인코딩
+ 판정(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlDecoder.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><CODE>XmlDecoder</CODE></A>)에서 얻는다. XML 선언은 노드가 아니다. 주석, 처리 명령(이 클래스가 해석하지 않는 <code>xml-stylesheet</code> 포함), 문서 유형은
+ 노드이다.</li>
+ </ul>
+ 사용 예는 위의 영문 코드와 같다.
+ <p>
+ 스레드: 인스턴스는 한 스레드가 쓰며 한 번만 해석한다. 리스너는 그 스레드에서 문서 순서대로 호출된다. XML 해석은 중단할 수 없으므로 리스너가 받는
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/html/ParserControl.html" title="interface in org.duckdns.hjow.swingwebpanel.html"><CODE>ParserControl</CODE></A> 은 <code>pause()</code> 와 <code>insertAtInsertionPoint</code> 를 무시한다. 외부 스크립트가 해석을 붙잡을 수
+ 없으므로 해석이 끝난 뒤에 처리해야 한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html#CONTENT_TYPE">CONTENT_TYPE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The content type of the documents that this parser creates.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html#XhtmlParser()">XhtmlParser</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a parser with a new empty document of the content type <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html#CONTENT_TYPE"><CODE>CONTENT_TYPE</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html#XhtmlParser(org.duckdns.hjow.swingwebpanel.dom.Document)">XhtmlParser</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;document)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a parser for a document that the caller has prepared (for example with a selector engine installed).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html#getDocument()">getDocument</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the document that is (or will be) filled by the parse.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlLimits</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html#getLimits()">getLimits</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy of the limits.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlResult</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html#parse(byte[], java.lang.String, java.lang.String)">parse</A></B>(byte[]&nbsp;bytes,
+      java.lang.String&nbsp;httpCharset,
+      java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Decodes the bytes of a response (see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlDecoder.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><CODE>XmlDecoder</CODE></A>) and parses them.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlResult</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html#parse(java.lang.String, java.lang.String)">parse</A></B>(java.lang.String&nbsp;text,
+      java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses text that is already decoded (for example the argument of <code>setContent</code>); the XML declaration's encoding is
+ ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlResult</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html#parseDocument(byte[], java.lang.String, java.lang.String)">parseDocument</A></B>(byte[]&nbsp;bytes,
+              java.lang.String&nbsp;httpCharset,
+              java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses bytes with a new parser (shortcut).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlResult</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html#parseDocument(java.lang.String, java.lang.String)">parseDocument</A></B>(java.lang.String&nbsp;text,
+              java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses text with a new parser (shortcut).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html#setLimits(org.duckdns.hjow.swingwebpanel.content.xhtml.XhtmlLimits)">setLimits</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlLimits</A>&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the limits of the parse (copied when the parse starts); call before parsing.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html#setListener(org.duckdns.hjow.swingwebpanel.html.ParserListener)">setListener</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/html/ParserListener.html" title="interface in org.duckdns.hjow.swingwebpanel.html">ParserListener</A>&nbsp;l)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the listener that receives the same notifications as for HTML (scripts, style sheets, title, base URL and so on); call before
+ parsing.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="CONTENT_TYPE"><!-- --></A><H3>
+CONTENT_TYPE</H3>
+<PRE>
+public static final java.lang.String <B>CONTENT_TYPE</B></PRE>
+<DL>
+<DD>The content type of the documents that this parser creates.
+ <p>
+ 이 파서가 만드는 문서의 콘텐츠 타입.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.content.xhtml.XhtmlParser.CONTENT_TYPE">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="XhtmlParser()"><!-- --></A><H3>
+XhtmlParser</H3>
+<PRE>
+public <B>XhtmlParser</B>()</PRE>
+<DL>
+<DD>Creates a parser with a new empty document of the content type <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html#CONTENT_TYPE"><CODE>CONTENT_TYPE</CODE></A>.
+ <p>
+ 콘텐츠 타입이 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html#CONTENT_TYPE"><CODE>CONTENT_TYPE</CODE></A> 인 새 빈 문서를 가진 파서를 만든다.
+<P>
+</DL>
+<HR>
+
+<A NAME="XhtmlParser(org.duckdns.hjow.swingwebpanel.dom.Document)"><!-- --></A><H3>
+XhtmlParser</H3>
+<PRE>
+public <B>XhtmlParser</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;document)</PRE>
+<DL>
+<DD>Creates a parser for a document that the caller has prepared (for example with a selector engine installed). The document must be an
+ XML document without children.
+ <p>
+ 호출자가 준비한 문서(예: 선택자 엔진이 설치된 문서)를 위한 파서를 만든다. 문서는 자식이 없는 XML 문서여야 한다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>document</CODE> - the empty XML document / 빈 XML 문서
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the document is null, an HTML document or not empty / 문서가 null, HTML 문서, 비어 있지 않은 문서이면</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getDocument()"><!-- --></A><H3>
+getDocument</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A> <B>getDocument</B>()</PRE>
+<DL>
+<DD>Returns the document that is (or will be) filled by the parse. The caller may install services on it before the parse.
+ <p>
+ 해석이 채우는(채울) 문서를 반환한다. 호출자는 해석 전에 여기에 서비스를 설치할 수 있다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the document / 문서</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setListener(org.duckdns.hjow.swingwebpanel.html.ParserListener)"><!-- --></A><H3>
+setListener</H3>
+<PRE>
+public void <B>setListener</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/html/ParserListener.html" title="interface in org.duckdns.hjow.swingwebpanel.html">ParserListener</A>&nbsp;l)</PRE>
+<DL>
+<DD>Sets the listener that receives the same notifications as for HTML (scripts, style sheets, title, base URL and so on); call before
+ parsing.
+ <p>
+ HTML 과 같은 통지(스크립트, 스타일시트, 제목, 기준 URL 등)를 받는 리스너를 지정한다. 해석 전에 호출한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>l</CODE> - the listener or null / 리스너 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setLimits(org.duckdns.hjow.swingwebpanel.content.xhtml.XhtmlLimits)"><!-- --></A><H3>
+setLimits</H3>
+<PRE>
+public void <B>setLimits</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlLimits</A>&nbsp;value)</PRE>
+<DL>
+<DD>Sets the limits of the parse (copied when the parse starts); call before parsing.
+ <p>
+ 해석의 상한을 지정한다(해석을 시작할 때 복사한다). 해석 전에 호출한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - the limits, not null / 상한(null 불가)
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the value is null / null 이면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLimits()"><!-- --></A><H3>
+getLimits</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlLimits</A> <B>getLimits</B>()</PRE>
+<DL>
+<DD>Returns a copy of the limits.
+ <p>
+ 상한의 복사본을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the limits / 상한</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parse(byte[], java.lang.String, java.lang.String)"><!-- --></A><H3>
+parse</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlResult</A> <B>parse</B>(byte[]&nbsp;bytes,
+                         java.lang.String&nbsp;httpCharset,
+                         java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Decodes the bytes of a response (see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlDecoder.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><CODE>XmlDecoder</CODE></A>) and parses them.
+ <p>
+ 응답 바이트를 디코딩하고(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlDecoder.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><CODE>XmlDecoder</CODE></A> 참조) 해석한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>bytes</CODE> - the response body / 응답 본문<DD><CODE>httpCharset</CODE> - the charset label of the Content-Type header or null / Content-Type 헤더의 charset 라벨 또는 null<DD><CODE>url</CODE> - the document URL or null / 문서 URL 또는 null
+<DT><B>Returns:</B><DD>the result; it never throws for malformed input / 결과. 잘못된 입력에도 예외를 던지지 않는다
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if this parser has parsed already / 이 파서가 이미 해석했으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parse(java.lang.String, java.lang.String)"><!-- --></A><H3>
+parse</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlResult</A> <B>parse</B>(java.lang.String&nbsp;text,
+                         java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Parses text that is already decoded (for example the argument of <code>setContent</code>); the XML declaration's encoding is
+ ignored. A leading byte order mark character is skipped.
+ <p>
+ 이미 디코딩된 텍스트(예: <code>setContent</code> 의 인수)를 해석한다. XML 선언의 인코딩은 무시한다. 앞의 바이트 순서 표시 문자는 건너뛴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the document text / 문서 텍스트<DD><CODE>url</CODE> - the document URL or null / 문서 URL 또는 null
+<DT><B>Returns:</B><DD>the result; it never throws for malformed input / 결과. 잘못된 입력에도 예외를 던지지 않는다
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the text is null / 텍스트가 null 이면
+<DD><CODE>java.lang.IllegalStateException</CODE> - if this parser has parsed already / 이 파서가 이미 해석했으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseDocument(java.lang.String, java.lang.String)"><!-- --></A><H3>
+parseDocument</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlResult</A> <B>parseDocument</B>(java.lang.String&nbsp;text,
+                                        java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Parses text with a new parser (shortcut).
+ <p>
+ 새 파서로 텍스트를 해석한다(줄임).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the document text / 문서 텍스트<DD><CODE>url</CODE> - the document URL or null / 문서 URL 또는 null
+<DT><B>Returns:</B><DD>the result / 결과</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseDocument(byte[], java.lang.String, java.lang.String)"><!-- --></A><H3>
+parseDocument</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XhtmlResult</A> <B>parseDocument</B>(byte[]&nbsp;bytes,
+                                        java.lang.String&nbsp;httpCharset,
+                                        java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Parses bytes with a new parser (shortcut).
+ <p>
+ 새 파서로 바이트를 해석한다(줄임).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>bytes</CODE> - the response body / 응답 본문<DD><CODE>httpCharset</CODE> - the charset label or null / charset 라벨 또는 null<DD><CODE>url</CODE> - the document URL or null / 문서 URL 또는 null
+<DT><B>Returns:</B><DD>the result / 결과</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlLimits.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="XhtmlParser.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

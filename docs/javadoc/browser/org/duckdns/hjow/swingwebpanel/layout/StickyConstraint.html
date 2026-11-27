@@ -1,0 +1,290 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+StickyConstraint
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="StickyConstraint";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/ShapeImageSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StyleSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/StickyConstraint.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="StickyConstraint.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.layout</FONT>
+<BR>
+Class StickyConstraint</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.layout.StickyConstraint</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>StickyConstraint</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The geometry that decides how far a <code>position:sticky</code> box is shifted while the page scrolls (CSS Positioned Layout Module
+ Level 3, section 3.4 "Sticky positioning", https://www.w3.org/TR/css-position-3/#sticky-pos). The layout puts a sticky box where it would be in the normal flow;
+ what is shifted is the painting and the hit test: for each side with an <code>top</code>/<code>right</code>/<code>bottom</code>/<code>left</code>
+ inset that is not <code>auto</code>, a box whose border edge would be outside the sticky view rectangle (the viewport inset by that value) is moved
+ inward of that edge as far as it can while its margin box (the "position box") stays inside the content box of its containing block. When the box is
+ too large for both insets of one axis, the start edge wins (top; left, or right in a right-to-left box). The shift is computed from the
+ viewport rectangle, which is given in the coordinates of the box (so an ancestor transform is taken into account by the caller).
+ <p>
+ Documented limits: the nearest scroll container is always the viewport. The engine has no scrolling <code>overflow</code> boxes (those clip
+ only; see EXC-13), so a box inside an <code>overflow</code> box other than <code>visible</code> is never shifted (its scroll container does not
+ scroll); inline (non-atomic) boxes are not shifted; the geometry queries of the DOM (<code>getBoundingClientRect</code>) and the highlight of a
+ text selection report the unshifted position.
+ <p>
+ 페이지가 스크롤될 때 <code>position:sticky</code> 상자를 얼마나 옮길지 정하는 기하(CSS Positioned Layout Module Level 3 3.4 절 "Sticky positioning").
+ 레이아웃은 sticky 상자를 정상 흐름에서의 자리에 두고, 옮기는 것은 그리기와 히트 테스트이다: <code>top</code>/<code>right</code>/<code>bottom</code>/<code>left</code>
+ 가 <code>auto</code> 가 아닌 변마다, border 가장자리가 sticky 뷰 사각형(그 값만큼 줄인 뷰포트) 밖에 나가게 될 상자를 그 가장자리 안쪽으로, 마진 상자("위치 상자")가
+ 포함 블록의 콘텐츠 상자 안에 머무는 한도까지 옮긴다. 한 축의 두 값을 모두 만족시킬 수 없을 만큼 상자가 크면 시작 가장자리(위쪽, 왼쪽. 오른쪽에서 왼쪽 상자는 오른쪽)가
+ 이긴다. 옮김은 상자의 좌표로 준 뷰포트 사각형에서 계산한다(조상의 변환은 호출자가 반영한다).
+ <p>
+ 문서화된 한계: 가장 가까운 스크롤 컨테이너는 항상 뷰포트이다. 이 엔진에는 스크롤하는 <code>overflow</code> 상자가 없으므로(자르기만 함. EXC-13 참조)
+ <code>visible</code> 이 아닌 <code>overflow</code> 상자 안의 상자는 옮기지 않는다(그 스크롤 컨테이너는 스크롤되지 않는다). 인라인(원자적이 아닌) 상자는 옮기지 않으며,
+ DOM 의 기하 조회(<code>getBoundingClientRect</code>)와 텍스트 선택 강조는 옮기기 전 위치를 알려 준다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StickyConstraint.html#axisShift(double, double, double, double, double, double, double, double, double, double, boolean)">axisShift</A></B>(double&nbsp;ps,
+          double&nbsp;pe,
+          double&nbsp;bs,
+          double&nbsp;be,
+          double&nbsp;cs,
+          double&nbsp;ce,
+          double&nbsp;vs,
+          double&nbsp;ve,
+          double&nbsp;insetS,
+          double&nbsp;insetE,
+          boolean&nbsp;startWins)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Computes the shift along one axis (CSS Positioned Layout 3 section 3.4): the constraint of the edge that wins is applied last.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StickyConstraint.html#shift(java.awt.geom.Rectangle2D)">shift</A></B>(java.awt.geom.Rectangle2D&nbsp;viewport)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Computes the shift of the box for a viewport rectangle given in the coordinates of the box.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="shift(java.awt.geom.Rectangle2D)"><!-- --></A><H3>
+shift</H3>
+<PRE>
+public double[] <B>shift</B>(java.awt.geom.Rectangle2D&nbsp;viewport)</PRE>
+<DL>
+<DD>Computes the shift of the box for a viewport rectangle given in the coordinates of the box.
+ <p>
+ 상자의 좌표로 준 뷰포트 사각형에 대한 상자의 이동량을 계산한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>viewport</CODE> - the viewport in the coordinates of the box / 상자의 좌표로 나타낸 뷰포트
+<DT><B>Returns:</B><DD>{dx, dy} / {dx, dy}</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="axisShift(double, double, double, double, double, double, double, double, double, double, boolean)"><!-- --></A><H3>
+axisShift</H3>
+<PRE>
+public static double <B>axisShift</B>(double&nbsp;ps,
+                               double&nbsp;pe,
+                               double&nbsp;bs,
+                               double&nbsp;be,
+                               double&nbsp;cs,
+                               double&nbsp;ce,
+                               double&nbsp;vs,
+                               double&nbsp;ve,
+                               double&nbsp;insetS,
+                               double&nbsp;insetE,
+                               boolean&nbsp;startWins)</PRE>
+<DL>
+<DD>Computes the shift along one axis (CSS Positioned Layout 3 section 3.4): the constraint of the edge that wins is applied last.
+ <p>
+ 한 축의 이동량을 계산한다(CSS Positioned Layout 3 3.4 절): 이기는 가장자리의 제약을 마지막에 적용한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ps</CODE> - start of the margin box / 마진 상자의 시작<DD><CODE>pe</CODE> - end of the margin box / 마진 상자의 끝<DD><CODE>bs</CODE> - start of the border box / border 상자의 시작<DD><CODE>be</CODE> - end of the border box / border 상자의 끝<DD><CODE>cs</CODE> - start of the content box of the containing block / 포함 블록 콘텐츠 상자의 시작<DD><CODE>ce</CODE> - end of the content box of the containing block / 포함 블록 콘텐츠 상자의 끝<DD><CODE>vs</CODE> - start of the viewport / 뷰포트의 시작<DD><CODE>ve</CODE> - end of the viewport / 뷰포트의 끝<DD><CODE>insetS</CODE> - the inset of the start side (NaN for auto) / 시작 쪽 오프셋(auto 는 NaN)<DD><CODE>insetE</CODE> - the inset of the end side (NaN for auto) / 끝 쪽 오프셋(auto 는 NaN)<DD><CODE>startWins</CODE> - true if the start edge wins when both cannot be met / 둘을 모두 만족시킬 수 없을 때 시작 가장자리가 이기면 true
+<DT><B>Returns:</B><DD>the shift / 이동량</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/ShapeImageSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StyleSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/StickyConstraint.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="StickyConstraint.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

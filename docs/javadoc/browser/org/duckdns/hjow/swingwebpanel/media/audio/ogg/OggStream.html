@@ -1,0 +1,540 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+OggStream
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="OggStream";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggReader.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio.ogg"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggStream.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="OggStream.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.audio.ogg</FONT>
+<BR>
+Class OggStream</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggStream</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>OggStream</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+One logical bitstream of an Ogg file: its serial number, the codec recognized from its first packet and an index of its pages (offset,
+ granule position, flags) that makes seeking possible without reading the whole file again. Use <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggStream.html#openPackets(int)"><CODE>openPackets(int)</CODE></A> to read its
+ packets.
+ <p>
+ Ogg 파일의 논리 비트스트림 하나: 시리얼 번호, 첫 패킷으로 알아낸 코덱, 그리고 파일 전체를 다시 읽지 않고 탐색할 수 있게 하는 페이지 색인(위치,
+ 그래뉼 위치, 플래그). 패킷은 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggStream.html#openPackets(int)"><CODE>openPackets(int)</CODE></A> 로 읽는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggStream.html#UNKNOWN">UNKNOWN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The codec name for streams that are not recognized.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggStream.html#detectCodec(byte[], int, int)">detectCodec</A></B>(byte[]&nbsp;d,
+            int&nbsp;off,
+            int&nbsp;len)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Recognizes a codec from the first packet of a logical stream.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggStream.html#findPageAfterGranule(long)">findPageAfterGranule</A></B>(long&nbsp;granule)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of the first page whose granule position is greater than the given one, or the page count if there is none.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggStream.html#getCodec()">getCodec</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the codec name recognized from the first packet.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;byte[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggStream.html#getFirstPacket()">getFirstPacket</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy of the first packet (the identification header of most codecs), or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggStream.html#getLastGranule()">getLastGranule</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the granule position of the last page that has one, or -1.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggStream.html#getPageCount()">getPageCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of pages of this stream found in the file.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggStream.html#getPageGranule(int)">getPageGranule</A></B>(int&nbsp;index)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the granule position of a page (-1 if no packet ends on it).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggStream.html#getPageOffset(int)">getPageOffset</A></B>(int&nbsp;index)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the offset of a page in the file data.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggStream.html#getSerial()">getSerial</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the serial number.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggStream.html#isEnded()">isEnded</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a page flagged as the end of the stream was found.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggStream.html#isPageContinued(int)">isPageContinued</A></B>(int&nbsp;index)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the first packet of a page continues a packet of the previous page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggPacketStream.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio.ogg">OggPacketStream</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggStream.html#openPackets(int)">openPackets</A></B>(int&nbsp;startPage)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opens a sequential reader of the packets of this stream, starting at a page.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="UNKNOWN"><!-- --></A><H3>
+UNKNOWN</H3>
+<PRE>
+public static final java.lang.String <B>UNKNOWN</B></PRE>
+<DL>
+<DD>The codec name for streams that are not recognized.
+ <p>
+ 알아보지 못한 스트림의 코덱 이름.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.audio.ogg.OggStream.UNKNOWN">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="detectCodec(byte[], int, int)"><!-- --></A><H3>
+detectCodec</H3>
+<PRE>
+public static java.lang.String <B>detectCodec</B>(byte[]&nbsp;d,
+                                           int&nbsp;off,
+                                           int&nbsp;len)</PRE>
+<DL>
+<DD>Recognizes a codec from the first packet of a logical stream.
+ <p>
+ 논리 스트림의 첫 패킷으로 코덱을 알아본다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>d</CODE> - data / 데이터<DD><CODE>off</CODE> - offset of the packet / 패킷의 위치<DD><CODE>len</CODE> - length of the packet / 패킷의 길이
+<DT><B>Returns:</B><DD>"vorbis", "opus", "flac", "speex", "theora", "skeleton" or <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggStream.html#UNKNOWN"><CODE>UNKNOWN</CODE></A> / "vorbis", "opus", "flac", "speex", "theora", "skeleton" 또는 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggStream.html#UNKNOWN"><CODE>UNKNOWN</CODE></A></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSerial()"><!-- --></A><H3>
+getSerial</H3>
+<PRE>
+public int <B>getSerial</B>()</PRE>
+<DL>
+<DD>Returns the serial number.
+ <p>
+ 시리얼 번호를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>serial number / 시리얼 번호</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCodec()"><!-- --></A><H3>
+getCodec</H3>
+<PRE>
+public java.lang.String <B>getCodec</B>()</PRE>
+<DL>
+<DD>Returns the codec name recognized from the first packet.
+ <p>
+ 첫 패킷으로 알아낸 코덱 이름을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>codec name / 코덱 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFirstPacket()"><!-- --></A><H3>
+getFirstPacket</H3>
+<PRE>
+public byte[] <B>getFirstPacket</B>()</PRE>
+<DL>
+<DD>Returns a copy of the first packet (the identification header of most codecs), or null.
+ <p>
+ 첫 패킷(대부분의 코덱에서 식별 헤더)의 복사본을 반환한다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>first packet or null / 첫 패킷 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPageCount()"><!-- --></A><H3>
+getPageCount</H3>
+<PRE>
+public int <B>getPageCount</B>()</PRE>
+<DL>
+<DD>Returns the number of pages of this stream found in the file.
+ <p>
+ 파일에서 찾은 이 스트림의 페이지 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>page count / 페이지 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPageOffset(int)"><!-- --></A><H3>
+getPageOffset</H3>
+<PRE>
+public int <B>getPageOffset</B>(int&nbsp;index)</PRE>
+<DL>
+<DD>Returns the offset of a page in the file data.
+ <p>
+ 파일 데이터 안에서 페이지의 위치를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>index</CODE> - page number within this stream / 이 스트림 안에서의 페이지 번호
+<DT><B>Returns:</B><DD>offset / 위치</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isPageContinued(int)"><!-- --></A><H3>
+isPageContinued</H3>
+<PRE>
+public boolean <B>isPageContinued</B>(int&nbsp;index)</PRE>
+<DL>
+<DD>Tells whether the first packet of a page continues a packet of the previous page.
+ <p>
+ 페이지의 첫 패킷이 이전 페이지의 패킷을 이어가는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>index</CODE> - page number within this stream / 이 스트림 안에서의 페이지 번호
+<DT><B>Returns:</B><DD>true if the page is a continuation / 이어지는 페이지이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPageGranule(int)"><!-- --></A><H3>
+getPageGranule</H3>
+<PRE>
+public long <B>getPageGranule</B>(int&nbsp;index)</PRE>
+<DL>
+<DD>Returns the granule position of a page (-1 if no packet ends on it).
+ <p>
+ 페이지의 그래뉼 위치를 반환한다(끝나는 패킷이 없으면 -1).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>index</CODE> - page number within this stream / 이 스트림 안에서의 페이지 번호
+<DT><B>Returns:</B><DD>granule position / 그래뉼 위치</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLastGranule()"><!-- --></A><H3>
+getLastGranule</H3>
+<PRE>
+public long <B>getLastGranule</B>()</PRE>
+<DL>
+<DD>Returns the granule position of the last page that has one, or -1.
+ <p>
+ 그래뉼 위치가 있는 마지막 페이지의 그래뉼 위치를 반환한다. 없으면 -1.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>granule position / 그래뉼 위치</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isEnded()"><!-- --></A><H3>
+isEnded</H3>
+<PRE>
+public boolean <B>isEnded</B>()</PRE>
+<DL>
+<DD>Tells whether a page flagged as the end of the stream was found.
+ <p>
+ 스트림 끝으로 표시된 페이지를 찾았는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if the stream is properly ended / 스트림이 제대로 끝나 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="findPageAfterGranule(long)"><!-- --></A><H3>
+findPageAfterGranule</H3>
+<PRE>
+public int <B>findPageAfterGranule</B>(long&nbsp;granule)</PRE>
+<DL>
+<DD>Returns the number of the first page whose granule position is greater than the given one, or the page count if there is none.
+ Pages without a granule position are skipped.
+ <p>
+ 그래뉼 위치가 주어진 값보다 큰 첫 페이지의 번호를 반환한다. 없으면 페이지 수를 반환한다. 그래뉼 위치가 없는 페이지는 건너뛴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>granule</CODE> - granule position / 그래뉼 위치
+<DT><B>Returns:</B><DD>page number / 페이지 번호</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="openPackets(int)"><!-- --></A><H3>
+openPackets</H3>
+<PRE>
+public <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggPacketStream.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio.ogg">OggPacketStream</A> <B>openPackets</B>(int&nbsp;startPage)</PRE>
+<DL>
+<DD>Opens a sequential reader of the packets of this stream, starting at a page. A packet that continues from the page before the start
+ page is skipped.
+ <p>
+ 이 스트림의 패킷을 순서대로 읽는 읽기 객체를 연다. 지정한 페이지에서 시작하며 시작 페이지 앞에서 이어 오는 패킷은 건너뛴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>startPage</CODE> - page number within this stream (0 for the beginning) / 이 스트림 안에서의 페이지 번호(처음이면 0)
+<DT><B>Returns:</B><DD>the packet reader / 패킷 읽기 객체</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggReader.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio.ogg"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/audio/ogg/OggStream.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="OggStream.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

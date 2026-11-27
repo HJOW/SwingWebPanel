@@ -1,0 +1,962 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+OutputRenderDriver
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="OutputRenderDriver";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OscillatorType.html" title="enum in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.Timestamp.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="OutputRenderDriver.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.webaudio</FONT>
+<BR>
+Class OutputRenderDriver</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.webaudio.OutputRenderDriver</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD>java.lang.Runnable, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Driver.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">RealtimeAudioContext.Driver</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public final class <B>OutputRenderDriver</B><DT>extends java.lang.Object<DT>implements <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Driver.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">RealtimeAudioContext.Driver</A>, java.lang.Runnable</DL>
+</PRE>
+
+<P>
+The driver of a real-time context that plays through a sound output (plan item P25-07): it replaces the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ClockRenderDriver.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>ClockRenderDriver</CODE></A> when the
+ audio should be heard. One daemon <em>rendering thread</em> (<code>swingwebpanel-audio-render-N</code>, a high priority) renders chunks of
+ the context and writes each chunk to an <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/AudioOutput.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>AudioOutput</CODE></A>; the output makes the write wait while its buffer is full, which paces the thread
+ to real speed and keeps the buffer full. The class is pure Java; the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>OutputFactory</CODE></A> decides which device is used (the default is the
+ Java Sound line of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/SystemOutputFactory.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>SystemOutputFactory</CODE></A>).
+ <p>
+ <strong>Segments.</strong> The thread lives from the first <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#start(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.Renderer)"><CODE>start(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.Renderer)</CODE></A> to <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#close()"><CODE>close()</CODE></A> and works in <em>segments</em>: each time the
+ context runs (after <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#start(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.Renderer)"><CODE>start(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.Renderer)</CODE></A> or a resume) it opens the output, renders chunks until a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#pause()"><CODE>pause()</CODE></A> or <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#close()"><CODE>close()</CODE></A>, and
+ releases the output. A suspended context therefore holds no sound device (and a pause is silent at once: the queued audio is discarded,
+ the context time continues from the rendered frame when it resumes). If the device cannot be opened, or cannot play, the segment plays into
+ a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/NullOutput.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>NullOutput</CODE></A> instead: nothing is heard, the context time still advances at real speed and the graph works (the same role as the
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ClockRenderDriver.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>ClockRenderDriver</CODE></A>, but through the same code path and with the same lead of the time as a real device); the next segment tries the
+ device again, so a device that appears later is used. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#getOutputProblem()"><CODE>getOutputProblem()</CODE></A> tells why the device was not used.
+ <p>
+ <strong>Buffers and latency.</strong> The latency in seconds that the context was created with decides two sizes. The <em>chunk</em> is the
+ number of render quanta that are rendered before one write, half of the latency in quanta, from 1 to <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#MAX_CHUNK_QUANTA">16</A> (10 ms:
+ 1 quantum, 20 ms: 3, 100 ms: 16 at 44100 Hz); it is the unit of the base latency of the thread. The <em>buffer</em> is the audio that is kept
+ queued for the device, the larger of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#MIN_BUFFER_SECONDS">0.05</A> seconds and <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#BUFFER_PER_LATENCY">4</A> times the latency, rounded up to a whole
+ number of chunks (at least two). A Java Sound line is not reliable with a buffer of a few milliseconds, which is why the buffer is not the
+ latency itself. After every write the thread reports the queued audio in seconds to the context (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#reportOutputLatency(double)"><CODE>RealtimeAudioContext.reportOutputLatency(double)</CODE></A>),
+ which is what <code>outputLatency</code> shows. <code>currentTime</code> counts the rendered frames, so it leads the sound that is heard by that
+ queue; <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#getOutputTimestamp()"><CODE>getOutputTimestamp()</CODE></A> tells which context time is heard now.
+ <p>
+ <strong>Underruns.</strong> If rendering is slower than real time (a heavy graph, a busy computer, a late <code>ScriptProcessorNode</code> handler)
+ the device runs dry. The thread then renders and writes as fast as it can until the buffer is full again: no audio is dropped or repeated, the
+ latency does not grow, and the gap in the sound lasts as long as the shortage. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#getUnderrunCount()"><CODE>getUnderrunCount()</CODE></A> counts the writes that found the
+ output empty.
+ <p>
+ <strong>Threads.</strong> <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#start(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.Renderer)"><CODE>start(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.Renderer)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#pause()"><CODE>pause()</CODE></A> and <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#close()"><CODE>close()</CODE></A> return at once and may be called from any thread (the context
+ serializes them); they only set flags, wake the thread and stop the output so that a write that waits returns. The thread is the only caller
+ of the renderer and of the output, and it never calls a script.
+ <p>
+ 소리 출력으로 재생하는 실시간 컨텍스트의 드라이버(계획 P25-07): 소리가 들려야 할 때 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ClockRenderDriver.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>ClockRenderDriver</CODE></A> 를 대신한다. 데몬 <em>렌더링 스레드</em>
+ 하나(<code>swingwebpanel-audio-render-N</code>, 높은 우선순위)가 컨텍스트를 청크 단위로 렌더링해 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/AudioOutput.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>AudioOutput</CODE></A> 에 쓴다. 출력은 버퍼가 가득 차 있으면
+ 쓰기를 기다리게 하며, 이것이 스레드를 실제 속도로 맞추고 버퍼를 가득 채워 둔다. 클래스는 순수 Java 이며 어떤 장치를 쓸지는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>OutputFactory</CODE></A> 가 정한다
+ (기본은 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/SystemOutputFactory.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>SystemOutputFactory</CODE></A> 의 Java Sound 라인).
+ <p>
+ <strong>구간.</strong> 스레드는 처음 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#start(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.Renderer)"><CODE>start(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.Renderer)</CODE></A> 부터 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#close()"><CODE>close()</CODE></A> 까지 살며 <em>구간</em>으로 일한다: 컨텍스트가 도는 구간마다(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#start(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.Renderer)"><CODE>start(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.Renderer)</CODE></A> 나 재개
+ 뒤) 출력을 열고, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#pause()"><CODE>pause()</CODE></A> 나 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#close()"><CODE>close()</CODE></A> 까지 청크를 렌더링하고, 출력을 해제한다. 그래서 일시정지된 컨텍스트는 소리 장치를 붙잡지 않는다(일시정지는
+ 곧바로 조용해진다: 큐의 오디오는 버려지고, 컨텍스트 시간은 재개할 때 렌더링한 프레임에서 이어진다). 장치를 열 수 없거나 재생할 수 없으면 그 구간은 대신
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/NullOutput.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>NullOutput</CODE></A> 으로 재생한다: 아무것도 들리지 않지만 컨텍스트 시간은 실제 속도로 진행하고 그래프는 동작한다(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ClockRenderDriver.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>ClockRenderDriver</CODE></A> 와 같은 역할이지만 같은
+ 코드 경로를 지나고 실제 장치와 같은 시간의 앞섬을 가진다). 다음 구간은 장치를 다시 시도하므로 나중에 나타난 장치를 쓴다. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#getOutputProblem()"><CODE>getOutputProblem()</CODE></A> 이 장치를
+ 쓰지 못한 이유를 알려 준다.
+ <p>
+ <strong>버퍼와 지연.</strong> 컨텍스트를 만들 때의 지연(초)이 두 크기를 정한다. <em>청크</em>는 한 번 쓰기 전에 렌더링하는 render quantum 의 수로, 지연(quantum 수)의 절반이며
+ 1 ~ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#MAX_CHUNK_QUANTA">16</A> 이다(44100 Hz 에서 10 ms: 1, 20 ms: 3, 100 ms: 16). 스레드의 기본 지연의 단위이다. <em>버퍼</em>는 장치를 위해 쌓아 두는 오디오로,
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#MIN_BUFFER_SECONDS">0.05</A> 초와 지연의 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#BUFFER_PER_LATENCY">4</A> 배 중 큰 값을 청크의 정수 배(최소 둘)로 올림한 것이다. Java Sound 라인은 수 밀리초의 버퍼에서
+ 믿을 수 없으므로 버퍼는 지연 그 자체가 아니다. 스레드는 쓸 때마다 큐의 오디오(초)를 컨텍스트에 알리며(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#reportOutputLatency(double)"><CODE>RealtimeAudioContext.reportOutputLatency(double)</CODE></A>) 이것이
+ <code>outputLatency</code> 로 보인다. <code>currentTime</code> 은 렌더링한 프레임을 세므로 들리는 소리보다 그 큐만큼 앞선다. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#getOutputTimestamp()"><CODE>getOutputTimestamp()</CODE></A> 는 지금 들리는
+ 컨텍스트 시간을 알려 준다.
+ <p>
+ <strong>언더런.</strong> 렌더링이 실시간보다 느리면(무거운 그래프, 바쁜 컴퓨터, 늦은 <code>ScriptProcessorNode</code> 핸들러) 장치가 빈다. 그러면 스레드는 버퍼가 다시 가득 찰
+ 때까지 가능한 한 빨리 렌더링하고 쓰므로 오디오가 버려지거나 반복되지 않고 지연이 커지지 않으며, 소리의 끊김은 부족했던 시간만큼 이어진다. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#getUnderrunCount()"><CODE>getUnderrunCount()</CODE></A> 는 출력이
+ 비어 있는 것을 발견한 쓰기의 횟수를 센다.
+ <p>
+ <strong>스레드.</strong> <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#start(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.Renderer)"><CODE>start(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.Renderer)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#pause()"><CODE>pause()</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#close()"><CODE>close()</CODE></A> 는 곧바로 돌아오며 어느 스레드에서나 부를 수 있다(컨텍스트가 직렬화한다). 플래그를 정하고 스레드를
+ 깨우고, 기다리는 쓰기가 돌아오도록 출력을 멈출 뿐이다. 렌더러와 출력을 부르는 것은 이 스레드뿐이며 스크립트는 부르지 않는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.Timestamp.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">OutputRenderDriver.Timestamp</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The estimate of when a frame is heard (the result of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#getOutputTimestamp()"><CODE>getOutputTimestamp()</CODE></A>).</TD>
+</TR>
+</TABLE>
+&nbsp;<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#BUFFER_PER_LATENCY">BUFFER_PER_LATENCY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The buffer in latencies: the buffer is this many times the latency of the context (if that is more than the smallest buffer).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#MAX_CHUNK_QUANTA">MAX_CHUNK_QUANTA</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The largest chunk in render quanta.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#MIN_BUFFER_SECONDS">MIN_BUFFER_SECONDS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The smallest buffer in seconds.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#THREAD_NAME_PREFIX">THREAD_NAME_PREFIX</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The prefix of the name of every rendering thread of a real-time context (the same as that of the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ClockRenderDriver.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>ClockRenderDriver</CODE></A>).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#OutputRenderDriver(java.lang.String, org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory, double)">OutputRenderDriver</A></B>(java.lang.String&nbsp;threadName,
+                   <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output">OutputFactory</A>&nbsp;outputs,
+                   double&nbsp;latencySeconds)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a driver; <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#attach(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext)"><CODE>attach(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext)</CODE></A> or <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#createContext(float, double, org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory, java.lang.String)"><CODE>createContext(float, double, org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory, java.lang.String)</CODE></A> connects it to its context.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#attach(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext)">attach</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">RealtimeAudioContext</A>&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Connects the driver to its context so that the latency of the output is reported to it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#close()">close</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stops the rendering for good: the thread ends and the output is released.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">RealtimeAudioContext</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#createContext(float, double, org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory, java.lang.String)">createContext</A></B>(float&nbsp;sampleRate,
+              double&nbsp;latencySeconds,
+              <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output">OutputFactory</A>&nbsp;outputs,
+              java.lang.String&nbsp;threadName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a real-time context that is played by a new driver: the context is built with the driver and the driver is attached to it, so the
+ output latency reaches the context.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#getBufferFrames()">getBufferFrames</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the frames of the output buffer of the last segment.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#getChunkFrames()">getChunkFrames</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the frames of one chunk of the last segment.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#getOutputDescription()">getOutputDescription</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the description of the output that was opened last (for example <code>Java Sound 48000 Hz 2 ch</code> or <code>silent</code>),
+ or null if none was opened.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#getOutputProblem()">getOutputProblem</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the reason why the sound device was not used the last time (the segment played silently instead), or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.Timestamp.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">OutputRenderDriver.Timestamp</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#getOutputTimestamp()">getOutputTimestamp</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the context time that the output plays now and the clock reading at which that is true.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Throwable</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#getRenderFailure()">getRenderFailure</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the failure that stopped the last segment unexpectedly (an exception of the renderer or the output), or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#getSegmentCount()">getSegmentCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of segments that were started (one per run of the context).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Thread</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#getThread()">getThread</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the rendering thread, or null before the first start (a test checks its name and that it ends).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#getUnderrunCount()">getUnderrunCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of times that the output was empty when a chunk was ready to be written while the output played.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#isOutputAudible()">isOutputAudible</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the output that was opened last plays to a sound device (false for the silent output).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#pause()">pause</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stops the rendering: the segment ends after the chunk that is being rendered, the queued audio is discarded and the output is released.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#restart()">restart</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ends the segment that runs now and starts the next one at once, so that a new factory (see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#setOutputFactory(org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory)"><CODE>setOutputFactory(org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory)</CODE></A>) is used from now on: the output of the old segment
+ is released (the audio that was queued in it is discarded, at most one buffer of it, 50 to 80 ms) and the next segment opens a new output.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#run()">run</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The loop of the rendering thread: waits while the context does not run and plays one segment each time it runs.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#setOutputFactory(org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory)">setOutputFactory</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output">OutputFactory</A>&nbsp;factory)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the factory of the outputs for the next segment (a running segment keeps its output until a pause and a resume); null means the system
+ output.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output">OutputFactory</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#silentOutputs()">silentOutputs</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a factory of silent outputs: the segments that it serves play into a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/NullOutput.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>NullOutput</CODE></A> on purpose (the time of the context runs at real
+ speed and nothing is heard, and no problem is reported).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#start(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.Renderer)">start</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Renderer.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">RealtimeAudioContext.Renderer</A>&nbsp;r)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts the rendering, or lets it continue if it runs: the rendering thread is created at the first start and opens the output.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="THREAD_NAME_PREFIX"><!-- --></A><H3>
+THREAD_NAME_PREFIX</H3>
+<PRE>
+public static final java.lang.String <B>THREAD_NAME_PREFIX</B></PRE>
+<DL>
+<DD>The prefix of the name of every rendering thread of a real-time context (the same as that of the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ClockRenderDriver.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>ClockRenderDriver</CODE></A>).
+ <p>
+ 실시간 컨텍스트의 모든 렌더링 스레드 이름의 접두사(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ClockRenderDriver.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>ClockRenderDriver</CODE></A> 와 같다).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.OutputRenderDriver.THREAD_NAME_PREFIX">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MIN_BUFFER_SECONDS"><!-- --></A><H3>
+MIN_BUFFER_SECONDS</H3>
+<PRE>
+public static final double <B>MIN_BUFFER_SECONDS</B></PRE>
+<DL>
+<DD>The smallest buffer in seconds.
+ <p>
+ 가장 작은 버퍼(초).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.OutputRenderDriver.MIN_BUFFER_SECONDS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BUFFER_PER_LATENCY"><!-- --></A><H3>
+BUFFER_PER_LATENCY</H3>
+<PRE>
+public static final int <B>BUFFER_PER_LATENCY</B></PRE>
+<DL>
+<DD>The buffer in latencies: the buffer is this many times the latency of the context (if that is more than the smallest buffer).
+ <p>
+ 지연 배수의 버퍼: 컨텍스트 지연의 이 배수가 버퍼이다(가장 작은 버퍼보다 클 때).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.OutputRenderDriver.BUFFER_PER_LATENCY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAX_CHUNK_QUANTA"><!-- --></A><H3>
+MAX_CHUNK_QUANTA</H3>
+<PRE>
+public static final int <B>MAX_CHUNK_QUANTA</B></PRE>
+<DL>
+<DD>The largest chunk in render quanta.
+ <p>
+ 가장 큰 청크(render quantum 수).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.OutputRenderDriver.MAX_CHUNK_QUANTA">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="OutputRenderDriver(java.lang.String, org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory, double)"><!-- --></A><H3>
+OutputRenderDriver</H3>
+<PRE>
+public <B>OutputRenderDriver</B>(java.lang.String&nbsp;threadName,
+                          <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output">OutputFactory</A>&nbsp;outputs,
+                          double&nbsp;latencySeconds)</PRE>
+<DL>
+<DD>Creates a driver; <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#attach(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext)"><CODE>attach(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext)</CODE></A> or <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#createContext(float, double, org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory, java.lang.String)"><CODE>createContext(float, double, org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory, java.lang.String)</CODE></A> connects it to its context.
+ <p>
+ 드라이버를 만든다. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#attach(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext)"><CODE>attach(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext)</CODE></A> 나 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#createContext(float, double, org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory, java.lang.String)"><CODE>createContext(float, double, org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory, java.lang.String)</CODE></A> 가 드라이버를 컨텍스트와 잇는다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>threadName</CODE> - the name of the rendering thread, for example <code>swingwebpanel-audio-render-1</code> (the prefix is added if it is missing) / 렌더링
+                       스레드의 이름. 예: <code>swingwebpanel-audio-render-1</code>(접두사가 없으면 붙인다)<DD><CODE>outputs</CODE> - the factory of the outputs, or null for the system output (Java Sound) / 출력의 팩터리. 시스템 출력(Java Sound)이면 null<DD><CODE>latencySeconds</CODE> - the latency of the context in seconds, which decides the sizes of the chunk and the buffer / 컨텍스트의 지연(초). 청크와 버퍼의 크기를 정한다</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="createContext(float, double, org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory, java.lang.String)"><!-- --></A><H3>
+createContext</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">RealtimeAudioContext</A> <B>createContext</B>(float&nbsp;sampleRate,
+                                                 double&nbsp;latencySeconds,
+                                                 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output">OutputFactory</A>&nbsp;outputs,
+                                                 java.lang.String&nbsp;threadName)</PRE>
+<DL>
+<DD>Creates a real-time context that is played by a new driver: the context is built with the driver and the driver is attached to it, so the
+ output latency reaches the context.
+ <p>
+ 새 드라이버가 재생하는 실시간 컨텍스트를 만든다: 드라이버로 컨텍스트를 만들고 드라이버를 컨텍스트에 붙이므로 출력 지연이 컨텍스트에 닿는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>sampleRate</CODE> - the sample rate in Hz / 샘플링 주파수(Hz)<DD><CODE>latencySeconds</CODE> - the latency in seconds (see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#resolveLatency(java.lang.String, double)"><CODE>RealtimeAudioContext.resolveLatency(java.lang.String, double)</CODE></A>) / 지연(초, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#resolveLatency(java.lang.String, double)"><CODE>RealtimeAudioContext.resolveLatency(java.lang.String, double)</CODE></A> 참고)<DD><CODE>outputs</CODE> - the factory of the outputs, or null for the system output / 출력의 팩터리. 시스템 출력이면 null<DD><CODE>threadName</CODE> - the name of the rendering thread / 렌더링 스레드의 이름
+<DT><B>Returns:</B><DD>the context, suspended / 컨텍스트(suspended)
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioException</A></CODE> - <code>NotSupportedError</code> if the sample rate is out of range / 샘플링 주파수가 범위 밖이면 <code>NotSupportedError</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="silentOutputs()"><!-- --></A><H3>
+silentOutputs</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output">OutputFactory</A> <B>silentOutputs</B>()</PRE>
+<DL>
+<DD>Returns a factory of silent outputs: the segments that it serves play into a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/NullOutput.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>NullOutput</CODE></A> on purpose (the time of the context runs at real
+ speed and nothing is heard, and no problem is reported). The script layer sets it for <code>setSinkId({type: "none"})</code>.
+ <p>
+ 무음 출력의 팩터리를 반환한다: 이것이 맡는 구간은 일부러 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/NullOutput.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>NullOutput</CODE></A> 으로 재생한다(컨텍스트 시간은 실제 속도로 흐르고 아무것도 들리지 않으며 문제도 보고하지
+ 않는다). 스크립트 계층이 <code>setSinkId({type: "none"})</code> 에 쓴다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the factory / 팩터리</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setOutputFactory(org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory)"><!-- --></A><H3>
+setOutputFactory</H3>
+<PRE>
+public void <B>setOutputFactory</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output">OutputFactory</A>&nbsp;factory)</PRE>
+<DL>
+<DD>Sets the factory of the outputs for the next segment (a running segment keeps its output until a pause and a resume); null means the system
+ output. The device of a context changes with it when the context is suspended and resumed.
+ <p>
+ 다음 구간을 위한 출력의 팩터리를 정한다(실행 중인 구간은 일시정지와 재개까지 자기 출력을 유지한다). null 이면 시스템 출력이다. 컨텍스트를 일시정지하고
+ 재개하면 그 컨텍스트의 장치가 바뀐다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>factory</CODE> - the factory or null / 팩터리 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="attach(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext)"><!-- --></A><H3>
+attach</H3>
+<PRE>
+public void <B>attach</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">RealtimeAudioContext</A>&nbsp;c)</PRE>
+<DL>
+<DD>Connects the driver to its context so that the latency of the output is reported to it.
+ <p>
+ 출력의 지연을 알릴 수 있도록 드라이버를 컨텍스트와 잇는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>c</CODE> - the context that this driver renders / 이 드라이버가 렌더링하는 컨텍스트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="start(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.Renderer)"><!-- --></A><H3>
+start</H3>
+<PRE>
+public void <B>start</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Renderer.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">RealtimeAudioContext.Renderer</A>&nbsp;r)</PRE>
+<DL>
+<DD>Starts the rendering, or lets it continue if it runs: the rendering thread is created at the first start and opens the output.
+ <p>
+ 렌더링을 시작하거나, 돌고 있으면 계속하게 한다: 렌더링 스레드는 처음 시작할 때 만들어지고 출력을 연다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Driver.html#start(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.Renderer)">start</A></CODE> in interface <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Driver.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">RealtimeAudioContext.Driver</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>r</CODE> - the renderer of the context / 컨텍스트의 렌더러</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="pause()"><!-- --></A><H3>
+pause</H3>
+<PRE>
+public void <B>pause</B>()</PRE>
+<DL>
+<DD>Stops the rendering: the segment ends after the chunk that is being rendered, the queued audio is discarded and the output is released.
+ <p>
+ 렌더링을 멈춘다: 렌더링 중인 청크 뒤에 구간이 끝나고, 큐의 오디오는 버려지고, 출력이 해제된다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Driver.html#pause()">pause</A></CODE> in interface <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Driver.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">RealtimeAudioContext.Driver</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="restart()"><!-- --></A><H3>
+restart</H3>
+<PRE>
+public void <B>restart</B>()</PRE>
+<DL>
+<DD>Ends the segment that runs now and starts the next one at once, so that a new factory (see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#setOutputFactory(org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory)"><CODE>setOutputFactory(org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory)</CODE></A>) is used from now on: the output of the old segment
+ is released (the audio that was queued in it is discarded, at most one buffer of it, 50 to 80 ms) and the next segment opens a new output. The time of the context goes on
+ from the rendered frames, as at a pause and a resume, but the state of the context is not touched. It has no effect while the driver is paused, not started or closed
+ (the next start uses the new factory anyway). The script layer calls it for <code>setSinkId</code> of a running context.
+ <p>
+ 지금 돌고 있는 구간을 끝내고 곧바로 다음 구간을 시작해 새 팩터리(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#setOutputFactory(org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory)"><CODE>setOutputFactory(org.duckdns.hjow.swingwebpanel.media.webaudio.output.OutputFactory)</CODE></A> 참고)를 이제부터 쓰게 한다: 이전 구간의 출력은 해제되고(그 안에 큐에 있던
+ 오디오는, 많아야 버퍼 하나 분량인 50 ~ 80 ms, 버려진다) 다음 구간이 새 출력을 연다. 컨텍스트의 시간은 일시정지와 재개 때처럼 렌더링한 프레임에서 이어지지만 컨텍스트의
+ 상태는 건드리지 않는다. 드라이버가 일시정지, 시작 전, 닫힘이면 효과가 없다(다음 시작이 어차피 새 팩터리를 쓴다). 스크립트 계층이 실행 중인 컨텍스트의
+ <code>setSinkId</code> 에 쓴다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="close()"><!-- --></A><H3>
+close</H3>
+<PRE>
+public void <B>close</B>()</PRE>
+<DL>
+<DD>Stops the rendering for good: the thread ends and the output is released.
+ <p>
+ 렌더링을 완전히 멈춘다: 스레드가 끝나고 출력이 해제된다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Driver.html#close()">close</A></CODE> in interface <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Driver.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">RealtimeAudioContext.Driver</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getThread()"><!-- --></A><H3>
+getThread</H3>
+<PRE>
+public java.lang.Thread <B>getThread</B>()</PRE>
+<DL>
+<DD>Returns the rendering thread, or null before the first start (a test checks its name and that it ends).
+ <p>
+ 렌더링 스레드를 반환한다. 첫 시작 전에는 null(시험이 그 이름과 종료를 확인한다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the thread or null / 스레드 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getUnderrunCount()"><!-- --></A><H3>
+getUnderrunCount</H3>
+<PRE>
+public int <B>getUnderrunCount</B>()</PRE>
+<DL>
+<DD>Returns the number of times that the output was empty when a chunk was ready to be written while the output played.
+ <p>
+ 출력이 재생하는 동안 청크를 쓸 준비가 되었을 때 출력이 비어 있던 횟수를 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of underruns / 언더런 횟수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSegmentCount()"><!-- --></A><H3>
+getSegmentCount</H3>
+<PRE>
+public int <B>getSegmentCount</B>()</PRE>
+<DL>
+<DD>Returns the number of segments that were started (one per run of the context).
+ <p>
+ 시작한 구간의 수(컨텍스트가 도는 구간마다 하나)를 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of segments / 구간 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOutputDescription()"><!-- --></A><H3>
+getOutputDescription</H3>
+<PRE>
+public java.lang.String <B>getOutputDescription</B>()</PRE>
+<DL>
+<DD>Returns the description of the output that was opened last (for example <code>Java Sound 48000 Hz 2 ch</code> or <code>silent</code>),
+ or null if none was opened.
+ <p>
+ 마지막으로 연 출력의 설명(예: <code>Java Sound 48000 Hz 2 ch</code> 또는 <code>silent</code>)을 반환한다. 연 적이 없으면 null.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the description / 설명</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isOutputAudible()"><!-- --></A><H3>
+isOutputAudible</H3>
+<PRE>
+public boolean <B>isOutputAudible</B>()</PRE>
+<DL>
+<DD>Tells whether the output that was opened last plays to a sound device (false for the silent output).
+ <p>
+ 마지막으로 연 출력이 소리 장치로 재생하는지 알려 준다(무음 출력이면 false).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if the sound reaches a device / 소리가 장치에 닿으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOutputProblem()"><!-- --></A><H3>
+getOutputProblem</H3>
+<PRE>
+public java.lang.String <B>getOutputProblem</B>()</PRE>
+<DL>
+<DD>Returns the reason why the sound device was not used the last time (the segment played silently instead), or null.
+ <p>
+ 마지막으로 소리 장치를 쓰지 못한 이유를 반환한다(그 구간은 대신 무음으로 재생했다). 없으면 null.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the reason or null / 이유. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRenderFailure()"><!-- --></A><H3>
+getRenderFailure</H3>
+<PRE>
+public java.lang.Throwable <B>getRenderFailure</B>()</PRE>
+<DL>
+<DD>Returns the failure that stopped the last segment unexpectedly (an exception of the renderer or the output), or null. The driver
+ stops after a failure and tries again at the next <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#start(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.Renderer)"><CODE>start(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.Renderer)</CODE></A>.
+ <p>
+ 마지막 구간을 예기치 않게 멈춘 실패(렌더러나 출력의 예외)를 반환한다. 없으면 null. 드라이버는 실패 뒤 멈추고 다음 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html#start(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.Renderer)"><CODE>start(org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.Renderer)</CODE></A> 에서 다시 시도한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the failure or null / 실패. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getChunkFrames()"><!-- --></A><H3>
+getChunkFrames</H3>
+<PRE>
+public int <B>getChunkFrames</B>()</PRE>
+<DL>
+<DD>Returns the frames of one chunk of the last segment.
+ <p>
+ 마지막 구간의 청크 하나의 프레임 수를 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the frames, 0 before the first segment / 프레임 수. 첫 구간 전에는 0</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBufferFrames()"><!-- --></A><H3>
+getBufferFrames</H3>
+<PRE>
+public int <B>getBufferFrames</B>()</PRE>
+<DL>
+<DD>Returns the frames of the output buffer of the last segment.
+ <p>
+ 마지막 구간의 출력 버퍼의 프레임 수를 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the frames, 0 before the first segment / 프레임 수. 첫 구간 전에는 0</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOutputTimestamp()"><!-- --></A><H3>
+getOutputTimestamp</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.Timestamp.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">OutputRenderDriver.Timestamp</A> <B>getOutputTimestamp</B>()</PRE>
+<DL>
+<DD>Returns the context time that the output plays now and the clock reading at which that is true. While nothing plays it is the rendered
+ time. The value is an estimate from the output queue at the last write plus the time that has passed since, never beyond the rendered
+ time.
+ <p>
+ 출력이 지금 재생하는 컨텍스트 시간과 그것이 참인 시계 값을 반환한다. 아무것도 재생하지 않으면 렌더링한 시간이다. 값은 마지막 쓰기 때의 출력 큐에 그 뒤로 지난
+ 시간을 더한 추정이며 렌더링한 시간을 넘지 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the timestamp / 타임스탬프</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="run()"><!-- --></A><H3>
+run</H3>
+<PRE>
+public void <B>run</B>()</PRE>
+<DL>
+<DD>The loop of the rendering thread: waits while the context does not run and plays one segment each time it runs.
+ <p>
+ 렌더링 스레드의 루프: 컨텍스트가 돌지 않는 동안 기다리고, 돌 때마다 구간 하나를 재생한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>run</CODE> in interface <CODE>java.lang.Runnable</CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OscillatorType.html" title="enum in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.Timestamp.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/OutputRenderDriver.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="OutputRenderDriver.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,331 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+WebAudioApi
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="WebAudioApi";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/WebAudioHostLimits.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/webaudio/WebAudioApi.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WebAudioApi.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.host.webaudio</FONT>
+<BR>
+Class WebAudioApi</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.host.webaudio.WebAudioApi</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>WebAudioApi</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The Web Audio API of one page (plan item P25; W3C Web Audio API 1.0 Recommendation of 2021-06-17): the script interfaces <code>AudioContext</code>,
+ <code>OfflineAudioContext</code>, <code>AudioNode</code> and the nodes, <code>AudioParam</code>, <code>AudioBuffer</code>, <code>AudioListener</code>,
+ <code>PeriodicWave</code> and the events, over the pure Java engine of <code>org.duckdns.hjow.swingwebpanel.media.webaudio</code>. This object installs them on the global object of the page
+ and owns what they share: the delivery of what other threads produce (the end of a source, the end of an offline rendering, a decoded buffer) to the thread that owns the
+ script realm as tasks of the page, the list of the contexts that are open, the limits of the page, the conversion of the engine's errors to script exceptions, and the
+ disposal of everything when the page is replaced, its scripts are switched off or it is disposed.
+ <p>
+ <b>Threads.</b> The script realm belongs to the page thread: every interface call, every event and every settled promise runs there, as a task of the page
+ (<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageScripts.html#runTask(java.lang.Runnable)"><CODE>PageScripts.runTask(Runnable)</CODE></A>), through the <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/Scheduler.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host"><CODE>Scheduler</CODE></A> of the component. The engine has its own threads (the rendering thread of a real-time context, the thread that
+ renders an offline context, the decoding threads); they never call the script. What they have to tell the script goes through <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/WebAudioApi.html#postTask(java.lang.Runnable)"><CODE>postTask(Runnable)</CODE></A>, which
+ drops it silently after the page was disposed, so a late result never touches a new page. Control calls go the other way directly: the engine accepts them from any
+ thread (see <code>BaseAudioContext</code>).
+ <p>
+ <b>Limits.</b> <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/WebAudioHostLimits.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.webaudio"><CODE>WebAudioHostLimits</CODE></A> lists them: the number of open contexts of a page, the memory that its offline contexts may hold, and the number of
+ pending decodings (the decoding service of the engine). Exceeding a limit is a <code>NotSupportedError</code>, as the specification allows an implementation-defined
+ maximum number of contexts.
+ <p>
+ 한 페이지의 Web Audio API(계획 P25. W3C Web Audio API 1.0 권고안, 2021-06-17): <code>AudioContext</code>, <code>OfflineAudioContext</code>, <code>AudioNode</code> 와 노드,
+ <code>AudioParam</code>, <code>AudioBuffer</code>, <code>AudioListener</code>, <code>PeriodicWave</code>, 이벤트의 스크립트 인터페이스를
+ <code>org.duckdns.hjow.swingwebpanel.media.webaudio</code> 의 순수 Java 엔진 위에 만든다. 이 객체가 그것들을 페이지의 전역 객체에 설치하고 공유하는 것을 소유한다: 다른 스레드가 만든
+ 결과(원천의 끝, 오프라인 렌더링의 끝, 디코딩된 버퍼)를 스크립트 realm 을 소유한 스레드에 페이지의 작업으로 전달하는 일, 열려 있는 컨텍스트의 목록, 페이지의 한도,
+ 엔진의 오류를 스크립트 예외로 바꾸는 일, 페이지가 교체되거나 스크립트가 꺼지거나 폐기될 때 모든 것을 정리하는 일.
+ <p>
+ <b>스레드.</b> 스크립트 realm 은 페이지 스레드의 것이다: 모든 인터페이스 호출, 모든 이벤트, 확정되는 모든 프라미스가 컴포넌트의 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/Scheduler.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host"><CODE>Scheduler</CODE></A> 를 거쳐 페이지의 작업
+ (<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageScripts.html#runTask(java.lang.Runnable)"><CODE>PageScripts.runTask(Runnable)</CODE></A>)으로 거기서 실행된다. 엔진에는 자기 스레드(실시간 컨텍스트의 렌더링 스레드, 오프라인 컨텍스트를 렌더링하는 스레드, 디코딩 스레드)가 있으며
+ 이들은 스크립트를 부르지 않는다. 스크립트에 알려야 하는 것은 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/WebAudioApi.html#postTask(java.lang.Runnable)"><CODE>postTask(Runnable)</CODE></A> 로 가며, 페이지가 폐기된 뒤에는 조용히 버려지므로 늦은 결과가 새 페이지를 건드리지
+ 않는다. 제어 호출은 반대 방향으로 직접 간다: 엔진은 어느 스레드에서나 받는다(<code>BaseAudioContext</code> 참고).
+ <p>
+ <b>한도.</b> <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/WebAudioHostLimits.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.webaudio"><CODE>WebAudioHostLimits</CODE></A> 에 있다: 페이지의 열린 컨텍스트 수, 오프라인 컨텍스트가 쥘 수 있는 메모리, 대기 중인 디코딩 수(엔진의 디코딩 서비스). 한도를 넘으면
+ <code>NotSupportedError</code> 이다. 규격이 구현이 정하는 컨텍스트 최대 수를 허용한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/WebAudioApi.html#dispose()">dispose</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Disposes everything that the page owns here: every real-time context is closed (its rendering thread ends), every offline rendering is cancelled, every
+ decoding service is closed (the requests that wait are dropped without a callback), and nothing is delivered to the page any more.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/WebAudioApi.html#getOfflineSamplesInUse()">getOfflineSamplesInUse</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of samples of the offline budget that is in use (for tests).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/WebAudioApi.html#getOpenContextCount()">getOpenContextCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of open contexts (for tests).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/WebAudioApi.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.webaudio">WebAudioApi</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/WebAudioApi.html#install(org.duckdns.hjow.swingwebpanel.js.host.PageScripts)">install</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageScripts.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">PageScripts</A>&nbsp;page)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Installs the Web Audio interfaces on the global object of a page.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="install(org.duckdns.hjow.swingwebpanel.js.host.PageScripts)"><!-- --></A><H3>
+install</H3>
+<PRE>
+public static <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/WebAudioApi.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.webaudio">WebAudioApi</A> <B>install</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageScripts.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">PageScripts</A>&nbsp;page)</PRE>
+<DL>
+<DD>Installs the Web Audio interfaces on the global object of a page. Call it while the page is created, on the thread that creates it, after the DOM interfaces
+ (<code>EventTarget</code>, <code>Event</code>) exist.
+ <p>
+ 페이지의 전역 객체에 Web Audio 인터페이스를 설치한다. 페이지를 만드는 동안 만드는 스레드에서, DOM 인터페이스(<code>EventTarget</code>, <code>Event</code>)가 생긴 뒤에 부른다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>page</CODE> - the page, not null / 페이지(null 불가)
+<DT><B>Returns:</B><DD>the installed API, to be disposed with the page / 설치한 API. 페이지와 함께 폐기해야 한다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOpenContextCount()"><!-- --></A><H3>
+getOpenContextCount</H3>
+<PRE>
+public int <B>getOpenContextCount</B>()</PRE>
+<DL>
+<DD>Returns the number of open contexts (for tests).
+ <p>
+ 열린 컨텍스트 수를 반환한다(시험용).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number / 개수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOfflineSamplesInUse()"><!-- --></A><H3>
+getOfflineSamplesInUse</H3>
+<PRE>
+public long <B>getOfflineSamplesInUse</B>()</PRE>
+<DL>
+<DD>Returns the number of samples of the offline budget that is in use (for tests).
+ <p>
+ 쓰고 있는 오프라인 예산의 표본 수를 반환한다(시험용).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of samples / 표본 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispose()"><!-- --></A><H3>
+dispose</H3>
+<PRE>
+public void <B>dispose</B>()</PRE>
+<DL>
+<DD>Disposes everything that the page owns here: every real-time context is closed (its rendering thread ends), every offline rendering is cancelled, every
+ decoding service is closed (the requests that wait are dropped without a callback), and nothing is delivered to the page any more. Any thread may call it, without the
+ lock of the page, and calling it again has no effect. The script objects that the page still holds keep working as objects but no longer produce sound or events.
+ <p>
+ 페이지가 여기서 가진 모든 것을 폐기한다: 모든 실시간 컨텍스트를 닫고(렌더링 스레드가 끝난다), 모든 오프라인 렌더링을 취소하고, 모든 디코딩 서비스를 닫고(기다리는 요청은 콜백 없이
+ 버려진다), 이후 페이지에 아무것도 전달하지 않는다. 페이지의 잠금 없이 어느 스레드에서나 부를 수 있으며 다시 불러도 효과가 없다. 페이지가 아직 쥐고 있는 스크립트 객체는
+ 객체로는 계속 동작하나 더는 소리도 이벤트도 만들지 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/WebAudioHostLimits.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/webaudio/WebAudioApi.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WebAudioApi.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

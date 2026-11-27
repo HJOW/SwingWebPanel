@@ -1,0 +1,309 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+org.duckdns.hjow.swingwebpanel.css.anim
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="org.duckdns.hjow.swingwebpanel.css.anim";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/anim/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<H2>
+Package org.duckdns.hjow.swingwebpanel.css.anim
+</H2>
+Transforms, transitions and animations: the 2D transform math, easing functions, the interpolation of property values, the
+ <code>@keyframes</code> timeline and the per-document animation clock.
+<P>
+<B>See:</B>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="#package_description"><B>Description</B></A>
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Interface Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/AnimationClock.html" title="interface in org.duckdns.hjow.swingwebpanel.css.anim">AnimationClock</A></B></TD>
+<TD>The time source of the animations of a document (plan item P10-07): the engine reads it whenever it computes styles or advances.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationHost.html" title="interface in org.duckdns.hjow.swingwebpanel.css.anim">WebAnimationHost</A></B></TD>
+<TD>What the Web Animations model needs from the script side of a page (Web Animations Level 1): promises for the <code>ready</code> and
+ <code>finished</code> attributes of the animations, microtasks for the "finish notification steps", and a new animation frame (a call of
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#update(double)"><CODE>WebAnimationSet.update(double)</CODE></A> followed by a microtask checkpoint and the dispatch of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#takeEvents()"><CODE>WebAnimationSet.takeEvents()</CODE></A>) whenever
+ something waits for one.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationHost.PromiseSlot.html" title="interface in org.duckdns.hjow.swingwebpanel.css.anim">WebAnimationHost.PromiseSlot</A></B></TD>
+<TD>A promise of an animation (<code>ready</code> or <code>finished</code>) that the model settles.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.TimeSource.html" title="interface in org.duckdns.hjow.swingwebpanel.css.anim">WebAnimationSet.TimeSource</A></B></TD>
+<TD>The clock of the document: milliseconds since the time origin of the page.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/AnimationEngine.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">AnimationEngine</A></B></TD>
+<TD>The CSS transitions and animations of one document (plan item P10-07, CSS Transitions Level 1 https://www.w3.org/TR/css-transitions-1/
+ and CSS Animations Level 1 https://www.w3.org/TR/css-animations-1/, with the easing of CSS Easing Level 1).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/AnimationPlaybackEvent.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">AnimationPlaybackEvent</A></B></TD>
+<TD>An animation playback event of Web Animations Level 1 (section 6.12, <code>AnimationPlaybackEvent</code>): <code>finish</code>,
+ <code>cancel</code> and <code>remove</code>, fired at a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimation.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><CODE>WebAnimation</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Compositor.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">Compositor</A></B></TD>
+<TD>The composite operations <code>add</code> and <code>accumulate</code> of Web Animations Level 1 (section 5.4.4) for the computed values
+ that this engine can combine: numbers (an integer stays an integer when both are integers), lengths in pixels, percentages, angles, colors
+ (component-wise sum in the premultiplied space, clamped), <code>transform</code> lists, and space or comma lists of such values of the same
+ length.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/CssAnimationEvent.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">CssAnimationEvent</A></B></TD>
+<TD>The event of a CSS transition or animation (plan item P10-07): <code>transitionrun</code>, <code>transitionstart</code>,
+ <code>transitionend</code>, <code>transitioncancel</code> (with <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/CssAnimationEvent.html#getPropertyName()"><CODE>CssAnimationEvent.getPropertyName()</CODE></A>) and <code>animationstart</code>,
+ <code>animationiteration</code>, <code>animationend</code>, <code>animationcancel</code> (with <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/CssAnimationEvent.html#getAnimationName()"><CODE>CssAnimationEvent.getAnimationName()</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/CssKeyframesEvent.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">CssKeyframesEvent</A></B></TD>
+<TD>The event of a CSS animation (<code>animationstart</code>, <code>animationiteration</code>, <code>animationend</code>,
+ <code>animationcancel</code>): the script interface <code>AnimationEvent</code> with <code>animationName</code>, <code>elapsedTime</code>
+ and <code>pseudoElement</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/CssTransitionEvent.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">CssTransitionEvent</A></B></TD>
+<TD>The event of a CSS transition (<code>transitionrun</code>, <code>transitionstart</code>, <code>transitionend</code>,
+ <code>transitioncancel</code>): the script interface <code>TransitionEvent</code> with <code>propertyName</code>,
+ <code>elapsedTime</code> and <code>pseudoElement</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Easing.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">Easing</A></B></TD>
+<TD>An easing (timing) function (plan item P10-07, CSS Easing Functions Level 1, https://www.w3.org/TR/css-easing-1/): a function from
+ the input progress of an animation or a transition to the output progress.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">EffectTiming</A></B></TD>
+<TD>The timing properties of an animation effect and the timing calculations of Web Animations Level 1 (W3C Working Draft 5 June 2023,
+ https://www.w3.org/TR/2023/WD-web-animations-1-20230605/, sections 4.5 to 4.11 and 6.5): the start delay, the end delay, the fill mode, the
+ iteration start, the iteration count, the iteration duration (<code>auto</code> is zero in this level), the playback direction and the timing
+ function.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.Computed.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">EffectTiming.Computed</A></B></TD>
+<TD>The result of the timing calculations at one local time.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Interpolator.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">Interpolator</A></B></TD>
+<TD>The interpolation of computed property values (plan item P10-07, CSS Transitions Level 1 section 4 and CSS Values 3 section 9,
+ https://www.w3.org/TR/css-transitions-1/): numbers and lengths linearly, percentages linearly, colors with premultiplied alpha
+ (CSS Color 4 section 12), <code>transform</code> as lists of functions (see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Transforms.html#interpolate(org.duckdns.hjow.swingwebpanel.css.values.CssValue, org.duckdns.hjow.swingwebpanel.css.values.CssValue, double, double, double)"><CODE>Transforms.interpolate(org.duckdns.hjow.swingwebpanel.css.values.CssValue, org.duckdns.hjow.swingwebpanel.css.values.CssValue, double, double, double)</CODE></A>), lists of the same length
+ element by element (for example the two components of <code>transform-origin</code> or <code>background-position</code>), and
+ <code>visibility</code> as in CSS Transitions (visible during the interpolation if one end is visible).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">KeyframeEffectModel</A></B></TD>
+<TD>A keyframe effect of Web Animations Level 1 (sections 5.3 and 6.6, <code>KeyframeEffect</code>): an effect target (an element and an optional
+ pseudo-element such as <code>::before</code>), the timing properties (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/EffectTiming.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><CODE>EffectTiming</CODE></A>), the composite operation of the effect and the list
+ of keyframes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.Keyframe.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">KeyframeEffectModel.Keyframe</A></B></TD>
+<TD>One keyframe as the script specified it, with its parsed declarations.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Transforms.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">Transforms</A></B></TD>
+<TD>The 2D transform of an element (plan item P10-06, CSS Transforms Level 1, https://www.w3.org/TR/css-transforms-1/ section 8 and 13):
+ turns the computed value of <code>transform</code> and <code>transform-origin</code> into an <CODE>AffineTransform</CODE>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimation.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">WebAnimation</A></B></TD>
+<TD>An animation of Web Animations Level 1 (sections 4.4 and 6.4, <code>Animation</code>): it binds a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><CODE>KeyframeEffectModel</CODE></A> to a
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebTimeline.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><CODE>WebTimeline</CODE></A> and controls its playback with a start time, a hold time and a playback rate.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">WebAnimationSet</A></B></TD>
+<TD>The Web Animations state of one document (Web Animations Level 1): the animations created by scripts in their global order (the composite order
+ among them), the time of the document that the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebTimeline.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><CODE>WebTimeline</CODE></A>s follow, the pending animation event queue and the procedure "update animations
+ and send events" (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#update(double)"><CODE>WebAnimationSet.update(double)</CODE></A> for the timelines, the pending tasks, the finished states and the removal of replaced animations, then
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.html#takeEvents()"><CODE>WebAnimationSet.takeEvents()</CODE></A> after the host's microtask checkpoint).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimationSet.PendingEvent.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">WebAnimationSet.PendingEvent</A></B></TD>
+<TD>An event in the pending animation event queue with its target and its scheduled event time.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebTimeline.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">WebTimeline</A></B></TD>
+<TD>A document timeline of Web Animations Level 1 (sections 4.3.1, 4.3.2 and 6.3, <code>DocumentTimeline</code>): its current time is the time of
+ the document (milliseconds since the time origin of the page, the clock of <code>performance.now()</code> and <code>requestAnimationFrame</code>)
+ minus its origin time.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Exception Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/AnimationException.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">AnimationException</A></B></TD>
+<TD>An error that a procedure of Web Animations throws: a <code>TypeError</code> or a <code>DOMException</code> with a name
+ (<code>InvalidStateError</code>, <code>NoModificationAllowedError</code>, <code>SyntaxError</code>).</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+<A NAME="package_description"><!-- --></A><H2>
+Package org.duckdns.hjow.swingwebpanel.css.anim Description
+</H2>
+
+<P>
+Transforms, transitions and animations: the 2D transform math, easing functions, the interpolation of property values, the
+ <code>@keyframes</code> timeline and the per-document animation clock.
+ <p>
+ 변환, 전환, 애니메이션: 2D 변환 계산, 완화 함수, 속성 값의 보간, <code>@keyframes</code> 타임라인, 문서별 애니메이션 시계.
+<P>
+
+<P>
+<DL>
+</DL>
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/anim/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

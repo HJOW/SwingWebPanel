@@ -1,0 +1,318 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ByteSource
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ByteSource";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/Bytes.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSourceException.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ByteSource.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.audio</FONT>
+<BR>
+Interface ByteSource</H2>
+<DL>
+<DT><B>All Known Implementing Classes:</B> <DD><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ArrayByteSource.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">ArrayByteSource</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FileByteSource.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">FileByteSource</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public interface <B>ByteSource</B></DL>
+</PRE>
+
+<P>
+Random-access bytes of an encoded audio resource (plan item P18-08): the length is known and any position can be read, so a decoder can read
+ the headers, an index and then frame after frame without the whole resource in memory. A resource that was fetched into memory is an
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ArrayByteSource.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>ArrayByteSource</CODE></A>; a long resource that was spooled to a temporary file is a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FileByteSource.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>FileByteSource</CODE></A>, which keeps only a small window of
+ the file in memory. The decoders are meant to read through this interface so that both kinds decode to exactly the same bytes; until they are
+ moved over (see <code>docs/progress/media-play.md</code>, MEDIA-E), they still take a byte array.
+ <p>
+ Contract: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html#get(long)"><CODE>get(long)</CODE></A> throws <CODE>IndexOutOfBoundsException</CODE> outside <code>0..length()-1</code> (exactly like an array, so a damaged
+ header that points past the end fails the same way as before); <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html#read(long, byte[], int, int)"><CODE>read(long, byte[], int, int)</CODE></A> copies as many bytes as exist and
+ returns their number. An input error of the underlying file (it was closed because the page went away, or it vanished) is a
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSourceException.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>ByteSourceException</CODE></A>. A source may be used by one thread at a time; the file source is also safe for several threads. Closing
+ releases the file handle; a decoder never closes the source it was given (its owner does, see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>MediaData</CODE></A>).
+ <p>
+ 인코딩된 오디오 리소스의 임의 접근 바이트(계획 P18-08): 길이를 알고 어느 위치든 읽을 수 있으므로 디코더는 리소스 전체를 메모리에 두지 않고 헤더와
+ 색인을 읽은 뒤 프레임을 하나씩 읽을 수 있다. 메모리로 가져온 리소스는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ArrayByteSource.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>ArrayByteSource</CODE></A> 이고, 임시 파일에 받아 둔 긴 리소스는 파일의 작은
+ 창만 메모리에 두는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FileByteSource.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>FileByteSource</CODE></A> 이다. 디코더는 두 종류가 정확히 같은 바이트로 디코딩되도록 이 인터페이스로 읽게 할
+ 계획이며, 옮기기 전까지는(<code>docs/progress/media-play.md</code> 의 MEDIA-E 참고) 아직 바이트 배열을 받는다.
+ <p>
+ 계약: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html#get(long)"><CODE>get(long)</CODE></A> 은 <code>0..length()-1</code> 밖에서 <CODE>IndexOutOfBoundsException</CODE> 을 던진다(배열과 똑같아서 끝 너머를 가리키는 손상된
+ 헤더가 예전과 같은 방식으로 실패한다). <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html#read(long, byte[], int, int)"><CODE>read(long, byte[], int, int)</CODE></A> 는 있는 만큼 복사하고 그 수를 반환한다. 바탕 파일의 입력 오류(페이지가
+ 사라져 닫혔거나 파일이 없어짐)는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSourceException.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>ByteSourceException</CODE></A> 이다. 한 번에 한 스레드가 쓰면 되며 파일 원천은 여러 스레드에서도 안전하다. 닫으면
+ 파일 핸들을 놓는다. 디코더는 받은 원천을 닫지 않는다(소유자가 닫는다. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>MediaData</CODE></A> 참고).
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html#close()">close</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Releases the underlying handle (idempotent); later reads fail with a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSourceException.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>ByteSourceException</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html#get(long)">get</A></B>(long&nbsp;position)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the unsigned byte at a position.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html#length()">length</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of bytes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html#read(long, byte[], int, int)">read</A></B>(long&nbsp;position,
+     byte[]&nbsp;buffer,
+     int&nbsp;offset,
+     int&nbsp;length)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Copies bytes starting at a position into an array; fewer bytes than asked are copied only at the end of the source.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="length()"><!-- --></A><H3>
+length</H3>
+<PRE>
+long <B>length</B>()</PRE>
+<DL>
+<DD>Returns the number of bytes.
+ <p>
+ 바이트 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the length / 길이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="get(long)"><!-- --></A><H3>
+get</H3>
+<PRE>
+int <B>get</B>(long&nbsp;position)</PRE>
+<DL>
+<DD>Returns the unsigned byte at a position.
+ <p>
+ 위치의 부호 없는 바이트를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>position</CODE> - the position, 0 to <code>length()-1</code> / 위치. 0 부터 <code>length()-1</code> 까지
+<DT><B>Returns:</B><DD>the byte, 0 to 255 / 바이트(0~255)
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IndexOutOfBoundsException</CODE> - outside the source / 원천 밖이면
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSourceException.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">ByteSourceException</A></CODE> - on an input error / 입력 오류 시</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="read(long, byte[], int, int)"><!-- --></A><H3>
+read</H3>
+<PRE>
+int <B>read</B>(long&nbsp;position,
+         byte[]&nbsp;buffer,
+         int&nbsp;offset,
+         int&nbsp;length)</PRE>
+<DL>
+<DD>Copies bytes starting at a position into an array; fewer bytes than asked are copied only at the end of the source.
+ <p>
+ 위치부터 바이트를 배열에 복사한다. 요청보다 적게 복사하는 것은 원천의 끝에서뿐이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>position</CODE> - the first position, 0 or more / 첫 위치(0 이상)<DD><CODE>buffer</CODE> - the destination / 대상 배열<DD><CODE>offset</CODE> - the start in the destination / 대상의 시작 위치<DD><CODE>length</CODE> - the number of bytes wanted / 원하는 바이트 수
+<DT><B>Returns:</B><DD>the bytes copied, 0 at or after the end / 복사한 바이트 수. 끝이거나 끝 뒤면 0
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IndexOutOfBoundsException</CODE> - for a negative position or a bad destination range / 음수 위치나 잘못된 대상 범위면
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSourceException.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">ByteSourceException</A></CODE> - on an input error / 입력 오류 시</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="close()"><!-- --></A><H3>
+close</H3>
+<PRE>
+void <B>close</B>()</PRE>
+<DL>
+<DD>Releases the underlying handle (idempotent); later reads fail with a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSourceException.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>ByteSourceException</CODE></A>.
+ <p>
+ 바탕 핸들을 놓는다(여러 번 불러도 된다). 이후의 읽기는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSourceException.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>ByteSourceException</CODE></A> 으로 실패한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/Bytes.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSourceException.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ByteSource.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

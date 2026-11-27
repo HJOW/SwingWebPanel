@@ -1,0 +1,743 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ScriptProcessorNode
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ScriptProcessorNode";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Renderer.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.ProcessListener.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ScriptProcessorNode.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.webaudio</FONT>
+<BR>
+Class ScriptProcessorNode</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode</A>
+      <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.webaudio.ScriptProcessorNode</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ScriptProcessorNode</B><DT>extends <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioNode</A></DL>
+</PRE>
+
+<P>
+The deprecated node that lets a script generate or process audio directly (Web Audio API 1.0, 1.29 <code>ScriptProcessorNode</code> and
+ 1.12 <code>AudioProcessingEvent</code>), implemented for old pages. The class is pure Java: it collects the input in blocks of
+ <code>bufferSize</code> frames, asks the control side (through the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.TaskSink.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>BaseAudioContext.TaskSink</CODE></A> of the context, the event loop of the
+ page) to run a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.ProcessListener.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>ScriptProcessorNode.ProcessListener</CODE></A> for each block, and plays what the listener wrote into the output buffer one block later.
+ <ul>
+ <li><strong>Blocks and delay.</strong> The input of block <em>k</em> (frames <em>kB</em> .. <em>(k+1)B-1</em>) is complete at the end of the block, when
+ the event for it is requested. The listener has one whole block of time to answer; the output that it wrote is played during block
+ <em>k+2</em>. So the audio is delayed by <em>2 bufferSize</em> frames, like the double buffering of Chromium (the output of the first two blocks
+ is silent). The <code>playbackTime</code> of the event is the context time at which the output buffer starts to play,
+ <em>(kB + 2B) / sampleRate</em>. A single block of delay would require the listener to answer before the next quantum is rendered, which a
+ listener on another thread can never do.</li>
+ <li><strong>Real-time and offline.</strong> In a real-time context a listener that is late (it has not returned when its output is due) is
+ abandoned: that block of output is silent and the late result is dropped (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#getLateBlockCount()"><CODE>getLateBlockCount()</CODE></A>); a listener that did not start yet is
+ not run at all. In an offline context there is no real time to keep, so the rendering waits for the listener (at most
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#RESPONSE_TIMEOUT_MILLIS"><CODE>RESPONSE_TIMEOUT_MILLIS</CODE></A> milliseconds, which is then a late block): the result is the same on every run. The wait must not happen
+ on the thread that runs the listener (the rendering thread of an offline context is not that thread).</li>
+ <li><strong>The listener</strong> receives an input buffer (a copy of the block, valid only during the call) and an output buffer (silent at
+ first); what the listener leaves in the output buffer when it returns is played. It runs on the control side if the context has a task sink,
+ on the rendering thread if not. An exception of the listener is caught; the output stays as the listener left it
+ (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#getLastListenerError()"><CODE>getLastListenerError()</CODE></A>). Without a listener the output is silent and no event is requested.</li>
+ <li><strong>Activity.</strong> The node is processed only while it has an input or an output connection (the specification: it is actively
+ processing then), whether or not the other side is connected, so a generator without an input works. Becoming inactive (disconnected) forgets the
+ block in progress and the pending output. The node stays in the context for as long as the context lives.</li>
+ <li><strong>Channels.</strong> <code>numberOfInputChannels</code> and <code>numberOfOutputChannels</code> are from 0 to 32 (not both 0). The
+ input is mixed to <code>numberOfInputChannels</code> channels (<code>channelCount</code>, mode <code>explicit</code>, which cannot be changed, as
+ in the browsers an <code>InvalidStateError</code> where the specification says <code>NotSupportedError</code>). With 0 input channels the input is
+ ignored and the input buffer of the event is null; with 0 output channels the output is a silent channel and the output buffer is null.</li>
+ <li><strong>Memory.</strong> The node keeps three blocks (an input and an output buffer each) and creates at most <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#MAX_BLOCKS">8</A> while the
+ listener is slow; if all are in use the input of that block is dropped (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#getDroppedBlockCount()"><CODE>getDroppedBlockCount()</CODE></A>) and no event is requested.</li>
+ </ul>
+ <p>
+ 스크립트가 오디오를 직접 만들거나 처리하게 하는 폐기 예정 노드(Web Audio API 1.0, 1.29 <code>ScriptProcessorNode</code> 와 1.12
+ <code>AudioProcessingEvent</code>)를 옛 페이지를 위해 구현한 것이다. 클래스는 순수 Java 이다: 입력을 <code>bufferSize</code> 프레임의 블록으로 모으고, 블록마다
+ 컨텍스트의 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.TaskSink.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>BaseAudioContext.TaskSink</CODE></A>(페이지의 이벤트 루프)를 통해 제어 쪽에 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.ProcessListener.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>ScriptProcessorNode.ProcessListener</CODE></A> 실행을 요청하고, 리스너가 출력 버퍼에 쓴 것을 한 블록 뒤에
+ 재생한다.
+ <ul>
+ <li><strong>블록과 지연.</strong> 블록 <em>k</em>(프레임 <em>kB</em> .. <em>(k+1)B-1</em>)의 입력은 블록이 끝날 때 완성되며 그때 그 이벤트를 요청한다. 리스너에게는
+ 블록 하나만큼의 시간이 응답 시간으로 주어지고, 리스너가 쓴 출력은 블록 <em>k+2</em> 동안 재생된다. 그래서 오디오는 <em>2 bufferSize</em> 프레임 지연되며 Chromium 의
+ 이중 버퍼링과 같다(처음 두 블록의 출력은 무음). 이벤트의 <code>playbackTime</code> 은 출력 버퍼가 재생되기 시작하는 컨텍스트 시간 <em>(kB + 2B) / sampleRate</em> 이다.
+ 지연이 한 블록이라면 다음 quantum 을 렌더링하기 전에 리스너가 응답해야 하는데, 다른 스레드의 리스너는 그럴 수 없다.</li>
+ <li><strong>실시간과 오프라인.</strong> 실시간 컨텍스트에서는 늦은 리스너(출력이 필요한 때까지 돌아오지 않음)를 포기한다: 그 블록의 출력은 무음이고 늦은 결과는 버려지며
+ (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#getLateBlockCount()"><CODE>getLateBlockCount()</CODE></A>), 아직 시작하지 않은 리스너는 실행되지 않는다. 오프라인 컨텍스트에는 지켜야 할 실시간이 없으므로 렌더링이 리스너를 기다린다
+ (최대 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#RESPONSE_TIMEOUT_MILLIS"><CODE>RESPONSE_TIMEOUT_MILLIS</CODE></A> 밀리초이며, 넘으면 늦은 블록이다). 결과는 실행할 때마다 같다. 기다림이 리스너를 실행하는 스레드에서 일어나면 안 된다(오프라인
+ 컨텍스트의 렌더링 스레드는 그 스레드가 아니다).</li>
+ <li><strong>리스너</strong>는 입력 버퍼(블록의 복사본이며 호출 동안만 유효)와 출력 버퍼(처음에는 무음)를 받으며, 리스너가 돌아올 때 출력 버퍼에 남긴 것이 재생된다.
+ 컨텍스트에 작업 싱크가 있으면 제어 쪽에서, 없으면 렌더링 스레드에서 실행된다. 리스너의 예외는 잡는다. 출력은 리스너가 남긴 대로이다(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#getLastListenerError()"><CODE>getLastListenerError()</CODE></A>).
+ 리스너가 없으면 출력은 무음이고 이벤트를 요청하지 않는다.</li>
+ <li><strong>활성.</strong> 노드는 입력이나 출력 연결이 있는 동안에만 처리된다(규격: 그때 활성으로 처리한다). 반대쪽이 연결되어 있는지는 상관없으므로 입력 없는 생성기도 동작한다.
+ 비활성이 되면(연결이 끊기면) 진행 중인 블록과 대기 중인 출력을 잊는다. 노드는 컨텍스트가 사는 동안 컨텍스트에 남는다.</li>
+ <li><strong>채널.</strong> <code>numberOfInputChannels</code> 와 <code>numberOfOutputChannels</code> 는 0 ~ 32 이다(둘 다 0 은 안 된다). 입력은
+ <code>numberOfInputChannels</code> 채널로 섞이며(<code>channelCount</code>, 모드 <code>explicit</code>, 바꿀 수 없다. 규격은 <code>NotSupportedError</code> 라 하지만 브라우저처럼
+ <code>InvalidStateError</code>), 입력 채널이 0 이면 입력을 무시하고 이벤트의 입력 버퍼는 null 이다. 출력 채널이 0 이면 출력은 무음 채널 하나이고 출력 버퍼는 null 이다.</li>
+ <li><strong>메모리.</strong> 노드는 블록 셋(각각 입력과 출력 버퍼)을 두고 리스너가 느릴 때 최대 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#MAX_BLOCKS">8</A> 개까지 만든다. 모두 쓰고 있으면 그 블록의 입력을 버리고
+ (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#getDroppedBlockCount()"><CODE>getDroppedBlockCount()</CODE></A>) 이벤트를 요청하지 않는다.</li>
+ </ul>
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.ProcessListener.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">ScriptProcessorNode.ProcessListener</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The code that the control side runs for a block (the <code>audioprocess</code> event).</TD>
+</TR>
+</TABLE>
+&nbsp;<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#DEFAULT_BUFFER_SIZE">DEFAULT_BUFFER_SIZE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The <code>bufferSize</code> that the implementation picks for 0 (46 ms at 44100 Hz).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#MAX_BLOCKS">MAX_BLOCKS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The largest number of blocks that exist at the same time.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#MAX_BUFFER_SIZE">MAX_BUFFER_SIZE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The largest <code>bufferSize</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#MIN_BUFFER_SIZE">MIN_BUFFER_SIZE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The smallest <code>bufferSize</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#RESPONSE_TIMEOUT_MILLIS">RESPONSE_TIMEOUT_MILLIS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The longest time in milliseconds that an offline rendering waits for a listener.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#ScriptProcessorNode(org.duckdns.hjow.swingwebpanel.media.webaudio.BaseAudioContext, int, int, int)">ScriptProcessorNode</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">BaseAudioContext</A>&nbsp;context,
+                    int&nbsp;bufferSize,
+                    int&nbsp;numberOfInputChannels,
+                    int&nbsp;numberOfOutputChannels)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a script processor.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#getBlockCount()">getBlockCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of blocks that exist (the blocks that are created with the node, and those that were added while the listener was slow).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#getBufferSize()">getBufferSize</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of frames of a block (<code>bufferSize</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#getDispatchedBlockCount()">getDispatchedBlockCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of events that were requested (one per block with a listener).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#getDroppedBlockCount()">getDroppedBlockCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of blocks whose input was dropped because the listener was so slow that no block was free.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Throwable</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#getLastListenerError()">getLastListenerError</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the last exception that the listener threw, or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#getLateBlockCount()">getLateBlockCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of blocks whose output was late (silent, the result dropped).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#getNumberOfInputChannels()">getNumberOfInputChannels</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of input channels the node was created with (0 for none).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#getNumberOfOutputChannels()">getNumberOfOutputChannels</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of output channels the node was created with (0 for none).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.ProcessListener.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">ScriptProcessorNode.ProcessListener</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#getProcessListener()">getProcessListener</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the listener of the blocks.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#getResponseTimeout()">getResponseTimeout</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the longest time in milliseconds that an offline rendering waits for a listener.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#setProcessListener(org.duckdns.hjow.swingwebpanel.media.webaudio.ScriptProcessorNode.ProcessListener)">setProcessListener</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.ProcessListener.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">ScriptProcessorNode.ProcessListener</A>&nbsp;newListener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the listener of the blocks (the <code>onaudioprocess</code> handler); null stops the events and the output is silent.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#setResponseTimeout(long)">setResponseTimeout</A></B>(long&nbsp;millis)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the longest time in milliseconds that an offline rendering waits for a listener (the default is <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#RESPONSE_TIMEOUT_MILLIS"><CODE>RESPONSE_TIMEOUT_MILLIS</CODE></A>).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.media.webaudio.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioNode</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#connect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode)">connect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#connect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode, int, int)">connect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#connect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioParam)">connect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#connect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioParam, int)">connect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect()">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode, int)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode, int, int)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioParam)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioParam, int)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(int)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getChannelCount()">getChannelCount</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getChannelCountMode()">getChannelCountMode</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getChannelInterpretation()">getChannelInterpretation</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getContext()">getContext</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getNumberOfInputs()">getNumberOfInputs</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getNumberOfOutputs()">getNumberOfOutputs</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#setChannelCount(int)">setChannelCount</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#setChannelCountMode(org.duckdns.hjow.swingwebpanel.media.webaudio.ChannelCountMode)">setChannelCountMode</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#setChannelInterpretation(org.duckdns.hjow.swingwebpanel.media.webaudio.ChannelInterpretation)">setChannelInterpretation</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="MIN_BUFFER_SIZE"><!-- --></A><H3>
+MIN_BUFFER_SIZE</H3>
+<PRE>
+public static final int <B>MIN_BUFFER_SIZE</B></PRE>
+<DL>
+<DD>The smallest <code>bufferSize</code>.
+ <p>
+ <code>bufferSize</code> 의 최솟값.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.ScriptProcessorNode.MIN_BUFFER_SIZE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAX_BUFFER_SIZE"><!-- --></A><H3>
+MAX_BUFFER_SIZE</H3>
+<PRE>
+public static final int <B>MAX_BUFFER_SIZE</B></PRE>
+<DL>
+<DD>The largest <code>bufferSize</code>.
+ <p>
+ <code>bufferSize</code> 의 최댓값.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.ScriptProcessorNode.MAX_BUFFER_SIZE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_BUFFER_SIZE"><!-- --></A><H3>
+DEFAULT_BUFFER_SIZE</H3>
+<PRE>
+public static final int <B>DEFAULT_BUFFER_SIZE</B></PRE>
+<DL>
+<DD>The <code>bufferSize</code> that the implementation picks for 0 (46 ms at 44100 Hz).
+ <p>
+ 0 일 때 구현이 고르는 <code>bufferSize</code>(44100 Hz 에서 46 ms).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.ScriptProcessorNode.DEFAULT_BUFFER_SIZE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="RESPONSE_TIMEOUT_MILLIS"><!-- --></A><H3>
+RESPONSE_TIMEOUT_MILLIS</H3>
+<PRE>
+public static final long <B>RESPONSE_TIMEOUT_MILLIS</B></PRE>
+<DL>
+<DD>The longest time in milliseconds that an offline rendering waits for a listener.
+ <p>
+ 오프라인 렌더링이 리스너를 기다리는 가장 긴 시간(밀리초).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.ScriptProcessorNode.RESPONSE_TIMEOUT_MILLIS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAX_BLOCKS"><!-- --></A><H3>
+MAX_BLOCKS</H3>
+<PRE>
+public static final int <B>MAX_BLOCKS</B></PRE>
+<DL>
+<DD>The largest number of blocks that exist at the same time.
+ <p>
+ 동시에 존재하는 블록의 최대 수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.ScriptProcessorNode.MAX_BLOCKS">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="ScriptProcessorNode(org.duckdns.hjow.swingwebpanel.media.webaudio.BaseAudioContext, int, int, int)"><!-- --></A><H3>
+ScriptProcessorNode</H3>
+<PRE>
+public <B>ScriptProcessorNode</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">BaseAudioContext</A>&nbsp;context,
+                           int&nbsp;bufferSize,
+                           int&nbsp;numberOfInputChannels,
+                           int&nbsp;numberOfOutputChannels)</PRE>
+<DL>
+<DD>Creates a script processor.
+ <p>
+ 스크립트 프로세서를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>context</CODE> - the context / 컨텍스트<DD><CODE>bufferSize</CODE> - 0 to let the implementation pick, or a power of two from 256 to 16384 / 0 이면 구현이 고르고, 아니면 256 ~ 16384 의 2 의 거듭제곱<DD><CODE>numberOfInputChannels</CODE> - the number of input channels, from 0 to 32 / 입력 채널 수(0 ~ 32)<DD><CODE>numberOfOutputChannels</CODE> - the number of output channels, from 0 to 32; not both 0 / 출력 채널 수(0 ~ 32). 둘 다 0 은 안 된다
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioException</A></CODE> - <code>IndexSizeError</code> if a value is out of range / 값이 범위 밖이면 <code>IndexSizeError</code></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getBufferSize()"><!-- --></A><H3>
+getBufferSize</H3>
+<PRE>
+public int <B>getBufferSize</B>()</PRE>
+<DL>
+<DD>Returns the number of frames of a block (<code>bufferSize</code>).
+ <p>
+ 블록의 프레임 수(<code>bufferSize</code>)를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the buffer size / 버퍼 크기</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getNumberOfInputChannels()"><!-- --></A><H3>
+getNumberOfInputChannels</H3>
+<PRE>
+public int <B>getNumberOfInputChannels</B>()</PRE>
+<DL>
+<DD>Returns the number of input channels the node was created with (0 for none).
+ <p>
+ 노드를 만들 때 정한 입력 채널 수를 반환한다(없으면 0).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of channels / 채널 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getNumberOfOutputChannels()"><!-- --></A><H3>
+getNumberOfOutputChannels</H3>
+<PRE>
+public int <B>getNumberOfOutputChannels</B>()</PRE>
+<DL>
+<DD>Returns the number of output channels the node was created with (0 for none).
+ <p>
+ 노드를 만들 때 정한 출력 채널 수를 반환한다(없으면 0).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of channels / 채널 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setProcessListener(org.duckdns.hjow.swingwebpanel.media.webaudio.ScriptProcessorNode.ProcessListener)"><!-- --></A><H3>
+setProcessListener</H3>
+<PRE>
+public void <B>setProcessListener</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.ProcessListener.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">ScriptProcessorNode.ProcessListener</A>&nbsp;newListener)</PRE>
+<DL>
+<DD>Sets the listener of the blocks (the <code>onaudioprocess</code> handler); null stops the events and the output is silent.
+ <p>
+ 블록의 리스너(<code>onaudioprocess</code> 핸들러)를 정한다. null 이면 이벤트가 멈추고 출력은 무음이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>newListener</CODE> - the listener or null / 리스너 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getProcessListener()"><!-- --></A><H3>
+getProcessListener</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.ProcessListener.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">ScriptProcessorNode.ProcessListener</A> <B>getProcessListener</B>()</PRE>
+<DL>
+<DD>Returns the listener of the blocks.
+ <p>
+ 블록의 리스너를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the listener or null / 리스너 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setResponseTimeout(long)"><!-- --></A><H3>
+setResponseTimeout</H3>
+<PRE>
+public void <B>setResponseTimeout</B>(long&nbsp;millis)</PRE>
+<DL>
+<DD>Sets the longest time in milliseconds that an offline rendering waits for a listener (the default is <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#RESPONSE_TIMEOUT_MILLIS"><CODE>RESPONSE_TIMEOUT_MILLIS</CODE></A>).
+ <p>
+ 오프라인 렌더링이 리스너를 기다리는 가장 긴 시간(밀리초)을 정한다(기본값은 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html#RESPONSE_TIMEOUT_MILLIS"><CODE>RESPONSE_TIMEOUT_MILLIS</CODE></A>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>millis</CODE> - the time in milliseconds, at least 1 / 시간(밀리초, 1 이상)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getResponseTimeout()"><!-- --></A><H3>
+getResponseTimeout</H3>
+<PRE>
+public long <B>getResponseTimeout</B>()</PRE>
+<DL>
+<DD>Returns the longest time in milliseconds that an offline rendering waits for a listener.
+ <p>
+ 오프라인 렌더링이 리스너를 기다리는 가장 긴 시간(밀리초)을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the time in milliseconds / 시간(밀리초)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBlockCount()"><!-- --></A><H3>
+getBlockCount</H3>
+<PRE>
+public int <B>getBlockCount</B>()</PRE>
+<DL>
+<DD>Returns the number of blocks that exist (the blocks that are created with the node, and those that were added while the listener was slow).
+ <p>
+ 존재하는 블록의 수를 반환한다(노드와 함께 만든 블록과 리스너가 느린 동안 더한 블록).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of blocks / 블록 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLateBlockCount()"><!-- --></A><H3>
+getLateBlockCount</H3>
+<PRE>
+public int <B>getLateBlockCount</B>()</PRE>
+<DL>
+<DD>Returns the number of blocks whose output was late (silent, the result dropped).
+ <p>
+ 출력이 늦었던(무음이고 결과를 버린) 블록의 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the count / 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDroppedBlockCount()"><!-- --></A><H3>
+getDroppedBlockCount</H3>
+<PRE>
+public int <B>getDroppedBlockCount</B>()</PRE>
+<DL>
+<DD>Returns the number of blocks whose input was dropped because the listener was so slow that no block was free.
+ <p>
+ 리스너가 너무 느려 빈 블록이 없어서 입력을 버린 블록의 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the count / 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDispatchedBlockCount()"><!-- --></A><H3>
+getDispatchedBlockCount</H3>
+<PRE>
+public int <B>getDispatchedBlockCount</B>()</PRE>
+<DL>
+<DD>Returns the number of events that were requested (one per block with a listener).
+ <p>
+ 요청한 이벤트의 수를 반환한다(리스너가 있는 블록마다 하나).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the count / 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLastListenerError()"><!-- --></A><H3>
+getLastListenerError</H3>
+<PRE>
+public java.lang.Throwable <B>getLastListenerError</B>()</PRE>
+<DL>
+<DD>Returns the last exception that the listener threw, or null.
+ <p>
+ 리스너가 마지막으로 던진 예외를 반환한다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the exception or null / 예외 또는 null</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Renderer.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.ProcessListener.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ScriptProcessorNode.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

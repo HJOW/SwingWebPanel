@@ -1,0 +1,621 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ControlOverlays
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ControlOverlays";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DefaultPageLoader.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ControlOverlays.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.core</FONT>
+<BR>
+Class ControlOverlays</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.core.ControlOverlays</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ControlOverlays</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The Swing components that the page puts over its form controls and the dialogs that the controls need: the editor over the text field or
+ text area that has the focus (<CODE>ControlEditor</CODE>), the bubble that shows a validation message next to a control, and the file chooser of
+ a file upload control. The components are children of the page component, so they scroll with the page and their coordinates are those of
+ the document. Everything here runs on the event dispatch thread (the form host of the document posts its work to it), and
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html#clear()"><CODE>clear()</CODE></A> removes every component when the page is replaced, cleaned or disposed.
+ <p>
+ 페이지가 폼 컨트롤 위에 얹는 Swing 컴포넌트와 컨트롤이 필요로 하는 대화상자: 포커스를 가진 텍스트 필드나 텍스트 영역 위의 편집기(<CODE>ControlEditor</CODE>), 컨트롤
+ 옆에 검증 메시지를 보여 주는 말풍선, 파일 업로드 컨트롤의 파일 선택기. 컴포넌트는 페이지 컴포넌트의 자식이므로 페이지와 함께 스크롤되고 좌표는 문서의 좌표이다.
+ 여기의 모든 것은 이벤트 디스패치 스레드에서 실행되며(문서의 폼 호스트가 작업을 그곳에 넘긴다), 페이지가 교체, clean, dispose 될 때 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html#clear()"><CODE>clear()</CODE></A> 가 모든
+ 컴포넌트를 없앤다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html#ControlOverlays(javax.swing.JComponent)">ControlOverlays</A></B>(javax.swing.JComponent&nbsp;panel)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the overlays of a page component.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html#clear()">clear</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes every editor and the bubble (the page was replaced, cleaned or disposed).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html#clearLater()">clearLater</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clears the overlays on the event dispatch thread (from any thread).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;javax.swing.text.JTextComponent</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html#getActiveEditor()">getActiveEditor</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text component of the editor that edit commands of the host go to: the open editor that has the Swing focus, else the
+ only open editor (a text control has an editor while it has the focus of the page), else null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;javax.swing.text.JTextComponent</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html#getEditor(org.duckdns.hjow.swingwebpanel.dom.Element)">getEditor</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text component of the editor that is open over an element (for tests and hosts).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html#getEditorCount()">getEditorCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of editors that are open.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html#getMessage()">getMessage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text of the validation bubble that is shown, or null (for tests).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.awt.event.MouseListener</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html#getMouseListener()">getMouseListener</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a mouse listener that the page component must have: it records where the user pressed the mouse button, so that the editor that
+ opens because of the press puts its caret there.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;javax.swing.JList</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html#getPicker()">getPicker</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the list of the drop-down that is open, or null (for tests).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html#layout(org.duckdns.hjow.swingwebpanel.render.RenderedPage)">layout</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html" title="class in org.duckdns.hjow.swingwebpanel.render">RenderedPage</A>&nbsp;page)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Puts the editors over the controls as the new rendering of the page has them (a reflow moved them, the font or the color changed, or the
+ control has no box any more), then calls the observers.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html#setClipboard(org.duckdns.hjow.swingwebpanel.core.ClipboardSink, org.duckdns.hjow.swingwebpanel.core.ClipboardSource)">setClipboard</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ClipboardSink.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ClipboardSink</A>&nbsp;to,
+             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ClipboardSource.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ClipboardSource</A>&nbsp;from)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the clipboard of the editors: where they write what the user copies or cuts, and where they read what the user pastes (the
+ clipboard of the component, which a host may replace).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html#setColorChooser(org.duckdns.hjow.swingwebpanel.core.ColorChooser)">setColorChooser</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ColorChooser.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ColorChooser</A>&nbsp;chooser)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Replaces the chooser of colors (the default shows a Swing color chooser dialog).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html#setKeyboard(org.duckdns.hjow.swingwebpanel.core.PageKeyboard)">setKeyboard</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKeyboard.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageKeyboard</A>&nbsp;keyboard)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the page keyboard that receives the key and focus events of the editors: they are the events of the page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html#setUploadChooser(org.duckdns.hjow.swingwebpanel.core.UploadChooser)">setUploadChooser</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/UploadChooser.html" title="interface in org.duckdns.hjow.swingwebpanel.core">UploadChooser</A>&nbsp;chooser)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Replaces the chooser of upload files (the default shows a Swing file chooser).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html#setZoom(double)">setZoom</A></B>(double&nbsp;factor)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the zoom factor of the page; the editors that are open are placed again by the next <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html#layout(org.duckdns.hjow.swingwebpanel.render.RenderedPage)"><CODE>layout(RenderedPage)</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.io.File[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html#showFileChooser(boolean, java.lang.String)">showFileChooser</A></B>(boolean&nbsp;multiple,
+                java.lang.String&nbsp;accept)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Shows the default file chooser
+ (a Swing dialog over the window of the page component) and returns the files that the user chose.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="ControlOverlays(javax.swing.JComponent)"><!-- --></A><H3>
+ControlOverlays</H3>
+<PRE>
+public <B>ControlOverlays</B>(javax.swing.JComponent&nbsp;panel)</PRE>
+<DL>
+<DD>Creates the overlays of a page component.
+ <p>
+ 페이지 컴포넌트의 오버레이를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>panel</CODE> - the page component, whose layout manager must be null (the children are placed by their bounds) / 페이지 컴포넌트. 배치 관리자가 null 이어야 한다
+              (자식은 bounds 로 놓인다)</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="setZoom(double)"><!-- --></A><H3>
+setZoom</H3>
+<PRE>
+public void <B>setZoom</B>(double&nbsp;factor)</PRE>
+<DL>
+<DD>Sets the zoom factor of the page; the editors that are open are placed again by the next <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html#layout(org.duckdns.hjow.swingwebpanel.render.RenderedPage)"><CODE>layout(RenderedPage)</CODE></A>.
+ <p>
+ 페이지의 확대 배율을 정한다. 열려 있는 편집기는 다음 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html#layout(org.duckdns.hjow.swingwebpanel.render.RenderedPage)"><CODE>layout(RenderedPage)</CODE></A> 에서 다시 놓인다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>factor</CODE> - the factor, positive / 배율. 양수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setKeyboard(org.duckdns.hjow.swingwebpanel.core.PageKeyboard)"><!-- --></A><H3>
+setKeyboard</H3>
+<PRE>
+public void <B>setKeyboard</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKeyboard.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageKeyboard</A>&nbsp;keyboard)</PRE>
+<DL>
+<DD>Sets the page keyboard that receives the key and focus events of the editors: they are the events of the page.
+ <p>
+ 편집기의 키와 포커스 이벤트를 받는 페이지 키보드를 지정한다. 그 이벤트는 페이지의 이벤트이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>keyboard</CODE> - the page keyboard / 페이지 키보드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setClipboard(org.duckdns.hjow.swingwebpanel.core.ClipboardSink, org.duckdns.hjow.swingwebpanel.core.ClipboardSource)"><!-- --></A><H3>
+setClipboard</H3>
+<PRE>
+public void <B>setClipboard</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ClipboardSink.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ClipboardSink</A>&nbsp;to,
+                         <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ClipboardSource.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ClipboardSource</A>&nbsp;from)</PRE>
+<DL>
+<DD>Sets the clipboard of the editors: where they write what the user copies or cuts, and where they read what the user pastes (the
+ clipboard of the component, which a host may replace). Without it the editors use the system clipboard of Swing.
+ <p>
+ 편집기의 클립보드를 정한다: 사용자가 복사하거나 잘라낸 것을 쓰는 곳과 붙여넣을 것을 읽는 곳(컴포넌트의 클립보드이며 호스트가 바꿀 수 있다). 없으면 편집기는
+ Swing 의 시스템 클립보드를 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>to</CODE> - where copied text is written, or null / 복사한 텍스트를 쓰는 곳. 없으면 null<DD><CODE>from</CODE> - where pasted data is read, or null / 붙여넣을 데이터를 읽는 곳. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setUploadChooser(org.duckdns.hjow.swingwebpanel.core.UploadChooser)"><!-- --></A><H3>
+setUploadChooser</H3>
+<PRE>
+public void <B>setUploadChooser</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/UploadChooser.html" title="interface in org.duckdns.hjow.swingwebpanel.core">UploadChooser</A>&nbsp;chooser)</PRE>
+<DL>
+<DD>Replaces the chooser of upload files (the default shows a Swing file chooser). A host or a test chooses files without a dialog with it.
+ <p>
+ 업로드 파일의 선택기를 바꾼다(기본은 Swing 파일 선택기를 보여 준다). 호스트나 시험은 이것으로 대화상자 없이 파일을 고른다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>chooser</CODE> - the chooser, or null for the default / 선택기. 기본을 쓰려면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setColorChooser(org.duckdns.hjow.swingwebpanel.core.ColorChooser)"><!-- --></A><H3>
+setColorChooser</H3>
+<PRE>
+public void <B>setColorChooser</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ColorChooser.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ColorChooser</A>&nbsp;chooser)</PRE>
+<DL>
+<DD>Replaces the chooser of colors (the default shows a Swing color chooser dialog).
+ <p>
+ 색 선택기를 바꾼다(기본은 Swing 색 선택 대화상자를 보여 준다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>chooser</CODE> - the chooser, or null for the default / 선택기. 기본을 쓰려면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPicker()"><!-- --></A><H3>
+getPicker</H3>
+<PRE>
+public javax.swing.JList <B>getPicker</B>()</PRE>
+<DL>
+<DD>Returns the list of the drop-down that is open, or null (for tests).
+ <p>
+ 열려 있는 드롭다운의 목록을 반환한다. 없으면 null(시험용).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the list or null / 목록 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="showFileChooser(boolean, java.lang.String)"><!-- --></A><H3>
+showFileChooser</H3>
+<PRE>
+public java.io.File[] <B>showFileChooser</B>(boolean&nbsp;multiple,
+                                      java.lang.String&nbsp;accept)</PRE>
+<DL>
+<DD>Shows the default file chooser
+ (a Swing dialog over the window of the page component) and returns the files that the user chose. It
+ must be called on the event dispatch thread and does nothing (returns null) without a screen.
+ <p>
+ 기본 파일 선택기(페이지 컴포넌트의 창 위의 Swing 대화상자)를 보여 주고 사용자가 고른 파일을 반환한다. 이벤트 디스패치 스레드에서 호출해야 하며 화면이 없으면
+ 아무것도 하지 않는다(null 반환).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>multiple</CODE> - true if several files are accepted / 여러 파일을 받으면 true<DD><CODE>accept</CODE> - the <code>accept</code> attribute / <code>accept</code> 속성
+<DT><B>Returns:</B><DD>the files or null if the user cancelled / 파일. 사용자가 취소했으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMouseListener()"><!-- --></A><H3>
+getMouseListener</H3>
+<PRE>
+public java.awt.event.MouseListener <B>getMouseListener</B>()</PRE>
+<DL>
+<DD>Returns a mouse listener that the page component must have: it records where the user pressed the mouse button, so that the editor that
+ opens because of the press puts its caret there.
+ <p>
+ 페이지 컴포넌트가 가져야 하는 마우스 리스너를 반환한다. 사용자가 마우스 버튼을 누른 곳을 기록해, 그 누름으로 열리는 편집기가 캐럿을 그곳에 놓게 한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the listener / 리스너</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="clear()"><!-- --></A><H3>
+clear</H3>
+<PRE>
+public void <B>clear</B>()</PRE>
+<DL>
+<DD>Removes every editor and the bubble (the page was replaced, cleaned or disposed).
+ <p>
+ 모든 편집기와 말풍선을 없앤다(페이지가 교체, clean, dispose 되었다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="clearLater()"><!-- --></A><H3>
+clearLater</H3>
+<PRE>
+public void <B>clearLater</B>()</PRE>
+<DL>
+<DD>Clears the overlays on the event dispatch thread (from any thread).
+ <p>
+ 이벤트 디스패치 스레드에서 오버레이를 없앤다(어느 스레드에서든 호출할 수 있다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="layout(org.duckdns.hjow.swingwebpanel.render.RenderedPage)"><!-- --></A><H3>
+layout</H3>
+<PRE>
+public void <B>layout</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html" title="class in org.duckdns.hjow.swingwebpanel.render">RenderedPage</A>&nbsp;page)</PRE>
+<DL>
+<DD>Puts the editors over the controls as the new rendering of the page has them (a reflow moved them, the font or the color changed, or the
+ control has no box any more), then calls the observers.
+ <p>
+ 편집기를 새로 렌더링된 페이지에서 컨트롤이 가진 위치에 놓는다(다시 배치로 움직였거나, 글꼴이나 색이 바뀌었거나, 컨트롤에 상자가 없어졌다). 그다음 관찰자를
+ 호출한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>page</CODE> - the new rendering, may be null / 새 렌더링. null 가능</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEditor(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+getEditor</H3>
+<PRE>
+public javax.swing.text.JTextComponent <B>getEditor</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element)</PRE>
+<DL>
+<DD>Returns the text component of the editor that is open over an element (for tests and hosts).
+ <p>
+ 요소 위에 열려 있는 편집기의 텍스트 컴포넌트를 반환한다(시험과 호스트용).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>element</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>the text component or null / 텍스트 컴포넌트 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getActiveEditor()"><!-- --></A><H3>
+getActiveEditor</H3>
+<PRE>
+public javax.swing.text.JTextComponent <B>getActiveEditor</B>()</PRE>
+<DL>
+<DD>Returns the text component of the editor that edit commands of the host go to: the open editor that has the Swing focus, else the
+ only open editor (a text control has an editor while it has the focus of the page), else null.
+ <p>
+ 호스트의 편집 명령이 갈 편집기의 텍스트 컴포넌트를 반환한다: Swing 포커스를 가진 열린 편집기, 없으면 하나뿐인 열린 편집기(텍스트 컨트롤은 페이지의 포커스를
+ 가진 동안 편집기가 있다), 그것도 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the text component or null / 텍스트 컴포넌트 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEditorCount()"><!-- --></A><H3>
+getEditorCount</H3>
+<PRE>
+public int <B>getEditorCount</B>()</PRE>
+<DL>
+<DD>Returns the number of editors that are open.
+ <p>
+ 열려 있는 편집기의 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number / 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMessage()"><!-- --></A><H3>
+getMessage</H3>
+<PRE>
+public java.lang.String <B>getMessage</B>()</PRE>
+<DL>
+<DD>Returns the text of the validation bubble that is shown, or null (for tests).
+ <p>
+ 보이는 검증 말풍선의 글을 반환한다. 없으면 null(시험용).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the message or null / 메시지 또는 null</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DefaultPageLoader.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ControlOverlays.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

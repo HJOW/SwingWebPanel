@@ -1,0 +1,1295 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+Settings
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Settings";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/SessionStore.Window.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp.model"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Settings.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.desktopapp.model</FONT>
+<BR>
+Class Settings</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>Settings</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The settings of the browser application: named text values with defaults, shared by all windows of the process. A change is announced
+ to the listeners, which apply it to the open windows. The values are plain strings so that they can be stored in a text file; the typed
+ methods convert them and fall back to the default when a stored value cannot be understood.
+ <p>
+ 브라우저 응용 프로그램의 설정: 기본값이 있는 이름 붙은 텍스트 값이며 프로세스의 모든 창이 공유한다. 변경은 리스너에 알리고, 리스너가 열린 창에
+ 적용한다. 값은 텍스트 파일에 저장할 수 있도록 보통 문자열이다. 형식이 있는 메서드가 값을 변환하며, 저장된 값을 이해할 수 없으면 기본값을 쓴다.
+ <p>
+ 사용 예 / Example:
+ <pre>
+ Settings s = new Settings();
+ s.set(Settings.HOME_PAGE, "https://example.com/");
+ String home = s.get(Settings.HOME_PAGE);
+ </pre>
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp.model">Settings.Listener</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Receives the changes of the settings.</TD>
+</TR>
+</TABLE>
+&nbsp;<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#BLOCK_POPUPS">BLOCK_POPUPS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of whether popups that were not asked for by the user are blocked (<code>true</code> or <code>false</code>). / 사용자가 요청하지 않은 팝업을 차단하는지의 키(<code>true</code> 또는 <code>false</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#CONFIRM_CLOSE_TABS">CONFIRM_CLOSE_TABS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of whether closing a window with several tabs asks first (<code>true</code> or <code>false</code>). / 탭이 여럿인 창을 닫을 때 먼저 묻는지의 키(<code>true</code> 또는 <code>false</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#DEFAULT_ZOOM">DEFAULT_ZOOM</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of the zoom of new tabs and of the "actual size" command, as a percentage. / 새 탭과 "원래 크기" 명령의 확대 비율(백분율)의 키.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#DOWNLOAD_DIRECTORY">DOWNLOAD_DIRECTORY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of the folder for downloads; empty for the default of the component. / 다운로드 폴더의 키.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#FONT_MONOSPACE">FONT_MONOSPACE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of the font family behind <code>monospace</code>; empty for the built-in font. / <code>monospace</code> 뒤의 글꼴 패밀리의 키.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#FONT_MONOSPACE_SIZE">FONT_MONOSPACE_SIZE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of the font size of monospace elements in pixels. / 고정폭 요소의 글꼴 크기(픽셀)의 키.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#FONT_SANS_SERIF">FONT_SANS_SERIF</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of the font family behind <code>sans-serif</code>; empty for the built-in font. / <code>sans-serif</code> 뒤의 글꼴 패밀리의 키.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#FONT_SERIF">FONT_SERIF</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of the font family behind <code>serif</code>; empty for the built-in font. / <code>serif</code> 뒤의 글꼴 패밀리의 키.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#FONT_SIZE">FONT_SIZE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of the default font size in pixels. / 기본 글꼴 크기(픽셀)의 키.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#FONT_STANDARD">FONT_STANDARD</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of the font family for content without an author font; empty for the built-in font. / 작성자 글꼴이 없는 내용의 글꼴 패밀리의 키.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#HOME_PAGE">HOME_PAGE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of the address that the home button opens. / 홈 버튼이 여는 주소의 키.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#JAVASCRIPT">JAVASCRIPT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of whether pages may run scripts (<code>true</code> or <code>false</code>). / 페이지가 스크립트를 실행해도 되는지의 키(<code>true</code> 또는 <code>false</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#LINK_PLACE">LINK_PLACE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of where a link or form that asks for a new window is shown: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_TAB"><CODE>PLACE_TAB</CODE></A> or <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_WINDOW"><CODE>PLACE_WINDOW</CODE></A>. / 새 창을 요청하는 링크나 폼을 보이는 곳의 키: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_TAB"><CODE>PLACE_TAB</CODE></A> 또는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_WINDOW"><CODE>PLACE_WINDOW</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#NEW_TAB_BLANK">NEW_TAB_BLANK</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Value of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#NEW_TAB_PAGE"><CODE>NEW_TAB_PAGE</CODE></A>: a new tab shows the empty page. / <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#NEW_TAB_PAGE"><CODE>NEW_TAB_PAGE</CODE></A> 의 값: 새 탭이 빈 페이지를 보인다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#NEW_TAB_HOME">NEW_TAB_HOME</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Value of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#NEW_TAB_PAGE"><CODE>NEW_TAB_PAGE</CODE></A>: a new tab shows the home page. / <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#NEW_TAB_PAGE"><CODE>NEW_TAB_PAGE</CODE></A> 의 값: 새 탭이 홈 페이지를 보인다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#NEW_TAB_PAGE">NEW_TAB_PAGE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of what a new tab shows: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#NEW_TAB_BLANK"><CODE>NEW_TAB_BLANK</CODE></A> or <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#NEW_TAB_HOME"><CODE>NEW_TAB_HOME</CODE></A>. / 새 탭이 보이는 것의 키: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#NEW_TAB_BLANK"><CODE>NEW_TAB_BLANK</CODE></A> 또는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#NEW_TAB_HOME"><CODE>NEW_TAB_HOME</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_POPUP">PLACE_POPUP</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Value of a place: a small popup window. / 장소의 값: 작은 팝업 창.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_TAB">PLACE_TAB</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Value of a place: a new tab. / 장소의 값: 새 탭.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_WINDOW">PLACE_WINDOW</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Value of a place: a new browser window. / 장소의 값: 새 브라우저 창.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#POPUP_PLACE">POPUP_PLACE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of where a window that a script opens is shown: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_POPUP"><CODE>PLACE_POPUP</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_WINDOW"><CODE>PLACE_WINDOW</CODE></A> or <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_TAB"><CODE>PLACE_TAB</CODE></A>. / 스크립트가 연 창을 보이는 곳의 키: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_POPUP"><CODE>PLACE_POPUP</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_WINDOW"><CODE>PLACE_WINDOW</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_TAB"><CODE>PLACE_TAB</CODE></A> 중 하나.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PRINT_BACKGROUNDS">PRINT_BACKGROUNDS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of whether backgrounds are printed (<code>true</code> or <code>false</code>). / 배경을 인쇄하는지의 키(<code>true</code> 또는 <code>false</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PRINT_HEADERS">PRINT_HEADERS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of whether headers and footers are printed (<code>true</code> or <code>false</code>). / 머리글과 바닥글을 인쇄하는지의 키(<code>true</code> 또는 <code>false</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#SCRIPTS_CLOSE_WINDOWS">SCRIPTS_CLOSE_WINDOWS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of whether a script may close a tab that the user opened (<code>true</code> or <code>false</code>). / 사용자가 연 탭을 스크립트가 닫아도 되는지의 키(<code>true</code> 또는 <code>false</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#SEARCH_TEMPLATE">SEARCH_TEMPLATE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of the search address template (<code>%s</code> is the query); empty for none. / 검색 주소 서식의 키(<code>%s</code> 가 질의).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#SELECT_NEW_TABS">SELECT_NEW_TABS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of whether a link opened in a new tab becomes the active tab at once (<code>true</code> or <code>false</code>). / 새 탭에서 연 링크가 바로 활성 탭이 되는지의 키(<code>true</code> 또는 <code>false</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#SHOW_STATUS_BAR">SHOW_STATUS_BAR</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of whether the status bar is shown (<code>true</code> or <code>false</code>). / 상태 표시줄을 보이는지의 키(<code>true</code> 또는 <code>false</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#SHOW_TOOLBAR">SHOW_TOOLBAR</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of whether the navigation toolbar is shown (<code>true</code> or <code>false</code>). / 탐색 도구 모음을 보이는지의 키(<code>true</code> 또는 <code>false</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_BLANK">START_BLANK</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Value of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_PAGE"><CODE>START_PAGE</CODE></A>: the empty page. / <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_PAGE"><CODE>START_PAGE</CODE></A> 의 값: 빈 페이지.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_HOME">START_HOME</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Value of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_PAGE"><CODE>START_PAGE</CODE></A>: the home page. / <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_PAGE"><CODE>START_PAGE</CODE></A> 의 값: 홈 페이지.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_PAGE">START_PAGE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of what the program opens at start: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_HOME"><CODE>START_HOME</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_BLANK"><CODE>START_BLANK</CODE></A> or <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_RESTORE"><CODE>START_RESTORE</CODE></A>. / 프로그램이 시작할 때 여는 것의 키: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_HOME"><CODE>START_HOME</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_BLANK"><CODE>START_BLANK</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_RESTORE"><CODE>START_RESTORE</CODE></A> 중 하나.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_RESTORE">START_RESTORE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Value of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_PAGE"><CODE>START_PAGE</CODE></A>: the windows and tabs of the last run. / <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_PAGE"><CODE>START_PAGE</CODE></A> 의 값: 지난번의 창과 탭.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#USER_AGENT">USER_AGENT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of the User-Agent text; empty for the default of the component. / User-Agent 글의 키.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#WINDOW_HEIGHT">WINDOW_HEIGHT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of the height of the browser window. / 브라우저 창의 높이의 키.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#WINDOW_MAXIMIZED">WINDOW_MAXIMIZED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of whether the browser window is maximized (<code>true</code> or <code>false</code>). / 브라우저 창이 최대화되어 있는지의 키(<code>true</code> 또는 <code>false</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#WINDOW_WIDTH">WINDOW_WIDTH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of the width of the browser window. / 브라우저 창의 폭의 키.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#WINDOW_X">WINDOW_X</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of the left edge of the browser window on the screen; empty for the choice of the platform. / 화면에서 브라우저 창의 왼쪽 가장자리의 키.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#WINDOW_Y">WINDOW_Y</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Key of the top edge of the browser window on the screen; empty for the choice of the platform. / 화면에서 브라우저 창의 위쪽 가장자리의 키.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#Settings()">Settings</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates settings with the default values.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#addListener(org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.Listener)">addListener</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp.model">Settings.Listener</A>&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adds a listener.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#defaultOf(java.lang.String)">defaultOf</A></B>(java.lang.String&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the default value of a key.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#get(java.lang.String)">get</A></B>(java.lang.String&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the value of a key, or its default when it was never set.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#getBoolean(java.lang.String)">getBoolean</A></B>(java.lang.String&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the value of a key as a truth value: <code>true</code> or <code>false</code>; anything else gives the default of the key.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#getChoice(java.lang.String, java.lang.String[])">getChoice</A></B>(java.lang.String&nbsp;key,
+          java.lang.String[]&nbsp;allowed)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the value of a key if it is one of the allowed values, otherwise the default of the key.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#getInt(java.lang.String, int, int)">getInt</A></B>(java.lang.String&nbsp;key,
+       int&nbsp;min,
+       int&nbsp;max)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the value of a key as a whole number inside a range; text that is not a number, or a number outside the range, gives the
+ default of the key.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#keys()">keys</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the keys that have a default value, in the order they are stored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#removeListener(org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.Listener)">removeListener</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp.model">Settings.Listener</A>&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes a listener.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#set(java.lang.String, java.lang.String)">set</A></B>(java.lang.String&nbsp;key,
+    java.lang.String&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the value of a key and tells the listeners if it changed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#setAll(java.util.Map)">setAll</A></B>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;updates)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Replaces several values at once and tells the listeners once if anything changed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Map&lt;java.lang.String,java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#toMap()">toMap</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns all values, the defaults included, by key.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="HOME_PAGE"><!-- --></A><H3>
+HOME_PAGE</H3>
+<PRE>
+public static final java.lang.String <B>HOME_PAGE</B></PRE>
+<DL>
+<DD>Key of the address that the home button opens. / 홈 버튼이 여는 주소의 키.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.HOME_PAGE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SEARCH_TEMPLATE"><!-- --></A><H3>
+SEARCH_TEMPLATE</H3>
+<PRE>
+public static final java.lang.String <B>SEARCH_TEMPLATE</B></PRE>
+<DL>
+<DD>Key of the search address template (<code>%s</code> is the query); empty for none. / 검색 주소 서식의 키(<code>%s</code> 가 질의). 없으면 빈 값.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.SEARCH_TEMPLATE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="NEW_TAB_PAGE"><!-- --></A><H3>
+NEW_TAB_PAGE</H3>
+<PRE>
+public static final java.lang.String <B>NEW_TAB_PAGE</B></PRE>
+<DL>
+<DD>Key of what a new tab shows: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#NEW_TAB_BLANK"><CODE>NEW_TAB_BLANK</CODE></A> or <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#NEW_TAB_HOME"><CODE>NEW_TAB_HOME</CODE></A>. / 새 탭이 보이는 것의 키: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#NEW_TAB_BLANK"><CODE>NEW_TAB_BLANK</CODE></A> 또는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#NEW_TAB_HOME"><CODE>NEW_TAB_HOME</CODE></A>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.NEW_TAB_PAGE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="NEW_TAB_BLANK"><!-- --></A><H3>
+NEW_TAB_BLANK</H3>
+<PRE>
+public static final java.lang.String <B>NEW_TAB_BLANK</B></PRE>
+<DL>
+<DD>Value of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#NEW_TAB_PAGE"><CODE>NEW_TAB_PAGE</CODE></A>: a new tab shows the empty page. / <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#NEW_TAB_PAGE"><CODE>NEW_TAB_PAGE</CODE></A> 의 값: 새 탭이 빈 페이지를 보인다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.NEW_TAB_BLANK">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="NEW_TAB_HOME"><!-- --></A><H3>
+NEW_TAB_HOME</H3>
+<PRE>
+public static final java.lang.String <B>NEW_TAB_HOME</B></PRE>
+<DL>
+<DD>Value of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#NEW_TAB_PAGE"><CODE>NEW_TAB_PAGE</CODE></A>: a new tab shows the home page. / <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#NEW_TAB_PAGE"><CODE>NEW_TAB_PAGE</CODE></A> 의 값: 새 탭이 홈 페이지를 보인다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.NEW_TAB_HOME">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="CONFIRM_CLOSE_TABS"><!-- --></A><H3>
+CONFIRM_CLOSE_TABS</H3>
+<PRE>
+public static final java.lang.String <B>CONFIRM_CLOSE_TABS</B></PRE>
+<DL>
+<DD>Key of whether closing a window with several tabs asks first (<code>true</code> or <code>false</code>). / 탭이 여럿인 창을 닫을 때 먼저 묻는지의 키(<code>true</code> 또는 <code>false</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.CONFIRM_CLOSE_TABS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SHOW_TOOLBAR"><!-- --></A><H3>
+SHOW_TOOLBAR</H3>
+<PRE>
+public static final java.lang.String <B>SHOW_TOOLBAR</B></PRE>
+<DL>
+<DD>Key of whether the navigation toolbar is shown (<code>true</code> or <code>false</code>). / 탐색 도구 모음을 보이는지의 키(<code>true</code> 또는 <code>false</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.SHOW_TOOLBAR">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SHOW_STATUS_BAR"><!-- --></A><H3>
+SHOW_STATUS_BAR</H3>
+<PRE>
+public static final java.lang.String <B>SHOW_STATUS_BAR</B></PRE>
+<DL>
+<DD>Key of whether the status bar is shown (<code>true</code> or <code>false</code>). / 상태 표시줄을 보이는지의 키(<code>true</code> 또는 <code>false</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.SHOW_STATUS_BAR">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_ZOOM"><!-- --></A><H3>
+DEFAULT_ZOOM</H3>
+<PRE>
+public static final java.lang.String <B>DEFAULT_ZOOM</B></PRE>
+<DL>
+<DD>Key of the zoom of new tabs and of the "actual size" command, as a percentage. / 새 탭과 "원래 크기" 명령의 확대 비율(백분율)의 키.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.DEFAULT_ZOOM">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="START_PAGE"><!-- --></A><H3>
+START_PAGE</H3>
+<PRE>
+public static final java.lang.String <B>START_PAGE</B></PRE>
+<DL>
+<DD>Key of what the program opens at start: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_HOME"><CODE>START_HOME</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_BLANK"><CODE>START_BLANK</CODE></A> or <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_RESTORE"><CODE>START_RESTORE</CODE></A>. / 프로그램이 시작할 때 여는 것의 키: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_HOME"><CODE>START_HOME</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_BLANK"><CODE>START_BLANK</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_RESTORE"><CODE>START_RESTORE</CODE></A> 중 하나.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.START_PAGE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="START_HOME"><!-- --></A><H3>
+START_HOME</H3>
+<PRE>
+public static final java.lang.String <B>START_HOME</B></PRE>
+<DL>
+<DD>Value of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_PAGE"><CODE>START_PAGE</CODE></A>: the home page. / <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_PAGE"><CODE>START_PAGE</CODE></A> 의 값: 홈 페이지.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.START_HOME">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="START_BLANK"><!-- --></A><H3>
+START_BLANK</H3>
+<PRE>
+public static final java.lang.String <B>START_BLANK</B></PRE>
+<DL>
+<DD>Value of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_PAGE"><CODE>START_PAGE</CODE></A>: the empty page. / <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_PAGE"><CODE>START_PAGE</CODE></A> 의 값: 빈 페이지.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.START_BLANK">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="START_RESTORE"><!-- --></A><H3>
+START_RESTORE</H3>
+<PRE>
+public static final java.lang.String <B>START_RESTORE</B></PRE>
+<DL>
+<DD>Value of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_PAGE"><CODE>START_PAGE</CODE></A>: the windows and tabs of the last run. / <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#START_PAGE"><CODE>START_PAGE</CODE></A> 의 값: 지난번의 창과 탭.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.START_RESTORE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SELECT_NEW_TABS"><!-- --></A><H3>
+SELECT_NEW_TABS</H3>
+<PRE>
+public static final java.lang.String <B>SELECT_NEW_TABS</B></PRE>
+<DL>
+<DD>Key of whether a link opened in a new tab becomes the active tab at once (<code>true</code> or <code>false</code>). / 새 탭에서 연 링크가 바로 활성 탭이 되는지의 키(<code>true</code> 또는 <code>false</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.SELECT_NEW_TABS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PRINT_BACKGROUNDS"><!-- --></A><H3>
+PRINT_BACKGROUNDS</H3>
+<PRE>
+public static final java.lang.String <B>PRINT_BACKGROUNDS</B></PRE>
+<DL>
+<DD>Key of whether backgrounds are printed (<code>true</code> or <code>false</code>). / 배경을 인쇄하는지의 키(<code>true</code> 또는 <code>false</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.PRINT_BACKGROUNDS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PRINT_HEADERS"><!-- --></A><H3>
+PRINT_HEADERS</H3>
+<PRE>
+public static final java.lang.String <B>PRINT_HEADERS</B></PRE>
+<DL>
+<DD>Key of whether headers and footers are printed (<code>true</code> or <code>false</code>). / 머리글과 바닥글을 인쇄하는지의 키(<code>true</code> 또는 <code>false</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.PRINT_HEADERS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FONT_STANDARD"><!-- --></A><H3>
+FONT_STANDARD</H3>
+<PRE>
+public static final java.lang.String <B>FONT_STANDARD</B></PRE>
+<DL>
+<DD>Key of the font family for content without an author font; empty for the built-in font. / 작성자 글꼴이 없는 내용의 글꼴 패밀리의 키. 내장 글꼴이면 빈 값.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.FONT_STANDARD">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FONT_SERIF"><!-- --></A><H3>
+FONT_SERIF</H3>
+<PRE>
+public static final java.lang.String <B>FONT_SERIF</B></PRE>
+<DL>
+<DD>Key of the font family behind <code>serif</code>; empty for the built-in font. / <code>serif</code> 뒤의 글꼴 패밀리의 키. 내장 글꼴이면 빈 값.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.FONT_SERIF">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FONT_SANS_SERIF"><!-- --></A><H3>
+FONT_SANS_SERIF</H3>
+<PRE>
+public static final java.lang.String <B>FONT_SANS_SERIF</B></PRE>
+<DL>
+<DD>Key of the font family behind <code>sans-serif</code>; empty for the built-in font. / <code>sans-serif</code> 뒤의 글꼴 패밀리의 키. 내장 글꼴이면 빈 값.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.FONT_SANS_SERIF">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FONT_MONOSPACE"><!-- --></A><H3>
+FONT_MONOSPACE</H3>
+<PRE>
+public static final java.lang.String <B>FONT_MONOSPACE</B></PRE>
+<DL>
+<DD>Key of the font family behind <code>monospace</code>; empty for the built-in font. / <code>monospace</code> 뒤의 글꼴 패밀리의 키. 내장 글꼴이면 빈 값.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.FONT_MONOSPACE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FONT_SIZE"><!-- --></A><H3>
+FONT_SIZE</H3>
+<PRE>
+public static final java.lang.String <B>FONT_SIZE</B></PRE>
+<DL>
+<DD>Key of the default font size in pixels. / 기본 글꼴 크기(픽셀)의 키.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.FONT_SIZE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FONT_MONOSPACE_SIZE"><!-- --></A><H3>
+FONT_MONOSPACE_SIZE</H3>
+<PRE>
+public static final java.lang.String <B>FONT_MONOSPACE_SIZE</B></PRE>
+<DL>
+<DD>Key of the font size of monospace elements in pixels. / 고정폭 요소의 글꼴 크기(픽셀)의 키.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.FONT_MONOSPACE_SIZE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="JAVASCRIPT"><!-- --></A><H3>
+JAVASCRIPT</H3>
+<PRE>
+public static final java.lang.String <B>JAVASCRIPT</B></PRE>
+<DL>
+<DD>Key of whether pages may run scripts (<code>true</code> or <code>false</code>). / 페이지가 스크립트를 실행해도 되는지의 키(<code>true</code> 또는 <code>false</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.JAVASCRIPT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SCRIPTS_CLOSE_WINDOWS"><!-- --></A><H3>
+SCRIPTS_CLOSE_WINDOWS</H3>
+<PRE>
+public static final java.lang.String <B>SCRIPTS_CLOSE_WINDOWS</B></PRE>
+<DL>
+<DD>Key of whether a script may close a tab that the user opened (<code>true</code> or <code>false</code>). / 사용자가 연 탭을 스크립트가 닫아도 되는지의 키(<code>true</code> 또는 <code>false</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.SCRIPTS_CLOSE_WINDOWS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="USER_AGENT"><!-- --></A><H3>
+USER_AGENT</H3>
+<PRE>
+public static final java.lang.String <B>USER_AGENT</B></PRE>
+<DL>
+<DD>Key of the User-Agent text; empty for the default of the component. / User-Agent 글의 키. 컴포넌트의 기본값이면 빈 값.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.USER_AGENT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DOWNLOAD_DIRECTORY"><!-- --></A><H3>
+DOWNLOAD_DIRECTORY</H3>
+<PRE>
+public static final java.lang.String <B>DOWNLOAD_DIRECTORY</B></PRE>
+<DL>
+<DD>Key of the folder for downloads; empty for the default of the component. / 다운로드 폴더의 키. 컴포넌트의 기본값이면 빈 값.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.DOWNLOAD_DIRECTORY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BLOCK_POPUPS"><!-- --></A><H3>
+BLOCK_POPUPS</H3>
+<PRE>
+public static final java.lang.String <B>BLOCK_POPUPS</B></PRE>
+<DL>
+<DD>Key of whether popups that were not asked for by the user are blocked (<code>true</code> or <code>false</code>). / 사용자가 요청하지 않은 팝업을 차단하는지의 키(<code>true</code> 또는 <code>false</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.BLOCK_POPUPS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="POPUP_PLACE"><!-- --></A><H3>
+POPUP_PLACE</H3>
+<PRE>
+public static final java.lang.String <B>POPUP_PLACE</B></PRE>
+<DL>
+<DD>Key of where a window that a script opens is shown: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_POPUP"><CODE>PLACE_POPUP</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_WINDOW"><CODE>PLACE_WINDOW</CODE></A> or <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_TAB"><CODE>PLACE_TAB</CODE></A>. / 스크립트가 연 창을 보이는 곳의 키: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_POPUP"><CODE>PLACE_POPUP</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_WINDOW"><CODE>PLACE_WINDOW</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_TAB"><CODE>PLACE_TAB</CODE></A> 중 하나.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.POPUP_PLACE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LINK_PLACE"><!-- --></A><H3>
+LINK_PLACE</H3>
+<PRE>
+public static final java.lang.String <B>LINK_PLACE</B></PRE>
+<DL>
+<DD>Key of where a link or form that asks for a new window is shown: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_TAB"><CODE>PLACE_TAB</CODE></A> or <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_WINDOW"><CODE>PLACE_WINDOW</CODE></A>. / 새 창을 요청하는 링크나 폼을 보이는 곳의 키: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_TAB"><CODE>PLACE_TAB</CODE></A> 또는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html#PLACE_WINDOW"><CODE>PLACE_WINDOW</CODE></A>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.LINK_PLACE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PLACE_POPUP"><!-- --></A><H3>
+PLACE_POPUP</H3>
+<PRE>
+public static final java.lang.String <B>PLACE_POPUP</B></PRE>
+<DL>
+<DD>Value of a place: a small popup window. / 장소의 값: 작은 팝업 창.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.PLACE_POPUP">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PLACE_WINDOW"><!-- --></A><H3>
+PLACE_WINDOW</H3>
+<PRE>
+public static final java.lang.String <B>PLACE_WINDOW</B></PRE>
+<DL>
+<DD>Value of a place: a new browser window. / 장소의 값: 새 브라우저 창.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.PLACE_WINDOW">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PLACE_TAB"><!-- --></A><H3>
+PLACE_TAB</H3>
+<PRE>
+public static final java.lang.String <B>PLACE_TAB</B></PRE>
+<DL>
+<DD>Value of a place: a new tab. / 장소의 값: 새 탭.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.PLACE_TAB">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="WINDOW_X"><!-- --></A><H3>
+WINDOW_X</H3>
+<PRE>
+public static final java.lang.String <B>WINDOW_X</B></PRE>
+<DL>
+<DD>Key of the left edge of the browser window on the screen; empty for the choice of the platform. / 화면에서 브라우저 창의 왼쪽 가장자리의 키. 플랫폼이 정하면 빈 값.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.WINDOW_X">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="WINDOW_Y"><!-- --></A><H3>
+WINDOW_Y</H3>
+<PRE>
+public static final java.lang.String <B>WINDOW_Y</B></PRE>
+<DL>
+<DD>Key of the top edge of the browser window on the screen; empty for the choice of the platform. / 화면에서 브라우저 창의 위쪽 가장자리의 키. 플랫폼이 정하면 빈 값.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.WINDOW_Y">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="WINDOW_WIDTH"><!-- --></A><H3>
+WINDOW_WIDTH</H3>
+<PRE>
+public static final java.lang.String <B>WINDOW_WIDTH</B></PRE>
+<DL>
+<DD>Key of the width of the browser window. / 브라우저 창의 폭의 키.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.WINDOW_WIDTH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="WINDOW_HEIGHT"><!-- --></A><H3>
+WINDOW_HEIGHT</H3>
+<PRE>
+public static final java.lang.String <B>WINDOW_HEIGHT</B></PRE>
+<DL>
+<DD>Key of the height of the browser window. / 브라우저 창의 높이의 키.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.WINDOW_HEIGHT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="WINDOW_MAXIMIZED"><!-- --></A><H3>
+WINDOW_MAXIMIZED</H3>
+<PRE>
+public static final java.lang.String <B>WINDOW_MAXIMIZED</B></PRE>
+<DL>
+<DD>Key of whether the browser window is maximized (<code>true</code> or <code>false</code>). / 브라우저 창이 최대화되어 있는지의 키(<code>true</code> 또는 <code>false</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.WINDOW_MAXIMIZED">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="Settings()"><!-- --></A><H3>
+Settings</H3>
+<PRE>
+public <B>Settings</B>()</PRE>
+<DL>
+<DD>Creates settings with the default values.
+ <p>
+ 기본값으로 설정을 만든다.
+<P>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="keys()"><!-- --></A><H3>
+keys</H3>
+<PRE>
+public static java.util.List&lt;java.lang.String&gt; <B>keys</B>()</PRE>
+<DL>
+<DD>Returns the keys that have a default value, in the order they are stored.
+ <p>
+ 기본값이 있는 키를 저장하는 순서대로 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a copy of the keys / 키의 복사본</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="defaultOf(java.lang.String)"><!-- --></A><H3>
+defaultOf</H3>
+<PRE>
+public static java.lang.String <B>defaultOf</B>(java.lang.String&nbsp;key)</PRE>
+<DL>
+<DD>Returns the default value of a key.
+ <p>
+ 키의 기본값을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key / 키
+<DT><B>Returns:</B><DD>the default, or the empty string for an unknown key / 기본값. 모르는 키이면 빈 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="get(java.lang.String)"><!-- --></A><H3>
+get</H3>
+<PRE>
+public java.lang.String <B>get</B>(java.lang.String&nbsp;key)</PRE>
+<DL>
+<DD>Returns the value of a key, or its default when it was never set.
+ <p>
+ 키의 값을 반환한다. 설정한 적이 없으면 기본값을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key / 키
+<DT><B>Returns:</B><DD>the value; never null / 값. null 이 아니다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBoolean(java.lang.String)"><!-- --></A><H3>
+getBoolean</H3>
+<PRE>
+public boolean <B>getBoolean</B>(java.lang.String&nbsp;key)</PRE>
+<DL>
+<DD>Returns the value of a key as a truth value: <code>true</code> or <code>false</code>; anything else gives the default of the key.
+ <p>
+ 키의 값을 참/거짓으로 반환한다: <code>true</code> 또는 <code>false</code>. 그 밖의 값이면 키의 기본값을 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key / 키
+<DT><B>Returns:</B><DD>the truth value / 참/거짓 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getInt(java.lang.String, int, int)"><!-- --></A><H3>
+getInt</H3>
+<PRE>
+public int <B>getInt</B>(java.lang.String&nbsp;key,
+                  int&nbsp;min,
+                  int&nbsp;max)</PRE>
+<DL>
+<DD>Returns the value of a key as a whole number inside a range; text that is not a number, or a number outside the range, gives the
+ default of the key.
+ <p>
+ 키의 값을 범위 안의 정수로 반환한다. 수가 아닌 글이나 범위 밖의 수이면 키의 기본값을 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key / 키<DD><CODE>min</CODE> - the smallest value / 가장 작은 값<DD><CODE>max</CODE> - the largest value / 가장 큰 값
+<DT><B>Returns:</B><DD>the number / 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getChoice(java.lang.String, java.lang.String[])"><!-- --></A><H3>
+getChoice</H3>
+<PRE>
+public java.lang.String <B>getChoice</B>(java.lang.String&nbsp;key,
+                                  java.lang.String[]&nbsp;allowed)</PRE>
+<DL>
+<DD>Returns the value of a key if it is one of the allowed values, otherwise the default of the key.
+ <p>
+ 키의 값이 허용된 값 가운데 하나이면 그 값을, 아니면 키의 기본값을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key / 키<DD><CODE>allowed</CODE> - the allowed values / 허용된 값
+<DT><B>Returns:</B><DD>one of the allowed values, or the default / 허용된 값 가운데 하나, 또는 기본값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="set(java.lang.String, java.lang.String)"><!-- --></A><H3>
+set</H3>
+<PRE>
+public void <B>set</B>(java.lang.String&nbsp;key,
+                java.lang.String&nbsp;value)</PRE>
+<DL>
+<DD>Sets the value of a key and tells the listeners if it changed.
+ <p>
+ 키의 값을 정하고, 바뀌었으면 리스너에 알린다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key / 키<DD><CODE>value</CODE> - the value; null means the default / 값. null 이면 기본값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setAll(java.util.Map)"><!-- --></A><H3>
+setAll</H3>
+<PRE>
+public void <B>setAll</B>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;updates)</PRE>
+<DL>
+<DD>Replaces several values at once and tells the listeners once if anything changed.
+ <p>
+ 여러 값을 한 번에 바꾸고, 바뀐 것이 있으면 리스너에 한 번 알린다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>updates</CODE> - the new values by key / 키별 새 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toMap()"><!-- --></A><H3>
+toMap</H3>
+<PRE>
+public java.util.Map&lt;java.lang.String,java.lang.String&gt; <B>toMap</B>()</PRE>
+<DL>
+<DD>Returns all values, the defaults included, by key.
+ <p>
+ 기본값을 포함한 모든 값을 키별로 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a copy of the values / 값의 복사본</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addListener(org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.Listener)"><!-- --></A><H3>
+addListener</H3>
+<PRE>
+public void <B>addListener</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp.model">Settings.Listener</A>&nbsp;listener)</PRE>
+<DL>
+<DD>Adds a listener.
+ <p>
+ 리스너를 더한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>listener</CODE> - the listener / 리스너</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeListener(org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings.Listener)"><!-- --></A><H3>
+removeListener</H3>
+<PRE>
+public void <B>removeListener</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp.model">Settings.Listener</A>&nbsp;listener)</PRE>
+<DL>
+<DD>Removes a listener.
+ <p>
+ 리스너를 뺀다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>listener</CODE> - the listener / 리스너</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/SessionStore.Window.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp.model"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Settings.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

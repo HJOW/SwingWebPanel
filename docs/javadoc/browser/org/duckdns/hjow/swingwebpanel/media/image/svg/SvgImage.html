@@ -1,0 +1,482 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+SvgImage
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="SvgImage";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgDecoder.html" title="class in org.duckdns.hjow.swingwebpanel.media.image.svg"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgReference.html" title="class in org.duckdns.hjow.swingwebpanel.media.image.svg"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SvgImage.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.image.svg</FONT>
+<BR>
+Class SvgImage</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.image.svg.SvgImage</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>SvgImage</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+A parsed SVG document that can be drawn at any size (plan item P18-04; FEATURE_MATRIX IMG-07). <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html#parse(byte[], org.duckdns.hjow.swingwebpanel.media.DecodeLimits)"><CODE>parse(byte[], org.duckdns.hjow.swingwebpanel.media.DecodeLimits)</CODE></A> reads the XML with the
+ project's own parser, runs the CSS cascade and computes the natural size; <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html#render(java.awt.Graphics2D, int, int)"><CODE>render(java.awt.Graphics2D, int, int)</CODE></A> draws the document with Java2D into a box of a
+ requested size (so the image stays sharp when it is shown larger than its natural size), and <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html#toDecodedImage()"><CODE>toDecodedImage()</CODE></A> rasterizes it at the
+ natural size for the common image pipeline. The document is immutable after parsing and can be drawn from several threads, each draw
+ uses its own state. Nothing external is loaded: only <code>data:</code> URIs are followed for images, <code>use</code> and paint servers
+ refer to elements of the same document, scripts are never run. The natural size follows the rules of browsers for an SVG used as an
+ image: absolute <code>width</code>/<code>height</code> lengths, otherwise derived from the <code>viewBox</code> ratio, otherwise
+ 300x150 (contained), rounded to whole pixels.
+ <p>
+ 임의의 크기로 그릴 수 있는 해석된 SVG 문서(계획 P18-04; FEATURE_MATRIX IMG-07). <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html#parse(byte[], org.duckdns.hjow.swingwebpanel.media.DecodeLimits)"><CODE>parse(byte[], org.duckdns.hjow.swingwebpanel.media.DecodeLimits)</CODE></A> 는 자체 파서로 XML 을 읽고 CSS 연쇄를 실행하며
+ 자연 크기를 계산한다. <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html#render(java.awt.Graphics2D, int, int)"><CODE>render(java.awt.Graphics2D, int, int)</CODE></A> 는 요청한 크기의 상자에 Java2D 로 문서를 그리므로(자연 크기보다 크게 보여도 선명함) 공통 이미지 처리 경로에는
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html#toDecodedImage()"><CODE>toDecodedImage()</CODE></A> 가 자연 크기로 래스터화한다. 해석한 뒤에는 문서가 바뀌지 않으며 여러 스레드가 그릴 수 있고 그릴 때마다 자기 상태를 쓴다.
+ 외부 자원은 읽지 않는다: 이미지는 <code>data:</code> URI 만 따라가고, <code>use</code> 와 페인트 서버는 같은 문서의 요소만 참조하며, 스크립트는
+ 실행하지 않는다. 자연 크기는 이미지로 쓰인 SVG 에 대한 브라우저의 규칙을 따른다: 절대 길이의 <code>width</code>/<code>height</code>, 없으면
+ <code>viewBox</code> 비율로 유도, 그것도 없으면 300x150(비율 유지), 결과는 정수 픽셀로 반올림한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html#getHeight()">getHeight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the natural height in whole pixels.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html#getNaturalHeight()">getNaturalHeight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the natural height in CSS pixels without rounding.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html#getNaturalWidth()">getNaturalWidth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the natural width in CSS pixels without rounding.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html#getWidth()">getWidth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the natural width in whole pixels (the rounded value of the CSS width).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html#hasIntrinsicSize()">hasIntrinsicSize</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the document states its size (width/height lengths or a viewBox); false means the 300x150 default.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html" title="class in org.duckdns.hjow.swingwebpanel.media.image.svg">SvgImage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html#parse(byte[], org.duckdns.hjow.swingwebpanel.media.DecodeLimits)">parse</A></B>(byte[]&nbsp;data,
+      <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html" title="class in org.duckdns.hjow.swingwebpanel.media">DecodeLimits</A>&nbsp;limits)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses SVG data.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html#render(java.awt.Graphics2D, int, int)">render</A></B>(java.awt.Graphics2D&nbsp;target,
+       int&nbsp;width,
+       int&nbsp;height)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Draws the document into the box (0, 0, width, height) of a graphics context.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html#renderArgb(int, int)">renderArgb</A></B>(int&nbsp;width,
+           int&nbsp;height)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Draws the document at a size and returns non-premultiplied ARGB pixels (<code>0xAARRGGBB</code>), row by row.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.awt.image.BufferedImage</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html#renderImage(int, int)">renderImage</A></B>(int&nbsp;width,
+            int&nbsp;height)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Draws the document into a new image of the given size (premultiplied ARGB).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/DecodedImage.html" title="class in org.duckdns.hjow.swingwebpanel.media.image">DecodedImage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html#toDecodedImage()">toDecodedImage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rasterizes the document at its natural size as a still image for the common image pipeline.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="parse(byte[], org.duckdns.hjow.swingwebpanel.media.DecodeLimits)"><!-- --></A><H3>
+parse</H3>
+<PRE>
+public static <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html" title="class in org.duckdns.hjow.swingwebpanel.media.image.svg">SvgImage</A> <B>parse</B>(byte[]&nbsp;data,
+                             <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html" title="class in org.duckdns.hjow.swingwebpanel.media">DecodeLimits</A>&nbsp;limits)
+                      throws <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></PRE>
+<DL>
+<DD>Parses SVG data.
+ <p>
+ SVG 데이터를 해석한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - the document bytes (UTF-8, UTF-16 or declared encoding; gzip compressed data is handled by <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgDecoder.html" title="class in org.duckdns.hjow.swingwebpanel.media.image.svg"><CODE>SvgDecoder</CODE></A>) / 문서 바이트(UTF-8, UTF-16, 선언된 인코딩. gzip 압축은 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgDecoder.html" title="class in org.duckdns.hjow.swingwebpanel.media.image.svg"><CODE>SvgDecoder</CODE></A> 가 처리)<DD><CODE>limits</CODE> - the limits, or null for the defaults / 제한. null 이면 기본값
+<DT><B>Returns:</B><DD>the document / 문서
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></CODE> - CORRUPT for malformed XML or a document that is not SVG or has zero size, TOO_LARGE over a limit / 형식이 틀린 XML 이나 SVG 가 아니거나 크기가 0 이면 CORRUPT, 제한 초과는 TOO_LARGE</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getWidth()"><!-- --></A><H3>
+getWidth</H3>
+<PRE>
+public int <B>getWidth</B>()</PRE>
+<DL>
+<DD>Returns the natural width in whole pixels (the rounded value of the CSS width).
+ <p>
+ 자연 너비를 정수 픽셀로 반환한다(CSS 너비를 반올림한 값).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>width in pixels / 픽셀 너비</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHeight()"><!-- --></A><H3>
+getHeight</H3>
+<PRE>
+public int <B>getHeight</B>()</PRE>
+<DL>
+<DD>Returns the natural height in whole pixels.
+ <p>
+ 자연 높이를 정수 픽셀로 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>height in pixels / 픽셀 높이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getNaturalWidth()"><!-- --></A><H3>
+getNaturalWidth</H3>
+<PRE>
+public double <B>getNaturalWidth</B>()</PRE>
+<DL>
+<DD>Returns the natural width in CSS pixels without rounding.
+ <p>
+ 자연 너비를 반올림 없이 CSS 픽셀로 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>width / 너비</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getNaturalHeight()"><!-- --></A><H3>
+getNaturalHeight</H3>
+<PRE>
+public double <B>getNaturalHeight</B>()</PRE>
+<DL>
+<DD>Returns the natural height in CSS pixels without rounding.
+ <p>
+ 자연 높이를 반올림 없이 CSS 픽셀로 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>height / 높이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasIntrinsicSize()"><!-- --></A><H3>
+hasIntrinsicSize</H3>
+<PRE>
+public boolean <B>hasIntrinsicSize</B>()</PRE>
+<DL>
+<DD>Tells whether the document states its size (width/height lengths or a viewBox); false means the 300x150 default.
+ <p>
+ 문서가 크기를 밝히는지(width/height 길이나 viewBox) 알려 준다. false 이면 300x150 기본값이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if the size is known / 크기를 알면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="render(java.awt.Graphics2D, int, int)"><!-- --></A><H3>
+render</H3>
+<PRE>
+public void <B>render</B>(java.awt.Graphics2D&nbsp;target,
+                   int&nbsp;width,
+                   int&nbsp;height)
+            throws <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></PRE>
+<DL>
+<DD>Draws the document into the box (0, 0, width, height) of a graphics context. The view box and <code>preserveAspectRatio</code> map the
+ document to the box. The drawing is done on an internal image and then copied, so the transform of the target only moves and scales
+ that copy; call with a target at the final scale for the best quality.
+ <p>
+ 그래픽스 문맥의 상자 (0, 0, 너비, 높이)에 문서를 그린다. viewBox 와 <code>preserveAspectRatio</code> 가 문서를 상자에 대응시킨다. 그리기는 내부
+ 이미지에서 한 뒤 복사하므로 대상의 변환은 그 복사본만 옮기고 키운다. 가장 좋은 품질을 위해 최종 배율의 대상으로 호출한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>target</CODE> - the graphics context / 그래픽스 문맥<DD><CODE>width</CODE> - box width in pixels (at least 1) / 상자 너비(픽셀, 1 이상)<DD><CODE>height</CODE> - box height in pixels (at least 1) / 상자 높이(픽셀, 1 이상)
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></CODE> - TOO_LARGE if the document is too complex or the box too large, CANCELLED if the thread is interrupted / 문서가 너무 복잡하거나 상자가 너무 크면 TOO_LARGE, 스레드가 인터럽트되면 CANCELLED</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="renderImage(int, int)"><!-- --></A><H3>
+renderImage</H3>
+<PRE>
+public java.awt.image.BufferedImage <B>renderImage</B>(int&nbsp;width,
+                                                int&nbsp;height)
+                                         throws <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></PRE>
+<DL>
+<DD>Draws the document into a new image of the given size (premultiplied ARGB).
+ <p>
+ 지정한 크기의 새 이미지(알파 미리 곱한 ARGB)에 문서를 그린다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>width</CODE> - width in pixels / 너비(픽셀)<DD><CODE>height</CODE> - height in pixels / 높이(픽셀)
+<DT><B>Returns:</B><DD>the image / 이미지
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></CODE> - TOO_LARGE or CANCELLED / TOO_LARGE 또는 CANCELLED</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="renderArgb(int, int)"><!-- --></A><H3>
+renderArgb</H3>
+<PRE>
+public int[] <B>renderArgb</B>(int&nbsp;width,
+                        int&nbsp;height)
+                 throws <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></PRE>
+<DL>
+<DD>Draws the document at a size and returns non-premultiplied ARGB pixels (<code>0xAARRGGBB</code>), row by row.
+ <p>
+ 지정한 크기로 문서를 그리고 알파를 미리 곱하지 않은 ARGB 픽셀(<code>0xAARRGGBB</code>)을 행 순서로 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>width</CODE> - width in pixels / 너비(픽셀)<DD><CODE>height</CODE> - height in pixels / 높이(픽셀)
+<DT><B>Returns:</B><DD>pixels / 픽셀
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></CODE> - TOO_LARGE or CANCELLED / TOO_LARGE 또는 CANCELLED</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toDecodedImage()"><!-- --></A><H3>
+toDecodedImage</H3>
+<PRE>
+public <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/DecodedImage.html" title="class in org.duckdns.hjow.swingwebpanel.media.image">DecodedImage</A> <B>toDecodedImage</B>()
+                            throws <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></PRE>
+<DL>
+<DD>Rasterizes the document at its natural size as a still image for the common image pipeline.
+ <p>
+ 공통 이미지 처리 경로를 위해 문서를 자연 크기의 정지 이미지로 래스터화한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the image / 이미지
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></CODE> - CORRUPT for a zero size, TOO_LARGE or CANCELLED / 크기가 0 이면 CORRUPT, TOO_LARGE 또는 CANCELLED</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgDecoder.html" title="class in org.duckdns.hjow.swingwebpanel.media.image.svg"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgReference.html" title="class in org.duckdns.hjow.swingwebpanel.media.image.svg"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SvgImage.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

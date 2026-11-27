@@ -1,0 +1,582 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+OriginPolicy
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="OriginPolicy";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.PreflightGrant.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="OriginPolicy.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.net</FONT>
+<BR>
+Class OriginPolicy</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.net.OriginPolicy</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>OriginPolicy</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Same-origin policy and the CORS decision for cross-origin requests, separated by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/RequestPurpose.html" title="enum in org.duckdns.hjow.swingwebpanel.net"><CODE>RequestPurpose</CODE></A>.
+ <ul>
+ <li>Same origin: everything is allowed, including script access to the response body.</li>
+ <li>Cross origin, "no-cors" purposes (image, audio, style sheet, script, frame, document, download, other): the response may
+ be displayed or executed but its body is <b>never</b> exposed to scripts.</li>
+ <li>Cross origin, CORS purposes (XHR/fetch and web fonts): the response must carry <code>Access-Control-Allow-Origin</code>
+ equal to the requesting origin (or <code>*</code> without credentials); with credentials it must also carry
+ <code>Access-Control-Allow-Credentials: true</code> and may not use <code>*</code>. A request that is not
+ <em>simple</em> needs a CORS preflight first (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#checkPreflight(org.duckdns.hjow.swingwebpanel.net.Origin, int, org.duckdns.hjow.swingwebpanel.net.ResourceResponse, boolean)"><CODE>checkPreflight(org.duckdns.hjow.swingwebpanel.net.Origin, int, org.duckdns.hjow.swingwebpanel.net.ResourceResponse, boolean)</CODE></A>); see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#isSimpleRequest(java.lang.String, java.util.Map)"><CODE>isSimpleRequest(String, Map)</CODE></A>.</li>
+ </ul>
+ <p>
+ 동일 출처 정책과 교차 오리진 요청의 CORS 판정을 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/RequestPurpose.html" title="enum in org.duckdns.hjow.swingwebpanel.net"><CODE>RequestPurpose</CODE></A> 별로 구분한다.
+ <ul>
+ <li>같은 오리진: 응답 본문의 스크립트 접근을 포함해 모두 허용한다.</li>
+ <li>교차 오리진 "no-cors" 목적(이미지, 오디오, 스타일시트, 스크립트, 프레임, 문서, 다운로드, 기타): 응답을 표시하거나
+ 실행할 수는 있지만 본문을 스크립트에 <b>절대</b> 노출하지 않는다.</li>
+ <li>교차 오리진 CORS 목적(XHR/fetch, 웹 글꼴): 응답에 요청 오리진과 같은 <code>Access-Control-Allow-Origin</code>
+ (자격 증명이 없으면 <code>*</code> 도 가능)이 있어야 한다. 자격 증명을 쓰면 <code>Access-Control-Allow-Credentials: true</code>
+ 도 있어야 하고 <code>*</code> 는 쓸 수 없다. <em>단순</em>하지 않은 요청은 CORS 사전 요청이 필요하다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#checkPreflight(org.duckdns.hjow.swingwebpanel.net.Origin, int, org.duckdns.hjow.swingwebpanel.net.ResourceResponse, boolean)"><CODE>checkPreflight(org.duckdns.hjow.swingwebpanel.net.Origin, int, org.duckdns.hjow.swingwebpanel.net.ResourceResponse, boolean)</CODE></A> 참조). <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#isSimpleRequest(java.lang.String, java.util.Map)"><CODE>isSimpleRequest(String, Map)</CODE></A> 참조.</li>
+ </ul>
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.PreflightGrant.html" title="class in org.duckdns.hjow.swingwebpanel.net">OriginPolicy.PreflightGrant</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;What a CORS-preflight response grants: the methods and header names that the server allows and how long the answer may be reused.</TD>
+</TR>
+</TABLE>
+&nbsp;<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#DEFAULT_PREFLIGHT_AGE_SECONDS">DEFAULT_PREFLIGHT_AGE_SECONDS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time, in seconds, that a preflight answer is reused when the server sends no <code>Access-Control-Max-Age</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#MAX_PREFLIGHT_AGE_SECONDS">MAX_PREFLIGHT_AGE_SECONDS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Longest time, in seconds, that a preflight answer is reused whatever the server says.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.PreflightGrant.html" title="class in org.duckdns.hjow.swingwebpanel.net">OriginPolicy.PreflightGrant</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#checkPreflight(org.duckdns.hjow.swingwebpanel.net.Origin, int, org.duckdns.hjow.swingwebpanel.net.ResourceResponse, boolean)">checkPreflight</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;initiator,
+               int&nbsp;status,
+               <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceResponse.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceResponse</A>&nbsp;response,
+               boolean&nbsp;withCredentials)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Checks the response of a CORS preflight and returns what it grants: the status must be 2xx, the
+ <code>Access-Control-Allow-Origin</code> and <code>Access-Control-Allow-Credentials</code> headers must permit the requesting origin as
+ for the actual request (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#corsAllows(org.duckdns.hjow.swingwebpanel.net.Origin, java.lang.String, java.lang.String, boolean)"><CODE>corsAllows(org.duckdns.hjow.swingwebpanel.net.Origin, java.lang.String, java.lang.String, boolean)</CODE></A>), and the method and header lists are read from <code>Access-Control-Allow-Methods</code>
+ and <code>Access-Control-Allow-Headers</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#corsAllows(org.duckdns.hjow.swingwebpanel.net.Origin, java.lang.String, java.lang.String, boolean)">corsAllows</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;initiator,
+           java.lang.String&nbsp;allowOrigin,
+           java.lang.String&nbsp;allowCredentials,
+           boolean&nbsp;withCredentials)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Checks the CORS response headers for a cross-origin request.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#corsAllowsDocument(org.duckdns.hjow.swingwebpanel.net.Origin, java.lang.String, java.lang.String, boolean)">corsAllowsDocument</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;initiator,
+                   java.lang.String&nbsp;allowOrigin,
+                   java.lang.String&nbsp;allowCredentials,
+                   boolean&nbsp;withCredentials)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Like <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#corsAllows(org.duckdns.hjow.swingwebpanel.net.Origin, java.lang.String, java.lang.String, boolean)"><CODE>corsAllows(org.duckdns.hjow.swingwebpanel.net.Origin, java.lang.String, java.lang.String, boolean)</CODE></A>, but a document with an opaque origin (a page made with <code>setContent</code>, whose origin serializes as
+ <code>null</code>) can be granted too: by <code>*</code> without credentials and by the answer <code>null</code> (with
+ <code>Access-Control-Allow-Credentials: true</code> if credentials were sent).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#isSimpleMethod(java.lang.String)">isSimpleMethod</A></B>(java.lang.String&nbsp;method)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a method is CORS-safelisted (GET, HEAD or POST, case-insensitively).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#isSimpleRequest(java.lang.String, java.util.Map)">isSimpleRequest</A></B>(java.lang.String&nbsp;method,
+                java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;headers)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a request is a CORS "simple request" (no preflight needed): method GET, HEAD or POST and only
+ safelisted headers (<code>Accept</code>, <code>Accept-Language</code>, <code>Content-Language</code>,
+ <code>Content-Type</code> limited to form/plain types).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#mayScriptReadBody(org.duckdns.hjow.swingwebpanel.net.Origin, org.duckdns.hjow.swingwebpanel.net.Origin, org.duckdns.hjow.swingwebpanel.net.RequestPurpose, org.duckdns.hjow.swingwebpanel.net.ResourceResponse, boolean)">mayScriptReadBody</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;initiator,
+                  <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;target,
+                  <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/RequestPurpose.html" title="enum in org.duckdns.hjow.swingwebpanel.net">RequestPurpose</A>&nbsp;purpose,
+                  <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceResponse.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceResponse</A>&nbsp;response,
+                  boolean&nbsp;withCredentials)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a script of the initiator may read the response body.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#mayUse(org.duckdns.hjow.swingwebpanel.net.Origin, org.duckdns.hjow.swingwebpanel.net.Origin, org.duckdns.hjow.swingwebpanel.net.RequestPurpose, org.duckdns.hjow.swingwebpanel.net.ResourceResponse, boolean)">mayUse</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;initiator,
+       <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;target,
+       <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/RequestPurpose.html" title="enum in org.duckdns.hjow.swingwebpanel.net">RequestPurpose</A>&nbsp;purpose,
+       <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceResponse.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceResponse</A>&nbsp;response,
+       boolean&nbsp;withCredentials)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the response may be used for its purpose (displayed, executed, applied).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#requiresCors(org.duckdns.hjow.swingwebpanel.net.RequestPurpose)">requiresCors</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/RequestPurpose.html" title="enum in org.duckdns.hjow.swingwebpanel.net">RequestPurpose</A>&nbsp;purpose)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether cross-origin use of a purpose needs CORS permission.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#unsafeHeaderNames(java.util.Map)">unsafeHeaderNames</A></B>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;headers)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the names of the request headers that are not CORS-safelisted, lower case, sorted and without duplicates: every header except
+ <code>Accept</code>, <code>Accept-Language</code>, <code>Content-Language</code>, <code>User-Agent</code> and a
+ <code>Content-Type</code> of a form, multipart or plain text type.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="MAX_PREFLIGHT_AGE_SECONDS"><!-- --></A><H3>
+MAX_PREFLIGHT_AGE_SECONDS</H3>
+<PRE>
+public static final int <B>MAX_PREFLIGHT_AGE_SECONDS</B></PRE>
+<DL>
+<DD>Longest time, in seconds, that a preflight answer is reused whatever the server says.
+ <p>
+ 서버가 뭐라고 하든 사전 요청의 답을 다시 쓰는 최대 시간(초).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.net.OriginPolicy.MAX_PREFLIGHT_AGE_SECONDS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_PREFLIGHT_AGE_SECONDS"><!-- --></A><H3>
+DEFAULT_PREFLIGHT_AGE_SECONDS</H3>
+<PRE>
+public static final int <B>DEFAULT_PREFLIGHT_AGE_SECONDS</B></PRE>
+<DL>
+<DD>Time, in seconds, that a preflight answer is reused when the server sends no <code>Access-Control-Max-Age</code>.
+ <p>
+ 서버가 <code>Access-Control-Max-Age</code> 를 보내지 않을 때 사전 요청의 답을 다시 쓰는 시간(초).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.net.OriginPolicy.DEFAULT_PREFLIGHT_AGE_SECONDS">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="requiresCors(org.duckdns.hjow.swingwebpanel.net.RequestPurpose)"><!-- --></A><H3>
+requiresCors</H3>
+<PRE>
+public static boolean <B>requiresCors</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/RequestPurpose.html" title="enum in org.duckdns.hjow.swingwebpanel.net">RequestPurpose</A>&nbsp;purpose)</PRE>
+<DL>
+<DD>Tells whether cross-origin use of a purpose needs CORS permission.
+ <p>
+ 목적의 교차 오리진 사용에 CORS 허용이 필요한지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>purpose</CODE> - request purpose / 요청 목적
+<DT><B>Returns:</B><DD>true for XHR, fonts, module scripts and images with a <code>crossorigin</code> attribute / XHR, 글꼴, 모듈 스크립트, <code>crossorigin</code> 속성이 있는 이미지이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="corsAllows(org.duckdns.hjow.swingwebpanel.net.Origin, java.lang.String, java.lang.String, boolean)"><!-- --></A><H3>
+corsAllows</H3>
+<PRE>
+public static boolean <B>corsAllows</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;initiator,
+                                 java.lang.String&nbsp;allowOrigin,
+                                 java.lang.String&nbsp;allowCredentials,
+                                 boolean&nbsp;withCredentials)</PRE>
+<DL>
+<DD>Checks the CORS response headers for a cross-origin request.
+ <p>
+ 교차 오리진 요청에 대한 CORS 응답 헤더를 검사한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>initiator</CODE> - requesting origin / 요청한 오리진<DD><CODE>allowOrigin</CODE> - value of Access-Control-Allow-Origin or null / Access-Control-Allow-Origin 값 또는 null<DD><CODE>allowCredentials</CODE> - value of Access-Control-Allow-Credentials or null / Access-Control-Allow-Credentials 값 또는 null<DD><CODE>withCredentials</CODE> - whether the request sent credentials (cookies) / 요청이 자격 증명(쿠키)을 보냈는지
+<DT><B>Returns:</B><DD>true if the response grants access / 응답이 접근을 허용하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="corsAllowsDocument(org.duckdns.hjow.swingwebpanel.net.Origin, java.lang.String, java.lang.String, boolean)"><!-- --></A><H3>
+corsAllowsDocument</H3>
+<PRE>
+public static boolean <B>corsAllowsDocument</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;initiator,
+                                         java.lang.String&nbsp;allowOrigin,
+                                         java.lang.String&nbsp;allowCredentials,
+                                         boolean&nbsp;withCredentials)</PRE>
+<DL>
+<DD>Like <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#corsAllows(org.duckdns.hjow.swingwebpanel.net.Origin, java.lang.String, java.lang.String, boolean)"><CODE>corsAllows(org.duckdns.hjow.swingwebpanel.net.Origin, java.lang.String, java.lang.String, boolean)</CODE></A>, but a document with an opaque origin (a page made with <code>setContent</code>, whose origin serializes as
+ <code>null</code>) can be granted too: by <code>*</code> without credentials and by the answer <code>null</code> (with
+ <code>Access-Control-Allow-Credentials: true</code> if credentials were sent). Used for images of an element with a
+ <code>crossorigin</code> attribute.
+ <p>
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#corsAllows(org.duckdns.hjow.swingwebpanel.net.Origin, java.lang.String, java.lang.String, boolean)"><CODE>corsAllows(org.duckdns.hjow.swingwebpanel.net.Origin, java.lang.String, java.lang.String, boolean)</CODE></A> 와 같지만 불투명 오리진 문서(<code>setContent</code> 로 만든 페이지. 오리진이 <code>null</code> 로 직렬화된다)도 허용받을 수 있다:
+ 자격 증명 없는 <code>*</code> 와 <code>null</code> 이라는 답으로(자격 증명을 보냈으면 <code>Access-Control-Allow-Credentials: true</code> 도). <code>crossorigin</code>
+ 속성이 있는 요소의 이미지에 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>initiator</CODE> - requesting origin / 요청한 오리진<DD><CODE>allowOrigin</CODE> - value of Access-Control-Allow-Origin or null / Access-Control-Allow-Origin 값 또는 null<DD><CODE>allowCredentials</CODE> - value of Access-Control-Allow-Credentials or null / Access-Control-Allow-Credentials 값 또는 null<DD><CODE>withCredentials</CODE> - whether the request sent credentials (cookies) / 요청이 자격 증명(쿠키)을 보냈는지
+<DT><B>Returns:</B><DD>true if the response grants access / 응답이 접근을 허용하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mayScriptReadBody(org.duckdns.hjow.swingwebpanel.net.Origin, org.duckdns.hjow.swingwebpanel.net.Origin, org.duckdns.hjow.swingwebpanel.net.RequestPurpose, org.duckdns.hjow.swingwebpanel.net.ResourceResponse, boolean)"><!-- --></A><H3>
+mayScriptReadBody</H3>
+<PRE>
+public static boolean <B>mayScriptReadBody</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;initiator,
+                                        <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;target,
+                                        <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/RequestPurpose.html" title="enum in org.duckdns.hjow.swingwebpanel.net">RequestPurpose</A>&nbsp;purpose,
+                                        <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceResponse.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceResponse</A>&nbsp;response,
+                                        boolean&nbsp;withCredentials)</PRE>
+<DL>
+<DD>Tells whether a script of the initiator may read the response body.
+ <p>
+ 요청한 오리진의 스크립트가 응답 본문을 읽을 수 있는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>initiator</CODE> - requesting origin / 요청한 오리진<DD><CODE>target</CODE> - origin of the final response URL / 최종 응답 URL 의 오리진<DD><CODE>purpose</CODE> - request purpose / 요청 목적<DD><CODE>response</CODE> - the response (for CORS headers) / 응답(CORS 헤더용)<DD><CODE>withCredentials</CODE> - whether credentials were sent / 자격 증명을 보냈는지
+<DT><B>Returns:</B><DD>true if allowed / 허용되면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mayUse(org.duckdns.hjow.swingwebpanel.net.Origin, org.duckdns.hjow.swingwebpanel.net.Origin, org.duckdns.hjow.swingwebpanel.net.RequestPurpose, org.duckdns.hjow.swingwebpanel.net.ResourceResponse, boolean)"><!-- --></A><H3>
+mayUse</H3>
+<PRE>
+public static boolean <B>mayUse</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;initiator,
+                             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;target,
+                             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/RequestPurpose.html" title="enum in org.duckdns.hjow.swingwebpanel.net">RequestPurpose</A>&nbsp;purpose,
+                             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceResponse.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceResponse</A>&nbsp;response,
+                             boolean&nbsp;withCredentials)</PRE>
+<DL>
+<DD>Tells whether the response may be used for its purpose (displayed, executed, applied). Cross-origin fonts and
+ XHR need CORS permission; the other purposes are allowed across origins.
+ <p>
+ 응답을 목적대로(표시, 실행, 적용) 쓸 수 있는지 알려 준다. 교차 오리진 글꼴과 XHR 은 CORS 허용이 필요하고 다른
+ 목적은 교차 오리진이어도 허용한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>initiator</CODE> - requesting origin / 요청한 오리진<DD><CODE>target</CODE> - origin of the final response URL / 최종 응답 URL 의 오리진<DD><CODE>purpose</CODE> - request purpose / 요청 목적<DD><CODE>response</CODE> - the response / 응답<DD><CODE>withCredentials</CODE> - whether credentials were sent / 자격 증명을 보냈는지
+<DT><B>Returns:</B><DD>true if usable / 쓸 수 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isSimpleRequest(java.lang.String, java.util.Map)"><!-- --></A><H3>
+isSimpleRequest</H3>
+<PRE>
+public static boolean <B>isSimpleRequest</B>(java.lang.String&nbsp;method,
+                                      java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;headers)</PRE>
+<DL>
+<DD>Tells whether a request is a CORS "simple request" (no preflight needed): method GET, HEAD or POST and only
+ safelisted headers (<code>Accept</code>, <code>Accept-Language</code>, <code>Content-Language</code>,
+ <code>Content-Type</code> limited to form/plain types). Any other cross-origin request needs a preflight
+ (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#checkPreflight(org.duckdns.hjow.swingwebpanel.net.Origin, int, org.duckdns.hjow.swingwebpanel.net.ResourceResponse, boolean)"><CODE>checkPreflight(org.duckdns.hjow.swingwebpanel.net.Origin, int, org.duckdns.hjow.swingwebpanel.net.ResourceResponse, boolean)</CODE></A>).
+ <p>
+ 요청이 CORS "단순 요청"(사전 요청 불필요)인지 알려 준다. 메서드가 GET, HEAD, POST 이고 안전 목록 헤더
+ (<code>Accept</code>, <code>Accept-Language</code>, <code>Content-Language</code>, 폼/일반 텍스트로 제한된
+ <code>Content-Type</code>)만 있어야 한다. 그 밖의 교차 오리진 요청은 사전 요청이 필요하다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#checkPreflight(org.duckdns.hjow.swingwebpanel.net.Origin, int, org.duckdns.hjow.swingwebpanel.net.ResourceResponse, boolean)"><CODE>checkPreflight(org.duckdns.hjow.swingwebpanel.net.Origin, int, org.duckdns.hjow.swingwebpanel.net.ResourceResponse, boolean)</CODE></A>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>method</CODE> - request method / 요청 메서드<DD><CODE>headers</CODE> - request headers (may be null) / 요청 헤더(null 가능)
+<DT><B>Returns:</B><DD>true if simple / 단순 요청이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isSimpleMethod(java.lang.String)"><!-- --></A><H3>
+isSimpleMethod</H3>
+<PRE>
+public static boolean <B>isSimpleMethod</B>(java.lang.String&nbsp;method)</PRE>
+<DL>
+<DD>Tells whether a method is CORS-safelisted (GET, HEAD or POST, case-insensitively).
+ <p>
+ 메서드가 CORS 안전 목록에 있는지(GET, HEAD, POST. 대소문자 무시) 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>method</CODE> - request method / 요청 메서드
+<DT><B>Returns:</B><DD>true if safelisted / 안전 목록에 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="unsafeHeaderNames(java.util.Map)"><!-- --></A><H3>
+unsafeHeaderNames</H3>
+<PRE>
+public static java.util.List&lt;java.lang.String&gt; <B>unsafeHeaderNames</B>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;headers)</PRE>
+<DL>
+<DD>Returns the names of the request headers that are not CORS-safelisted, lower case, sorted and without duplicates: every header except
+ <code>Accept</code>, <code>Accept-Language</code>, <code>Content-Language</code>, <code>User-Agent</code> and a
+ <code>Content-Type</code> of a form, multipart or plain text type. These are the names that a preflight announces in
+ <code>Access-Control-Request-Headers</code>.
+ <p>
+ CORS 안전 목록에 없는 요청 헤더의 이름을 소문자로, 정렬하고 중복 없이 반환한다: <code>Accept</code>, <code>Accept-Language</code>,
+ <code>Content-Language</code>, <code>User-Agent</code>, 폼/멀티파트/일반 텍스트 형식의 <code>Content-Type</code> 을 뺀 모든 헤더. 사전 요청이
+ <code>Access-Control-Request-Headers</code> 로 알리는 이름이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>headers</CODE> - request headers (may be null) / 요청 헤더(null 가능)
+<DT><B>Returns:</B><DD>the names / 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="checkPreflight(org.duckdns.hjow.swingwebpanel.net.Origin, int, org.duckdns.hjow.swingwebpanel.net.ResourceResponse, boolean)"><!-- --></A><H3>
+checkPreflight</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.PreflightGrant.html" title="class in org.duckdns.hjow.swingwebpanel.net">OriginPolicy.PreflightGrant</A> <B>checkPreflight</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;initiator,
+                                                         int&nbsp;status,
+                                                         <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceResponse.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceResponse</A>&nbsp;response,
+                                                         boolean&nbsp;withCredentials)</PRE>
+<DL>
+<DD>Checks the response of a CORS preflight and returns what it grants: the status must be 2xx, the
+ <code>Access-Control-Allow-Origin</code> and <code>Access-Control-Allow-Credentials</code> headers must permit the requesting origin as
+ for the actual request (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#corsAllows(org.duckdns.hjow.swingwebpanel.net.Origin, java.lang.String, java.lang.String, boolean)"><CODE>corsAllows(org.duckdns.hjow.swingwebpanel.net.Origin, java.lang.String, java.lang.String, boolean)</CODE></A>), and the method and header lists are read from <code>Access-Control-Allow-Methods</code>
+ and <code>Access-Control-Allow-Headers</code>.
+ <p>
+ CORS 사전 요청의 응답을 검사하고 그것이 허용하는 것을 반환한다: 상태가 2xx 이어야 하고, <code>Access-Control-Allow-Origin</code> 과
+ <code>Access-Control-Allow-Credentials</code> 가 본 요청과 똑같이(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#corsAllows(org.duckdns.hjow.swingwebpanel.net.Origin, java.lang.String, java.lang.String, boolean)"><CODE>corsAllows(org.duckdns.hjow.swingwebpanel.net.Origin, java.lang.String, java.lang.String, boolean)</CODE></A>) 요청 오리진을 허용해야 하며, 메서드와 헤더 목록은
+ <code>Access-Control-Allow-Methods</code> 와 <code>Access-Control-Allow-Headers</code> 에서 읽는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>initiator</CODE> - requesting origin / 요청한 오리진<DD><CODE>status</CODE> - status code of the preflight response / 사전 요청 응답의 상태 코드<DD><CODE>response</CODE> - the preflight response (for its headers) / 사전 요청 응답(헤더용)<DD><CODE>withCredentials</CODE> - whether the actual request sends credentials / 본 요청이 자격 증명을 보내는지
+<DT><B>Returns:</B><DD>what the response grants, or null if it denies the request / 응답이 허용하는 것. 요청을 거부하면 null</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.PreflightGrant.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="OriginPolicy.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

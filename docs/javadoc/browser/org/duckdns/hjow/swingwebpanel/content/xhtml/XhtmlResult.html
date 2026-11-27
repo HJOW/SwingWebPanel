@@ -1,0 +1,379 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+XhtmlResult
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="XhtmlResult";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlDecoder.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="XhtmlResult.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.content.xhtml</FONT>
+<BR>
+Class XhtmlResult</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.content.xhtml.XhtmlResult</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>XhtmlResult</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The result of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><CODE>XhtmlParser</CODE></A>: the DOM document, the decoded text (the "received source" that <code>getContent()</code> keeps), the
+ encoding decision and, if the document is not well-formed or exceeds a limit, the structured error. When there is an error the
+ document holds what had been built before the error (a prefix of the tree); callers that follow the XML rule "no error recovery" show
+ an error page from <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html#getError()"><CODE>getError()</CODE></A> and do not use that partial tree.
+ <p>
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><CODE>XhtmlParser</CODE></A> 의 결과: DOM 문서, 디코딩한 텍스트(<code>getContent()</code> 가 보관하는 "수신 원문"), 인코딩 판정, 그리고 문서가 well-formed 가
+ 아니거나 상한을 넘으면 구조화된 오류. 오류가 있으면 문서에는 오류 전에 만든 것(트리의 앞부분)이 들어 있다. "오류 복구 없음"이라는 XML 규칙을 따르는
+ 호출자는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html#getError()"><CODE>getError()</CODE></A> 로 오류 페이지를 보여 주고 그 부분 트리는 쓰지 않는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html#getDocument()">getDocument</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the document (partial if <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html#getError()"><CODE>getError()</CODE></A> is not null).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlParseError.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XmlParseError</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html#getError()">getError</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the error, or null if the document is well-formed and within the limits.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html#getRefusedReferences()">getRefusedReferences</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the system identifiers of external DTDs and external entities that the document asked for.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html#getSource()">getSource</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the decoded text of the document, unchanged (line ends and the XML declaration included).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlText.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XmlText</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html#getText()">getText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the decoding result with the encoding decision.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html#isWellFormed()">isWellFormed</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the document is well-formed and within the limits.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html#isXhtmlRoot()">isXhtmlRoot</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the root element is <code>html</code> in the XHTML namespace (a document that is well-formed XML but has another
+ root is shown as a generic XML document).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getDocument()"><!-- --></A><H3>
+getDocument</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A> <B>getDocument</B>()</PRE>
+<DL>
+<DD>Returns the document (partial if <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html#getError()"><CODE>getError()</CODE></A> is not null).
+ <p>
+ 문서를 반환한다(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html#getError()"><CODE>getError()</CODE></A> 가 null 이 아니면 일부만 있다).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the document / 문서</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSource()"><!-- --></A><H3>
+getSource</H3>
+<PRE>
+public java.lang.String <B>getSource</B>()</PRE>
+<DL>
+<DD>Returns the decoded text of the document, unchanged (line ends and the XML declaration included).
+ <p>
+ 디코딩한 문서 텍스트를 바꾸지 않고 반환한다(줄 끝과 XML 선언 포함).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the received source / 수신 원문</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getText()"><!-- --></A><H3>
+getText</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlText.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XmlText</A> <B>getText</B>()</PRE>
+<DL>
+<DD>Returns the decoding result with the encoding decision.
+ <p>
+ 인코딩 판정이 담긴 디코딩 결과를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the decoding result / 디코딩 결과</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getError()"><!-- --></A><H3>
+getError</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlParseError.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XmlParseError</A> <B>getError</B>()</PRE>
+<DL>
+<DD>Returns the error, or null if the document is well-formed and within the limits.
+ <p>
+ 문서가 well-formed 이고 상한 안이면 null, 아니면 오류를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the error or null / 오류 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isWellFormed()"><!-- --></A><H3>
+isWellFormed</H3>
+<PRE>
+public boolean <B>isWellFormed</B>()</PRE>
+<DL>
+<DD>Tells whether the document is well-formed and within the limits.
+ <p>
+ 문서가 well-formed 이고 상한 안인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if there is no error / 오류가 없으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRefusedReferences()"><!-- --></A><H3>
+getRefusedReferences</H3>
+<PRE>
+public java.util.List&lt;java.lang.String&gt; <B>getRefusedReferences</B>()</PRE>
+<DL>
+<DD>Returns the system identifiers of external DTDs and external entities that the document asked for. None of them was loaded;
+ this list exists so that a host can show a diagnostic.
+ <p>
+ 문서가 요청한 외부 DTD 와 외부 엔티티의 시스템 식별자를 반환한다. 어느 것도 읽지 않았다. 호스트가 진단을 보여 줄 수 있도록 있는 목록이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the refused identifiers / 거부한 식별자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isXhtmlRoot()"><!-- --></A><H3>
+isXhtmlRoot</H3>
+<PRE>
+public boolean <B>isXhtmlRoot</B>()</PRE>
+<DL>
+<DD>Tells whether the root element is <code>html</code> in the XHTML namespace (a document that is well-formed XML but has another
+ root is shown as a generic XML document).
+ <p>
+ 루트 요소가 XHTML 네임스페이스의 <code>html</code> 인지 알려 준다(well-formed XML 이지만 루트가 다른 문서는 일반 XML 문서로 보인다).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for an XHTML root / XHTML 루트이면 true</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlParser.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlDecoder.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/content/xhtml/XhtmlResult.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="XhtmlResult.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

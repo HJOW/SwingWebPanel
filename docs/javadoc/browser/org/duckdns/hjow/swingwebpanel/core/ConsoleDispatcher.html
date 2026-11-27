@@ -1,0 +1,504 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ConsoleDispatcher
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ConsoleDispatcher";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ColorChooser.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ConsoleDispatcher.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.core</FONT>
+<BR>
+Class ConsoleDispatcher</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.core.ConsoleDispatcher</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ConsoleDispatcher</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Registry and dispatcher of the host's console listeners (API contract 5.20). Registration follows the usual Swing behavior: the same
+ listener added twice is notified twice and a removal removes one registration. Messages come from the threads that run page scripts and
+ are handed to the listeners on the event dispatch thread, one at a time in the order they were published; the script thread never waits for
+ the event dispatch thread. At most <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html#MAX_PENDING_EVENTS"><CODE>MAX_PENDING_EVENTS</CODE></A> messages wait for delivery: when the listeners cannot keep up the next
+ messages are dropped and counted, and a <CODE>ConsoleEvent.Kind#MESSAGES_DROPPED</CODE> event tells the listeners how many were lost.
+ Delivery happens in batches of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html#BATCH_SIZE"><CODE>BATCH_SIZE</CODE></A> so that other events of the event dispatch thread are not starved.
+ <p>
+ 호스트의 콘솔 리스너 등록부이자 통지기(API 계약 5.20). 등록은 일반적인 Swing 동작을 따른다: 같은 리스너를 두 번 등록하면 두 번 통지하고
+ 제거는 등록 하나를 제거한다. 메시지는 페이지 스크립트를 실행하는 스레드에서 오며, 이벤트 디스패치 스레드에서 발행된 순서대로 하나씩 리스너에
+ 전달된다. 스크립트 스레드는 이벤트 디스패치 스레드를 기다리지 않는다. 전달을 기다리는 메시지는 최대 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html#MAX_PENDING_EVENTS"><CODE>MAX_PENDING_EVENTS</CODE></A> 개이며,
+ 리스너가 따라가지 못하면 다음 메시지는 버리고 개수를 세어 <CODE>ConsoleEvent.Kind#MESSAGES_DROPPED</CODE> 이벤트로 몇 개를 잃었는지 알린다.
+ 이벤트 디스패치 스레드의 다른 이벤트가 굶지 않도록 전달은 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html#BATCH_SIZE"><CODE>BATCH_SIZE</CODE></A> 개씩 나눠서 한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html#BATCH_SIZE">BATCH_SIZE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The number of messages delivered in one run on the event dispatch thread before the rest is rescheduled.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html#MAX_PENDING_EVENTS">MAX_PENDING_EVENTS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The largest number of messages that may wait for delivery to the listeners; later messages are dropped until the queue has room.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html#ConsoleDispatcher(java.lang.Object)">ConsoleDispatcher</A></B>(java.lang.Object&nbsp;source)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an empty dispatcher.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html#add(org.duckdns.hjow.swingwebpanel.ConsoleListener)">add</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/ConsoleListener.html" title="interface in org.duckdns.hjow.swingwebpanel">ConsoleListener</A>&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Registers a listener.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html#clear()">clear</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes every registered listener.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html#close()">close</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ends the dispatcher: drops the listeners and the waiting messages; later messages are ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/ConsoleListener.html" title="interface in org.duckdns.hjow.swingwebpanel">ConsoleListener</A>[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html#getListeners()">getListeners</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy of the registrations in registration order.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html#isListening()">isListening</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns whether a message would reach a listener; the script side skips the work of building the message otherwise.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html#publish(org.duckdns.hjow.swingwebpanel.ConsoleEvent.Level, org.duckdns.hjow.swingwebpanel.ConsoleEvent.Kind, java.lang.String, java.lang.String, java.util.List, org.duckdns.hjow.swingwebpanel.ConsoleEvent.Origin, java.lang.String, java.lang.String, int, int)">publish</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/ConsoleEvent.Level.html" title="enum in org.duckdns.hjow.swingwebpanel">ConsoleEvent.Level</A>&nbsp;level,
+        <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/ConsoleEvent.Kind.html" title="enum in org.duckdns.hjow.swingwebpanel">ConsoleEvent.Kind</A>&nbsp;kind,
+        java.lang.String&nbsp;method,
+        java.lang.String&nbsp;message,
+        java.util.List&lt;java.lang.String&gt;&nbsp;arguments,
+        <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/ConsoleEvent.Origin.html" title="enum in org.duckdns.hjow.swingwebpanel">ConsoleEvent.Origin</A>&nbsp;origin,
+        java.lang.String&nbsp;documentUrl,
+        java.lang.String&nbsp;scriptUrl,
+        int&nbsp;line,
+        int&nbsp;column)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Publishes one message.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html#remove(org.duckdns.hjow.swingwebpanel.ConsoleListener)">remove</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/ConsoleListener.html" title="interface in org.duckdns.hjow.swingwebpanel">ConsoleListener</A>&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes one registration of a listener; unknown listeners are ignored.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="MAX_PENDING_EVENTS"><!-- --></A><H3>
+MAX_PENDING_EVENTS</H3>
+<PRE>
+public static final int <B>MAX_PENDING_EVENTS</B></PRE>
+<DL>
+<DD>The largest number of messages that may wait for delivery to the listeners; later messages are dropped until the queue has room.
+ <p>
+ 리스너에 전달되기를 기다릴 수 있는 메시지의 최대 개수. 큐에 자리가 날 때까지 그 뒤의 메시지는 버린다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.core.ConsoleDispatcher.MAX_PENDING_EVENTS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BATCH_SIZE"><!-- --></A><H3>
+BATCH_SIZE</H3>
+<PRE>
+public static final int <B>BATCH_SIZE</B></PRE>
+<DL>
+<DD>The number of messages delivered in one run on the event dispatch thread before the rest is rescheduled.
+ <p>
+ 이벤트 디스패치 스레드에서 한 번에 전달하는 메시지 수. 나머지는 다시 예약한다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.core.ConsoleDispatcher.BATCH_SIZE">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="ConsoleDispatcher(java.lang.Object)"><!-- --></A><H3>
+ConsoleDispatcher</H3>
+<PRE>
+public <B>ConsoleDispatcher</B>(java.lang.Object&nbsp;source)</PRE>
+<DL>
+<DD>Creates an empty dispatcher.
+ <p>
+ 비어 있는 통지기를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>source</CODE> - the object the events name as their source, not null / 이벤트의 source 로 삼을 객체(null 불가)
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the source is null / source 가 null 일 때</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="add(org.duckdns.hjow.swingwebpanel.ConsoleListener)"><!-- --></A><H3>
+add</H3>
+<PRE>
+public void <B>add</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/ConsoleListener.html" title="interface in org.duckdns.hjow.swingwebpanel">ConsoleListener</A>&nbsp;listener)</PRE>
+<DL>
+<DD>Registers a listener.
+ <p>
+ 리스너를 등록한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>listener</CODE> - listener, not null / 리스너(null 불가)
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the listener is null / 리스너가 null 일 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="remove(org.duckdns.hjow.swingwebpanel.ConsoleListener)"><!-- --></A><H3>
+remove</H3>
+<PRE>
+public void <B>remove</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/ConsoleListener.html" title="interface in org.duckdns.hjow.swingwebpanel">ConsoleListener</A>&nbsp;listener)</PRE>
+<DL>
+<DD>Removes one registration of a listener; unknown listeners are ignored.
+ <p>
+ 리스너의 등록 하나를 제거한다. 등록되지 않은 리스너는 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>listener</CODE> - listener, not null / 리스너(null 불가)
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the listener is null / 리스너가 null 일 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="clear()"><!-- --></A><H3>
+clear</H3>
+<PRE>
+public void <B>clear</B>()</PRE>
+<DL>
+<DD>Removes every registered listener.
+ <p>
+ 등록된 모든 리스너를 제거한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getListeners()"><!-- --></A><H3>
+getListeners</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/ConsoleListener.html" title="interface in org.duckdns.hjow.swingwebpanel">ConsoleListener</A>[] <B>getListeners</B>()</PRE>
+<DL>
+<DD>Returns a copy of the registrations in registration order.
+ <p>
+ 등록 순서대로의 등록 목록 복사본을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the listeners / 리스너</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isListening()"><!-- --></A><H3>
+isListening</H3>
+<PRE>
+public boolean <B>isListening</B>()</PRE>
+<DL>
+<DD>Returns whether a message would reach a listener; the script side skips the work of building the message otherwise.
+ <p>
+ 메시지가 리스너에 닿는지를 반환한다. 아니면 스크립트 쪽은 메시지를 만드는 일을 건너뛴다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if a listener is registered and the dispatcher is open / 리스너가 있고 통지기가 열려 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="close()"><!-- --></A><H3>
+close</H3>
+<PRE>
+public void <B>close</B>()</PRE>
+<DL>
+<DD>Ends the dispatcher: drops the listeners and the waiting messages; later messages are ignored. It is the part of the component's
+ disposal that concerns the console.
+ <p>
+ 통지기를 끝낸다: 리스너와 대기 중인 메시지를 버리고, 그 뒤의 메시지는 무시한다. 컴포넌트 폐기 중 콘솔에 관한 부분이다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="publish(org.duckdns.hjow.swingwebpanel.ConsoleEvent.Level, org.duckdns.hjow.swingwebpanel.ConsoleEvent.Kind, java.lang.String, java.lang.String, java.util.List, org.duckdns.hjow.swingwebpanel.ConsoleEvent.Origin, java.lang.String, java.lang.String, int, int)"><!-- --></A><H3>
+publish</H3>
+<PRE>
+public void <B>publish</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/ConsoleEvent.Level.html" title="enum in org.duckdns.hjow.swingwebpanel">ConsoleEvent.Level</A>&nbsp;level,
+                    <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/ConsoleEvent.Kind.html" title="enum in org.duckdns.hjow.swingwebpanel">ConsoleEvent.Kind</A>&nbsp;kind,
+                    java.lang.String&nbsp;method,
+                    java.lang.String&nbsp;message,
+                    java.util.List&lt;java.lang.String&gt;&nbsp;arguments,
+                    <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/ConsoleEvent.Origin.html" title="enum in org.duckdns.hjow.swingwebpanel">ConsoleEvent.Origin</A>&nbsp;origin,
+                    java.lang.String&nbsp;documentUrl,
+                    java.lang.String&nbsp;scriptUrl,
+                    int&nbsp;line,
+                    int&nbsp;column)</PRE>
+<DL>
+<DD>Publishes one message. It returns at once on any thread: the message is queued and handed to the listeners on the event dispatch
+ thread. Without a listener nothing is built or queued. When <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html#MAX_PENDING_EVENTS"><CODE>MAX_PENDING_EVENTS</CODE></A> messages already wait, the message is dropped
+ and counted.
+ <p>
+ 메시지 하나를 발행한다. 어느 스레드에서든 곧바로 반환한다: 메시지는 큐에 넣고 이벤트 디스패치 스레드에서 리스너에 전달한다. 리스너가
+ 없으면 아무것도 만들거나 넣지 않는다. 이미 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html#MAX_PENDING_EVENTS"><CODE>MAX_PENDING_EVENTS</CODE></A> 개가 기다리고 있으면 메시지를 버리고 센다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>level</CODE> - the severity / 심각도<DD><CODE>kind</CODE> - what produced it / 만든 것<DD><CODE>method</CODE> - the method name or "" / 메서드 이름 또는 ""<DD><CODE>message</CODE> - the message / 메시지<DD><CODE>arguments</CODE> - the argument texts / 인수 문자열<DD><CODE>origin</CODE> - who wrote it / 쓴 주체<DD><CODE>documentUrl</CODE> - the URL of the document / 문서 URL<DD><CODE>scriptUrl</CODE> - the script URL or "" / 스크립트 URL 또는 ""<DD><CODE>line</CODE> - the line or 0 / 줄 또는 0<DD><CODE>column</CODE> - the column or 0 / 열 또는 0</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ColorChooser.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ConsoleDispatcher.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

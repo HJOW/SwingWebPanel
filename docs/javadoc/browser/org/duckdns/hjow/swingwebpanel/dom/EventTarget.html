@@ -1,0 +1,665 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+EventTarget
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="EventTarget";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.ListenerSignal.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="EventTarget.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom</FONT>
+<BR>
+Class EventTarget</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.dom.EventTarget</B>
+</PRE>
+<DL>
+<DT><B>Direct Known Subclasses:</B> <DD><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/host/web/AbortSignal.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.web">AbortSignal</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/worker/BroadcastChannelTarget.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker">BroadcastChannelTarget</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/OffscreenCanvasValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">OffscreenCanvasValue</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/worker/PortTarget.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker">PortTarget</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/worker/SharedHandle.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker">SharedHandle</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/host/TextTrackCueValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">TextTrackCueValue</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/host/TextTrackListValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">TextTrackListValue</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/host/TextTrackValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">TextTrackValue</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimation.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">WebAnimation</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/host/Window.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">Window</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerHandle.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker">WorkerHandle</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public abstract class <B>EventTarget</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+An object that can receive events and have listeners (DOM Standard section 2.7): every node, and later the window and other
+ script-visible objects. It stores the listeners and implements the dispatch algorithm: the event path is built with
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#getEventParent(org.duckdns.hjow.swingwebpanel.dom.Event)"><CODE>getEventParent(Event)</CODE></A>, the event goes through the capture phase (root to parent), the target phase and, if it bubbles, the
+ bubble phase. A failing listener is reported to the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ListenerErrorHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><CODE>ListenerErrorHandler</CODE></A> and the remaining listeners still run. All methods must be
+ called on the document thread of the owning document.
+ <p>
+ 이벤트를 받고 리스너를 가질 수 있는 객체(DOM 표준 2.7절): 모든 노드이며 이후 window 와 다른 스크립트에 보이는 객체도 해당한다. 리스너를 보관하고
+ 전달 알고리즘을 구현한다: <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#getEventParent(org.duckdns.hjow.swingwebpanel.dom.Event)"><CODE>getEventParent(Event)</CODE></A> 로 이벤트 경로를 만들고, 이벤트는 캡처 단계(루트에서 부모까지), 대상 단계, 그리고
+ 버블하면 버블 단계를 거친다. 실패한 리스너는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ListenerErrorHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><CODE>ListenerErrorHandler</CODE></A> 에 보고되고 나머지 리스너는 계속 실행된다. 모든 메서드는 소유
+ 문서의 문서 스레드에서 호출해야 한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.ListenerSignal.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">EventTarget.ListenerSignal</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Abort signal operations used by DOM listener registration on the document thread.</TD>
+</TR>
+</TABLE>
+&nbsp;<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ListenerErrorHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">ListenerErrorHandler</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#PRINTING_HANDLER">PRINTING_HANDLER</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Handler used when no document handler is available: prints the stack trace.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#EventTarget()">EventTarget</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#addEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener)">addEventListener</A></B>(java.lang.String&nbsp;type,
+                 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">EventListener</A>&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adds a bubble-phase listener.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#addEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener, boolean)">addEventListener</A></B>(java.lang.String&nbsp;type,
+                 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">EventListener</A>&nbsp;listener,
+                 boolean&nbsp;capture)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adds a listener for the capture or the bubble phase.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#addEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener, boolean, boolean, boolean)">addEventListener</A></B>(java.lang.String&nbsp;type,
+                 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">EventListener</A>&nbsp;listener,
+                 boolean&nbsp;capture,
+                 boolean&nbsp;once,
+                 boolean&nbsp;passive)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adds a listener with all options.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#addEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener, boolean, boolean, boolean, org.duckdns.hjow.swingwebpanel.dom.EventTarget.ListenerSignal)">addEventListener</A></B>(java.lang.String&nbsp;type,
+                 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">EventListener</A>&nbsp;listener,
+                 boolean&nbsp;capture,
+                 boolean&nbsp;once,
+                 boolean&nbsp;passive,
+                 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.ListenerSignal.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">EventTarget.ListenerSignal</A>&nbsp;signal)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Registers a listener that can be removed by an abort signal.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#dispatchEvent(org.duckdns.hjow.swingwebpanel.dom.Event)">dispatchEvent</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Event</A>&nbsp;event)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dispatches an event as script would (<code>dispatchEvent</code>): the event is marked untrusted.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#dispatchTrustedEvent(org.duckdns.hjow.swingwebpanel.dom.Event)">dispatchTrustedEvent</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Event</A>&nbsp;event)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dispatches an event created by the user agent itself (real input, load events): the event is marked trusted.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#getEventListenerCount()">getEventListenerCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of registered listeners (all types).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#getEventParent(org.duckdns.hjow.swingwebpanel.dom.Event)">getEventParent</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Event</A>&nbsp;event)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the next target in the event path (the parent), or null at the end.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ListenerErrorHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">ListenerErrorHandler</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#getListenerErrorHandler()">getListenerErrorHandler</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the handler that receives listener failures.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#hasEventListeners(java.lang.String)">hasEventListeners</A></B>(java.lang.String&nbsp;type)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether any listener is registered for a type.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#listenerAdded(java.lang.String)">listenerAdded</A></B>(java.lang.String&nbsp;type)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Notifies a subclass of a successful listener registration, including registrations with an abort signal.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#removeAllEventListeners()">removeAllEventListeners</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes every listener of this target (used when a page or an element is released).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#removeEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener)">removeEventListener</A></B>(java.lang.String&nbsp;type,
+                    <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">EventListener</A>&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes a bubble-phase listener.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#removeEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener, boolean)">removeEventListener</A></B>(java.lang.String&nbsp;type,
+                    <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">EventListener</A>&nbsp;listener,
+                    boolean&nbsp;capture)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes a listener; nothing happens if it is not registered with this type and capture flag.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="PRINTING_HANDLER"><!-- --></A><H3>
+PRINTING_HANDLER</H3>
+<PRE>
+public static final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ListenerErrorHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">ListenerErrorHandler</A> <B>PRINTING_HANDLER</B></PRE>
+<DL>
+<DD>Handler used when no document handler is available: prints the stack trace.
+ <p>
+ 문서 핸들러를 쓸 수 없을 때 쓰는 핸들러: 스택 추적을 출력한다.
+<P>
+<DL>
+</DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="EventTarget()"><!-- --></A><H3>
+EventTarget</H3>
+<PRE>
+public <B>EventTarget</B>()</PRE>
+<DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="addEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener)"><!-- --></A><H3>
+addEventListener</H3>
+<PRE>
+public void <B>addEventListener</B>(java.lang.String&nbsp;type,
+                             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">EventListener</A>&nbsp;listener)</PRE>
+<DL>
+<DD>Adds a bubble-phase listener.
+ <p>
+ 버블 단계 리스너를 추가한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - event type / 이벤트 종류<DD><CODE>listener</CODE> - callback, null is ignored / 콜백(null 은 무시)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener, boolean)"><!-- --></A><H3>
+addEventListener</H3>
+<PRE>
+public void <B>addEventListener</B>(java.lang.String&nbsp;type,
+                             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">EventListener</A>&nbsp;listener,
+                             boolean&nbsp;capture)</PRE>
+<DL>
+<DD>Adds a listener for the capture or the bubble phase.
+ <p>
+ 캡처 또는 버블 단계의 리스너를 추가한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - event type / 이벤트 종류<DD><CODE>listener</CODE> - callback, null is ignored / 콜백(null 은 무시)<DD><CODE>capture</CODE> - true to listen in the capture phase / 캡처 단계에서 들으려면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener, boolean, boolean, boolean)"><!-- --></A><H3>
+addEventListener</H3>
+<PRE>
+public void <B>addEventListener</B>(java.lang.String&nbsp;type,
+                             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">EventListener</A>&nbsp;listener,
+                             boolean&nbsp;capture,
+                             boolean&nbsp;once,
+                             boolean&nbsp;passive)</PRE>
+<DL>
+<DD>Adds a listener with all options. A listener that is already registered with the same type, callback (<code>equals</code>) and
+ capture flag is not added again.
+ <p>
+ 모든 옵션과 함께 리스너를 추가한다. 종류, 콜백(<code>equals</code>), 캡처 플래그가 같은 리스너가 이미 있으면 다시 추가하지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - event type, not null / 이벤트 종류(null 불가)<DD><CODE>listener</CODE> - callback, null is ignored / 콜백(null 은 무시)<DD><CODE>capture</CODE> - capture phase flag / 캡처 단계 플래그<DD><CODE>once</CODE> - remove the listener when it first runs / 처음 실행될 때 제거<DD><CODE>passive</CODE> - ignore preventDefault in this listener / 이 리스너에서 preventDefault 무시</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener, boolean, boolean, boolean, org.duckdns.hjow.swingwebpanel.dom.EventTarget.ListenerSignal)"><!-- --></A><H3>
+addEventListener</H3>
+<PRE>
+public void <B>addEventListener</B>(java.lang.String&nbsp;type,
+                             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">EventListener</A>&nbsp;listener,
+                             boolean&nbsp;capture,
+                             boolean&nbsp;once,
+                             boolean&nbsp;passive,
+                             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.ListenerSignal.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">EventTarget.ListenerSignal</A>&nbsp;signal)</PRE>
+<DL>
+<DD>Registers a listener that can be removed by an abort signal.
+ <p>
+ 중단 신호로 제거할 수 있는 리스너를 등록한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - event type / 이벤트 종류<DD><CODE>listener</CODE> - callback / 콜백<DD><CODE>capture</CODE> - capture phase flag / 캡처 단계 플래그<DD><CODE>once</CODE> - remove before the first callback / 첫 콜백 전에 제거<DD><CODE>passive</CODE> - ignore preventDefault in the listener / 리스너에서 preventDefault 무시<DD><CODE>signal</CODE> - optional signal / 선택 중단 신호</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="listenerAdded(java.lang.String)"><!-- --></A><H3>
+listenerAdded</H3>
+<PRE>
+protected void <B>listenerAdded</B>(java.lang.String&nbsp;type)</PRE>
+<DL>
+<DD>Notifies a subclass of a successful listener registration, including registrations with an abort signal.
+ <p>
+ 중단 신호를 지정한 경우를 포함하여 리스너 등록에 성공했음을 하위 클래스에 알린다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - registered event type / 등록한 이벤트 종류</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener)"><!-- --></A><H3>
+removeEventListener</H3>
+<PRE>
+public void <B>removeEventListener</B>(java.lang.String&nbsp;type,
+                                <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">EventListener</A>&nbsp;listener)</PRE>
+<DL>
+<DD>Removes a bubble-phase listener.
+ <p>
+ 버블 단계 리스너를 제거한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - event type / 이벤트 종류<DD><CODE>listener</CODE> - callback / 콜백</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeEventListener(java.lang.String, org.duckdns.hjow.swingwebpanel.dom.EventListener, boolean)"><!-- --></A><H3>
+removeEventListener</H3>
+<PRE>
+public void <B>removeEventListener</B>(java.lang.String&nbsp;type,
+                                <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">EventListener</A>&nbsp;listener,
+                                boolean&nbsp;capture)</PRE>
+<DL>
+<DD>Removes a listener; nothing happens if it is not registered with this type and capture flag.
+ <p>
+ 리스너를 제거한다. 이 종류와 캡처 플래그로 등록되어 있지 않으면 아무 일도 없다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - event type / 이벤트 종류<DD><CODE>listener</CODE> - callback / 콜백<DD><CODE>capture</CODE> - capture phase flag / 캡처 단계 플래그</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeAllEventListeners()"><!-- --></A><H3>
+removeAllEventListeners</H3>
+<PRE>
+public void <B>removeAllEventListeners</B>()</PRE>
+<DL>
+<DD>Removes every listener of this target (used when a page or an element is released).
+ <p>
+ 이 대상의 모든 리스너를 제거한다(페이지나 요소를 해제할 때 쓴다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasEventListeners(java.lang.String)"><!-- --></A><H3>
+hasEventListeners</H3>
+<PRE>
+public boolean <B>hasEventListeners</B>(java.lang.String&nbsp;type)</PRE>
+<DL>
+<DD>Tells whether any listener is registered for a type.
+ <p>
+ 종류에 등록된 리스너가 있는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - event type / 이벤트 종류
+<DT><B>Returns:</B><DD>true if there is a listener / 리스너가 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEventListenerCount()"><!-- --></A><H3>
+getEventListenerCount</H3>
+<PRE>
+public int <B>getEventListenerCount</B>()</PRE>
+<DL>
+<DD>Returns the number of registered listeners (all types).
+ <p>
+ 등록된 리스너의 수(모든 종류)를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>count / 개수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispatchEvent(org.duckdns.hjow.swingwebpanel.dom.Event)"><!-- --></A><H3>
+dispatchEvent</H3>
+<PRE>
+public boolean <B>dispatchEvent</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Event</A>&nbsp;event)</PRE>
+<DL>
+<DD>Dispatches an event as script would (<code>dispatchEvent</code>): the event is marked untrusted.
+ <p>
+ 스크립트처럼 이벤트를 전달한다(<code>dispatchEvent</code>). 이벤트는 신뢰되지 않은 것으로 표시된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>event</CODE> - event to dispatch, not null / 전달할 이벤트(null 불가)
+<DT><B>Returns:</B><DD>false if a listener called preventDefault on a cancelable event / 취소 가능한 이벤트를 리스너가 취소했으면 false
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidStateError if the event is already being dispatched / 이벤트가 이미 전달 중이면 InvalidStateError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispatchTrustedEvent(org.duckdns.hjow.swingwebpanel.dom.Event)"><!-- --></A><H3>
+dispatchTrustedEvent</H3>
+<PRE>
+public boolean <B>dispatchTrustedEvent</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Event</A>&nbsp;event)</PRE>
+<DL>
+<DD>Dispatches an event created by the user agent itself (real input, load events): the event is marked trusted.
+ <p>
+ 사용자 에이전트가 직접 만든 이벤트(실제 입력, load 이벤트)를 전달한다. 이벤트는 신뢰된 것으로 표시된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>event</CODE> - event to dispatch, not null / 전달할 이벤트(null 불가)
+<DT><B>Returns:</B><DD>false if the event was cancelled / 이벤트가 취소되었으면 false</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEventParent(org.duckdns.hjow.swingwebpanel.dom.Event)"><!-- --></A><H3>
+getEventParent</H3>
+<PRE>
+protected <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A> <B>getEventParent</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Event</A>&nbsp;event)</PRE>
+<DL>
+<DD>Returns the next target in the event path (the parent), or null at the end. Nodes return their parent; a document returns
+ its window, except for the <code>load</code> event.
+ <p>
+ 이벤트 경로의 다음 대상(부모)을 반환한다. 끝이면 null. 노드는 부모를 돌려주고, 문서는 <code>load</code> 이벤트를 제외하고 window 를 돌려준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>event</CODE> - the event being dispatched / 전달 중인 이벤트
+<DT><B>Returns:</B><DD>parent target or null / 부모 대상 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getListenerErrorHandler()"><!-- --></A><H3>
+getListenerErrorHandler</H3>
+<PRE>
+protected <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ListenerErrorHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">ListenerErrorHandler</A> <B>getListenerErrorHandler</B>()</PRE>
+<DL>
+<DD>Returns the handler that receives listener failures.
+ <p>
+ 리스너 실패를 받는 핸들러를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the handler / 핸들러</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.ListenerSignal.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="EventTarget.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

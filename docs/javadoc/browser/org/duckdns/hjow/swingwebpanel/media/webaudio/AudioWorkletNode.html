@@ -1,0 +1,763 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+AudioWorkletNode
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="AudioWorkletNode";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioScheduledSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ErrorListener.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="AudioWorkletNode.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.webaudio</FONT>
+<BR>
+Class AudioWorkletNode</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode</A>
+      <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>AudioWorkletNode</B><DT>extends <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioNode</A></DL>
+</PRE>
+
+<P>
+The engine side of an <code>AudioWorkletNode</code> (Web Audio API 1.0, 1.32): a node with a configurable number of inputs and outputs and a set of
+ named <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioParam.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>AudioParam</CODE></A>s whose audio is produced by a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.Processor.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>AudioWorkletNode.Processor</CODE></A>, code that lives outside the engine (the script layer runs a JavaScript
+ <code>AudioWorkletProcessor</code> there). The class is plain Java: it knows nothing about scripts, it only runs the processor on the rendering thread once
+ per render quantum and keeps the rules of the specification around it.
+ <ul>
+ <li><strong>Channels.</strong> Defaults are <code>channelCount</code> 2, mode <code>max</code>, interpretation <code>speakers</code>. The number of channels of an
+ output is the matching <code>outputChannelCount</code> entry; without the list it is 1, except when the node has exactly one input and one output, when it follows the
+ number of channels of the input (<code>computedNumberOfChannels</code>). The constructor refuses a node without inputs and outputs and an
+ <code>outputChannelCount</code> list that does not fit (1.32.3.3.2).</li>
+ <li><strong>The processor.</strong> It is created by a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ProcessorFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>AudioWorkletNode.ProcessorFactory</CODE></A> that runs on the rendering thread as a control message, at the start of the next
+ render quantum (the specification queues "a control message to invoke the constructor"). A factory that is not ready may return <code>null</code>; it is asked again
+ at the next quantum, up to <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#MAX_CONSTRUCTION_ATTEMPTS">2000</A> times. Until the processor exists, and after it failed, the output is silence.</li>
+ <li><strong>Processing.</strong> In every quantum in which the node is actively processing, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.Processor.html#process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)"><CODE>AudioWorkletNode.Processor.process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)</CODE></A> reads the active inputs with
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#getInput(int)"><CODE>getInput(int)</CODE></A> (<code>null</code> while nothing active is connected to the input), writes the outputs (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#getOutput(int)"><CODE>getOutput(int)</CODE></A>, zero filled with the right
+ number of channels) and reads the parameter values (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#copyParameter(int, float[])"><CODE>copyParameter(int, float[])</CODE></A>: one value when the block is constant, a value per frame otherwise). Its
+ result is the <em>active source flag</em>: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#ACTIVE"><CODE>ACTIVE</CODE></A> keeps the node processing without active inputs (the node is retained by the context, 1.32.3),
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#INACTIVE"><CODE>INACTIVE</CODE></A> makes the node process only while an input is active, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#SKIPPED"><CODE>SKIPPED</CODE></A> means the processor could not run in time: silence for this quantum and
+ nothing else changes.</li>
+ <li><strong>Failure.</strong> A <code>RuntimeException</code> of the processor (a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WorkletProcessorException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>WorkletProcessorException</CODE></A> carries the report of a script error) ends it for
+ good: the active source flag becomes false, the output of that quantum and of every later one is silence, and the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ErrorListener.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>AudioWorkletNode.ErrorListener</CODE></A> is told on the control side
+ (the <code>processorerror</code> event, 1.32.3.2).</li>
+ </ul>
+ <p>
+ <code>AudioWorkletNode</code> 의 엔진 쪽(Web Audio API 1.0, 1.32): 입력과 출력의 수를 정할 수 있고 이름 있는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioParam.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>AudioParam</CODE></A> 을 가진 노드이며, 오디오는 엔진 밖에 있는
+ 코드인 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.Processor.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>AudioWorkletNode.Processor</CODE></A> 가 만든다(스크립트 계층이 그 자리에서 JavaScript <code>AudioWorkletProcessor</code> 를 실행한다). 클래스는 순수 Java 이다: 스크립트를 모르고, render
+ quantum 마다 렌더링 스레드에서 프로세서를 실행하며 그 둘레의 규격 규칙만 지킨다.
+ <ul>
+ <li><strong>채널.</strong> 기본값은 <code>channelCount</code> 2, 모드 <code>max</code>, 해석 <code>speakers</code> 이다. 출력의 채널 수는 <code>outputChannelCount</code> 의 해당 항목이다.
+ 목록이 없으면 1 이고, 입력과 출력이 정확히 하나씩일 때만 입력의 채널 수(<code>computedNumberOfChannels</code>)를 따른다. 생성자는 입력과 출력이 모두 없는 노드와 맞지 않는
+ <code>outputChannelCount</code> 목록을 거부한다(1.32.3.3.2).</li>
+ <li><strong>프로세서.</strong> <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ProcessorFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>AudioWorkletNode.ProcessorFactory</CODE></A> 가 만들며, 렌더링 스레드에서 제어 메시지로 다음 render quantum 시작에 실행된다(규격은 "생성자를 호출하는 제어 메시지"를 쌓는다).
+ 준비되지 않은 팩터리는 <code>null</code> 을 반환할 수 있고 다음 quantum 에서 다시 부르며, 최대 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#MAX_CONSTRUCTION_ATTEMPTS">2000</A> 번 시도한다. 프로세서가 생기기 전과 실패한 뒤의 출력은 무음이다.</li>
+ <li><strong>처리.</strong> 노드가 활성으로 처리하는 quantum 마다 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.Processor.html#process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)"><CODE>AudioWorkletNode.Processor.process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)</CODE></A> 가 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#getInput(int)"><CODE>getInput(int)</CODE></A> 으로 활성 입력을 읽고(입력에 활성인 것이 연결되어 있지 않으면
+ <code>null</code>), 출력(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#getOutput(int)"><CODE>getOutput(int)</CODE></A>, 알맞은 채널 수로 0 을 채움)을 쓰고, 파라미터 값(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#copyParameter(int, float[])"><CODE>copyParameter(int, float[])</CODE></A>: 블록이 일정하면 값 하나, 아니면 프레임마다 하나)을
+ 읽는다. 결과는 <em>active source flag</em> 이다: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#ACTIVE"><CODE>ACTIVE</CODE></A> 는 활성 입력이 없어도 노드가 계속 처리하게 하고(컨텍스트가 노드를 붙잡는다. 1.32.3), <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#INACTIVE"><CODE>INACTIVE</CODE></A> 는 입력이 활성인 동안만
+ 처리하게 하며, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#SKIPPED"><CODE>SKIPPED</CODE></A> 는 프로세서가 제때 실행하지 못했다는 뜻이다(이번 quantum 은 무음이고 다른 것은 바뀌지 않는다).</li>
+ <li><strong>실패.</strong> 프로세서의 <code>RuntimeException</code>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WorkletProcessorException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>WorkletProcessorException</CODE></A> 이 스크립트 오류의 보고를 담는다)은 프로세서를 영구히 끝낸다: active source flag 가 false 가
+ 되고, 그 quantum 과 이후 모든 quantum 의 출력은 무음이며, 제어 쪽에서 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ErrorListener.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>AudioWorkletNode.ErrorListener</CODE></A> 가 통지받는다(<code>processorerror</code> 이벤트, 1.32.3.2).</li>
+ </ul>
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ErrorListener.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioWorkletNode.ErrorListener</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Told on the control side that the processor failed (the <code>processorerror</code> event).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ParamDescriptor.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioWorkletNode.ParamDescriptor</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The description of a parameter of the node: what <code>AudioParamDescriptor</code> gives (1.32.4.4).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.Processor.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioWorkletNode.Processor</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The code that produces the audio of the node, once per render quantum on the rendering thread.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ProcessorFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioWorkletNode.ProcessorFactory</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the processor of a node, on the rendering thread at the start of a render quantum.</TD>
+</TR>
+</TABLE>
+&nbsp;<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#ACTIVE">ACTIVE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The result of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.Processor.html#process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)"><CODE>AudioWorkletNode.Processor.process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)</CODE></A>: the processor returned true (the active source flag becomes true).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#INACTIVE">INACTIVE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The result of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.Processor.html#process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)"><CODE>AudioWorkletNode.Processor.process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)</CODE></A>: the processor returned false (the active source flag becomes false).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#MAX_CONSTRUCTION_ATTEMPTS">MAX_CONSTRUCTION_ATTEMPTS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;How many quanta a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ProcessorFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>AudioWorkletNode.ProcessorFactory</CODE></A> that answers <code>null</code> (not ready) is asked before the construction counts as failed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#SKIPPED">SKIPPED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The result of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.Processor.html#process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)"><CODE>AudioWorkletNode.Processor.process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)</CODE></A>: the processor could not run in time; the output of the quantum is silence and the active source flag stays.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#AudioWorkletNode(org.duckdns.hjow.swingwebpanel.media.webaudio.BaseAudioContext, int, int, int[], java.util.List)">AudioWorkletNode</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">BaseAudioContext</A>&nbsp;context,
+                 int&nbsp;numberOfInputs,
+                 int&nbsp;numberOfOutputs,
+                 int[]&nbsp;outputChannelCount,
+                 java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ParamDescriptor.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioWorkletNode.ParamDescriptor</A>&gt;&nbsp;descriptors)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the node.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#copyParameter(int, float[])">copyParameter</A></B>(int&nbsp;index,
+              float[]&nbsp;target)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Copies the computed values of a parameter for the quantum (rendering thread): one value if the parameter is constant over the quantum (always so for a k-rate
+ parameter), otherwise one value per frame (1.32.4.3.1).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.RuntimeException</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#getFailure()">getFailure</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the failure that ended the processor.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#getFixedOutputChannels(int)">getFixedOutputChannels</A></B>(int&nbsp;output)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of channels that an output has when the options fixed it, or 0 when it follows the input or is 1.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBus.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBus</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#getInput(int)">getInput</A></B>(int&nbsp;input)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the audio of an input for the quantum that the processor is called for (rendering thread).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBus.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBus</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#getOutput(int)">getOutput</A></B>(int&nbsp;output)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the buffer of an output that the processor has to fill (rendering thread): it has the right number of channels and is filled with zero.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioParam.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioParam</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#getParameter(java.lang.String)">getParameter</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the parameter with a name.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioParam.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioParam</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#getParameters()">getParameters</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the parameters in the order of the descriptors.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#getProcessCount()">getProcessCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of quanta in which the processor ran (also the quanta that it skipped).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.Processor.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioWorkletNode.Processor</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#getProcessor()">getProcessor</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the processor, if the factory created it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#getSkippedCount()">getSkippedCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of quanta that the processor skipped (it could not run in time).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#isActiveSource()">isActiveSource</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the active source flag.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#setErrorListener(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode.ErrorListener)">setErrorListener</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ErrorListener.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioWorkletNode.ErrorListener</A>&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the listener that is told when the processor fails.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#setProcessorFactory(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode.ProcessorFactory)">setProcessorFactory</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ProcessorFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioWorkletNode.ProcessorFactory</A>&nbsp;factory)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the factory of the processor: queues the control message that runs it at the start of the next render quantum.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.media.webaudio.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioNode</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#connect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode)">connect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#connect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode, int, int)">connect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#connect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioParam)">connect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#connect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioParam, int)">connect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect()">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode, int)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioNode, int, int)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioParam)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioParam, int)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#disconnect(int)">disconnect</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getChannelCount()">getChannelCount</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getChannelCountMode()">getChannelCountMode</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getChannelInterpretation()">getChannelInterpretation</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getContext()">getContext</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getNumberOfInputs()">getNumberOfInputs</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#getNumberOfOutputs()">getNumberOfOutputs</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#setChannelCount(int)">setChannelCount</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#setChannelCountMode(org.duckdns.hjow.swingwebpanel.media.webaudio.ChannelCountMode)">setChannelCountMode</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioNode.html#setChannelInterpretation(org.duckdns.hjow.swingwebpanel.media.webaudio.ChannelInterpretation)">setChannelInterpretation</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="ACTIVE"><!-- --></A><H3>
+ACTIVE</H3>
+<PRE>
+public static final int <B>ACTIVE</B></PRE>
+<DL>
+<DD>The result of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.Processor.html#process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)"><CODE>AudioWorkletNode.Processor.process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)</CODE></A>: the processor returned true (the active source flag becomes true).
+ <p>
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.Processor.html#process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)"><CODE>AudioWorkletNode.Processor.process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)</CODE></A> 의 결과: 프로세서가 true 를 반환했다(active source flag 가 true 가 된다).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode.ACTIVE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="INACTIVE"><!-- --></A><H3>
+INACTIVE</H3>
+<PRE>
+public static final int <B>INACTIVE</B></PRE>
+<DL>
+<DD>The result of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.Processor.html#process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)"><CODE>AudioWorkletNode.Processor.process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)</CODE></A>: the processor returned false (the active source flag becomes false).
+ <p>
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.Processor.html#process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)"><CODE>AudioWorkletNode.Processor.process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)</CODE></A> 의 결과: 프로세서가 false 를 반환했다(active source flag 가 false 가 된다).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode.INACTIVE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SKIPPED"><!-- --></A><H3>
+SKIPPED</H3>
+<PRE>
+public static final int <B>SKIPPED</B></PRE>
+<DL>
+<DD>The result of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.Processor.html#process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)"><CODE>AudioWorkletNode.Processor.process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)</CODE></A>: the processor could not run in time; the output of the quantum is silence and the active source flag stays.
+ <p>
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.Processor.html#process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)"><CODE>AudioWorkletNode.Processor.process(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode, int)</CODE></A> 의 결과: 프로세서가 제때 실행하지 못했다. quantum 의 출력은 무음이고 active source flag 는 그대로이다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode.SKIPPED">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAX_CONSTRUCTION_ATTEMPTS"><!-- --></A><H3>
+MAX_CONSTRUCTION_ATTEMPTS</H3>
+<PRE>
+public static final int <B>MAX_CONSTRUCTION_ATTEMPTS</B></PRE>
+<DL>
+<DD>How many quanta a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ProcessorFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>AudioWorkletNode.ProcessorFactory</CODE></A> that answers <code>null</code> (not ready) is asked before the construction counts as failed.
+ <p>
+ 준비되지 않았다며 <code>null</code> 로 답하는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ProcessorFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>AudioWorkletNode.ProcessorFactory</CODE></A> 에게 몇 quantum 동안 다시 물은 뒤 생성을 실패로 칠지.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode.MAX_CONSTRUCTION_ATTEMPTS">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="AudioWorkletNode(org.duckdns.hjow.swingwebpanel.media.webaudio.BaseAudioContext, int, int, int[], java.util.List)"><!-- --></A><H3>
+AudioWorkletNode</H3>
+<PRE>
+public <B>AudioWorkletNode</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">BaseAudioContext</A>&nbsp;context,
+                        int&nbsp;numberOfInputs,
+                        int&nbsp;numberOfOutputs,
+                        int[]&nbsp;outputChannelCount,
+                        java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ParamDescriptor.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioWorkletNode.ParamDescriptor</A>&gt;&nbsp;descriptors)</PRE>
+<DL>
+<DD>Creates the node.
+ <p>
+ 노드를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>context</CODE> - the context / 컨텍스트<DD><CODE>numberOfInputs</CODE> - the number of inputs, 0 to 32 / 입력 수(0 ~ 32)<DD><CODE>numberOfOutputs</CODE> - the number of outputs, 0 to 32 / 출력 수(0 ~ 32)<DD><CODE>outputChannelCount</CODE> - the number of channels of every output, or null for none given / 모든 출력의 채널 수. 주어지지 않았으면 null<DD><CODE>descriptors</CODE> - the descriptors of the parameters, in order, not null / 파라미터 설명(순서대로, null 불가)
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioException</A></CODE> - <code>NotSupportedError</code> if both numbers are 0, a number or a channel count is out of range, or two parameters have the same name;
+                        <code>IndexSizeError</code> if the length of <code>outputChannelCount</code> differs from <code>numberOfOutputs</code> / 두 수가 모두 0 이거나, 수나 채널 수가
+                        범위 밖이거나, 파라미터 이름이 같으면 <code>NotSupportedError</code>. <code>outputChannelCount</code> 의 길이가 <code>numberOfOutputs</code> 와 다르면
+                        <code>IndexSizeError</code></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getParameters()"><!-- --></A><H3>
+getParameters</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioParam.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioParam</A>&gt; <B>getParameters</B>()</PRE>
+<DL>
+<DD>Returns the parameters in the order of the descriptors.
+ <p>
+ 설명의 순서대로 파라미터를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the parameters, read only / 파라미터(읽기 전용)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getParameter(java.lang.String)"><!-- --></A><H3>
+getParameter</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioParam.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioParam</A> <B>getParameter</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns the parameter with a name.
+ <p>
+ 이름이 있는 파라미터를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the name / 이름
+<DT><B>Returns:</B><DD>the parameter, or null if there is none / 파라미터. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFixedOutputChannels(int)"><!-- --></A><H3>
+getFixedOutputChannels</H3>
+<PRE>
+public int <B>getFixedOutputChannels</B>(int&nbsp;output)</PRE>
+<DL>
+<DD>Returns the number of channels that an output has when the options fixed it, or 0 when it follows the input or is 1.
+ <p>
+ 옵션이 출력의 채널 수를 정했으면 그 값을, 입력을 따르거나 1 이면 0 을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>output</CODE> - the output index / 출력 인덱스
+<DT><B>Returns:</B><DD>the fixed number of channels, 0 if the options did not fix it / 정해진 채널 수. 옵션이 정하지 않았으면 0</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setProcessorFactory(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode.ProcessorFactory)"><!-- --></A><H3>
+setProcessorFactory</H3>
+<PRE>
+public void <B>setProcessorFactory</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ProcessorFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioWorkletNode.ProcessorFactory</A>&nbsp;factory)</PRE>
+<DL>
+<DD>Sets the factory of the processor: queues the control message that runs it at the start of the next render quantum. Call it once, right after the node was created.
+ <p>
+ 프로세서의 팩터리를 정한다: 다음 render quantum 시작에 팩터리를 실행하는 제어 메시지를 쌓는다. 노드를 만든 직후 한 번 부른다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>factory</CODE> - the factory, not null / 팩터리(null 불가)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setErrorListener(org.duckdns.hjow.swingwebpanel.media.webaudio.AudioWorkletNode.ErrorListener)"><!-- --></A><H3>
+setErrorListener</H3>
+<PRE>
+public void <B>setErrorListener</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ErrorListener.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioWorkletNode.ErrorListener</A>&nbsp;listener)</PRE>
+<DL>
+<DD>Sets the listener that is told when the processor fails.
+ <p>
+ 프로세서가 실패하면 통지받는 리스너를 정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>listener</CODE> - the listener, or null for none / 리스너. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFailure()"><!-- --></A><H3>
+getFailure</H3>
+<PRE>
+public java.lang.RuntimeException <B>getFailure</B>()</PRE>
+<DL>
+<DD>Returns the failure that ended the processor.
+ <p>
+ 프로세서를 끝낸 실패를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the failure, or null while the processor did not fail / 실패. 프로세서가 실패하지 않았으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getProcessor()"><!-- --></A><H3>
+getProcessor</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.Processor.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioWorkletNode.Processor</A> <B>getProcessor</B>()</PRE>
+<DL>
+<DD>Returns the processor, if the factory created it.
+ <p>
+ 팩터리가 만들었으면 프로세서를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the processor or null / 프로세서 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isActiveSource()"><!-- --></A><H3>
+isActiveSource</H3>
+<PRE>
+public boolean <B>isActiveSource</B>()</PRE>
+<DL>
+<DD>Returns the active source flag.
+ <p>
+ active source flag 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the flag / 표시</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getProcessCount()"><!-- --></A><H3>
+getProcessCount</H3>
+<PRE>
+public long <B>getProcessCount</B>()</PRE>
+<DL>
+<DD>Returns the number of quanta in which the processor ran (also the quanta that it skipped).
+ <p>
+ 프로세서가 실행된 quantum 수를 반환한다(건너뛴 quantum 도 센다).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of quanta / quantum 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSkippedCount()"><!-- --></A><H3>
+getSkippedCount</H3>
+<PRE>
+public long <B>getSkippedCount</B>()</PRE>
+<DL>
+<DD>Returns the number of quanta that the processor skipped (it could not run in time).
+ <p>
+ 프로세서가 건너뛴 quantum 수(제때 실행하지 못함)를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of quanta / quantum 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getInput(int)"><!-- --></A><H3>
+getInput</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBus.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBus</A> <B>getInput</B>(int&nbsp;input)</PRE>
+<DL>
+<DD>Returns the audio of an input for the quantum that the processor is called for (rendering thread).
+ <p>
+ 프로세서가 호출된 quantum 의 입력 오디오를 반환한다(렌더링 스레드).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>input</CODE> - the input index / 입력 인덱스
+<DT><B>Returns:</B><DD>the mixed audio of the input, or null if no actively processing node is connected to it (zero channels, 1.32.4.3.1) / 입력의 섞인 오디오. 활성으로 처리하는 노드가
+         연결되어 있지 않으면 null(채널 0 개. 1.32.4.3.1)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOutput(int)"><!-- --></A><H3>
+getOutput</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBus.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBus</A> <B>getOutput</B>(int&nbsp;output)</PRE>
+<DL>
+<DD>Returns the buffer of an output that the processor has to fill (rendering thread): it has the right number of channels and is filled with zero.
+ <p>
+ 프로세서가 채워야 하는 출력의 버퍼를 반환한다(렌더링 스레드). 채널 수는 알맞고 0 으로 채워져 있다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>output</CODE> - the output index / 출력 인덱스
+<DT><B>Returns:</B><DD>the buffer / 버퍼</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="copyParameter(int, float[])"><!-- --></A><H3>
+copyParameter</H3>
+<PRE>
+public int <B>copyParameter</B>(int&nbsp;index,
+                         float[]&nbsp;target)</PRE>
+<DL>
+<DD>Copies the computed values of a parameter for the quantum (rendering thread): one value if the parameter is constant over the quantum (always so for a k-rate
+ parameter), otherwise one value per frame (1.32.4.3.1).
+ <p>
+ 파라미터가 quantum 에 대해 계산된 값을 복사한다(렌더링 스레드): 파라미터가 quantum 동안 일정하면(k-rate 는 항상) 값 하나, 아니면 프레임마다 하나(1.32.4.3.1).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>index</CODE> - the index of the parameter, in the order of the descriptors / 파라미터 인덱스(설명의 순서)<DD><CODE>target</CODE> - the array that receives the values, at least as long as a quantum / 값을 받는 배열(quantum 길이 이상)
+<DT><B>Returns:</B><DD>the number of values that were copied, 1 or the number of frames / 복사한 값의 수. 1 또는 프레임 수</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioScheduledSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ErrorListener.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="AudioWorkletNode.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

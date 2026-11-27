@@ -1,0 +1,854 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+CounterStyleRule
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="CounterStyleRule";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContextualStyleSheetLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cssom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CounterStyleRule.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.css.cssom.CssRule">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.cssom</FONT>
+<BR>
+Class CounterStyleRule</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">org.duckdns.hjow.swingwebpanel.css.cssom.CssRule</A>
+      <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.cssom.CounterStyleRule</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>CounterStyleRule</B><DT>extends <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></DL>
+</PRE>
+
+<P>
+A <code>@counter-style</code> rule (CSS Counter Styles Level 3, <a href="https://www.w3.org/TR/css-counter-styles-3/">
+ https://www.w3.org/TR/css-counter-styles-3/</a>): the definition of a named way to write a counter value, with the descriptors <code>system</code>,
+ <code>symbols</code>, <code>additive-symbols</code>, <code>negative</code>, <code>prefix</code>, <code>suffix</code>, <code>range</code>,
+ <code>pad</code>, <code>fallback</code> and <code>speak-as</code> (kept but not used: there is no speech). The rule only holds the descriptors as
+ written; the layout reads them (<code>layout.CounterStyles</code>) and drops a definition that is not valid for its system.
+ <p>
+ <code>@counter-style</code> 규칙(CSS Counter Styles Level 3, <a href="https://www.w3.org/TR/css-counter-styles-3/">
+ https://www.w3.org/TR/css-counter-styles-3/</a>): 카운터 값을 쓰는 이름 있는 방법의 정의. 서술자는 <code>system</code>, <code>symbols</code>,
+ <code>additive-symbols</code>, <code>negative</code>, <code>prefix</code>, <code>suffix</code>, <code>range</code>, <code>pad</code>,
+ <code>fallback</code>, <code>speak-as</code>(보관하지만 쓰지 않는다. 음성이 없다)이다. 규칙은 서술자를 쓰인 그대로 보관하고, 레이아웃이
+ (<code>layout.CounterStyles</code>) 읽어 시스템에 맞지 않는 정의는 버린다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.css.cssom.CssRule"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class org.duckdns.hjow.swingwebpanel.css.cssom.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#CONTAINER_RULE">CONTAINER_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#COUNTER_STYLE_RULE">COUNTER_STYLE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#FONT_FACE_RULE">FONT_FACE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#FONT_FEATURE_VALUES_RULE">FONT_FEATURE_VALUES_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#IMPORT_RULE">IMPORT_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#KEYFRAME_RULE">KEYFRAME_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#KEYFRAMES_RULE">KEYFRAMES_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#LAYER_RULE">LAYER_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#MARGIN_RULE">MARGIN_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#MEDIA_RULE">MEDIA_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#NAMESPACE_RULE">NAMESPACE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#PAGE_RULE">PAGE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#POSITION_TRY_RULE">POSITION_TRY_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#PROPERTY_RULE">PROPERTY_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#SCOPE_RULE">SCOPE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#STARTING_STYLE_RULE">STARTING_STYLE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#STYLE_RULE">STYLE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#SUPPORTS_RULE">SUPPORTS_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#UNKNOWN_RULE">UNKNOWN_RULE</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#CounterStyleRule(java.lang.String, java.util.Map)">CounterStyleRule</A></B>(java.lang.String&nbsp;name,
+                 java.util.Map&lt;java.lang.String,java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&gt;&nbsp;descriptors)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a rule.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#getAdditiveSymbols()">getAdditiveSymbols</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the CSSOM <code>additiveSymbols</code>. / CSSOM <code>additiveSymbols</code> 를 반환한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#getCssText()">getCssText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serializes the rule.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Map&lt;java.lang.String,java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#getDescriptors()">getDescriptors</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the descriptors.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#getFallback()">getFallback</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the CSSOM <code>fallback</code>. / CSSOM <code>fallback</code> 를 반환한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#getName()">getName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the name.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#getNegative()">getNegative</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the CSSOM <code>negative</code>. / CSSOM <code>negative</code> 를 반환한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#getPad()">getPad</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the CSSOM <code>pad</code>. / CSSOM <code>pad</code> 를 반환한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#getPrefix()">getPrefix</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the CSSOM <code>prefix</code>. / CSSOM <code>prefix</code> 를 반환한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#getRange()">getRange</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the CSSOM <code>range</code>. / CSSOM <code>range</code> 를 반환한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#getSpeakAs()">getSpeakAs</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the CSSOM <code>speakAs</code>. / CSSOM <code>speakAs</code> 를 반환한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#getSuffix()">getSuffix</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the CSSOM <code>suffix</code>. / CSSOM <code>suffix</code> 를 반환한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#getSymbols()">getSymbols</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the CSSOM <code>symbols</code>. / CSSOM <code>symbols</code> 를 반환한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#getSystem()">getSystem</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the CSSOM <code>system</code>. / CSSOM <code>system</code> 을 반환한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#getType()">getType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the rule type.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#isDefinable(java.lang.String)">isDefinable</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a name can be defined by an author: a custom identifier that is not <code>none</code>, a CSS-wide keyword, or one of the names
+ that the specification reserves (<code>decimal</code>, <code>disc</code>, <code>circle</code>, <code>square</code>, <code>disclosure-open</code>,
+ <code>disclosure-closed</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#setAdditiveSymbols(java.lang.String)">setAdditiveSymbols</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the CSSOM <code>additiveSymbols</code>. / CSSOM <code>additiveSymbols</code> 를 설정한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#setFallback(java.lang.String)">setFallback</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the CSSOM <code>fallback</code>. / CSSOM <code>fallback</code> 를 설정한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#setName(java.lang.String)">setName</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the counter style name (the CSSOM <code>name</code> setter).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#setNegative(java.lang.String)">setNegative</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the CSSOM <code>negative</code>. / CSSOM <code>negative</code> 를 설정한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#setPad(java.lang.String)">setPad</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the CSSOM <code>pad</code>. / CSSOM <code>pad</code> 를 설정한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#setPrefix(java.lang.String)">setPrefix</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the CSSOM <code>prefix</code>. / CSSOM <code>prefix</code> 를 설정한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#setRange(java.lang.String)">setRange</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the CSSOM <code>range</code>. / CSSOM <code>range</code> 를 설정한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#setSpeakAs(java.lang.String)">setSpeakAs</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the CSSOM <code>speakAs</code>. / CSSOM <code>speakAs</code> 를 설정한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#setSuffix(java.lang.String)">setSuffix</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the CSSOM <code>suffix</code>. / CSSOM <code>suffix</code> 를 설정한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#setSymbols(java.lang.String)">setSymbols</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the CSSOM <code>symbols</code>. / CSSOM <code>symbols</code> 를 설정한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html#setSystem(java.lang.String)">setSystem</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the CSSOM <code>system</code>. / CSSOM <code>system</code> 을 설정한다.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.css.cssom.CssRule"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.css.cssom.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#getCssomType()">getCssomType</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#getParentRule()">getParentRule</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#getParentStyleSheet()">getParentStyleSheet</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#setCssText(java.lang.String)">setCssText</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#toString()">toString</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="CounterStyleRule(java.lang.String, java.util.Map)"><!-- --></A><H3>
+CounterStyleRule</H3>
+<PRE>
+public <B>CounterStyleRule</B>(java.lang.String&nbsp;name,
+                        java.util.Map&lt;java.lang.String,java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&gt;&nbsp;descriptors)</PRE>
+<DL>
+<DD>Creates a rule.
+ <p>
+ 규칙을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the counter style name / 카운터 스타일 이름<DD><CODE>descriptors</CODE> - the descriptor values by lower-case name (copied) / 소문자 이름별 서술자 값(복사됨)</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="isDefinable(java.lang.String)"><!-- --></A><H3>
+isDefinable</H3>
+<PRE>
+public static boolean <B>isDefinable</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Tells whether a name can be defined by an author: a custom identifier that is not <code>none</code>, a CSS-wide keyword, or one of the names
+ that the specification reserves (<code>decimal</code>, <code>disc</code>, <code>circle</code>, <code>square</code>, <code>disclosure-open</code>,
+ <code>disclosure-closed</code>).
+ <p>
+ 이름을 저자가 정의할 수 있는지 알려 준다: <code>none</code>, CSS 전역 키워드, 규격이 예약한 이름(<code>decimal</code>, <code>disc</code>, <code>circle</code>,
+ <code>square</code>, <code>disclosure-open</code>, <code>disclosure-closed</code>)이 아닌 사용자 정의 식별자.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the name / 이름
+<DT><B>Returns:</B><DD>true if it can be defined / 정의할 수 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getName()"><!-- --></A><H3>
+getName</H3>
+<PRE>
+public java.lang.String <B>getName</B>()</PRE>
+<DL>
+<DD>Returns the name.
+ <p>
+ 이름을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the name as written / 쓰인 그대로의 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDescriptors()"><!-- --></A><H3>
+getDescriptors</H3>
+<PRE>
+public java.util.Map&lt;java.lang.String,java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&gt; <B>getDescriptors</B>()</PRE>
+<DL>
+<DD>Returns the descriptors.
+ <p>
+ 서술자를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the unmodifiable descriptor values by lower-case name / 소문자 이름별 서술자 값(수정할 수 없음)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSystem()"><!-- --></A><H3>
+getSystem</H3>
+<PRE>
+public java.lang.String <B>getSystem</B>()</PRE>
+<DL>
+<DD>Returns the CSSOM <code>system</code>. / CSSOM <code>system</code> 을 반환한다. @return the text / 문자열
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setSystem(java.lang.String)"><!-- --></A><H3>
+setSystem</H3>
+<PRE>
+public void <B>setSystem</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets the CSSOM <code>system</code>. / CSSOM <code>system</code> 을 설정한다. @param v the text / 문자열
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSymbols()"><!-- --></A><H3>
+getSymbols</H3>
+<PRE>
+public java.lang.String <B>getSymbols</B>()</PRE>
+<DL>
+<DD>Returns the CSSOM <code>symbols</code>. / CSSOM <code>symbols</code> 를 반환한다. @return the text / 문자열
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setSymbols(java.lang.String)"><!-- --></A><H3>
+setSymbols</H3>
+<PRE>
+public void <B>setSymbols</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets the CSSOM <code>symbols</code>. / CSSOM <code>symbols</code> 를 설정한다. @param v the text / 문자열
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getAdditiveSymbols()"><!-- --></A><H3>
+getAdditiveSymbols</H3>
+<PRE>
+public java.lang.String <B>getAdditiveSymbols</B>()</PRE>
+<DL>
+<DD>Returns the CSSOM <code>additiveSymbols</code>. / CSSOM <code>additiveSymbols</code> 를 반환한다. @return the text / 문자열
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setAdditiveSymbols(java.lang.String)"><!-- --></A><H3>
+setAdditiveSymbols</H3>
+<PRE>
+public void <B>setAdditiveSymbols</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets the CSSOM <code>additiveSymbols</code>. / CSSOM <code>additiveSymbols</code> 를 설정한다. @param v the text / 문자열
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getNegative()"><!-- --></A><H3>
+getNegative</H3>
+<PRE>
+public java.lang.String <B>getNegative</B>()</PRE>
+<DL>
+<DD>Returns the CSSOM <code>negative</code>. / CSSOM <code>negative</code> 를 반환한다. @return the text / 문자열
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setNegative(java.lang.String)"><!-- --></A><H3>
+setNegative</H3>
+<PRE>
+public void <B>setNegative</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets the CSSOM <code>negative</code>. / CSSOM <code>negative</code> 를 설정한다. @param v the text / 문자열
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPrefix()"><!-- --></A><H3>
+getPrefix</H3>
+<PRE>
+public java.lang.String <B>getPrefix</B>()</PRE>
+<DL>
+<DD>Returns the CSSOM <code>prefix</code>. / CSSOM <code>prefix</code> 를 반환한다. @return the text / 문자열
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setPrefix(java.lang.String)"><!-- --></A><H3>
+setPrefix</H3>
+<PRE>
+public void <B>setPrefix</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets the CSSOM <code>prefix</code>. / CSSOM <code>prefix</code> 를 설정한다. @param v the text / 문자열
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSuffix()"><!-- --></A><H3>
+getSuffix</H3>
+<PRE>
+public java.lang.String <B>getSuffix</B>()</PRE>
+<DL>
+<DD>Returns the CSSOM <code>suffix</code>. / CSSOM <code>suffix</code> 를 반환한다. @return the text / 문자열
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setSuffix(java.lang.String)"><!-- --></A><H3>
+setSuffix</H3>
+<PRE>
+public void <B>setSuffix</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets the CSSOM <code>suffix</code>. / CSSOM <code>suffix</code> 를 설정한다. @param v the text / 문자열
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRange()"><!-- --></A><H3>
+getRange</H3>
+<PRE>
+public java.lang.String <B>getRange</B>()</PRE>
+<DL>
+<DD>Returns the CSSOM <code>range</code>. / CSSOM <code>range</code> 를 반환한다. @return the text / 문자열
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setRange(java.lang.String)"><!-- --></A><H3>
+setRange</H3>
+<PRE>
+public void <B>setRange</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets the CSSOM <code>range</code>. / CSSOM <code>range</code> 를 설정한다. @param v the text / 문자열
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPad()"><!-- --></A><H3>
+getPad</H3>
+<PRE>
+public java.lang.String <B>getPad</B>()</PRE>
+<DL>
+<DD>Returns the CSSOM <code>pad</code>. / CSSOM <code>pad</code> 를 반환한다. @return the text / 문자열
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setPad(java.lang.String)"><!-- --></A><H3>
+setPad</H3>
+<PRE>
+public void <B>setPad</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets the CSSOM <code>pad</code>. / CSSOM <code>pad</code> 를 설정한다. @param v the text / 문자열
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSpeakAs()"><!-- --></A><H3>
+getSpeakAs</H3>
+<PRE>
+public java.lang.String <B>getSpeakAs</B>()</PRE>
+<DL>
+<DD>Returns the CSSOM <code>speakAs</code>. / CSSOM <code>speakAs</code> 를 반환한다. @return the text / 문자열
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setSpeakAs(java.lang.String)"><!-- --></A><H3>
+setSpeakAs</H3>
+<PRE>
+public void <B>setSpeakAs</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets the CSSOM <code>speakAs</code>. / CSSOM <code>speakAs</code> 를 설정한다. @param v the text / 문자열
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFallback()"><!-- --></A><H3>
+getFallback</H3>
+<PRE>
+public java.lang.String <B>getFallback</B>()</PRE>
+<DL>
+<DD>Returns the CSSOM <code>fallback</code>. / CSSOM <code>fallback</code> 를 반환한다. @return the text / 문자열
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setFallback(java.lang.String)"><!-- --></A><H3>
+setFallback</H3>
+<PRE>
+public void <B>setFallback</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets the CSSOM <code>fallback</code>. / CSSOM <code>fallback</code> 를 설정한다. @param v the text / 문자열
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setName(java.lang.String)"><!-- --></A><H3>
+setName</H3>
+<PRE>
+public void <B>setName</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets the counter style name (the CSSOM <code>name</code> setter). A text that is not one custom identifier that an author may define is ignored.
+ <p>
+ 카운터 스타일 이름을 설정한다(CSSOM <code>name</code> 설정 메서드). 저자가 정의할 수 있는 사용자 정의 식별자 하나가 아니면 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the new name / 새 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getType()"><!-- --></A><H3>
+getType</H3>
+<PRE>
+public int <B>getType</B>()</PRE>
+<DL>
+<DD>Returns the rule type.
+ <p>
+ 규칙 종류를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#getType()">getType</A></CODE> in class <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#COUNTER_STYLE_RULE"><CODE>CssRule.COUNTER_STYLE_RULE</CODE></A> / COUNTER_STYLE_RULE</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCssText()"><!-- --></A><H3>
+getCssText</H3>
+<PRE>
+public java.lang.String <B>getCssText</B>()</PRE>
+<DL>
+<DD>Serializes the rule.
+ <p>
+ 규칙을 직렬화한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#getCssText()">getCssText</A></CODE> in class <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>CSS text / CSS 문자열</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContextualStyleSheetLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cssom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CounterStyleRule.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.css.cssom.CssRule">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

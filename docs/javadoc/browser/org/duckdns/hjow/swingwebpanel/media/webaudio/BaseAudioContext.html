@@ -1,0 +1,1084 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+BaseAudioContext
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="BaseAudioContext";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AutomationRate.html" title="enum in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.TaskSink.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="BaseAudioContext.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.webaudio</FONT>
+<BR>
+Class BaseAudioContext</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.webaudio.BaseAudioContext</B>
+</PRE>
+<DL>
+<DT><B>Direct Known Subclasses:</B> <DD><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OfflineAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">OfflineAudioContext</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">RealtimeAudioContext</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public abstract class <B>BaseAudioContext</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+A set of audio nodes and their connections, and the loop that renders them (Web Audio API 1.1 and 2): the base of the real-time and the
+ offline context. A context has a sample rate, a destination node, the current time and the rendering order of its nodes. The class
+ implements the processing model of section 2:
+ <ul>
+ <li>Control methods (those of the nodes and the parameters) may be called from any thread. They check their arguments at once and
+ queue a <em>control message</em>; <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#renderQuantum()"><CODE>renderQuantum()</CODE></A> applies the messages in the order of their insertion at the start of a
+ render quantum.</li>
+ <li><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#renderQuantum()"><CODE>renderQuantum()</CODE></A> renders one render quantum (128 frames by default): it applies the messages, orders the nodes when the
+ graph has changed (see <CODE>RenderGraph</CODE>), and renders every node in that order. It is called by one thread at a time, the
+ <em>rendering thread</em>; the offline context calls it from the thread that asks for the rendering.</li>
+ <li>The context keeps a node alive (<em>pinned</em>) while it is started and has not ended, or while it is active or within its tail
+ time, and processes the nodes that can be reached from the pinned nodes and from the destination. A node that is neither connected to
+ a started source nor started itself is not processed, so the value of its parameters does not advance with time.</li>
+ </ul>
+ <p>
+ 오디오 노드의 집합과 그 연결, 그리고 그것을 렌더링하는 루프(Web Audio API 1.1과 2절): 실시간 컨텍스트와 오프라인 컨텍스트의 기반. 컨텍스트는
+ 샘플링 주파수, 목적지 노드, 현재 시간, 노드의 렌더링 순서를 가진다. 이 클래스는 2절의 처리 모델을 구현한다:
+ <ul>
+ <li>제어 메서드(노드와 파라미터의 메서드)는 어느 스레드에서나 부를 수 있다. 인수를 즉시 검사하고 <em>제어 메시지</em>를 쌓으며,
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#renderQuantum()"><CODE>renderQuantum()</CODE></A> 이 render quantum 시작에 메시지를 넣은 순서대로 적용한다.</li>
+ <li><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#renderQuantum()"><CODE>renderQuantum()</CODE></A> 은 render quantum 하나(기본 128 프레임)를 렌더링한다: 메시지를 적용하고, 그래프가 바뀌었으면 노드의 순서를 정하고
+ (<CODE>RenderGraph</CODE> 참고), 그 순서대로 모든 노드를 렌더링한다. 한 번에 한 스레드(<em>렌더링 스레드</em>)가 부르며 오프라인 컨텍스트는 렌더링을 요청한
+ 스레드에서 부른다.</li>
+ <li>컨텍스트는 노드가 시작되어 끝나지 않았거나 활성이거나 꼬리 시간 안에 있는 동안 노드를 붙잡아 두며(<em>pinned</em>), 붙잡은 노드와 목적지에서 도달할 수
+ 있는 노드를 처리한다. 시작한 원천에도 연결되지 않고 스스로도 시작하지 않은 노드는 처리하지 않으므로 그 파라미터의 값은 시간에 따라 변하지 않는다.</li>
+ </ul>
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.TaskSink.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">BaseAudioContext.TaskSink</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The sink of the tasks that the rendering thread posts to the control side (the <code>ended</code> event of a source, for example).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AnalyserNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AnalyserNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createAnalyser()">createAnalyser</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an analyser (<code>createAnalyser</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BiquadFilterNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">BiquadFilterNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createBiquadFilter()">createBiquadFilter</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a biquad filter.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBuffer</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createBuffer(int, int, float)">createBuffer</A></B>(int&nbsp;numberOfChannels,
+             int&nbsp;length,
+             float&nbsp;bufferSampleRate)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a silent buffer.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBufferSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBufferSourceNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createBufferSource()">createBufferSource</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a buffer source.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ChannelMergerNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">ChannelMergerNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createChannelMerger(int)">createChannelMerger</A></B>(int&nbsp;numberOfInputs)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a channel merger.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ChannelSplitterNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">ChannelSplitterNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createChannelSplitter(int)">createChannelSplitter</A></B>(int&nbsp;numberOfOutputs)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a channel splitter.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ConstantSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">ConstantSourceNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createConstantSource()">createConstantSource</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a constant source.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ConvolverNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">ConvolverNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createConvolver()">createConvolver</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a convolver (<code>createConvolver</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/DelayNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">DelayNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createDelay()">createDelay</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a delay node with a largest delay of 1 second.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/DelayNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">DelayNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createDelay(double)">createDelay</A></B>(double&nbsp;maxDelayTime)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a delay node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/DynamicsCompressorNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">DynamicsCompressorNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createDynamicsCompressor()">createDynamicsCompressor</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a dynamics compressor (<code>createDynamicsCompressor</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/GainNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">GainNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createGain()">createGain</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a gain node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/IIRFilterNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">IIRFilterNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createIIRFilter(double[], double[])">createIIRFilter</A></B>(double[]&nbsp;feedforward,
+                double[]&nbsp;feedback)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an IIR filter.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementAudioSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">MediaElementAudioSourceNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createMediaElementSource(org.duckdns.hjow.swingwebpanel.media.webaudio.MediaElementPcmSource)">createMediaElementSource</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">MediaElementPcmSource</A>&nbsp;source)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a source for the audio of a media element (<code>createMediaElementSource</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OscillatorNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">OscillatorNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createOscillator()">createOscillator</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an oscillator.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/PannerNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">PannerNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createPanner()">createPanner</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a panner (<code>createPanner</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/PeriodicWave.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">PeriodicWave</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createPeriodicWave(float[], float[], boolean)">createPeriodicWave</A></B>(float[]&nbsp;real,
+                   float[]&nbsp;imag,
+                   boolean&nbsp;disableNormalization)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a periodic wave from Fourier coefficients (<code>createPeriodicWave</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">ScriptProcessorNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createScriptProcessor(int, int, int)">createScriptProcessor</A></B>(int&nbsp;bufferSize,
+                      int&nbsp;numberOfInputChannels,
+                      int&nbsp;numberOfOutputChannels)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a script processor (<code>createScriptProcessor</code>, deprecated; see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>ScriptProcessorNode</CODE></A> for the delay and the rules
+ of the blocks).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/StereoPannerNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">StereoPannerNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createStereoPanner()">createStereoPanner</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a stereo panner.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WaveShaperNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">WaveShaperNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createWaveShaper()">createWaveShaper</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a wave shaper (<code>createWaveShaper</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getBaseLatency()">getBaseLatency</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the processing latency of the destination in seconds.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getCurrentFrame()">getCurrentFrame</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the index of the first frame of the next quantum, that is the number of frames rendered so far.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getCurrentTime()">getCurrentTime</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the time in seconds of the sample frame that follows the last frame of the last rendered quantum.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioDestinationNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioDestinationNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getDestination()">getDestination</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the destination node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioListener.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioListener</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getListener()">getListener</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the listener of the context.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getMutedNodeCount()">getMutedNodeCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of nodes that were muted by the last rendering order because they are part of a cycle without a delay.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getOutputLatency()">getOutputLatency</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the estimated output latency in seconds.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getPinnedNodeCount()">getPinnedNodeCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of nodes that the context holds on to (for tests).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getProcessedStepCount()">getProcessedStepCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of steps of the last rendering order (a delay node of a cycle counts twice); for tests.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getRenderQuantumSize()">getRenderQuantumSize</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of sample frames of a render quantum.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;float</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getSampleRate()">getSampleRate</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the sample rate in Hz.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ContextState.html" title="enum in org.duckdns.hjow.swingwebpanel.media.webaudio">ContextState</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getState()">getState</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the state of the context.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#isHrtfAvailable()">isHrtfAvailable</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the HRTF data of the product is available (it is loaded, if that has not happened yet, by this call): the
+ <code>HRTF</code> panning model works only if it is.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#setTaskSink(org.duckdns.hjow.swingwebpanel.media.webaudio.BaseAudioContext.TaskSink)">setTaskSink</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.TaskSink.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">BaseAudioContext.TaskSink</A>&nbsp;sink)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the sink of the tasks for the control side.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getSampleRate()"><!-- --></A><H3>
+getSampleRate</H3>
+<PRE>
+public final float <B>getSampleRate</B>()</PRE>
+<DL>
+<DD>Returns the sample rate in Hz.
+ <p>
+ 샘플링 주파수(Hz)를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the sample rate / 샘플링 주파수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRenderQuantumSize()"><!-- --></A><H3>
+getRenderQuantumSize</H3>
+<PRE>
+public final int <B>getRenderQuantumSize</B>()</PRE>
+<DL>
+<DD>Returns the number of sample frames of a render quantum.
+ <p>
+ render quantum 의 샘플 프레임 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the quantum size / quantum 크기</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCurrentFrame()"><!-- --></A><H3>
+getCurrentFrame</H3>
+<PRE>
+public final long <B>getCurrentFrame</B>()</PRE>
+<DL>
+<DD>Returns the index of the first frame of the next quantum, that is the number of frames rendered so far.
+ <p>
+ 다음 quantum 의 첫 프레임 인덱스, 즉 지금까지 렌더링한 프레임 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the current frame / 현재 프레임</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCurrentTime()"><!-- --></A><H3>
+getCurrentTime</H3>
+<PRE>
+public final double <B>getCurrentTime</B>()</PRE>
+<DL>
+<DD>Returns the time in seconds of the sample frame that follows the last frame of the last rendered quantum.
+ <p>
+ 마지막으로 렌더링한 quantum 의 마지막 프레임 다음 샘플 프레임의 시간(초)을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the current time / 현재 시간</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDestination()"><!-- --></A><H3>
+getDestination</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioDestinationNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioDestinationNode</A> <B>getDestination</B>()</PRE>
+<DL>
+<DD>Returns the destination node.
+ <p>
+ 목적지 노드를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the destination / 목적지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getState()"><!-- --></A><H3>
+getState</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ContextState.html" title="enum in org.duckdns.hjow.swingwebpanel.media.webaudio">ContextState</A> <B>getState</B>()</PRE>
+<DL>
+<DD>Returns the state of the context.
+ <p>
+ 컨텍스트의 상태를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the state / 상태</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBaseLatency()"><!-- --></A><H3>
+getBaseLatency</H3>
+<PRE>
+public final double <B>getBaseLatency</B>()</PRE>
+<DL>
+<DD>Returns the processing latency of the destination in seconds.
+ <p>
+ 목적지의 처리 지연(초)을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the base latency / 기본 지연</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOutputLatency()"><!-- --></A><H3>
+getOutputLatency</H3>
+<PRE>
+public final double <B>getOutputLatency</B>()</PRE>
+<DL>
+<DD>Returns the estimated output latency in seconds.
+ <p>
+ 추정 출력 지연(초)을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the output latency / 출력 지연</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMutedNodeCount()"><!-- --></A><H3>
+getMutedNodeCount</H3>
+<PRE>
+public final int <B>getMutedNodeCount</B>()</PRE>
+<DL>
+<DD>Returns the number of nodes that were muted by the last rendering order because they are part of a cycle without a delay.
+ <p>
+ 지연 없는 순환의 일부여서 마지막 렌더링 순서에서 무음 처리된 노드 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of muted nodes / 무음 처리된 노드 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getProcessedStepCount()"><!-- --></A><H3>
+getProcessedStepCount</H3>
+<PRE>
+public final int <B>getProcessedStepCount</B>()</PRE>
+<DL>
+<DD>Returns the number of steps of the last rendering order (a delay node of a cycle counts twice); for tests.
+ <p>
+ 마지막 렌더링 순서의 단계 수를 반환한다(순환의 지연 노드는 두 번 센다). 시험용.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of steps / 단계 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setTaskSink(org.duckdns.hjow.swingwebpanel.media.webaudio.BaseAudioContext.TaskSink)"><!-- --></A><H3>
+setTaskSink</H3>
+<PRE>
+public final void <B>setTaskSink</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.TaskSink.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">BaseAudioContext.TaskSink</A>&nbsp;sink)</PRE>
+<DL>
+<DD>Sets the sink of the tasks for the control side.
+ <p>
+ 제어 쪽 작업의 싱크를 정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>sink</CODE> - the sink, or null to run the tasks on the rendering thread / 싱크. 렌더링 스레드에서 실행하려면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPinnedNodeCount()"><!-- --></A><H3>
+getPinnedNodeCount</H3>
+<PRE>
+public final int <B>getPinnedNodeCount</B>()</PRE>
+<DL>
+<DD>Returns the number of nodes that the context holds on to (for tests).
+ <p>
+ 컨텍스트가 붙잡고 있는 노드 수를 반환한다(시험용).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of pinned nodes / 붙잡은 노드 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createGain()"><!-- --></A><H3>
+createGain</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/GainNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">GainNode</A> <B>createGain</B>()</PRE>
+<DL>
+<DD>Creates a gain node.
+ <p>
+ 게인 노드를 만든다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createOscillator()"><!-- --></A><H3>
+createOscillator</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OscillatorNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">OscillatorNode</A> <B>createOscillator</B>()</PRE>
+<DL>
+<DD>Creates an oscillator.
+ <p>
+ 발진기를 만든다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createBufferSource()"><!-- --></A><H3>
+createBufferSource</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBufferSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBufferSourceNode</A> <B>createBufferSource</B>()</PRE>
+<DL>
+<DD>Creates a buffer source.
+ <p>
+ 버퍼 원천을 만든다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createConstantSource()"><!-- --></A><H3>
+createConstantSource</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ConstantSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">ConstantSourceNode</A> <B>createConstantSource</B>()</PRE>
+<DL>
+<DD>Creates a constant source.
+ <p>
+ 상수 원천을 만든다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createDelay(double)"><!-- --></A><H3>
+createDelay</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/DelayNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">DelayNode</A> <B>createDelay</B>(double&nbsp;maxDelayTime)</PRE>
+<DL>
+<DD>Creates a delay node.
+ <p>
+ 지연 노드를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>maxDelayTime</CODE> - the largest delay in seconds / 가장 긴 지연(초)
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createDelay()"><!-- --></A><H3>
+createDelay</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/DelayNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">DelayNode</A> <B>createDelay</B>()</PRE>
+<DL>
+<DD>Creates a delay node with a largest delay of 1 second.
+ <p>
+ 가장 긴 지연이 1초인 지연 노드를 만든다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createBiquadFilter()"><!-- --></A><H3>
+createBiquadFilter</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BiquadFilterNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">BiquadFilterNode</A> <B>createBiquadFilter</B>()</PRE>
+<DL>
+<DD>Creates a biquad filter.
+ <p>
+ 쌍이차 필터를 만든다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createIIRFilter(double[], double[])"><!-- --></A><H3>
+createIIRFilter</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/IIRFilterNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">IIRFilterNode</A> <B>createIIRFilter</B>(double[]&nbsp;feedforward,
+                                           double[]&nbsp;feedback)</PRE>
+<DL>
+<DD>Creates an IIR filter.
+ <p>
+ IIR 필터를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>feedforward</CODE> - the numerator coefficients / 분자 계수<DD><CODE>feedback</CODE> - the denominator coefficients / 분모 계수
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createStereoPanner()"><!-- --></A><H3>
+createStereoPanner</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/StereoPannerNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">StereoPannerNode</A> <B>createStereoPanner</B>()</PRE>
+<DL>
+<DD>Creates a stereo panner.
+ <p>
+ 스테레오 패너를 만든다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createChannelSplitter(int)"><!-- --></A><H3>
+createChannelSplitter</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ChannelSplitterNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">ChannelSplitterNode</A> <B>createChannelSplitter</B>(int&nbsp;numberOfOutputs)</PRE>
+<DL>
+<DD>Creates a channel splitter.
+ <p>
+ 채널 스플리터를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>numberOfOutputs</CODE> - the number of outputs / 출력 수
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createChannelMerger(int)"><!-- --></A><H3>
+createChannelMerger</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ChannelMergerNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">ChannelMergerNode</A> <B>createChannelMerger</B>(int&nbsp;numberOfInputs)</PRE>
+<DL>
+<DD>Creates a channel merger.
+ <p>
+ 채널 머저를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>numberOfInputs</CODE> - the number of inputs / 입력 수
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createWaveShaper()"><!-- --></A><H3>
+createWaveShaper</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WaveShaperNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">WaveShaperNode</A> <B>createWaveShaper</B>()</PRE>
+<DL>
+<DD>Creates a wave shaper (<code>createWaveShaper</code>).
+ <p>
+ 웨이브셰이퍼를 만든다(<code>createWaveShaper</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createConvolver()"><!-- --></A><H3>
+createConvolver</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ConvolverNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">ConvolverNode</A> <B>createConvolver</B>()</PRE>
+<DL>
+<DD>Creates a convolver (<code>createConvolver</code>).
+ <p>
+ 컨볼버를 만든다(<code>createConvolver</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createDynamicsCompressor()"><!-- --></A><H3>
+createDynamicsCompressor</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/DynamicsCompressorNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">DynamicsCompressorNode</A> <B>createDynamicsCompressor</B>()</PRE>
+<DL>
+<DD>Creates a dynamics compressor (<code>createDynamicsCompressor</code>).
+ <p>
+ 다이내믹 컴프레서를 만든다(<code>createDynamicsCompressor</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createAnalyser()"><!-- --></A><H3>
+createAnalyser</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AnalyserNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AnalyserNode</A> <B>createAnalyser</B>()</PRE>
+<DL>
+<DD>Creates an analyser (<code>createAnalyser</code>).
+ <p>
+ 분석기를 만든다(<code>createAnalyser</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createMediaElementSource(org.duckdns.hjow.swingwebpanel.media.webaudio.MediaElementPcmSource)"><!-- --></A><H3>
+createMediaElementSource</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementAudioSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">MediaElementAudioSourceNode</A> <B>createMediaElementSource</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">MediaElementPcmSource</A>&nbsp;source)</PRE>
+<DL>
+<DD>Creates a source for the audio of a media element (<code>createMediaElementSource</code>). The host supplies the audio of the
+ element through a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>MediaElementPcmSource</CODE></A>; a video element is refused by the host before it gets here.
+ <p>
+ 미디어 요소의 오디오를 위한 원천을 만든다(<code>createMediaElementSource</code>). 호스트가 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>MediaElementPcmSource</CODE></A> 로 요소의 오디오를 공급한다.
+ 비디오 요소는 여기에 오기 전에 호스트가 거부한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>source</CODE> - the supplier of the audio / 오디오 공급자
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getListener()"><!-- --></A><H3>
+getListener</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioListener.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioListener</A> <B>getListener</B>()</PRE>
+<DL>
+<DD>Returns the listener of the context.
+ <p>
+ 컨텍스트의 청취자를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the listener / 청취자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isHrtfAvailable()"><!-- --></A><H3>
+isHrtfAvailable</H3>
+<PRE>
+public final boolean <B>isHrtfAvailable</B>()</PRE>
+<DL>
+<DD>Tells whether the HRTF data of the product is available (it is loaded, if that has not happened yet, by this call): the
+ <code>HRTF</code> panning model works only if it is.
+ <p>
+ 제품의 HRTF 자료를 쓸 수 있는지 알려 준다(아직 읽지 않았다면 이 호출이 읽는다). <code>HRTF</code> 패닝 모델은 그럴 때만 동작한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if the data is available / 자료를 쓸 수 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createPanner()"><!-- --></A><H3>
+createPanner</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/PannerNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">PannerNode</A> <B>createPanner</B>()</PRE>
+<DL>
+<DD>Creates a panner (<code>createPanner</code>).
+ <p>
+ 패너를 만든다(<code>createPanner</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createScriptProcessor(int, int, int)"><!-- --></A><H3>
+createScriptProcessor</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">ScriptProcessorNode</A> <B>createScriptProcessor</B>(int&nbsp;bufferSize,
+                                                       int&nbsp;numberOfInputChannels,
+                                                       int&nbsp;numberOfOutputChannels)</PRE>
+<DL>
+<DD>Creates a script processor (<code>createScriptProcessor</code>, deprecated; see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>ScriptProcessorNode</CODE></A> for the delay and the rules
+ of the blocks).
+ <p>
+ 스크립트 프로세서를 만든다(<code>createScriptProcessor</code>, 폐기 예정. 지연과 블록의 규칙은 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ScriptProcessorNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>ScriptProcessorNode</CODE></A> 참고).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>bufferSize</CODE> - 0 to let the implementation pick, or a power of two from 256 to 16384 / 0 이면 구현이 고르고, 아니면 256 ~ 16384 의 2 의 거듭제곱<DD><CODE>numberOfInputChannels</CODE> - the number of input channels, from 0 to 32 / 입력 채널 수(0 ~ 32)<DD><CODE>numberOfOutputChannels</CODE> - the number of output channels, from 0 to 32; not both 0 / 출력 채널 수(0 ~ 32). 둘 다 0 은 안 된다
+<DT><B>Returns:</B><DD>the node / 노드
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioException</A></CODE> - <code>IndexSizeError</code> if a value is out of range / 값이 범위 밖이면 <code>IndexSizeError</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createBuffer(int, int, float)"><!-- --></A><H3>
+createBuffer</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBuffer</A> <B>createBuffer</B>(int&nbsp;numberOfChannels,
+                                      int&nbsp;length,
+                                      float&nbsp;bufferSampleRate)</PRE>
+<DL>
+<DD>Creates a silent buffer.
+ <p>
+ 무음 버퍼를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>numberOfChannels</CODE> - the number of channels / 채널 수<DD><CODE>length</CODE> - the number of frames / 프레임 수<DD><CODE>bufferSampleRate</CODE> - the sample rate of the buffer / 버퍼의 샘플링 주파수
+<DT><B>Returns:</B><DD>the buffer / 버퍼</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createPeriodicWave(float[], float[], boolean)"><!-- --></A><H3>
+createPeriodicWave</H3>
+<PRE>
+public final <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/PeriodicWave.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">PeriodicWave</A> <B>createPeriodicWave</B>(float[]&nbsp;real,
+                                             float[]&nbsp;imag,
+                                             boolean&nbsp;disableNormalization)</PRE>
+<DL>
+<DD>Creates a periodic wave from Fourier coefficients (<code>createPeriodicWave</code>). If only one of the two arrays is given, the
+ other is taken as zeros of the same length; if none is given, the wave is a sine.
+ <p>
+ 푸리에 계수로 주기파를 만든다(<code>createPeriodicWave</code>). 두 배열 중 하나만 주면 다른 하나는 같은 길이의 0 으로 보고, 둘 다 없으면 사인파이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>real</CODE> - the cosine terms, or null / 코사인 항. 없으면 null<DD><CODE>imag</CODE> - the sine terms, or null / 사인 항. 없으면 null<DD><CODE>disableNormalization</CODE> - true to keep the amplitude of the coefficients / 계수의 진폭을 그대로 두려면 true
+<DT><B>Returns:</B><DD>the wave / 파형</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AutomationRate.html" title="enum in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.TaskSink.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="BaseAudioContext.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

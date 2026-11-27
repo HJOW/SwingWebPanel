@@ -1,0 +1,708 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+TextSelections
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="TextSelections";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/SelectionHighlight.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.Caret.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/render/TextSelections.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="TextSelections.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.render</FONT>
+<BR>
+Class TextSelections</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.render.TextSelections</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>TextSelections</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+What a selection means on the screen of one rendered page (plan item P11-08): where the caret goes for a point of the page, which part of
+ the page a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>Range</CODE></A> covers (the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/SelectionHighlight.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>SelectionHighlight</CODE></A>), and which text the user copies. It joins the DOM <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>Range</CODE></A> with the
+ layout of the page, using the same mapping between the characters of a text node and the layout fragments that
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/HitTester.html#hit(double, double)"><CODE>HitTester.hit(double, double)</CODE></A> uses (a fragment keeps the range of the source data that it painted). An instance belongs to one
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>RenderedPage</CODE></A>; it reads only immutable layout data, but it must be used on the document thread because it reads the DOM.
+ <p>
+ Copied text rules (<code>innerText</code>-like): the painted text of the selected fragments (white space already collapsed); nothing between
+ fragments of one line; a space between lines of one block that were broken by wrapping, a line feed when the source has a line feed and
+ <code>white-space</code> keeps it; a line feed for <code>br</code>; a line feed between different blocks, two for a <code>p</code>; a tab
+ between table cells of one row and a line feed between rows; nothing for text that is <code>user-select: none</code> or hidden.
+ <p>
+ 한 렌더링된 페이지의 화면에서 선택이 뜻하는 것(계획 P11-08): 페이지의 한 점에 캐럿이 놓일 곳, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>Range</CODE></A> 가 덮는 페이지의 부분(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/SelectionHighlight.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>SelectionHighlight</CODE></A>),
+ 사용자가 복사하는 텍스트. DOM <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>Range</CODE></A> 를 페이지의 레이아웃과 잇는다. 텍스트 노드의 문자와 레이아웃 조각 사이의 대응은 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/HitTester.html#hit(double, double)"><CODE>HitTester.hit(double, double)</CODE></A> 가
+ 쓰는 것과 같다(조각은 자기가 그린 원본 데이터의 범위를 가진다). 인스턴스는 한 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>RenderedPage</CODE></A> 에 속하며 불변 레이아웃 데이터만 읽지만 DOM 을 읽으므로
+ 문서 스레드에서 써야 한다.
+ <p>
+ 복사 문자열 규칙(<code>innerText</code> 와 비슷): 선택된 조각의 그려진 텍스트(공백은 이미 접혀 있다). 한 줄의 조각 사이에는 아무것도 없고, 한 블록에서 자동으로
+ 줄이 바뀐 곳에는 공백 한 칸, 원본에 개행이 있고 <code>white-space</code> 가 보존하면 줄바꿈 한 개, <code>br</code> 은 줄바꿈 한 개, 다른 블록 사이는 줄바꿈 한 개
+ (<code>p</code> 이면 두 개), 한 행의 표 셀 사이는 탭, 행 사이는 줄바꿈이다. <code>user-select: none</code> 이거나 숨겨진 텍스트는 넣지 않는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.Caret.html" title="class in org.duckdns.hjow.swingwebpanel.render">TextSelections.Caret</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The position of the caret for a point: a text node and an offset in its data, with the layout fragment that the point belongs to.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html#TextSelections(org.duckdns.hjow.swingwebpanel.render.RenderedPage)">TextSelections</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html" title="class in org.duckdns.hjow.swingwebpanel.render">RenderedPage</A>&nbsp;page)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the selection geometry of a rendered page.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html#allElement(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)">allElement</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the outermost element whose used <code>user-select</code> is <code>all</code> for a fragment: a click inside it selects all its
+ content as one unit.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.Caret.html" title="class in org.duckdns.hjow.swingwebpanel.render">TextSelections.Caret</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html#caretAt(double, double, org.duckdns.hjow.swingwebpanel.render.HitResult)">caretAt</A></B>(double&nbsp;docX,
+        double&nbsp;docY,
+        <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/HitResult.html" title="class in org.duckdns.hjow.swingwebpanel.render">HitResult</A>&nbsp;hit)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Finds the caret position for a point: the character boundary nearest to the point in the text fragment under it; if the point is not
+ over selectable text, the nearest selectable fragment (the line whose band contains the point, the nearest one horizontally; else the
+ nearest line), at its start if the point is before it and at its end if after.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/SelectionHighlight.html" title="class in org.duckdns.hjow.swingwebpanel.render">SelectionHighlight</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html#caretMark(org.duckdns.hjow.swingwebpanel.dom.Node, int)">caretMark</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;container,
+          int&nbsp;offset)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the mark of the editing caret at a DOM position: a one pixel wide bar as high as the line, in the color of the
+ <code>caret-color</code> property (<code>auto</code> is the text color of the element that holds the position), or null if the
+ position has no place on the page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.awt.geom.Rectangle2D</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html#caretRect(org.duckdns.hjow.swingwebpanel.dom.Node, int)">caretRect</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+          int&nbsp;offset)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the rectangle of the caret at a position of a text node (zero width, as high as the line fragment), in document coordinates,
+ or null if the position is not shown or the text is vertical.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.awt.geom.Rectangle2D</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html#caretRectAt(org.duckdns.hjow.swingwebpanel.dom.Node, int)">caretRectAt</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;container,
+            int&nbsp;offset)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the rectangle of the caret at any DOM position (zero width, as high as the line), in document coordinates, or null if the
+ position has no place on the page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html" title="class in org.duckdns.hjow.swingwebpanel.render">RenderedPage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html#getPage()">getPage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the rendered page that this geometry belongs to.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/SelectionHighlight.html" title="class in org.duckdns.hjow.swingwebpanel.render">SelectionHighlight</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html#highlight(org.duckdns.hjow.swingwebpanel.dom.Range)">highlight</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A>&nbsp;range)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Computes the highlight of a range: the selected part of every selectable text fragment, and the border box of every replaced element
+ (images) that the range covers completely.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html#isSelectable(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)">isSelectable</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the text of a layout fragment can be selected: its <code>user-select</code> is not <code>none</code> (the used value is
+ the first value that is not <code>auto</code> on the way up to the root), and it is not hidden.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.Caret.html" title="class in org.duckdns.hjow.swingwebpanel.render">TextSelections.Caret</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html#line(org.duckdns.hjow.swingwebpanel.dom.Node, int, boolean)">line</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+     int&nbsp;offset,
+     boolean&nbsp;down)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Moves a caret position to the line above or below, keeping its horizontal position; on the first (last) line it goes to the start
+ (end) of the line, like the arrow keys of a browser.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.Caret.html" title="class in org.duckdns.hjow.swingwebpanel.render">TextSelections.Caret</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html#lineEdge(org.duckdns.hjow.swingwebpanel.dom.Node, int, boolean)">lineEdge</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+         int&nbsp;offset,
+         boolean&nbsp;end)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Moves a caret position to the start or the end of its line.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html#paragraphElement(org.duckdns.hjow.swingwebpanel.render.TextSelections.Caret)">paragraphElement</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.Caret.html" title="class in org.duckdns.hjow.swingwebpanel.render">TextSelections.Caret</A>&nbsp;caret)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the element whose content a triple click selects for a caret position: the element of the block that the text belongs to.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.awt.geom.Rectangle2D&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html#rects(org.duckdns.hjow.swingwebpanel.dom.Range)">rects</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A>&nbsp;range)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the client rectangles of a range in document coordinates (CSSOM View, <code>Range.getClientRects()</code>): the border boxes of
+ every element that the range selects completely and whose parent it does not select, and for every text node that the range selects
+ or partly selects the rectangles of the selected characters, one per line (the fragments of one line are joined).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.Caret.html" title="class in org.duckdns.hjow.swingwebpanel.render">TextSelections.Caret</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html#step(org.duckdns.hjow.swingwebpanel.dom.Node, int, boolean, boolean)">step</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+     int&nbsp;offset,
+     boolean&nbsp;forward,
+     boolean&nbsp;word)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Moves a caret position by one character (or one word) to the visible position that follows or precedes it, crossing into the next or
+ the previous text node of the page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html#text(org.duckdns.hjow.swingwebpanel.dom.Range)">text</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A>&nbsp;range)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text that copying the range puts on the clipboard (see the class description for the rules).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.html#wordRange(java.lang.String, int)">wordRange</A></B>(java.lang.String&nbsp;data,
+          int&nbsp;offset)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the word around a caret position in the data of a text node: the word that contains the character after the caret (the
+ character before it at the end of the data), found with <CODE>BreakIterator.getWordInstance(Locale)</CODE>.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="TextSelections(org.duckdns.hjow.swingwebpanel.render.RenderedPage)"><!-- --></A><H3>
+TextSelections</H3>
+<PRE>
+public <B>TextSelections</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html" title="class in org.duckdns.hjow.swingwebpanel.render">RenderedPage</A>&nbsp;page)</PRE>
+<DL>
+<DD>Creates the selection geometry of a rendered page.
+ <p>
+ 렌더링된 페이지의 선택 기하를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>page</CODE> - the page, not null / 페이지(null 불가)</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getPage()"><!-- --></A><H3>
+getPage</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html" title="class in org.duckdns.hjow.swingwebpanel.render">RenderedPage</A> <B>getPage</B>()</PRE>
+<DL>
+<DD>Returns the rendered page that this geometry belongs to.
+ <p>
+ 이 기하가 속한 렌더링된 페이지를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the page / 페이지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isSelectable(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><!-- --></A><H3>
+isSelectable</H3>
+<PRE>
+public static boolean <B>isSelectable</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</PRE>
+<DL>
+<DD>Tells whether the text of a layout fragment can be selected: its <code>user-select</code> is not <code>none</code> (the used value is
+ the first value that is not <code>auto</code> on the way up to the root), and it is not hidden.
+ <p>
+ 레이아웃 조각의 텍스트를 선택할 수 있는지 알려 준다: <code>user-select</code> 가 <code>none</code> 이 아니고(사용 값은 루트로 올라가며 처음으로
+ <code>auto</code> 가 아닌 값) 숨겨져 있지 않다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>box</CODE> - the fragment / 조각
+<DT><B>Returns:</B><DD>true if selectable / 선택할 수 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="allElement(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><!-- --></A><H3>
+allElement</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>allElement</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</PRE>
+<DL>
+<DD>Returns the outermost element whose used <code>user-select</code> is <code>all</code> for a fragment: a click inside it selects all its
+ content as one unit. The search goes up until a value other than <code>auto</code> and <code>all</code> ends it.
+ <p>
+ 조각에 대해 사용 <code>user-select</code> 가 <code>all</code> 인 가장 바깥 요소를 반환한다: 그 안을 클릭하면 내용 전체가 한 단위로 선택된다. 위로 올라가다
+ <code>auto</code> 와 <code>all</code> 이 아닌 값을 만나면 멈춘다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>box</CODE> - the fragment / 조각
+<DT><B>Returns:</B><DD>the element or null / 요소. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="caretAt(double, double, org.duckdns.hjow.swingwebpanel.render.HitResult)"><!-- --></A><H3>
+caretAt</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.Caret.html" title="class in org.duckdns.hjow.swingwebpanel.render">TextSelections.Caret</A> <B>caretAt</B>(double&nbsp;docX,
+                                    double&nbsp;docY,
+                                    <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/HitResult.html" title="class in org.duckdns.hjow.swingwebpanel.render">HitResult</A>&nbsp;hit)</PRE>
+<DL>
+<DD>Finds the caret position for a point: the character boundary nearest to the point in the text fragment under it; if the point is not
+ over selectable text, the nearest selectable fragment (the line whose band contains the point, the nearest one horizontally; else the
+ nearest line), at its start if the point is before it and at its end if after.
+ <p>
+ 한 점의 캐럿 위치를 찾는다: 점 아래의 텍스트 조각 안에서 점에 가장 가까운 문자 경계. 점이 선택할 수 있는 텍스트 위가 아니면 가장 가까운
+ 선택 가능한 조각(점이 대역에 드는 줄 중 가로로 가장 가까운 것, 없으면 가장 가까운 줄)의 점이 앞이면 시작, 뒤이면 끝.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>docX</CODE> - x in document coordinates / 문서 좌표 x<DD><CODE>docY</CODE> - y in document coordinates / 문서 좌표 y<DD><CODE>hit</CODE> - the hit test result of the point, or null / 점의 히트 테스트 결과. 없으면 null
+<DT><B>Returns:</B><DD>the caret position, or null if the page has no selectable text / 캐럿 위치. 선택할 수 있는 텍스트가 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="caretRect(org.duckdns.hjow.swingwebpanel.dom.Node, int)"><!-- --></A><H3>
+caretRect</H3>
+<PRE>
+public java.awt.geom.Rectangle2D <B>caretRect</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+                                           int&nbsp;offset)</PRE>
+<DL>
+<DD>Returns the rectangle of the caret at a position of a text node (zero width, as high as the line fragment), in document coordinates,
+ or null if the position is not shown or the text is vertical.
+ <p>
+ 텍스트 노드의 한 위치의 캐럿 사각형(너비 0, 줄 조각의 높이)을 문서 좌표로 반환한다. 그 위치가 보이지 않거나 세로쓰기 텍스트이면 null.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the text node / 텍스트 노드<DD><CODE>offset</CODE> - the offset in its data / 데이터 안의 오프셋
+<DT><B>Returns:</B><DD>the rectangle or null / 사각형. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="caretRectAt(org.duckdns.hjow.swingwebpanel.dom.Node, int)"><!-- --></A><H3>
+caretRectAt</H3>
+<PRE>
+public java.awt.geom.Rectangle2D <B>caretRectAt</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;container,
+                                             int&nbsp;offset)</PRE>
+<DL>
+<DD>Returns the rectangle of the caret at any DOM position (zero width, as high as the line), in document coordinates, or null if the
+ position has no place on the page. A position in a text node is the position of that character boundary; a position in an element
+ takes the end of the text before it, else the start of the text or the box after it, else the content box of the element itself
+ (an empty block); a position right after a <code>br</code> is the start of the next line. This is where the editing caret is drawn
+ and what a collapsed range reports as its rectangle.
+ <p>
+ 아무 DOM 위치의 캐럿 사각형(너비 0, 줄 높이)을 문서 좌표로 반환한다. 위치가 페이지에 자리가 없으면 null. 텍스트 노드 안의 위치는 그 문자 경계이고,
+ 요소 안의 위치는 앞의 텍스트의 끝, 없으면 뒤의 텍스트나 상자의 시작, 그것도 없으면 요소 자신의 내용 상자(빈 블록)이다. <code>br</code> 바로 뒤의 위치는
+ 다음 줄의 시작이다. 편집 캐럿을 그리는 곳이며 접힌 범위가 자신의 사각형으로 알리는 값이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>container</CODE> - the node of the position / 위치의 노드<DD><CODE>offset</CODE> - the offset of the position / 위치의 오프셋
+<DT><B>Returns:</B><DD>the rectangle or null / 사각형. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="caretMark(org.duckdns.hjow.swingwebpanel.dom.Node, int)"><!-- --></A><H3>
+caretMark</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/SelectionHighlight.html" title="class in org.duckdns.hjow.swingwebpanel.render">SelectionHighlight</A> <B>caretMark</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;container,
+                                    int&nbsp;offset)</PRE>
+<DL>
+<DD>Returns the mark of the editing caret at a DOM position: a one pixel wide bar as high as the line, in the color of the
+ <code>caret-color</code> property (<code>auto</code> is the text color of the element that holds the position), or null if the
+ position has no place on the page.
+ <p>
+ DOM 위치의 편집 캐럿 표시를 반환한다: 줄 높이의 1 픽셀 너비 막대이며 색은 <code>caret-color</code> 속성의 색이다(<code>auto</code> 는 그 위치를 가진 요소의
+ 글자색). 위치가 페이지에 자리가 없으면 null.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>container</CODE> - the node of the position / 위치의 노드<DD><CODE>offset</CODE> - the offset of the position / 위치의 오프셋
+<DT><B>Returns:</B><DD>the mark or null / 표시. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="rects(org.duckdns.hjow.swingwebpanel.dom.Range)"><!-- --></A><H3>
+rects</H3>
+<PRE>
+public java.util.List&lt;java.awt.geom.Rectangle2D&gt; <B>rects</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A>&nbsp;range)</PRE>
+<DL>
+<DD>Returns the client rectangles of a range in document coordinates (CSSOM View, <code>Range.getClientRects()</code>): the border boxes of
+ every element that the range selects completely and whose parent it does not select, and for every text node that the range selects
+ or partly selects the rectangles of the selected characters, one per line (the fragments of one line are joined). The result is in
+ tree order. A collapsed range in a text node gives one rectangle of zero width at the caret; a collapsed range elsewhere gives the
+ place of the caret if there is one. The rectangles include the transform of the boxes; clipping by <code>overflow</code> does not
+ apply.
+ <p>
+ 범위의 클라이언트 사각형을 문서 좌표로 반환한다(CSSOM View, <code>Range.getClientRects()</code>): 범위가 완전히 선택하고 부모는 선택하지 않는 모든 요소의
+ border box, 그리고 범위가 선택하거나 일부 선택하는 모든 텍스트 노드의 선택된 글자 사각형(줄마다 하나이며 한 줄의 조각은 합친다). 결과는 트리 순서이다. 텍스트
+ 노드 안의 접힌 범위는 캐럿 위치의 너비 0 사각형 하나이고, 그 밖의 접힌 범위는 캐럿 자리가 있으면 그것이다. 사각형에는 상자의 변환이 들어가며
+ <code>overflow</code> 로 자르는 것은 적용하지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>range</CODE> - the range, may be null / 범위. null 가능
+<DT><B>Returns:</B><DD>the rectangles / 사각형 목록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="step(org.duckdns.hjow.swingwebpanel.dom.Node, int, boolean, boolean)"><!-- --></A><H3>
+step</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.Caret.html" title="class in org.duckdns.hjow.swingwebpanel.render">TextSelections.Caret</A> <B>step</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+                                 int&nbsp;offset,
+                                 boolean&nbsp;forward,
+                                 boolean&nbsp;word)</PRE>
+<DL>
+<DD>Moves a caret position by one character (or one word) to the visible position that follows or precedes it, crossing into the next or
+ the previous text node of the page. A position in an element (after Select All) is first moved to the text position nearest to it.
+ White space that the layout collapsed is skipped, so every step moves to a position that the user can see.
+ <p>
+ 캐럿 위치를 글자 하나(또는 낱말 하나)만큼 뒤나 앞의 보이는 위치로 옮기며, 페이지의 다음이나 이전 텍스트 노드로 넘어간다. 요소 안의 위치(전체 선택 뒤)는 먼저
+ 가장 가까운 텍스트 위치로 옮긴다. 레이아웃이 접은 공백은 건너뛰므로 모든 걸음은 사용자가 볼 수 있는 위치로 간다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node of the position / 위치의 노드<DD><CODE>offset</CODE> - the offset of the position / 위치의 오프셋<DD><CODE>forward</CODE> - true to move forward (to the right), false to move backward / 앞(오른쪽)으로 가면 true, 뒤로 가면 false<DD><CODE>word</CODE> - true to move by a word / 낱말 단위이면 true
+<DT><B>Returns:</B><DD>the new position, or null if there is no further position / 새 위치. 더 갈 곳이 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="line(org.duckdns.hjow.swingwebpanel.dom.Node, int, boolean)"><!-- --></A><H3>
+line</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.Caret.html" title="class in org.duckdns.hjow.swingwebpanel.render">TextSelections.Caret</A> <B>line</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+                                 int&nbsp;offset,
+                                 boolean&nbsp;down)</PRE>
+<DL>
+<DD>Moves a caret position to the line above or below, keeping its horizontal position; on the first (last) line it goes to the start
+ (end) of the line, like the arrow keys of a browser.
+ <p>
+ 캐럿 위치를 가로 위치를 유지한 채 위나 아래 줄로 옮긴다. 첫(마지막) 줄에서는 줄의 처음(끝)으로 간다(브라우저의 화살표 키처럼).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node of the position / 위치의 노드<DD><CODE>offset</CODE> - the offset of the position / 위치의 오프셋<DD><CODE>down</CODE> - true for the line below, false for the line above / 아래 줄이면 true, 위 줄이면 false
+<DT><B>Returns:</B><DD>the new position, or null if the position cannot be located / 새 위치. 위치를 찾을 수 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="lineEdge(org.duckdns.hjow.swingwebpanel.dom.Node, int, boolean)"><!-- --></A><H3>
+lineEdge</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.Caret.html" title="class in org.duckdns.hjow.swingwebpanel.render">TextSelections.Caret</A> <B>lineEdge</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+                                     int&nbsp;offset,
+                                     boolean&nbsp;end)</PRE>
+<DL>
+<DD>Moves a caret position to the start or the end of its line.
+ <p>
+ 캐럿 위치를 줄의 처음이나 끝으로 옮긴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node of the position / 위치의 노드<DD><CODE>offset</CODE> - the offset of the position / 위치의 오프셋<DD><CODE>end</CODE> - true for the end of the line, false for the start / 줄의 끝이면 true, 처음이면 false
+<DT><B>Returns:</B><DD>the new position, or null if the position cannot be located / 새 위치. 위치를 찾을 수 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="wordRange(java.lang.String, int)"><!-- --></A><H3>
+wordRange</H3>
+<PRE>
+public static int[] <B>wordRange</B>(java.lang.String&nbsp;data,
+                              int&nbsp;offset)</PRE>
+<DL>
+<DD>Returns the word around a caret position in the data of a text node: the word that contains the character after the caret (the
+ character before it at the end of the data), found with <CODE>BreakIterator.getWordInstance(Locale)</CODE>. A run of white space is a
+ unit as well. A word never leaves the text node.
+ <p>
+ 텍스트 노드 데이터에서 캐럿 위치 둘레의 낱말을 반환한다: 캐럿 뒤 문자(데이터 끝이면 앞 문자)가 속한 낱말이며
+ <CODE>BreakIterator.getWordInstance(Locale)</CODE> 로 찾는다. 공백 연속도 한 단위이다. 낱말은 텍스트 노드를 벗어나지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - the data of the text node / 텍스트 노드의 데이터<DD><CODE>offset</CODE> - the caret offset / 캐럿 오프셋
+<DT><B>Returns:</B><DD>{start, end} (offsets in the data; both 0 for empty data) / {시작, 끝}(데이터 오프셋. 빈 데이터이면 둘 다 0)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="paragraphElement(org.duckdns.hjow.swingwebpanel.render.TextSelections.Caret)"><!-- --></A><H3>
+paragraphElement</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>paragraphElement</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.Caret.html" title="class in org.duckdns.hjow.swingwebpanel.render">TextSelections.Caret</A>&nbsp;caret)</PRE>
+<DL>
+<DD>Returns the element whose content a triple click selects for a caret position: the element of the block that the text belongs to.
+ <p>
+ 캐럿 위치에 대해 트리플 클릭이 내용을 선택하는 요소를 반환한다: 텍스트가 속한 블록의 요소.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>caret</CODE> - the caret position / 캐럿 위치
+<DT><B>Returns:</B><DD>the element, or null if there is none / 요소. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="highlight(org.duckdns.hjow.swingwebpanel.dom.Range)"><!-- --></A><H3>
+highlight</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/SelectionHighlight.html" title="class in org.duckdns.hjow.swingwebpanel.render">SelectionHighlight</A> <B>highlight</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A>&nbsp;range)</PRE>
+<DL>
+<DD>Computes the highlight of a range: the selected part of every selectable text fragment, and the border box of every replaced element
+ (images) that the range covers completely.
+ <p>
+ 범위의 강조를 계산한다: 선택할 수 있는 모든 텍스트 조각의 선택된 부분과, 범위가 완전히 덮는 모든 치환 요소(이미지)의 border box.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>range</CODE> - the range, may be null / 범위. null 가능
+<DT><B>Returns:</B><DD>the highlight, or null if the range covers nothing that is drawn / 강조. 범위가 그려지는 것을 덮지 않으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="text(org.duckdns.hjow.swingwebpanel.dom.Range)"><!-- --></A><H3>
+text</H3>
+<PRE>
+public java.lang.String <B>text</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A>&nbsp;range)</PRE>
+<DL>
+<DD>Returns the text that copying the range puts on the clipboard (see the class description for the rules).
+ <p>
+ 범위를 복사하면 클립보드에 담기는 텍스트를 반환한다(규칙은 클래스 설명 참조).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>range</CODE> - the range, may be null / 범위. null 가능
+<DT><B>Returns:</B><DD>the text, empty for an empty range / 텍스트. 빈 범위이면 빈 문자열</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/SelectionHighlight.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/TextSelections.Caret.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/render/TextSelections.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="TextSelections.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

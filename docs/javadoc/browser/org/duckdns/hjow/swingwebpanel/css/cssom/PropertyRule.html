@@ -1,0 +1,479 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+PropertyRule
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="PropertyRule";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/PositionTryRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ScopeSpec.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cssom/PropertyRule.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PropertyRule.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.css.cssom.CssRule">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.cssom</FONT>
+<BR>
+Class PropertyRule</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">org.duckdns.hjow.swingwebpanel.css.cssom.CssRule</A>
+      <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.cssom.PropertyRule</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>PropertyRule</B><DT>extends <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></DL>
+</PRE>
+
+<P>
+An <code>@property</code> rule (CSS Properties and Values API Level 1, <a href="https://www.w3.org/TR/css-properties-values-api-1/">
+ https://www.w3.org/TR/css-properties-values-api-1/</a>, section 3): the registration of a custom property with a <code>syntax</code> (a string in the
+ value definition syntax of the data types <code>&lt;length&gt;</code>, <code>&lt;number&gt;</code>, <code>&lt;percentage&gt;</code>,
+ <code>&lt;length-percentage&gt;</code>, <code>&lt;color&gt;</code>, <code>&lt;image&gt;</code>, <code>&lt;url&gt;</code>, <code>&lt;integer&gt;</code>,
+ <code>&lt;angle&gt;</code>, <code>&lt;time&gt;</code>, <code>&lt;resolution&gt;</code>, <code>&lt;transform-function&gt;</code>,
+ <code>&lt;transform-list&gt;</code>, <code>&lt;custom-ident&gt;</code>, <code>&lt;string&gt;</code>, keywords, with the combinators <code>|</code>,
+ <code>+</code> and <code>#</code>, or <code>*</code> for anything), whether it <code>inherits</code> and its <code>initial-value</code> (required unless
+ the syntax is <code>*</code>). The rule only holds what was written; the cascade computes the values (<code>css.cascade.RegisteredProperty</code>), and
+ checks that the initial value does not depend on its context.
+ <p>
+ <code>@property</code> 규칙(CSS Properties and Values API Level 1, <a href="https://www.w3.org/TR/css-properties-values-api-1/">
+ https://www.w3.org/TR/css-properties-values-api-1/</a>, 3 절): 사용자 정의 속성을 <code>syntax</code>(자료형 <code>&lt;length&gt;</code>,
+ <code>&lt;number&gt;</code>, <code>&lt;percentage&gt;</code>, <code>&lt;length-percentage&gt;</code>, <code>&lt;color&gt;</code>, <code>&lt;image&gt;</code>,
+ <code>&lt;url&gt;</code>, <code>&lt;integer&gt;</code>, <code>&lt;angle&gt;</code>, <code>&lt;time&gt;</code>, <code>&lt;resolution&gt;</code>,
+ <code>&lt;transform-function&gt;</code>, <code>&lt;transform-list&gt;</code>, <code>&lt;custom-ident&gt;</code>, <code>&lt;string&gt;</code>, 키워드를
+ <code>|</code>, <code>+</code>, <code>#</code> 로 조합한 값 정의 문법의 문자열, 또는 무엇이든 되는 <code>*</code>), 상속 여부(<code>inherits</code>), 초기값
+ (<code>initial-value</code>, 문법이 <code>*</code> 가 아니면 필수)과 함께 등록한다. 규칙은 쓰인 것만 보관하고, 값의 계산은 캐스케이드가
+ (<code>css.cascade.RegisteredProperty</code>) 하며 초기값이 문맥에 의존하지 않는지도 거기서 검사한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.css.cssom.CssRule"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class org.duckdns.hjow.swingwebpanel.css.cssom.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#CONTAINER_RULE">CONTAINER_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#COUNTER_STYLE_RULE">COUNTER_STYLE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#FONT_FACE_RULE">FONT_FACE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#FONT_FEATURE_VALUES_RULE">FONT_FEATURE_VALUES_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#IMPORT_RULE">IMPORT_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#KEYFRAME_RULE">KEYFRAME_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#KEYFRAMES_RULE">KEYFRAMES_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#LAYER_RULE">LAYER_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#MARGIN_RULE">MARGIN_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#MEDIA_RULE">MEDIA_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#NAMESPACE_RULE">NAMESPACE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#PAGE_RULE">PAGE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#POSITION_TRY_RULE">POSITION_TRY_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#PROPERTY_RULE">PROPERTY_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#SCOPE_RULE">SCOPE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#STARTING_STYLE_RULE">STARTING_STYLE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#STYLE_RULE">STYLE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#SUPPORTS_RULE">SUPPORTS_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#UNKNOWN_RULE">UNKNOWN_RULE</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/PropertyRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">PropertyRule</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/PropertyRule.html#create(java.lang.String, java.lang.String, java.lang.String, java.util.List)">create</A></B>(java.lang.String&nbsp;name,
+       java.lang.String&nbsp;syntax,
+       java.lang.String&nbsp;inherits,
+       java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&nbsp;initial)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the rule from its descriptors, or null if the registration is invalid: the name is not a custom property name, the syntax is missing
+ or malformed, <code>inherits</code> is missing or not <code>true</code>/<code>false</code>, or the initial value is missing for a syntax that
+ is not <code>*</code> or does not match the syntax.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/PropertyRule.html#getCssText()">getCssText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serializes the rule.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/ValueGrammar.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">ValueGrammar</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/PropertyRule.html#getGrammar()">getGrammar</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the compiled syntax.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/PropertyRule.html#getInitial()">getInitial</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the tokens of the initial value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/PropertyRule.html#getInitialValue()">getInitialValue</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the CSSOM <code>initialValue</code>: the text of the initial value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/PropertyRule.html#getName()">getName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the property name.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/PropertyRule.html#getSyntax()">getSyntax</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the syntax string.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/PropertyRule.html#getType()">getType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the rule type.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/PropertyRule.html#isInherits()">isInherits</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the property inherits.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.css.cssom.CssRule"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.css.cssom.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#getCssomType()">getCssomType</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#getParentRule()">getParentRule</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#getParentStyleSheet()">getParentStyleSheet</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#setCssText(java.lang.String)">setCssText</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#toString()">toString</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="create(java.lang.String, java.lang.String, java.lang.String, java.util.List)"><!-- --></A><H3>
+create</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/PropertyRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">PropertyRule</A> <B>create</B>(java.lang.String&nbsp;name,
+                                  java.lang.String&nbsp;syntax,
+                                  java.lang.String&nbsp;inherits,
+                                  java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&nbsp;initial)</PRE>
+<DL>
+<DD>Creates the rule from its descriptors, or null if the registration is invalid: the name is not a custom property name, the syntax is missing
+ or malformed, <code>inherits</code> is missing or not <code>true</code>/<code>false</code>, or the initial value is missing for a syntax that
+ is not <code>*</code> or does not match the syntax.
+ <p>
+ 서술자로 규칙을 만든다. 등록이 올바르지 않으면 null: 이름이 사용자 정의 속성 이름이 아니거나, 문법이 없거나 틀렸거나, <code>inherits</code> 가 없거나
+ <code>true</code>/<code>false</code> 가 아니거나, <code>*</code> 가 아닌 문법에 초기값이 없거나 문법과 맞지 않는 경우.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the property name / 속성 이름<DD><CODE>syntax</CODE> - the text of the <code>syntax</code> descriptor (without the quotes), or null / <code>syntax</code> 서술자의 문자열(따옴표 없이). 없으면 null<DD><CODE>inherits</CODE> - the text of the <code>inherits</code> descriptor, or null / <code>inherits</code> 서술자의 문자열. 없으면 null<DD><CODE>initial</CODE> - the tokens of <code>initial-value</code>, or null / <code>initial-value</code> 의 토큰. 없으면 null
+<DT><B>Returns:</B><DD>the rule or null / 규칙. 올바르지 않으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getName()"><!-- --></A><H3>
+getName</H3>
+<PRE>
+public java.lang.String <B>getName</B>()</PRE>
+<DL>
+<DD>Returns the property name.
+ <p>
+ 속성 이름을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the name with the hyphens / 하이픈을 포함한 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSyntax()"><!-- --></A><H3>
+getSyntax</H3>
+<PRE>
+public java.lang.String <B>getSyntax</B>()</PRE>
+<DL>
+<DD>Returns the syntax string.
+ <p>
+ 문법 문자열을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the syntax, <code>*</code> for anything / 문법. 무엇이든 되면 <code>*</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getGrammar()"><!-- --></A><H3>
+getGrammar</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/ValueGrammar.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">ValueGrammar</A> <B>getGrammar</B>()</PRE>
+<DL>
+<DD>Returns the compiled syntax.
+ <p>
+ 컴파일한 문법을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the grammar, or null for <code>*</code> / 문법. <code>*</code> 이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isInherits()"><!-- --></A><H3>
+isInherits</H3>
+<PRE>
+public boolean <B>isInherits</B>()</PRE>
+<DL>
+<DD>Tells whether the property inherits.
+ <p>
+ 속성이 상속되는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if it inherits / 상속되면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getInitial()"><!-- --></A><H3>
+getInitial</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt; <B>getInitial</B>()</PRE>
+<DL>
+<DD>Returns the tokens of the initial value.
+ <p>
+ 초기값의 토큰을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the tokens, or null if none was written / 토큰. 쓰이지 않았으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getInitialValue()"><!-- --></A><H3>
+getInitialValue</H3>
+<PRE>
+public java.lang.String <B>getInitialValue</B>()</PRE>
+<DL>
+<DD>Returns the CSSOM <code>initialValue</code>: the text of the initial value.
+ <p>
+ CSSOM <code>initialValue</code> 를 반환한다: 초기값의 문자열.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the text, or null if no initial value was written / 문자열. 초기값이 쓰이지 않았으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getType()"><!-- --></A><H3>
+getType</H3>
+<PRE>
+public int <B>getType</B>()</PRE>
+<DL>
+<DD>Returns the rule type.
+ <p>
+ 규칙 종류를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#getType()">getType</A></CODE> in class <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#PROPERTY_RULE"><CODE>CssRule.PROPERTY_RULE</CODE></A> / PROPERTY_RULE</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCssText()"><!-- --></A><H3>
+getCssText</H3>
+<PRE>
+public java.lang.String <B>getCssText</B>()</PRE>
+<DL>
+<DD>Serializes the rule.
+ <p>
+ 규칙을 직렬화한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#getCssText()">getCssText</A></CODE> in class <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>CSS text / CSS 문자열</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/PositionTryRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ScopeSpec.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cssom/PropertyRule.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PropertyRule.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.css.cssom.CssRule">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

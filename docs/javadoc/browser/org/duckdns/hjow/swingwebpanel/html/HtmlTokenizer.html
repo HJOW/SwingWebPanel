@@ -1,0 +1,585 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+HtmlTokenizer
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="HtmlTokenizer";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlToken.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/InputPreprocessor.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="HtmlTokenizer.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.html</FONT>
+<BR>
+Class HtmlTokenizer</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.html.HtmlTokenizer</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>HtmlTokenizer</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The tokenizer of the HTML Standard ("tokenization", 13.2.5) as an explicit state machine with all of its 80 states: data, RCDATA,
+ RAWTEXT, script data (with its escaped and double escaped variants), PLAINTEXT, tags and attributes, comments, DOCTYPE, CDATA
+ sections and the character reference states. It is pull based: <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#nextToken()"><CODE>nextToken()</CODE></A> runs the machine just far enough to produce the
+ next token, so the tree builder can change the state (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#setState(int)"><CODE>setState(int)</CODE></A>, e.g. after <code>&lt;script&gt;</code>) between two tokens
+ exactly as the standard describes.
+ <p>
+ The input must already be normalized (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/InputPreprocessor.html#normalize(java.lang.String)"><CODE>InputPreprocessor.normalize(String)</CODE></A>: only LF line ends). All parse errors are reported
+ to the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParseErrorLog.html" title="class in org.duckdns.hjow.swingwebpanel.html"><CODE>ParseErrorLog</CODE></A> with the standard's error codes; tokenization never stops because of an error. Characters are emitted
+ as runs (NUL characters stay inside a run in the data and CDATA states and are dealt with by the tree builder; in the other states
+ they are already replaced by U+FFFD). Text can be inserted at the current position (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#insertText(java.lang.String)"><CODE>insertText(String)</CODE></A>), which is what
+ <code>document.write</code> needs.
+ <p>
+ The processing instruction states that the newest draft of the standard adds (<code>&lt;?target ...?&gt;</code>) are not implemented: as in
+ the 2014 recommendation and in the browsers, <code>&lt;?</code> starts a bogus comment (documented deviation).
+ <p>
+ HTML 표준의 토큰화("tokenization", 13.2.5)를 80 개 상태 전부를 갖춘 명시적 상태 기계로 구현한다: data, RCDATA, RAWTEXT, script data(escaped 와
+ double escaped 변형 포함), PLAINTEXT, 태그와 속성, 주석, DOCTYPE, CDATA 섹션, 문자 참조 상태. 당겨 가는(pull) 방식이다: <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#nextToken()"><CODE>nextToken()</CODE></A> 이
+ 다음 토큰을 만들 만큼만 기계를 돌리므로, 트리 생성기가 표준에 적힌 대로 두 토큰 사이에(예: <code>&lt;script&gt;</code> 뒤에) 상태를 바꿀 수 있다
+ (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#setState(int)"><CODE>setState(int)</CODE></A>).
+ <p>
+ 입력은 이미 정규화되어 있어야 한다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/InputPreprocessor.html#normalize(java.lang.String)"><CODE>InputPreprocessor.normalize(String)</CODE></A>: 줄 끝은 LF 뿐). 모든 파싱 오류는 표준의 오류 코드로
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParseErrorLog.html" title="class in org.duckdns.hjow.swingwebpanel.html"><CODE>ParseErrorLog</CODE></A> 에 보고되며, 오류 때문에 토큰화가 멈추지 않는다. 문자는 연속 구간으로 내보낸다(NUL 문자는 data 와 CDATA 상태에서는 구간 안에
+ 남겨 트리 생성기가 처리하고, 다른 상태에서는 이미 U+FFFD 로 바뀐다). 현재 위치에 문자열을 삽입할 수 있다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#insertText(java.lang.String)"><CODE>insertText(String)</CODE></A>).
+ <code>document.write</code> 가 필요로 하는 기능이다.
+ <p>
+ 표준 최신 초안이 추가한 처리 명령 상태(<code>&lt;?target ...?&gt;</code>)는 구현하지 않았다. 2014 권고안과 브라우저처럼 <code>&lt;?</code> 는 bogus
+ 주석을 시작한다(문서화된 차이).
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#DATA">DATA</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;State: data.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#PLAINTEXT">PLAINTEXT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;State: PLAINTEXT.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#RAWTEXT">RAWTEXT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;State: RAWTEXT (<code>style</code>, <code>xmp</code>, ...).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#RCDATA">RCDATA</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;State: RCDATA (<code>title</code>, <code>textarea</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#SCRIPT_DATA">SCRIPT_DATA</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;State: script data.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#HtmlTokenizer(java.lang.CharSequence, org.duckdns.hjow.swingwebpanel.html.ParseErrorLog)">HtmlTokenizer</A></B>(java.lang.CharSequence&nbsp;input,
+              <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParseErrorLog.html" title="class in org.duckdns.hjow.swingwebpanel.html">ParseErrorLog</A>&nbsp;errors)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a tokenizer over normalized input.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#getPosition()">getPosition</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the index of the next input character.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#getState()">getState</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the current state.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#insertText(java.lang.String)">insertText</A></B>(java.lang.String&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inserts text into the input just before the next input character (<code>document.write</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#isFinished()">isFinished</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the end-of-file token has been produced.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlToken.html" title="class in org.duckdns.hjow.swingwebpanel.html">HtmlToken</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#nextToken()">nextToken</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Produces the next token.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#setAllowCdata(boolean)">setAllowCdata</A></B>(boolean&nbsp;allowed)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Allows or forbids CDATA sections (allowed when the adjusted current node is not in the HTML namespace).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#setLastStartTag(java.lang.String)">setLastStartTag</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the name of the last start tag; the fragment parsing algorithm uses it for the context element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#setState(int)">setState</A></B>(int&nbsp;newState)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Switches the state.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="DATA"><!-- --></A><H3>
+DATA</H3>
+<PRE>
+public static final int <B>DATA</B></PRE>
+<DL>
+<DD>State: data.
+ <p>
+ 상태: data.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTokenizer.DATA">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="RCDATA"><!-- --></A><H3>
+RCDATA</H3>
+<PRE>
+public static final int <B>RCDATA</B></PRE>
+<DL>
+<DD>State: RCDATA (<code>title</code>, <code>textarea</code>).
+ <p>
+ 상태: RCDATA(<code>title</code>, <code>textarea</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTokenizer.RCDATA">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="RAWTEXT"><!-- --></A><H3>
+RAWTEXT</H3>
+<PRE>
+public static final int <B>RAWTEXT</B></PRE>
+<DL>
+<DD>State: RAWTEXT (<code>style</code>, <code>xmp</code>, ...).
+ <p>
+ 상태: RAWTEXT(<code>style</code>, <code>xmp</code> 등).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTokenizer.RAWTEXT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SCRIPT_DATA"><!-- --></A><H3>
+SCRIPT_DATA</H3>
+<PRE>
+public static final int <B>SCRIPT_DATA</B></PRE>
+<DL>
+<DD>State: script data.
+ <p>
+ 상태: script data.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTokenizer.SCRIPT_DATA">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PLAINTEXT"><!-- --></A><H3>
+PLAINTEXT</H3>
+<PRE>
+public static final int <B>PLAINTEXT</B></PRE>
+<DL>
+<DD>State: PLAINTEXT.
+ <p>
+ 상태: PLAINTEXT.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTokenizer.PLAINTEXT">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="HtmlTokenizer(java.lang.CharSequence, org.duckdns.hjow.swingwebpanel.html.ParseErrorLog)"><!-- --></A><H3>
+HtmlTokenizer</H3>
+<PRE>
+public <B>HtmlTokenizer</B>(java.lang.CharSequence&nbsp;input,
+                     <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParseErrorLog.html" title="class in org.duckdns.hjow.swingwebpanel.html">ParseErrorLog</A>&nbsp;errors)</PRE>
+<DL>
+<DD>Creates a tokenizer over normalized input.
+ <p>
+ 정규화된 입력에 대한 토큰화기를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>input</CODE> - input with LF line ends / 줄 끝이 LF 인 입력<DD><CODE>errors</CODE> - error collector / 오류 수집기</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="setState(int)"><!-- --></A><H3>
+setState</H3>
+<PRE>
+public void <B>setState</B>(int&nbsp;newState)</PRE>
+<DL>
+<DD>Switches the state. The tree builder uses it with <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#DATA"><CODE>DATA</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#RCDATA"><CODE>RCDATA</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#RAWTEXT"><CODE>RAWTEXT</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#SCRIPT_DATA"><CODE>SCRIPT_DATA</CODE></A> and
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#PLAINTEXT"><CODE>PLAINTEXT</CODE></A>.
+ <p>
+ 상태를 바꾼다. 트리 생성기가 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#DATA"><CODE>DATA</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#RCDATA"><CODE>RCDATA</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#RAWTEXT"><CODE>RAWTEXT</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#SCRIPT_DATA"><CODE>SCRIPT_DATA</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html#PLAINTEXT"><CODE>PLAINTEXT</CODE></A> 로 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>newState</CODE> - new state / 새 상태</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getState()"><!-- --></A><H3>
+getState</H3>
+<PRE>
+public int <B>getState</B>()</PRE>
+<DL>
+<DD>Returns the current state.
+ <p>
+ 현재 상태를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>state constant / 상태 상수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setLastStartTag(java.lang.String)"><!-- --></A><H3>
+setLastStartTag</H3>
+<PRE>
+public void <B>setLastStartTag</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Sets the name of the last start tag; the fragment parsing algorithm uses it for the context element.
+ <p>
+ 마지막 시작 태그의 이름을 지정한다. 조각 파싱 알고리즘이 컨텍스트 요소에 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - tag name / 태그 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setAllowCdata(boolean)"><!-- --></A><H3>
+setAllowCdata</H3>
+<PRE>
+public void <B>setAllowCdata</B>(boolean&nbsp;allowed)</PRE>
+<DL>
+<DD>Allows or forbids CDATA sections (allowed when the adjusted current node is not in the HTML namespace).
+ <p>
+ CDATA 섹션을 허용하거나 금지한다(조정된 현재 노드가 HTML 네임스페이스가 아닐 때 허용된다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>allowed</CODE> - true to allow / 허용하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="insertText(java.lang.String)"><!-- --></A><H3>
+insertText</H3>
+<PRE>
+public void <B>insertText</B>(java.lang.String&nbsp;s)</PRE>
+<DL>
+<DD>Inserts text into the input just before the next input character (<code>document.write</code>).
+ <p>
+ 다음 입력 문자 바로 앞의 입력에 문자열을 삽입한다(<code>document.write</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - text, already normalized to LF line ends by the caller / 문자열(호출자가 줄 끝을 LF 로 정규화한 것)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPosition()"><!-- --></A><H3>
+getPosition</H3>
+<PRE>
+public int <B>getPosition</B>()</PRE>
+<DL>
+<DD>Returns the index of the next input character.
+ <p>
+ 다음 입력 문자의 위치를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>offset / 위치</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isFinished()"><!-- --></A><H3>
+isFinished</H3>
+<PRE>
+public boolean <B>isFinished</B>()</PRE>
+<DL>
+<DD>Tells whether the end-of-file token has been produced.
+ <p>
+ 파일 끝 토큰을 이미 만들었는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true after the EOF token / 파일 끝 토큰 이후이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="nextToken()"><!-- --></A><H3>
+nextToken</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlToken.html" title="class in org.duckdns.hjow.swingwebpanel.html">HtmlToken</A> <B>nextToken</B>()</PRE>
+<DL>
+<DD>Produces the next token. After the end of the input it returns end-of-file tokens forever.
+ <p>
+ 다음 토큰을 만든다. 입력이 끝난 뒤에는 파일 끝 토큰을 계속 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the token / 토큰</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlToken.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/InputPreprocessor.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="HtmlTokenizer.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

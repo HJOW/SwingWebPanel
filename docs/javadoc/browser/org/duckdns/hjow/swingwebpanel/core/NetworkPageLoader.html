@@ -1,0 +1,313 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+NetworkPageLoader
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="NetworkPageLoader";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/NavigationType.html" title="enum in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/NetworkPageLoader.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="NetworkPageLoader.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.core</FONT>
+<BR>
+Class NetworkPageLoader</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.core.NetworkPageLoader</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/CacheOwner.html" title="interface in org.duckdns.hjow.swingwebpanel.core">CacheOwner</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageLoader</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public final class <B>NetworkPageLoader</B><DT>extends java.lang.Object<DT>implements <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageLoader</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/CacheOwner.html" title="interface in org.duckdns.hjow.swingwebpanel.core">CacheOwner</A></DL>
+</PRE>
+
+<P>
+The page loader of the component: it connects the navigation machinery to the network layer. Addresses of the kinds http, https, ftp and
+ classpath are fetched with the component's user agent, extra headers and cookies through a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceFetcher.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>ResourceFetcher</CODE></A>; the result becomes
+ a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core"><CODE>PageSnapshot</CODE></A> that keeps the received source text unchanged. Failures become error pages (server errors keep the server's
+ own body), responses that must be saved as files are reported with <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DownloadRequiredException.html" title="class in org.duckdns.hjow.swingwebpanel.core"><CODE>DownloadRequiredException</CODE></A>, and images, audio and video
+ addresses are wrapped into a tiny generated document (as desktop browsers do). <code>about:blank</code>, <code>about:text</code> and
+ addresses with forbidden schemes are answered by the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DefaultPageLoader.html" title="class in org.duckdns.hjow.swingwebpanel.core"><CODE>DefaultPageLoader</CODE></A> without any connection.
+ <p>
+ 컴포넌트의 페이지 로더: 이동 장치를 네트워크 계층에 연결한다. http, https, ftp, classpath 주소는 컴포넌트의 User-Agent, 추가 헤더,
+ 쿠키로 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceFetcher.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>ResourceFetcher</CODE></A> 를 통해 가져오며, 결과는 수신 원문을 그대로 보관하는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core"><CODE>PageSnapshot</CODE></A> 이 된다. 실패는 오류 페이지가 되고
+ (서버 오류는 서버 자신의 본문을 유지), 파일로 저장해야 하는 응답은 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DownloadRequiredException.html" title="class in org.duckdns.hjow.swingwebpanel.core"><CODE>DownloadRequiredException</CODE></A> 으로 알리며, 이미지/오디오/비디오 주소는
+ (데스크톱 브라우저처럼) 작은 생성 문서로 감싼다. <code>about:blank</code>, <code>about:text</code>, 금지된 스킴의 주소는 연결 없이
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DefaultPageLoader.html" title="class in org.duckdns.hjow.swingwebpanel.core"><CODE>DefaultPageLoader</CODE></A> 가 처리한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/NetworkPageLoader.html#NetworkPageLoader(org.duckdns.hjow.swingwebpanel.net.ResourceFetcher, org.duckdns.hjow.swingwebpanel.net.CookieStore)">NetworkPageLoader</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceFetcher.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceFetcher</A>&nbsp;fetcher,
+                  <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CookieStore.html" title="class in org.duckdns.hjow.swingwebpanel.net">CookieStore</A>&nbsp;cookies)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the loader.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/NetworkPageLoader.html#clearCache()">clearCache</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes everything from the HTTP cache of the component (used by clean and dispose).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/NetworkPageLoader.html#load(org.duckdns.hjow.swingwebpanel.core.NavigationRequest)">load</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/NavigationRequest.html" title="class in org.duckdns.hjow.swingwebpanel.core">NavigationRequest</A>&nbsp;request)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loads a page.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="NetworkPageLoader(org.duckdns.hjow.swingwebpanel.net.ResourceFetcher, org.duckdns.hjow.swingwebpanel.net.CookieStore)"><!-- --></A><H3>
+NetworkPageLoader</H3>
+<PRE>
+public <B>NetworkPageLoader</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceFetcher.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceFetcher</A>&nbsp;fetcher,
+                         <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CookieStore.html" title="class in org.duckdns.hjow.swingwebpanel.net">CookieStore</A>&nbsp;cookies)</PRE>
+<DL>
+<DD>Creates the loader.
+ <p>
+ 로더를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>fetcher</CODE> - fetcher with the component's SSL hook, not null / 컴포넌트의 SSL 훅이 연결된 가져오기 객체(null 불가)<DD><CODE>cookies</CODE> - cookie store of the component, not null / 컴포넌트의 쿠키 저장소(null 불가)</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="clearCache()"><!-- --></A><H3>
+clearCache</H3>
+<PRE>
+public void <B>clearCache</B>()</PRE>
+<DL>
+<DD>Removes everything from the HTTP cache of the component (used by clean and dispose).
+ <p>
+ 컴포넌트의 HTTP 캐시를 모두 비운다(clean 과 dispose 가 쓴다).
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/CacheOwner.html#clearCache()">clearCache</A></CODE> in interface <CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/CacheOwner.html" title="interface in org.duckdns.hjow.swingwebpanel.core">CacheOwner</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="load(org.duckdns.hjow.swingwebpanel.core.NavigationRequest)"><!-- --></A><H3>
+load</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A> <B>load</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/NavigationRequest.html" title="class in org.duckdns.hjow.swingwebpanel.core">NavigationRequest</A>&nbsp;request)
+                  throws java.lang.Exception</PRE>
+<DL>
+<DD>Loads a page.
+ <p>
+ 페이지를 읽는다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html#load(org.duckdns.hjow.swingwebpanel.core.NavigationRequest)">load</A></CODE> in interface <CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageLoader</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>request</CODE> - what to load / 읽을 대상
+<DT><B>Returns:</B><DD>the confirmed page / 확정된 페이지
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DownloadRequiredException.html" title="class in org.duckdns.hjow.swingwebpanel.core">DownloadRequiredException</A></CODE> - if the response must be downloaded / 응답을 내려받아야 할 때
+<DD><CODE>java.lang.Exception</CODE> - on cancellation / 취소되었을 때</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/NavigationType.html" title="enum in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/NetworkPageLoader.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="NetworkPageLoader.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

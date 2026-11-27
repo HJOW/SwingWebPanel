@@ -1,0 +1,480 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+DateFormatter
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="DateFormatter";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html" title="class in org.duckdns.hjow.swingwebpanel.js.date"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/date/DateFormatter.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="DateFormatter.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.date</FONT>
+<BR>
+Class DateFormatter</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.date.DateFormatter</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>DateFormatter</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Date to string conversions of <code>Date.prototype</code>: toString, toDateString, toTimeString, toUTCString,
+ toISOString, toJSON helper and English (en-US) fallbacks for toLocaleString, toLocaleDateString and toLocaleTimeString.
+ The time zone name in parentheses is implementation defined and comes from the <CODE>TimeZone</CODE> short display name.
+ Years are printed with at least four digits (a minus sign for negative years). All methods are static and
+ thread-safe.
+ <p>
+ <code>Date.prototype</code> 의 문자열 변환: toString, toDateString, toTimeString, toUTCString, toISOString, toJSON 도우미,
+ 그리고 toLocaleString, toLocaleDateString, toLocaleTimeString 의 영어(en-US) 대체 구현. 괄호 안의 시간대 이름은 구현 정의이며
+ <CODE>TimeZone</CODE> 의 짧은 표시 이름에서 얻는다. 연도는 4 자리 이상으로 쓰고 음수 연도는 마이너스 부호를 붙인다.
+ 모든 메서드는 정적이며 스레드 안전하다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateFormatter.html#INVALID_DATE">INVALID_DATE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text returned for an invalid date.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateFormatter.html#toDateString(double, java.util.TimeZone)">toDateString</A></B>(double&nbsp;t,
+             java.util.TimeZone&nbsp;tz)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date.prototype.toDateString().</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateFormatter.html#toISOString(double)">toISOString</A></B>(double&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date.prototype.toISOString().</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateFormatter.html#toJsonString(double)">toJsonString</A></B>(double&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The string part of Date.prototype.toJSON(): null (JSON null) for a non-finite time value, else toISOString.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateFormatter.html#toLocaleDateString(double, java.util.TimeZone)">toLocaleDateString</A></B>(double&nbsp;t,
+                   java.util.TimeZone&nbsp;tz)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date.prototype.toLocaleDateString() with the English (en-US) fallback, for example "3/1/2016".</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateFormatter.html#toLocaleString(double, java.util.TimeZone)">toLocaleString</A></B>(double&nbsp;t,
+               java.util.TimeZone&nbsp;tz)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date.prototype.toLocaleString() with the English (en-US) fallback, for example "3/1/2016, 10:20:30 AM".</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateFormatter.html#toLocaleTimeString(double, java.util.TimeZone)">toLocaleTimeString</A></B>(double&nbsp;t,
+                   java.util.TimeZone&nbsp;tz)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date.prototype.toLocaleTimeString() with the English (en-US) fallback, for example "10:20:30 AM".</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateFormatter.html#toString(double, java.util.TimeZone)">toString</A></B>(double&nbsp;t,
+         java.util.TimeZone&nbsp;tz)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date.prototype.toString().</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateFormatter.html#toTimeString(double, java.util.TimeZone)">toTimeString</A></B>(double&nbsp;t,
+             java.util.TimeZone&nbsp;tz)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date.prototype.toTimeString().</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateFormatter.html#toUTCString(double)">toUTCString</A></B>(double&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date.prototype.toUTCString().</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="INVALID_DATE"><!-- --></A><H3>
+INVALID_DATE</H3>
+<PRE>
+public static final java.lang.String <B>INVALID_DATE</B></PRE>
+<DL>
+<DD>Text returned for an invalid date.
+ <p>
+ 올바르지 않은 날짜에 반환하는 문자열.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.date.DateFormatter.INVALID_DATE">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="toString(double, java.util.TimeZone)"><!-- --></A><H3>
+toString</H3>
+<PRE>
+public static java.lang.String <B>toString</B>(double&nbsp;t,
+                                        java.util.TimeZone&nbsp;tz)</PRE>
+<DL>
+<DD>Date.prototype.toString().
+ <p>
+ Date.prototype.toString().
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - time value / 시간값<DD><CODE>tz</CODE> - time zone / 시간대
+<DT><B>Returns:</B><DD>text such as "Tue Mar 01 2016 10:20:30 GMT+0900 (KST)" or "Invalid Date" / 예: "Tue Mar 01 2016 10:20:30 GMT+0900 (KST)" 또는 "Invalid Date"</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toDateString(double, java.util.TimeZone)"><!-- --></A><H3>
+toDateString</H3>
+<PRE>
+public static java.lang.String <B>toDateString</B>(double&nbsp;t,
+                                            java.util.TimeZone&nbsp;tz)</PRE>
+<DL>
+<DD>Date.prototype.toDateString().
+ <p>
+ Date.prototype.toDateString().
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - time value / 시간값<DD><CODE>tz</CODE> - time zone / 시간대
+<DT><B>Returns:</B><DD>text such as "Tue Mar 01 2016" or "Invalid Date" / 예: "Tue Mar 01 2016" 또는 "Invalid Date"</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toTimeString(double, java.util.TimeZone)"><!-- --></A><H3>
+toTimeString</H3>
+<PRE>
+public static java.lang.String <B>toTimeString</B>(double&nbsp;t,
+                                            java.util.TimeZone&nbsp;tz)</PRE>
+<DL>
+<DD>Date.prototype.toTimeString().
+ <p>
+ Date.prototype.toTimeString().
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - time value / 시간값<DD><CODE>tz</CODE> - time zone / 시간대
+<DT><B>Returns:</B><DD>text such as "10:20:30 GMT+0900 (KST)" or "Invalid Date" / 예: "10:20:30 GMT+0900 (KST)" 또는 "Invalid Date"</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toUTCString(double)"><!-- --></A><H3>
+toUTCString</H3>
+<PRE>
+public static java.lang.String <B>toUTCString</B>(double&nbsp;t)</PRE>
+<DL>
+<DD>Date.prototype.toUTCString().
+ <p>
+ Date.prototype.toUTCString().
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - time value / 시간값
+<DT><B>Returns:</B><DD>text such as "Tue, 01 Mar 2016 10:20:30 GMT" or "Invalid Date" / 예: "Tue, 01 Mar 2016 10:20:30 GMT" 또는 "Invalid Date"</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toISOString(double)"><!-- --></A><H3>
+toISOString</H3>
+<PRE>
+public static java.lang.String <B>toISOString</B>(double&nbsp;t)</PRE>
+<DL>
+<DD>Date.prototype.toISOString().
+ <p>
+ Date.prototype.toISOString().
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - time value / 시간값
+<DT><B>Returns:</B><DD>text such as "2016-03-01T01:20:30.000Z"; years outside 0..9999 use a sign and six digits / 예: "2016-03-01T01:20:30.000Z". 0..9999 밖의 연도는 부호와 6 자리
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateRangeException.html" title="class in org.duckdns.hjow.swingwebpanel.js.date">DateRangeException</A></CODE> - if t is NaN / t 가 NaN 이면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toJsonString(double)"><!-- --></A><H3>
+toJsonString</H3>
+<PRE>
+public static java.lang.String <B>toJsonString</B>(double&nbsp;t)</PRE>
+<DL>
+<DD>The string part of Date.prototype.toJSON(): null (JSON null) for a non-finite time value, else toISOString.
+ <p>
+ Date.prototype.toJSON() 의 문자열 부분: 유한하지 않은 시간값이면 null(JSON null), 아니면 toISOString.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - time value / 시간값
+<DT><B>Returns:</B><DD>ISO text or null / ISO 문자열 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toLocaleDateString(double, java.util.TimeZone)"><!-- --></A><H3>
+toLocaleDateString</H3>
+<PRE>
+public static java.lang.String <B>toLocaleDateString</B>(double&nbsp;t,
+                                                  java.util.TimeZone&nbsp;tz)</PRE>
+<DL>
+<DD>Date.prototype.toLocaleDateString() with the English (en-US) fallback, for example "3/1/2016".
+ <p>
+ 영어(en-US) 대체 구현의 Date.prototype.toLocaleDateString(). 예: "3/1/2016".
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - time value / 시간값<DD><CODE>tz</CODE> - time zone / 시간대
+<DT><B>Returns:</B><DD>text or "Invalid Date" / 문자열 또는 "Invalid Date"</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toLocaleTimeString(double, java.util.TimeZone)"><!-- --></A><H3>
+toLocaleTimeString</H3>
+<PRE>
+public static java.lang.String <B>toLocaleTimeString</B>(double&nbsp;t,
+                                                  java.util.TimeZone&nbsp;tz)</PRE>
+<DL>
+<DD>Date.prototype.toLocaleTimeString() with the English (en-US) fallback, for example "10:20:30 AM".
+ <p>
+ 영어(en-US) 대체 구현의 Date.prototype.toLocaleTimeString(). 예: "10:20:30 AM".
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - time value / 시간값<DD><CODE>tz</CODE> - time zone / 시간대
+<DT><B>Returns:</B><DD>text or "Invalid Date" / 문자열 또는 "Invalid Date"</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toLocaleString(double, java.util.TimeZone)"><!-- --></A><H3>
+toLocaleString</H3>
+<PRE>
+public static java.lang.String <B>toLocaleString</B>(double&nbsp;t,
+                                              java.util.TimeZone&nbsp;tz)</PRE>
+<DL>
+<DD>Date.prototype.toLocaleString() with the English (en-US) fallback, for example "3/1/2016, 10:20:30 AM".
+ <p>
+ 영어(en-US) 대체 구현의 Date.prototype.toLocaleString(). 예: "3/1/2016, 10:20:30 AM".
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - time value / 시간값<DD><CODE>tz</CODE> - time zone / 시간대
+<DT><B>Returns:</B><DD>text or "Invalid Date" / 문자열 또는 "Invalid Date"</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html" title="class in org.duckdns.hjow.swingwebpanel.js.date"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/date/DateFormatter.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="DateFormatter.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

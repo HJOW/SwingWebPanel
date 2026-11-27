@@ -1,0 +1,560 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+CanvasBitmap
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="CanvasBitmap";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBindings.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasColors.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBitmap.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CanvasBitmap.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.host.canvas</FONT>
+<BR>
+Class CanvasBitmap</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.host.canvas.CanvasBitmap</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>CanvasBitmap</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The pixel store of a canvas: <code>width * height</code> pixels of non-premultiplied <code>0xAARRGGBB</code> in one <code>int[]</code>,
+ a <code>BufferedImage</code> of type <code>TYPE_INT_ARGB</code> that shares that array, and the <code>Graphics2D</code> of the image (created
+ once, configured for antialiasing). It is plain Java2D: nothing uses the GPU or a native surface. A bitmap of width or height 0, or one that
+ exceeds <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasLimits.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><CODE>CanvasLimits</CODE></A>, is "empty": it has no pixels, no image and no graphics. All methods must be called while holding the monitor of
+ the owner (<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><CODE>CanvasSurface</CODE></A>); the class itself is not synchronized.
+ <p>
+ 캔버스의 화소 저장소: 알파를 미리 곱하지 않은 <code>0xAARRGGBB</code> 형식의 <code>width * height</code> 화소를 담은 <code>int[]</code> 하나,
+ 그 배열을 공유하는 <code>TYPE_INT_ARGB</code> 형식의 <code>BufferedImage</code>, 그 이미지의 <code>Graphics2D</code>(한 번 만들고 안티앨리어싱으로
+ 설정). 순수 Java2D 이며 GPU 나 네이티브 표면을 쓰지 않는다. 너비나 높이가 0 이거나 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasLimits.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><CODE>CanvasLimits</CODE></A> 를 넘는 비트맵은 "비어 있다": 화소,
+ 이미지, 그래픽스가 없다. 모든 메서드는 소유자(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><CODE>CanvasSurface</CODE></A>)의 모니터를 잡고 불러야 하며 이 클래스는 동기화하지 않는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBitmap.html#CanvasBitmap(int, int)">CanvasBitmap</A></B>(int&nbsp;width,
+             int&nbsp;height)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a bitmap whose pixels are transparent black.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBitmap.html#clear()">clear</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Makes every pixel transparent black.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBitmap.html#configure(java.awt.Graphics2D)">configure</A></B>(java.awt.Graphics2D&nbsp;g)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gives a graphics the rendering hints of the canvas.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBitmap.html#dispose()">dispose</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Releases the graphics and drops the pixels' reference to the image; the bitmap must not be used afterwards.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBitmap.html#fillOpaqueBlack()">fillOpaqueBlack</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Makes every pixel opaque black (the start of an opaque canvas).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBitmap.html#flattenOverBlack()">flattenOverBlack</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Composites every pixel onto opaque black: the color is scaled by the alpha and the alpha becomes 255.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBitmap.html#getHeight()">getHeight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the height of the bitmap that was asked for (also for an empty bitmap).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBitmap.html#getWidth()">getWidth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the width of the bitmap that was asked for (also for an empty bitmap).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.awt.Graphics2D</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBitmap.html#graphics()">graphics</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the graphics of the bitmap with default rendering hints: antialiasing on, pure stroking, bilinear interpolation.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.awt.image.BufferedImage</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBitmap.html#image()">image</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the image that shares the pixels.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBitmap.html#isEmpty()">isEmpty</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the bitmap has no pixels (size 0 or beyond the limits).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBitmap.html#isTooLarge()">isTooLarge</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the bitmap was refused because it is too large (as opposed to having a zero size).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBitmap.html#pixels()">pixels</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the pixel array itself (not a copy).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/DecodedImage.html" title="class in org.duckdns.hjow.swingwebpanel.media.image">DecodedImage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBitmap.html#snapshot()">snapshot</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Copies the pixels into an immutable image for the renderer (the bitmap keeps changing, the copy never does).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="CanvasBitmap(int, int)"><!-- --></A><H3>
+CanvasBitmap</H3>
+<PRE>
+public <B>CanvasBitmap</B>(int&nbsp;width,
+                    int&nbsp;height)</PRE>
+<DL>
+<DD>Creates a bitmap whose pixels are transparent black.
+ <p>
+ 화소가 투명한 검정인 비트맵을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>width</CODE> - width in pixels / 너비(화소)<DD><CODE>height</CODE> - height in pixels / 높이(화소)</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getWidth()"><!-- --></A><H3>
+getWidth</H3>
+<PRE>
+public int <B>getWidth</B>()</PRE>
+<DL>
+<DD>Returns the width of the bitmap that was asked for (also for an empty bitmap).
+ <p>
+ 요청한 비트맵의 너비를 반환한다(비어 있는 비트맵도 마찬가지).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>width in pixels / 너비(화소)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHeight()"><!-- --></A><H3>
+getHeight</H3>
+<PRE>
+public int <B>getHeight</B>()</PRE>
+<DL>
+<DD>Returns the height of the bitmap that was asked for (also for an empty bitmap).
+ <p>
+ 요청한 비트맵의 높이를 반환한다(비어 있는 비트맵도 마찬가지).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>height in pixels / 높이(화소)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isEmpty()"><!-- --></A><H3>
+isEmpty</H3>
+<PRE>
+public boolean <B>isEmpty</B>()</PRE>
+<DL>
+<DD>Tells whether the bitmap has no pixels (size 0 or beyond the limits).
+ <p>
+ 비트맵에 화소가 없는지(크기 0 이거나 한도 초과) 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if empty / 비어 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isTooLarge()"><!-- --></A><H3>
+isTooLarge</H3>
+<PRE>
+public boolean <B>isTooLarge</B>()</PRE>
+<DL>
+<DD>Tells whether the bitmap was refused because it is too large (as opposed to having a zero size).
+ <p>
+ 비트맵이 너무 커서 거부되었는지(크기가 0 인 경우와 구별) 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if too large / 너무 크면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="pixels()"><!-- --></A><H3>
+pixels</H3>
+<PRE>
+public int[] <B>pixels</B>()</PRE>
+<DL>
+<DD>Returns the pixel array itself (not a copy).
+ <p>
+ 화소 배열 자체를 반환한다(복사본이 아님).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the pixels / 화소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="image()"><!-- --></A><H3>
+image</H3>
+<PRE>
+public java.awt.image.BufferedImage <B>image</B>()</PRE>
+<DL>
+<DD>Returns the image that shares the pixels.
+ <p>
+ 화소를 공유하는 이미지를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the image or null if empty / 이미지. 비어 있으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="graphics()"><!-- --></A><H3>
+graphics</H3>
+<PRE>
+public java.awt.Graphics2D <B>graphics</B>()</PRE>
+<DL>
+<DD>Returns the graphics of the bitmap with default rendering hints: antialiasing on, pure stroking, bilinear interpolation. The caller
+ sets the transform, clip and composite it needs and resets them afterwards.
+ <p>
+ 비트맵의 그래픽스를 기본 렌더링 힌트(안티앨리어싱 켬, 순수 선 긋기, 쌍선형 보간)로 반환한다. 호출자는 필요한 변환, 클립, 합성을 정하고 끝난 뒤
+ 되돌려 놓는다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the graphics or null if empty / 그래픽스. 비어 있으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="configure(java.awt.Graphics2D)"><!-- --></A><H3>
+configure</H3>
+<PRE>
+public static void <B>configure</B>(java.awt.Graphics2D&nbsp;g)</PRE>
+<DL>
+<DD>Gives a graphics the rendering hints of the canvas.
+ <p>
+ 그래픽스에 캔버스의 렌더링 힌트를 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>g</CODE> - the graphics / 그래픽스</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="clear()"><!-- --></A><H3>
+clear</H3>
+<PRE>
+public void <B>clear</B>()</PRE>
+<DL>
+<DD>Makes every pixel transparent black.
+ <p>
+ 모든 화소를 투명한 검정으로 만든다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fillOpaqueBlack()"><!-- --></A><H3>
+fillOpaqueBlack</H3>
+<PRE>
+public void <B>fillOpaqueBlack</B>()</PRE>
+<DL>
+<DD>Makes every pixel opaque black (the start of an opaque canvas).
+ <p>
+ 모든 화소를 불투명한 검정으로 만든다(불투명한 캔버스의 시작).
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="flattenOverBlack()"><!-- --></A><H3>
+flattenOverBlack</H3>
+<PRE>
+public void <B>flattenOverBlack</B>()</PRE>
+<DL>
+<DD>Composites every pixel onto opaque black: the color is scaled by the alpha and the alpha becomes 255.
+ <p>
+ 모든 화소를 불투명한 검정 위에 합친다: 색에 알파를 곱하고 알파를 255 로 만든다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="snapshot()"><!-- --></A><H3>
+snapshot</H3>
+<PRE>
+public <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/DecodedImage.html" title="class in org.duckdns.hjow.swingwebpanel.media.image">DecodedImage</A> <B>snapshot</B>()</PRE>
+<DL>
+<DD>Copies the pixels into an immutable image for the renderer (the bitmap keeps changing, the copy never does).
+ <p>
+ 렌더러를 위해 화소를 불변 이미지로 복사한다(비트맵은 계속 바뀌지만 복사본은 바뀌지 않는다).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the snapshot or null if the bitmap is empty / 스냅샷. 비트맵이 비어 있으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispose()"><!-- --></A><H3>
+dispose</H3>
+<PRE>
+public void <B>dispose</B>()</PRE>
+<DL>
+<DD>Releases the graphics and drops the pixels' reference to the image; the bitmap must not be used afterwards.
+ <p>
+ 그래픽스를 해제한다. 그 뒤에는 이 비트맵을 쓰면 안 된다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBindings.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasColors.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBitmap.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CanvasBitmap.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

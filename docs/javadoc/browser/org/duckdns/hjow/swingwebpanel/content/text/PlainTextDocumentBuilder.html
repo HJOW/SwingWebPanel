@@ -1,0 +1,400 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+PlainTextDocumentBuilder
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="PlainTextDocumentBuilder";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/content/text/PlainTextDocumentBuilder.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PlainTextDocumentBuilder.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.content.text</FONT>
+<BR>
+Class PlainTextDocumentBuilder</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.content.text.PlainTextDocumentBuilder</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>PlainTextDocumentBuilder</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Builds the DOM document of a plain text page (plan item P17-02). The text is never interpreted: whatever it contains (tags, script
+ elements, character references, an XML declaration) is the <em>data</em> of one text node, so it can neither run a script nor change
+ the page. The shape of the document follows the HTML Standard's rule for text files and what browsers build:
+ <pre>
+ html &gt; head
+      &gt; body &gt; pre style="word-wrap: break-word; white-space: pre-wrap;" &gt; (text)
+ </pre>
+ The line structure of the text is kept: CR LF and CR become LF (the input stream preprocessing that the HTML Standard applies to text
+ files as well), NUL becomes U+FFFD (the PLAINTEXT tokenizer state of the standard), and nothing else is touched, so leading white space,
+ blank lines and a trailing newline stay as they are. <code>white-space: pre-wrap</code> shows them as written and wraps lines that
+ are longer than the window (as browsers do for <code>text/plain</code>); the page has no title.
+ <p>
+ The builder is used for <code>text/plain</code> and for the other text types that are shown as text (CSS, JavaScript, JSON, XML source).
+ It does not change the received source: <code>getContent()</code> keeps returning the original string.
+ <p>
+ 일반 텍스트 페이지의 DOM 문서를 만든다(계획 P17-02). 텍스트는 절대 해석되지 않는다: 무엇이 들어 있든(태그, script 요소, 문자 참조, XML 선언) 텍스트 노드
+ 하나의 <em>데이터</em>이므로 스크립트를 실행하거나 페이지를 바꿀 수 없다. 문서의 모양은 HTML 표준의 텍스트 파일 규칙과 브라우저가 만드는 것을 따른다
+ (위의 영문 트리 참조). 텍스트의 줄 구조는 유지한다: CR LF 와 CR 은 LF 가 되고(HTML 표준이 텍스트 파일에도 적용하는 입력 스트림 전처리), NUL 은
+ U+FFFD 가 되며(표준의 PLAINTEXT 토큰화 상태), 그 밖에는 손대지 않으므로 앞쪽 공백, 빈 줄, 끝의 줄 바꿈이 그대로 남는다.
+ <code>white-space: pre-wrap</code> 이 이를 쓴 그대로 보여 주며 창보다 긴 줄은 줄바꿈한다(브라우저가 <code>text/plain</code> 에 하는 것과 같다).
+ 페이지에는 제목이 없다.
+ <p>
+ 이 생성기는 <code>text/plain</code> 과 텍스트로 보여 주는 다른 타입(CSS, JavaScript, JSON, XML 소스)에 쓴다. 수신 원문은 바꾸지 않으며
+ <code>getContent()</code> 는 계속 원래 문자열을 반환한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/text/PlainTextDocumentBuilder.html#PRE_STYLE">PRE_STYLE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The inline style of the <code>pre</code> element.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/text/PlainTextDocumentBuilder.html#build(java.lang.String)">build</A></B>(java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Builds a document for a text (content type <code>text/plain</code>, no URL).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/text/PlainTextDocumentBuilder.html#build(java.lang.String, java.lang.String)">build</A></B>(java.lang.String&nbsp;text,
+      java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Builds a document for a text (content type <code>text/plain</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/text/PlainTextDocumentBuilder.html#build(java.lang.String, java.lang.String, java.lang.String)">build</A></B>(java.lang.String&nbsp;text,
+      java.lang.String&nbsp;url,
+      java.lang.String&nbsp;contentType)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Builds a document for a text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/text/PlainTextDocumentBuilder.html#normalize(java.lang.String)">normalize</A></B>(java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Normalizes a text the way the HTML Standard does for the input stream of a text file: CR LF and CR become LF and NUL becomes
+ U+FFFD.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/text/PlainTextDocumentBuilder.html#populate(org.duckdns.hjow.swingwebpanel.dom.Document, java.lang.String)">populate</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+         java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fills an empty document that the caller has prepared (for example with a selector engine installed) with the plain text
+ structure.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="PRE_STYLE"><!-- --></A><H3>
+PRE_STYLE</H3>
+<PRE>
+public static final java.lang.String <B>PRE_STYLE</B></PRE>
+<DL>
+<DD>The inline style of the <code>pre</code> element.
+ <p>
+ <code>pre</code> 요소의 인라인 스타일.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.content.text.PlainTextDocumentBuilder.PRE_STYLE">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="build(java.lang.String)"><!-- --></A><H3>
+build</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A> <B>build</B>(java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Builds a document for a text (content type <code>text/plain</code>, no URL).
+ <p>
+ 텍스트의 문서를 만든다(콘텐츠 타입 <code>text/plain</code>, URL 없음).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the text, null is treated as empty / 텍스트(null 은 빈 문자열)
+<DT><B>Returns:</B><DD>the document / 문서</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="build(java.lang.String, java.lang.String)"><!-- --></A><H3>
+build</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A> <B>build</B>(java.lang.String&nbsp;text,
+                             java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Builds a document for a text (content type <code>text/plain</code>).
+ <p>
+ 텍스트의 문서를 만든다(콘텐츠 타입 <code>text/plain</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the text, null is treated as empty / 텍스트(null 은 빈 문자열)<DD><CODE>url</CODE> - the document URL or null / 문서 URL 또는 null
+<DT><B>Returns:</B><DD>the document / 문서</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="build(java.lang.String, java.lang.String, java.lang.String)"><!-- --></A><H3>
+build</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A> <B>build</B>(java.lang.String&nbsp;text,
+                             java.lang.String&nbsp;url,
+                             java.lang.String&nbsp;contentType)</PRE>
+<DL>
+<DD>Builds a document for a text.
+ <p>
+ 텍스트의 문서를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the text, null is treated as empty / 텍스트(null 은 빈 문자열)<DD><CODE>url</CODE> - the document URL or null / 문서 URL 또는 null<DD><CODE>contentType</CODE> - the content type reported by <code>document.contentType</code>, for example <code>text/plain</code> or
+                    <code>text/css</code>; null means <code>text/plain</code> / <code>document.contentType</code> 이 보고할 콘텐츠 타입.
+                    예: <code>text/plain</code>, <code>text/css</code>. null 이면 <code>text/plain</code>
+<DT><B>Returns:</B><DD>the document / 문서</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="populate(org.duckdns.hjow.swingwebpanel.dom.Document, java.lang.String)"><!-- --></A><H3>
+populate</H3>
+<PRE>
+public static void <B>populate</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+                            java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Fills an empty document that the caller has prepared (for example with a selector engine installed) with the plain text
+ structure.
+ <p>
+ 호출자가 준비한(예: 선택자 엔진이 설치된) 빈 문서를 일반 텍스트 구조로 채운다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>doc</CODE> - the empty HTML document / 빈 HTML 문서<DD><CODE>text</CODE> - the text, null is treated as empty / 텍스트(null 은 빈 문자열)
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the document is null or already has children / 문서가 null 이거나 이미 자식이 있으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="normalize(java.lang.String)"><!-- --></A><H3>
+normalize</H3>
+<PRE>
+public static java.lang.String <B>normalize</B>(java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Normalizes a text the way the HTML Standard does for the input stream of a text file: CR LF and CR become LF and NUL becomes
+ U+FFFD. The input string is not modified; if there is nothing to change the same string is returned.
+ <p>
+ HTML 표준이 텍스트 파일의 입력 스트림에 하는 대로 텍스트를 정규화한다: CR LF 와 CR 은 LF, NUL 은 U+FFFD 가 된다. 입력 문자열은 바꾸지 않으며
+ 바꿀 것이 없으면 같은 문자열을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the text, null is treated as empty / 텍스트(null 은 빈 문자열)
+<DT><B>Returns:</B><DD>the normalized text / 정규화한 텍스트</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/content/text/PlainTextDocumentBuilder.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PlainTextDocumentBuilder.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

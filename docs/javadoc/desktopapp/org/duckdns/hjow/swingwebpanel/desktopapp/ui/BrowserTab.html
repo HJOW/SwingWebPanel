@@ -1,0 +1,749 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+BrowserTab
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="BrowserTab";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp.ui"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="BrowserTab.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.desktopapp.ui</FONT>
+<BR>
+Class BrowserTab</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.desktopapp.ui.BrowserTab</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>BrowserTab</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+One page of the browser: a <CODE>SwingWebPanel</CODE> in a scroll pane together with what the window needs to know about it (plan items
+ P31-03 and P31-04). A window shows the state of its active tab in the title bar, the navigation toolbar and the status bar; the tab
+ tells its listener whenever that state changes. Use it on the event dispatch thread.
+ <p>
+ 브라우저의 페이지 하나: 스크롤 창 안의 <CODE>SwingWebPanel</CODE> 과, 창이 그 페이지에 대해 알아야 하는 것들(계획 P31-03, P31-04). 창은 활성 탭의
+ 상태를 제목 표시줄, 탐색 도구 모음, 상태 표시줄에 보인다. 탭은 그 상태가 바뀔 때마다 리스너에 알린다. 이벤트 디스패치 스레드에서 쓴다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp.ui">BrowserTab.Listener</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Receives the changes of a tab.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html#BrowserTab(org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp)">BrowserTab</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp">BrowserApp</A>&nbsp;app)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a tab with an empty page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html#BrowserTab(org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp, org.duckdns.hjow.swingwebpanel.SwingWebPanel)">BrowserTab</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp">BrowserApp</A>&nbsp;app,
+           org.duckdns.hjow.swingwebpanel.SwingWebPanel&nbsp;adopted)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a tab for the component of a window that a page opened (see <CODE>WindowRequest.getPanel()</CODE>); the tab shows the page
+ that the component already has or is loading.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html#backEntries()">backEntries</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the addresses of the history entries behind the current one, the nearest first.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html#canGoBack()">canGoBack</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the history has an entry behind the current one.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html#canGoForward()">canGoForward</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the history has an entry ahead of the current one.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html#close()">close</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Closes the tab: disposes its component.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html#forwardEntries()">forwardEntries</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the addresses of the history entries ahead of the current one, the nearest first.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html#getAddressText()">getAddressText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the address for the address bar: the address that is being loaded if the user opened one and it has not arrived yet,
+ otherwise the address of the page that is shown.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html#getBlockedPopup()">getBlockedPopup</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the address of the popup that was blocked last on this page, for the button that opens it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;javax.swing.JComponent</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html#getComponent()">getComponent</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the Swing component of the tab (the scroll pane with the page).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html#getHoveredLink()">getHoveredLink</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the address of the link under the mouse.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;org.duckdns.hjow.swingwebpanel.SwingWebPanel</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html#getPanel()">getPanel</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the component that shows the page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html#getStatusText()">getStatusText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text for the status bar: the message of the application if there is one, otherwise the status text of the page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html#getTitleText()">getTitleText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text that names the page: its title, or its address when it has no title, or a fixed text for the empty page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html#getUrl()">getUrl</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the address of the page that is shown.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html#home()">home</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opens the home page of the settings.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html#isLoading()">isLoading</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the page is loading.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html#navigate(java.lang.String)">navigate</A></B>(java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts loading an absolute address.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html#open(java.lang.String)">open</A></B>(java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opens what the user typed: an address, a host, a file path or a search (see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/AddressInput.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model"><CODE>AddressInput</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html#setListener(org.duckdns.hjow.swingwebpanel.desktopapp.ui.BrowserTab.Listener)">setListener</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp.ui">BrowserTab.Listener</A>&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the receiver of the changes of this tab.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html#showNotice(java.lang.String)">showNotice</A></B>(java.lang.String&nbsp;message)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Shows a message of the application in the status bar until the page changes.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="BrowserTab(org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp)"><!-- --></A><H3>
+BrowserTab</H3>
+<PRE>
+public <B>BrowserTab</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp">BrowserApp</A>&nbsp;app)</PRE>
+<DL>
+<DD>Creates a tab with an empty page.
+ <p>
+ 빈 페이지가 있는 탭을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>app</CODE> - the application / 응용 프로그램</DL>
+</DL>
+<HR>
+
+<A NAME="BrowserTab(org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp, org.duckdns.hjow.swingwebpanel.SwingWebPanel)"><!-- --></A><H3>
+BrowserTab</H3>
+<PRE>
+public <B>BrowserTab</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp">BrowserApp</A>&nbsp;app,
+                  org.duckdns.hjow.swingwebpanel.SwingWebPanel&nbsp;adopted)</PRE>
+<DL>
+<DD>Creates a tab for the component of a window that a page opened (see <CODE>WindowRequest.getPanel()</CODE>); the tab shows the page
+ that the component already has or is loading.
+ <p>
+ 페이지가 연 창의 컴포넌트를 위한 탭을 만든다(<CODE>WindowRequest.getPanel()</CODE> 참고). 탭은 컴포넌트가 이미 가졌거나 읽는 중인 페이지를
+ 보인다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>app</CODE> - the application / 응용 프로그램<DD><CODE>adopted</CODE> - the component of the window, created by a tab of this application; null creates a tab with an empty page /
+                이 응용 프로그램의 탭이 만든 창의 컴포넌트. null 이면 빈 페이지가 있는 탭을 만든다
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the component was not created by a tab of this application / 컴포넌트가 이 응용 프로그램의
+                                  탭이 만든 것이 아니면</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getHoveredLink()"><!-- --></A><H3>
+getHoveredLink</H3>
+<PRE>
+public java.lang.String <B>getHoveredLink</B>()</PRE>
+<DL>
+<DD>Returns the address of the link under the mouse.
+ <p>
+ 마우스 아래 링크의 주소를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the address, or null / 주소. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBlockedPopup()"><!-- --></A><H3>
+getBlockedPopup</H3>
+<PRE>
+public java.lang.String <B>getBlockedPopup</B>()</PRE>
+<DL>
+<DD>Returns the address of the popup that was blocked last on this page, for the button that opens it.
+ <p>
+ 이 페이지에서 마지막으로 차단된 팝업의 주소를 반환한다. 그것을 여는 단추에 쓴다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the address (empty for a popup without one), or null if none was blocked / 주소(주소 없는 팝업이면 빈 문자열). 차단된 것이
+         없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setListener(org.duckdns.hjow.swingwebpanel.desktopapp.ui.BrowserTab.Listener)"><!-- --></A><H3>
+setListener</H3>
+<PRE>
+public void <B>setListener</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp.ui">BrowserTab.Listener</A>&nbsp;listener)</PRE>
+<DL>
+<DD>Sets the receiver of the changes of this tab.
+ <p>
+ 이 탭의 변경을 받을 쪽을 정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>listener</CODE> - the receiver or null / 받는 쪽 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPanel()"><!-- --></A><H3>
+getPanel</H3>
+<PRE>
+public org.duckdns.hjow.swingwebpanel.SwingWebPanel <B>getPanel</B>()</PRE>
+<DL>
+<DD>Returns the component that shows the page.
+ <p>
+ 페이지를 보여 주는 컴포넌트를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the component / 컴포넌트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getComponent()"><!-- --></A><H3>
+getComponent</H3>
+<PRE>
+public javax.swing.JComponent <B>getComponent</B>()</PRE>
+<DL>
+<DD>Returns the Swing component of the tab (the scroll pane with the page).
+ <p>
+ 탭의 Swing 컴포넌트(페이지가 든 스크롤 창)를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the component / 컴포넌트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getUrl()"><!-- --></A><H3>
+getUrl</H3>
+<PRE>
+public java.lang.String <B>getUrl</B>()</PRE>
+<DL>
+<DD>Returns the address of the page that is shown.
+ <p>
+ 보이는 페이지의 주소를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the address / 주소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getAddressText()"><!-- --></A><H3>
+getAddressText</H3>
+<PRE>
+public java.lang.String <B>getAddressText</B>()</PRE>
+<DL>
+<DD>Returns the address for the address bar: the address that is being loaded if the user opened one and it has not arrived yet,
+ otherwise the address of the page that is shown.
+ <p>
+ 주소 표시줄에 보일 주소를 반환한다: 사용자가 연 주소가 아직 도착하지 않았으면 읽는 중인 그 주소, 아니면 보이는 페이지의 주소.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the address / 주소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTitleText()"><!-- --></A><H3>
+getTitleText</H3>
+<PRE>
+public java.lang.String <B>getTitleText</B>()</PRE>
+<DL>
+<DD>Returns the text that names the page: its title, or its address when it has no title, or a fixed text for the empty page.
+ <p>
+ 페이지를 부르는 글을 반환한다: 제목, 제목이 없으면 주소, 빈 페이지이면 정해진 글.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the text / 글</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isLoading()"><!-- --></A><H3>
+isLoading</H3>
+<PRE>
+public boolean <B>isLoading</B>()</PRE>
+<DL>
+<DD>Tells whether the page is loading.
+ <p>
+ 페이지를 읽는 중인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true while loading / 읽는 동안 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="canGoBack()"><!-- --></A><H3>
+canGoBack</H3>
+<PRE>
+public boolean <B>canGoBack</B>()</PRE>
+<DL>
+<DD>Tells whether the history has an entry behind the current one.
+ <p>
+ 이력에서 현재 항목 뒤에 항목이 있는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if going back is possible / 뒤로 갈 수 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="canGoForward()"><!-- --></A><H3>
+canGoForward</H3>
+<PRE>
+public boolean <B>canGoForward</B>()</PRE>
+<DL>
+<DD>Tells whether the history has an entry ahead of the current one.
+ <p>
+ 이력에서 현재 항목 앞에 항목이 있는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if going forward is possible / 앞으로 갈 수 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="backEntries()"><!-- --></A><H3>
+backEntries</H3>
+<PRE>
+public java.util.List&lt;java.lang.String&gt; <B>backEntries</B>()</PRE>
+<DL>
+<DD>Returns the addresses of the history entries behind the current one, the nearest first.
+ <p>
+ 현재 항목 뒤쪽의 이력 주소를 가까운 것부터 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the addresses / 주소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="forwardEntries()"><!-- --></A><H3>
+forwardEntries</H3>
+<PRE>
+public java.util.List&lt;java.lang.String&gt; <B>forwardEntries</B>()</PRE>
+<DL>
+<DD>Returns the addresses of the history entries ahead of the current one, the nearest first.
+ <p>
+ 현재 항목 앞쪽의 이력 주소를 가까운 것부터 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the addresses / 주소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="open(java.lang.String)"><!-- --></A><H3>
+open</H3>
+<PRE>
+public java.lang.String <B>open</B>(java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Opens what the user typed: an address, a host, a file path or a search (see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/AddressInput.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model"><CODE>AddressInput</CODE></A>). Text that cannot be opened
+ leaves the page as it is and shows a message in the status bar.
+ <p>
+ 사용자가 입력한 것을 연다: 주소, 호스트, 파일 경로, 검색(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/AddressInput.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model"><CODE>AddressInput</CODE></A> 참고). 열 수 없는 글이면 페이지를 그대로 두고 상태 표시줄에
+ 메시지를 보인다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the typed text / 입력한 글
+<DT><B>Returns:</B><DD>the address that is being loaded, or null if nothing was opened / 읽기 시작한 주소. 아무것도 열지 않았으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="navigate(java.lang.String)"><!-- --></A><H3>
+navigate</H3>
+<PRE>
+public boolean <B>navigate</B>(java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Starts loading an absolute address. An address that the component cannot take leaves the page as it is and shows a message in the
+ status bar.
+ <p>
+ 절대 주소 읽기를 시작한다. 컴포넌트가 받을 수 없는 주소이면 페이지를 그대로 두고 상태 표시줄에 메시지를 보인다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - the absolute address / 절대 주소
+<DT><B>Returns:</B><DD>true if loading started / 읽기를 시작했으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="home()"><!-- --></A><H3>
+home</H3>
+<PRE>
+public void <B>home</B>()</PRE>
+<DL>
+<DD>Opens the home page of the settings.
+ <p>
+ 설정의 홈 페이지를 연다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="showNotice(java.lang.String)"><!-- --></A><H3>
+showNotice</H3>
+<PRE>
+public void <B>showNotice</B>(java.lang.String&nbsp;message)</PRE>
+<DL>
+<DD>Shows a message of the application in the status bar until the page changes.
+ <p>
+ 페이지가 바뀔 때까지 응용 프로그램의 메시지를 상태 표시줄에 보인다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>message</CODE> - the message / 메시지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStatusText()"><!-- --></A><H3>
+getStatusText</H3>
+<PRE>
+public java.lang.String <B>getStatusText</B>()</PRE>
+<DL>
+<DD>Returns the text for the status bar: the message of the application if there is one, otherwise the status text of the page.
+ <p>
+ 상태 표시줄에 보일 글을 반환한다: 응용 프로그램의 메시지가 있으면 그것을, 없으면 페이지의 상태 문구를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the text / 글</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="close()"><!-- --></A><H3>
+close</H3>
+<PRE>
+public void <B>close</B>()</PRE>
+<DL>
+<DD>Closes the tab: disposes its component. The local storage that all tabs share stays. Calling it again does nothing.
+ <p>
+ 탭을 닫는다: 그 컴포넌트를 폐기한다. 모든 탭이 함께 쓰는 localStorage 는 남는다. 다시 불러도 아무 일도 없다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp.ui"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserTab.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="BrowserTab.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

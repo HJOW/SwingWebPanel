@@ -1,0 +1,269 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+PageStyles
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="PageStyles";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/HtmlPresentationalHints.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/PageStyles.PageBox.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cascade/PageStyles.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PageStyles.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.cascade</FONT>
+<BR>
+Class PageStyles</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.cascade.PageStyles</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>PageStyles</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The cascade of the page context (CSS Paged Media Level 3, <a href="https://www.w3.org/TR/css-page-3/">https://www.w3.org/TR/css-page-3/</a>,
+ W3C Working Draft 14 September 2023, section 4.4 "Cascading in the page context" and section 7 "Page Size"): it takes the <code>@page</code> rules
+ of the style sheets and works out the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/PageStyles.PageBox.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade"><CODE>PageStyles.PageBox</CODE></A> of one page, that is the size of the page box (<code>size</code>), its margins
+ (<code>margin</code>; a percentage is relative to the page size), the marks and the bleed. The engine does not print, so nothing here is laid out:
+ the class gives the computed descriptors that a printing host (or a script through the CSSOM) can read.
+ <p>
+ Usage: <code>PageStyles.resolve(resolver.getPageRules(), null, 1, false, true)</code> returns the box of the first (right) page without a name.
+ <p>
+ 쪽 문맥의 계단식(CSS Paged Media Level 3, <a href="https://www.w3.org/TR/css-page-3/">https://www.w3.org/TR/css-page-3/</a>, W3C 작업 초안
+ 2023-09-14, 4.4 절 "쪽 문맥의 계단식"과 7 절 "쪽 크기"): 스타일 시트의 <code>@page</code> 규칙으로 한 쪽의 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/PageStyles.PageBox.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade"><CODE>PageStyles.PageBox</CODE></A>, 즉 쪽 상자의 크기
+ (<code>size</code>), 여백(<code>margin</code>. 백분율은 쪽 크기 기준), 표시와 재단 여유를 구한다. 엔진은 인쇄하지 않으므로 아무것도 배치하지 않는다. 인쇄하는 호스트나
+ (CSSOM 을 통한) 스크립트가 읽을 계산된 서술자를 준다.
+ <p>
+ 사용법: <code>PageStyles.resolve(resolver.getPageRules(), null, 1, false, true)</code> 는 이름 없는 첫(오른쪽) 쪽의 상자를 반환한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/PageStyles.PageBox.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">PageStyles.PageBox</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The computed descriptors of one page: the page box size and the page margins in CSS pixels, the marks, the bleed and the orientation
+ of the output.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/PageStyles.PageBox.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">PageStyles.PageBox</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/PageStyles.html#resolve(java.util.List, java.lang.String, int, boolean, boolean)">resolve</A></B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/PageRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">PageRule</A>&gt;&nbsp;rules,
+        java.lang.String&nbsp;pageName,
+        int&nbsp;number,
+        boolean&nbsp;blank,
+        boolean&nbsp;right)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Works out the page box of a page.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="resolve(java.util.List, java.lang.String, int, boolean, boolean)"><!-- --></A><H3>
+resolve</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/PageStyles.PageBox.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">PageStyles.PageBox</A> <B>resolve</B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/PageRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">PageRule</A>&gt;&nbsp;rules,
+                                         java.lang.String&nbsp;pageName,
+                                         int&nbsp;number,
+                                         boolean&nbsp;blank,
+                                         boolean&nbsp;right)</PRE>
+<DL>
+<DD>Works out the page box of a page. The rules that match the page are applied from the least to the most specific (the order of the sources
+ breaks a tie); the declarations of one rule are applied in order, and an <code>!important</code> declaration of any rule wins over every
+ normal one. A property that no rule sets has the initial value; the initial margin is 0 (this engine has no default page margin, as there is no
+ unprintable area).
+ <p>
+ 쪽의 쪽 상자를 구한다. 쪽에 일치하는 규칙을 구체성이 낮은 것부터 높은 것까지(같으면 소스 순서) 적용하고, 한 규칙의 선언은 순서대로 적용하며, 어느 규칙의
+ <code>!important</code> 선언이든 모든 보통 선언을 이긴다. 어떤 규칙도 정하지 않은 속성은 초기값이다. 초기 여백은 0 이다(이 엔진에는 인쇄할 수 없는 영역이
+ 없으므로 기본 쪽 여백이 없다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>rules</CODE> - the <code>@page</code> rules in the order of the sources / 소스 순서의 <code>@page</code> 규칙<DD><CODE>pageName</CODE> - the named page, or null/empty for the unnamed page / 쪽의 이름. 이름 없는 쪽이면 null 이나 빈 문자열<DD><CODE>number</CODE> - the page number counted from 1 / 1 부터 센 쪽 번호<DD><CODE>blank</CODE> - true for a blank page that a forced break made / 강제 나눔이 만든 빈 쪽이면 true<DD><CODE>right</CODE> - true for a right page, false for a left page / 오른쪽 쪽이면 true, 왼쪽 쪽이면 false
+<DT><B>Returns:</B><DD>the page box / 쪽 상자</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/HtmlPresentationalHints.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/PageStyles.PageBox.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cascade/PageStyles.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PageStyles.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

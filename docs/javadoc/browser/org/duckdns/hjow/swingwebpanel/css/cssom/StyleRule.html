@@ -1,0 +1,426 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+StyleRule
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="StyleRule";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ScopeSpec.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheet.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cssom/StyleRule.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="StyleRule.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.css.cssom.CssRule">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.cssom</FONT>
+<BR>
+Class StyleRule</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">org.duckdns.hjow.swingwebpanel.css.cssom.CssRule</A>
+      <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.cssom.StyleRule</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>StyleRule</B><DT>extends <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></DL>
+</PRE>
+
+<P>
+A style rule: a selector list and a declaration block, for example <code>a:hover, a:focus { color: red }</code>. The declaration block is live: a
+ change made through it (the CSSOM <code>style</code> of the rule) reaches the style sheet, which tells the style resolver. The selector text can be
+ replaced (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleRule.html#setSelectorText(java.lang.String)"><CODE>setSelectorText(java.lang.String)</CODE></A>); text that is not a valid selector list leaves the rule unchanged, as the CSSOM requires.
+ <p>
+ 스타일 규칙: 선택자 목록과 선언 블록. 예: <code>a:hover, a:focus { color: red }</code>. 선언 블록은 실시간이다: 그것(규칙의 CSSOM <code>style</code>)을 통한 변경은 시트에
+ 닿고 시트가 스타일 리졸버에 알린다. 선택자 문자열은 바꿀 수 있으며(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleRule.html#setSelectorText(java.lang.String)"><CODE>setSelectorText(java.lang.String)</CODE></A>), 올바른 선택자 목록이 아닌 텍스트는 CSSOM 대로 규칙을 그대로 둔다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.css.cssom.CssRule"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class org.duckdns.hjow.swingwebpanel.css.cssom.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#CONTAINER_RULE">CONTAINER_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#COUNTER_STYLE_RULE">COUNTER_STYLE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#FONT_FACE_RULE">FONT_FACE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#FONT_FEATURE_VALUES_RULE">FONT_FEATURE_VALUES_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#IMPORT_RULE">IMPORT_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#KEYFRAME_RULE">KEYFRAME_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#KEYFRAMES_RULE">KEYFRAMES_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#LAYER_RULE">LAYER_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#MARGIN_RULE">MARGIN_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#MEDIA_RULE">MEDIA_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#NAMESPACE_RULE">NAMESPACE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#PAGE_RULE">PAGE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#POSITION_TRY_RULE">POSITION_TRY_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#PROPERTY_RULE">PROPERTY_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#SCOPE_RULE">SCOPE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#STARTING_STYLE_RULE">STARTING_STYLE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#STYLE_RULE">STYLE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#SUPPORTS_RULE">SUPPORTS_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#UNKNOWN_RULE">UNKNOWN_RULE</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleRule.html#StyleRule(org.duckdns.hjow.swingwebpanel.css.selector.SelectorList, org.duckdns.hjow.swingwebpanel.css.cssom.CssStyleDeclaration)">StyleRule</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorList.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">SelectorList</A>&nbsp;selectors,
+          <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssStyleDeclaration</A>&nbsp;style)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a style rule.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleRule.html#getCssText()">getCssText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serializes the rule.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorList.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">SelectorList</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleRule.html#getSelectors()">getSelectors</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the selectors.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleRule.html#getSelectorText()">getSelectorText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the selector text in the canonical CSSOM form.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssStyleDeclaration</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleRule.html#getStyle()">getStyle</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the declaration block.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleRule.html#getType()">getType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the rule type.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleRule.html#setSelectorText(java.lang.String)">setSelectorText</A></B>(java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Replaces the selectors by the parsed text (CSSOM <code>selectorText</code> setter): the namespace prefixes of the sheet are known, and text that
+ is not a valid selector list is ignored.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.css.cssom.CssRule"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.css.cssom.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#getCssomType()">getCssomType</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#getParentRule()">getParentRule</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#getParentStyleSheet()">getParentStyleSheet</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#setCssText(java.lang.String)">setCssText</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#toString()">toString</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="StyleRule(org.duckdns.hjow.swingwebpanel.css.selector.SelectorList, org.duckdns.hjow.swingwebpanel.css.cssom.CssStyleDeclaration)"><!-- --></A><H3>
+StyleRule</H3>
+<PRE>
+public <B>StyleRule</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorList.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">SelectorList</A>&nbsp;selectors,
+                 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssStyleDeclaration</A>&nbsp;style)</PRE>
+<DL>
+<DD>Creates a style rule.
+ <p>
+ 스타일 규칙을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>selectors</CODE> - the selectors / 선택자<DD><CODE>style</CODE> - the declarations / 선언</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getSelectors()"><!-- --></A><H3>
+getSelectors</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorList.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">SelectorList</A> <B>getSelectors</B>()</PRE>
+<DL>
+<DD>Returns the selectors.
+ <p>
+ 선택자를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the selector list / 선택자 목록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSelectorText()"><!-- --></A><H3>
+getSelectorText</H3>
+<PRE>
+public java.lang.String <B>getSelectorText</B>()</PRE>
+<DL>
+<DD>Returns the selector text in the canonical CSSOM form.
+ <p>
+ 정규 CSSOM 형태의 선택자 문자열을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the selector text / 선택자 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setSelectorText(java.lang.String)"><!-- --></A><H3>
+setSelectorText</H3>
+<PRE>
+public void <B>setSelectorText</B>(java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Replaces the selectors by the parsed text (CSSOM <code>selectorText</code> setter): the namespace prefixes of the sheet are known, and text that
+ is not a valid selector list is ignored.
+ <p>
+ 선택자를 파싱한 텍스트로 바꾼다(CSSOM <code>selectorText</code> 설정): 시트의 네임스페이스 접두사를 알고 있으며, 올바른 선택자 목록이 아닌 텍스트는 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the selector list text / 선택자 목록 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStyle()"><!-- --></A><H3>
+getStyle</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssStyleDeclaration</A> <B>getStyle</B>()</PRE>
+<DL>
+<DD>Returns the declaration block.
+ <p>
+ 선언 블록을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the declarations / 선언</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getType()"><!-- --></A><H3>
+getType</H3>
+<PRE>
+public int <B>getType</B>()</PRE>
+<DL>
+<DD>Returns the rule type.
+ <p>
+ 규칙 종류를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#getType()">getType</A></CODE> in class <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#STYLE_RULE"><CODE>CssRule.STYLE_RULE</CODE></A> / STYLE_RULE</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCssText()"><!-- --></A><H3>
+getCssText</H3>
+<PRE>
+public java.lang.String <B>getCssText</B>()</PRE>
+<DL>
+<DD>Serializes the rule.
+ <p>
+ 규칙을 직렬화한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#getCssText()">getCssText</A></CODE> in class <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>CSS text / CSS 문자열</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ScopeSpec.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheet.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cssom/StyleRule.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="StyleRule.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.css.cssom.CssRule">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

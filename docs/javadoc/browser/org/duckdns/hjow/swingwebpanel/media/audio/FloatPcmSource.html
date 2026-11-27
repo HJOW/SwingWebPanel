@@ -1,0 +1,343 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+FloatPcmSource
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="FloatPcmSource";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FileByteSource.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/audio/FloatPcmSource.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="FloatPcmSource.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.audio</FONT>
+<BR>
+Interface FloatPcmSource</H2>
+<DL>
+<DT><B>All Known Implementing Classes:</B> <DD><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/BlockFloatSource.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">BlockFloatSource</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmFloatAdapter.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">PcmFloatAdapter</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public interface <B>FloatPcmSource</B></DL>
+</PRE>
+
+<P>
+A stream of decoded audio with the <em>channels and the precision of the file</em>: 32 bit floating point samples in the range -1 to 1
+ (a sample of an N bit integer file is exactly <code>sample / 2^(N-1)</code>, a lossy codec delivers its own float output without the
+ rounding to 16 bits and without the clipping), one array per channel, produced on demand so that a long recording is never decoded
+ into memory as a whole (plan item P25-05, the wide path of the decoders). It is the counterpart of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>PcmSource</CODE></A>, which delivers 16 bit
+ interleaved PCM with at most two channels (decoders mix more channels down to stereo) for playing; both come from the same decoders and
+ the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>PcmSource</CODE></A> path is unchanged. Not thread-safe: one thread reads at a time.
+ <p>
+ <b>Channel order.</b> The channels are in the order of the Microsoft <code>WAVEFORMATEXTENSIBLE</code> mask, which is also the native order of
+ FFmpeg and the order that the speaker layouts of the Web Audio API use: front left, front right, front centre, LFE, back left, back right,
+ back centre, side left, side right. The coding order of a format is mapped to it where the format defines the speakers (the order of Vorbis,
+ Opus mapping family 1 and AAC differs: Vorbis puts the centre before the right channel, AAC begins with the centre); where the format does not
+ say (more than 8 channels, unknown configurations) the order of the file is kept. Mono and stereo are never reordered.
+ <p>
+ 파일의 <em>채널과 정밀도</em>를 가진 디코딩된 오디오 스트림: [-1, 1] 범위의 32비트 부동 소수점 표본이며(N비트 정수 파일의 표본은 정확히
+ <code>표본 / 2^(N-1)</code>, 손실 코덱은 16비트 반올림과 클리핑 없이 자기 float 출력을 준다) 채널마다 배열 하나이다. 요청할 때 만들어 내므로 긴
+ 녹음을 통째로 메모리에 디코딩하지 않는다(계획 P25-05, 디코더의 넓은 경로). 재생용인 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>PcmSource</CODE></A>(16비트 인터리브 PCM, 채널은 최대 둘이며 디코더가
+ 더 많은 채널을 스테레오로 다운믹스)의 짝이다. 둘은 같은 디코더에서 나오며 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>PcmSource</CODE></A> 경로는 바뀌지 않는다. 스레드 안전하지 않다. 한 번에 한
+ 스레드만 읽는다.
+ <p>
+ <b>채널 순서.</b> 채널은 Microsoft <code>WAVEFORMATEXTENSIBLE</code> 마스크의 순서이며 이는 FFmpeg 의 고유 순서이자 Web Audio API 의 스피커 배치가
+ 쓰는 순서이기도 하다: 앞 왼쪽, 앞 오른쪽, 앞 중앙, LFE, 뒤 왼쪽, 뒤 오른쪽, 뒤 중앙, 옆 왼쪽, 옆 오른쪽. 형식이 스피커를 정의하는 곳에서는 그 형식의 부호화
+ 순서를 이 순서로 바꾼다(Vorbis, Opus 매핑 군 1, AAC 의 순서는 다르다: Vorbis 는 중앙이 오른쪽보다 앞서고 AAC 는 중앙으로 시작한다). 형식이 정하지 않은
+ 곳(채널이 8개보다 많거나 알 수 없는 구성)에서는 파일의 순서를 유지한다. 모노와 스테레오는 바꾸지 않는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FloatPcmSource.html#close()">close</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Releases resources held by the decoder (idempotent).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FloatPcmSource.html#getChannels()">getChannels</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of channels of the file (at least 1; the order is described in the class description).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FloatPcmSource.html#getFrameCount()">getFrameCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the total number of frames or -1 if it is not known in advance.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FloatPcmSource.html#getSampleRate()">getSampleRate</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the sample rate in frames per second.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FloatPcmSource.html#read(float[][], int, int)">read</A></B>(float[][]&nbsp;planar,
+     int&nbsp;offset,
+     int&nbsp;frames)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reads decoded frames into one array per channel.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getSampleRate()"><!-- --></A><H3>
+getSampleRate</H3>
+<PRE>
+int <B>getSampleRate</B>()</PRE>
+<DL>
+<DD>Returns the sample rate in frames per second.
+ <p>
+ 샘플링 주파수(초당 프레임 수)를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>sample rate / 샘플링 주파수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getChannels()"><!-- --></A><H3>
+getChannels</H3>
+<PRE>
+int <B>getChannels</B>()</PRE>
+<DL>
+<DD>Returns the number of channels of the file (at least 1; the order is described in the class description).
+ <p>
+ 파일의 채널 수(1 이상. 순서는 클래스 설명에 있다)를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>channels / 채널 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFrameCount()"><!-- --></A><H3>
+getFrameCount</H3>
+<PRE>
+long <B>getFrameCount</B>()</PRE>
+<DL>
+<DD>Returns the total number of frames or -1 if it is not known in advance.
+ <p>
+ 전체 프레임 수를 반환하며 미리 알 수 없으면 -1 이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>frames or -1 / 프레임 수 또는 -1</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="read(float[][], int, int)"><!-- --></A><H3>
+read</H3>
+<PRE>
+int <B>read</B>(float[][]&nbsp;planar,
+         int&nbsp;offset,
+         int&nbsp;frames)
+         throws <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></PRE>
+<DL>
+<DD>Reads decoded frames into one array per channel. If the data turns out to be damaged while decoding, the frames decoded before the damage
+ are still delivered by the reads that precede it, and the failure is reported by the read that follows (and every later one).
+ <p>
+ 디코딩된 프레임을 채널마다 하나의 배열로 읽는다. 디코딩 중 데이터가 손상된 것으로 드러나면 손상 앞까지 디코딩한 프레임은 앞선 읽기가 전달하고 실패는 그
+ 다음 읽기(와 이후의 모든 읽기)가 보고한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>planar</CODE> - one array per channel, at least <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FloatPcmSource.html#getChannels()"><CODE>getChannels()</CODE></A> of them, each with room for <code>frames</code> samples from <code>offset</code> / 채널마다 배열 하나(최소
+               <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FloatPcmSource.html#getChannels()"><CODE>getChannels()</CODE></A> 개). 각각 <code>offset</code> 부터 <code>frames</code> 개의 표본을 담을 수 있어야 한다<DD><CODE>offset</CODE> - index of the first sample to write in every array / 모든 배열에서 처음 쓸 표본의 인덱스<DD><CODE>frames</CODE> - maximum number of frames, at least 1 / 최대 프레임 수(1 이상)
+<DT><B>Returns:</B><DD>the number of frames written (at least 1), or -1 at the end / 쓴 프레임 수(1 이상). 끝이면 -1
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></CODE> - CORRUPT if the data is damaged, CANCELLED if the thread was interrupted or the source was closed / 데이터가 손상되었으면 CORRUPT, 스레드가
+                        인터럽트되었거나 소스를 닫았으면 CANCELLED</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="close()"><!-- --></A><H3>
+close</H3>
+<PRE>
+void <B>close</B>()</PRE>
+<DL>
+<DD>Releases resources held by the decoder (idempotent). After closing, reads fail.
+ <p>
+ 디코더가 쥐고 있는 자원을 해제한다(여러 번 호출해도 안전). 닫은 뒤 읽기는 실패한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FileByteSource.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/audio/FloatPcmSource.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="FloatPcmSource.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,1305 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ResourceRequest
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ResourceRequest";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceFetcher.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.CacheMode.html" title="enum in org.duckdns.hjow.swingwebpanel.net"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ResourceRequest.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.net</FONT>
+<BR>
+Class ResourceRequest</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.net.ResourceRequest</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ResourceRequest</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Describes one resource request for <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceFetcher.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>ResourceFetcher</CODE></A>: method, URL, optional body, the component's User-Agent and
+ extra headers, its <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CookieStore.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>CookieStore</CODE></A>, cache mode, purpose, cancellation token, referrer and initiating origin.
+ All setters return the request for chaining. The fetch layer never changes a request.
+ <p>
+ Use: <code>new ResourceRequest("http://host/").setUserAgent(ua).setCookies(store).setPurpose(RequestPurpose.DOCUMENT)</code>.
+ <p>
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceFetcher.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>ResourceFetcher</CODE></A> 에 줄 리소스 요청 하나를 기술한다. 메서드, URL, 선택적 본문, 컴포넌트의 User-Agent 와 추가 헤더,
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CookieStore.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>CookieStore</CODE></A>, 캐시 모드, 목적, 취소 토큰, 참조 페이지, 요청을 일으킨 오리진을 가진다. 모든 setter 는 연쇄 호출을 위해
+ 요청 자신을 돌려준다. 가져오기 계층은 요청을 바꾸지 않는다.
+ <p>
+ 사용: <code>new ResourceRequest("http://host/").setUserAgent(ua).setCookies(store).setPurpose(RequestPurpose.DOCUMENT)</code>.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.CacheMode.html" title="enum in org.duckdns.hjow.swingwebpanel.net">ResourceRequest.CacheMode</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cache behaviour requested for this fetch.</TD>
+</TR>
+</TABLE>
+&nbsp;<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#DEFAULT_USER_AGENT">DEFAULT_USER_AGENT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The default User-Agent when none is set (same as the component default).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#ResourceRequest(java.lang.String)">ResourceRequest</A></B>(java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a GET request.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#copy()">copy</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an independent copy of this request (the extra headers are copied, the cookie store, cancellation token and listeners are
+ shared).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/BlobUrlStore.Scope.html" title="class in org.duckdns.hjow.swingwebpanel.net">BlobUrlStore.Scope</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#getBlobUrlScope()">getBlobUrlScope</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the document or worker opening a blob URL. / blob URL을 여는 문서나 워커를 반환한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;byte[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#getBody()">getBody</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the body or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#getBodyContentType()">getBodyContentType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the body Content-Type.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.CacheMode.html" title="enum in org.duckdns.hjow.swingwebpanel.net">ResourceRequest.CacheMode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#getCacheMode()">getCacheMode</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the cache mode.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CancelToken.html" title="class in org.duckdns.hjow.swingwebpanel.net">CancelToken</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#getCancelToken()">getCancelToken</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the cancellation token (never null).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CookieStore.html" title="class in org.duckdns.hjow.swingwebpanel.net">CookieStore</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#getCookies()">getCookies</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the cookie store or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Map&lt;java.lang.String,java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#getCorsAuthorHeaders()">getCorsAuthorHeaders</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the headers that the page wrote itself, which decide whether a cross-origin request needs a CORS preflight.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CrossOriginPolicy.Embedder.html" title="enum in org.duckdns.hjow.swingwebpanel.net">CrossOriginPolicy.Embedder</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#getEmbedderPolicy()">getEmbedderPolicy</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the effective embedder policy of the requester.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/RequestHeaders.html" title="class in org.duckdns.hjow.swingwebpanel.net">RequestHeaders</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#getExtraHeaders()">getExtraHeaders</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the extra headers or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#getInitiator()">getInitiator</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the initiator origin or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#getMethod()">getMethod</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the method.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ProgressListener.html" title="interface in org.duckdns.hjow.swingwebpanel.net">ProgressListener</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#getProgressListener()">getProgressListener</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the progress listener or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/RequestPurpose.html" title="enum in org.duckdns.hjow.swingwebpanel.net">RequestPurpose</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#getPurpose()">getPurpose</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the purpose.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#getReadTimeoutMs()">getReadTimeoutMs</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the read timeout that this request asks for.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#getReferrer()">getReferrer</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the referrer URL or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#getUrl()">getUrl</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the URL.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#getUserAgent()">getUserAgent</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the User-Agent.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#isSameOriginCredentialsOnly()">isSameOriginCredentialsOnly</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether cookies are limited to hops with the initiator's origin.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#isSendCredentials()">isSendCredentials</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether cookies are attached to requests and stored from responses.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#isStreaming()">isStreaming</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether this request is for a response that stays open for long (an event stream).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#setBlobUrlEntry(org.duckdns.hjow.swingwebpanel.net.BlobUrlStore.Entry)">setBlobUrlEntry</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/BlobUrlStore.Entry.html" title="class in org.duckdns.hjow.swingwebpanel.net">BlobUrlStore.Entry</A>&nbsp;entry)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Uses immutable bytes resolved at the start of a navigation or download.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#setBlobUrlScope(org.duckdns.hjow.swingwebpanel.net.BlobUrlStore.Scope)">setBlobUrlScope</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/BlobUrlStore.Scope.html" title="class in org.duckdns.hjow.swingwebpanel.net">BlobUrlStore.Scope</A>&nbsp;scope)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Associates a blob URL request with its creating storage partition and requester origin.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#setBody(byte[], java.lang.String)">setBody</A></B>(byte[]&nbsp;data,
+        java.lang.String&nbsp;contentType)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the request body and its Content-Type.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#setCacheMode(org.duckdns.hjow.swingwebpanel.net.ResourceRequest.CacheMode)">setCacheMode</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.CacheMode.html" title="enum in org.duckdns.hjow.swingwebpanel.net">ResourceRequest.CacheMode</A>&nbsp;mode)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the cache mode.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#setCancelToken(org.duckdns.hjow.swingwebpanel.net.CancelToken)">setCancelToken</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CancelToken.html" title="class in org.duckdns.hjow.swingwebpanel.net">CancelToken</A>&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the cancellation token.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#setCookies(org.duckdns.hjow.swingwebpanel.net.CookieStore)">setCookies</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CookieStore.html" title="class in org.duckdns.hjow.swingwebpanel.net">CookieStore</A>&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the cookie store.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#setCorsAuthorHeaders(java.util.Map)">setCorsAuthorHeaders</A></B>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;headers)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the headers that the page wrote itself (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#getCorsAuthorHeaders()"><CODE>getCorsAuthorHeaders()</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#setEmbedderOrigin(org.duckdns.hjow.swingwebpanel.net.Origin)">setEmbedderOrigin</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;origin)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the embedding document's origin for a child navigation.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#setEmbedderPolicy(org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy.Embedder)">setEmbedderPolicy</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CrossOriginPolicy.Embedder.html" title="enum in org.duckdns.hjow.swingwebpanel.net">CrossOriginPolicy.Embedder</A>&nbsp;policy)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the initiator's policy for resource access and credential processing.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#setExtraHeaders(org.duckdns.hjow.swingwebpanel.net.RequestHeaders)">setExtraHeaders</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/RequestHeaders.html" title="class in org.duckdns.hjow.swingwebpanel.net">RequestHeaders</A>&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the extra headers (they are copied when the request is executed).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#setInitiator(org.duckdns.hjow.swingwebpanel.net.Origin)">setInitiator</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;o)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the origin of the initiating document (used for the <code>Origin</code> header of XHR/font requests).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#setMethod(java.lang.String)">setMethod</A></B>(java.lang.String&nbsp;m)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the method (GET, HEAD, POST, PUT, PATCH, DELETE or OPTIONS; PATCH is sent over the socket connection because the JRE refuses it).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#setProgressListener(org.duckdns.hjow.swingwebpanel.net.ProgressListener)">setProgressListener</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ProgressListener.html" title="interface in org.duckdns.hjow.swingwebpanel.net">ProgressListener</A>&nbsp;l)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the progress listener.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#setPurpose(org.duckdns.hjow.swingwebpanel.net.RequestPurpose)">setPurpose</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/RequestPurpose.html" title="enum in org.duckdns.hjow.swingwebpanel.net">RequestPurpose</A>&nbsp;p)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the purpose.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#setReadTimeoutMs(int)">setReadTimeoutMs</A></B>(int&nbsp;ms)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the read timeout of this request, for a response that stays open for long and is silent between its pieces (an event stream).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#setReferrer(java.lang.String)">setReferrer</A></B>(java.lang.String&nbsp;r)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the referrer (the fragment is removed and nothing is sent when going from https to http).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#setSameOriginCredentialsOnly(boolean)">setSameOriginCredentialsOnly</A></B>(boolean&nbsp;only)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Limits the cookies to hops that have the initiator's origin (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#isSameOriginCredentialsOnly()"><CODE>isSameOriginCredentialsOnly()</CODE></A>); it needs an initiator, a
+ request without one never sends cookies in this mode.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#setSendCredentials(boolean)">setSendCredentials</A></B>(boolean&nbsp;send)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets whether cookies are attached and stored (false for cross-origin XHR without withCredentials).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#setStreaming(boolean)">setStreaming</A></B>(boolean&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Marks this request as one for a response that stays open for long.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#setUserAgent(java.lang.String)">setUserAgent</A></B>(java.lang.String&nbsp;ua)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the User-Agent (null or empty restores the default).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="DEFAULT_USER_AGENT"><!-- --></A><H3>
+DEFAULT_USER_AGENT</H3>
+<PRE>
+public static final java.lang.String <B>DEFAULT_USER_AGENT</B></PRE>
+<DL>
+<DD>The default User-Agent when none is set (same as the component default).
+ <p>
+ 지정하지 않았을 때의 기본 User-Agent(컴포넌트 기본값과 같음).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.net.ResourceRequest.DEFAULT_USER_AGENT">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="ResourceRequest(java.lang.String)"><!-- --></A><H3>
+ResourceRequest</H3>
+<PRE>
+public <B>ResourceRequest</B>(java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Creates a GET request.
+ <p>
+ GET 요청을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - absolute URL / 절대 URL</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="copy()"><!-- --></A><H3>
+copy</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A> <B>copy</B>()</PRE>
+<DL>
+<DD>Creates an independent copy of this request (the extra headers are copied, the cookie store, cancellation token and listeners are
+ shared). Used for conditional revalidation requests that must behave like the original.
+ <p>
+ 이 요청의 독립된 복사본을 만든다(추가 헤더는 복사하고 쿠키 저장소, 취소 토큰, 리스너는 공유한다). 원래 요청과 똑같이 동작해야 하는 조건부
+ 재검증 요청에 쓴다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the copy / 복사본</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getUrl()"><!-- --></A><H3>
+getUrl</H3>
+<PRE>
+public java.lang.String <B>getUrl</B>()</PRE>
+<DL>
+<DD>Returns the URL.
+ <p>
+ URL 을 돌려준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>URL / URL</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBlobUrlScope()"><!-- --></A><H3>
+getBlobUrlScope</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/BlobUrlStore.Scope.html" title="class in org.duckdns.hjow.swingwebpanel.net">BlobUrlStore.Scope</A> <B>getBlobUrlScope</B>()</PRE>
+<DL>
+<DD>Returns the document or worker opening a blob URL. / blob URL을 여는 문서나 워커를 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setBlobUrlScope(org.duckdns.hjow.swingwebpanel.net.BlobUrlStore.Scope)"><!-- --></A><H3>
+setBlobUrlScope</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A> <B>setBlobUrlScope</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/BlobUrlStore.Scope.html" title="class in org.duckdns.hjow.swingwebpanel.net">BlobUrlStore.Scope</A>&nbsp;scope)</PRE>
+<DL>
+<DD>Associates a blob URL request with its creating storage partition and requester origin.
+ <p>
+ blob URL 요청에 생성 환경의 저장소 파티션과 요청자 오리진을 연결한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>scope</CODE> - requesting environment / 요청 환경
+<DT><B>Returns:</B><DD>this request / 이 요청</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setBlobUrlEntry(org.duckdns.hjow.swingwebpanel.net.BlobUrlStore.Entry)"><!-- --></A><H3>
+setBlobUrlEntry</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A> <B>setBlobUrlEntry</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/BlobUrlStore.Entry.html" title="class in org.duckdns.hjow.swingwebpanel.net">BlobUrlStore.Entry</A>&nbsp;entry)</PRE>
+<DL>
+<DD>Uses immutable bytes resolved at the start of a navigation or download.
+ <p>
+ 이동이나 다운로드가 시작할 때 조회했던 변경 불가 바이트를 사용한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>entry</CODE> - accepted URL entry / 받아들인 URL 항목
+<DT><B>Returns:</B><DD>this request / 이 요청</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMethod()"><!-- --></A><H3>
+getMethod</H3>
+<PRE>
+public java.lang.String <B>getMethod</B>()</PRE>
+<DL>
+<DD>Returns the method.
+ <p>
+ 메서드를 돌려준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>method / 메서드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMethod(java.lang.String)"><!-- --></A><H3>
+setMethod</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A> <B>setMethod</B>(java.lang.String&nbsp;m)</PRE>
+<DL>
+<DD>Sets the method (GET, HEAD, POST, PUT, PATCH, DELETE or OPTIONS; PATCH is sent over the socket connection because the JRE refuses it).
+ <p>
+ 메서드를 지정한다(GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS. PATCH 는 JRE 가 거부하므로 소켓 연결로 보낸다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>m</CODE> - method name / 메서드 이름
+<DT><B>Returns:</B><DD>this / 자기 자신
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - for other methods / 다른 메서드이면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBody()"><!-- --></A><H3>
+getBody</H3>
+<PRE>
+public byte[] <B>getBody</B>()</PRE>
+<DL>
+<DD>Returns the body or null.
+ <p>
+ 본문을 돌려준다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>body / 본문</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBodyContentType()"><!-- --></A><H3>
+getBodyContentType</H3>
+<PRE>
+public java.lang.String <B>getBodyContentType</B>()</PRE>
+<DL>
+<DD>Returns the body Content-Type.
+ <p>
+ 본문의 Content-Type 을 돌려준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>content type or null / Content-Type 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setBody(byte[], java.lang.String)"><!-- --></A><H3>
+setBody</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A> <B>setBody</B>(byte[]&nbsp;data,
+                               java.lang.String&nbsp;contentType)</PRE>
+<DL>
+<DD>Sets the request body and its Content-Type.
+ <p>
+ 요청 본문과 Content-Type 을 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - body bytes or null / 본문 바이트 또는 null<DD><CODE>contentType</CODE> - Content-Type value / Content-Type 값
+<DT><B>Returns:</B><DD>this / 자기 자신</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getUserAgent()"><!-- --></A><H3>
+getUserAgent</H3>
+<PRE>
+public java.lang.String <B>getUserAgent</B>()</PRE>
+<DL>
+<DD>Returns the User-Agent.
+ <p>
+ User-Agent 를 돌려준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>User-Agent / User-Agent</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setUserAgent(java.lang.String)"><!-- --></A><H3>
+setUserAgent</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A> <B>setUserAgent</B>(java.lang.String&nbsp;ua)</PRE>
+<DL>
+<DD>Sets the User-Agent (null or empty restores the default).
+ <p>
+ User-Agent 를 지정한다(null 이나 빈 문자열이면 기본값).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ua</CODE> - User-Agent / User-Agent
+<DT><B>Returns:</B><DD>this / 자기 자신</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getExtraHeaders()"><!-- --></A><H3>
+getExtraHeaders</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/RequestHeaders.html" title="class in org.duckdns.hjow.swingwebpanel.net">RequestHeaders</A> <B>getExtraHeaders</B>()</PRE>
+<DL>
+<DD>Returns the extra headers or null.
+ <p>
+ 추가 헤더를 돌려준다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>headers / 헤더</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setExtraHeaders(org.duckdns.hjow.swingwebpanel.net.RequestHeaders)"><!-- --></A><H3>
+setExtraHeaders</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A> <B>setExtraHeaders</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/RequestHeaders.html" title="class in org.duckdns.hjow.swingwebpanel.net">RequestHeaders</A>&nbsp;h)</PRE>
+<DL>
+<DD>Sets the extra headers (they are copied when the request is executed).
+ <p>
+ 추가 헤더를 지정한다(요청 실행 시 복사해서 쓴다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>h</CODE> - headers or null / 헤더 또는 null
+<DT><B>Returns:</B><DD>this / 자기 자신</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCookies()"><!-- --></A><H3>
+getCookies</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CookieStore.html" title="class in org.duckdns.hjow.swingwebpanel.net">CookieStore</A> <B>getCookies</B>()</PRE>
+<DL>
+<DD>Returns the cookie store or null.
+ <p>
+ 쿠키 저장소를 돌려준다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>store / 저장소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setCookies(org.duckdns.hjow.swingwebpanel.net.CookieStore)"><!-- --></A><H3>
+setCookies</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A> <B>setCookies</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CookieStore.html" title="class in org.duckdns.hjow.swingwebpanel.net">CookieStore</A>&nbsp;c)</PRE>
+<DL>
+<DD>Sets the cookie store.
+ <p>
+ 쿠키 저장소를 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>c</CODE> - store or null / 저장소 또는 null
+<DT><B>Returns:</B><DD>this / 자기 자신</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCacheMode()"><!-- --></A><H3>
+getCacheMode</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.CacheMode.html" title="enum in org.duckdns.hjow.swingwebpanel.net">ResourceRequest.CacheMode</A> <B>getCacheMode</B>()</PRE>
+<DL>
+<DD>Returns the cache mode.
+ <p>
+ 캐시 모드를 돌려준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>mode / 모드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setCacheMode(org.duckdns.hjow.swingwebpanel.net.ResourceRequest.CacheMode)"><!-- --></A><H3>
+setCacheMode</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A> <B>setCacheMode</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.CacheMode.html" title="enum in org.duckdns.hjow.swingwebpanel.net">ResourceRequest.CacheMode</A>&nbsp;mode)</PRE>
+<DL>
+<DD>Sets the cache mode.
+ <p>
+ 캐시 모드를 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>mode</CODE> - mode / 모드
+<DT><B>Returns:</B><DD>this / 자기 자신</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPurpose()"><!-- --></A><H3>
+getPurpose</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/RequestPurpose.html" title="enum in org.duckdns.hjow.swingwebpanel.net">RequestPurpose</A> <B>getPurpose</B>()</PRE>
+<DL>
+<DD>Returns the purpose.
+ <p>
+ 목적을 돌려준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>purpose / 목적</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEmbedderPolicy()"><!-- --></A><H3>
+getEmbedderPolicy</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CrossOriginPolicy.Embedder.html" title="enum in org.duckdns.hjow.swingwebpanel.net">CrossOriginPolicy.Embedder</A> <B>getEmbedderPolicy</B>()</PRE>
+<DL>
+<DD>Returns the effective embedder policy of the requester.
+ <p>
+ 요청자가 적용하는 삽입 정책을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the policy / 정책</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setEmbedderPolicy(org.duckdns.hjow.swingwebpanel.net.CrossOriginPolicy.Embedder)"><!-- --></A><H3>
+setEmbedderPolicy</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A> <B>setEmbedderPolicy</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CrossOriginPolicy.Embedder.html" title="enum in org.duckdns.hjow.swingwebpanel.net">CrossOriginPolicy.Embedder</A>&nbsp;policy)</PRE>
+<DL>
+<DD>Sets the initiator's policy for resource access and credential processing.
+ <p>
+ 리소스 접근과 자격 증명 처리에 적용할 시작 문서의 정책을 설정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>policy</CODE> - the initiator's embedder policy / 시작 문서의 삽입 정책
+<DT><B>Returns:</B><DD>this request / 이 요청</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setEmbedderOrigin(org.duckdns.hjow.swingwebpanel.net.Origin)"><!-- --></A><H3>
+setEmbedderOrigin</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A> <B>setEmbedderOrigin</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;origin)</PRE>
+<DL>
+<DD>Sets the embedding document's origin for a child navigation.
+ <p>
+ 하위 이동에 적용할 컨테이너 문서의 오리진을 설정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>origin</CODE> - the container's origin / 컨테이너의 오리진
+<DT><B>Returns:</B><DD>this request / 이 요청</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setPurpose(org.duckdns.hjow.swingwebpanel.net.RequestPurpose)"><!-- --></A><H3>
+setPurpose</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A> <B>setPurpose</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/RequestPurpose.html" title="enum in org.duckdns.hjow.swingwebpanel.net">RequestPurpose</A>&nbsp;p)</PRE>
+<DL>
+<DD>Sets the purpose.
+ <p>
+ 목적을 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>p</CODE> - purpose / 목적
+<DT><B>Returns:</B><DD>this / 자기 자신</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCancelToken()"><!-- --></A><H3>
+getCancelToken</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CancelToken.html" title="class in org.duckdns.hjow.swingwebpanel.net">CancelToken</A> <B>getCancelToken</B>()</PRE>
+<DL>
+<DD>Returns the cancellation token (never null).
+ <p>
+ 취소 토큰을 돌려준다(null 이 아님).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>token / 토큰</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setCancelToken(org.duckdns.hjow.swingwebpanel.net.CancelToken)"><!-- --></A><H3>
+setCancelToken</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A> <B>setCancelToken</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CancelToken.html" title="class in org.duckdns.hjow.swingwebpanel.net">CancelToken</A>&nbsp;t)</PRE>
+<DL>
+<DD>Sets the cancellation token.
+ <p>
+ 취소 토큰을 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - token / 토큰
+<DT><B>Returns:</B><DD>this / 자기 자신</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getReferrer()"><!-- --></A><H3>
+getReferrer</H3>
+<PRE>
+public java.lang.String <B>getReferrer</B>()</PRE>
+<DL>
+<DD>Returns the referrer URL or null.
+ <p>
+ 참조 URL 을 돌려준다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>referrer / 참조 URL</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setReferrer(java.lang.String)"><!-- --></A><H3>
+setReferrer</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A> <B>setReferrer</B>(java.lang.String&nbsp;r)</PRE>
+<DL>
+<DD>Sets the referrer (the fragment is removed and nothing is sent when going from https to http).
+ <p>
+ 참조 URL 을 지정한다(프래그먼트는 제거하며 https 에서 http 로 갈 때는 보내지 않는다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>r</CODE> - referrer URL or null / 참조 URL 또는 null
+<DT><B>Returns:</B><DD>this / 자기 자신</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getInitiator()"><!-- --></A><H3>
+getInitiator</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A> <B>getInitiator</B>()</PRE>
+<DL>
+<DD>Returns the initiator origin or null.
+ <p>
+ 요청한 오리진을 돌려준다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>origin / 오리진</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setInitiator(org.duckdns.hjow.swingwebpanel.net.Origin)"><!-- --></A><H3>
+setInitiator</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A> <B>setInitiator</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;o)</PRE>
+<DL>
+<DD>Sets the origin of the initiating document (used for the <code>Origin</code> header of XHR/font requests).
+ <p>
+ 요청을 일으킨 문서의 오리진을 지정한다(XHR/글꼴 요청의 <code>Origin</code> 헤더에 쓴다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>o</CODE> - origin or null / 오리진 또는 null
+<DT><B>Returns:</B><DD>this / 자기 자신</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getProgressListener()"><!-- --></A><H3>
+getProgressListener</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ProgressListener.html" title="interface in org.duckdns.hjow.swingwebpanel.net">ProgressListener</A> <B>getProgressListener</B>()</PRE>
+<DL>
+<DD>Returns the progress listener or null.
+ <p>
+ 진행 리스너를 돌려준다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>listener / 리스너</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setProgressListener(org.duckdns.hjow.swingwebpanel.net.ProgressListener)"><!-- --></A><H3>
+setProgressListener</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A> <B>setProgressListener</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ProgressListener.html" title="interface in org.duckdns.hjow.swingwebpanel.net">ProgressListener</A>&nbsp;l)</PRE>
+<DL>
+<DD>Sets the progress listener.
+ <p>
+ 진행 리스너를 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>l</CODE> - listener or null / 리스너 또는 null
+<DT><B>Returns:</B><DD>this / 자기 자신</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isSendCredentials()"><!-- --></A><H3>
+isSendCredentials</H3>
+<PRE>
+public boolean <B>isSendCredentials</B>()</PRE>
+<DL>
+<DD>Tells whether cookies are attached to requests and stored from responses.
+ <p>
+ 요청에 쿠키를 붙이고 응답의 쿠키를 저장하는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if credentials are sent / 자격 증명을 보내면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setSendCredentials(boolean)"><!-- --></A><H3>
+setSendCredentials</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A> <B>setSendCredentials</B>(boolean&nbsp;send)</PRE>
+<DL>
+<DD>Sets whether cookies are attached and stored (false for cross-origin XHR without withCredentials).
+ <p>
+ 쿠키를 붙이고 저장할지 지정한다(withCredentials 없는 교차 오리진 XHR 은 false).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>send</CODE> - true to use cookies / 쿠키를 쓰려면 true
+<DT><B>Returns:</B><DD>this / 자기 자신</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isSameOriginCredentialsOnly()"><!-- --></A><H3>
+isSameOriginCredentialsOnly</H3>
+<PRE>
+public boolean <B>isSameOriginCredentialsOnly</B>()</PRE>
+<DL>
+<DD>Tells whether cookies are limited to hops with the initiator's origin.
+ <p>
+ 쿠키가 시작한 오리진과 같은 오리진의 구간으로 제한되는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for credentials mode "same-origin" / 자격 증명 모드 "same-origin" 이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setSameOriginCredentialsOnly(boolean)"><!-- --></A><H3>
+setSameOriginCredentialsOnly</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A> <B>setSameOriginCredentialsOnly</B>(boolean&nbsp;only)</PRE>
+<DL>
+<DD>Limits the cookies to hops that have the initiator's origin (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#isSameOriginCredentialsOnly()"><CODE>isSameOriginCredentialsOnly()</CODE></A>); it needs an initiator, a
+ request without one never sends cookies in this mode.
+ <p>
+ 쿠키를 시작한 오리진과 같은 오리진의 구간으로 제한한다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#isSameOriginCredentialsOnly()"><CODE>isSameOriginCredentialsOnly()</CODE></A> 참조). 시작한 오리진이 필요하며 이 모드에서 그것이 없는
+ 요청은 쿠키를 보내지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>only</CODE> - true to limit the cookies / 쿠키를 제한하려면 true
+<DT><B>Returns:</B><DD>this / 자기 자신</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCorsAuthorHeaders()"><!-- --></A><H3>
+getCorsAuthorHeaders</H3>
+<PRE>
+public java.util.Map&lt;java.lang.String,java.lang.String&gt; <B>getCorsAuthorHeaders</B>()</PRE>
+<DL>
+<DD>Returns the headers that the page wrote itself, which decide whether a cross-origin request needs a CORS preflight.
+ <p>
+ 페이지가 직접 쓴 헤더를 반환한다. 교차 오리진 요청에 CORS 사전 요청이 필요한지를 이것이 정한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a copy of the headers (the <code>Content-Type</code> of the body is included), empty if the page wrote none / 헤더의 복사본(본문의 <code>Content-Type</code> 포함). 없으면 빈 맵</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setCorsAuthorHeaders(java.util.Map)"><!-- --></A><H3>
+setCorsAuthorHeaders</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A> <B>setCorsAuthorHeaders</B>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;headers)</PRE>
+<DL>
+<DD>Sets the headers that the page wrote itself (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#getCorsAuthorHeaders()"><CODE>getCorsAuthorHeaders()</CODE></A>). The additional headers of the component are not
+ counted: they are sent, but they never make a request need a preflight.
+ <p>
+ 페이지가 직접 쓴 헤더를 정한다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html#getCorsAuthorHeaders()"><CODE>getCorsAuthorHeaders()</CODE></A> 참조). 컴포넌트의 추가 헤더는 세지 않는다. 보내기는 하지만 그것 때문에 사전 요청이
+ 필요해지지는 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>headers</CODE> - the headers or null for none / 헤더. 없으면 null
+<DT><B>Returns:</B><DD>this / 자기 자신</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getReadTimeoutMs()"><!-- --></A><H3>
+getReadTimeoutMs</H3>
+<PRE>
+public int <B>getReadTimeoutMs</B>()</PRE>
+<DL>
+<DD>Returns the read timeout that this request asks for.
+ <p>
+ 이 요청이 요구하는 읽기 제한 시간을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the milliseconds, or -1 for the limit of the request layer / 밀리초. -1 이면 요청 계층의 제한</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setReadTimeoutMs(int)"><!-- --></A><H3>
+setReadTimeoutMs</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A> <B>setReadTimeoutMs</B>(int&nbsp;ms)</PRE>
+<DL>
+<DD>Sets the read timeout of this request, for a response that stays open for long and is silent between its pieces (an event stream).
+ The connect timeout and the other limits stay those of the request layer.
+ <p>
+ 이 요청의 읽기 제한 시간을 정한다. 오래 열려 있고 조각 사이에 조용한 응답(이벤트 스트림)을 위한 것이다. 연결 제한 시간과 다른 제한은 요청 계층의
+ 것을 그대로 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>ms</CODE> - the milliseconds (0 means no timeout), or -1 for the limit of the request layer / 밀리초(0 은 제한 없음). -1 이면 요청 계층의 제한
+<DT><B>Returns:</B><DD>this / 자기 자신</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isStreaming()"><!-- --></A><H3>
+isStreaming</H3>
+<PRE>
+public boolean <B>isStreaming</B>()</PRE>
+<DL>
+<DD>Tells whether this request is for a response that stays open for long (an event stream).
+ <p>
+ 이 요청이 오래 열려 있는 응답(이벤트 스트림)을 위한 것인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for a stream / 스트림이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setStreaming(boolean)"><!-- --></A><H3>
+setStreaming</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A> <B>setStreaming</B>(boolean&nbsp;value)</PRE>
+<DL>
+<DD>Marks this request as one for a response that stays open for long. The request layer then uses its own socket connection (which can be
+ closed at once, even while a thread waits for the next piece of data) instead of the connection of the JRE (which cannot be closed while
+ another thread waits in a read of it), unless a proxy applies to the URL.
+ <p>
+ 이 요청을 오래 열려 있는 응답을 위한 것으로 표시한다. 그러면 요청 계층은 JRE 의 연결(다른 스레드가 읽기를 기다리는 동안에는 닫을 수 없다) 대신 자체
+ 소켓 연결(다음 데이터를 기다리는 스레드가 있어도 곧바로 닫을 수 있다)을 쓴다. URL 에 프록시가 적용되면 그렇지 않다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - true for a stream / 스트림이면 true
+<DT><B>Returns:</B><DD>this / 자기 자신</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceFetcher.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.CacheMode.html" title="enum in org.duckdns.hjow.swingwebpanel.net"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ResourceRequest.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

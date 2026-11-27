@@ -1,0 +1,237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+org.duckdns.hjow.swingwebpanel.js.worker
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="org.duckdns.hjow.swingwebpanel.js.worker";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/layout/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/worker/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<H2>
+Package org.duckdns.hjow.swingwebpanel.js.worker
+</H2>
+Web Workers and the <code>BroadcastChannel</code> (plan item P20-09-b): a dedicated worker runs a script in a realm of its own, on a thread
+ of its own, with a restricted set of objects (no window, no document, no DOM, no storage), and talks to the page only through messages that
+ are copied with the structured clone algorithm and delivered as tasks of the receiving side.
+<P>
+<B>See:</B>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="#package_description"><B>Description</B></A>
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Interface Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/ScriptContext.html" title="interface in org.duckdns.hjow.swingwebpanel.js.worker">ScriptContext</A></B></TD>
+<TD>A place where script runs: the page (its realm is owned by the document thread) or a dedicated worker (a realm of its own on a thread of
+ its own).</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/BroadcastChannelTarget.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker">BroadcastChannelTarget</A></B></TD>
+<TD>The Java side of one <code>BroadcastChannel</code> object (HTML Standard "Broadcasting to other browsing contexts"): a named channel that
+ belongs to one script context.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/ChannelPorts.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker">ChannelPorts</A></B></TD>
+<TD>The way for other script contexts (the audio worklet of the Web Audio API, for example) to use the channel messaging of this package: it installs the
+ <code>MessagePort</code> interface into the realm of a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/ScriptContext.html" title="interface in org.duckdns.hjow.swingwebpanel.js.worker"><CODE>ScriptContext</CODE></A> and creates a channel whose two ends belong to two contexts at once.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/ChannelTarget.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker">ChannelTarget</A></B></TD>
+<TD>The Java side of a <code>MessageChannel</code> object (HTML Standard "Message channels"): it only holds the two entangled
+ <code>MessagePort</code> objects <code>port1</code> and <code>port2</code> that were created together in one context.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/PortApi.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker">PortApi</A></B></TD>
+<TD>Channel messaging of a script context (HTML Standard "Channel messaging", plan item P20-09-b): installs <code>MessageChannel</code> and
+ <code>MessagePort</code> (<code>postMessage</code>, <code>start</code>, <code>close</code>, <code>onmessage</code>,
+ <code>onmessageerror</code>, the <code>message</code> event) into the realm of a page or of a worker, and offers the steps that
+ <code>window.postMessage</code> and <code>structuredClone</code> of the page need to send ports along with a message.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/PortTarget.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker">PortTarget</A></B></TD>
+<TD>The Java side of one <code>MessagePort</code> object of a script context (HTML Standard "Message ports"): the event target at which the
+ <code>message</code> events of the port are dispatched, bound to the <CODE>PortCore</CODE> (the end of the channel) that it shows to the script.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/SharedHandle.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker">SharedHandle</A></B></TD>
+<TD>The Java side of a <code>SharedWorker</code> object of a page (HTML Standard "Shared workers and the SharedWorker interface"): it holds the
+ outside port of the connection (<code>port</code>) and is the event target at which the page receives the <code>error</code> event when the
+ shared worker could not be loaded or when the constructor arguments do not fit the shared worker that already exists.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerApi.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker">WorkerApi</A></B></TD>
+<TD>The worker API of one page (plan item P20-09-b; HTML Standard "Web workers", checked on 2026-11-17): it installs <code>Worker</code>
+ (<code>new Worker(url [, {name, type}])</code>, <code>postMessage</code>, <code>terminate</code>, <code>onmessage</code>,
+ <code>onmessageerror</code>, <code>onerror</code>) and <code>BroadcastChannel</code> into the page, keeps the list of the live workers of
+ the page, and terminates all of them when the page ends.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerHandle.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker">WorkerHandle</A></B></TD>
+<TD>The Java side of a <code>Worker</code> object of the page (HTML Standard "Web workers", interface <code>Worker</code>): the event target at
+ which the page receives the <code>message</code> events of the worker and its <code>error</code> events, and the handle with which the page
+ posts messages to the worker and terminates it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/WorkerLimits.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker">WorkerLimits</A></B></TD>
+<TD>The limits of workers and broadcast channels.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+<A NAME="package_description"><!-- --></A><H2>
+Package org.duckdns.hjow.swingwebpanel.js.worker Description
+</H2>
+
+<P>
+Web Workers and the <code>BroadcastChannel</code> (plan item P20-09-b): a dedicated worker runs a script in a realm of its own, on a thread
+ of its own, with a restricted set of objects (no window, no document, no DOM, no storage), and talks to the page only through messages that
+ are copied with the structured clone algorithm and delivered as tasks of the receiving side.
+ <p>
+ Web Worker 와 <code>BroadcastChannel</code>(계획 P20-09-b): 전용 worker 는 자기 realm 과 자기 스레드에서, 제한된 객체 집합(window, document,
+ DOM, 저장소 없음)으로 스크립트를 실행하며, 구조화 복제 알고리즘으로 복사해 받는 쪽의 작업으로 전달하는 메시지로만 페이지와 대화한다.
+<P>
+
+<P>
+<DL>
+</DL>
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/layout/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/worker/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

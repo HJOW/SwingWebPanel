@@ -1,0 +1,401 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ConvolutionKernel
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ConvolutionKernel";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadFilter.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/DynamicsCompressorKernel.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/ConvolutionKernel.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ConvolutionKernel.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.webaudio.dsp</FONT>
+<BR>
+Class ConvolutionKernel</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.ConvolutionKernel</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ConvolutionKernel</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The frequency-domain form of one impulse response channel for a <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/PartitionedConvolver.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><CODE>PartitionedConvolver</CODE></A>: the impulse response is cut into
+ partitions, and the spectrum of every partition is computed once. The object is immutable after construction, so several convolvers
+ (several channels of one node) can share it.
+ <p>
+ Layout (non-uniform partitioned convolution, so that the output has no latency beyond the render quantum and a long response is cheap):
+ level 0 uses blocks of one render quantum <code>Q</code> and covers the first <code>4 Q</code> taps (4 partitions) with the current
+ input block included, so the output block needs only input that has arrived. Level <code>j</code> uses blocks of <code>Q 4^j</code>,
+ starts at the tap <code>Q 4^j</code> (never earlier than one block, which is what allows its output block to be computed from the input
+ that arrived before it) and covers three partitions, except for the last level, which uses blocks of at most
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/ConvolutionKernel.html#MAX_BLOCK">8192</A> frames and covers all the remaining taps. A block of <code>B</code> frames is transformed with an FFT of
+ <code>2B</code> points (overlap-save).
+ <p>
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/PartitionedConvolver.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><CODE>PartitionedConvolver</CODE></A> 를 위한 임펄스 응답 채널 하나의 주파수 영역 형태: 임펄스 응답을 파티션으로 자르고 파티션마다 스펙트럼을 한 번 계산한다.
+ 객체는 만든 뒤에는 불변이므로 여러 컨볼버(한 노드의 여러 채널)가 공유할 수 있다.
+ <p>
+ 배치(균일하지 않은 분할 합성곱. 출력이 render quantum 이상의 지연이 없고 긴 응답이 싸다): 레벨 0 은 render quantum <code>Q</code> 크기의 블록을 쓰고
+ 현재 입력 블록을 포함해 앞쪽 <code>4 Q</code> 탭(파티션 4개)을 맡는다. 그래서 출력 블록은 이미 도착한 입력만 있으면 계산된다. 레벨 <code>j</code> 는
+ <code>Q 4^j</code> 크기의 블록을 쓰고 탭 <code>Q 4^j</code> 에서 시작하며(블록 하나보다 앞서지 않으므로 그 출력 블록을 그 전에 도착한 입력만으로 계산할 수
+ 있다) 파티션 셋을 맡는다. 마지막 레벨만 예외로 최대 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/ConvolutionKernel.html#MAX_BLOCK">8192</A> 프레임의 블록을 쓰고 남은 탭 전체를 맡는다. <code>B</code> 프레임의 블록은
+ <code>2B</code> 점 FFT 로 변환한다(overlap-save).
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/ConvolutionKernel.html#MAX_BLOCK">MAX_BLOCK</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The largest block of a level, in frames (the FFT then has twice as many points).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/ConvolutionKernel.html#MAX_LENGTH">MAX_LENGTH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The longest impulse response that a kernel accepts, in frames (about 47 seconds at 44100 Hz): the spectra take 16 bytes per frame.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/ConvolutionKernel.html#ConvolutionKernel(float[], int, double, int)">ConvolutionKernel</A></B>(float[]&nbsp;ir,
+                  int&nbsp;length,
+                  double&nbsp;scale,
+                  int&nbsp;quantum)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Builds the kernel of an impulse response.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/ConvolutionKernel.html#getLength()">getLength</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of frames of the impulse response.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/ConvolutionKernel.html#getLevelCount()">getLevelCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of levels (for tests).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/ConvolutionKernel.html#getQuantum()">getQuantum</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the render quantum size of the kernel.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="MAX_BLOCK"><!-- --></A><H3>
+MAX_BLOCK</H3>
+<PRE>
+public static final int <B>MAX_BLOCK</B></PRE>
+<DL>
+<DD>The largest block of a level, in frames (the FFT then has twice as many points).
+ <p>
+ 레벨의 최대 블록 크기(프레임). 이때 FFT 는 점이 두 배이다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.ConvolutionKernel.MAX_BLOCK">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAX_LENGTH"><!-- --></A><H3>
+MAX_LENGTH</H3>
+<PRE>
+public static final int <B>MAX_LENGTH</B></PRE>
+<DL>
+<DD>The longest impulse response that a kernel accepts, in frames (about 47 seconds at 44100 Hz): the spectra take 16 bytes per frame.
+ <p>
+ 커널이 받는 가장 긴 임펄스 응답의 프레임 수(44100 Hz 에서 약 47초). 스펙트럼은 프레임당 16바이트를 쓴다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.ConvolutionKernel.MAX_LENGTH">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="ConvolutionKernel(float[], int, double, int)"><!-- --></A><H3>
+ConvolutionKernel</H3>
+<PRE>
+public <B>ConvolutionKernel</B>(float[]&nbsp;ir,
+                         int&nbsp;length,
+                         double&nbsp;scale,
+                         int&nbsp;quantum)</PRE>
+<DL>
+<DD>Builds the kernel of an impulse response.
+ <p>
+ 임펄스 응답의 커널을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>ir</CODE> - the samples of the response / 응답의 샘플<DD><CODE>length</CODE> - the number of frames of the response, from 1 to <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/ConvolutionKernel.html#MAX_LENGTH"><CODE>MAX_LENGTH</CODE></A> / 응답의 프레임 수(1 ~ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/ConvolutionKernel.html#MAX_LENGTH"><CODE>MAX_LENGTH</CODE></A>)<DD><CODE>scale</CODE> - the gain that is applied to the response / 응답에 곱하는 이득<DD><CODE>quantum</CODE> - the render quantum size: a power of two / render quantum 크기. 2 의 거듭제곱
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if an argument is out of range / 인수가 범위 밖이면</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getQuantum()"><!-- --></A><H3>
+getQuantum</H3>
+<PRE>
+public int <B>getQuantum</B>()</PRE>
+<DL>
+<DD>Returns the render quantum size of the kernel.
+ <p>
+ 커널의 render quantum 크기를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the quantum size / quantum 크기</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLength()"><!-- --></A><H3>
+getLength</H3>
+<PRE>
+public int <B>getLength</B>()</PRE>
+<DL>
+<DD>Returns the number of frames of the impulse response.
+ <p>
+ 임펄스 응답의 프레임 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the length / 길이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLevelCount()"><!-- --></A><H3>
+getLevelCount</H3>
+<PRE>
+public int <B>getLevelCount</B>()</PRE>
+<DL>
+<DD>Returns the number of levels (for tests).
+ <p>
+ 레벨 수를 반환한다(시험용).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of levels / 레벨 수</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadFilter.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/DynamicsCompressorKernel.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/ConvolutionKernel.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ConvolutionKernel.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

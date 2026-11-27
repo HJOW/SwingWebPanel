@@ -1,0 +1,743 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+BrowserApp
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="BrowserApp";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.Prompts.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="BrowserApp.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.desktopapp</FONT>
+<BR>
+Class BrowserApp</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>BrowserApp</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The state of the whole browser program: the settings, the cookie jar that all tabs share, the open browser windows and what happens
+ when the last one is closed. One instance exists per process. Create it and call its methods on the event dispatch thread.
+ <p>
+ 브라우저 프로그램 전체의 상태: 설정, 모든 탭이 공유하는 쿠키 저장소, 열린 브라우저 창들, 마지막 창이 닫힐 때 일어나는 일. 프로세스에 인스턴스가
+ 하나 있다. 이벤트 디스패치 스레드에서 만들고 그 메서드를 부른다.
+ <p>
+ 사용 예 / Example:
+ <pre>
+ BrowserApp app = new BrowserApp(null);          // null: end the JVM when the last window closes
+ app.openWindow("https://example.com/").setVisible(true);
+ </pre>
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.Prompts.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp">BrowserApp.Prompts</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Asks the user questions; the application shows dialogs, tests answer by themselves.</TD>
+</TR>
+</TABLE>
+&nbsp;<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#BLANK">BLANK</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The address of the empty page. / 빈 페이지의 주소.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#HOME_PROPERTY">HOME_PROPERTY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The system property that replaces the directory of the user data (tests and portable use). / 사용자 데이터의 디렉터리를 바꾸는 시스템 속성(시험과 휴대용 실행).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#NAME">NAME</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The name of the application, shown in window titles. / 창 제목에 보이는 응용 프로그램의 이름.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#BrowserApp(java.lang.Runnable)">BrowserApp</A></B>(java.lang.Runnable&nbsp;afterLastWindow)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the application state.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#aboutText()">aboutText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text of the about dialog: the names and versions of the application, of the component and of Java.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserWindow.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.ui">BrowserWindow</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#adoptWindow(org.duckdns.hjow.swingwebpanel.SwingWebPanel)">adoptWindow</A></B>(org.duckdns.hjow.swingwebpanel.SwingWebPanel&nbsp;panel)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opens a new browser window whose one tab shows the component of a window that a page opened.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#exit()">exit</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Closes all windows as the user asks for it, the newest first; each window may ask before it closes, and a refusal stops the exit.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkModel</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#getBookmarks()">getBookmarks</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the bookmarks of the application.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;org.duckdns.hjow.swingwebpanel.CookieJar</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#getCookieJar()">getCookieJar</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the cookie jar that every tab of the application uses.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.Prompts.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp">BrowserApp.Prompts</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#getPrompts()">getPrompts</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns what asks the user questions.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">Settings</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#getSettings()">getSettings</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the settings of the application.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserWindow.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.ui">BrowserWindow</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#getWindows()">getWindows</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the open windows.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.io.File</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#homeDirectory()">homeDirectory</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the directory of the user data (settings, bookmarks): the value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#HOME_PROPERTY"><CODE>HOME_PROPERTY</CODE></A> if it is set, otherwise
+ <code>.swingwebpanel/desktopapp</code> in the home directory of the user.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#lastWindowClosing()">lastWindowClosing</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Called by the last open window before it closes as the user asked: its tabs become the last session, unless the program is
+ already ending through <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#exit()"><CODE>exit()</CODE></A>, which remembered all windows.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserWindow.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.ui">BrowserWindow</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#openWindow(java.lang.String)">openWindow</A></B>(java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opens a new browser window with one tab that shows an address.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#saveSession()">saveSession</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Remembers the open windows and their tabs as the last session, for the setting that restores them at the next start.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#setPrompts(org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp.Prompts)">setPrompts</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.Prompts.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp">BrowserApp.Prompts</A>&nbsp;prompts)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Replaces what asks the user questions (tests answer without a dialog).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserWindow.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.ui">BrowserWindow</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#start(java.lang.String)">start</A></B>(java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opens the windows that the program starts with.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#takeStorageProblem()">takeStorageProblem</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns what went wrong when the user data was read or written last, and forgets it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#windowClosed(org.duckdns.hjow.swingwebpanel.desktopapp.ui.BrowserWindow)">windowClosed</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserWindow.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.ui">BrowserWindow</A>&nbsp;window)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Forgets a window that was closed; called by the window itself.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="NAME"><!-- --></A><H3>
+NAME</H3>
+<PRE>
+public static final java.lang.String <B>NAME</B></PRE>
+<DL>
+<DD>The name of the application, shown in window titles. / 창 제목에 보이는 응용 프로그램의 이름.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp.NAME">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BLANK"><!-- --></A><H3>
+BLANK</H3>
+<PRE>
+public static final java.lang.String <B>BLANK</B></PRE>
+<DL>
+<DD>The address of the empty page. / 빈 페이지의 주소.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp.BLANK">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="HOME_PROPERTY"><!-- --></A><H3>
+HOME_PROPERTY</H3>
+<PRE>
+public static final java.lang.String <B>HOME_PROPERTY</B></PRE>
+<DL>
+<DD>The system property that replaces the directory of the user data (tests and portable use). / 사용자 데이터의 디렉터리를 바꾸는 시스템 속성(시험과 휴대용 실행).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp.HOME_PROPERTY">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="BrowserApp(java.lang.Runnable)"><!-- --></A><H3>
+BrowserApp</H3>
+<PRE>
+public <B>BrowserApp</B>(java.lang.Runnable&nbsp;afterLastWindow)</PRE>
+<DL>
+<DD>Creates the application state.
+ <p>
+ 응용 프로그램의 상태를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>afterLastWindow</CODE> - what to do when the last window was closed, or null to end the program with <code>System.exit(0)</code>
+                        (tests pass their own action) / 마지막 창이 닫혔을 때 할 일. null 이면 <code>System.exit(0)</code> 으로 프로그램을
+                        끝낸다(시험은 자기 동작을 넘긴다)</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="homeDirectory()"><!-- --></A><H3>
+homeDirectory</H3>
+<PRE>
+public static java.io.File <B>homeDirectory</B>()</PRE>
+<DL>
+<DD>Returns the directory of the user data (settings, bookmarks): the value of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#HOME_PROPERTY"><CODE>HOME_PROPERTY</CODE></A> if it is set, otherwise
+ <code>.swingwebpanel/desktopapp</code> in the home directory of the user. The directory is not created here.
+ <p>
+ 사용자 데이터(설정, 북마크)의 디렉터리를 반환한다: <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#HOME_PROPERTY"><CODE>HOME_PROPERTY</CODE></A> 가 설정되어 있으면 그 값, 아니면 사용자 홈 디렉터리의
+ <code>.swingwebpanel/desktopapp</code>. 디렉터리를 여기서 만들지는 않는다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the directory / 디렉터리</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBookmarks()"><!-- --></A><H3>
+getBookmarks</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkModel</A> <B>getBookmarks</B>()</PRE>
+<DL>
+<DD>Returns the bookmarks of the application.
+ <p>
+ 응용 프로그램의 북마크를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the bookmarks shared by all windows / 모든 창이 공유하는 북마크</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="takeStorageProblem()"><!-- --></A><H3>
+takeStorageProblem</H3>
+<PRE>
+public java.lang.String <B>takeStorageProblem</B>()</PRE>
+<DL>
+<DD>Returns what went wrong when the user data was read or written last, and forgets it.
+ <p>
+ 사용자 데이터를 마지막으로 읽거나 쓸 때 잘못된 것을 반환하고 잊는다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the message, or null if nothing went wrong since the last call / 메시지. 지난 호출 뒤로 잘못된 것이 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSettings()"><!-- --></A><H3>
+getSettings</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/Settings.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">Settings</A> <B>getSettings</B>()</PRE>
+<DL>
+<DD>Returns the settings of the application.
+ <p>
+ 응용 프로그램의 설정을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the settings shared by all windows / 모든 창이 공유하는 설정</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCookieJar()"><!-- --></A><H3>
+getCookieJar</H3>
+<PRE>
+public org.duckdns.hjow.swingwebpanel.CookieJar <B>getCookieJar</B>()</PRE>
+<DL>
+<DD>Returns the cookie jar that every tab of the application uses.
+ <p>
+ 응용 프로그램의 모든 탭이 쓰는 쿠키 저장소를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the shared jar / 공유 저장소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPrompts()"><!-- --></A><H3>
+getPrompts</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.Prompts.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp">BrowserApp.Prompts</A> <B>getPrompts</B>()</PRE>
+<DL>
+<DD>Returns what asks the user questions.
+ <p>
+ 사용자에게 질문하는 것을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the prompts / 질문 수단</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setPrompts(org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp.Prompts)"><!-- --></A><H3>
+setPrompts</H3>
+<PRE>
+public void <B>setPrompts</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.Prompts.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp">BrowserApp.Prompts</A>&nbsp;prompts)</PRE>
+<DL>
+<DD>Replaces what asks the user questions (tests answer without a dialog).
+ <p>
+ 사용자에게 질문하는 것을 바꾼다(시험은 대화 상자 없이 답한다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>prompts</CODE> - the new prompts / 새 질문 수단</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="openWindow(java.lang.String)"><!-- --></A><H3>
+openWindow</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserWindow.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.ui">BrowserWindow</A> <B>openWindow</B>(java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Opens a new browser window with one tab that shows an address. The window is created but not shown; the caller makes it visible.
+ <p>
+ 주소를 보여 주는 탭 하나가 있는 새 브라우저 창을 연다. 창은 만들기만 하고 보이게 하지는 않는다. 보이게 하는 것은 호출자이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - the address to show, or null for the empty page / 보여 줄 주소. 빈 페이지이면 null
+<DT><B>Returns:</B><DD>the new window / 새 창</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="adoptWindow(org.duckdns.hjow.swingwebpanel.SwingWebPanel)"><!-- --></A><H3>
+adoptWindow</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserWindow.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.ui">BrowserWindow</A> <B>adoptWindow</B>(org.duckdns.hjow.swingwebpanel.SwingWebPanel&nbsp;panel)</PRE>
+<DL>
+<DD>Opens a new browser window whose one tab shows the component of a window that a page opened. The window is created but not
+ shown; the caller makes it visible.
+ <p>
+ 페이지가 연 창의 컴포넌트를 탭 하나로 보이는 새 브라우저 창을 연다. 창은 만들기만 하고 보이게 하지는 않는다. 보이게 하는 것은 호출자이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>panel</CODE> - the component of the window that a page opened, created by a tab of this application / 페이지가 연 창의 컴포넌트.
+              이 응용 프로그램의 탭이 만든 것
+<DT><B>Returns:</B><DD>the new window / 새 창</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getWindows()"><!-- --></A><H3>
+getWindows</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserWindow.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.ui">BrowserWindow</A>&gt; <B>getWindows</B>()</PRE>
+<DL>
+<DD>Returns the open windows.
+ <p>
+ 열린 창들을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a copy of the list / 목록의 복사본</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="start(java.lang.String)"><!-- --></A><H3>
+start</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserWindow.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.ui">BrowserWindow</A>&gt; <B>start</B>(java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Opens the windows that the program starts with. An address given by the caller (the command line) is opened in one window.
+ Otherwise the setting for the start decides: the home page, the empty page, or the windows and tabs of the last run (the home
+ page if there is nothing to restore). The windows are created but not shown.
+ <p>
+ 프로그램이 시작할 때의 창을 연다. 호출자(명령행)가 준 주소가 있으면 창 하나에 그 주소를 연다. 없으면 시작에 관한 설정이 정한다: 홈 페이지,
+ 빈 페이지, 또는 지난번의 창과 탭(복원할 것이 없으면 홈 페이지). 창은 만들기만 하고 보이지는 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - the address from the command line, or null / 명령행의 주소. 없으면 null
+<DT><B>Returns:</B><DD>the windows, at least one / 창들. 하나 이상이다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="saveSession()"><!-- --></A><H3>
+saveSession</H3>
+<PRE>
+public void <B>saveSession</B>()</PRE>
+<DL>
+<DD>Remembers the open windows and their tabs as the last session, for the setting that restores them at the next start. It is
+ called before the windows are closed at the end of the program.
+ <p>
+ 열린 창과 그 탭을 지난 세션으로 기억한다. 다음에 시작할 때 복원하는 설정이 쓴다. 프로그램이 끝날 때 창을 닫기 전에 호출된다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="exit()"><!-- --></A><H3>
+exit</H3>
+<PRE>
+public boolean <B>exit</B>()</PRE>
+<DL>
+<DD>Closes all windows as the user asks for it, the newest first; each window may ask before it closes, and a refusal stops the exit.
+ Closing the last window ends the program.
+ <p>
+ 사용자가 요청한 대로 모든 창을 최근 것부터 닫는다. 창마다 닫기 전에 물을 수 있고, 거절하면 종료를 그만둔다. 마지막 창이 닫히면 프로그램이
+ 끝난다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if every window was closed / 모든 창을 닫았으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="lastWindowClosing()"><!-- --></A><H3>
+lastWindowClosing</H3>
+<PRE>
+public void <B>lastWindowClosing</B>()</PRE>
+<DL>
+<DD>Called by the last open window before it closes as the user asked: its tabs become the last session, unless the program is
+ already ending through <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#exit()"><CODE>exit()</CODE></A>, which remembered all windows.
+ <p>
+ 마지막으로 열린 창이 사용자의 요청으로 닫히기 전에 부른다: 그 창의 탭이 지난 세션이 된다. 단, 모든 창을 기억해 둔 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html#exit()"><CODE>exit()</CODE></A> 로
+ 프로그램이 이미 끝나는 중이면 그대로 둔다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="aboutText()"><!-- --></A><H3>
+aboutText</H3>
+<PRE>
+public static java.lang.String <B>aboutText</B>()</PRE>
+<DL>
+<DD>Returns the text of the about dialog: the names and versions of the application, of the component and of Java. The versions come
+ from the manifest of the JAR (<code>Implementation-Version</code>); classes that were not loaded from a JAR have none.
+ <p>
+ 정보 대화 상자의 글을 반환한다: 응용 프로그램, 컴포넌트, Java 의 이름과 판. 판은 JAR 의 매니페스트(<code>Implementation-Version</code>)에서
+ 온다. JAR 에서 읽지 않은 클래스에는 판이 없다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the text / 글</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="windowClosed(org.duckdns.hjow.swingwebpanel.desktopapp.ui.BrowserWindow)"><!-- --></A><H3>
+windowClosed</H3>
+<PRE>
+public void <B>windowClosed</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/ui/BrowserWindow.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.ui">BrowserWindow</A>&nbsp;window)</PRE>
+<DL>
+<DD>Forgets a window that was closed; called by the window itself. When it was the last one, the action for the end of the program runs.
+ <p>
+ 닫힌 창을 목록에서 뺀다. 창 자신이 부른다. 마지막 창이었으면 프로그램 종료 동작이 실행된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>window</CODE> - the closed window / 닫힌 창</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.Prompts.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/desktopapp/BrowserApp.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="BrowserApp.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

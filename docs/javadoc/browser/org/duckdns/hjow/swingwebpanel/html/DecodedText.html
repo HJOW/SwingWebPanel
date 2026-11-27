@@ -1,0 +1,554 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+DecodedText
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="DecodedText";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DocumentModes.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/html/DecodedText.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="DecodedText.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.html</FONT>
+<BR>
+Class DecodedText</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.html.DecodedText</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>DecodedText</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The result of decoding a document: the text, the encoding that was used, how sure the decision is and the original bytes. The
+ text keeps line ends and white space exactly as received (it is what <code>getContent()</code> returns); the normalization that
+ the HTML parser needs is done separately by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/InputPreprocessor.html" title="class in org.duckdns.hjow.swingwebpanel.html"><CODE>InputPreprocessor</CODE></A>. The bytes are kept so that the parser can start over with
+ another encoding when a late <code>meta</code> element reveals that the prescan guessed wrong (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html#redecode(java.lang.String)"><CODE>redecode(String)</CODE></A>).
+ <p>
+ 문서를 디코딩한 결과: 문자열, 사용한 인코딩, 판정의 확실성, 원본 바이트. 문자열은 줄 끝과 공백을 받은 그대로 보존한다(<code>getContent()</code> 가
+ 반환하는 값이다). HTML 파서에 필요한 정규화는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/InputPreprocessor.html" title="class in org.duckdns.hjow.swingwebpanel.html"><CODE>InputPreprocessor</CODE></A> 가 따로 한다. 늦게 나온 <code>meta</code> 요소가 사전 검사의 추측이
+ 틀렸음을 알려 줄 때 파서가 다른 인코딩으로 다시 시작할 수 있도록 바이트를 보관한다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html#redecode(java.lang.String)"><CODE>redecode(String)</CODE></A>).
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html#SOURCE_BOM">SOURCE_BOM</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The encoding was decided by a byte order mark.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html#SOURCE_DEFAULT">SOURCE_DEFAULT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The fallback encoding was used.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html#SOURCE_GUESS">SOURCE_GUESS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The encoding was guessed because the bytes are valid UTF-8 with multi-byte sequences.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html#SOURCE_HTTP">SOURCE_HTTP</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The encoding came from the transport layer (the <code>charset</code> parameter of the Content-Type header).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html#SOURCE_META">SOURCE_META</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The encoding was declared by a <code>meta</code> element (found by the prescan or by the tree builder).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html#SOURCE_STRING">SOURCE_STRING</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The text was supplied as a string (no decoding happened).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html#getEncoding()">getEncoding</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the canonical encoding name (for example <code>UTF-8</code>, <code>EUC-KR</code>, <code>windows-1252</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;byte[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html#getRawBytes()">getRawBytes</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the original bytes (do not modify), or null if the text was supplied as a string.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html#getSource()">getSource</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns where the encoding decision came from.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html#getText()">getText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the decoded text (byte order mark removed, line ends and white space untouched).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html#isCertain()">isCertain</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the encoding decision is certain.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html" title="class in org.duckdns.hjow.swingwebpanel.html">DecodedText</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html#ofString(java.lang.String)">ofString</A></B>(java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wraps text that was supplied as a string (for example by <code>setContent</code>): UTF-8 is reported, the decision is certain and
+ there are no bytes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html" title="class in org.duckdns.hjow.swingwebpanel.html">DecodedText</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html#redecode(java.lang.String)">redecode</A></B>(java.lang.String&nbsp;canonicalName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Decodes the original bytes again with another encoding and marks the result certain ("change the encoding").</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html" title="class in org.duckdns.hjow.swingwebpanel.html">DecodedText</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html#withCertainty()">withCertainty</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy of this result whose encoding decision is marked certain (a <code>meta</code> element confirmed the guess).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="SOURCE_BOM"><!-- --></A><H3>
+SOURCE_BOM</H3>
+<PRE>
+public static final java.lang.String <B>SOURCE_BOM</B></PRE>
+<DL>
+<DD>The encoding was decided by a byte order mark.
+ <p>
+ 바이트 순서 표시(BOM)로 정해진 인코딩.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.DecodedText.SOURCE_BOM">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SOURCE_HTTP"><!-- --></A><H3>
+SOURCE_HTTP</H3>
+<PRE>
+public static final java.lang.String <B>SOURCE_HTTP</B></PRE>
+<DL>
+<DD>The encoding came from the transport layer (the <code>charset</code> parameter of the Content-Type header).
+ <p>
+ 전송 계층(Content-Type 헤더의 <code>charset</code> 매개변수)에서 온 인코딩.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.DecodedText.SOURCE_HTTP">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SOURCE_META"><!-- --></A><H3>
+SOURCE_META</H3>
+<PRE>
+public static final java.lang.String <B>SOURCE_META</B></PRE>
+<DL>
+<DD>The encoding was declared by a <code>meta</code> element (found by the prescan or by the tree builder).
+ <p>
+ <code>meta</code> 요소(사전 검사 또는 트리 생성기가 찾음)가 선언한 인코딩.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.DecodedText.SOURCE_META">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SOURCE_GUESS"><!-- --></A><H3>
+SOURCE_GUESS</H3>
+<PRE>
+public static final java.lang.String <B>SOURCE_GUESS</B></PRE>
+<DL>
+<DD>The encoding was guessed because the bytes are valid UTF-8 with multi-byte sequences.
+ <p>
+ 바이트가 멀티바이트 순서가 있는 올바른 UTF-8 이라서 추측한 인코딩.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.DecodedText.SOURCE_GUESS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SOURCE_DEFAULT"><!-- --></A><H3>
+SOURCE_DEFAULT</H3>
+<PRE>
+public static final java.lang.String <B>SOURCE_DEFAULT</B></PRE>
+<DL>
+<DD>The fallback encoding was used.
+ <p>
+ 대체 인코딩을 사용했다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.DecodedText.SOURCE_DEFAULT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SOURCE_STRING"><!-- --></A><H3>
+SOURCE_STRING</H3>
+<PRE>
+public static final java.lang.String <B>SOURCE_STRING</B></PRE>
+<DL>
+<DD>The text was supplied as a string (no decoding happened).
+ <p>
+ 문자열로 받은 텍스트(디코딩이 없었다).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.DecodedText.SOURCE_STRING">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="ofString(java.lang.String)"><!-- --></A><H3>
+ofString</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html" title="class in org.duckdns.hjow.swingwebpanel.html">DecodedText</A> <B>ofString</B>(java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Wraps text that was supplied as a string (for example by <code>setContent</code>): UTF-8 is reported, the decision is certain and
+ there are no bytes.
+ <p>
+ 문자열로 받은 텍스트(예: <code>setContent</code>)를 감싼다. UTF-8 로 보고하고 판정은 확실하며 바이트는 없다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - text / 문자열
+<DT><B>Returns:</B><DD>the result / 결과</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getText()"><!-- --></A><H3>
+getText</H3>
+<PRE>
+public java.lang.String <B>getText</B>()</PRE>
+<DL>
+<DD>Returns the decoded text (byte order mark removed, line ends and white space untouched).
+ <p>
+ 디코딩된 문자열을 반환한다(BOM 제거, 줄 끝과 공백은 그대로).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>text / 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRawBytes()"><!-- --></A><H3>
+getRawBytes</H3>
+<PRE>
+public byte[] <B>getRawBytes</B>()</PRE>
+<DL>
+<DD>Returns the original bytes (do not modify), or null if the text was supplied as a string.
+ <p>
+ 원본 바이트를 반환한다(수정 금지). 문자열로 받은 텍스트이면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>bytes or null / 바이트 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEncoding()"><!-- --></A><H3>
+getEncoding</H3>
+<PRE>
+public java.lang.String <B>getEncoding</B>()</PRE>
+<DL>
+<DD>Returns the canonical encoding name (for example <code>UTF-8</code>, <code>EUC-KR</code>, <code>windows-1252</code>).
+ <p>
+ 표준 인코딩 이름을 반환한다(예: <code>UTF-8</code>, <code>EUC-KR</code>, <code>windows-1252</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>encoding name / 인코딩 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isCertain()"><!-- --></A><H3>
+isCertain</H3>
+<PRE>
+public boolean <B>isCertain</B>()</PRE>
+<DL>
+<DD>Tells whether the encoding decision is certain.
+ <p>
+ 인코딩 판정이 확실한지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if certain, false if tentative / 확실하면 true, 잠정적이면 false</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSource()"><!-- --></A><H3>
+getSource</H3>
+<PRE>
+public java.lang.String <B>getSource</B>()</PRE>
+<DL>
+<DD>Returns where the encoding decision came from.
+ <p>
+ 인코딩 판정의 출처를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>one of the <code>SOURCE_*</code> constants / <code>SOURCE_*</code> 상수 중 하나</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="withCertainty()"><!-- --></A><H3>
+withCertainty</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html" title="class in org.duckdns.hjow.swingwebpanel.html">DecodedText</A> <B>withCertainty</B>()</PRE>
+<DL>
+<DD>Returns a copy of this result whose encoding decision is marked certain (a <code>meta</code> element confirmed the guess).
+ <p>
+ 인코딩 판정을 확실로 표시한 복사본을 반환한다(<code>meta</code> 요소가 추측을 확인했을 때).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the result marked certain / 확실로 표시한 결과</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="redecode(java.lang.String)"><!-- --></A><H3>
+redecode</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html" title="class in org.duckdns.hjow.swingwebpanel.html">DecodedText</A> <B>redecode</B>(java.lang.String&nbsp;canonicalName)</PRE>
+<DL>
+<DD>Decodes the original bytes again with another encoding and marks the result certain ("change the encoding"). A byte order mark
+ of the original bytes is skipped as before. Returns this object if there are no bytes or the encoding is the same.
+ <p>
+ 원본 바이트를 다른 인코딩으로 다시 디코딩하고 결과를 확실로 표시한다("change the encoding"). 원본의 BOM 은 전과 같이 건너뛴다. 바이트가 없거나
+ 인코딩이 같으면 이 객체를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>canonicalName</CODE> - canonical encoding name / 표준 인코딩 이름
+<DT><B>Returns:</B><DD>the new result / 새 결과</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DocumentModes.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/html/DecodedText.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="DecodedText.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

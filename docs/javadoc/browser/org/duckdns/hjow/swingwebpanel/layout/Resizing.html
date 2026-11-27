@@ -1,0 +1,445 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+Resizing
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Resizing";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/ReplacedResolver.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/ShapeImage.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/Resizing.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Resizing.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.layout</FONT>
+<BR>
+Class Resizing</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.layout.Resizing</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>Resizing</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The geometry of the <code>resize</code> property (CSS Basic User Interface Module Level 4, https://www.w3.org/TR/css-ui-4/#resize, section 6.1
+ "resize: Resizability of elements"): which boxes the user may resize, in which directions, and where their resize handle is. A box is
+ resizable when <code>resize</code> is not <code>none</code>, when it is a block container (a block or an inline block) and when its
+ <code>overflow</code> is neither <code>visible</code> nor <code>clip</code> in at least one axis (the property "applies to elements with
+ overflow other than visible"). The handle is a square of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html#HANDLE_SIZE"><CODE>HANDLE_SIZE</CODE></A> pixels at the bottom right corner of the padding box (the corner
+ where a scrollbar corner is); a box whose padding box is smaller than the handle has none. <code>block</code> and <code>inline</code> are
+ resolved against the writing mode of the box. The input handling that changes the size is in <code>org.duckdns.hjow.swingwebpanel.core.PageResize</code> and
+ the picture of the handle in <code>org.duckdns.hjow.swingwebpanel.render</code>.
+ <p>
+ <code>resize</code> 속성의 기하(CSS Basic User Interface Module Level 4, https://www.w3.org/TR/css-ui-4/#resize, 6.1 절 "resize: Resizability of
+ elements"): 사용자가 크기를 바꿀 수 있는 상자, 방향, 크기 조절 핸들의 위치. <code>resize</code> 가 <code>none</code> 이 아니고, 블록 컨테이너(블록 또는
+ inline-block)이며, 적어도 한 축에서 <code>overflow</code> 가 <code>visible</code> 도 <code>clip</code> 도 아니면 크기를 바꿀 수 있는 상자이다(속성은 "overflow 가
+ visible 이 아닌 요소에 적용된다"). 핸들은 padding box 의 오른쪽 아래 모서리(스크롤바 모서리가 있는 곳)에 놓이는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html#HANDLE_SIZE"><CODE>HANDLE_SIZE</CODE></A> 픽셀의 정사각형이며,
+ padding box 가 핸들보다 작은 상자는 핸들이 없다. <code>block</code> 과 <code>inline</code> 은 상자의 쓰기 모드에 따라 푼다. 크기를 바꾸는 입력 처리는
+ <code>org.duckdns.hjow.swingwebpanel.core.PageResize</code>, 핸들 그림은 <code>org.duckdns.hjow.swingwebpanel.render</code> 에 있다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html#BOTH">BOTH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The resize direction: both can be changed (the bits of the two directions).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html#HANDLE_SIZE">HANDLE_SIZE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The side of the square resize handle in CSS pixels.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html#HORIZONTAL">HORIZONTAL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The resize direction: the width can be changed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html#NONE">NONE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The resize direction: not resizable.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html#VERTICAL">VERTICAL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The resize direction: the height can be changed.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html#directions(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)">directions</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;b)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the directions in which the user may resize a box: the value of <code>resize</code> resolved against the writing mode, or
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html#NONE"><CODE>NONE</CODE></A> if the box is not resizable.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html#find(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double, double)">find</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;hit,
+     double&nbsp;x,
+     double&nbsp;y)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Finds the box whose resize handle is at a point: the box that was hit or its closest ancestor with a handle that contains the point.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html#handle(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)">handle</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;b)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the resize handle of a box.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html#insets(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, boolean)">insets</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;b,
+       boolean&nbsp;width)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns how much larger the border box is than the value of <code>width</code> (or <code>height</code>) of a box: the padding and the
+ border along the axis for <code>box-sizing: content-box</code> and zero for <code>border-box</code>.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="NONE"><!-- --></A><H3>
+NONE</H3>
+<PRE>
+public static final int <B>NONE</B></PRE>
+<DL>
+<DD>The resize direction: not resizable. 크기 조절 방향: 크기를 바꿀 수 없음.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.Resizing.NONE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="HORIZONTAL"><!-- --></A><H3>
+HORIZONTAL</H3>
+<PRE>
+public static final int <B>HORIZONTAL</B></PRE>
+<DL>
+<DD>The resize direction: the width can be changed. 크기 조절 방향: 너비를 바꿀 수 있음.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.Resizing.HORIZONTAL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="VERTICAL"><!-- --></A><H3>
+VERTICAL</H3>
+<PRE>
+public static final int <B>VERTICAL</B></PRE>
+<DL>
+<DD>The resize direction: the height can be changed. 크기 조절 방향: 높이를 바꿀 수 있음.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.Resizing.VERTICAL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BOTH"><!-- --></A><H3>
+BOTH</H3>
+<PRE>
+public static final int <B>BOTH</B></PRE>
+<DL>
+<DD>The resize direction: both can be changed (the bits of the two directions). 크기 조절 방향: 둘 다 바꿀 수 있음(두 방향의 비트).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.Resizing.BOTH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="HANDLE_SIZE"><!-- --></A><H3>
+HANDLE_SIZE</H3>
+<PRE>
+public static final double <B>HANDLE_SIZE</B></PRE>
+<DL>
+<DD>The side of the square resize handle in CSS pixels. 정사각형 크기 조절 핸들의 한 변(CSS 픽셀).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.Resizing.HANDLE_SIZE">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="directions(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><!-- --></A><H3>
+directions</H3>
+<PRE>
+public static int <B>directions</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;b)</PRE>
+<DL>
+<DD>Returns the directions in which the user may resize a box: the value of <code>resize</code> resolved against the writing mode, or
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html#NONE"><CODE>NONE</CODE></A> if the box is not resizable.
+ <p>
+ 사용자가 상자의 크기를 바꿀 수 있는 방향을 반환한다: 쓰기 모드에 따라 푼 <code>resize</code> 의 값. 크기를 바꿀 수 없으면 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html#NONE"><CODE>NONE</CODE></A>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>b</CODE> - the box / 상자
+<DT><B>Returns:</B><DD><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html#NONE"><CODE>NONE</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html#HORIZONTAL"><CODE>HORIZONTAL</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html#VERTICAL"><CODE>VERTICAL</CODE></A> or <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html#BOTH"><CODE>BOTH</CODE></A> / 방향</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="handle(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><!-- --></A><H3>
+handle</H3>
+<PRE>
+public static double[] <B>handle</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;b)</PRE>
+<DL>
+<DD>Returns the resize handle of a box.
+ <p>
+ 상자의 크기 조절 핸들을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>b</CODE> - the box / 상자
+<DT><B>Returns:</B><DD>{x, y, width, height} in the document coordinates of the box, or null if the box has no handle / 상자의 문서 좌표로 나타낸 {x, y, 너비, 높이}.
+         핸들이 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="find(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double, double)"><!-- --></A><H3>
+find</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A> <B>find</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;hit,
+                             double&nbsp;x,
+                             double&nbsp;y)</PRE>
+<DL>
+<DD>Finds the box whose resize handle is at a point: the box that was hit or its closest ancestor with a handle that contains the point.
+ The point is mapped back through the transform of the box, so that a handle that was moved by <code>transform</code> is found where it is
+ seen.
+ <p>
+ 한 점에 있는 크기 조절 핸들의 상자를 찾는다: 맞은 상자 또는 그 점을 포함한 핸들을 가진 가장 가까운 조상. 점은 상자의 변환을 거꾸로 적용해 옮기므로
+ <code>transform</code> 으로 옮겨진 핸들도 보이는 자리에서 찾는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>hit</CODE> - the box that was hit, may be null / 맞은 상자. null 가능<DD><CODE>x</CODE> - the x of the point in document coordinates / 점의 x(문서 좌표)<DD><CODE>y</CODE> - the y of the point in document coordinates / 점의 y(문서 좌표)
+<DT><B>Returns:</B><DD>the box or null / 상자. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="insets(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, boolean)"><!-- --></A><H3>
+insets</H3>
+<PRE>
+public static double <B>insets</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;b,
+                            boolean&nbsp;width)</PRE>
+<DL>
+<DD>Returns how much larger the border box is than the value of <code>width</code> (or <code>height</code>) of a box: the padding and the
+ border along the axis for <code>box-sizing: content-box</code> and zero for <code>border-box</code>. The new value of the property
+ that gives the box the border box size that the user dragged it to is that size minus this amount (not below zero).
+ <p>
+ 상자의 border box 가 <code>width</code>(또는 <code>height</code>) 값보다 얼마나 큰지 반환한다: <code>box-sizing: content-box</code> 이면 축을 따른 padding 과 border,
+ <code>border-box</code> 이면 0. 사용자가 끌어 정한 border box 크기를 상자에 주는 속성의 새 값은 그 크기에서 이 값을 뺀 것이다(0 미만이 아님).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>b</CODE> - the box / 상자<DD><CODE>width</CODE> - true for the width, false for the height / 너비이면 true, 높이이면 false
+<DT><B>Returns:</B><DD>the amount in CSS pixels / 크기(CSS 픽셀)</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/ReplacedResolver.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/ShapeImage.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/Resizing.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Resizing.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

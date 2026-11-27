@@ -1,0 +1,476 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+LayoutResult
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="LayoutResult";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutEngine.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/MarkerImageSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="LayoutResult.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.layout</FONT>
+<BR>
+Class LayoutResult</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.layout.LayoutResult</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>LayoutResult</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The result of a layout run (plan items P09-01, P09-02, P09-03): the root of the box tree, the size of the whole document for
+ <code>preferredSize</code>, the map from DOM nodes to their boxes and hit testing. Nothing in a result changes after
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutEngine.html#layout(org.duckdns.hjow.swingwebpanel.dom.Document, org.duckdns.hjow.swingwebpanel.layout.StyleSource, org.duckdns.hjow.swingwebpanel.layout.ReplacedResolver, double, double)"><CODE>LayoutEngine.layout(org.duckdns.hjow.swingwebpanel.dom.Document, org.duckdns.hjow.swingwebpanel.layout.StyleSource, org.duckdns.hjow.swingwebpanel.layout.ReplacedResolver, double, double)</CODE></A> has returned, so it can be handed to the event dispatch thread and painted there while the document thread
+ lays out the next version.
+ <p>
+ 레이아웃 실행의 결과(계획 P09-01, P09-02, P09-03): 상자 트리의 루트, <code>preferredSize</code> 를 위한 문서 전체 크기, DOM 노드에서 상자로의 대응,
+ hit testing. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutEngine.html#layout(org.duckdns.hjow.swingwebpanel.dom.Document, org.duckdns.hjow.swingwebpanel.layout.StyleSource, org.duckdns.hjow.swingwebpanel.layout.ReplacedResolver, double, double)"><CODE>LayoutEngine.layout(org.duckdns.hjow.swingwebpanel.dom.Document, org.duckdns.hjow.swingwebpanel.layout.StyleSource, org.duckdns.hjow.swingwebpanel.layout.ReplacedResolver, double, double)</CODE></A> 이 돌아온 뒤 결과의 어떤 것도 바뀌지 않으므로 이벤트 디스패치 스레드에 넘겨 그리고 그동안 문서 스레드가 다음
+ 판을 배치할 수 있다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html#boxAt(double, double)">boxAt</A></B>(double&nbsp;x,
+      double&nbsp;y)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Finds the topmost box at a point (document coordinates): the last box in painting order (CSS 2.1 Appendix E: positive
+ <code>z-index</code> contexts above the positioned boxes, above the inline content, above the floats, above the block backgrounds,
+ above the negative contexts) that contains the point.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html#boxAt(double, double, double, double)">boxAt</A></B>(double&nbsp;x,
+      double&nbsp;y,
+      double&nbsp;scrollX,
+      double&nbsp;scrollY)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Finds the topmost box at a point of the document while the page is scrolled: boxes of <code>position:fixed</code> stay at the same
+ place of the viewport, so the point is compared with them after the scroll offset is subtracted.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html#getBoxCount()">getBoxCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of boxes in the tree.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html#getBoxes(org.duckdns.hjow.swingwebpanel.dom.Node)">getBoxes</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the boxes that were made for a DOM node in document order: one box for an element, several fragments for text or for an inline
+ element that spans lines, none for <code>display:none</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html#getContentHeight()">getContentHeight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the height of the scrollable area (the document height).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html#getContentWidth()">getContentWidth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the width of the scrollable area: the right edge of the farthest box (a wide unbreakable line or a wide image makes it larger
+ than the viewport), at least the root box including its margin.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html#getRoot()">getRoot</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the root box (the box of the root element).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StyleSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">StyleSource</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html#getStyles()">getStyles</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the style source that the layout was made with: the renderer asks it for the styles of pseudo-elements that it paints without a box of their own
+ (the custom highlights).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html#getViewportHeight()">getViewportHeight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the viewport height that the layout used.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html#getViewportWidth()">getViewportWidth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the viewport width that the layout used.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getRoot()"><!-- --></A><H3>
+getRoot</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A> <B>getRoot</B>()</PRE>
+<DL>
+<DD>Returns the root box (the box of the root element).
+ <p>
+ 루트 상자(루트 요소의 상자)를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the root / 루트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStyles()"><!-- --></A><H3>
+getStyles</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StyleSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">StyleSource</A> <B>getStyles</B>()</PRE>
+<DL>
+<DD>Returns the style source that the layout was made with: the renderer asks it for the styles of pseudo-elements that it paints without a box of their own
+ (the custom highlights). Call it on the thread that owns the document.
+ <p>
+ 레이아웃을 만든 스타일 공급자를 반환한다: 렌더러가 자신의 상자 없이 그리는 의사 요소(사용자 정의 하이라이트)의 스타일을 묻는다. 문서를 소유한 스레드에서 부른다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the source or null / 공급자. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getViewportWidth()"><!-- --></A><H3>
+getViewportWidth</H3>
+<PRE>
+public double <B>getViewportWidth</B>()</PRE>
+<DL>
+<DD>Returns the viewport width that the layout used.
+ <p>
+ 배치에 쓴 뷰포트 너비를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>width / 너비</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getViewportHeight()"><!-- --></A><H3>
+getViewportHeight</H3>
+<PRE>
+public double <B>getViewportHeight</B>()</PRE>
+<DL>
+<DD>Returns the viewport height that the layout used.
+ <p>
+ 배치에 쓴 뷰포트 높이를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>height / 높이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getContentWidth()"><!-- --></A><H3>
+getContentWidth</H3>
+<PRE>
+public double <B>getContentWidth</B>()</PRE>
+<DL>
+<DD>Returns the width of the scrollable area: the right edge of the farthest box (a wide unbreakable line or a wide image makes it larger
+ than the viewport), at least the root box including its margin.
+ <p>
+ 스크롤 영역의 너비를 반환한다: 가장 먼 상자의 오른쪽 가장자리(넓은 쪼갤 수 없는 줄이나 넓은 이미지는 뷰포트보다 커진다). 최소한 margin 을 포함한 루트
+ 상자의 너비이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>width / 너비</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getContentHeight()"><!-- --></A><H3>
+getContentHeight</H3>
+<PRE>
+public double <B>getContentHeight</B>()</PRE>
+<DL>
+<DD>Returns the height of the scrollable area (the document height).
+ <p>
+ 스크롤 영역의 높이(문서 높이)를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>height / 높이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBoxCount()"><!-- --></A><H3>
+getBoxCount</H3>
+<PRE>
+public int <B>getBoxCount</B>()</PRE>
+<DL>
+<DD>Returns the number of boxes in the tree.
+ <p>
+ 트리의 상자 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>count / 개수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBoxes(org.duckdns.hjow.swingwebpanel.dom.Node)"><!-- --></A><H3>
+getBoxes</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&gt; <B>getBoxes</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</PRE>
+<DL>
+<DD>Returns the boxes that were made for a DOM node in document order: one box for an element, several fragments for text or for an inline
+ element that spans lines, none for <code>display:none</code>.
+ <p>
+ DOM 노드에 만들어진 상자를 문서 순서로 반환한다: 요소는 상자 하나, 줄에 걸친 텍스트나 인라인 요소는 여러 조각, <code>display:none</code> 은 없음.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node / 노드
+<DT><B>Returns:</B><DD>the boxes (unmodifiable, possibly empty) / 상자(수정 불가, 비어 있을 수 있음)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="boxAt(double, double)"><!-- --></A><H3>
+boxAt</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A> <B>boxAt</B>(double&nbsp;x,
+                       double&nbsp;y)</PRE>
+<DL>
+<DD>Finds the topmost box at a point (document coordinates): the last box in painting order (CSS 2.1 Appendix E: positive
+ <code>z-index</code> contexts above the positioned boxes, above the inline content, above the floats, above the block backgrounds,
+ above the negative contexts) that contains the point. A box that is clipped by an ancestor (<code>overflow</code> other than
+ visible, <code>clip: rect()</code>) is found only inside the clip, and boxes with <code>visibility:hidden</code> or
+ <code>pointer-events:none</code> are never found. Fixed boxes are looked up as if the page were not scrolled; see
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html#boxAt(double, double, double, double)"><CODE>boxAt(double, double, double, double)</CODE></A>.
+ <p>
+ 점(문서 좌표)의 가장 위 상자를 찾는다: 점을 포함하는 그리기 순서(CSS 2.1 부록 E: 양수 <code>z-index</code> 맥락이 위치 지정 상자 위, 그것이 인라인 콘텐츠 위,
+ 그것이 float 위, 그것이 블록 배경 위, 그것이 음수 맥락 위)의 마지막 상자. 조상에게 잘린 상자(<code>overflow</code> 가 visible 이 아님,
+ <code>clip: rect()</code>)는 자르기 안에서만 찾고 <code>visibility:hidden</code> 이나 <code>pointer-events:none</code> 인 상자는 찾지 않는다. fixed 상자는 페이지가
+ 스크롤되지 않은 것으로 찾는다. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html#boxAt(double, double, double, double)"><CODE>boxAt(double, double, double, double)</CODE></A> 참조.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - x in document coordinates / 문서 좌표 x<DD><CODE>y</CODE> - y in document coordinates / 문서 좌표 y
+<DT><B>Returns:</B><DD>the box or null / 상자 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="boxAt(double, double, double, double)"><!-- --></A><H3>
+boxAt</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A> <B>boxAt</B>(double&nbsp;x,
+                       double&nbsp;y,
+                       double&nbsp;scrollX,
+                       double&nbsp;scrollY)</PRE>
+<DL>
+<DD>Finds the topmost box at a point of the document while the page is scrolled: boxes of <code>position:fixed</code> stay at the same
+ place of the viewport, so the point is compared with them after the scroll offset is subtracted.
+ <p>
+ 페이지가 스크롤된 상태에서 문서의 점의 가장 위 상자를 찾는다: <code>position:fixed</code> 상자는 뷰포트의 같은 자리에 머무르므로 스크롤 오프셋을 뺀 점을
+ 그 상자와 비교한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - x in document coordinates / 문서 좌표 x<DD><CODE>y</CODE> - y in document coordinates / 문서 좌표 y<DD><CODE>scrollX</CODE> - horizontal scroll offset / 가로 스크롤 오프셋<DD><CODE>scrollY</CODE> - vertical scroll offset / 세로 스크롤 오프셋
+<DT><B>Returns:</B><DD>the box or null / 상자 또는 null</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutEngine.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/MarkerImageSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="LayoutResult.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

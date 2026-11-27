@@ -1,0 +1,579 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+StructuredClone
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="StructuredClone";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/SharedMemoryScope.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.structured"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="StructuredClone.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.host.structured</FONT>
+<BR>
+Class StructuredClone</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.host.structured.StructuredClone</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>StructuredClone</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The structured clone algorithm of the HTML Standard (<code>StructuredSerialize</code> and <code>StructuredDeserialize</code>, section
+ "Safe passing of structured data"): a script value of one realm is turned into a realm independent, immutable Java tree
+ (<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured"><CODE>ClonedValue</CODE></A>), and that tree is turned into a fresh value of the same or another realm. It copies primitives (also -0 and NaN),
+ Boolean, Number and String wrapper objects, Date, RegExp (<code>lastIndex</code> becomes 0), Array (holes and length), ordinary objects (own
+ enumerable string keyed properties; getters are read), Map, Set, ArrayBuffer, the typed arrays, DataView and
+ Error objects (name, message and stack), and it keeps cycles and shared references. Functions, symbols, DOM nodes and other host objects,
+ Proxy objects, WeakMap, Promise and so on cannot be cloned and raise a <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredCloneException.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured"><CODE>StructuredCloneException</CODE></A>. A depth limit, a cell limit and a
+ byte limit protect the process; the walk is iterative, so a deep structure never overflows the Java stack. ArrayBuffers in the transfer
+ list are moved instead of copied (the source is detached). The messaging entry points preserve shared buffers within an agent cluster.
+ <p>
+ Usage: <code>ClonedValue c = StructuredClone.serialize(realm, value); JsValue copy = StructuredClone.deserialize(otherRealm, c);</code>
+ <p>
+ HTML 표준의 구조화 복제 알고리즘("Safe passing of structured data" 절의 <code>StructuredSerialize</code>, <code>StructuredDeserialize</code>):
+ 한 realm 의 스크립트 값을 realm 에 독립적인 불변 Java 트리(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured"><CODE>ClonedValue</CODE></A>)로 바꾸고, 그 트리를 같은 또는 다른 realm 의 새 값으로 바꾼다.
+ 원시 값(-0 과 NaN 포함), Boolean/Number/String 래퍼 객체, Date, RegExp(<code>lastIndex</code> 는 0), Array(빈 칸과 length), 일반 객체(자체
+ 열거 가능한 문자열 키 프로퍼티, getter 는 값을 읽음), Map, Set, ArrayBuffer, 형식화 배열, DataView, Error 객체(name,
+ message, stack)를 복사하며 순환과 공유 참조를 유지한다. 함수, 심볼, DOM 노드 등 호스트 객체, Proxy, WeakMap, Promise 등은 복제할 수 없어
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredCloneException.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured"><CODE>StructuredCloneException</CODE></A> 을 던진다. 깊이, 칸 수, 바이트 한도가 프로세스를 보호하며 탐색은 반복문이므로 깊은 구조도 Java 스택을 넘치게 하지
+ 않는다. 전달 목록의 ArrayBuffer 는 복사하지 않고 옮긴다(원본은 분리된다). 메시징 진입점은 같은 에이전트 클러스터에서 버퍼 공유를 유지한다.
+ <p>
+ 사용법: <code>ClonedValue c = StructuredClone.serialize(realm, value); JsValue copy = StructuredClone.deserialize(otherRealm, c);</code>
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.structured">StructuredClone.TransferHandler</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The hook through which objects other than ArrayBuffers (for example a <code>MessagePort</code>) are put in a transfer list.</TD>
+</TR>
+</TABLE>
+&nbsp;<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html#DEFAULT_MAX_BYTES">DEFAULT_MAX_BYTES</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The default limit of the estimated size of a serialized value in bytes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html#MAX_CELLS">MAX_CELLS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The largest number of objects of one serialized value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html#MAX_DEPTH">MAX_DEPTH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The deepest nesting of objects that is serialized.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;org.duckdns.hjow.swingwebpanel.js.JsValue</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html#copy(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsValue)">copy</A></B>(org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;source,
+     org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;target,
+     org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Copies a value from one realm to another (serialize, then deserialize).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;org.duckdns.hjow.swingwebpanel.js.JsValue</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html#deserialize(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue)">deserialize</A></B>(org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;realm,
+            <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A>&nbsp;cloned)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a fresh value of a realm from a serialized form.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;org.duckdns.hjow.swingwebpanel.js.JsValue</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html#deserialize(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue, org.duckdns.hjow.swingwebpanel.js.host.structured.StructuredClone.TransferHandler, java.util.List)">deserialize</A></B>(org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;realm,
+            <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A>&nbsp;cloned,
+            <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.structured">StructuredClone.TransferHandler</A>&nbsp;handler,
+            java.util.List&lt;org.duckdns.hjow.swingwebpanel.js.JsObject&gt;&nbsp;received)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a fresh value like <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html#deserialize(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue)"><CODE>deserialize(JsRealm, ClonedValue)</CODE></A>, and also receives the objects that a handler moved (a
+ <code>MessagePort</code>): they are created by the handler in the realm of the receiver and collected in the order of the transfer list.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;org.duckdns.hjow.swingwebpanel.js.JsValue</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html#deserializeForMessaging(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue, org.duckdns.hjow.swingwebpanel.js.host.structured.StructuredClone.TransferHandler, java.util.List)">deserializeForMessaging</A></B>(org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;realm,
+                        <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A>&nbsp;cloned,
+                        <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.structured">StructuredClone.TransferHandler</A>&nbsp;handler,
+                        java.util.List&lt;org.duckdns.hjow.swingwebpanel.js.JsObject&gt;&nbsp;received)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reads a browser message using the receiving realm's current agent-cluster identity.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html#serialize(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsValue)">serialize</A></B>(org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;realm,
+          org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serializes a value with the default size limit and no transfer list.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html#serialize(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsValue, long, java.util.List)">serialize</A></B>(org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;realm,
+          org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;value,
+          long&nbsp;maxBytes,
+          java.util.List&lt;? extends org.duckdns.hjow.swingwebpanel.js.JsObject&gt;&nbsp;transfer)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serializes a value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html#serialize(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsValue, long, java.util.List, org.duckdns.hjow.swingwebpanel.js.host.structured.StructuredClone.TransferHandler)">serialize</A></B>(org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;realm,
+          org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;value,
+          long&nbsp;maxBytes,
+          java.util.List&lt;? extends org.duckdns.hjow.swingwebpanel.js.JsObject&gt;&nbsp;transfer,
+          <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.structured">StructuredClone.TransferHandler</A>&nbsp;handler)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serializes a value like <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html#serialize(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsValue, long, java.util.List)"><CODE>serialize(JsRealm, JsValue, long, List)</CODE></A>, and lets a handler take the objects of the transfer list that
+ are not ArrayBuffers (a <code>MessagePort</code>): they become cells of the result, and the handler gives them up after the whole
+ serialization succeeded.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html#serializeForMessaging(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsValue, long, java.util.List, org.duckdns.hjow.swingwebpanel.js.host.structured.StructuredClone.TransferHandler)">serializeForMessaging</A></B>(org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;realm,
+                      org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;value,
+                      long&nbsp;maxBytes,
+                      java.util.List&lt;? extends org.duckdns.hjow.swingwebpanel.js.JsObject&gt;&nbsp;transfer,
+                      <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.structured">StructuredClone.TransferHandler</A>&nbsp;handler)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serializes a browser message or a JavaScript structuredClone call, allowing shared memory in a bound realm.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="MAX_DEPTH"><!-- --></A><H3>
+MAX_DEPTH</H3>
+<PRE>
+public static final int <B>MAX_DEPTH</B></PRE>
+<DL>
+<DD>The deepest nesting of objects that is serialized.
+ <p>
+ 직렬화하는 객체 중첩의 최대 깊이.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.structured.StructuredClone.MAX_DEPTH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAX_CELLS"><!-- --></A><H3>
+MAX_CELLS</H3>
+<PRE>
+public static final int <B>MAX_CELLS</B></PRE>
+<DL>
+<DD>The largest number of objects of one serialized value.
+ <p>
+ 직렬화한 값 하나의 최대 객체 수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.structured.StructuredClone.MAX_CELLS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_MAX_BYTES"><!-- --></A><H3>
+DEFAULT_MAX_BYTES</H3>
+<PRE>
+public static final long <B>DEFAULT_MAX_BYTES</B></PRE>
+<DL>
+<DD>The default limit of the estimated size of a serialized value in bytes.
+ <p>
+ 직렬화한 값의 추정 크기에 대한 기본 한도(바이트).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.structured.StructuredClone.DEFAULT_MAX_BYTES">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="serialize(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+serialize</H3>
+<PRE>
+public static <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A> <B>serialize</B>(org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;realm,
+                                    org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;value)</PRE>
+<DL>
+<DD>Serializes a value with the default size limit and no transfer list.
+ <p>
+ 기본 크기 한도로, 전달 목록 없이 값을 직렬화한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>realm</CODE> - the realm that the value belongs to / 값이 속한 realm<DD><CODE>value</CODE> - the value / 값
+<DT><B>Returns:</B><DD>the serialized form / 직렬화된 형태
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredCloneException.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">StructuredCloneException</A></CODE> - if the value cannot be cloned / 값을 복제할 수 없으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="serialize(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsValue, long, java.util.List)"><!-- --></A><H3>
+serialize</H3>
+<PRE>
+public static <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A> <B>serialize</B>(org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;realm,
+                                    org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;value,
+                                    long&nbsp;maxBytes,
+                                    java.util.List&lt;? extends org.duckdns.hjow.swingwebpanel.js.JsObject&gt;&nbsp;transfer)</PRE>
+<DL>
+<DD>Serializes a value. Getters of the value run script code, so the call must be made on the thread that owns the realm. When the
+ transfer list holds ArrayBuffers, their bytes move into the result and the source buffers are detached after a successful
+ serialization.
+ <p>
+ 값을 직렬화한다. 값의 getter 는 스크립트 코드를 실행하므로 realm 을 소유한 스레드에서 불러야 한다. 전달 목록에 ArrayBuffer 가 있으면 그
+ 바이트는 결과로 옮겨지고 직렬화에 성공한 뒤 원본 버퍼는 분리된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>realm</CODE> - the realm that the value belongs to / 값이 속한 realm<DD><CODE>value</CODE> - the value / 값<DD><CODE>maxBytes</CODE> - the limit of the estimated size / 추정 크기의 한도<DD><CODE>transfer</CODE> - ArrayBuffers to move, or null / 옮길 ArrayBuffer. 없으면 null
+<DT><B>Returns:</B><DD>the serialized form / 직렬화된 형태
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredCloneException.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">StructuredCloneException</A></CODE> - if the value cannot be cloned or a transfer is invalid / 값을 복제할 수 없거나 전달이 잘못되었으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="serialize(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsValue, long, java.util.List, org.duckdns.hjow.swingwebpanel.js.host.structured.StructuredClone.TransferHandler)"><!-- --></A><H3>
+serialize</H3>
+<PRE>
+public static <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A> <B>serialize</B>(org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;realm,
+                                    org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;value,
+                                    long&nbsp;maxBytes,
+                                    java.util.List&lt;? extends org.duckdns.hjow.swingwebpanel.js.JsObject&gt;&nbsp;transfer,
+                                    <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.structured">StructuredClone.TransferHandler</A>&nbsp;handler)</PRE>
+<DL>
+<DD>Serializes a value like <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html#serialize(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsValue, long, java.util.List)"><CODE>serialize(JsRealm, JsValue, long, List)</CODE></A>, and lets a handler take the objects of the transfer list that
+ are not ArrayBuffers (a <code>MessagePort</code>): they become cells of the result, and the handler gives them up after the whole
+ serialization succeeded.
+ <p>
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html#serialize(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsValue, long, java.util.List)"><CODE>serialize(JsRealm, JsValue, long, List)</CODE></A> 처럼 값을 직렬화하되, 전달 목록의 ArrayBuffer 가 아닌 객체(<code>MessagePort</code>)는 처리기가
+ 받는다: 그것들은 결과의 칸이 되고, 직렬화 전체가 성공한 뒤 처리기가 내놓는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>realm</CODE> - the realm that the value belongs to / 값이 속한 realm<DD><CODE>value</CODE> - the value / 값<DD><CODE>maxBytes</CODE> - the limit of the estimated size / 추정 크기의 한도<DD><CODE>transfer</CODE> - the objects to move, or null / 옮길 객체. 없으면 null<DD><CODE>handler</CODE> - the handler of the objects that are not ArrayBuffers, or null for none / ArrayBuffer 가 아닌 객체의 처리기. 없으면 null
+<DT><B>Returns:</B><DD>the serialized form / 직렬화된 형태
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredCloneException.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">StructuredCloneException</A></CODE> - if the value cannot be cloned or a transfer is invalid / 값을 복제할 수 없거나 전달이 잘못되었으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="serializeForMessaging(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsValue, long, java.util.List, org.duckdns.hjow.swingwebpanel.js.host.structured.StructuredClone.TransferHandler)"><!-- --></A><H3>
+serializeForMessaging</H3>
+<PRE>
+public static <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A> <B>serializeForMessaging</B>(org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;realm,
+                                                org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;value,
+                                                long&nbsp;maxBytes,
+                                                java.util.List&lt;? extends org.duckdns.hjow.swingwebpanel.js.JsObject&gt;&nbsp;transfer,
+                                                <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.structured">StructuredClone.TransferHandler</A>&nbsp;handler)</PRE>
+<DL>
+<DD>Serializes a browser message or a JavaScript structuredClone call, allowing shared memory in a bound realm.
+ <p>
+ 브라우저 메시지나 JavaScript structuredClone 호출을 직렬화한다. 호스트가 연결한 realm에서는 공유 메모리를 허용한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>realm</CODE> - the sending realm / 보내는 realm<DD><CODE>value</CODE> - the value to clone / 복제할 값<DD><CODE>maxBytes</CODE> - the size limit / 크기 한도<DD><CODE>transfer</CODE> - the objects to move, or null / 옮길 객체. 없으면 null<DD><CODE>handler</CODE> - the handler for external transferable objects, or null / 외부 전달 객체의 처리기. 없으면 null
+<DT><B>Returns:</B><DD>the serialized message / 직렬화된 메시지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="deserialize(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue)"><!-- --></A><H3>
+deserialize</H3>
+<PRE>
+public static org.duckdns.hjow.swingwebpanel.js.JsValue <B>deserialize</B>(org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;realm,
+                                                                    <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A>&nbsp;cloned)</PRE>
+<DL>
+<DD>Creates a fresh value of a realm from a serialized form. It can be called any number of times for the same form; every call makes
+ independent objects.
+ <p>
+ 직렬화된 형태로 realm 의 새 값을 만든다. 같은 형태로 몇 번이고 부를 수 있으며 부를 때마다 독립된 객체를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>realm</CODE> - the realm that receives the value / 값을 받는 realm<DD><CODE>cloned</CODE> - the serialized form / 직렬화된 형태
+<DT><B>Returns:</B><DD>the new value / 새 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="deserialize(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue, org.duckdns.hjow.swingwebpanel.js.host.structured.StructuredClone.TransferHandler, java.util.List)"><!-- --></A><H3>
+deserialize</H3>
+<PRE>
+public static org.duckdns.hjow.swingwebpanel.js.JsValue <B>deserialize</B>(org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;realm,
+                                                                    <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A>&nbsp;cloned,
+                                                                    <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.structured">StructuredClone.TransferHandler</A>&nbsp;handler,
+                                                                    java.util.List&lt;org.duckdns.hjow.swingwebpanel.js.JsObject&gt;&nbsp;received)</PRE>
+<DL>
+<DD>Creates a fresh value like <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html#deserialize(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue)"><CODE>deserialize(JsRealm, ClonedValue)</CODE></A>, and also receives the objects that a handler moved (a
+ <code>MessagePort</code>): they are created by the handler in the realm of the receiver and collected in the order of the transfer list.
+ A form that carries moved objects can be received once.
+ <p>
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html#deserialize(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue)"><CODE>deserialize(JsRealm, ClonedValue)</CODE></A> 처럼 새 값을 만들되, 처리기가 옮긴 객체(<code>MessagePort</code>)도 받는다: 그것들은 처리기가 받는 쪽
+ realm 에 만들며 전달 목록의 순서대로 모아 준다. 옮긴 객체를 가진 형태는 한 번만 받을 수 있다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>realm</CODE> - the realm that receives the value / 값을 받는 realm<DD><CODE>cloned</CODE> - the serialized form / 직렬화된 형태<DD><CODE>handler</CODE> - the handler that creates the moved objects, or null / 옮긴 객체를 만드는 처리기. 없으면 null<DD><CODE>received</CODE> - a list that receives the moved objects in order of the transfer list, or null / 옮긴 객체를 전달 목록 순서로 받는 목록. 없으면 null
+<DT><B>Returns:</B><DD>the new value / 새 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="deserializeForMessaging(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue, org.duckdns.hjow.swingwebpanel.js.host.structured.StructuredClone.TransferHandler, java.util.List)"><!-- --></A><H3>
+deserializeForMessaging</H3>
+<PRE>
+public static org.duckdns.hjow.swingwebpanel.js.JsValue <B>deserializeForMessaging</B>(org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;realm,
+                                                                                <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A>&nbsp;cloned,
+                                                                                <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.structured">StructuredClone.TransferHandler</A>&nbsp;handler,
+                                                                                java.util.List&lt;org.duckdns.hjow.swingwebpanel.js.JsObject&gt;&nbsp;received)</PRE>
+<DL>
+<DD>Reads a browser message using the receiving realm's current agent-cluster identity.
+ <p>
+ 받는 realm의 현재 에이전트 클러스터 식별자를 사용해 브라우저 메시지를 읽는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>realm</CODE> - the receiving realm / 받는 realm<DD><CODE>cloned</CODE> - the serialized message / 직렬화된 메시지<DD><CODE>handler</CODE> - external transfer handler, or null / 외부 전달 처리기. 없으면 null<DD><CODE>received</CODE> - destination list for transferred objects, or null / 전달 객체를 받을 목록. 없으면 null
+<DT><B>Returns:</B><DD>the received value / 받은 값
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredCloneException.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">StructuredCloneException</A></CODE> - if the receiver cannot share the memory / 받는 쪽에서 메모리를 공유할 수 없으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="copy(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+copy</H3>
+<PRE>
+public static org.duckdns.hjow.swingwebpanel.js.JsValue <B>copy</B>(org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;source,
+                                                             org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;target,
+                                                             org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;value)</PRE>
+<DL>
+<DD>Copies a value from one realm to another (serialize, then deserialize).
+ <p>
+ 값을 한 realm 에서 다른 realm 으로 복사한다(직렬화한 뒤 역직렬화).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>source</CODE> - the realm of the value / 값의 realm<DD><CODE>target</CODE> - the realm that receives the copy / 복사본을 받는 realm<DD><CODE>value</CODE> - the value / 값
+<DT><B>Returns:</B><DD>the copy / 복사본
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredCloneException.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">StructuredCloneException</A></CODE> - if the value cannot be cloned / 값을 복제할 수 없으면</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/SharedMemoryScope.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.structured"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="StructuredClone.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

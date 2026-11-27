@@ -1,0 +1,635 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+PageInput
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="PageInput";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageEditing.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKeyboard.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/PageInput.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PageInput.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.core</FONT>
+<BR>
+Class PageInput</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by ">java.awt.event.MouseAdapter
+      <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.core.PageInput</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD>java.awt.event.MouseListener, java.awt.event.MouseMotionListener, java.awt.event.MouseWheelListener, java.util.EventListener</DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public final class <B>PageInput</B><DT>extends java.awt.event.MouseAdapter<DT>implements java.awt.event.MouseMotionListener, java.awt.event.MouseWheelListener</DL>
+</PRE>
+
+<P>
+Basic pointer/link input for the rendered component. Component coordinates already include JScrollPane's view translation.
+ Hit testing and DOM click dispatch run on the document queue; Swing link notifications and default navigation run on the EDT.
+ User notifications are separate from internal navigation, so removing listeners never disables links (P09-08-a/P11-03/04).
+ <p>렌더링 컴포넌트의 기본 포인터·링크 입력. 컴포넌트 좌표에는 이미 JScrollPane의 뷰 이동이 반영된다. 좌표 조회·DOM click은 문서 큐,
+ Swing 링크 통지·기본 이동은 EDT에서 처리한다. 사용자 통지와 내부 이동을 분리하므로 리스너를 모두 제거해도 링크는 작동한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html#PageInput(javax.swing.JComponent, org.duckdns.hjow.swingwebpanel.core.BrowserSession, org.duckdns.hjow.swingwebpanel.core.PageView, org.duckdns.hjow.swingwebpanel.core.HyperlinkDispatcher)">PageInput</A></B>(javax.swing.JComponent&nbsp;component,
+          <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" title="class in org.duckdns.hjow.swingwebpanel.core">BrowserSession</A>&nbsp;session,
+          <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageView</A>&nbsp;view,
+          <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/HyperlinkDispatcher.html" title="class in org.duckdns.hjow.swingwebpanel.core">HyperlinkDispatcher</A>&nbsp;links)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a handler; the host installs it as its own mouse and mouse-motion listener.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html#dispose()">dispose</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Permanently stops input; the component removes listener registrations. / 입력을 영구 중지하며 컴포넌트가 리스너 등록을 제거한다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDragDrop.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageDragDrop</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html#getDragDrop()">getDragDrop</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the drag and drop controller of the component (a drag of an element or of the selected text inside the page).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageEditing.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageEditing</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html#getEditing()">getEditing</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the editing controller (keys inside an editing host, cut and paste) of the component.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSelection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html#getSelection()">getSelection</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the selection controller (mouse selection, select all, copy, highlight) of the component.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html#mouseClicked(java.awt.event.MouseEvent)">mouseClicked</A></B>(java.awt.event.MouseEvent&nbsp;event)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Queues the DOM events of a click: <code>click</code> (or <code>auxclick</code> for the other buttons) and, for the second click of a
+ double click, <code>dblclick</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html#mouseDragged(java.awt.event.MouseEvent)">mouseDragged</A></B>(java.awt.event.MouseEvent&nbsp;event)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Updates hover during dragging and, while the main button is down, extends the text selection that the press started to the pointer
+ position; a pointer outside the visible area scrolls the viewport (the autoscroll of Swing repeats the call while the pointer is held).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html#mouseExited(java.awt.event.MouseEvent)">mouseExited</A></B>(java.awt.event.MouseEvent&nbsp;event)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clears hover when the pointer leaves the component.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html#mouseMoved(java.awt.event.MouseEvent)">mouseMoved</A></B>(java.awt.event.MouseEvent&nbsp;event)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Coalesces a pointer move without reading the DOM on the EDT.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html#mousePressed(java.awt.event.MouseEvent)">mousePressed</A></B>(java.awt.event.MouseEvent&nbsp;event)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sends <code>mousedown</code> to the element under the pointer (and <code>contextmenu</code> if the platform starts its pop-up menu
+ on the press).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html#mouseReleased(java.awt.event.MouseEvent)">mouseReleased</A></B>(java.awt.event.MouseEvent&nbsp;event)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sends <code>mouseup</code> to the element under the pointer (and <code>contextmenu</code> if the platform starts its pop-up menu
+ on the release).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html#mouseWheelMoved(java.awt.event.MouseWheelEvent)">mouseWheelMoved</A></B>(java.awt.event.MouseWheelEvent&nbsp;event)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Turns the wheel into a DOM <code>wheel</code> event and hands the AWT event to the scroll pane that contains the component, which
+ scrolls as before (a script cannot cancel the scrolling of the host's scroll pane).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html#reset()">reset</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clears pointer state after a page replacement or clean; safe from any thread. / 페이지 교체나 clean 후 포인터 상태를 지우며 어느 스레드에서나 안전하다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html#setPressHook(java.lang.Runnable)">setPressHook</A></B>(java.lang.Runnable&nbsp;hook)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets what runs on the event dispatch thread before a mouse press is handled (null for nothing): the component ends the composition
+ of an input method there, so that the composed text stays where it was composed and not where the press puts the caret.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html#setZoomControl(org.duckdns.hjow.swingwebpanel.core.ZoomControl)">setZoomControl</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ZoomControl.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ZoomControl</A>&nbsp;control)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the object that changes the page zoom for Ctrl+wheel (null: the wheel with Ctrl only scrolls).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.awt.event.MouseAdapter"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.awt.event.MouseAdapter</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>mouseEntered</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="PageInput(javax.swing.JComponent, org.duckdns.hjow.swingwebpanel.core.BrowserSession, org.duckdns.hjow.swingwebpanel.core.PageView, org.duckdns.hjow.swingwebpanel.core.HyperlinkDispatcher)"><!-- --></A><H3>
+PageInput</H3>
+<PRE>
+public <B>PageInput</B>(javax.swing.JComponent&nbsp;component,
+                 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" title="class in org.duckdns.hjow.swingwebpanel.core">BrowserSession</A>&nbsp;session,
+                 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageView</A>&nbsp;view,
+                 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/HyperlinkDispatcher.html" title="class in org.duckdns.hjow.swingwebpanel.core">HyperlinkDispatcher</A>&nbsp;links)</PRE>
+<DL>
+<DD>Creates a handler; the host installs it as its own mouse and mouse-motion listener.
+ <p>처리기를 만들며 호스트가 자체 마우스·마우스 이동 리스너로 설치한다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>component</CODE> - Swing event source / Swing 이벤트 출처<DD><CODE>session</CODE> - owning session / 소유 세션<DD><CODE>view</CODE> - rendered snapshots / 렌더링 스냅샷<DD><CODE>links</CODE> - user notification registry / 사용자 통지 등록부</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getDragDrop()"><!-- --></A><H3>
+getDragDrop</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDragDrop.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageDragDrop</A> <B>getDragDrop</B>()</PRE>
+<DL>
+<DD>Returns the drag and drop controller of the component (a drag of an element or of the selected text inside the page).
+ <p>
+ 컴포넌트의 끌어다 놓기 제어기를 반환한다(페이지 안의 요소나 선택한 텍스트의 끌기).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the controller / 제어기</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEditing()"><!-- --></A><H3>
+getEditing</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageEditing.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageEditing</A> <B>getEditing</B>()</PRE>
+<DL>
+<DD>Returns the editing controller (keys inside an editing host, cut and paste) of the component.
+ <p>
+ 컴포넌트의 편집 제어기(편집 호스트 안의 키, 잘라내기, 붙여넣기)를 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the controller / 제어기</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSelection()"><!-- --></A><H3>
+getSelection</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSelection</A> <B>getSelection</B>()</PRE>
+<DL>
+<DD>Returns the selection controller (mouse selection, select all, copy, highlight) of the component.
+ <p>
+ 컴포넌트의 선택 제어기(마우스 선택, 전체 선택, 복사, 강조)를 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the controller / 제어기</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setPressHook(java.lang.Runnable)"><!-- --></A><H3>
+setPressHook</H3>
+<PRE>
+public void <B>setPressHook</B>(java.lang.Runnable&nbsp;hook)</PRE>
+<DL>
+<DD>Sets what runs on the event dispatch thread before a mouse press is handled (null for nothing): the component ends the composition
+ of an input method there, so that the composed text stays where it was composed and not where the press puts the caret.
+ <p>
+ 마우스 누름을 처리하기 전에 이벤트 디스패치 스레드에서 실행할 일을 정한다(null 이면 없음). 컴포넌트는 여기서 입력기의 조합을 끝내, 조합 중인 텍스트가
+ 누름이 캐럿을 옮기는 곳이 아니라 조합하던 자리에 남게 한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>hook</CODE> - the task or null / 할 일. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setZoomControl(org.duckdns.hjow.swingwebpanel.core.ZoomControl)"><!-- --></A><H3>
+setZoomControl</H3>
+<PRE>
+public void <B>setZoomControl</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ZoomControl.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ZoomControl</A>&nbsp;control)</PRE>
+<DL>
+<DD>Sets the object that changes the page zoom for Ctrl+wheel (null: the wheel with Ctrl only scrolls).
+ <p>
+ Ctrl+휠이 페이지 확대를 바꾸는 데 쓰는 객체를 정한다(null 이면 Ctrl+휠도 스크롤만 한다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>control</CODE> - the zoom control or null / 확대 제어. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mouseMoved(java.awt.event.MouseEvent)"><!-- --></A><H3>
+mouseMoved</H3>
+<PRE>
+public void <B>mouseMoved</B>(java.awt.event.MouseEvent&nbsp;event)</PRE>
+<DL>
+<DD>Coalesces a pointer move without reading the DOM on the EDT.
+ <p>EDT에서 DOM을 읽지 않고 포인터 이동을 합친다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>mouseMoved</CODE> in interface <CODE>java.awt.event.MouseMotionListener</CODE><DT><B>Overrides:</B><DD><CODE>mouseMoved</CODE> in class <CODE>java.awt.event.MouseAdapter</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>event</CODE> - pointer event / 포인터 이벤트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mouseDragged(java.awt.event.MouseEvent)"><!-- --></A><H3>
+mouseDragged</H3>
+<PRE>
+public void <B>mouseDragged</B>(java.awt.event.MouseEvent&nbsp;event)</PRE>
+<DL>
+<DD>Updates hover during dragging and, while the main button is down, extends the text selection that the press started to the pointer
+ position; a pointer outside the visible area scrolls the viewport (the autoscroll of Swing repeats the call while the pointer is held).
+ <p>드래그 중 호버를 갱신하고, 주 버튼이 눌려 있으면 누름이 시작한 텍스트 선택을 포인터 위치까지 확장한다. 포인터가 보이는 영역 밖이면 뷰포트를
+ 스크롤한다(Swing 의 자동 스크롤이 포인터를 붙든 동안 호출을 반복한다).
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>mouseDragged</CODE> in interface <CODE>java.awt.event.MouseMotionListener</CODE><DT><B>Overrides:</B><DD><CODE>mouseDragged</CODE> in class <CODE>java.awt.event.MouseAdapter</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>event</CODE> - pointer event / 포인터 이벤트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mouseExited(java.awt.event.MouseEvent)"><!-- --></A><H3>
+mouseExited</H3>
+<PRE>
+public void <B>mouseExited</B>(java.awt.event.MouseEvent&nbsp;event)</PRE>
+<DL>
+<DD>Clears hover when the pointer leaves the component.
+ <p>포인터가 컴포넌트를 떠나면 호버를 해제한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>mouseExited</CODE> in interface <CODE>java.awt.event.MouseListener</CODE><DT><B>Overrides:</B><DD><CODE>mouseExited</CODE> in class <CODE>java.awt.event.MouseAdapter</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>event</CODE> - pointer event / 포인터 이벤트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mousePressed(java.awt.event.MouseEvent)"><!-- --></A><H3>
+mousePressed</H3>
+<PRE>
+public void <B>mousePressed</B>(java.awt.event.MouseEvent&nbsp;event)</PRE>
+<DL>
+<DD>Sends <code>mousedown</code> to the element under the pointer (and <code>contextmenu</code> if the platform starts its pop-up menu
+ on the press).
+ <p>포인터 아래 요소에 <code>mousedown</code> 을 보낸다(플랫폼이 누를 때 팝업 메뉴를 시작하면 <code>contextmenu</code> 도 보낸다).
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>mousePressed</CODE> in interface <CODE>java.awt.event.MouseListener</CODE><DT><B>Overrides:</B><DD><CODE>mousePressed</CODE> in class <CODE>java.awt.event.MouseAdapter</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>event</CODE> - pointer event / 포인터 이벤트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mouseReleased(java.awt.event.MouseEvent)"><!-- --></A><H3>
+mouseReleased</H3>
+<PRE>
+public void <B>mouseReleased</B>(java.awt.event.MouseEvent&nbsp;event)</PRE>
+<DL>
+<DD>Sends <code>mouseup</code> to the element under the pointer (and <code>contextmenu</code> if the platform starts its pop-up menu
+ on the release).
+ <p>포인터 아래 요소에 <code>mouseup</code> 을 보낸다(플랫폼이 뗄 때 팝업 메뉴를 시작하면 <code>contextmenu</code> 도 보낸다).
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>mouseReleased</CODE> in interface <CODE>java.awt.event.MouseListener</CODE><DT><B>Overrides:</B><DD><CODE>mouseReleased</CODE> in class <CODE>java.awt.event.MouseAdapter</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>event</CODE> - pointer event / 포인터 이벤트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mouseWheelMoved(java.awt.event.MouseWheelEvent)"><!-- --></A><H3>
+mouseWheelMoved</H3>
+<PRE>
+public void <B>mouseWheelMoved</B>(java.awt.event.MouseWheelEvent&nbsp;event)</PRE>
+<DL>
+<DD>Turns the wheel into a DOM <code>wheel</code> event and hands the AWT event to the scroll pane that contains the component, which
+ scrolls as before (a script cannot cancel the scrolling of the host's scroll pane).
+ <p>휠을 DOM <code>wheel</code> 이벤트로 바꾸고, AWT 이벤트는 컴포넌트를 담은 스크롤 창에 넘겨 전과 같이 스크롤되게 한다(스크립트는 호스트의
+ 스크롤 창의 스크롤을 취소할 수 없다).
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>mouseWheelMoved</CODE> in interface <CODE>java.awt.event.MouseWheelListener</CODE><DT><B>Overrides:</B><DD><CODE>mouseWheelMoved</CODE> in class <CODE>java.awt.event.MouseAdapter</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>event</CODE> - wheel event / 휠 이벤트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mouseClicked(java.awt.event.MouseEvent)"><!-- --></A><H3>
+mouseClicked</H3>
+<PRE>
+public void <B>mouseClicked</B>(java.awt.event.MouseEvent&nbsp;event)</PRE>
+<DL>
+<DD>Queues the DOM events of a click: <code>click</code> (or <code>auxclick</code> for the other buttons) and, for the second click of a
+ double click, <code>dblclick</code>. DOM cancellation and listener-initiated navigation are checked before the default action of a
+ primary click.
+ <p>클릭의 DOM 이벤트를 예약한다: <code>click</code>(다른 버튼은 <code>auxclick</code>)과, 더블 클릭의 두 번째 클릭이면 <code>dblclick</code>.
+ 주 버튼 클릭의 기본 동작 전에 DOM 취소와 리스너가 시작한 이동을 확인한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>mouseClicked</CODE> in interface <CODE>java.awt.event.MouseListener</CODE><DT><B>Overrides:</B><DD><CODE>mouseClicked</CODE> in class <CODE>java.awt.event.MouseAdapter</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>event</CODE> - pointer event / 포인터 이벤트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="reset()"><!-- --></A><H3>
+reset</H3>
+<PRE>
+public void <B>reset</B>()</PRE>
+<DL>
+<DD>Clears pointer state after a page replacement or clean; safe from any thread. / 페이지 교체나 clean 후 포인터 상태를 지우며 어느 스레드에서나 안전하다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispose()"><!-- --></A><H3>
+dispose</H3>
+<PRE>
+public void <B>dispose</B>()</PRE>
+<DL>
+<DD>Permanently stops input; the component removes listener registrations. / 입력을 영구 중지하며 컴포넌트가 리스너 등록을 제거한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageEditing.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKeyboard.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/PageInput.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PageInput.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

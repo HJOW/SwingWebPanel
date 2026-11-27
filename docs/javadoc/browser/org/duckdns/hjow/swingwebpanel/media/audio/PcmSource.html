@@ -1,0 +1,372 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+PcmSource
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="PcmSource";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmFloatAdapter.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/WideAudioDecoder.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PcmSource.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.audio</FONT>
+<BR>
+Interface PcmSource</H2>
+<DL>
+<DT><B>All Known Implementing Classes:</B> <DD><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/pcm/AdpcmSource.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio.pcm">AdpcmSource</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/BlockPcmSource.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">BlockPcmSource</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/pcm/RawPcmSource.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio.pcm">RawPcmSource</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public interface <B>PcmSource</B></DL>
+</PRE>
+
+<P>
+A stream of decoded audio: 16-bit signed little-endian interleaved PCM that is produced on demand, so a long recording is never decoded into
+ memory as a whole (plan item P18-08). The playback code reads blocks and writes them to a Java Sound line. Not thread-safe: one
+ thread reads and seeks at a time.
+ <p>
+ 디코딩된 오디오의 스트림: 16비트 부호 있는 리틀 엔디언 인터리브 PCM 을 요청할 때 만들어 내므로 긴 녹음을 통째로 메모리에 디코딩하지 않는다
+ (계획 P18-08). 재생 코드는 블록을 읽어 Java Sound 라인에 쓴다. 스레드 안전하지 않으며 한 번에 한 스레드만 읽고 탐색한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html#close()">close</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Releases resources held by the decoder (idempotent).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html#getChannels()">getChannels</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of channels (1 or 2; sources with more channels are mixed down to stereo by the decoder).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html#getFrameCount()">getFrameCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the total number of frames (one sample per channel) or -1 if it is not known in advance.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html#getSampleRate()">getSampleRate</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the sample rate in frames per second.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html#isSeekable()">isSeekable</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html#seekToFrame(long)"><CODE>seekToFrame(long)</CODE></A> is supported.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html#read(byte[], int, int)">read</A></B>(byte[]&nbsp;buffer,
+     int&nbsp;offset,
+     int&nbsp;length)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reads decoded PCM bytes (16-bit signed little-endian, interleaved).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html#seekToFrame(long)">seekToFrame</A></B>(long&nbsp;frame)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Moves to a frame position; the next read starts there (or at the nearest decodable position before it, then skips to it).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getSampleRate()"><!-- --></A><H3>
+getSampleRate</H3>
+<PRE>
+int <B>getSampleRate</B>()</PRE>
+<DL>
+<DD>Returns the sample rate in frames per second.
+ <p>
+ 샘플링 주파수(초당 프레임 수)를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>sample rate / 샘플링 주파수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getChannels()"><!-- --></A><H3>
+getChannels</H3>
+<PRE>
+int <B>getChannels</B>()</PRE>
+<DL>
+<DD>Returns the number of channels (1 or 2; sources with more channels are mixed down to stereo by the decoder).
+ <p>
+ 채널 수(1 또는 2)를 반환한다. 채널이 더 많은 소스는 디코더가 스테레오로 다운믹스한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>channels / 채널 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFrameCount()"><!-- --></A><H3>
+getFrameCount</H3>
+<PRE>
+long <B>getFrameCount</B>()</PRE>
+<DL>
+<DD>Returns the total number of frames (one sample per channel) or -1 if it is not known in advance.
+ <p>
+ 전체 프레임 수(채널마다 샘플 하나)를 반환하며 미리 알 수 없으면 -1 이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>frames or -1 / 프레임 수 또는 -1</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="read(byte[], int, int)"><!-- --></A><H3>
+read</H3>
+<PRE>
+int <B>read</B>(byte[]&nbsp;buffer,
+         int&nbsp;offset,
+         int&nbsp;length)
+         throws <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></PRE>
+<DL>
+<DD>Reads decoded PCM bytes (16-bit signed little-endian, interleaved). Blocks of whole frames are returned.
+ <p>
+ 디코딩된 PCM 바이트(16비트 부호 있는 리틀 엔디언, 인터리브)를 읽는다. 프레임 단위로 완전한 블록을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>buffer</CODE> - buffer to fill / 채울 버퍼<DD><CODE>offset</CODE> - start offset / 시작 위치<DD><CODE>length</CODE> - maximum number of bytes (at least one frame) / 최대 바이트 수(최소 한 프레임)
+<DT><B>Returns:</B><DD>bytes read (a multiple of the frame size), or -1 at the end / 읽은 바이트 수(프레임 크기의 배수). 끝이면 -1
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></CODE> - CORRUPT if the data turns out to be damaged while decoding / 디코딩 중 데이터가 손상된 것으로 드러나면 CORRUPT</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isSeekable()"><!-- --></A><H3>
+isSeekable</H3>
+<PRE>
+boolean <B>isSeekable</B>()</PRE>
+<DL>
+<DD>Tells whether <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html#seekToFrame(long)"><CODE>seekToFrame(long)</CODE></A> is supported.
+ <p>
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html#seekToFrame(long)"><CODE>seekToFrame(long)</CODE></A> 를 지원하는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if seekable / 탐색할 수 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="seekToFrame(long)"><!-- --></A><H3>
+seekToFrame</H3>
+<PRE>
+void <B>seekToFrame</B>(long&nbsp;frame)
+                 throws <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></PRE>
+<DL>
+<DD>Moves to a frame position; the next read starts there (or at the nearest decodable position before it, then skips to it).
+ <p>
+ 프레임 위치로 이동한다. 다음 읽기가 거기서 시작한다(디코딩 가능한 가장 가까운 앞 위치에서 시작해 건너뛴다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>frame</CODE> - frame index, 0 or more; positions past the end move to the end / 프레임 위치. 0 이상이며 끝을 넘으면 끝으로 이동
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></CODE> - if the source is not seekable or the data is damaged / 탐색할 수 없거나 데이터가 손상되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="close()"><!-- --></A><H3>
+close</H3>
+<PRE>
+void <B>close</B>()</PRE>
+<DL>
+<DD>Releases resources held by the decoder (idempotent). After closing, reads fail.
+ <p>
+ 디코더가 쥐고 있는 자원을 해제한다(여러 번 호출해도 안전). 닫은 뒤 읽기는 실패한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmFloatAdapter.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/WideAudioDecoder.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PcmSource.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

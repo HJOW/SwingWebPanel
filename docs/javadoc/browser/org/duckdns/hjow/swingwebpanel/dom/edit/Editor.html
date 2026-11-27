@@ -1,0 +1,973 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+Editor
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Editor";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/EditingHosts.html" title="class in org.duckdns.hjow.swingwebpanel.dom.edit"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.Environment.html" title="interface in org.duckdns.hjow.swingwebpanel.dom.edit"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Editor.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom.edit</FONT>
+<BR>
+Class Editor</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.dom.edit.Editor</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>Editor</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The editing engine of one document (plan item P20-06): it changes the DOM the way the browsers do when the user types, deletes, breaks a
+ line, formats, cuts, pastes or drops in an editing host (<code>contenteditable</code> or design mode), and it is the implementation of
+ <code>document.execCommand()</code>. The selection of the document is the place where it works. Every operation sends the cancelable
+ <code>beforeinput</code> event to the editing host first (Input Events, with the <code>inputType</code>, the <code>data</code> and the
+ target ranges), does nothing when a listener cancels it, then changes the DOM as one step of the undo history and sends
+ <code>input</code>. The engine needs no layout: where it must know what is a block or whether white space is preserved it asks the
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.Environment.html" title="interface in org.duckdns.hjow.swingwebpanel.dom.edit"><CODE>Editor.Environment</CODE></A>, whose default decides by the names of the elements.
+ <p>
+ Inside this engine a position is a node and an offset, as in a range. Text is inserted into text nodes (white space is rebalanced with
+ no-break spaces so that every typed space stays visible, as the browsers do for <code>white-space: normal</code>), a deletion works on
+ character units, a line break inside a block is a <code>br</code>, a paragraph break splits the block (the new block is a copy of the
+ old one, a <code>div</code> after a heading, a new item in a list), an empty block keeps a placeholder <code>br</code>, and the end of
+ a block is joined to the next one when the deletion crosses it.
+ <p>
+ 한 문서의 편집 엔진(계획 P20-06): 편집 호스트(<code>contenteditable</code> 이나 디자인 모드) 안에서 사용자가 글자를 입력하고, 지우고, 줄을 바꾸고, 서식을 정하고,
+ 잘라내고, 붙여넣고, 놓을 때 브라우저가 하는 대로 DOM 을 바꾸며, <code>document.execCommand()</code> 의 구현이다. 문서의 선택이 일하는 자리이다. 모든
+ 작업은 먼저 취소할 수 있는 <code>beforeinput</code> 이벤트를 편집 호스트에 보내고(Input Events: <code>inputType</code>, <code>data</code>, 대상 범위),
+ 리스너가 취소하면 아무것도 하지 않으며, 아니면 DOM 을 되돌리기 이력의 한 단계로 바꾼 뒤 <code>input</code> 을 보낸다. 엔진은 레이아웃이 필요 없다.
+ 무엇이 블록인지, 공백이 보존되는지 알아야 할 때는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.Environment.html" title="interface in org.duckdns.hjow.swingwebpanel.dom.edit"><CODE>Editor.Environment</CODE></A> 에 묻고, 기본 구현은 요소 이름으로 정한다.
+ <p>
+ 이 엔진 안에서 위치는 범위처럼 노드와 오프셋이다. 텍스트는 텍스트 노드에 넣고(입력한 공백이 모두 보이도록 NBSP 로 공백을 재조정한다. <code>white-space:
+ normal</code> 에서 브라우저가 하는 대로), 지우기는 글자 단위로 하며, 블록 안의 줄바꿈은 <code>br</code>, 문단 나누기는 블록을 쪼개고(새 블록은 옛 블록의 복사본이고
+ 제목 뒤에서는 <code>div</code>, 목록에서는 새 항목), 빈 블록은 자리표시 <code>br</code> 을 가지며, 지우기가 블록의 끝을 넘으면 다음 블록과 합친다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.Environment.html" title="interface in org.duckdns.hjow.swingwebpanel.dom.edit">Editor.Environment</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;What the engine needs from the host: how events are sent, and the facts about the page that only the layout knows.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#Editor(org.duckdns.hjow.swingwebpanel.dom.Document)">Editor</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the editor of a document (use <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getEditor()"><CODE>Document.getEditor()</CODE></A>).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#abandonComposition()">abandonComposition</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Forgets a running composition without any event (the page was replaced or the component was disposed).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#compose(java.lang.String, java.lang.String)">compose</A></B>(java.lang.String&nbsp;committed,
+        java.lang.String&nbsp;composing)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Applies what an input method reports (Java: an <code>InputMethodEvent</code>): the text that it has committed and the text that it is
+ still composing.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.Environment.html" title="interface in org.duckdns.hjow.swingwebpanel.dom.edit">Editor.Environment</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#defaultEnvironment()">defaultEnvironment</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the environment that works without a host (events are sent to the target as trusted events; blocks and preserved white space
+ are decided by element names).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#delete(boolean, boolean)">delete</A></B>(boolean&nbsp;backward,
+       boolean&nbsp;word)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Deletes one character (or word) backward or forward from the caret (<code>deleteContentBackward</code>,
+ <code>deleteContentForward</code>, <code>deleteWordBackward</code>, <code>deleteWordForward</code>); a selection is deleted whole.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#deleteByCut()">deleteByCut</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Deletes the selection as the second half of a cut (<code>deleteByCut</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#deleteByDrag()">deleteByDrag</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Deletes the selection because it was dragged away (<code>deleteByDrag</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#execCommand(java.lang.String, java.lang.String)">execCommand</A></B>(java.lang.String&nbsp;name,
+            java.lang.String&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Runs an editing command (<code>document.execCommand(name, showUI, value)</code>); it is false when the command is not supported, is
+ not enabled, or was cancelled.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#getSelectionHost()">getSelectionHost</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the editing host of the selection: the one host that holds both ends of the selection, or null if there is no selection or it is
+ not inside one editing host.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html" title="class in org.duckdns.hjow.swingwebpanel.dom.edit">UndoManager</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#getUndoManager()">getUndoManager</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the undo history.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#insertFromDrop(org.duckdns.hjow.swingwebpanel.dom.ClipboardData)">insertFromDrop</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ClipboardData</A>&nbsp;data)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inserts dropped data at the selection (<code>insertFromDrop</code>); see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#insertFromPaste(org.duckdns.hjow.swingwebpanel.dom.ClipboardData)"><CODE>insertFromPaste(org.duckdns.hjow.swingwebpanel.dom.ClipboardData)</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#insertFromPaste(org.duckdns.hjow.swingwebpanel.dom.ClipboardData)">insertFromPaste</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ClipboardData</A>&nbsp;data)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pastes data into the selection (<code>insertFromPaste</code>): HTML is inserted as sanitized markup (unless the host is
+ plaintext-only), otherwise the plain text; the selection is replaced.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#insertHtml(java.lang.String)">insertHtml</A></B>(java.lang.String&nbsp;html)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inserts HTML at the selection (<code>execCommand("insertHTML")</code>; <code>insertFromPaste</code> for pasted markup).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#insertLineBreak()">insertLineBreak</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inserts a line break at the selection (<code>insertLineBreak</code>, Shift+Enter).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#insertParagraph()">insertParagraph</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Breaks the paragraph at the selection (<code>insertParagraph</code>, Enter): the block is split in two (the new block is a copy of the
+ old one, after a heading a <code>div</code>); in an empty list item the list ends; where white space is preserved a line feed is
+ inserted.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#insertText(java.lang.String)">insertText</A></B>(java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Types text at the caret (<code>insertText</code>): the selected content is replaced; a line feed in the text becomes a line break.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#isCommandEnabled(java.lang.String)">isCommandEnabled</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a command can run now (the selection is in an editing host, and for undo and redo there is a step).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#isCommandSupported(java.lang.String)">isCommandSupported</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a command name is one that <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#execCommand(java.lang.String, java.lang.String)"><CODE>execCommand(java.lang.String, java.lang.String)</CODE></A> implements.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#isComposing()">isComposing</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether an input method is composing text now (between <code>compositionstart</code> and <code>compositionend</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#isEditing()">isEditing</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the selection is inside an editing host, so that editing keys and commands act on it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#placeCaret(org.duckdns.hjow.swingwebpanel.dom.Element, boolean)">placeCaret</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;host,
+           boolean&nbsp;end)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Puts the caret (a collapsed selection) at the start or at the end of the content of an editing host, as when the user moves the focus
+ into the host with the keyboard or presses Ctrl+Home or Ctrl+End.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#queryCommandState(java.lang.String)">queryCommandState</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the state of a command for the selection (<code>queryCommandState</code>): whether a format applies.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#queryCommandValue(java.lang.String)">queryCommandValue</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the value of a command for the selection (<code>queryCommandValue</code>): the block that holds the caret for
+ <code>formatBlock</code>, the paragraph separator for <code>defaultParagraphSeparator</code>, else an empty string.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#redo()">redo</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Redoes the step that was undone last (<code>historyRedo</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#selectAll()">selectAll</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Selects all the content of the editing host that holds the selection (Select All inside an editing host); the body when the
+ selection is not in one.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#setEnvironment(org.duckdns.hjow.swingwebpanel.dom.edit.Editor.Environment)">setEnvironment</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.Environment.html" title="interface in org.duckdns.hjow.swingwebpanel.dom.edit">Editor.Environment</A>&nbsp;environment)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the environment (null restores the default).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#toggleFormat(java.lang.String)">toggleFormat</A></B>(java.lang.String&nbsp;command)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Toggles an inline format of the selection (<code>formatBold</code>, <code>formatItalic</code> ...): a selection that is all inside the
+ format loses it, otherwise the format is applied to all the text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#undo()">undo</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Undoes the last editing step (<code>historyUndo</code>).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="Editor(org.duckdns.hjow.swingwebpanel.dom.Document)"><!-- --></A><H3>
+Editor</H3>
+<PRE>
+public <B>Editor</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc)</PRE>
+<DL>
+<DD>Creates the editor of a document (use <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getEditor()"><CODE>Document.getEditor()</CODE></A>).
+ <p>
+ 문서의 편집기를 만든다(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html#getEditor()"><CODE>Document.getEditor()</CODE></A> 를 쓴다).
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>doc</CODE> - the document / 문서</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="setEnvironment(org.duckdns.hjow.swingwebpanel.dom.edit.Editor.Environment)"><!-- --></A><H3>
+setEnvironment</H3>
+<PRE>
+public void <B>setEnvironment</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.Environment.html" title="interface in org.duckdns.hjow.swingwebpanel.dom.edit">Editor.Environment</A>&nbsp;environment)</PRE>
+<DL>
+<DD>Sets the environment (null restores the default).
+ <p>
+ 환경을 정한다(null 이면 기본값).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>environment</CODE> - the environment or null / 환경. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getUndoManager()"><!-- --></A><H3>
+getUndoManager</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/UndoManager.html" title="class in org.duckdns.hjow.swingwebpanel.dom.edit">UndoManager</A> <B>getUndoManager</B>()</PRE>
+<DL>
+<DD>Returns the undo history.
+ <p>
+ 되돌리기 이력을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the history / 이력</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSelectionHost()"><!-- --></A><H3>
+getSelectionHost</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>getSelectionHost</B>()</PRE>
+<DL>
+<DD>Returns the editing host of the selection: the one host that holds both ends of the selection, or null if there is no selection or it is
+ not inside one editing host.
+ <p>
+ 선택의 편집 호스트를 반환한다: 선택의 양 끝을 모두 가진 편집 호스트 하나. 선택이 없거나 한 편집 호스트 안이 아니면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the host or null / 호스트. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isEditing()"><!-- --></A><H3>
+isEditing</H3>
+<PRE>
+public boolean <B>isEditing</B>()</PRE>
+<DL>
+<DD>Tells whether the selection is inside an editing host, so that editing keys and commands act on it.
+ <p>
+ 선택이 편집 호스트 안이어서 편집 키와 명령이 거기에 작용하는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if editing applies / 편집이 적용되면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="insertText(java.lang.String)"><!-- --></A><H3>
+insertText</H3>
+<PRE>
+public boolean <B>insertText</B>(java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Types text at the caret (<code>insertText</code>): the selected content is replaced; a line feed in the text becomes a line break.
+ <p>
+ 캐럿에 텍스트를 입력한다(<code>insertText</code>): 선택된 내용은 바뀌고, 텍스트의 줄바꿈은 줄 바꿈이 된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the text / 텍스트
+<DT><B>Returns:</B><DD>true if the text was inserted (false: no editable selection, empty text, or a listener cancelled) / 넣었으면 true(편집 가능한 선택이 없거나 빈
+         텍스트이거나 리스너가 취소하면 false)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="delete(boolean, boolean)"><!-- --></A><H3>
+delete</H3>
+<PRE>
+public boolean <B>delete</B>(boolean&nbsp;backward,
+                      boolean&nbsp;word)</PRE>
+<DL>
+<DD>Deletes one character (or word) backward or forward from the caret (<code>deleteContentBackward</code>,
+ <code>deleteContentForward</code>, <code>deleteWordBackward</code>, <code>deleteWordForward</code>); a selection is deleted whole.
+ <p>
+ 캐럿에서 뒤나 앞으로 글자 하나(또는 낱말 하나)를 지운다(<code>deleteContentBackward</code>, <code>deleteContentForward</code>,
+ <code>deleteWordBackward</code>, <code>deleteWordForward</code>). 선택은 통째로 지운다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>backward</CODE> - true for Backspace, false for Delete / Backspace 이면 true, Delete 이면 false<DD><CODE>word</CODE> - true to delete a word / 낱말이면 true
+<DT><B>Returns:</B><DD>true if something was deleted / 지웠으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="insertLineBreak()"><!-- --></A><H3>
+insertLineBreak</H3>
+<PRE>
+public boolean <B>insertLineBreak</B>()</PRE>
+<DL>
+<DD>Inserts a line break at the selection (<code>insertLineBreak</code>, Shift+Enter).
+ <p>
+ 선택에 줄 바꿈을 넣는다(<code>insertLineBreak</code>, Shift+Enter).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if inserted / 넣었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="insertParagraph()"><!-- --></A><H3>
+insertParagraph</H3>
+<PRE>
+public boolean <B>insertParagraph</B>()</PRE>
+<DL>
+<DD>Breaks the paragraph at the selection (<code>insertParagraph</code>, Enter): the block is split in two (the new block is a copy of the
+ old one, after a heading a <code>div</code>); in an empty list item the list ends; where white space is preserved a line feed is
+ inserted.
+ <p>
+ 선택에서 문단을 나눈다(<code>insertParagraph</code>, Enter): 블록이 둘로 갈라진다(새 블록은 옛 블록의 복사본이고 제목 뒤에서는 <code>div</code>). 빈 목록 항목에서는
+ 목록이 끝나고, 공백이 보존되는 곳에서는 줄바꿈 문자를 넣는다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if done / 했으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toggleFormat(java.lang.String)"><!-- --></A><H3>
+toggleFormat</H3>
+<PRE>
+public boolean <B>toggleFormat</B>(java.lang.String&nbsp;command)</PRE>
+<DL>
+<DD>Toggles an inline format of the selection (<code>formatBold</code>, <code>formatItalic</code> ...): a selection that is all inside the
+ format loses it, otherwise the format is applied to all the text. With a collapsed caret the format is remembered and applies to the
+ text typed next.
+ <p>
+ 선택의 인라인 서식을 켜고 끈다(<code>formatBold</code>, <code>formatItalic</code> 등): 선택이 모두 서식 안이면 서식이 없어지고, 아니면 모든 텍스트에
+ 서식이 적용된다. 접힌 캐럿에서는 서식을 기억해 두었다가 다음에 입력하는 텍스트에 적용한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>command</CODE> - the command: <code>bold</code>, <code>italic</code>, <code>underline</code>, <code>strikeThrough</code>,
+                <code>subscript</code>, <code>superscript</code> / 명령
+<DT><B>Returns:</B><DD>true if done / 했으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isComposing()"><!-- --></A><H3>
+isComposing</H3>
+<PRE>
+public boolean <B>isComposing</B>()</PRE>
+<DL>
+<DD>Tells whether an input method is composing text now (between <code>compositionstart</code> and <code>compositionend</code>).
+ <p>
+ 입력기가 지금 텍스트를 조합하고 있는지(<code>compositionstart</code> 와 <code>compositionend</code> 사이) 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true while composing / 조합 중이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="compose(java.lang.String, java.lang.String)"><!-- --></A><H3>
+compose</H3>
+<PRE>
+public boolean <B>compose</B>(java.lang.String&nbsp;committed,
+                       java.lang.String&nbsp;composing)</PRE>
+<DL>
+<DD>Applies what an input method reports (Java: an <code>InputMethodEvent</code>): the text that it has committed and the text that it is
+ still composing. The composed text is shown in the DOM at the caret as it is composed (each change is an <code>insertCompositionText</code>
+ with <code>compositionupdate</code> and <code>isComposing</code>); the committed text replaces it and ends the composition
+ (<code>compositionend</code>); the text that is still composed after the committed part starts the next composition (as when Hangul
+ letters finish a syllable and start the next). Both empty ends a running composition without text (the user cancelled it). A
+ composition is one step of the undo history.
+ <p>
+ 입력기가 알리는 것(Java: <code>InputMethodEvent</code>)을 적용한다: 확정한 텍스트와 아직 조합 중인 텍스트. 조합 중인 텍스트는 조합되는 대로 캐럿 자리의 DOM 에
+ 보인다(변경마다 <code>compositionupdate</code> 와 <code>isComposing</code> 이 있는 <code>insertCompositionText</code>). 확정된 텍스트는 그것을 바꾸고 조합을
+ 끝낸다(<code>compositionend</code>). 확정된 부분 뒤에 아직 조합 중인 텍스트는 다음 조합을 시작한다(한글이 한 음절을 마치고 다음 음절을 시작할 때처럼). 둘 다
+ 비면 진행 중인 조합을 텍스트 없이 끝낸다(사용자가 취소했다). 조합 하나는 되돌리기 이력의 한 단계이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>committed</CODE> - the text that the input method committed / 입력기가 확정한 텍스트<DD><CODE>composing</CODE> - the text that is still composed / 아직 조합 중인 텍스트
+<DT><B>Returns:</B><DD>true if the DOM was changed or a composition ended / DOM 이 바뀌었거나 조합이 끝났으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="abandonComposition()"><!-- --></A><H3>
+abandonComposition</H3>
+<PRE>
+public void <B>abandonComposition</B>()</PRE>
+<DL>
+<DD>Forgets a running composition without any event (the page was replaced or the component was disposed).
+ <p>
+ 진행 중인 조합을 이벤트 없이 잊는다(페이지가 교체되었거나 컴포넌트가 폐기되었다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="insertFromPaste(org.duckdns.hjow.swingwebpanel.dom.ClipboardData)"><!-- --></A><H3>
+insertFromPaste</H3>
+<PRE>
+public boolean <B>insertFromPaste</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ClipboardData</A>&nbsp;data)</PRE>
+<DL>
+<DD>Pastes data into the selection (<code>insertFromPaste</code>): HTML is inserted as sanitized markup (unless the host is
+ plaintext-only), otherwise the plain text; the selection is replaced.
+ <p>
+ 데이터를 선택에 붙여넣는다(<code>insertFromPaste</code>): HTML 은 정리한 마크업으로 넣고(호스트가 plaintext-only 이면 제외) 아니면 일반 텍스트를 넣으며,
+ 선택은 바뀐다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - the data of the clipboard / 클립보드의 데이터
+<DT><B>Returns:</B><DD>true if inserted / 넣었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="insertFromDrop(org.duckdns.hjow.swingwebpanel.dom.ClipboardData)"><!-- --></A><H3>
+insertFromDrop</H3>
+<PRE>
+public boolean <B>insertFromDrop</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ClipboardData</A>&nbsp;data)</PRE>
+<DL>
+<DD>Inserts dropped data at the selection (<code>insertFromDrop</code>); see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#insertFromPaste(org.duckdns.hjow.swingwebpanel.dom.ClipboardData)"><CODE>insertFromPaste(org.duckdns.hjow.swingwebpanel.dom.ClipboardData)</CODE></A>.
+ <p>
+ 놓은 데이터를 선택에 넣는다(<code>insertFromDrop</code>). <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#insertFromPaste(org.duckdns.hjow.swingwebpanel.dom.ClipboardData)"><CODE>insertFromPaste(org.duckdns.hjow.swingwebpanel.dom.ClipboardData)</CODE></A> 참조.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - the dragged data / 끌어 온 데이터
+<DT><B>Returns:</B><DD>true if inserted / 넣었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="insertHtml(java.lang.String)"><!-- --></A><H3>
+insertHtml</H3>
+<PRE>
+public boolean <B>insertHtml</B>(java.lang.String&nbsp;html)</PRE>
+<DL>
+<DD>Inserts HTML at the selection (<code>execCommand("insertHTML")</code>; <code>insertFromPaste</code> for pasted markup). The markup is
+ parsed in the context of the editing host.
+ <p>
+ 선택에 HTML 을 넣는다(<code>execCommand("insertHTML")</code>). 마크업은 편집 호스트를 문맥으로 해석한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>html</CODE> - the markup / 마크업
+<DT><B>Returns:</B><DD>true if inserted / 넣었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="deleteByCut()"><!-- --></A><H3>
+deleteByCut</H3>
+<PRE>
+public boolean <B>deleteByCut</B>()</PRE>
+<DL>
+<DD>Deletes the selection as the second half of a cut (<code>deleteByCut</code>).
+ <p>
+ 선택을 잘라내기의 후반으로 지운다(<code>deleteByCut</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if deleted / 지웠으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="deleteByDrag()"><!-- --></A><H3>
+deleteByDrag</H3>
+<PRE>
+public boolean <B>deleteByDrag</B>()</PRE>
+<DL>
+<DD>Deletes the selection because it was dragged away (<code>deleteByDrag</code>).
+ <p>
+ 선택이 끌려 나가 지운다(<code>deleteByDrag</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if deleted / 지웠으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="undo()"><!-- --></A><H3>
+undo</H3>
+<PRE>
+public boolean <B>undo</B>()</PRE>
+<DL>
+<DD>Undoes the last editing step (<code>historyUndo</code>).
+ <p>
+ 마지막 편집 단계를 되돌린다(<code>historyUndo</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if a step was undone / 되돌렸으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="redo()"><!-- --></A><H3>
+redo</H3>
+<PRE>
+public boolean <B>redo</B>()</PRE>
+<DL>
+<DD>Redoes the step that was undone last (<code>historyRedo</code>).
+ <p>
+ 마지막으로 되돌린 단계를 다시 한다(<code>historyRedo</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if a step was redone / 다시 했으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isCommandSupported(java.lang.String)"><!-- --></A><H3>
+isCommandSupported</H3>
+<PRE>
+public boolean <B>isCommandSupported</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Tells whether a command name is one that <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#execCommand(java.lang.String, java.lang.String)"><CODE>execCommand(java.lang.String, java.lang.String)</CODE></A> implements.
+ <p>
+ 명령 이름이 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html#execCommand(java.lang.String, java.lang.String)"><CODE>execCommand(java.lang.String, java.lang.String)</CODE></A> 가 구현하는 것인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the command name, in any letter case / 명령 이름(대소문자 무관)
+<DT><B>Returns:</B><DD>true if supported / 지원하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isCommandEnabled(java.lang.String)"><!-- --></A><H3>
+isCommandEnabled</H3>
+<PRE>
+public boolean <B>isCommandEnabled</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Tells whether a command can run now (the selection is in an editing host, and for undo and redo there is a step).
+ <p>
+ 명령이 지금 실행될 수 있는지 알려 준다(선택이 편집 호스트 안이고, 되돌리기와 다시 하기는 단계가 있다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the command name / 명령 이름
+<DT><B>Returns:</B><DD>true if enabled / 실행할 수 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="queryCommandState(java.lang.String)"><!-- --></A><H3>
+queryCommandState</H3>
+<PRE>
+public boolean <B>queryCommandState</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns the state of a command for the selection (<code>queryCommandState</code>): whether a format applies.
+ <p>
+ 선택에 대한 명령의 상태를 반환한다(<code>queryCommandState</code>): 서식이 적용되는지.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the command name / 명령 이름
+<DT><B>Returns:</B><DD>true if the command is in effect / 명령이 효력 중이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="queryCommandValue(java.lang.String)"><!-- --></A><H3>
+queryCommandValue</H3>
+<PRE>
+public java.lang.String <B>queryCommandValue</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns the value of a command for the selection (<code>queryCommandValue</code>): the block that holds the caret for
+ <code>formatBlock</code>, the paragraph separator for <code>defaultParagraphSeparator</code>, else an empty string.
+ <p>
+ 선택에 대한 명령의 값을 반환한다(<code>queryCommandValue</code>): <code>formatBlock</code> 은 캐럿을 가진 블록, <code>defaultParagraphSeparator</code> 는
+ 문단 구분 요소, 나머지는 빈 문자열.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the command name / 명령 이름
+<DT><B>Returns:</B><DD>the value / 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="execCommand(java.lang.String, java.lang.String)"><!-- --></A><H3>
+execCommand</H3>
+<PRE>
+public boolean <B>execCommand</B>(java.lang.String&nbsp;name,
+                           java.lang.String&nbsp;value)</PRE>
+<DL>
+<DD>Runs an editing command (<code>document.execCommand(name, showUI, value)</code>); it is false when the command is not supported, is
+ not enabled, or was cancelled.
+ <p>
+ 편집 명령을 실행한다(<code>document.execCommand(name, showUI, value)</code>). 지원하지 않거나 실행할 수 없거나 취소되면 false.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the command name, in any letter case / 명령 이름(대소문자 무관)<DD><CODE>value</CODE> - the value argument, or null / 값 인수. 없으면 null
+<DT><B>Returns:</B><DD>true if the command ran / 명령을 실행했으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="selectAll()"><!-- --></A><H3>
+selectAll</H3>
+<PRE>
+public boolean <B>selectAll</B>()</PRE>
+<DL>
+<DD>Selects all the content of the editing host that holds the selection (Select All inside an editing host); the body when the
+ selection is not in one.
+ <p>
+ 선택을 가진 편집 호스트의 모든 내용을 선택한다(편집 호스트 안의 전체 선택). 선택이 호스트 안이 아니면 body.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if something was selected / 선택했으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="defaultEnvironment()"><!-- --></A><H3>
+defaultEnvironment</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.Environment.html" title="interface in org.duckdns.hjow.swingwebpanel.dom.edit">Editor.Environment</A> <B>defaultEnvironment</B>()</PRE>
+<DL>
+<DD>Returns the environment that works without a host (events are sent to the target as trusted events; blocks and preserved white space
+ are decided by element names). A host that wraps the engine uses it as the base of its own environment.
+ <p>
+ 호스트 없이 동작하는 환경을 반환한다(이벤트는 신뢰 이벤트로 대상에 가고, 블록과 보존되는 공백은 요소 이름으로 정한다). 엔진을 감싸는 호스트가 자기 환경의
+ 바탕으로 쓴다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the default environment / 기본 환경</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="placeCaret(org.duckdns.hjow.swingwebpanel.dom.Element, boolean)"><!-- --></A><H3>
+placeCaret</H3>
+<PRE>
+public void <B>placeCaret</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;host,
+                       boolean&nbsp;end)</PRE>
+<DL>
+<DD>Puts the caret (a collapsed selection) at the start or at the end of the content of an editing host, as when the user moves the focus
+ into the host with the keyboard or presses Ctrl+Home or Ctrl+End.
+ <p>
+ 캐럿(접힌 선택)을 편집 호스트 내용의 처음이나 끝에 둔다. 사용자가 키보드로 호스트에 포커스를 옮기거나 Ctrl+Home, Ctrl+End 를 누를 때와 같다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>host</CODE> - the editing host / 편집 호스트<DD><CODE>end</CODE> - true for the end, false for the start / 끝이면 true, 처음이면 false</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/EditingHosts.html" title="class in org.duckdns.hjow.swingwebpanel.dom.edit"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/Editor.Environment.html" title="interface in org.duckdns.hjow.swingwebpanel.dom.edit"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/edit/Editor.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Editor.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

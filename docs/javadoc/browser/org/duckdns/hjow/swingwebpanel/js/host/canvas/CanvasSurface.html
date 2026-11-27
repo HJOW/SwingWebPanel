@@ -1,0 +1,611 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+CanvasSurface
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="CanvasSurface";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasPattern.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.canvas"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CanvasSurface.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.host.canvas</FONT>
+<BR>
+Class CanvasSurface</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.host.canvas.CanvasSurface</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>CanvasSurface</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The drawing surface of one <code>canvas</code> element: its bitmap, its 2D context (created by the first <code>getContext("2d")</code>), the
+ origin-clean flag and the change tracking for the renderer. The script thread draws through the context; the renderer reads an immutable
+ snapshot with <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html#snapshot()"><CODE>snapshot()</CODE></A>, a copy of the pixels that is made only when something changed since the last snapshot (so an unchanged
+ canvas costs nothing per frame and a changing one costs one copy per rendered frame). One change notification is sent per snapshot, however many
+ drawing calls happened in between. All methods are synchronized on the surface, and the script bindings hold the same monitor while a context
+ method runs.
+ <p>
+ <code>canvas</code> 요소 하나의 그리기 표면: 비트맵, 2D 컨텍스트(첫 <code>getContext("2d")</code> 가 만든다), origin-clean 표시, 렌더러를 위한 변경 추적.
+ 스크립트 스레드는 컨텍스트로 그리고, 렌더러는 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html#snapshot()"><CODE>snapshot()</CODE></A> 으로 불변 스냅샷을 읽는다. 스냅샷은 마지막 스냅샷 이후 무언가 바뀌었을 때만 화소를
+ 복사해 만들므로(바뀌지 않은 캔버스는 프레임마다 비용이 없고 바뀌는 캔버스는 그려진 프레임마다 복사 한 번이 든다) 그 사이에 그리기 호출이 몇 번이든
+ 변경 알림은 스냅샷마다 한 번만 보낸다. 모든 메서드는 표면에서 동기화하며, 스크립트 연결은 컨텍스트 메서드가 도는 동안 같은 모니터를 잡는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.canvas">CanvasSurface.Listener</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The receiver of change notifications.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html#CanvasSurface(int, int, org.duckdns.hjow.swingwebpanel.js.host.canvas.CanvasSurface.Listener)">CanvasSurface</A></B>(int&nbsp;width,
+              int&nbsp;height,
+              <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.canvas">CanvasSurface.Listener</A>&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a surface with a bitmap of a size.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html#dispose()">dispose</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Releases the bitmap and the context; the surface draws nothing afterwards and the renderer sees no picture.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">Context2D</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html#getContext()">getContext</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the 2D context, creating it at the first call.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html#getHeight()">getHeight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the height that the canvas asks for.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html#getOwner()">getOwner</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the owner, or null if it was collected.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html#getWidth()">getWidth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the width that the canvas asks for.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html#hasContext()">hasContext</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the 2D context exists.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasImage.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">CanvasImage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html#image(boolean)">image</A></B>(boolean&nbsp;copy)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the current pixels as an image source for <code>drawImage()</code>, <code>createPattern()</code> and the encoders.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html#isDisposed()">isDisposed</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the surface was disposed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html#isOpaque()">isOpaque</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the canvas is opaque.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html#isOriginClean()">isOriginClean</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether scripts may read the pixels back (<code>getImageData</code>, <code>toDataURL</code>, <code>toBlob</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html#resize(int, int)">resize</A></B>(int&nbsp;w,
+       int&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the bitmap size (the canvas attributes changed, or were set to the same value): the bitmap becomes transparent black at the new
+ size, the context state is reset to its defaults, and the canvas is origin-clean again.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html#setOpaque(boolean)">setOpaque</A></B>(boolean&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Makes the canvas opaque (the context attribute <code>alpha: false</code>): the bitmap becomes opaque black now, and whatever is drawn is
+ flattened onto black whenever the pixels are read, so scripts and the renderer never see a transparent pixel.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html#setOwner(java.lang.Object)">setOwner</A></B>(java.lang.Object&nbsp;o)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Remembers the object that owns the surface (the <code>canvas</code> element) without keeping it alive.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/DecodedImage.html" title="class in org.duckdns.hjow.swingwebpanel.media.image">DecodedImage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html#snapshot()">snapshot</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns an immutable copy of the current picture for the renderer, or the previous copy when nothing changed.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="CanvasSurface(int, int, org.duckdns.hjow.swingwebpanel.js.host.canvas.CanvasSurface.Listener)"><!-- --></A><H3>
+CanvasSurface</H3>
+<PRE>
+public <B>CanvasSurface</B>(int&nbsp;width,
+                     int&nbsp;height,
+                     <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.canvas">CanvasSurface.Listener</A>&nbsp;listener)</PRE>
+<DL>
+<DD>Creates a surface with a bitmap of a size.
+ <p>
+ 크기가 정해진 비트맵을 가진 표면을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>width</CODE> - width in pixels / 너비(화소)<DD><CODE>height</CODE> - height in pixels / 높이(화소)<DD><CODE>listener</CODE> - the receiver of change notifications, or null / 변경 알림을 받는 쪽. 없으면 null</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="setOwner(java.lang.Object)"><!-- --></A><H3>
+setOwner</H3>
+<PRE>
+public void <B>setOwner</B>(java.lang.Object&nbsp;o)</PRE>
+<DL>
+<DD>Remembers the object that owns the surface (the <code>canvas</code> element) without keeping it alive.
+ <p>
+ 표면을 소유한 객체(<code>canvas</code> 요소)를 살려 두지 않고 기억한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>o</CODE> - the owner / 소유자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOwner()"><!-- --></A><H3>
+getOwner</H3>
+<PRE>
+public java.lang.Object <B>getOwner</B>()</PRE>
+<DL>
+<DD>Returns the owner, or null if it was collected.
+ <p>
+ 소유자를 반환한다. 수거되었으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the owner or null / 소유자 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getWidth()"><!-- --></A><H3>
+getWidth</H3>
+<PRE>
+public int <B>getWidth</B>()</PRE>
+<DL>
+<DD>Returns the width that the canvas asks for.
+ <p>
+ 캔버스가 요구하는 너비를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>width in pixels / 너비(화소)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHeight()"><!-- --></A><H3>
+getHeight</H3>
+<PRE>
+public int <B>getHeight</B>()</PRE>
+<DL>
+<DD>Returns the height that the canvas asks for.
+ <p>
+ 캔버스가 요구하는 높이를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>height in pixels / 높이(화소)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getContext()"><!-- --></A><H3>
+getContext</H3>
+<PRE>
+public <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/Context2D.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">Context2D</A> <B>getContext</B>()</PRE>
+<DL>
+<DD>Returns the 2D context, creating it at the first call.
+ <p>
+ 2D 컨텍스트를 반환한다. 처음 부를 때 만든다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the context / 컨텍스트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasContext()"><!-- --></A><H3>
+hasContext</H3>
+<PRE>
+public boolean <B>hasContext</B>()</PRE>
+<DL>
+<DD>Tells whether the 2D context exists.
+ <p>
+ 2D 컨텍스트가 있는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true after the first <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html#getContext()"><CODE>getContext()</CODE></A> / 첫 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html#getContext()"><CODE>getContext()</CODE></A> 뒤에는 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="resize(int, int)"><!-- --></A><H3>
+resize</H3>
+<PRE>
+public void <B>resize</B>(int&nbsp;w,
+                   int&nbsp;h)</PRE>
+<DL>
+<DD>Sets the bitmap size (the canvas attributes changed, or were set to the same value): the bitmap becomes transparent black at the new
+ size, the context state is reset to its defaults, and the canvas is origin-clean again.
+ <p>
+ 비트맵 크기를 정한다(캔버스 속성이 바뀌었거나 같은 값으로 지정됨): 비트맵은 새 크기의 투명한 검정이 되고, 컨텍스트 상태는 기본값으로 돌아가며,
+ 캔버스는 다시 origin-clean 이 된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>w</CODE> - new width in pixels / 새 너비(화소)<DD><CODE>h</CODE> - new height in pixels / 새 높이(화소)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isOriginClean()"><!-- --></A><H3>
+isOriginClean</H3>
+<PRE>
+public boolean <B>isOriginClean</B>()</PRE>
+<DL>
+<DD>Tells whether scripts may read the pixels back (<code>getImageData</code>, <code>toDataURL</code>, <code>toBlob</code>).
+ <p>
+ 스크립트가 화소를 다시 읽어도 되는지(<code>getImageData</code>, <code>toDataURL</code>, <code>toBlob</code>) 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true while the canvas is origin-clean / 캔버스가 origin-clean 인 동안 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="snapshot()"><!-- --></A><H3>
+snapshot</H3>
+<PRE>
+public <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/DecodedImage.html" title="class in org.duckdns.hjow.swingwebpanel.media.image">DecodedImage</A> <B>snapshot</B>()</PRE>
+<DL>
+<DD>Returns an immutable copy of the current picture for the renderer, or the previous copy when nothing changed.
+ <p>
+ 렌더러를 위한 현재 그림의 불변 복사본을 반환한다. 바뀐 것이 없으면 이전 복사본을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the snapshot, or null if nothing was ever drawn (no context), the bitmap is empty or the surface was disposed / 스냅샷. 그린 적이 없거나(컨텍스트 없음) 비트맵이 비었거나 표면이 폐기되었으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setOpaque(boolean)"><!-- --></A><H3>
+setOpaque</H3>
+<PRE>
+public void <B>setOpaque</B>(boolean&nbsp;value)</PRE>
+<DL>
+<DD>Makes the canvas opaque (the context attribute <code>alpha: false</code>): the bitmap becomes opaque black now, and whatever is drawn is
+ flattened onto black whenever the pixels are read, so scripts and the renderer never see a transparent pixel.
+ <p>
+ 캔버스를 불투명하게 한다(컨텍스트 속성 <code>alpha: false</code>): 비트맵은 지금 불투명한 검정이 되고, 그려진 것은 화소를 읽을 때마다 검정 위에 합쳐지므로
+ 스크립트와 렌더러는 투명한 화소를 보지 못한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - true for an opaque canvas / 불투명한 캔버스이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isOpaque()"><!-- --></A><H3>
+isOpaque</H3>
+<PRE>
+public boolean <B>isOpaque</B>()</PRE>
+<DL>
+<DD>Tells whether the canvas is opaque.
+ <p>
+ 캔버스가 불투명한지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for <code>alpha: false</code> / <code>alpha: false</code> 이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="image(boolean)"><!-- --></A><H3>
+image</H3>
+<PRE>
+public <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasImage.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas">CanvasImage</A> <B>image</B>(boolean&nbsp;copy)</PRE>
+<DL>
+<DD>Returns the current pixels as an image source for <code>drawImage()</code>, <code>createPattern()</code> and the encoders.
+ <p>
+ 현재 화소를 <code>drawImage()</code>, <code>createPattern()</code>, 인코더를 위한 이미지 소스로 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>copy</CODE> - true to copy the pixels (needed when the source is the canvas that is drawn on), false to share the live array / 화소를 복사하려면 true(그리는 대상 캔버스 자신이 원본일 때 필요), 살아 있는 배열을 공유하려면 false
+<DT><B>Returns:</B><DD>the image, or null if the bitmap is empty / 이미지. 비트맵이 비었으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispose()"><!-- --></A><H3>
+dispose</H3>
+<PRE>
+public void <B>dispose</B>()</PRE>
+<DL>
+<DD>Releases the bitmap and the context; the surface draws nothing afterwards and the renderer sees no picture.
+ <p>
+ 비트맵과 컨텍스트를 해제한다. 그 뒤 표면은 아무것도 그리지 않고 렌더러는 그림을 보지 못한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isDisposed()"><!-- --></A><H3>
+isDisposed</H3>
+<PRE>
+public boolean <B>isDisposed</B>()</PRE>
+<DL>
+<DD>Tells whether the surface was disposed.
+ <p>
+ 표면이 폐기되었는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true after <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html#dispose()"><CODE>dispose()</CODE></A> / <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html#dispose()"><CODE>dispose()</CODE></A> 뒤에는 true</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasPattern.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.canvas"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CanvasSurface.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

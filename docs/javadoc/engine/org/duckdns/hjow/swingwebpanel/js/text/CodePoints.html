@@ -1,0 +1,428 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+CodePoints
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="CodePoints";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/text/CharClass.html" title="class in org.duckdns.hjow.swingwebpanel.js.text"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/text/JsonSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.js.text"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/text/CodePoints.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CodePoints.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.text</FONT>
+<BR>
+Class CodePoints</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.text.CodePoints</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>CodePoints</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Code point oriented helpers behind <code>String.prototype.codePointAt</code>, <code>String.fromCodePoint</code>,
+ <code>String.fromCharCode</code> and <code>String.raw</code>. JavaScript strings are sequences of UTF-16 code units
+ (lone surrogates are legal), so these helpers never reject lone surrogates unless the specification says so.
+ All methods are static and thread-safe.
+ <p>
+ <code>String.prototype.codePointAt</code>, <code>String.fromCodePoint</code>, <code>String.fromCharCode</code>,
+ <code>String.raw</code> 의 바탕이 되는 코드 포인트 도우미. JavaScript 문자열은 UTF-16 코드 단위의 나열이며(짝 없는 서로게이트도 허용)
+ 규격이 요구하지 않는 한 짝 없는 서로게이트를 거부하지 않는다. 모든 메서드는 정적이며 스레드 안전하다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/text/CodePoints.html#MAX_CODE_POINT">MAX_CODE_POINT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Largest Unicode code point.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/text/CodePoints.html#codePointAt(java.lang.String, int)">codePointAt</A></B>(java.lang.String&nbsp;s,
+            int&nbsp;index)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String.prototype.codePointAt(index): the code point starting at the index, a lone surrogate as it is,
+ or -1 (undefined in JavaScript) when the index is outside the string.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/text/CodePoints.html#codePointCount(java.lang.String)">codePointCount</A></B>(java.lang.String&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of code points in the string, counting a lone surrogate as one.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/text/CodePoints.html#fromCharCode(double...)">fromCharCode</A></B>(double...&nbsp;codeUnits)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String.fromCharCode(...codeUnits): each argument is converted with ToUint16.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/text/CodePoints.html#fromCodePoint(double...)">fromCodePoint</A></B>(double...&nbsp;codePoints)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String.fromCodePoint(...codePoints): every argument must be an integer from 0 to 0x10FFFF.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/text/CodePoints.html#isWellFormed(java.lang.String)">isWellFormed</A></B>(java.lang.String&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tests whether the string has only complete surrogate pairs.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/text/CodePoints.html#raw(java.lang.String[], java.lang.String[])">raw</A></B>(java.lang.String[]&nbsp;rawSegments,
+    java.lang.String[]&nbsp;substitutions)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String.raw core: joins the raw template segments with the already converted substitutions, using as many
+ substitutions as there are gaps (missing substitutions contribute nothing).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/text/CodePoints.html#toWellFormed(java.lang.String)">toWellFormed</A></B>(java.lang.String&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Replaces unpaired surrogates by U+FFFD while preserving complete pairs and other code units.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="MAX_CODE_POINT"><!-- --></A><H3>
+MAX_CODE_POINT</H3>
+<PRE>
+public static final int <B>MAX_CODE_POINT</B></PRE>
+<DL>
+<DD>Largest Unicode code point.
+ <p>
+ 유니코드 최대 코드 포인트.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.text.CodePoints.MAX_CODE_POINT">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="codePointAt(java.lang.String, int)"><!-- --></A><H3>
+codePointAt</H3>
+<PRE>
+public static int <B>codePointAt</B>(java.lang.String&nbsp;s,
+                              int&nbsp;index)</PRE>
+<DL>
+<DD>String.prototype.codePointAt(index): the code point starting at the index, a lone surrogate as it is,
+ or -1 (undefined in JavaScript) when the index is outside the string.
+ <p>
+ String.prototype.codePointAt(index): 해당 위치에서 시작하는 코드 포인트(짝 없는 서로게이트는 그대로).
+ 위치가 문자열 밖이면 -1(JavaScript 의 undefined).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - string / 문자열<DD><CODE>index</CODE> - code unit index / 코드 단위 위치
+<DT><B>Returns:</B><DD>code point or -1 / 코드 포인트 또는 -1</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="codePointCount(java.lang.String)"><!-- --></A><H3>
+codePointCount</H3>
+<PRE>
+public static int <B>codePointCount</B>(java.lang.String&nbsp;s)</PRE>
+<DL>
+<DD>Number of code points in the string, counting a lone surrogate as one.
+ <p>
+ 문자열의 코드 포인트 수(짝 없는 서로게이트는 1 로 센다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - string / 문자열
+<DT><B>Returns:</B><DD>code point count / 코드 포인트 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fromCodePoint(double...)"><!-- --></A><H3>
+fromCodePoint</H3>
+<PRE>
+public static java.lang.String <B>fromCodePoint</B>(double...&nbsp;codePoints)</PRE>
+<DL>
+<DD>String.fromCodePoint(...codePoints): every argument must be an integer from 0 to 0x10FFFF.
+ <p>
+ String.fromCodePoint(...codePoints): 모든 인수는 0 이상 0x10FFFF 이하의 정수여야 한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>codePoints</CODE> - numeric arguments (already converted with ToNumber) / 숫자 인수(ToNumber 를 거친 값)
+<DT><B>Returns:</B><DD>the string / 문자열
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/text/TextRangeException.html" title="class in org.duckdns.hjow.swingwebpanel.js.text">TextRangeException</A></CODE> - if an argument is not a valid code point / 올바른 코드 포인트가 아니면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fromCharCode(double...)"><!-- --></A><H3>
+fromCharCode</H3>
+<PRE>
+public static java.lang.String <B>fromCharCode</B>(double...&nbsp;codeUnits)</PRE>
+<DL>
+<DD>String.fromCharCode(...codeUnits): each argument is converted with ToUint16.
+ <p>
+ String.fromCharCode(...codeUnits): 각 인수를 ToUint16 으로 바꾼다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>codeUnits</CODE> - numeric arguments (already converted with ToNumber) / 숫자 인수(ToNumber 를 거친 값)
+<DT><B>Returns:</B><DD>the string / 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="raw(java.lang.String[], java.lang.String[])"><!-- --></A><H3>
+raw</H3>
+<PRE>
+public static java.lang.String <B>raw</B>(java.lang.String[]&nbsp;rawSegments,
+                                   java.lang.String[]&nbsp;substitutions)</PRE>
+<DL>
+<DD>String.raw core: joins the raw template segments with the already converted substitutions, using as many
+ substitutions as there are gaps (missing substitutions contribute nothing).
+ <p>
+ String.raw 의 핵심: 원본 템플릿 조각들을 이미 문자열로 바꾼 치환 값으로 이어 붙인다. 조각 사이 틈의 수만큼만 치환 값을 쓰며
+ 부족한 치환 값은 아무것도 붙이지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>rawSegments</CODE> - raw literal segments / 원본 리터럴 조각<DD><CODE>substitutions</CODE> - substitution strings / 치환 문자열
+<DT><B>Returns:</B><DD>joined string / 이어 붙인 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isWellFormed(java.lang.String)"><!-- --></A><H3>
+isWellFormed</H3>
+<PRE>
+public static boolean <B>isWellFormed</B>(java.lang.String&nbsp;s)</PRE>
+<DL>
+<DD>Tests whether the string has only complete surrogate pairs.
+ <p>
+ 서로게이트가 모두 완전한 쌍을 이루는지 검사한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - string / 문자열
+<DT><B>Returns:</B><DD>true if well formed UTF-16 / 올바른 UTF-16 이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toWellFormed(java.lang.String)"><!-- --></A><H3>
+toWellFormed</H3>
+<PRE>
+public static java.lang.String <B>toWellFormed</B>(java.lang.String&nbsp;s)</PRE>
+<DL>
+<DD>Replaces unpaired surrogates by U+FFFD while preserving complete pairs and other code units.
+ <p>
+ 짝 없는 서로게이트를 U+FFFD로 바꾸고 완전한 쌍과 그 밖의 코드 단위는 유지한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - the source string / 원본 문자열
+<DT><B>Returns:</B><DD>the well-formed string / 정합한 문자열</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/text/CharClass.html" title="class in org.duckdns.hjow.swingwebpanel.js.text"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/text/JsonSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.js.text"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/text/CodePoints.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CodePoints.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

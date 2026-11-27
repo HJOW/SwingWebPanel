@@ -1,0 +1,475 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+RegExpFlags
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="RegExpFlags";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCompiler.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpLimitException.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="RegExpFlags.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.regexp</FONT>
+<BR>
+Class RegExpFlags</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.regexp.RegExpFlags</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>RegExpFlags</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Bit constants and parsing of regular expression flags. The matcher itself only uses <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#IGNORE_CASE"><CODE>IGNORE_CASE</CODE></A>,
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#MULTILINE"><CODE>MULTILINE</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#UNICODE"><CODE>UNICODE</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#UNICODE_SETS"><CODE>UNICODE_SETS</CODE></A> and <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#DOT_ALL"><CODE>DOT_ALL</CODE></A>; <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#GLOBAL"><CODE>GLOBAL</CODE></A> and <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#STICKY"><CODE>STICKY</CODE></A> are carried for the
+ caller (<code>RegExp.prototype.exec</code> decides where matching starts and whether it may scan forward).
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#DOT_ALL"><CODE>DOT_ALL</CODE></A> (flag s) and <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#HAS_INDICES"><CODE>HAS_INDICES</CODE></A> (flag d) are later extensions and are accepted as such.
+ <p>
+ 정규식 플래그의 비트 상수와 해석. 일치 검색기 자체는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#IGNORE_CASE"><CODE>IGNORE_CASE</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#MULTILINE"><CODE>MULTILINE</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#UNICODE"><CODE>UNICODE</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#UNICODE_SETS"><CODE>UNICODE_SETS</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#DOT_ALL"><CODE>DOT_ALL</CODE></A>을 쓰고
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#GLOBAL"><CODE>GLOBAL</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#STICKY"><CODE>STICKY</CODE></A> 는 호출자를 위해 보관한다(<code>RegExp.prototype.exec</code> 가 시작 위치와 앞쪽 탐색 여부를 정한다).
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#DOT_ALL"><CODE>DOT_ALL</CODE></A>(플래그 s)과 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#HAS_INDICES"><CODE>HAS_INDICES</CODE></A>(플래그 d)는 이후 판 확장이며 그렇게 받아들인다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#DOT_ALL">DOT_ALL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flag s: dot matches line terminators (ES2018 extension).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#GLOBAL">GLOBAL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flag g: global.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#HAS_INDICES">HAS_INDICES</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flag d: expose matched substring indices (ES2022).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#IGNORE_CASE">IGNORE_CASE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flag i: ignore case.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#MULTILINE">MULTILINE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flag m: multiline.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#STICKY">STICKY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flag y: sticky.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#UNICODE">UNICODE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flag u: unicode (code point matching).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#UNICODE_SETS">UNICODE_SETS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flag v for Unicode Sets matching. / Unicode Sets 일치를 지정하는 v 플래그.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#isUnicodeMode(int)">isUnicodeMode</A></B>(int&nbsp;bits)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reports whether matching uses whole Unicode code points.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#parse(java.lang.String)">parse</A></B>(java.lang.String&nbsp;flags)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses flags such as "gi".</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html#toString(int)">toString</A></B>(int&nbsp;bits)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Converts flag bits to the canonical flags text in the order d g i m s u v y.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="GLOBAL"><!-- --></A><H3>
+GLOBAL</H3>
+<PRE>
+public static final int <B>GLOBAL</B></PRE>
+<DL>
+<DD>Flag g: global.
+ <p>
+ 플래그 g: 전역.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.regexp.RegExpFlags.GLOBAL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="IGNORE_CASE"><!-- --></A><H3>
+IGNORE_CASE</H3>
+<PRE>
+public static final int <B>IGNORE_CASE</B></PRE>
+<DL>
+<DD>Flag i: ignore case.
+ <p>
+ 플래그 i: 대소문자 무시.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.regexp.RegExpFlags.IGNORE_CASE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MULTILINE"><!-- --></A><H3>
+MULTILINE</H3>
+<PRE>
+public static final int <B>MULTILINE</B></PRE>
+<DL>
+<DD>Flag m: multiline.
+ <p>
+ 플래그 m: 여러 줄.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.regexp.RegExpFlags.MULTILINE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="UNICODE"><!-- --></A><H3>
+UNICODE</H3>
+<PRE>
+public static final int <B>UNICODE</B></PRE>
+<DL>
+<DD>Flag u: unicode (code point matching).
+ <p>
+ 플래그 u: 유니코드(코드 포인트 단위 일치).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.regexp.RegExpFlags.UNICODE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="STICKY"><!-- --></A><H3>
+STICKY</H3>
+<PRE>
+public static final int <B>STICKY</B></PRE>
+<DL>
+<DD>Flag y: sticky.
+ <p>
+ 플래그 y: 고정 위치.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.regexp.RegExpFlags.STICKY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DOT_ALL"><!-- --></A><H3>
+DOT_ALL</H3>
+<PRE>
+public static final int <B>DOT_ALL</B></PRE>
+<DL>
+<DD>Flag s: dot matches line terminators (ES2018 extension).
+ <p>
+ 플래그 s: 점이 줄 끝 문자와도 일치(ES2018 확장).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.regexp.RegExpFlags.DOT_ALL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="HAS_INDICES"><!-- --></A><H3>
+HAS_INDICES</H3>
+<PRE>
+public static final int <B>HAS_INDICES</B></PRE>
+<DL>
+<DD>Flag d: expose matched substring indices (ES2022).
+ <p>
+ 플래그 d: 일치한 부분 문자열의 위치를 제공한다(ES2022).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.regexp.RegExpFlags.HAS_INDICES">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="UNICODE_SETS"><!-- --></A><H3>
+UNICODE_SETS</H3>
+<PRE>
+public static final int <B>UNICODE_SETS</B></PRE>
+<DL>
+<DD>Flag v for Unicode Sets matching. / Unicode Sets 일치를 지정하는 v 플래그.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.regexp.RegExpFlags.UNICODE_SETS">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="parse(java.lang.String)"><!-- --></A><H3>
+parse</H3>
+<PRE>
+public static int <B>parse</B>(java.lang.String&nbsp;flags)
+                 throws <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpSyntaxException</A></PRE>
+<DL>
+<DD>Parses flags such as "gi". Every flag may appear once and u and v are mutually exclusive.
+ <p>
+ "gi" 같은 플래그 문자열을 해석한다. 각 플래그는 최대 한 번 나오며 u와 v는 함께 쓸 수 없다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>flags</CODE> - flags text (null means none) / 플래그 문자열(null 은 없음)
+<DT><B>Returns:</B><DD>flag bits / 플래그 비트
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpSyntaxException</A></CODE> - on an unknown or repeated flag / 알 수 없거나 반복된 플래그이면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isUnicodeMode(int)"><!-- --></A><H3>
+isUnicodeMode</H3>
+<PRE>
+public static boolean <B>isUnicodeMode</B>(int&nbsp;bits)</PRE>
+<DL>
+<DD>Reports whether matching uses whole Unicode code points.
+ <p>
+ 검색이 전체 유니코드 코드 포인트를 사용하는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>bits</CODE> - flag bits / 플래그 비트
+<DT><B>Returns:</B><DD>true for either Unicode mode / 유니코드 모드 중 하나면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toString(int)"><!-- --></A><H3>
+toString</H3>
+<PRE>
+public static java.lang.String <B>toString</B>(int&nbsp;bits)</PRE>
+<DL>
+<DD>Converts flag bits to the canonical flags text in the order d g i m s u v y.
+ <p>
+ 플래그 비트를 d g i m s u v y 순서의 표준 플래그 문자열로 바꾼다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>bits</CODE> - flag bits / 플래그 비트
+<DT><B>Returns:</B><DD>flags text / 플래그 문자열</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCompiler.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpLimitException.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="RegExpFlags.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

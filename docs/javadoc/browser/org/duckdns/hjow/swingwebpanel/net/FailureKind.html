@@ -1,0 +1,634 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+FailureKind
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="FailureKind";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/DefaultSslConfigurer.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/net/FailureKind.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="FailureKind.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#enum_constant_summary">ENUM CONSTANTS</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#enum_constant_detail">ENUM CONSTANTS</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.net</FONT>
+<BR>
+Enum FailureKind</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by ">java.lang.Enum&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A>&gt;
+      <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.net.FailureKind</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD>java.io.Serializable, java.lang.Comparable&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A>&gt;</DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public enum <B>FailureKind</B><DT>extends java.lang.Enum&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A>&gt;</DL>
+</PRE>
+
+<P>
+Why a fetch did not produce a normal response. An HTTP error status (404, 500, ...) is <em>not</em> a failure kind:
+ such responses carry their status and body and have kind <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#NONE"><CODE>NONE</CODE></A>. The content layer maps failure kinds to error
+ pages (plan item P17-06).
+ <p>
+ 가져오기가 정상 응답을 만들지 못한 이유. HTTP 오류 상태(404, 500 등)는 실패 종류가 <em>아니며</em> 상태와 본문을 가진
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#NONE"><CODE>NONE</CODE></A> 응답이다. 콘텐츠 계층이 실패 종류를 오류 페이지로 바꾼다(계획 P17-06).
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== ENUM CONSTANT SUMMARY =========== -->
+
+<A NAME="enum_constant_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Enum Constant Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#BLOCKED_EMBEDDER_POLICY">BLOCKED_EMBEDDER_POLICY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A cross-origin resource or frame was blocked by response policy. / 응답 정책이 교차 오리진 리소스나 프레임을 차단했다.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#BLOCKED_SCHEME">BLOCKED_SCHEME</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The scheme is not allowed; nothing was contacted.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#CANCELLED">CANCELLED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The request was cancelled through its token.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#CONNECT">CONNECT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The connection could not be established (refused, unreachable).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#CORS">CORS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A cross-origin request that needs a CORS preflight was not granted by the server, so the actual request was not sent.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#DNS">DNS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The host name could not be resolved.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#FTP_FAILURE">FTP_FAILURE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Any FTP failure (connect, login, directory, transfer); reported to users as 404.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#INVALID_URL">INVALID_URL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The URL is not an absolute, well formed address.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#IO">IO</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Other I/O failure.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#NONE">NONE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No transport failure.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#NOT_FOUND">NOT_FOUND</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The class path resource does not exist (or is a directory).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#REDIRECT_LOOP">REDIRECT_LOOP</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A redirect loop was detected.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#TIMEOUT">TIMEOUT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Connect or read timeout.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#TLS">TLS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TLS/SSL failure (handshake, certificate, host name).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#TOO_LARGE">TOO_LARGE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The (decoded) body exceeds the size limit.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#TOO_MANY_REDIRECTS">TOO_MANY_REDIRECTS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;More redirects than allowed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#TRUNCATED">TRUNCATED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The connection ended before the whole body arrived.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#valueOf(java.lang.String)">valueOf</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the enum constant of this type with the specified name.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A>[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#values()">values</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns an array containing the constants of this enum type, in
+the order they are declared.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Enum"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Enum</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, compareTo, equals, finalize, getDeclaringClass, hashCode, name, ordinal, toString, valueOf</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>getClass, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ ENUM CONSTANT DETAIL =========== -->
+
+<A NAME="enum_constant_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Enum Constant Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="NONE"><!-- --></A><H3>
+NONE</H3>
+<PRE>
+public static final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A> <B>NONE</B></PRE>
+<DL>
+<DD>No transport failure.
+ <p>
+ 전송 실패 없음.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="INVALID_URL"><!-- --></A><H3>
+INVALID_URL</H3>
+<PRE>
+public static final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A> <B>INVALID_URL</B></PRE>
+<DL>
+<DD>The URL is not an absolute, well formed address.
+ <p>
+ 올바른 절대 주소가 아님.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="BLOCKED_SCHEME"><!-- --></A><H3>
+BLOCKED_SCHEME</H3>
+<PRE>
+public static final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A> <B>BLOCKED_SCHEME</B></PRE>
+<DL>
+<DD>The scheme is not allowed; nothing was contacted.
+ <p>
+ 허용되지 않은 스킴. 어디에도 연결하지 않았다.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="BLOCKED_EMBEDDER_POLICY"><!-- --></A><H3>
+BLOCKED_EMBEDDER_POLICY</H3>
+<PRE>
+public static final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A> <B>BLOCKED_EMBEDDER_POLICY</B></PRE>
+<DL>
+<DD>A cross-origin resource or frame was blocked by response policy. / 응답 정책이 교차 오리진 리소스나 프레임을 차단했다.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="DNS"><!-- --></A><H3>
+DNS</H3>
+<PRE>
+public static final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A> <B>DNS</B></PRE>
+<DL>
+<DD>The host name could not be resolved.
+ <p>
+ 호스트 이름을 찾을 수 없음.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="CONNECT"><!-- --></A><H3>
+CONNECT</H3>
+<PRE>
+public static final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A> <B>CONNECT</B></PRE>
+<DL>
+<DD>The connection could not be established (refused, unreachable).
+ <p>
+ 연결을 만들 수 없음(거부, 도달 불가).
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="TIMEOUT"><!-- --></A><H3>
+TIMEOUT</H3>
+<PRE>
+public static final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A> <B>TIMEOUT</B></PRE>
+<DL>
+<DD>Connect or read timeout.
+ <p>
+ 연결 또는 읽기 제한 시간 초과.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="TLS"><!-- --></A><H3>
+TLS</H3>
+<PRE>
+public static final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A> <B>TLS</B></PRE>
+<DL>
+<DD>TLS/SSL failure (handshake, certificate, host name).
+ <p>
+ TLS/SSL 실패(핸드셰이크, 인증서, 호스트 이름).
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="TOO_MANY_REDIRECTS"><!-- --></A><H3>
+TOO_MANY_REDIRECTS</H3>
+<PRE>
+public static final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A> <B>TOO_MANY_REDIRECTS</B></PRE>
+<DL>
+<DD>More redirects than allowed.
+ <p>
+ 허용보다 많은 리디렉션.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="REDIRECT_LOOP"><!-- --></A><H3>
+REDIRECT_LOOP</H3>
+<PRE>
+public static final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A> <B>REDIRECT_LOOP</B></PRE>
+<DL>
+<DD>A redirect loop was detected.
+ <p>
+ 리디렉션 순환 감지.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="TOO_LARGE"><!-- --></A><H3>
+TOO_LARGE</H3>
+<PRE>
+public static final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A> <B>TOO_LARGE</B></PRE>
+<DL>
+<DD>The (decoded) body exceeds the size limit.
+ <p>
+ (해독된) 본문이 크기 제한을 넘음.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="TRUNCATED"><!-- --></A><H3>
+TRUNCATED</H3>
+<PRE>
+public static final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A> <B>TRUNCATED</B></PRE>
+<DL>
+<DD>The connection ended before the whole body arrived.
+ <p>
+ 본문이 모두 오기 전에 연결이 끝남.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="CANCELLED"><!-- --></A><H3>
+CANCELLED</H3>
+<PRE>
+public static final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A> <B>CANCELLED</B></PRE>
+<DL>
+<DD>The request was cancelled through its token.
+ <p>
+ 토큰으로 요청이 취소됨.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="NOT_FOUND"><!-- --></A><H3>
+NOT_FOUND</H3>
+<PRE>
+public static final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A> <B>NOT_FOUND</B></PRE>
+<DL>
+<DD>The class path resource does not exist (or is a directory).
+ <p>
+ 클래스패스 리소스가 없음(또는 디렉터리임).
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="FTP_FAILURE"><!-- --></A><H3>
+FTP_FAILURE</H3>
+<PRE>
+public static final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A> <B>FTP_FAILURE</B></PRE>
+<DL>
+<DD>Any FTP failure (connect, login, directory, transfer); reported to users as 404.
+ <p>
+ FTP 의 모든 실패(연결, 로그인, 디렉터리, 전송). 사용자에게는 404 로 알린다.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="CORS"><!-- --></A><H3>
+CORS</H3>
+<PRE>
+public static final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A> <B>CORS</B></PRE>
+<DL>
+<DD>A cross-origin request that needs a CORS preflight was not granted by the server, so the actual request was not sent.
+ <p>
+ CORS 사전 요청이 필요한 교차 오리진 요청을 서버가 허락하지 않아 본 요청을 보내지 않음.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="IO"><!-- --></A><H3>
+IO</H3>
+<PRE>
+public static final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A> <B>IO</B></PRE>
+<DL>
+<DD>Other I/O failure.
+ <p>
+ 그 밖의 입출력 실패.
+<P>
+<DL>
+</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="values()"><!-- --></A><H3>
+values</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A>[] <B>values</B>()</PRE>
+<DL>
+<DD>Returns an array containing the constants of this enum type, in
+the order they are declared.  This method may be used to iterate
+over the constants as follows:
+<pre>
+for (FailureKind c : FailureKind.values())
+&nbsp;   System.out.println(c);
+</pre>
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>an array containing the constants of this enum type, in
+the order they are declared</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="valueOf(java.lang.String)"><!-- --></A><H3>
+valueOf</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A> <B>valueOf</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns the enum constant of this type with the specified name.
+The string must match <I>exactly</I> an identifier used to declare an
+enum constant in this type.  (Extraneous whitespace characters are 
+not permitted.)
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the name of the enum constant to be returned.
+<DT><B>Returns:</B><DD>the enum constant with the specified name
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if this enum type has no constant
+with the specified name
+<DD><CODE>java.lang.NullPointerException</CODE> - if the argument is null</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/DefaultSslConfigurer.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/net/FailureKind.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="FailureKind.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#enum_constant_summary">ENUM CONSTANTS</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#enum_constant_detail">ENUM CONSTANTS</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

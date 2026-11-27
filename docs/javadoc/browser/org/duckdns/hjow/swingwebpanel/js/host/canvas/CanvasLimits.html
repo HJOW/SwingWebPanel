@@ -1,0 +1,384 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+CanvasLimits
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="CanvasLimits";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasImage.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasPattern.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasLimits.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CanvasLimits.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.host.canvas</FONT>
+<BR>
+Class CanvasLimits</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.host.canvas.CanvasLimits</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>CanvasLimits</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The size limits of canvas bitmaps and the default size of a <code>canvas</code> element. A bitmap larger than <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasLimits.html#MAX_DIMENSION"><CODE>MAX_DIMENSION</CODE></A> on a
+ side, or with more than <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasLimits.html#MAX_PIXELS"><CODE>MAX_PIXELS</CODE></A> pixels, is not allocated: such a canvas still has a 2D context but drawing on it is ignored,
+ <code>getImageData</code> throws <code>InvalidStateError</code> and <code>toDataURL</code> answers <code>"data:,"</code>. The layout still
+ uses the width and height of the attributes.
+ <p>
+ 캔버스 비트맵의 크기 한도와 <code>canvas</code> 요소의 기본 크기. 한 변이 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasLimits.html#MAX_DIMENSION"><CODE>MAX_DIMENSION</CODE></A> 보다 크거나 화소가 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasLimits.html#MAX_PIXELS"><CODE>MAX_PIXELS</CODE></A> 보다
+ 많은 비트맵은 할당하지 않는다: 이런 캔버스에도 2D 컨텍스트는 있지만 그리기는 무시되고, <code>getImageData</code> 는
+ <code>InvalidStateError</code> 를 던지며, <code>toDataURL</code> 은 <code>"data:,"</code> 로 답한다. 레이아웃은 속성의 너비와 높이를 그대로 쓴다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasLimits.html#DEFAULT_HEIGHT">DEFAULT_HEIGHT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The default height of a canvas in pixels.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasLimits.html#DEFAULT_WIDTH">DEFAULT_WIDTH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The default width of a canvas in pixels.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasLimits.html#MAX_DIMENSION">MAX_DIMENSION</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The largest width or height of a bitmap in pixels.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasLimits.html#MAX_IMAGE_DATA_PIXELS">MAX_IMAGE_DATA_PIXELS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The largest number of pixels of an <code>ImageData</code> that a script creates (the same as a bitmap).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasLimits.html#MAX_PIXELS">MAX_PIXELS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The largest number of pixels of a bitmap (4096 x 4096; 4 bytes per pixel, so 64 MiB for the bitmap and the same again for a snapshot).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasLimits.html#MAX_SHADOW_BLUR">MAX_SHADOW_BLUR</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The largest blur that a shadow uses; larger values are clamped to keep the cost bounded.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasLimits.html#fits(long, long)">fits</A></B>(long&nbsp;width,
+     long&nbsp;height)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a bitmap of a size may be allocated.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="DEFAULT_WIDTH"><!-- --></A><H3>
+DEFAULT_WIDTH</H3>
+<PRE>
+public static final int <B>DEFAULT_WIDTH</B></PRE>
+<DL>
+<DD>The default width of a canvas in pixels.
+ <p>
+ 캔버스의 기본 너비(화소).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.canvas.CanvasLimits.DEFAULT_WIDTH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_HEIGHT"><!-- --></A><H3>
+DEFAULT_HEIGHT</H3>
+<PRE>
+public static final int <B>DEFAULT_HEIGHT</B></PRE>
+<DL>
+<DD>The default height of a canvas in pixels.
+ <p>
+ 캔버스의 기본 높이(화소).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.canvas.CanvasLimits.DEFAULT_HEIGHT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAX_DIMENSION"><!-- --></A><H3>
+MAX_DIMENSION</H3>
+<PRE>
+public static final int <B>MAX_DIMENSION</B></PRE>
+<DL>
+<DD>The largest width or height of a bitmap in pixels.
+ <p>
+ 비트맵 너비 또는 높이의 최댓값(화소).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.canvas.CanvasLimits.MAX_DIMENSION">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAX_PIXELS"><!-- --></A><H3>
+MAX_PIXELS</H3>
+<PRE>
+public static final long <B>MAX_PIXELS</B></PRE>
+<DL>
+<DD>The largest number of pixels of a bitmap (4096 x 4096; 4 bytes per pixel, so 64 MiB for the bitmap and the same again for a snapshot).
+ <p>
+ 비트맵 화소 수의 최댓값(4096 x 4096. 화소당 4바이트이므로 비트맵 64 MiB 와 스냅샷 하나에 같은 양이 든다).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.canvas.CanvasLimits.MAX_PIXELS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAX_IMAGE_DATA_PIXELS"><!-- --></A><H3>
+MAX_IMAGE_DATA_PIXELS</H3>
+<PRE>
+public static final long <B>MAX_IMAGE_DATA_PIXELS</B></PRE>
+<DL>
+<DD>The largest number of pixels of an <code>ImageData</code> that a script creates (the same as a bitmap).
+ <p>
+ 스크립트가 만드는 <code>ImageData</code> 화소 수의 최댓값(비트맵과 같다).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.canvas.CanvasLimits.MAX_IMAGE_DATA_PIXELS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAX_SHADOW_BLUR"><!-- --></A><H3>
+MAX_SHADOW_BLUR</H3>
+<PRE>
+public static final double <B>MAX_SHADOW_BLUR</B></PRE>
+<DL>
+<DD>The largest blur that a shadow uses; larger values are clamped to keep the cost bounded.
+ <p>
+ 그림자가 쓰는 최대 번짐. 비용을 제한하려고 더 큰 값은 이 값으로 줄인다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.canvas.CanvasLimits.MAX_SHADOW_BLUR">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="fits(long, long)"><!-- --></A><H3>
+fits</H3>
+<PRE>
+public static boolean <B>fits</B>(long&nbsp;width,
+                           long&nbsp;height)</PRE>
+<DL>
+<DD>Tells whether a bitmap of a size may be allocated.
+ <p>
+ 어떤 크기의 비트맵을 할당할 수 있는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>width</CODE> - width in pixels / 너비(화소)<DD><CODE>height</CODE> - height in pixels / 높이(화소)
+<DT><B>Returns:</B><DD>true if both are within <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasLimits.html#MAX_DIMENSION"><CODE>MAX_DIMENSION</CODE></A> and the product within <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasLimits.html#MAX_PIXELS"><CODE>MAX_PIXELS</CODE></A> / 둘 다 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasLimits.html#MAX_DIMENSION"><CODE>MAX_DIMENSION</CODE></A> 이하이고 곱이 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasLimits.html#MAX_PIXELS"><CODE>MAX_PIXELS</CODE></A> 이하이면 true</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasImage.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasPattern.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasLimits.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CanvasLimits.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

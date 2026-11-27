@@ -1,0 +1,236 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+org.duckdns.hjow.swingwebpanel.media.webaudio.decode
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="org.duckdns.hjow.swingwebpanel.media.webaudio.decode";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/decode/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<H2>
+Package org.duckdns.hjow.swingwebpanel.media.webaudio.decode
+</H2>
+The decoding of audio file data into <code>AudioBuffer</code>s for <code>decodeAudioData</code> (plan item P25-05), still without any
+ JavaScript: the sample rate converter <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><CODE>Resampler</CODE></A>, the pipeline
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioBufferDecoder.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><CODE>AudioBufferDecoder</CODE></A> that reuses the audio decoders of
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoders.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>AudioDecoders</CODE></A> (chosen by the signature of the data) and resamples to the sample rate of
+ the context, and the background service <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioDecodeService.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><CODE>AudioDecodeService</CODE></A> that decodes on
+ its own daemon threads, can cancel a request and reports the result through a callback on a thread of the caller's choice.
+<P>
+<B>See:</B>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="#package_description"><B>Description</B></A>
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Interface Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCallback.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">DecodeCallback</A></B></TD>
+<TD>The receiver of the result of an asynchronous decoding (<code>DecodeSuccessCallback</code> and <code>DecodeErrorCallback</code> of the
+ specification; the script layer turns the pair into the resolution or the rejection of a promise).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCancellation.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">DecodeCancellation</A></B></TD>
+<TD>A flag that a long decoding polls between blocks to learn that its result is no longer wanted (the request was cancelled, the context was
+ closed, the page was left).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeRequest.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">DecodeRequest</A></B></TD>
+<TD>The handle of an asynchronous decoding request returned by <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioDecodeService.html#decode(byte[], java.lang.String, float, org.duckdns.hjow.swingwebpanel.media.webaudio.decode.DecodeCallback, java.util.concurrent.Executor)"><CODE>AudioDecodeService.decode(byte[], java.lang.String, float, org.duckdns.hjow.swingwebpanel.media.webaudio.decode.DecodeCallback, java.util.concurrent.Executor)</CODE></A>: it can cancel the request and tell its
+ state.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeWarningCallback.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">DecodeWarningCallback</A></B></TD>
+<TD>A <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCallback.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><CODE>DecodeCallback</CODE></A> that also wants to know when the data was decoded only in part: the specification (Web Audio API 1.1 draft) encourages
+ an implementation to warn the author when the compressed data is corrupted but the decoding can otherwise proceed, for example in the developer tools.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioBufferDecoder.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">AudioBufferDecoder</A></B></TD>
+<TD>The decoding pipeline of <code>decodeAudioData</code> (plan item P25-05): encoded audio file data in, an <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>AudioBuffer</CODE></A> at the sample
+ rate of the context out.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioDecodeService.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">AudioDecodeService</A></B></TD>
+<TD>The background decoder behind <code>decodeAudioData</code> (plan item P25-05): a request carries the bytes of an audio file, the sample rate of
+ the context and a <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCallback.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><CODE>DecodeCallback</CODE></A>; the service decodes it on one of its own threads with <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioBufferDecoder.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><CODE>AudioBufferDecoder</CODE></A> (so neither the
+ control thread, the rendering thread nor the event dispatch thread ever waits for a decoding, the "decoding thread" of the specification) and
+ reports the result to the callback.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeResult.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">DecodeResult</A></B></TD>
+<TD>The result of a decoding that succeeded: the <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>AudioBuffer</CODE></A> and, if the data was damaged or cut off, the warning that the script layer shows
+ to the author (the Web Audio API 1.1 draft encourages implementations to warn authors in case of a corrupted file whose decoding can otherwise proceed;
+ a browser shows it in its developer tools, this component has no log, so the caller learns it here).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">Resampler</A></B></TD>
+<TD>A streaming sample rate converter for one channel of floating point audio (plan item P25-05: the resampling of
+ <code>decodeAudioData</code> to the sample rate of the context).</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+<A NAME="package_description"><!-- --></A><H2>
+Package org.duckdns.hjow.swingwebpanel.media.webaudio.decode Description
+</H2>
+
+<P>
+The decoding of audio file data into <code>AudioBuffer</code>s for <code>decodeAudioData</code> (plan item P25-05), still without any
+ JavaScript: the sample rate converter <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><CODE>Resampler</CODE></A>, the pipeline
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioBufferDecoder.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><CODE>AudioBufferDecoder</CODE></A> that reuses the audio decoders of
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoders.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>AudioDecoders</CODE></A> (chosen by the signature of the data) and resamples to the sample rate of
+ the context, and the background service <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioDecodeService.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><CODE>AudioDecodeService</CODE></A> that decodes on
+ its own daemon threads, can cancel a request and reports the result through a callback on a thread of the caller's choice. The script
+ layer turns a callback into the resolution of a promise, detaches the <code>ArrayBuffer</code> and moves the callback to the document queue.
+ <p>
+ <code>decodeAudioData</code> 를 위해 오디오 파일 데이터를 <code>AudioBuffer</code> 로 디코딩하는 부분(계획 P25-05). 아직 JavaScript 와 무관하다.
+ 표본율 변환기 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><CODE>Resampler</CODE></A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoders.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>AudioDecoders</CODE></A>
+ 의 오디오 디코더(데이터의 시그니처로 고른다)를 재사용하고 컨텍스트의 표본율로 리샘플링하는 파이프라인
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioBufferDecoder.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><CODE>AudioBufferDecoder</CODE></A>, 자기 데몬 스레드에서 디코딩하고 요청을 취소할 수 있으며 호출한 쪽이
+ 고른 스레드에서 콜백으로 결과를 알리는 백그라운드 서비스 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioDecodeService.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><CODE>AudioDecodeService</CODE></A> 로 이루어진다.
+ 스크립트 계층이 콜백을 promise 의 이행으로 바꾸고 <code>ArrayBuffer</code> 를 분리(detach)하며 콜백을 문서 큐로 옮긴다.
+<P>
+
+<P>
+<DL>
+</DL>
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/decode/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

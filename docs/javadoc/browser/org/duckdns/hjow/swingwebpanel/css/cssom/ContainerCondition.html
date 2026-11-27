@@ -1,0 +1,511 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ContainerCondition
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ContainerCondition";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.StyleLookup.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cssom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ContainerCondition.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.cssom</FONT>
+<BR>
+Class ContainerCondition</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.cssom.ContainerCondition</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ContainerCondition</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The prelude of an <code>@container</code> rule (CSS Conditional Level 5, section 4, "Container Queries"): an optional container name and a condition
+ built from size features in parentheses (<code>(min-width: 400px)</code>, <code>(width &gt; 400px)</code>, <code>(inline-size &lt; 30em)</code>,
+ <code>(aspect-ratio &gt; 1/1)</code>, <code>(orientation: landscape)</code>), custom property queries (<code>style(--theme: dark)</code>), nested
+ conditions, and the operators <code>not</code>, <code>and</code>, <code>or</code>. A size feature is evaluated by the media query evaluator against an
+ environment whose size is the content box of the query container (the logical features <code>inline-size</code> and <code>block-size</code> are
+ rewritten to the physical ones by the writing mode of the container). Anything the grammar does not recognise is "unknown", which counts as false;
+ an invalid prelude makes the rule never match.
+ <p>
+ <code>@container</code> 규칙의 전문(CSS Conditional Level 5, 4 절 "Container Queries"): 선택적인 컨테이너 이름, 그리고 괄호 안의 크기 특성
+ (<code>(min-width: 400px)</code>, <code>(width &gt; 400px)</code>, <code>(inline-size &lt; 30em)</code>, <code>(aspect-ratio &gt; 1/1)</code>,
+ <code>(orientation: landscape)</code>), 사용자 정의 속성 질의(<code>style(--theme: dark)</code>), 중첩된 조건, 연산자 <code>not</code>, <code>and</code>,
+ <code>or</code> 로 만든 조건. 크기 특성은 질의 컨테이너의 content box 크기를 가진 환경에서 미디어 질의 평가기로 평가한다(논리 특성 <code>inline-size</code>,
+ <code>block-size</code> 는 컨테이너의 쓰기 모드에 따라 물리 특성으로 바꾼다). 문법이 알아보지 못하는 것은 "unknown" 이며 거짓으로 센다. 올바르지 않은 전문은
+ 규칙이 절대 일치하지 않게 한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.StyleLookup.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cssom">ContainerCondition.StyleLookup</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Looks up the computed custom properties of the container for <code>style()</code> queries.</TD>
+</TR>
+</TABLE>
+&nbsp;<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.html#AXIS_HEIGHT">AXIS_HEIGHT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bit of the vertical axis. / 세로축 비트.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.html#AXIS_WIDTH">AXIS_WIDTH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bit of the horizontal axis. / 가로축 비트.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.html#axes(boolean)">axes</A></B>(boolean&nbsp;vertical)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the physical axes the size features need of a container.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.html#getName()">getName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the container name the query asks for.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.html#getQueryText()">getQueryText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the query without the container name (the CSSOM <code>containerQuery</code> of <code>CSSContainerRule</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.html#isValid()">isValid</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the prelude is valid.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.html#matches(double, double, boolean, org.duckdns.hjow.swingwebpanel.css.cssom.ContainerCondition.StyleLookup)">matches</A></B>(double&nbsp;width,
+        double&nbsp;height,
+        boolean&nbsp;vertical,
+        <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.StyleLookup.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cssom">ContainerCondition.StyleLookup</A>&nbsp;style)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Evaluates the condition for a container.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">ContainerCondition</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.html#parse(java.util.List)">parse</A></B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&nbsp;prelude)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses the prelude of an <code>@container</code> rule.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.html#toCssText()">toCssText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the prelude text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.html#usesSize()">usesSize</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the condition has a size feature, which needs a container with size containment.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.html#usesStyle()">usesStyle</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the condition has a <code>style()</code> query.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="AXIS_WIDTH"><!-- --></A><H3>
+AXIS_WIDTH</H3>
+<PRE>
+public static final int <B>AXIS_WIDTH</B></PRE>
+<DL>
+<DD>Bit of the horizontal axis. / 가로축 비트.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.cssom.ContainerCondition.AXIS_WIDTH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="AXIS_HEIGHT"><!-- --></A><H3>
+AXIS_HEIGHT</H3>
+<PRE>
+public static final int <B>AXIS_HEIGHT</B></PRE>
+<DL>
+<DD>Bit of the vertical axis. / 세로축 비트.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.cssom.ContainerCondition.AXIS_HEIGHT">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="parse(java.util.List)"><!-- --></A><H3>
+parse</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">ContainerCondition</A> <B>parse</B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&nbsp;prelude)</PRE>
+<DL>
+<DD>Parses the prelude of an <code>@container</code> rule.
+ <p>
+ <code>@container</code> 규칙의 전문을 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>prelude</CODE> - the prelude component values / 전문 컴포넌트 값
+<DT><B>Returns:</B><DD>the condition; never null, invalid preludes never match / 조건. null 이 아니며 올바르지 않은 전문은 절대 일치하지 않는다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getName()"><!-- --></A><H3>
+getName</H3>
+<PRE>
+public java.lang.String <B>getName</B>()</PRE>
+<DL>
+<DD>Returns the container name the query asks for.
+ <p>
+ 질의가 요구하는 컨테이너 이름을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the name, or null for any container / 이름. 아무 컨테이너나 되면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isValid()"><!-- --></A><H3>
+isValid</H3>
+<PRE>
+public boolean <B>isValid</B>()</PRE>
+<DL>
+<DD>Tells whether the prelude is valid.
+ <p>
+ 전문이 올바른지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if the rule can match / 규칙이 일치할 수 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="usesSize()"><!-- --></A><H3>
+usesSize</H3>
+<PRE>
+public boolean <B>usesSize</B>()</PRE>
+<DL>
+<DD>Tells whether the condition has a size feature, which needs a container with size containment.
+ <p>
+ 조건에 크기 특성이 있는지 알려 준다. 크기 특성은 크기 격리가 있는 컨테이너가 필요하다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if a size feature occurs / 크기 특성이 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="usesStyle()"><!-- --></A><H3>
+usesStyle</H3>
+<PRE>
+public boolean <B>usesStyle</B>()</PRE>
+<DL>
+<DD>Tells whether the condition has a <code>style()</code> query.
+ <p>
+ 조건에 <code>style()</code> 질의가 있는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if one occurs / 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="axes(boolean)"><!-- --></A><H3>
+axes</H3>
+<PRE>
+public int <B>axes</B>(boolean&nbsp;vertical)</PRE>
+<DL>
+<DD>Returns the physical axes the size features need of a container.
+ <p>
+ 크기 특성이 컨테이너에 요구하는 물리 축을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>vertical</CODE> - true if the container has a vertical writing mode / 컨테이너가 세로쓰기이면 true
+<DT><B>Returns:</B><DD>bits of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.html#AXIS_WIDTH"><CODE>AXIS_WIDTH</CODE></A> and <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.html#AXIS_HEIGHT"><CODE>AXIS_HEIGHT</CODE></A> / 축 비트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="matches(double, double, boolean, org.duckdns.hjow.swingwebpanel.css.cssom.ContainerCondition.StyleLookup)"><!-- --></A><H3>
+matches</H3>
+<PRE>
+public boolean <B>matches</B>(double&nbsp;width,
+                       double&nbsp;height,
+                       boolean&nbsp;vertical,
+                       <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.StyleLookup.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cssom">ContainerCondition.StyleLookup</A>&nbsp;style)</PRE>
+<DL>
+<DD>Evaluates the condition for a container.
+ <p>
+ 컨테이너에 대해 조건을 평가한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>width</CODE> - the width of the content box of the container / 컨테이너 content box 의 너비<DD><CODE>height</CODE> - the height of the content box / content box 의 높이<DD><CODE>vertical</CODE> - true for a vertical writing mode / 세로쓰기이면 true<DD><CODE>style</CODE> - the lookup of the custom properties of the container or null / 컨테이너의 사용자 정의 속성 조회 또는 null
+<DT><B>Returns:</B><DD>true if the condition holds; unknown counts as false / 조건이 성립하면 true. unknown 은 false 로 센다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toCssText()"><!-- --></A><H3>
+toCssText</H3>
+<PRE>
+public java.lang.String <B>toCssText</B>()</PRE>
+<DL>
+<DD>Returns the prelude text.
+ <p>
+ 전문 문자열을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the text as written / 쓰인 그대로의 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getQueryText()"><!-- --></A><H3>
+getQueryText</H3>
+<PRE>
+public java.lang.String <B>getQueryText</B>()</PRE>
+<DL>
+<DD>Returns the query without the container name (the CSSOM <code>containerQuery</code> of <code>CSSContainerRule</code>).
+ <p>
+ 컨테이너 이름을 뺀 질의를 반환한다(<code>CSSContainerRule</code> 의 CSSOM <code>containerQuery</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the text after the name, or the whole prelude if there is no name / 이름 뒤의 문자열. 이름이 없으면 전문 전체</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.StyleLookup.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cssom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cssom/ContainerCondition.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ContainerCondition.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

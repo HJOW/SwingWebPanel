@@ -1,0 +1,574 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+PageKeyboard
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="PageKeyboard";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKind.html" title="enum in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/PageKeyboard.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PageKeyboard.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.core</FONT>
+<BR>
+Class PageKeyboard</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by ">java.awt.event.KeyAdapter
+      <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.core.PageKeyboard</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD>java.awt.event.FocusListener, java.awt.event.KeyListener, java.util.EventListener</DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public final class <B>PageKeyboard</B><DT>extends java.awt.event.KeyAdapter<DT>implements java.awt.event.FocusListener</DL>
+</PRE>
+
+<P>
+Keyboard and focus input of the rendered component (plan items P11-01 and P11-02): AWT key events become DOM <code>keydown</code>,
+ <code>keypress</code> and <code>keyup</code> events for the element that has the focus (the body if none has it), a key that is not
+ cancelled does what the browser does (Tab moves the focus along the tab order and leaves the component after the last element, Enter
+ follows a link or presses a button, Space releases a button), and the focus of the component itself is passed on to the document so
+ that its focused element gets <code>focus</code> and <code>blur</code>. The scrolling keys are not consumed: the scroll pane that holds
+ the component handles them.
+ <p>
+ 렌더링 컴포넌트의 키보드와 포커스 입력(계획 P11-01, P11-02): AWT 키 이벤트가 포커스를 가진 요소(없으면 body)의 DOM <code>keydown</code>,
+ <code>keypress</code>, <code>keyup</code> 이벤트가 되고, 취소되지 않은 키는 브라우저가 하는 일을 한다(Tab 은 Tab 순서대로 포커스를 옮기고 마지막 요소
+ 다음에서는 컴포넌트를 떠나며, Enter 는 링크를 따라가거나 단추를 누르고, Space 는 단추를 뗀다). 컴포넌트 자신의 포커스는 문서에 전달되어 포커스를 가진
+ 요소가 <code>focus</code> 와 <code>blur</code> 를 받는다. 스크롤 키는 소비하지 않으며 컴포넌트를 담은 스크롤 창이 처리한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKeyboard.html#COMMAND_COPY">COMMAND_COPY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The edit command that copies the selection. / 선택을 복사하는 편집 명령.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKeyboard.html#COMMAND_CUT">COMMAND_CUT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The edit command that cuts the selection of an editable place. / 편집 가능한 곳의 선택을 잘라내는 편집 명령.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKeyboard.html#COMMAND_PASTE">COMMAND_PASTE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The edit command that pastes the clipboard into an editable place. / 편집 가능한 곳에 클립보드를 붙여넣는 편집 명령.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKeyboard.html#COMMAND_SELECT_ALL">COMMAND_SELECT_ALL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The edit command that selects everything. / 모두 선택하는 편집 명령.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKeyboard.html#PageKeyboard(javax.swing.JComponent, org.duckdns.hjow.swingwebpanel.core.BrowserSession, org.duckdns.hjow.swingwebpanel.core.PageView, org.duckdns.hjow.swingwebpanel.core.PageInput)">PageKeyboard</A></B>(javax.swing.JComponent&nbsp;component,
+             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" title="class in org.duckdns.hjow.swingwebpanel.core">BrowserSession</A>&nbsp;session,
+             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageView</A>&nbsp;view,
+             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageInput</A>&nbsp;input)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the controller and turns off the focus traversal keys of the component, so that the Tab key reaches the page.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKeyboard.html#dispose()">dispose</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Permanently stops the keyboard input.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKeyboard.html#editCommand(java.lang.String)">editCommand</A></B>(java.lang.String&nbsp;command)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Runs an edit command of the host (a menu item, a tool bar button) on the page, as the matching key does, but without sending key
+ events to the page: the clipboard events (<code>copy</code>, <code>cut</code>, <code>paste</code>) are still sent.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKeyboard.html#focusGained(java.awt.event.FocusEvent)">focusGained</A></B>(java.awt.event.FocusEvent&nbsp;event)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells the document that the component gained the keyboard focus: the focused element gets <code>focus</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKeyboard.html#focusLost(java.awt.event.FocusEvent)">focusLost</A></B>(java.awt.event.FocusEvent&nbsp;event)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells the document that the component lost the keyboard focus: the focused element gets <code>blur</code> and keeps being the
+ focused element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKeyboard.html#keyPressed(java.awt.event.KeyEvent)">keyPressed</A></B>(java.awt.event.KeyEvent&nbsp;event)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sends <code>keydown</code> and runs the default action of the key if no listener cancelled the event.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKeyboard.html#keyReleased(java.awt.event.KeyEvent)">keyReleased</A></B>(java.awt.event.KeyEvent&nbsp;event)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sends <code>keyup</code> and runs the default action that a key has when it is released (Space on a button).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKeyboard.html#keyTyped(java.awt.event.KeyEvent)">keyTyped</A></B>(java.awt.event.KeyEvent&nbsp;event)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sends <code>keypress</code> for a key that produces a character.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKeyboard.html#setZoomControl(org.duckdns.hjow.swingwebpanel.core.ZoomControl)">setZoomControl</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ZoomControl.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ZoomControl</A>&nbsp;control)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the object that changes the page zoom for Ctrl+plus, Ctrl+minus and Ctrl+0 (null: these keys do nothing special).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="COMMAND_COPY"><!-- --></A><H3>
+COMMAND_COPY</H3>
+<PRE>
+public static final java.lang.String <B>COMMAND_COPY</B></PRE>
+<DL>
+<DD>The edit command that copies the selection. / 선택을 복사하는 편집 명령.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.core.PageKeyboard.COMMAND_COPY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="COMMAND_CUT"><!-- --></A><H3>
+COMMAND_CUT</H3>
+<PRE>
+public static final java.lang.String <B>COMMAND_CUT</B></PRE>
+<DL>
+<DD>The edit command that cuts the selection of an editable place. / 편집 가능한 곳의 선택을 잘라내는 편집 명령.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.core.PageKeyboard.COMMAND_CUT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="COMMAND_PASTE"><!-- --></A><H3>
+COMMAND_PASTE</H3>
+<PRE>
+public static final java.lang.String <B>COMMAND_PASTE</B></PRE>
+<DL>
+<DD>The edit command that pastes the clipboard into an editable place. / 편집 가능한 곳에 클립보드를 붙여넣는 편집 명령.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.core.PageKeyboard.COMMAND_PASTE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="COMMAND_SELECT_ALL"><!-- --></A><H3>
+COMMAND_SELECT_ALL</H3>
+<PRE>
+public static final java.lang.String <B>COMMAND_SELECT_ALL</B></PRE>
+<DL>
+<DD>The edit command that selects everything. / 모두 선택하는 편집 명령.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.core.PageKeyboard.COMMAND_SELECT_ALL">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="PageKeyboard(javax.swing.JComponent, org.duckdns.hjow.swingwebpanel.core.BrowserSession, org.duckdns.hjow.swingwebpanel.core.PageView, org.duckdns.hjow.swingwebpanel.core.PageInput)"><!-- --></A><H3>
+PageKeyboard</H3>
+<PRE>
+public <B>PageKeyboard</B>(javax.swing.JComponent&nbsp;component,
+                    <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" title="class in org.duckdns.hjow.swingwebpanel.core">BrowserSession</A>&nbsp;session,
+                    <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageView</A>&nbsp;view,
+                    <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageInput</A>&nbsp;input)</PRE>
+<DL>
+<DD>Creates the controller and turns off the focus traversal keys of the component, so that the Tab key reaches the page.
+ <p>
+ 제어기를 만들고 Tab 키가 페이지에 닿도록 컴포넌트의 포커스 이동 키를 끈다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>component</CODE> - the component / 컴포넌트<DD><CODE>session</CODE> - the session / 세션<DD><CODE>view</CODE> - the view / 뷰<DD><CODE>input</CODE> - the pointer input / 포인터 입력</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="keyPressed(java.awt.event.KeyEvent)"><!-- --></A><H3>
+keyPressed</H3>
+<PRE>
+public void <B>keyPressed</B>(java.awt.event.KeyEvent&nbsp;event)</PRE>
+<DL>
+<DD>Sends <code>keydown</code> and runs the default action of the key if no listener cancelled the event.
+ <p>
+ <code>keydown</code> 을 보내고 리스너가 이벤트를 취소하지 않았으면 키의 기본 동작을 한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>keyPressed</CODE> in interface <CODE>java.awt.event.KeyListener</CODE><DT><B>Overrides:</B><DD><CODE>keyPressed</CODE> in class <CODE>java.awt.event.KeyAdapter</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>event</CODE> - the AWT event / AWT 이벤트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setZoomControl(org.duckdns.hjow.swingwebpanel.core.ZoomControl)"><!-- --></A><H3>
+setZoomControl</H3>
+<PRE>
+public void <B>setZoomControl</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ZoomControl.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ZoomControl</A>&nbsp;control)</PRE>
+<DL>
+<DD>Sets the object that changes the page zoom for Ctrl+plus, Ctrl+minus and Ctrl+0 (null: these keys do nothing special).
+ <p>
+ Ctrl+플러스, Ctrl+마이너스, Ctrl+0 이 페이지 확대를 바꾸는 데 쓰는 객체를 정한다(null 이면 이 키들은 특별한 일을 하지 않는다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>control</CODE> - the zoom control or null / 확대 제어. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="keyTyped(java.awt.event.KeyEvent)"><!-- --></A><H3>
+keyTyped</H3>
+<PRE>
+public void <B>keyTyped</B>(java.awt.event.KeyEvent&nbsp;event)</PRE>
+<DL>
+<DD>Sends <code>keypress</code> for a key that produces a character.
+ <p>
+ 글자를 만드는 키에는 <code>keypress</code> 를 보낸다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>keyTyped</CODE> in interface <CODE>java.awt.event.KeyListener</CODE><DT><B>Overrides:</B><DD><CODE>keyTyped</CODE> in class <CODE>java.awt.event.KeyAdapter</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>event</CODE> - the AWT event / AWT 이벤트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="keyReleased(java.awt.event.KeyEvent)"><!-- --></A><H3>
+keyReleased</H3>
+<PRE>
+public void <B>keyReleased</B>(java.awt.event.KeyEvent&nbsp;event)</PRE>
+<DL>
+<DD>Sends <code>keyup</code> and runs the default action that a key has when it is released (Space on a button).
+ <p>
+ <code>keyup</code> 을 보내고 키를 뗄 때 하는 기본 동작(단추의 Space)을 한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>keyReleased</CODE> in interface <CODE>java.awt.event.KeyListener</CODE><DT><B>Overrides:</B><DD><CODE>keyReleased</CODE> in class <CODE>java.awt.event.KeyAdapter</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>event</CODE> - the AWT event / AWT 이벤트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="focusGained(java.awt.event.FocusEvent)"><!-- --></A><H3>
+focusGained</H3>
+<PRE>
+public void <B>focusGained</B>(java.awt.event.FocusEvent&nbsp;event)</PRE>
+<DL>
+<DD>Tells the document that the component gained the keyboard focus: the focused element gets <code>focus</code>.
+ <p>
+ 컴포넌트가 키보드 포커스를 얻었음을 문서에 알린다. 포커스를 가진 요소가 <code>focus</code> 를 받는다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>focusGained</CODE> in interface <CODE>java.awt.event.FocusListener</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>event</CODE> - the AWT event / AWT 이벤트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="focusLost(java.awt.event.FocusEvent)"><!-- --></A><H3>
+focusLost</H3>
+<PRE>
+public void <B>focusLost</B>(java.awt.event.FocusEvent&nbsp;event)</PRE>
+<DL>
+<DD>Tells the document that the component lost the keyboard focus: the focused element gets <code>blur</code> and keeps being the
+ focused element.
+ <p>
+ 컴포넌트가 키보드 포커스를 잃었음을 문서에 알린다. 포커스를 가진 요소가 <code>blur</code> 를 받고 계속 포커스를 가진 요소로 남는다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>focusLost</CODE> in interface <CODE>java.awt.event.FocusListener</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>event</CODE> - the AWT event / AWT 이벤트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispose()"><!-- --></A><H3>
+dispose</H3>
+<PRE>
+public void <B>dispose</B>()</PRE>
+<DL>
+<DD>Permanently stops the keyboard input.
+ <p>
+ 키보드 입력을 영구히 멈춘다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="editCommand(java.lang.String)"><!-- --></A><H3>
+editCommand</H3>
+<PRE>
+public void <B>editCommand</B>(java.lang.String&nbsp;command)</PRE>
+<DL>
+<DD>Runs an edit command of the host (a menu item, a tool bar button) on the page, as the matching key does, but without sending key
+ events to the page: the clipboard events (<code>copy</code>, <code>cut</code>, <code>paste</code>) are still sent. Call it on the
+ event dispatch thread (the clipboard is read there for a paste); the command itself runs on the document queue for the element
+ that has the keyboard focus. Text controls of forms have an editor of their own and are not handled here.
+ <p>
+ 호스트의 편집 명령(메뉴 항목, 도구 모음 단추)을 해당 키와 같게 페이지에서 실행하되 페이지에 키 이벤트는 보내지 않는다. 클립보드 이벤트(<code>copy</code>,
+ <code>cut</code>, <code>paste</code>)는 그대로 보낸다. 이벤트 디스패치 스레드에서 부른다(붙여넣기의 클립보드를 거기서 읽는다). 명령 자체는 문서 큐에서 키보드
+ 포커스를 가진 요소에 대해 실행한다. 폼의 텍스트 컨트롤은 자기 편집기가 있어 여기서 다루지 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>command</CODE> - one of the <code>COMMAND_</code> constants / <code>COMMAND_</code> 상수 가운데 하나</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html" title="class in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKind.html" title="enum in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/PageKeyboard.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PageKeyboard.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,309 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+RegExpCompiler
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="RegExpCompiler";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCancel.html" title="interface in org.duckdns.hjow.swingwebpanel.js.regexp"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCompiler.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="RegExpCompiler.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.regexp</FONT>
+<BR>
+Class RegExpCompiler</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.regexp.RegExpCompiler</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>RegExpCompiler</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Compiles an ECMAScript regular expression into a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp"><CODE>RegExpProgram</CODE></A>: the pattern is parsed into a syntax tree
+ by <CODE>RegExpParser</CODE> and translated to the instruction set interpreted by the backtracking matcher.
+ <p>
+ Translation rules (ECMA-262 21.2.2): alternation and quantifiers become split/jump instructions; a quantifier whose
+ atom is a single character or class becomes one REPEAT instruction that needs constant backtracking memory; other
+ quantifiers use counted loops with an empty-iteration check (an iteration that matches the empty string after the
+ minimum count is a failure) and reset the captures of the group range at the start of every iteration; groups store
+ their capture only when they complete; lookaheads are atomic (they leave only their captures behind).
+ <p>
+ Use <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCompiler.html#compile(java.lang.String, int)"><CODE>compile(String, int)</CODE></A> or <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCompiler.html#compile(java.lang.String, java.lang.String)"><CODE>compile(String, String)</CODE></A>; <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCompiler.html#validate(java.lang.String, java.lang.String)"><CODE>validate(String, String)</CODE></A> only checks
+ the early errors of a regular expression literal. All methods are static and thread-safe.
+ <p>
+ ECMAScript 정규식을 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp"><CODE>RegExpProgram</CODE></A> 으로 컴파일한다. <CODE>RegExpParser</CODE> 가 패턴을 구문 트리로 해석하고, 이를 역추적
+ 일치 검색기가 해석하는 명령으로 번역한다.
+ <p>
+ 번역 규칙(ECMA-262 21.2.2): 선택과 수량자는 분기/점프 명령이 된다. 원자가 문자 하나나 클래스인 수량자는 일정한 역추적 메모리만 쓰는 REPEAT 명령
+ 하나가 된다. 그 밖의 수량자는 빈 반복 검사(최솟값을 채운 뒤 빈 문자열과 일치한 반복은 실패)가 있는 횟수 반복문을 쓰고 반복이 시작될 때마다 그룹 범위의
+ 캡처를 초기화한다. 그룹은 끝났을 때만 캡처를 저장한다. 선행 탐색은 원자적이어서 캡처만 남긴다.
+ <p>
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCompiler.html#compile(java.lang.String, int)"><CODE>compile(String, int)</CODE></A> 또는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCompiler.html#compile(java.lang.String, java.lang.String)"><CODE>compile(String, String)</CODE></A> 을 쓴다. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCompiler.html#validate(java.lang.String, java.lang.String)"><CODE>validate(String, String)</CODE></A> 은 정규식 리터럴의
+ 조기 오류만 검사한다. 모든 메서드는 정적이며 스레드 안전하다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpProgram</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCompiler.html#compile(java.lang.String, int)">compile</A></B>(java.lang.String&nbsp;source,
+        int&nbsp;flags)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Compiles a pattern with flag bits.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpProgram</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCompiler.html#compile(java.lang.String, java.lang.String)">compile</A></B>(java.lang.String&nbsp;source,
+        java.lang.String&nbsp;flags)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Compiles a pattern with a flags string such as "gi".</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCompiler.html#validate(java.lang.String, java.lang.String)">validate</A></B>(java.lang.String&nbsp;source,
+         java.lang.String&nbsp;flags)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Checks the early errors of a regular expression (pattern and flags) without generating code; this is what the
+ script parser calls for a regular expression literal.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="compile(java.lang.String, int)"><!-- --></A><H3>
+compile</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpProgram</A> <B>compile</B>(java.lang.String&nbsp;source,
+                                    int&nbsp;flags)
+                             throws <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpSyntaxException</A></PRE>
+<DL>
+<DD>Compiles a pattern with flag bits.
+ <p>
+ 플래그 비트와 함께 패턴을 컴파일한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>source</CODE> - pattern text (the part between the slashes) / 패턴 문자열(슬래시 사이 부분)<DD><CODE>flags</CODE> - flag bits from <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp"><CODE>RegExpFlags</CODE></A> / <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp"><CODE>RegExpFlags</CODE></A> 의 플래그 비트
+<DT><B>Returns:</B><DD>the compiled program / 컴파일된 프로그램
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpSyntaxException</A></CODE> - if the pattern is invalid / 패턴이 올바르지 않으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="compile(java.lang.String, java.lang.String)"><!-- --></A><H3>
+compile</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpProgram.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpProgram</A> <B>compile</B>(java.lang.String&nbsp;source,
+                                    java.lang.String&nbsp;flags)
+                             throws <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpSyntaxException</A></PRE>
+<DL>
+<DD>Compiles a pattern with a flags string such as "gi".
+ <p>
+ "gi" 같은 플래그 문자열과 함께 패턴을 컴파일한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>source</CODE> - pattern text / 패턴 문자열<DD><CODE>flags</CODE> - flags text (null means none) / 플래그 문자열(null 은 없음)
+<DT><B>Returns:</B><DD>the compiled program / 컴파일된 프로그램
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpSyntaxException</A></CODE> - if the pattern or flags are invalid / 패턴이나 플래그가 올바르지 않으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="validate(java.lang.String, java.lang.String)"><!-- --></A><H3>
+validate</H3>
+<PRE>
+public static void <B>validate</B>(java.lang.String&nbsp;source,
+                            java.lang.String&nbsp;flags)
+                     throws <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpSyntaxException</A></PRE>
+<DL>
+<DD>Checks the early errors of a regular expression (pattern and flags) without generating code; this is what the
+ script parser calls for a regular expression literal.
+ <p>
+ 코드를 만들지 않고 정규식(패턴과 플래그)의 조기 오류를 검사한다. 스크립트 해석기가 정규식 리터럴에 대해 호출한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>source</CODE> - pattern text / 패턴 문자열<DD><CODE>flags</CODE> - flags text / 플래그 문자열
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpSyntaxException</A></CODE> - if the literal is invalid / 리터럴이 올바르지 않으면</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCancel.html" title="interface in org.duckdns.hjow.swingwebpanel.js.regexp"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpFlags.html" title="class in org.duckdns.hjow.swingwebpanel.js.regexp"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCompiler.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="RegExpCompiler.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

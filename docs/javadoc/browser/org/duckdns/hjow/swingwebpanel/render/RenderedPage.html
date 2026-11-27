@@ -1,0 +1,519 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+RenderedPage
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="RenderedPage";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/PageRenderer.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedText.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/render/RenderedPage.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="RenderedPage.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.render</FONT>
+<BR>
+Class RenderedPage</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.render.RenderedPage</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>RenderedPage</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+An immutable, fully rendered page (plan items P09-04 to P09-07): the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>LayoutResult</CODE></A>, the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayList.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>DisplayList</CODE></A> built from it and a
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/HitTester.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>HitTester</CODE></A>. The document thread builds it with <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/PageRenderer.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>PageRenderer</CODE></A> and hands it over; from then on the event dispatch thread only
+ reads it: <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html#paint(java.awt.Graphics2D, java.awt.Rectangle, int, int)"><CODE>paint(java.awt.Graphics2D, java.awt.Rectangle, int, int)</CODE></A> in <code>paintComponent</code>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html#hitTest(double, double, int, int, double)"><CODE>hitTest(double, double, int, int, double)</CODE></A> for mouse events, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html#getPreferredWidth()"><CODE>getPreferredWidth()</CODE></A> and
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html#getPreferredHeight()"><CODE>getPreferredHeight()</CODE></A> for <code>getPreferredSize</code> (the scrollable area in unscaled document pixels). A new page object
+ replaces the old one after every relayout; the old one stays valid while a paint is still using it.
+ <p>
+ 완전히 렌더링된 불변 페이지(계획 P09-04~P09-07): <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>LayoutResult</CODE></A>, 그것으로 만든 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayList.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>DisplayList</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/HitTester.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>HitTester</CODE></A>. 문서 스레드가
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/PageRenderer.html" title="class in org.duckdns.hjow.swingwebpanel.render"><CODE>PageRenderer</CODE></A> 로 만들어 넘기며, 그 뒤 이벤트 디스패치 스레드는 읽기만 한다: <code>paintComponent</code> 에서 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html#paint(java.awt.Graphics2D, java.awt.Rectangle, int, int)"><CODE>paint(java.awt.Graphics2D, java.awt.Rectangle, int, int)</CODE></A>,
+ 마우스 이벤트에서 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html#hitTest(double, double, int, int, double)"><CODE>hitTest(double, double, int, int, double)</CODE></A>, <code>getPreferredSize</code> 에서 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html#getPreferredWidth()"><CODE>getPreferredWidth()</CODE></A> 와 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html#getPreferredHeight()"><CODE>getPreferredHeight()</CODE></A>(배율을 적용하지 않은
+ 문서 픽셀의 스크롤 영역). 다시 배치할 때마다 새 페이지 객체가 옛것을 대체하며, 옛것은 그리기가 아직 쓰는 동안 유효하다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ControlSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.render">ControlSnapshot</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html#getControl(org.duckdns.hjow.swingwebpanel.dom.Element)">getControl</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the snapshot of the form control of an element as it was drawn in this page, or null if the element is not a drawn control
+ (or has no box).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayList.html" title="class in org.duckdns.hjow.swingwebpanel.render">DisplayList</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html#getDisplayList()">getDisplayList</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the display list.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/HitTester.html" title="class in org.duckdns.hjow.swingwebpanel.render">HitTester</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html#getHitTester()">getHitTester</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the hit tester.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutResult</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html#getLayout()">getLayout</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the layout.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html#getPreferredHeight()">getPreferredHeight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the height of the document in whole pixels (the content height).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html#getPreferredWidth()">getPreferredWidth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the width of the document in whole pixels (the content width, at least the viewport width).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/HitResult.html" title="class in org.duckdns.hjow.swingwebpanel.render">HitResult</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html#hitTest(double, double, int, int, double)">hitTest</A></B>(double&nbsp;screenX,
+        double&nbsp;screenY,
+        int&nbsp;scrollX,
+        int&nbsp;scrollY,
+        double&nbsp;scale)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Finds what is at a point given in component coordinates.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/HitResult.html" title="class in org.duckdns.hjow.swingwebpanel.render">HitResult</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html#hitTestDocument(double, double)">hitTestDocument</A></B>(double&nbsp;docX,
+                double&nbsp;docY)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Finds what is at a point given in document coordinates.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html#paint(java.awt.Graphics2D, java.awt.Rectangle, int, int)">paint</A></B>(java.awt.Graphics2D&nbsp;g,
+      java.awt.Rectangle&nbsp;clip,
+      int&nbsp;scrollX,
+      int&nbsp;scrollY)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Paints the page at 100 percent.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html#paint(java.awt.Graphics2D, java.awt.Rectangle, int, int, double, long)">paint</A></B>(java.awt.Graphics2D&nbsp;g,
+      java.awt.Rectangle&nbsp;clip,
+      int&nbsp;scrollX,
+      int&nbsp;scrollY,
+      double&nbsp;scale,
+      long&nbsp;timeMillis)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Paints the page with a zoom factor and an animation time.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedPage.html#paint(java.awt.Graphics2D, java.awt.Rectangle, int, int, double, long, int, int)">paint</A></B>(java.awt.Graphics2D&nbsp;g,
+      java.awt.Rectangle&nbsp;clip,
+      int&nbsp;scrollX,
+      int&nbsp;scrollY,
+      double&nbsp;scale,
+      long&nbsp;timeMillis,
+      int&nbsp;viewX,
+      int&nbsp;viewY)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Paints the page of a host that does the scrolling itself (a <code>JScrollPane</code> moves the component, so the graphics are already
+ scrolled): <code>position:fixed</code> boxes stay at the viewport and <code>position:sticky</code> boxes stick to it, which needs the position
+ of the viewport that the host scrolled to.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getControl(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+getControl</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ControlSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.render">ControlSnapshot</A> <B>getControl</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element)</PRE>
+<DL>
+<DD>Returns the snapshot of the form control of an element as it was drawn in this page, or null if the element is not a drawn control
+ (or has no box). The Swing editors of the text controls take their position, font and colors from it.
+ <p>
+ 요소의 폼 컨트롤이 이 페이지에서 그려진 대로의 스냅샷을 반환한다. 그려지는 컨트롤이 아니거나 상자가 없으면 null. 텍스트 컨트롤의 Swing 편집기가
+ 이것에서 위치, 글꼴, 색을 가져간다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>element</CODE> - the element, may be null / 요소. null 가능
+<DT><B>Returns:</B><DD>the snapshot or null / 스냅샷 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLayout()"><!-- --></A><H3>
+getLayout</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutResult</A> <B>getLayout</B>()</PRE>
+<DL>
+<DD>Returns the layout.
+ <p>
+ 레이아웃을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the layout / 레이아웃</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDisplayList()"><!-- --></A><H3>
+getDisplayList</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/DisplayList.html" title="class in org.duckdns.hjow.swingwebpanel.render">DisplayList</A> <B>getDisplayList</B>()</PRE>
+<DL>
+<DD>Returns the display list.
+ <p>
+ 디스플레이 리스트를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the display list / 디스플레이 리스트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHitTester()"><!-- --></A><H3>
+getHitTester</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/HitTester.html" title="class in org.duckdns.hjow.swingwebpanel.render">HitTester</A> <B>getHitTester</B>()</PRE>
+<DL>
+<DD>Returns the hit tester.
+ <p>
+ 히트 테스터를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the hit tester / 히트 테스터</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPreferredWidth()"><!-- --></A><H3>
+getPreferredWidth</H3>
+<PRE>
+public int <B>getPreferredWidth</B>()</PRE>
+<DL>
+<DD>Returns the width of the document in whole pixels (the content width, at least the viewport width).
+ <p>
+ 문서의 너비를 정수 픽셀로 반환한다(콘텐츠 너비, 최소 뷰포트 너비).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>width / 너비</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPreferredHeight()"><!-- --></A><H3>
+getPreferredHeight</H3>
+<PRE>
+public int <B>getPreferredHeight</B>()</PRE>
+<DL>
+<DD>Returns the height of the document in whole pixels (the content height).
+ <p>
+ 문서의 높이를 정수 픽셀로 반환한다(콘텐츠 높이).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>height / 높이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="paint(java.awt.Graphics2D, java.awt.Rectangle, int, int)"><!-- --></A><H3>
+paint</H3>
+<PRE>
+public void <B>paint</B>(java.awt.Graphics2D&nbsp;g,
+                  java.awt.Rectangle&nbsp;clip,
+                  int&nbsp;scrollX,
+                  int&nbsp;scrollY)</PRE>
+<DL>
+<DD>Paints the page at 100 percent.
+ <p>
+ 페이지를 100 % 로 그린다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>g</CODE> - the graphics of the component / 컴포넌트의 그래픽스<DD><CODE>clip</CODE> - the area to paint in component coordinates, null for the clip of the graphics / 컴포넌트 좌표로 그릴 영역. null 이면 그래픽스의 클립<DD><CODE>scrollX</CODE> - horizontal scroll offset / 가로 스크롤 오프셋<DD><CODE>scrollY</CODE> - vertical scroll offset / 세로 스크롤 오프셋</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="paint(java.awt.Graphics2D, java.awt.Rectangle, int, int, double, long)"><!-- --></A><H3>
+paint</H3>
+<PRE>
+public void <B>paint</B>(java.awt.Graphics2D&nbsp;g,
+                  java.awt.Rectangle&nbsp;clip,
+                  int&nbsp;scrollX,
+                  int&nbsp;scrollY,
+                  double&nbsp;scale,
+                  long&nbsp;timeMillis)</PRE>
+<DL>
+<DD>Paints the page with a zoom factor and an animation time.
+ <p>
+ 페이지를 확대 배율과 애니메이션 시각으로 그린다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>g</CODE> - the graphics / 그래픽스<DD><CODE>clip</CODE> - the area to paint or null / 그릴 영역 또는 null<DD><CODE>scrollX</CODE> - horizontal scroll offset in document px / 문서 px 단위 가로 스크롤<DD><CODE>scrollY</CODE> - vertical scroll offset / 세로 스크롤<DD><CODE>scale</CODE> - the zoom factor / 확대 배율<DD><CODE>timeMillis</CODE> - animation time in milliseconds / 애니메이션 시각(밀리초)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="paint(java.awt.Graphics2D, java.awt.Rectangle, int, int, double, long, int, int)"><!-- --></A><H3>
+paint</H3>
+<PRE>
+public void <B>paint</B>(java.awt.Graphics2D&nbsp;g,
+                  java.awt.Rectangle&nbsp;clip,
+                  int&nbsp;scrollX,
+                  int&nbsp;scrollY,
+                  double&nbsp;scale,
+                  long&nbsp;timeMillis,
+                  int&nbsp;viewX,
+                  int&nbsp;viewY)</PRE>
+<DL>
+<DD>Paints the page of a host that does the scrolling itself (a <code>JScrollPane</code> moves the component, so the graphics are already
+ scrolled): <code>position:fixed</code> boxes stay at the viewport and <code>position:sticky</code> boxes stick to it, which needs the position
+ of the viewport that the host scrolled to.
+ <p>
+ 스크롤을 스스로 하는 호스트의 페이지를 그린다(<code>JScrollPane</code> 이 컴포넌트를 옮기므로 그래픽스는 이미 스크롤되어 있다): <code>position:fixed</code> 상자는
+ 뷰포트에 머물고 <code>position:sticky</code> 상자는 뷰포트에 붙으므로 호스트가 스크롤한 뷰포트의 위치가 필요하다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>g</CODE> - the graphics / 그래픽스<DD><CODE>clip</CODE> - the area to paint or null / 그릴 영역 또는 null<DD><CODE>scrollX</CODE> - horizontal offset applied here (0 if the graphics are scrolled already) / 여기서 적용하는 가로 오프셋(그래픽스가 이미 스크롤되었으면 0)<DD><CODE>scrollY</CODE> - vertical offset applied here / 여기서 적용하는 세로 오프셋<DD><CODE>scale</CODE> - the zoom factor / 확대 배율<DD><CODE>timeMillis</CODE> - animation time in milliseconds / 애니메이션 시각(밀리초)<DD><CODE>viewX</CODE> - x of the viewport in document px / 문서 px 단위 뷰포트의 x<DD><CODE>viewY</CODE> - y of the viewport in document px / 문서 px 단위 뷰포트의 y</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hitTest(double, double, int, int, double)"><!-- --></A><H3>
+hitTest</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/HitResult.html" title="class in org.duckdns.hjow.swingwebpanel.render">HitResult</A> <B>hitTest</B>(double&nbsp;screenX,
+                         double&nbsp;screenY,
+                         int&nbsp;scrollX,
+                         int&nbsp;scrollY,
+                         double&nbsp;scale)</PRE>
+<DL>
+<DD>Finds what is at a point given in component coordinates.
+ <p>
+ 컴포넌트 좌표로 준 점에 무엇이 있는지 찾는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>screenX</CODE> - x in component coordinates / 컴포넌트 좌표의 x<DD><CODE>screenY</CODE> - y in component coordinates / 컴포넌트 좌표의 y<DD><CODE>scrollX</CODE> - horizontal scroll offset / 가로 스크롤 오프셋<DD><CODE>scrollY</CODE> - vertical scroll offset / 세로 스크롤 오프셋<DD><CODE>scale</CODE> - the zoom factor / 확대 배율
+<DT><B>Returns:</B><DD>the result / 결과</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hitTestDocument(double, double)"><!-- --></A><H3>
+hitTestDocument</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/HitResult.html" title="class in org.duckdns.hjow.swingwebpanel.render">HitResult</A> <B>hitTestDocument</B>(double&nbsp;docX,
+                                 double&nbsp;docY)</PRE>
+<DL>
+<DD>Finds what is at a point given in document coordinates.
+ <p>
+ 문서 좌표로 준 점에 무엇이 있는지 찾는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>docX</CODE> - x in document coordinates / 문서 좌표의 x<DD><CODE>docY</CODE> - y in document coordinates / 문서 좌표의 y
+<DT><B>Returns:</B><DD>the result / 결과</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/PageRenderer.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/RenderedText.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/render/RenderedPage.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="RenderedPage.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

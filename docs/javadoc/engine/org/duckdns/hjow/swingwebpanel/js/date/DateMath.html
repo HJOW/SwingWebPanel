@@ -1,0 +1,871 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+DateMath
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="DateMath";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateFormatter.html" title="class in org.duckdns.hjow.swingwebpanel.js.date"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateParser.html" title="class in org.duckdns.hjow.swingwebpanel.js.date"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/date/DateMath.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="DateMath.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.date</FONT>
+<BR>
+Class DateMath</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.date.DateMath</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>DateMath</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+ECMAScript 2015 date arithmetic (ECMA-262 section 20.3.1) on time values: a double holding milliseconds since
+ 1970-01-01T00:00:00Z, NaN for an invalid date, valid range +-8.64e15. Day numbers, year/month/day extraction,
+ MakeTime, MakeDay, MakeDate, TimeClip and the local time conversions LocalTime and UTC are provided.
+ <p>
+ Local time uses an injectable <CODE>TimeZone</CODE>. For a local time that occurs twice (clock set back) or not at all
+ (clock set forward) the offset in effect <em>before</em> the transition is used, as ES2015 requires. The lookup assumes
+ that at most one offset transition happens within two days around the requested instant. Years are the proleptic
+ Gregorian years of the specification, independent of the JRE calendar. All methods are static and thread-safe
+ (a <CODE>TimeZone</CODE> instance is read only).
+ <p>
+ 시간값(1970-01-01T00:00:00Z 이후 밀리초를 담은 double, 올바르지 않은 날짜는 NaN, 유효 범위 +-8.64e15) 위의 ECMAScript 2015 날짜 연산
+ (ECMA-262 20.3.1절). 날짜 번호, 연/월/일 추출, MakeTime, MakeDay, MakeDate, TimeClip, 지역 시간 변환 LocalTime 과 UTC 를 제공한다.
+ <p>
+ 지역 시간은 주입할 수 있는 <CODE>TimeZone</CODE> 을 쓴다. 두 번 나타나는 지역 시간(시계를 되돌림)이나 아예 없는 지역 시간(시계를 앞당김)은
+ ES2015 규칙대로 전환 <em>이전</em>의 오프셋을 쓴다. 조회는 요청한 시각 앞뒤 이틀 안에 오프셋 전환이 많아야 한 번이라고 가정한다.
+ 연도는 규격의 그레고리력 연도이며 JRE 달력과 무관하다. 모든 메서드는 정적이고 스레드 안전하다(<CODE>TimeZone</CODE> 은 읽기만 한다).
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#MAX_TIME">MAX_TIME</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Largest absolute time value: 100,000,000 days on either side of the epoch.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#MS_PER_DAY">MS_PER_DAY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Milliseconds per day.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#MS_PER_HOUR">MS_PER_HOUR</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Milliseconds per hour.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#MS_PER_MINUTE">MS_PER_MINUTE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Milliseconds per minute.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#MS_PER_SECOND">MS_PER_SECOND</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Milliseconds per second.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#dateFromTime(double)">dateFromTime</A></B>(double&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DateFromTime(t): day of the month 1..31, NaN for an invalid time value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#day(double)">day</A></B>(double&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Day(t): the day number containing the time value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#dayFromYear(double)">dayFromYear</A></B>(double&nbsp;y)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DayFromYear(y): day number of January 1 of the year.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#daysInYear(double)">daysInYear</A></B>(double&nbsp;y)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DaysInYear(y).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#hourFromTime(double)">hourFromTime</A></B>(double&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HourFromTime(t).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#inLeapYear(double)">inLeapYear</A></B>(double&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InLeapYear(t).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#localTime(double, java.util.TimeZone)">localTime</A></B>(double&nbsp;t,
+          java.util.TimeZone&nbsp;tz)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LocalTime(t): converts a UTC time value to local time.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#localTZA(double, boolean, java.util.TimeZone)">localTZA</A></B>(double&nbsp;t,
+         boolean&nbsp;isUtc,
+         java.util.TimeZone&nbsp;tz)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LocalTZA(t, isUTC): the offset of local time from UTC in milliseconds.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#makeDate(double, double)">makeDate</A></B>(double&nbsp;day,
+         double&nbsp;time)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MakeDate(day, time).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#makeDay(double, double, double)">makeDay</A></B>(double&nbsp;year,
+        double&nbsp;month,
+        double&nbsp;date)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MakeDay(year, month, date): the day number, NaN if an argument is not finite or the result is not representable.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#makeTime(double, double, double, double)">makeTime</A></B>(double&nbsp;hour,
+         double&nbsp;min,
+         double&nbsp;sec,
+         double&nbsp;ms)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MakeTime(hour, min, sec, ms): NaN if any argument is not finite.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#minFromTime(double)">minFromTime</A></B>(double&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MinFromTime(t).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#monthFromTime(double)">monthFromTime</A></B>(double&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MonthFromTime(t): 0 for January to 11 for December, NaN for an invalid time value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#msFromTime(double)">msFromTime</A></B>(double&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msFromTime(t).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#secFromTime(double)">secFromTime</A></B>(double&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SecFromTime(t).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#timeClip(double)">timeClip</A></B>(double&nbsp;time)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TimeClip(time): NaN outside +-8.64e15, otherwise the integral value (+0 for -0).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#timeFromYear(double)">timeFromYear</A></B>(double&nbsp;y)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TimeFromYear(y): time value of the start of the year.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#timeWithinDay(double)">timeWithinDay</A></B>(double&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TimeWithinDay(t): milliseconds since the start of the day.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#utc(double, java.util.TimeZone)">utc</A></B>(double&nbsp;t,
+    java.util.TimeZone&nbsp;tz)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UTC(t): converts a local time value to UTC.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#weekDay(double)">weekDay</A></B>(double&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WeekDay(t): 0 for Sunday to 6 for Saturday.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateMath.html#yearFromTime(double)">yearFromTime</A></B>(double&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YearFromTime(t).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="MS_PER_DAY"><!-- --></A><H3>
+MS_PER_DAY</H3>
+<PRE>
+public static final double <B>MS_PER_DAY</B></PRE>
+<DL>
+<DD>Milliseconds per day.
+ <p>
+ 하루의 밀리초.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.date.DateMath.MS_PER_DAY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MS_PER_HOUR"><!-- --></A><H3>
+MS_PER_HOUR</H3>
+<PRE>
+public static final double <B>MS_PER_HOUR</B></PRE>
+<DL>
+<DD>Milliseconds per hour.
+ <p>
+ 한 시간의 밀리초.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.date.DateMath.MS_PER_HOUR">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MS_PER_MINUTE"><!-- --></A><H3>
+MS_PER_MINUTE</H3>
+<PRE>
+public static final double <B>MS_PER_MINUTE</B></PRE>
+<DL>
+<DD>Milliseconds per minute.
+ <p>
+ 일 분의 밀리초.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.date.DateMath.MS_PER_MINUTE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MS_PER_SECOND"><!-- --></A><H3>
+MS_PER_SECOND</H3>
+<PRE>
+public static final double <B>MS_PER_SECOND</B></PRE>
+<DL>
+<DD>Milliseconds per second.
+ <p>
+ 일 초의 밀리초.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.date.DateMath.MS_PER_SECOND">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAX_TIME"><!-- --></A><H3>
+MAX_TIME</H3>
+<PRE>
+public static final double <B>MAX_TIME</B></PRE>
+<DL>
+<DD>Largest absolute time value: 100,000,000 days on either side of the epoch.
+ <p>
+ 시간값의 절댓값 최댓값: epoch 앞뒤 100,000,000 일.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.date.DateMath.MAX_TIME">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="day(double)"><!-- --></A><H3>
+day</H3>
+<PRE>
+public static double <B>day</B>(double&nbsp;t)</PRE>
+<DL>
+<DD>Day(t): the day number containing the time value.
+ <p>
+ Day(t): 시간값이 속한 날짜 번호.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - time value / 시간값
+<DT><B>Returns:</B><DD>day number / 날짜 번호</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="timeWithinDay(double)"><!-- --></A><H3>
+timeWithinDay</H3>
+<PRE>
+public static double <B>timeWithinDay</B>(double&nbsp;t)</PRE>
+<DL>
+<DD>TimeWithinDay(t): milliseconds since the start of the day.
+ <p>
+ TimeWithinDay(t): 그날 0 시 이후의 밀리초.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - time value / 시간값
+<DT><B>Returns:</B><DD>value in [0, 86400000) / [0, 86400000) 의 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="daysInYear(double)"><!-- --></A><H3>
+daysInYear</H3>
+<PRE>
+public static double <B>daysInYear</B>(double&nbsp;y)</PRE>
+<DL>
+<DD>DaysInYear(y).
+ <p>
+ DaysInYear(y).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>y</CODE> - year / 연도
+<DT><B>Returns:</B><DD>365 or 366 / 365 또는 366</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dayFromYear(double)"><!-- --></A><H3>
+dayFromYear</H3>
+<PRE>
+public static double <B>dayFromYear</B>(double&nbsp;y)</PRE>
+<DL>
+<DD>DayFromYear(y): day number of January 1 of the year.
+ <p>
+ DayFromYear(y): 그 해 1월 1일의 날짜 번호.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>y</CODE> - year / 연도
+<DT><B>Returns:</B><DD>day number / 날짜 번호</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="timeFromYear(double)"><!-- --></A><H3>
+timeFromYear</H3>
+<PRE>
+public static double <B>timeFromYear</B>(double&nbsp;y)</PRE>
+<DL>
+<DD>TimeFromYear(y): time value of the start of the year.
+ <p>
+ TimeFromYear(y): 그 해 시작의 시간값.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>y</CODE> - year / 연도
+<DT><B>Returns:</B><DD>time value / 시간값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="yearFromTime(double)"><!-- --></A><H3>
+yearFromTime</H3>
+<PRE>
+public static double <B>yearFromTime</B>(double&nbsp;t)</PRE>
+<DL>
+<DD>YearFromTime(t).
+ <p>
+ YearFromTime(t).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - time value / 시간값
+<DT><B>Returns:</B><DD>year / 연도</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="inLeapYear(double)"><!-- --></A><H3>
+inLeapYear</H3>
+<PRE>
+public static boolean <B>inLeapYear</B>(double&nbsp;t)</PRE>
+<DL>
+<DD>InLeapYear(t).
+ <p>
+ InLeapYear(t).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - time value / 시간값
+<DT><B>Returns:</B><DD>true if the year of t is a leap year / t 가 속한 해가 윤년이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="monthFromTime(double)"><!-- --></A><H3>
+monthFromTime</H3>
+<PRE>
+public static double <B>monthFromTime</B>(double&nbsp;t)</PRE>
+<DL>
+<DD>MonthFromTime(t): 0 for January to 11 for December, NaN for an invalid time value.
+ <p>
+ MonthFromTime(t): 1 월은 0, 12 월은 11. 올바르지 않은 시간값은 NaN.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - time value / 시간값
+<DT><B>Returns:</B><DD>month / 달</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dateFromTime(double)"><!-- --></A><H3>
+dateFromTime</H3>
+<PRE>
+public static double <B>dateFromTime</B>(double&nbsp;t)</PRE>
+<DL>
+<DD>DateFromTime(t): day of the month 1..31, NaN for an invalid time value.
+ <p>
+ DateFromTime(t): 달의 날짜 1..31. 올바르지 않은 시간값은 NaN.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - time value / 시간값
+<DT><B>Returns:</B><DD>day of month / 날짜</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="weekDay(double)"><!-- --></A><H3>
+weekDay</H3>
+<PRE>
+public static double <B>weekDay</B>(double&nbsp;t)</PRE>
+<DL>
+<DD>WeekDay(t): 0 for Sunday to 6 for Saturday.
+ <p>
+ WeekDay(t): 일요일은 0, 토요일은 6.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - time value / 시간값
+<DT><B>Returns:</B><DD>weekday / 요일</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hourFromTime(double)"><!-- --></A><H3>
+hourFromTime</H3>
+<PRE>
+public static double <B>hourFromTime</B>(double&nbsp;t)</PRE>
+<DL>
+<DD>HourFromTime(t).
+ <p>
+ HourFromTime(t).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - time value / 시간값
+<DT><B>Returns:</B><DD>hour 0..23 / 시 0..23</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="minFromTime(double)"><!-- --></A><H3>
+minFromTime</H3>
+<PRE>
+public static double <B>minFromTime</B>(double&nbsp;t)</PRE>
+<DL>
+<DD>MinFromTime(t).
+ <p>
+ MinFromTime(t).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - time value / 시간값
+<DT><B>Returns:</B><DD>minute 0..59 / 분 0..59</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="secFromTime(double)"><!-- --></A><H3>
+secFromTime</H3>
+<PRE>
+public static double <B>secFromTime</B>(double&nbsp;t)</PRE>
+<DL>
+<DD>SecFromTime(t).
+ <p>
+ SecFromTime(t).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - time value / 시간값
+<DT><B>Returns:</B><DD>second 0..59 / 초 0..59</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="msFromTime(double)"><!-- --></A><H3>
+msFromTime</H3>
+<PRE>
+public static double <B>msFromTime</B>(double&nbsp;t)</PRE>
+<DL>
+<DD>msFromTime(t).
+ <p>
+ msFromTime(t).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - time value / 시간값
+<DT><B>Returns:</B><DD>millisecond 0..999 / 밀리초 0..999</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="makeTime(double, double, double, double)"><!-- --></A><H3>
+makeTime</H3>
+<PRE>
+public static double <B>makeTime</B>(double&nbsp;hour,
+                              double&nbsp;min,
+                              double&nbsp;sec,
+                              double&nbsp;ms)</PRE>
+<DL>
+<DD>MakeTime(hour, min, sec, ms): NaN if any argument is not finite.
+ <p>
+ MakeTime(hour, min, sec, ms): 인수 중 유한하지 않은 것이 있으면 NaN.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>hour</CODE> - hour / 시<DD><CODE>min</CODE> - minute / 분<DD><CODE>sec</CODE> - second / 초<DD><CODE>ms</CODE> - millisecond / 밀리초
+<DT><B>Returns:</B><DD>milliseconds within a day (may be outside one day) / 하루 안의 밀리초(하루를 벗어날 수 있음)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="makeDay(double, double, double)"><!-- --></A><H3>
+makeDay</H3>
+<PRE>
+public static double <B>makeDay</B>(double&nbsp;year,
+                             double&nbsp;month,
+                             double&nbsp;date)</PRE>
+<DL>
+<DD>MakeDay(year, month, date): the day number, NaN if an argument is not finite or the result is not representable.
+ <p>
+ MakeDay(year, month, date): 날짜 번호. 인수가 유한하지 않거나 결과를 나타낼 수 없으면 NaN.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>year</CODE> - year / 연<DD><CODE>month</CODE> - month 0-based (may be outside 0..11) / 달(0 기준, 0..11 밖일 수 있음)<DD><CODE>date</CODE> - day of month (1-based, may be outside the month) / 날짜(1 기준, 그 달을 벗어날 수 있음)
+<DT><B>Returns:</B><DD>day number / 날짜 번호</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="makeDate(double, double)"><!-- --></A><H3>
+makeDate</H3>
+<PRE>
+public static double <B>makeDate</B>(double&nbsp;day,
+                              double&nbsp;time)</PRE>
+<DL>
+<DD>MakeDate(day, time).
+ <p>
+ MakeDate(day, time).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>day</CODE> - day number / 날짜 번호<DD><CODE>time</CODE> - milliseconds within the day / 하루 안의 밀리초
+<DT><B>Returns:</B><DD>time value, or NaN if not finite / 시간값. 유한하지 않으면 NaN</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="timeClip(double)"><!-- --></A><H3>
+timeClip</H3>
+<PRE>
+public static double <B>timeClip</B>(double&nbsp;time)</PRE>
+<DL>
+<DD>TimeClip(time): NaN outside +-8.64e15, otherwise the integral value (+0 for -0).
+ <p>
+ TimeClip(time): +-8.64e15 밖이면 NaN, 아니면 정수 값(-0 은 +0).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>time</CODE> - time value / 시간값
+<DT><B>Returns:</B><DD>clipped time value / 제한한 시간값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="localTZA(double, boolean, java.util.TimeZone)"><!-- --></A><H3>
+localTZA</H3>
+<PRE>
+public static double <B>localTZA</B>(double&nbsp;t,
+                              boolean&nbsp;isUtc,
+                              java.util.TimeZone&nbsp;tz)</PRE>
+<DL>
+<DD>LocalTZA(t, isUTC): the offset of local time from UTC in milliseconds.
+ If isUTC is true, t is a UTC time value; otherwise t is a local time value and the offset in effect before any
+ transition is used for repeated or skipped local times.
+ <p>
+ LocalTZA(t, isUTC): 지역 시간의 UTC 와의 차이(밀리초). isUTC 가 true 이면 t 는 UTC 시간값이고, 아니면 t 는 지역 시간값이며
+ 반복되거나 건너뛰는 지역 시간에는 전환 이전의 오프셋을 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - time value / 시간값<DD><CODE>isUtc</CODE> - whether t is a UTC time value / t 가 UTC 시간값인지 여부<DD><CODE>tz</CODE> - time zone / 시간대
+<DT><B>Returns:</B><DD>offset east of UTC in milliseconds / UTC 동쪽 오프셋(밀리초)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="localTime(double, java.util.TimeZone)"><!-- --></A><H3>
+localTime</H3>
+<PRE>
+public static double <B>localTime</B>(double&nbsp;t,
+                               java.util.TimeZone&nbsp;tz)</PRE>
+<DL>
+<DD>LocalTime(t): converts a UTC time value to local time.
+ <p>
+ LocalTime(t): UTC 시간값을 지역 시간으로 바꾼다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - UTC time value / UTC 시간값<DD><CODE>tz</CODE> - time zone / 시간대
+<DT><B>Returns:</B><DD>local time value / 지역 시간값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="utc(double, java.util.TimeZone)"><!-- --></A><H3>
+utc</H3>
+<PRE>
+public static double <B>utc</B>(double&nbsp;t,
+                         java.util.TimeZone&nbsp;tz)</PRE>
+<DL>
+<DD>UTC(t): converts a local time value to UTC.
+ <p>
+ UTC(t): 지역 시간값을 UTC 로 바꾼다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - local time value / 지역 시간값<DD><CODE>tz</CODE> - time zone / 시간대
+<DT><B>Returns:</B><DD>UTC time value / UTC 시간값</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateFormatter.html" title="class in org.duckdns.hjow.swingwebpanel.js.date"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/date/DateParser.html" title="class in org.duckdns.hjow.swingwebpanel.js.date"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/date/DateMath.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="DateMath.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

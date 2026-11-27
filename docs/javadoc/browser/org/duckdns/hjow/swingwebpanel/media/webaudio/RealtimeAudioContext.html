@@ -1,0 +1,612 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+RealtimeAudioContext
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="RealtimeAudioContext";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/PeriodicWave.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Driver.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="RealtimeAudioContext.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.webaudio</FONT>
+<BR>
+Class RealtimeAudioContext</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">org.duckdns.hjow.swingwebpanel.media.webaudio.BaseAudioContext</A>
+      <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>RealtimeAudioContext</B><DT>extends <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">BaseAudioContext</A></DL>
+</PRE>
+
+<P>
+A context whose time advances with the wall clock and whose graph is rendered by a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Driver.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>RealtimeAudioContext.Driver</CODE></A> (Web Audio API 1.2, <code>AudioContext</code>):
+ the real-time counterpart of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OfflineAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>OfflineAudioContext</CODE></A>. The context itself does not own a thread. It owns the state
+ (<code>suspended</code>, <code>running</code>, <code>closed</code>) and a <em>driver</em> that calls the rendering of one render quantum again and
+ again while the context runs. The driver of this stage is the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ClockRenderDriver.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>ClockRenderDriver</CODE></A>, which renders at the pace of the wall clock and discards the
+ output (the time advances and the graph works, but nothing is heard); a driver that writes the output to a sound device replaces it without any
+ change of the script layer. The control methods may be called from any thread; the rendering thread is the thread of the driver.
+ <p>
+ Latency: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#resolveLatency(java.lang.String, double)"><CODE>resolveLatency(java.lang.String, double)</CODE></A> turns the <code>latencyHint</code> of the script layer into a number of seconds; the context rounds it up to a
+ whole number of render quanta and reports it as <code>baseLatency</code>. The driver reports the latency of its output device through
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#reportOutputLatency(double)"><CODE>reportOutputLatency(double)</CODE></A>.
+ <p>
+ 시간이 벽시계와 함께 흐르고 그래프를 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Driver.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>RealtimeAudioContext.Driver</CODE></A> 가 렌더링하는 컨텍스트(Web Audio API 1.2, <code>AudioContext</code>): <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/OfflineAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>OfflineAudioContext</CODE></A> 의
+ 실시간 짝이다. 컨텍스트 자신은 스레드를 갖지 않는다. 상태(<code>suspended</code>, <code>running</code>, <code>closed</code>)와, 컨텍스트가 도는 동안
+ render quantum 하나의 렌더링을 되풀이해서 부르는 <em>드라이버</em>를 가진다. 이 단계의 드라이버는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/ClockRenderDriver.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>ClockRenderDriver</CODE></A> 이며 벽시계의 속도로
+ 렌더링하고 출력은 버린다(시간이 흐르고 그래프가 동작하지만 소리는 나지 않는다). 소리 장치로 출력을 쓰는 드라이버는 스크립트 계층을 바꾸지 않고 이것을
+ 대신한다. 제어 메서드는 어느 스레드에서나 부를 수 있고 렌더링 스레드는 드라이버의 스레드이다.
+ <p>
+ 지연: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#resolveLatency(java.lang.String, double)"><CODE>resolveLatency(java.lang.String, double)</CODE></A> 가 스크립트 계층의 <code>latencyHint</code> 를 초 단위 수로 바꾸고, 컨텍스트는 이를 render quantum 의 정수 배로 올림해
+ <code>baseLatency</code> 로 알린다. 드라이버는 출력 장치의 지연을 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#reportOutputLatency(double)"><CODE>reportOutputLatency(double)</CODE></A> 로 알린다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Driver.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">RealtimeAudioContext.Driver</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Drives the rendering of a real-time context: it calls <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Renderer.html#renderQuantum()"><CODE>RealtimeAudioContext.Renderer.renderQuantum()</CODE></A> at the pace of its output while it is started.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Renderer.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">RealtimeAudioContext.Renderer</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;What a driver needs to render: it calls <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Renderer.html#renderQuantum()"><CODE>RealtimeAudioContext.Renderer.renderQuantum()</CODE></A> once per quantum and reads the position of the context.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="nested_classes_inherited_from_class_org.duckdns.hjow.swingwebpanel.media.webaudio.BaseAudioContext"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Nested classes/interfaces inherited from class org.duckdns.hjow.swingwebpanel.media.webaudio.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">BaseAudioContext</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.TaskSink.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">BaseAudioContext.TaskSink</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;float</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#DEFAULT_SAMPLE_RATE">DEFAULT_SAMPLE_RATE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The sample rate used when the script does not ask for one (there is no device to ask).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#DESTINATION_CHANNELS">DESTINATION_CHANNELS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The number of channels of the destination of a real-time context.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#LATENCY_BALANCED">LATENCY_BALANCED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The latency of the category <code>balanced</code> in seconds.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#LATENCY_INTERACTIVE">LATENCY_INTERACTIVE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The latency of the category <code>interactive</code> in seconds.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#LATENCY_PLAYBACK">LATENCY_PLAYBACK</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The latency of the category <code>playback</code> in seconds.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#RealtimeAudioContext(float, double, org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.Driver)">RealtimeAudioContext</A></B>(float&nbsp;sampleRate,
+                     double&nbsp;latencySeconds,
+                     <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Driver.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">RealtimeAudioContext.Driver</A>&nbsp;driver)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a context in the <code>suspended</code> state; <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#resume()"><CODE>resume()</CODE></A> starts it.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#close()">close</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Closes the context for good: the rendering stops, the thread and the device of the driver are released and the state becomes
+ <code>closed</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Driver.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">RealtimeAudioContext.Driver</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#getDriver()">getDriver</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the driver (a test or the host reads its state).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#isClosed()">isClosed</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the context was closed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#reportOutputLatency(double)">reportOutputLatency</A></B>(double&nbsp;seconds)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reports the latency of the output device (called by a driver that writes to a device).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#resolveLatency(java.lang.String, double)">resolveLatency</A></B>(java.lang.String&nbsp;category,
+               double&nbsp;seconds)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Turns the <code>latencyHint</code> of the script layer into seconds: a category name, or a number of seconds that is limited to the range
+ from the <code>interactive</code> to the <code>playback</code> latency.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#resume()">resume</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts or continues the rendering: the state becomes <code>running</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#suspend()">suspend</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stops the progression of the time: the state becomes <code>suspended</code>; <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#resume()"><CODE>resume()</CODE></A> continues from the same time.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.media.webaudio.BaseAudioContext"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.media.webaudio.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">BaseAudioContext</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createAnalyser()">createAnalyser</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createBiquadFilter()">createBiquadFilter</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createBuffer(int, int, float)">createBuffer</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createBufferSource()">createBufferSource</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createChannelMerger(int)">createChannelMerger</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createChannelSplitter(int)">createChannelSplitter</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createConstantSource()">createConstantSource</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createConvolver()">createConvolver</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createDelay()">createDelay</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createDelay(double)">createDelay</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createDynamicsCompressor()">createDynamicsCompressor</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createGain()">createGain</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createIIRFilter(double[], double[])">createIIRFilter</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createMediaElementSource(org.duckdns.hjow.swingwebpanel.media.webaudio.MediaElementPcmSource)">createMediaElementSource</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createOscillator()">createOscillator</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createPanner()">createPanner</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createPeriodicWave(float[], float[], boolean)">createPeriodicWave</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createScriptProcessor(int, int, int)">createScriptProcessor</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createStereoPanner()">createStereoPanner</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#createWaveShaper()">createWaveShaper</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getBaseLatency()">getBaseLatency</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getCurrentFrame()">getCurrentFrame</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getCurrentTime()">getCurrentTime</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getDestination()">getDestination</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getListener()">getListener</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getMutedNodeCount()">getMutedNodeCount</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getOutputLatency()">getOutputLatency</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getPinnedNodeCount()">getPinnedNodeCount</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getProcessedStepCount()">getProcessedStepCount</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getRenderQuantumSize()">getRenderQuantumSize</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getSampleRate()">getSampleRate</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#getState()">getState</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#isHrtfAvailable()">isHrtfAvailable</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html#setTaskSink(org.duckdns.hjow.swingwebpanel.media.webaudio.BaseAudioContext.TaskSink)">setTaskSink</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="LATENCY_INTERACTIVE"><!-- --></A><H3>
+LATENCY_INTERACTIVE</H3>
+<PRE>
+public static final double <B>LATENCY_INTERACTIVE</B></PRE>
+<DL>
+<DD>The latency of the category <code>interactive</code> in seconds.
+ <p>
+ <code>interactive</code> 종류의 지연(초).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.LATENCY_INTERACTIVE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LATENCY_BALANCED"><!-- --></A><H3>
+LATENCY_BALANCED</H3>
+<PRE>
+public static final double <B>LATENCY_BALANCED</B></PRE>
+<DL>
+<DD>The latency of the category <code>balanced</code> in seconds.
+ <p>
+ <code>balanced</code> 종류의 지연(초).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.LATENCY_BALANCED">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LATENCY_PLAYBACK"><!-- --></A><H3>
+LATENCY_PLAYBACK</H3>
+<PRE>
+public static final double <B>LATENCY_PLAYBACK</B></PRE>
+<DL>
+<DD>The latency of the category <code>playback</code> in seconds.
+ <p>
+ <code>playback</code> 종류의 지연(초).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.LATENCY_PLAYBACK">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_SAMPLE_RATE"><!-- --></A><H3>
+DEFAULT_SAMPLE_RATE</H3>
+<PRE>
+public static final float <B>DEFAULT_SAMPLE_RATE</B></PRE>
+<DL>
+<DD>The sample rate used when the script does not ask for one (there is no device to ask).
+ <p>
+ 스크립트가 정하지 않았을 때 쓰는 샘플링 주파수(물어볼 장치가 없다).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.DEFAULT_SAMPLE_RATE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DESTINATION_CHANNELS"><!-- --></A><H3>
+DESTINATION_CHANNELS</H3>
+<PRE>
+public static final int <B>DESTINATION_CHANNELS</B></PRE>
+<DL>
+<DD>The number of channels of the destination of a real-time context.
+ <p>
+ 실시간 컨텍스트 목적지의 채널 수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.DESTINATION_CHANNELS">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="RealtimeAudioContext(float, double, org.duckdns.hjow.swingwebpanel.media.webaudio.RealtimeAudioContext.Driver)"><!-- --></A><H3>
+RealtimeAudioContext</H3>
+<PRE>
+public <B>RealtimeAudioContext</B>(float&nbsp;sampleRate,
+                            double&nbsp;latencySeconds,
+                            <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Driver.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">RealtimeAudioContext.Driver</A>&nbsp;driver)</PRE>
+<DL>
+<DD>Creates a context in the <code>suspended</code> state; <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#resume()"><CODE>resume()</CODE></A> starts it.
+ <p>
+ <code>suspended</code> 상태의 컨텍스트를 만든다. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#resume()"><CODE>resume()</CODE></A> 이 시작한다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>sampleRate</CODE> - the sample rate in Hz, from 3000 to 768000 / 샘플링 주파수(Hz, 3000 ~ 768000)<DD><CODE>latencySeconds</CODE> - the requested latency in seconds (see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#resolveLatency(java.lang.String, double)"><CODE>resolveLatency(java.lang.String, double)</CODE></A>) / 요청한 지연(초, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#resolveLatency(java.lang.String, double)"><CODE>resolveLatency(java.lang.String, double)</CODE></A> 참고)<DD><CODE>driver</CODE> - the driver that renders the context / 컨텍스트를 렌더링하는 드라이버
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioException</A></CODE> - <code>NotSupportedError</code> if the sample rate is out of range / 샘플링 주파수가 범위 밖이면 <code>NotSupportedError</code></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="resolveLatency(java.lang.String, double)"><!-- --></A><H3>
+resolveLatency</H3>
+<PRE>
+public static double <B>resolveLatency</B>(java.lang.String&nbsp;category,
+                                    double&nbsp;seconds)</PRE>
+<DL>
+<DD>Turns the <code>latencyHint</code> of the script layer into seconds: a category name, or a number of seconds that is limited to the range
+ from the <code>interactive</code> to the <code>playback</code> latency.
+ <p>
+ 스크립트 계층의 <code>latencyHint</code> 를 초로 바꾼다: 종류 이름이거나, <code>interactive</code> 에서 <code>playback</code> 지연까지의 범위로 제한한
+ 초 단위 수이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>category</CODE> - the category name (<code>interactive</code>, <code>balanced</code>, <code>playback</code>), or null if a number is given / 종류 이름. 수를 줬으면 null<DD><CODE>seconds</CODE> - the number of seconds, used when the category is null / 초 단위 수. 종류가 null 일 때 쓴다
+<DT><B>Returns:</B><DD>the latency in seconds / 지연(초)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDriver()"><!-- --></A><H3>
+getDriver</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Driver.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">RealtimeAudioContext.Driver</A> <B>getDriver</B>()</PRE>
+<DL>
+<DD>Returns the driver (a test or the host reads its state).
+ <p>
+ 드라이버를 반환한다(시험이나 호스트가 그 상태를 읽는다).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the driver / 드라이버</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="resume()"><!-- --></A><H3>
+resume</H3>
+<PRE>
+public void <B>resume</B>()</PRE>
+<DL>
+<DD>Starts or continues the rendering: the state becomes <code>running</code>.
+ <p>
+ 렌더링을 시작하거나 이어 간다. 상태가 <code>running</code> 이 된다.
+<P>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioException</A></CODE> - <code>InvalidStateError</code> if the context was closed / 컨텍스트가 닫혔으면 <code>InvalidStateError</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="suspend()"><!-- --></A><H3>
+suspend</H3>
+<PRE>
+public void <B>suspend</B>()</PRE>
+<DL>
+<DD>Stops the progression of the time: the state becomes <code>suspended</code>; <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#resume()"><CODE>resume()</CODE></A> continues from the same time.
+ <p>
+ 시간의 진행을 멈춘다. 상태가 <code>suspended</code> 가 되며 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html#resume()"><CODE>resume()</CODE></A> 이 같은 시간에서 이어 간다.
+<P>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioException</A></CODE> - <code>InvalidStateError</code> if the context was closed / 컨텍스트가 닫혔으면 <code>InvalidStateError</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="close()"><!-- --></A><H3>
+close</H3>
+<PRE>
+public void <B>close</B>()</PRE>
+<DL>
+<DD>Closes the context for good: the rendering stops, the thread and the device of the driver are released and the state becomes
+ <code>closed</code>. Calling it again has no effect.
+ <p>
+ 컨텍스트를 완전히 닫는다: 렌더링이 멈추고 드라이버의 스레드와 장치가 놓이며 상태가 <code>closed</code> 가 된다. 다시 불러도 효과가 없다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isClosed()"><!-- --></A><H3>
+isClosed</H3>
+<PRE>
+public boolean <B>isClosed</B>()</PRE>
+<DL>
+<DD>Tells whether the context was closed.
+ <p>
+ 컨텍스트가 닫혔는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true after close / close 후이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="reportOutputLatency(double)"><!-- --></A><H3>
+reportOutputLatency</H3>
+<PRE>
+public void <B>reportOutputLatency</B>(double&nbsp;seconds)</PRE>
+<DL>
+<DD>Reports the latency of the output device (called by a driver that writes to a device).
+ <p>
+ 출력 장치의 지연을 알린다(장치에 쓰는 드라이버가 부른다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>seconds</CODE> - the latency in seconds / 지연(초)</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/PeriodicWave.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.Driver.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/RealtimeAudioContext.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="RealtimeAudioContext.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

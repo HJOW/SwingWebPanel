@@ -1,0 +1,573 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+org.duckdns.hjow.swingwebpanel.dom
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="org.duckdns.hjow.swingwebpanel.dom";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/values/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<H2>
+Package org.duckdns.hjow.swingwebpanel.dom
+</H2>
+Document Object Model: nodes, collections, events, mutation notification.
+<P>
+<B>See:</B>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="#package_description"><B>Description</B></A>
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Interface Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMutationListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">DomMutationListener</A></B></TD>
+<TD>Observer of the changes of a document.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">ElementFactory</A></B></TD>
+<TD>Creates the element objects of a document.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">EventListener</A></B></TD>
+<TD>A callback that receives DOM events.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.ListenerSignal.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">EventTarget.ListenerSignal</A></B></TD>
+<TD>Abort signal operations used by DOM listener registration on the document thread.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/FocusManager.Visibility.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">FocusManager.Visibility</A></B></TD>
+<TD>Tells whether an element is displayed (the layout side knows; the DOM does not).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ListenerErrorHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">ListenerErrorHandler</A></B></TD>
+<TD>Receives the failures of event listeners.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MarkupSupport.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">MarkupSupport</A></B></TD>
+<TD>Parsing and serializing of markup, provided by the HTML (or XML) layer.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">NodeFilter</A></B></TD>
+<TD>A filter that a <code>NodeIterator</code> or a <code>TreeWalker</code> asks about every node it looks at (the <code>NodeFilter</code>
+ callback interface of the DOM Standard, "Interface NodeFilter").</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeList.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">NodeList</A></B></TD>
+<TD>An ordered list of nodes (<code>NodeList</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/SelectionListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">SelectionListener</A></B></TD>
+<TD>Receives the notification that the selection of a document changed: another range was chosen, a boundary point of the range moved (by a
+ script, by the user, or because the tree changed under a live range), or the selection was emptied.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/SelectorEngine.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">SelectorEngine</A></B></TD>
+<TD>The selector matching service used by <code>querySelector</code>, <code>querySelectorAll</code>, <code>matches</code> and <code>closest</code>.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/AllElements.html" title="class in org.duckdns.hjow.swingwebpanel.dom">AllElements</A></B></TD>
+<TD>Live element and name data for the legacy HTMLAllCollection of one document.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Attr.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Attr</A></B></TD>
+<TD>An attribute of an element: namespace, prefix, local name and value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/BeforeUnloadEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">BeforeUnloadEvent</A></B></TD>
+<TD>The <code>beforeunload</code> event (HTML Standard "BeforeUnloadEvent"): it is fired at the window of a page that is about to be left, it can be cancelled, and a
+ string in <code>returnValue</code> also asks to confirm the leaving.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/CDATASection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">CDATASection</A></B></TD>
+<TD>A CDATA section, which exists only in XML documents (for example XHTML served as <code>application/xhtml+xml</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/CharacterData.html" title="class in org.duckdns.hjow.swingwebpanel.dom">CharacterData</A></B></TD>
+<TD>Base of the nodes that hold character data: text, comments, CDATA sections and processing instructions.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClassList.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ClassList</A></B></TD>
+<TD>The token list view of the <code>class</code> attribute of an element (<code>classList</code>, a <code>DOMTokenList</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ClipboardData</A></B></TD>
+<TD>The data of a clipboard operation or of a drag and drop (HTML <code>DataTransfer</code>): the clipboard part of it
+ (<code>ClipboardEvent.clipboardData</code>, <code>InputEvent.dataTransfer</code>) and the drag-and-drop part (<code>DragEvent.dataTransfer</code>,
+ <code>effectAllowed</code>, <code>dropEffect</code>, <code>items</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ClipboardEvent</A></B></TD>
+<TD>The clipboard events <code>copy</code>, <code>cut</code> and <code>paste</code> (<code>ClipboardEvent</code>, Clipboard API and events): a
+ cancelable, bubbling event with the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>ClipboardData</CODE></A> of the operation.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/CloseEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">CloseEvent</A></B></TD>
+<TD>The <code>close</code> event of a <code>WebSocket</code> (<code>CloseEvent</code>, HTML Standard "Network" chapter): it tells whether the
+ connection was closed cleanly (<code>wasClean</code>), the status code that the server sent or that the user agent chose
+ (<code>code</code>, 1006 for a connection that was lost or never opened) and the reason text (<code>reason</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Comment.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Comment</A></B></TD>
+<TD>A comment node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/CompositionEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">CompositionEvent</A></B></TD>
+<TD>A composition event (UI Events): <code>compositionstart</code>, <code>compositionupdate</code> and <code>compositionend</code> of an input
+ method (for example while Hangul letters are being assembled), with the text of the composition.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/CustomEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">CustomEvent</A></B></TD>
+<TD>An event with an application defined payload (<code>CustomEvent</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DataTransferItem.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DataTransferItem</A></B></TD>
+<TD>One item of a data transfer (HTML <code>DataTransferItem</code>): its kind (this component only has text items, kind
+ <code>string</code>), its type string and its data.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DataTransferItemList.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DataTransferItemList</A></B></TD>
+<TD>The list of the items of a data transfer (HTML <code>DataTransferItemList</code>, <code>dataTransfer.items</code>): a view of the
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>ClipboardData</CODE></A> that made it, so it shows what the data transfer holds now, and it follows the mode of the data transfer (it can
+ be read in every mode but the disabled one, and changed in the read/write mode only).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A></B></TD>
+<TD>A document: the root of a DOM tree and the factory of its nodes (DOM Standard <code>Document</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentFragment.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentFragment</A></B></TD>
+<TD>A lightweight container of nodes without a place in a document tree.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentType.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentType</A></B></TD>
+<TD>A document type (<code>&lt;!</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomImplementation.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomImplementation</A></B></TD>
+<TD>The factory object of independent documents (<code>document.implementation</code>): it creates document types, XML documents and
+ HTML documents.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrix</A></B></TD>
+<TD>A matrix that scripts and the canvas may change (<code>DOMMatrix</code>, Geometry Interfaces Module Level 1, section 6): the transformation
+ methods of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>DomMatrixReadOnly</CODE></A> that change the matrix itself (<code>multiplySelf</code>, <code>translateSelf</code>,
+ <code>scaleSelf</code>, <code>rotateSelf</code>, <code>skewXSelf</code>, <code>invertSelf</code> ...).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixParser.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrixParser</A></B></TD>
+<TD>Parses the string form of a matrix, a CSS <code>transform</code> list, into a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrix.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>DomMatrix</CODE></A> (section 6.2 of the Geometry Interfaces
+ Module, "parse a string into an abstract matrix"; used by <code>new DOMMatrix(string)</code> and <code>setMatrixValue()</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMatrixReadOnly.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomMatrixReadOnly</A></B></TD>
+<TD>A 4x4 matrix of the geometry interfaces (<code>DOMMatrixReadOnly</code>, Geometry Interfaces Module Level 1, section 6): the sixteen
+ elements <code>m11</code> to <code>m44</code> and the flag <code>is2D</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomPoint.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomPoint</A></B></TD>
+<TD>A point that scripts may change (<code>DOMPoint</code>): <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomPointReadOnly.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>DomPointReadOnly</CODE></A> with setters.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomPointReadOnly.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomPointReadOnly</A></B></TD>
+<TD>A point of the geometry interfaces (<code>DOMPointReadOnly</code>, Geometry Interfaces Module): the three coordinates and the
+ perspective <code>w</code> (1 by default) as numbers.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomRect.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomRect</A></B></TD>
+<TD>A rectangle that scripts may change (<code>DOMRect</code>): the same as <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomRectReadOnly.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>DomRectReadOnly</CODE></A> with setters for the origin and the
+ size.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomRectList.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomRectList</A></B></TD>
+<TD>A fixed list of rectangles (<code>DOMRectList</code>, what <code>getClientRects()</code> returns): the length and the rectangles by
+ index.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomRectReadOnly.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomRectReadOnly</A></B></TD>
+<TD>A rectangle of the geometry interfaces (<code>DOMRectReadOnly</code>, Geometry Interfaces Module): the origin and the size as numbers,
+ and the four edges that follow from them (a negative width or height puts the edge on the other side).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DragEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DragEvent</A></B></TD>
+<TD>The events of drag and drop (<code>DragEvent</code>, HTML Standard 6.11): <code>dragstart</code>, <code>drag</code>, <code>dragenter</code>,
+ <code>dragover</code>, <code>dragleave</code>, <code>drop</code> and <code>dragend</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></B></TD>
+<TD>An element: a node with a namespace, a name, attributes and children.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A></B></TD>
+<TD>A live collection of elements (<code>HTMLCollection</code>): the result of <code>getElementsByTagName</code>,
+ <code>getElementsByClassName</code> and <code>children</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollections.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollections</A></B></TD>
+<TD>Factory of the live element collections of the DOM Standard: by tag name, by namespace and local name, by class names, and the
+ element children of a node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ErrorEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ErrorEvent</A></B></TD>
+<TD>The <code>error</code> event of a runtime script error (<code>ErrorEvent</code>, HTML Standard "Runtime script errors"): it carries the
+ <code>message</code>, the <code>filename</code> of the script, the line and the column (<code>lineno</code>, <code>colno</code>) and the
+ thrown value (<code>error</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Event</A></B></TD>
+<TD>A DOM event (DOM Standard section 2).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A></B></TD>
+<TD>An object that can receive events and have listeners (DOM Standard section 2.7): every node, and later the window and other
+ script-visible objects.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/FocusEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">FocusEvent</A></B></TD>
+<TD>A focus event (UI Events): <code>focus</code>, <code>blur</code>, <code>focusin</code> and <code>focusout</code>, with the element that
+ loses or gets the focus at the same time.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/FocusManager.html" title="class in org.duckdns.hjow.swingwebpanel.dom">FocusManager</A></B></TD>
+<TD>The focus of a document (HTML Standard, "focus"): which elements can have the focus, the order of the Tab key, moving the focus
+ with the <code>blur</code>, <code>focusout</code>, <code>focus</code> and <code>focusin</code> events in the order of the UI Events
+ specification, and the effect that the focus of the window (the component) has on the event of the focused element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HashChangeEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">HashChangeEvent</A></B></TD>
+<TD>The <code>hashchange</code> event (<code>HashChangeEvent</code>, HTML5 2014 REC 5.6.10.1): fired at the window after a move between two
+ entries of the same document whose URLs differ in the fragment.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Highlight.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Highlight</A></B></TD>
+<TD>A custom highlight of the CSS Custom Highlight API Level 1 (https://www.w3.org/TR/css-highlight-api-1/, W3C Working Draft of 14 December 2021, section 3.1):
+ a set of ranges (live <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>Range</CODE></A>s or <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/StaticRange.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>StaticRange</CODE></A>s, compared by identity and kept in insertion order) with a priority (default 0; a higher
+ priority is painted above) and a type (<code>highlight</code>, <code>spelling-error</code> or <code>grammar-error</code>; an unknown type is ignored, as
+ for an IDL enumeration).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HighlightRegistry.html" title="class in org.duckdns.hjow.swingwebpanel.dom">HighlightRegistry</A></B></TD>
+<TD>The highlight registry of a document (CSS Custom Highlight API Level 1, section 3.2): a map from custom highlight names to <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Highlight.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>Highlight</CODE></A>s, in the
+ order in which the names were first set (as a JavaScript <code>Map</code>; setting an existing name keeps its place).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/InputEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">InputEvent</A></B></TD>
+<TD>An input event (UI Events and Input Events): a change of the value of an editable element, with the text that was inserted and the
+ kind of change (<code>insertText</code>, <code>deleteContentBackward</code> ...), also used for <code>beforeinput</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/KeyboardEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">KeyboardEvent</A></B></TD>
+<TD>A keyboard event (UI Events): the value of the key (<code>key</code>), the physical key (<code>code</code>), where on the keyboard it
+ is, whether it repeats, and the legacy <code>keyCode</code>, <code>charCode</code> and <code>which</code> that old scripts read.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MediaQueryListEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">MediaQueryListEvent</A></B></TD>
+<TD>The <code>change</code> event of a media query list (<code>MediaQueryListEvent</code>, CSSOM View Module 4.2.1): it carries the text of
+ the query (<code>media</code>) and its new result (<code>matches</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MessageEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">MessageEvent</A></B></TD>
+<TD>The <code>message</code> event (<code>MessageEvent</code>, W3C Web Messaging 3): fired for a message of cross-document messaging
+ (<code>window.postMessage</code>) and of channel messaging (<code>MessagePort</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Microdata.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Microdata</A></B></TD>
+<TD>The microdata model of the W3C Working Group Note "HTML Microdata" (29 October 2013; the HTML5 2014 Recommendation has no microdata chapter
+ and the Note is the last published form of the feature): which elements are items, the item types, the property names, the properties of an
+ item (the "crawl" of the Note, section 5.2, with <code>itemref</code>), the top-level items of a document and the value of a property
+ element (<code>itemValue</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MouseEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">MouseEvent</A></B></TD>
+<TD>A mouse event (UI Events): the position in screen, client (the visible part of the page), page (the whole document) and target
+ element coordinates, the button that changed and the buttons that are down, and the element that the pointer came from or goes to.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MutationRecord.html" title="class in org.duckdns.hjow.swingwebpanel.dom">MutationRecord</A></B></TD>
+<TD>A description of one change of the DOM (the data of a <code>MutationRecord</code> of the DOM Standard).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NamedAttributeMap.html" title="class in org.duckdns.hjow.swingwebpanel.dom">NamedAttributeMap</A></B></TD>
+<TD>The live view of the attributes of an element (<code>NamedNodeMap</code> of the <code>attributes</code> property).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NamespaceLookup.html" title="class in org.duckdns.hjow.swingwebpanel.dom">NamespaceLookup</A></B></TD>
+<TD>The namespace lookups of <code>Node</code> (<code>lookupNamespaceURI</code>, <code>lookupPrefix</code>, <code>isDefaultNamespace</code>), the
+ algorithms "locate a namespace" and "locate a namespace prefix" of the WHATWG DOM Standard (section 4.4 "Interface Node").</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Namespaces.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Namespaces</A></B></TD>
+<TD>Namespace URIs and the name validation rules of the DOM Standard (validate and extract, XML Name production, ASCII whitespace
+ helpers).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Namespaces.QualifiedName.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Namespaces.QualifiedName</A></B></TD>
+<TD>Result of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Namespaces.html#validateAndExtract(java.lang.String, java.lang.String)"><CODE>Namespaces.validateAndExtract(String, String)</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A></B></TD>
+<TD>The base of all DOM tree objects (DOM Standard <code>Node</code>): the tree structure (parent, first/last child, siblings), the
+ mutation algorithms (pre-insert, replace, remove, adopt, clone with the validity rules and the exceptions the standard prescribes),
+ text content, normalization, equality and document position.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeIterator.html" title="class in org.duckdns.hjow.swingwebpanel.dom">NodeIterator</A></B></TD>
+<TD>A flat, live iterator over the nodes of a subtree in tree order (DOM Standard, "Interface NodeIterator").</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PageTransitionEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">PageTransitionEvent</A></B></TD>
+<TD>The <code>pageshow</code> and <code>pagehide</code> events (<code>PageTransitionEvent</code>, HTML5 2014 REC section 5.5.?</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PointerEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">PointerEvent</A></B></TD>
+<TD>A pointer event (W3C Pointer Events Level 3): a mouse event with the identity of the pointer that caused it (<code>pointerId</code>,
+ <code>pointerType</code>, <code>isPrimary</code>) and the properties of its contact (<code>width</code>, <code>height</code>, <code>pressure</code>,
+ <code>tangentialPressure</code>, tilt, twist and the altitude and azimuth angles).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PopStateEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">PopStateEvent</A></B></TD>
+<TD>The <code>popstate</code> event (<code>PopStateEvent</code>, HTML5 2014 REC 5.6.10.1): fired at the window when the document moves to
+ another entry of the session history.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ProcessingInstruction.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ProcessingInstruction</A></B></TD>
+<TD>A processing instruction (<code>&lt;?</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PropertiesCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">PropertiesCollection</A></B></TD>
+<TD>The <code>HTMLPropertiesCollection</code> of the Note "HTML Microdata" (section 6.1): the collection of the property elements of one item
+ (<code>element.properties</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PropertyNodeList.html" title="class in org.duckdns.hjow.swingwebpanel.dom">PropertyNodeList</A></B></TD>
+<TD>The <code>PropertyNodeList</code> of the Note "HTML Microdata" (section 6.1): the elements of an item that add a property of one name, in
+ tree order, read from the tree at every access.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A></B></TD>
+<TD>A range of content in a DOM tree (DOM Standard, "Interface Range"): two boundary points, each a node and an offset in it (a character
+ offset in a text-like node, a child index in any other node).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Selection</A></B></TD>
+<TD>The selection of a document (W3C Selection API, <code>Selection</code>): none or one <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>Range</CODE></A> and a direction, so that the
+ <em>anchor</em> (where the selection started) and the <em>focus</em> (where it ends now) can be told apart from the range's start and end.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/StaticNodeList.html" title="class in org.duckdns.hjow.swingwebpanel.dom">StaticNodeList</A></B></TD>
+<TD>A fixed list of nodes (the result of <code>querySelectorAll</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/StaticRange.html" title="class in org.duckdns.hjow.swingwebpanel.dom">StaticRange</A></B></TD>
+<TD>A range that does not follow changes of the tree (<code>StaticRange</code>, DOM Standard): two boundary points that are kept as they
+ were set.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Text.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Text</A></B></TD>
+<TD>A text node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/TrackEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">TrackEvent</A></B></TD>
+<TD>The event of a change of the text track list of a media element (<code>TrackEvent</code>, HTML 4.8.11.15): <code>addtrack</code> and
+ <code>removetrack</code> carry the text track that was added or removed in <code>track</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Traversal.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Traversal</A></B></TD>
+<TD>The part that <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeIterator.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>NodeIterator</CODE></A> and <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/TreeWalker.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>TreeWalker</CODE></A> share (DOM Standard, "Interface NodeIterator" and "Interface TreeWalker"): the
+ root node, the <code>whatToShow</code> bit mask, the optional <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><CODE>NodeFilter</CODE></A> and the algorithm that filters one node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/TreeWalker.html" title="class in org.duckdns.hjow.swingwebpanel.dom">TreeWalker</A></B></TD>
+<TD>A walker over the nodes of a subtree that sees the tree structure (DOM Standard, "Interface TreeWalker"): besides the document order
+ traversal of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/TreeWalker.html#nextNode()"><CODE>TreeWalker.nextNode()</CODE></A> and <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/TreeWalker.html#previousNode()"><CODE>TreeWalker.previousNode()</CODE></A> it moves to the parent, the first and last child and the siblings of its
+ current node, always over the nodes that the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><CODE>NodeFilter</CODE></A> and <code>whatToShow</code> accept.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">UiEvent</A></B></TD>
+<TD>An event that comes from the user interface (UI Events): a detail number and the state of the modifier keys that were down when it
+ happened.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/WheelEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">WheelEvent</A></B></TD>
+<TD>A wheel event (UI Events): a mouse event with the amount that the wheel turned along the three axes and the unit of the amount.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/XmlSerializer.html" title="class in org.duckdns.hjow.swingwebpanel.dom">XmlSerializer</A></B></TD>
+<TD>The XML serialization of a DOM node, as defined for <code>XMLSerializer</code> (W3C DOM Parsing and Serialization, "XML Serialization",
+ with the <code>require well-formed</code> flag unset): elements and attributes are written so that their namespaces are kept, with
+ prefixes and namespace declarations added, replaced or dropped as needed (<code>xmlns</code> and <code>xmlns:prefix</code> are generated
+ where a namespace has no usable prefix; <code>ns1</code>, <code>ns2</code> ... are generated prefixes); an HTML element without children is
+ written with a start and end tag, except the void elements, which are written as <code>&lt;br /&gt;</code>; elements of other namespaces
+ without children are written as <code>&lt;a/&gt;</code>; text escapes <code>&amp; &lt; &gt;</code>, attribute values also escape the quotation
+ mark, tab, line feed and carriage return.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Exception Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></B></TD>
+<TD>The DOM exception (DOMException of the DOM Standard).</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+<A NAME="package_description"><!-- --></A><H2>
+Package org.duckdns.hjow.swingwebpanel.dom Description
+</H2>
+
+<P>
+Document Object Model: nodes, collections, events, mutation notification.
+ <p>
+ 문서 객체 모델: 노드, 컬렉션, 이벤트, 변경 통지.
+<P>
+
+<P>
+<DL>
+</DL>
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/values/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/edit/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

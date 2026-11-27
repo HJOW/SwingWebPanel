@@ -1,0 +1,376 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+Woff
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Woff";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/Woff.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Woff.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.layout</FONT>
+<BR>
+Class Woff</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.layout.Woff</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>Woff</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The decoder of WOFF 1.0 web fonts (plan item P10-05, https://www.w3.org/TR/WOFF/, W3C Recommendation 2012-12-13): a
+ WOFF file is an sfnt (TrueType or OpenType) font whose tables are compressed one by one with zlib. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Woff.html#toSfnt(byte[])"><CODE>toSfnt(byte[])</CODE></A> rebuilds the
+ plain sfnt file with <CODE>Inflater</CODE> (a public JRE class), so that the font can be read like a TrueType font. The header, the table
+ directory (offsets, lengths, the order of the tables, the size limits, the decompressed lengths) are checked; a table whose compressed
+ length equals the original length is stored without compression. The metadata and private blocks are ignored. WOFF 2 (Brotli) is another format with another signature: it is read by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/font/Woff2.html" title="class in org.duckdns.hjow.swingwebpanel.media.font"><CODE>Woff2</CODE></A>
+ and <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Woff.html#isWoff2(byte[])"><CODE>isWoff2(byte[])</CODE></A> only detects it.
+ <p>
+ WOFF 1.0 웹 글꼴 디코더(계획 P10-05, https://www.w3.org/TR/WOFF/, W3C 권고안 2012-12-13): WOFF 파일은 테이블마다 zlib 로 압축한 sfnt(TrueType 또는
+ OpenType) 글꼴이다. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Woff.html#toSfnt(byte[])"><CODE>toSfnt(byte[])</CODE></A> 는 JRE 공개 클래스 <CODE>Inflater</CODE> 로 압축을 풀어 평범한 sfnt 파일을 다시 만들므로 TrueType 글꼴처럼 읽을 수 있다.
+ 헤더와 테이블 디렉터리(오프셋, 길이, 테이블 순서, 크기 한도, 풀린 길이)를 검사한다. 압축 길이가 원래 길이와 같은 테이블은 압축하지 않고 저장한 것이다. 메타데이터와 비공개
+ 블록은 무시한다. WOFF 2(Brotli)는 서명이 다른 별개의 형식이며 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/font/Woff2.html" title="class in org.duckdns.hjow.swingwebpanel.media.font"><CODE>Woff2</CODE></A> 가 읽고 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Woff.html#isWoff2(byte[])"><CODE>isWoff2(byte[])</CODE></A> 는 알아내기만 한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Woff.html#MAX_SFNT_SIZE">MAX_SFNT_SIZE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The largest sfnt file that is rebuilt, 16 MiB.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;byte[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Woff.html#fromSfnt(byte[])">fromSfnt</A></B>(byte[]&nbsp;sfnt)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Compresses the tables of an sfnt font into a WOFF 1.0 file (for tests and tools: the product only reads WOFF).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Woff.html#isSfnt(byte[])">isSfnt</A></B>(byte[]&nbsp;b)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the bytes look like an sfnt font (TrueType <code>0x00010000</code> or <code>true</code>, OpenType <code>OTTO</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Woff.html#isWoff(byte[])">isWoff</A></B>(byte[]&nbsp;b)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the bytes start with the WOFF 1.0 signature <code>wOFF</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Woff.html#isWoff2(byte[])">isWoff2</A></B>(byte[]&nbsp;b)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the bytes start with the WOFF 2 signature <code>wOF2</code> (read by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/font/Woff2.html" title="class in org.duckdns.hjow.swingwebpanel.media.font"><CODE>Woff2</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;byte[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Woff.html#toSfnt(byte[])">toSfnt</A></B>(byte[]&nbsp;woff)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rebuilds the sfnt font of a WOFF 1.0 file.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="MAX_SFNT_SIZE"><!-- --></A><H3>
+MAX_SFNT_SIZE</H3>
+<PRE>
+public static final int <B>MAX_SFNT_SIZE</B></PRE>
+<DL>
+<DD>The largest sfnt file that is rebuilt, 16 MiB. 다시 만드는 sfnt 파일의 최대 크기. 16 MiB.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.Woff.MAX_SFNT_SIZE">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="isWoff(byte[])"><!-- --></A><H3>
+isWoff</H3>
+<PRE>
+public static boolean <B>isWoff</B>(byte[]&nbsp;b)</PRE>
+<DL>
+<DD>Tells whether the bytes start with the WOFF 1.0 signature <code>wOFF</code>.
+ <p>
+ 바이트가 WOFF 1.0 서명 <code>wOFF</code> 로 시작하는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>b</CODE> - the file / 파일
+<DT><B>Returns:</B><DD>true for WOFF 1.0 / WOFF 1.0 이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isWoff2(byte[])"><!-- --></A><H3>
+isWoff2</H3>
+<PRE>
+public static boolean <B>isWoff2</B>(byte[]&nbsp;b)</PRE>
+<DL>
+<DD>Tells whether the bytes start with the WOFF 2 signature <code>wOF2</code> (read by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/font/Woff2.html" title="class in org.duckdns.hjow.swingwebpanel.media.font"><CODE>Woff2</CODE></A>).
+ <p>
+ 바이트가 WOFF 2 서명 <code>wOF2</code> 로 시작하는지 알려 준다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/font/Woff2.html" title="class in org.duckdns.hjow.swingwebpanel.media.font"><CODE>Woff2</CODE></A> 가 읽음).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>b</CODE> - the file / 파일
+<DT><B>Returns:</B><DD>true for WOFF 2 / WOFF 2 이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isSfnt(byte[])"><!-- --></A><H3>
+isSfnt</H3>
+<PRE>
+public static boolean <B>isSfnt</B>(byte[]&nbsp;b)</PRE>
+<DL>
+<DD>Tells whether the bytes look like an sfnt font (TrueType <code>0x00010000</code> or <code>true</code>, OpenType <code>OTTO</code>).
+ <p>
+ 바이트가 sfnt 글꼴(TrueType <code>0x00010000</code> 또는 <code>true</code>, OpenType <code>OTTO</code>)처럼 보이는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>b</CODE> - the file / 파일
+<DT><B>Returns:</B><DD>true for an sfnt / sfnt 이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toSfnt(byte[])"><!-- --></A><H3>
+toSfnt</H3>
+<PRE>
+public static byte[] <B>toSfnt</B>(byte[]&nbsp;woff)
+                     throws java.io.IOException</PRE>
+<DL>
+<DD>Rebuilds the sfnt font of a WOFF 1.0 file.
+ <p>
+ WOFF 1.0 파일의 sfnt 글꼴을 다시 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>woff</CODE> - the WOFF file / WOFF 파일
+<DT><B>Returns:</B><DD>the sfnt file / sfnt 파일
+<DT><B>Throws:</B>
+<DD><CODE>java.io.IOException</CODE> - if the file is not a valid WOFF 1.0 file or a limit is exceeded / 올바른 WOFF 1.0 파일이 아니거나 한도를 넘으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fromSfnt(byte[])"><!-- --></A><H3>
+fromSfnt</H3>
+<PRE>
+public static byte[] <B>fromSfnt</B>(byte[]&nbsp;sfnt)
+                       throws java.io.IOException</PRE>
+<DL>
+<DD>Compresses the tables of an sfnt font into a WOFF 1.0 file (for tests and tools: the product only reads WOFF). A table is stored
+ compressed only if that is smaller.
+ <p>
+ sfnt 글꼴의 테이블을 압축해 WOFF 1.0 파일로 만든다(시험과 도구용. 제품은 WOFF 를 읽기만 한다). 테이블은 더 작아질 때만 압축해 저장한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>sfnt</CODE> - the sfnt file / sfnt 파일
+<DT><B>Returns:</B><DD>the WOFF file / WOFF 파일
+<DT><B>Throws:</B>
+<DD><CODE>java.io.IOException</CODE> - if the sfnt is cut off / sfnt 가 잘렸으면</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/Woff.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Woff.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,503 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+FtpClient
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="FtpClient";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpEntry.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/net/FtpClient.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="FtpClient.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.net</FONT>
+<BR>
+Class FtpClient</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.net.FtpClient</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>FtpClient</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+An anonymous FTP client on plain sockets (RFC 959, EPSV from RFC 2428, MLSD from RFC 3659); no JRE internal FTP class is
+ used. One instance serves one control connection and is not thread safe.
+ <ul>
+ <li><b>Login</b>: always <code>USER anonymous</code> with the password <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpClient.html#ANONYMOUS_PASSWORD"><CODE>ANONYMOUS_PASSWORD</CODE></A>; user info in a URL is never
+ used. Multi-line replies (<code>220-</code> ... <code>220 </code>) are handled for every command.</li>
+ <li><b>Data connections</b> are passive: <code>EPSV</code> first, <code>PASV</code> when EPSV is refused. The data connection always
+ goes to the address of the control connection (the address in a PASV reply is validated but ignored, which also defeats
+ FTP bounce attacks); ports outside 1-65535 are refused. The completion reply (226/250) of every transfer is always read.</li>
+ <li><b>Listings</b>: <code>MLSD</code> is tried first; if the server does not support it (any 5xx reply) <code>LIST</code> is used.
+ Names are decoded as UTF-8, or as a legacy Korean charset / ISO-8859-1 when the bytes are not valid UTF-8.</li>
+ <li><b>Safety</b>: a path or any command text containing CR, LF or NUL is rejected before anything is sent.</li>
+ <li><b>Time and cancel</b>: connect and read timeouts; <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CancelToken.html#cancel()"><CODE>CancelToken.cancel()</CODE></A> closes the control and data sockets.</li>
+ </ul>
+ <p>
+ 평문 소켓으로 만든 익명 FTP 클라이언트(RFC 959, RFC 2428 의 EPSV, RFC 3659 의 MLSD). JRE 내부 FTP 클래스는 쓰지 않는다.
+ 인스턴스 하나가 제어 연결 하나를 맡으며 스레드 안전하지 않다.
+ <ul>
+ <li><b>로그인</b>: 항상 <code>USER anonymous</code> 와 비밀번호 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpClient.html#ANONYMOUS_PASSWORD"><CODE>ANONYMOUS_PASSWORD</CODE></A> 를 쓰며 URL 의 사용자 정보는 쓰지 않는다.
+ 모든 명령에서 여러 줄 응답(<code>220-</code> ... <code>220 </code>)을 처리한다.</li>
+ <li><b>데이터 연결</b>은 수동 방식이다. <code>EPSV</code> 를 먼저 쓰고 거부되면 <code>PASV</code> 를 쓴다. 데이터 연결은 항상 제어 연결의
+ 주소로 가며(PASV 응답의 주소는 검증하되 무시하므로 FTP bounce 공격도 막음) 1~65535 밖의 포트는 거부한다. 모든 전송의 완료
+ 응답(226/250)을 반드시 읽는다.</li>
+ <li><b>목록</b>: <code>MLSD</code> 를 먼저 시도하고 서버가 지원하지 않으면(5xx 응답) <code>LIST</code> 를 쓴다. 이름은 UTF-8 로
+ 해독하고, 올바른 UTF-8 이 아니면 옛 한국어 문자셋 또는 ISO-8859-1 로 해독한다.</li>
+ <li><b>안전</b>: CR, LF, NUL 이 들어 있는 경로나 명령 문자열은 아무것도 보내기 전에 거부한다.</li>
+ <li><b>시간과 취소</b>: 연결/읽기 제한 시간이 있으며 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CancelToken.html#cancel()"><CODE>CancelToken.cancel()</CODE></A> 이 제어/데이터 소켓을 닫는다.</li>
+ </ul>
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpClient.html#ANONYMOUS_PASSWORD">ANONYMOUS_PASSWORD</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Password sent for the anonymous login.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpClient.html#FtpClient(java.lang.String, int, int, int, org.duckdns.hjow.swingwebpanel.net.CancelToken)">FtpClient</A></B>(java.lang.String&nbsp;host,
+          int&nbsp;port,
+          int&nbsp;connectTimeoutMs,
+          int&nbsp;readTimeoutMs,
+          <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CancelToken.html" title="class in org.duckdns.hjow.swingwebpanel.net">CancelToken</A>&nbsp;token)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a client (nothing is connected yet).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpClient.html#changeDirectory(java.lang.String)">changeDirectory</A></B>(java.lang.String&nbsp;path)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Changes the working directory.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpClient.html#close()">close</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ends the session politely (QUIT) and closes every socket.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpClient.html#connect()">connect</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Connects, reads the greeting and logs in anonymously.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpClient.html#getDiagnostics()">getDiagnostics</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the diagnostics collected so far.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpEntry.html" title="class in org.duckdns.hjow.swingwebpanel.net">FtpEntry</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpClient.html#list()">list</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lists the current working directory: MLSD first, LIST when MLSD is not supported.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpClient.html#retrieve(java.lang.String, java.io.OutputStream, long, org.duckdns.hjow.swingwebpanel.net.ProgressListener, long)">retrieve</A></B>(java.lang.String&nbsp;path,
+         java.io.OutputStream&nbsp;sink,
+         long&nbsp;limit,
+         <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ProgressListener.html" title="interface in org.duckdns.hjow.swingwebpanel.net">ProgressListener</A>&nbsp;progress,
+         long&nbsp;total)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Downloads a file with RETR.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpClient.html#size(java.lang.String)">size</A></B>(java.lang.String&nbsp;path)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the size of a file with SIZE, or -1 when unavailable.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="ANONYMOUS_PASSWORD"><!-- --></A><H3>
+ANONYMOUS_PASSWORD</H3>
+<PRE>
+public static final java.lang.String <B>ANONYMOUS_PASSWORD</B></PRE>
+<DL>
+<DD>Password sent for the anonymous login.
+ <p>
+ 익명 로그인에 보내는 비밀번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.net.FtpClient.ANONYMOUS_PASSWORD">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="FtpClient(java.lang.String, int, int, int, org.duckdns.hjow.swingwebpanel.net.CancelToken)"><!-- --></A><H3>
+FtpClient</H3>
+<PRE>
+public <B>FtpClient</B>(java.lang.String&nbsp;host,
+                 int&nbsp;port,
+                 int&nbsp;connectTimeoutMs,
+                 int&nbsp;readTimeoutMs,
+                 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CancelToken.html" title="class in org.duckdns.hjow.swingwebpanel.net">CancelToken</A>&nbsp;token)</PRE>
+<DL>
+<DD>Creates a client (nothing is connected yet).
+ <p>
+ 클라이언트를 만든다(아직 연결하지 않음).
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>host</CODE> - server host / 서버 호스트<DD><CODE>port</CODE> - server port / 서버 포트<DD><CODE>connectTimeoutMs</CODE> - connect timeout / 연결 제한 시간<DD><CODE>readTimeoutMs</CODE> - read timeout / 읽기 제한 시간<DD><CODE>token</CODE> - cancellation token / 취소 토큰</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getDiagnostics()"><!-- --></A><H3>
+getDiagnostics</H3>
+<PRE>
+public java.util.List&lt;java.lang.String&gt; <B>getDiagnostics</B>()</PRE>
+<DL>
+<DD>Returns the diagnostics collected so far.
+ <p>
+ 지금까지 모은 진단 메시지를 돌려준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>messages / 메시지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="connect()"><!-- --></A><H3>
+connect</H3>
+<PRE>
+public void <B>connect</B>()
+             throws java.io.IOException</PRE>
+<DL>
+<DD>Connects, reads the greeting and logs in anonymously.
+ <p>
+ 연결하고 인사말을 읽고 익명으로 로그인한다.
+<P>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE>java.io.IOException</CODE> - on any failure (including <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpException.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>FtpException</CODE></A>) / 모든 실패(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpException.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>FtpException</CODE></A> 포함)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="close()"><!-- --></A><H3>
+close</H3>
+<PRE>
+public void <B>close</B>()</PRE>
+<DL>
+<DD>Ends the session politely (QUIT) and closes every socket. Safe to call more than once.
+ <p>
+ 세션을 정중히 끝내고(QUIT) 모든 소켓을 닫는다. 여러 번 호출해도 안전하다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="changeDirectory(java.lang.String)"><!-- --></A><H3>
+changeDirectory</H3>
+<PRE>
+public boolean <B>changeDirectory</B>(java.lang.String&nbsp;path)
+                        throws java.io.IOException</PRE>
+<DL>
+<DD>Changes the working directory.
+ <p>
+ 작업 디렉터리를 바꾼다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>path</CODE> - decoded absolute path / 디코딩된 절대 경로
+<DT><B>Returns:</B><DD>true if the server accepted it (the path is a directory) / 서버가 받아들이면(디렉터리이면) true
+<DT><B>Throws:</B>
+<DD><CODE>java.io.IOException</CODE> - on connection problems / 연결 문제 시</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="size(java.lang.String)"><!-- --></A><H3>
+size</H3>
+<PRE>
+public long <B>size</B>(java.lang.String&nbsp;path)
+          throws java.io.IOException</PRE>
+<DL>
+<DD>Returns the size of a file with SIZE, or -1 when unavailable.
+ <p>
+ SIZE 로 파일 크기를 돌려준다. 알 수 없으면 -1.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>path</CODE> - decoded path / 디코딩된 경로
+<DT><B>Returns:</B><DD>size or -1 / 크기 또는 -1
+<DT><B>Throws:</B>
+<DD><CODE>java.io.IOException</CODE> - on connection problems / 연결 문제 시</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="list()"><!-- --></A><H3>
+list</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpEntry.html" title="class in org.duckdns.hjow.swingwebpanel.net">FtpEntry</A>&gt; <B>list</B>()
+                              throws java.io.IOException</PRE>
+<DL>
+<DD>Lists the current working directory: MLSD first, LIST when MLSD is not supported.
+ <p>
+ 현재 작업 디렉터리의 목록을 돌려준다. MLSD 를 먼저 쓰고 지원하지 않으면 LIST 를 쓴다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>entries (names decoded) / 항목(이름 해독됨)
+<DT><B>Throws:</B>
+<DD><CODE>java.io.IOException</CODE> - on failure / 실패 시</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="retrieve(java.lang.String, java.io.OutputStream, long, org.duckdns.hjow.swingwebpanel.net.ProgressListener, long)"><!-- --></A><H3>
+retrieve</H3>
+<PRE>
+public long <B>retrieve</B>(java.lang.String&nbsp;path,
+                     java.io.OutputStream&nbsp;sink,
+                     long&nbsp;limit,
+                     <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ProgressListener.html" title="interface in org.duckdns.hjow.swingwebpanel.net">ProgressListener</A>&nbsp;progress,
+                     long&nbsp;total)
+              throws java.io.IOException</PRE>
+<DL>
+<DD>Downloads a file with RETR.
+ <p>
+ RETR 로 파일을 내려받는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>path</CODE> - decoded path / 디코딩된 경로<DD><CODE>sink</CODE> - destination / 목적지<DD><CODE>limit</CODE> - maximum bytes or -1 / 최대 바이트 또는 -1<DD><CODE>progress</CODE> - progress listener or null / 진행 리스너 또는 null<DD><CODE>total</CODE> - expected size or -1 / 예상 크기 또는 -1
+<DT><B>Returns:</B><DD>bytes transferred / 전송한 바이트 수
+<DT><B>Throws:</B>
+<DD><CODE>java.io.IOException</CODE> - on failure / 실패 시</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpEntry.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/net/FtpClient.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="FtpClient.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

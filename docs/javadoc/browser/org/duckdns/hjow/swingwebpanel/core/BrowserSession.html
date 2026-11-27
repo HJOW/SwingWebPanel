@@ -1,0 +1,1992 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+BrowserSession
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="BrowserSession";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/CacheOwner.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="BrowserSession.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.core</FONT>
+<BR>
+Class BrowserSession</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.core.BrowserSession</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/FormSubmitSink.html" title="interface in org.duckdns.hjow.swingwebpanel.core">FormSubmitSink</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public final class <B>BrowserSession</B><DT>extends java.lang.Object<DT>implements <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/FormSubmitSink.html" title="interface in org.duckdns.hjow.swingwebpanel.core">FormSubmitSink</A></DL>
+</PRE>
+
+<P>
+All state of one browser component: user agent, extra headers, JavaScript flag, the confirmed page, history, status text and
+ progress. It is the heart of the behavior described in <code>docs/API_CONTRACT.md</code>; <code>SwingWebPanel</code> is only a thin
+ Swing wrapper around it. Every method may be called from any thread. Navigation is asynchronous: a request number is
+ taken, a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><CODE>PageLoader</CODE></A> runs on the component's document thread, and the result is committed only if its number is
+ still the current one. The confirmed page (URL, source, history position) is replaced in one step, so readers never see a
+ half-updated state. Observers are told on the event dispatch thread.
+ <p>
+ 브라우저 컴포넌트 하나의 모든 상태: User-Agent, 추가 헤더, JavaScript 설정, 확정된 페이지, 이력, 상태 메시지, 진행률.
+ <code>docs/API_CONTRACT.md</code> 에 적힌 동작의 핵심이며 <code>SwingWebPanel</code> 은 이것을 감싼 얇은 Swing 껍데기이다.
+ 모든 메서드는 어느 스레드에서나 호출할 수 있다. 이동은 비동기이다: 요청 번호를 받고, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><CODE>PageLoader</CODE></A> 가 컴포넌트의 문서 스레드에서
+ 실행되며, 결과의 번호가 여전히 현재일 때만 확정한다. 확정된 페이지(URL, 원문, 이력 위치)는 한 번에 교체되므로 읽는 쪽이 반쯤 바뀐
+ 상태를 볼 수 없다. 관찰자에게는 이벤트 디스패치 스레드에서 알린다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#DEFAULT_USER_AGENT">DEFAULT_USER_AGENT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default user agent used when none was set (API contract 5.1).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#BrowserSession(org.duckdns.hjow.swingwebpanel.core.PageLoader, org.duckdns.hjow.swingwebpanel.core.SessionListener)">BrowserSession</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageLoader</A>&nbsp;loader,
+               <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/SessionListener.html" title="interface in org.duckdns.hjow.swingwebpanel.core">SessionListener</A>&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a session with its own cookie store.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#BrowserSession(org.duckdns.hjow.swingwebpanel.core.PageLoader, org.duckdns.hjow.swingwebpanel.core.SessionListener, org.duckdns.hjow.swingwebpanel.net.CookieStore)">BrowserSession</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageLoader</A>&nbsp;loader,
+               <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/SessionListener.html" title="interface in org.duckdns.hjow.swingwebpanel.core">SessionListener</A>&nbsp;listener,
+               <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CookieStore.html" title="class in org.duckdns.hjow.swingwebpanel.net">CookieStore</A>&nbsp;cookies)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a session that uses the given cookie store (the same store that its page loader uses).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#BrowserSession(org.duckdns.hjow.swingwebpanel.core.PageLoader, org.duckdns.hjow.swingwebpanel.core.SessionListener, org.duckdns.hjow.swingwebpanel.net.CookieStore, org.duckdns.hjow.swingwebpanel.storage.LocalStorageManager)">BrowserSession</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageLoader</A>&nbsp;loader,
+               <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/SessionListener.html" title="interface in org.duckdns.hjow.swingwebpanel.core">SessionListener</A>&nbsp;listener,
+               <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CookieStore.html" title="class in org.duckdns.hjow.swingwebpanel.net">CookieStore</A>&nbsp;cookies,
+               <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html" title="class in org.duckdns.hjow.swingwebpanel.storage">LocalStorageManager</A>&nbsp;local)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a session with its own cookie store and a given localStorage manager (used by tests to avoid touching the process-wide one).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#BrowserSession(org.duckdns.hjow.swingwebpanel.core.PageLoader, org.duckdns.hjow.swingwebpanel.core.SessionListener, org.duckdns.hjow.swingwebpanel.net.CookieStore, org.duckdns.hjow.swingwebpanel.storage.LocalStorageManager, org.duckdns.hjow.swingwebpanel.core.DocumentLoop)">BrowserSession</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageLoader</A>&nbsp;loader,
+               <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/SessionListener.html" title="interface in org.duckdns.hjow.swingwebpanel.core">SessionListener</A>&nbsp;listener,
+               <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CookieStore.html" title="class in org.duckdns.hjow.swingwebpanel.net">CookieStore</A>&nbsp;cookies,
+               <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html" title="class in org.duckdns.hjow.swingwebpanel.storage">LocalStorageManager</A>&nbsp;local,
+               <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DocumentLoop.html" title="class in org.duckdns.hjow.swingwebpanel.core">DocumentLoop</A>&nbsp;loop)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a session that runs its document tasks on a given document loop: the session of a window that a page opened shares the
+ loop of its opener (plan item P31-08-a).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#addHeaders(java.util.Map)">addHeaders</A></B>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;newHeaders)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adds extra headers with overwrite semantics (API contract 5.15).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#awaitIdle(long)">awaitIdle</A></B>(long&nbsp;timeoutMs)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Waits until the document thread has no queued work (for tests and diagnostics).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#back(int)">back</A></B>(int&nbsp;n)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Goes back n entries; does nothing if exactly n entries back do not exist (API contract 5.5).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#clean()">clean</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cancels everything, shows the blank page, resets the history and clears this component's caches and storage
+ (API contract 5.13).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#consumeUserActivation()">consumeUserActivation</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Uses up the activation of the last action of the user, if it is still valid: one action opens one window.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#dispose()">dispose</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Disposes the session: cleans up, stops the document thread, forgets headers and the observer.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#dispose(boolean)">dispose</A></B>(boolean&nbsp;keepLocalStorage)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Disposes the session like <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#dispose()"><CODE>dispose()</CODE></A>, optionally leaving the process-wide localStorage as it is: a window that a page
+ opened, or a tab of a browser, goes away without taking the stored data of the other windows with it (API contract 5.28).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DocumentLoop.html" title="class in org.duckdns.hjow.swingwebpanel.core">DocumentLoop</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#documentLoop()">documentLoop</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the document loop of this session, so that a window opened by one of its pages can share it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#forward(int)">forward</A></B>(int&nbsp;n)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Goes forward n entries; does nothing if exactly n entries forward do not exist (API contract 5.5).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#getContent()">getContent</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the source text of the confirmed page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#getCookies()">getCookies</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns all cookies of this component as "name=value; name=value" (API contract 5.16).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Map&lt;java.lang.String,java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#getHeaders()">getHeaders</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy of the extra headers (the user agent is not included).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Vector&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#getHistories()">getHistories</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy of all history URLs.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#getHistoryIndex()">getHistoryIndex</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the current history position (0 based).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/StorageEntry.html" title="class in org.duckdns.hjow.swingwebpanel.storage">StorageEntry</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#getLocalStorage()">getLocalStorage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a read-only copy of all localStorage items of all origins (API contract 5.17).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html" title="class in org.duckdns.hjow.swingwebpanel.storage">LocalStorageManager</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#getLocalStorageManager()">getLocalStorageManager</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the process-wide localStorage manager (for the script layer).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#getMimeType()">getMimeType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the MIME type of the confirmed page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#getNavigationCount()">getNavigationCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the navigation serial so default actions can detect a listener-initiated move before it commits.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#getPage()">getPage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the URL of the confirmed page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#getProgress()">getProgress</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the progress value: 0 to 100, or -1 when indeterminate.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/StorageEntry.html" title="class in org.duckdns.hjow.swingwebpanel.storage">StorageEntry</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#getSessionStorage()">getSessionStorage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a read-only copy of all sessionStorage items of all origins of this component (API contract 5.17).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/SessionStorage.html" title="class in org.duckdns.hjow.swingwebpanel.storage">SessionStorage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#getSessionStorageStore()">getSessionStorageStore</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the sessionStorage of this component (for the script layer).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#getSnapshot()">getSnapshot</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the confirmed page snapshot.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#getStatusText()">getStatusText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the status bar text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#getTitle()">getTitle</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the title of the confirmed page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#getUserAgent()">getUserAgent</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the user agent (the last value that was set, or the default).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#isDisposed()">isDisposed</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the session was disposed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#isJavascriptEnabled()">isJavascriptEnabled</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the JavaScript flag.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#isOnline()">isOnline</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the host says that it is online.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#isPopupBlockingEnabled()">isPopupBlockingEnabled</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the popup blocker is on.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#isRootWindowClosingEnabled()">isRootWindowClosingEnabled</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether scripts may close the window of a component that the host created.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#isWindowClosing()">isWindowClosing</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a script closes the window (<code>window.closed</code> is then true although the page still runs).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#noteUserActivation()">noteUserActivation</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Notes an action of the user in a page of this window (a press of a mouse button or a key): for a few seconds a page may open one
+ window (the transient activation of the HTML Standard, kept per window).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#postMessage(java.lang.Object, java.lang.String)">postMessage</A></B>(java.lang.Object&nbsp;message,
+            java.lang.String&nbsp;targetOrigin)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Captures one target before copying the caller's value and schedules the message.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#refresh(boolean)">refresh</A></B>(boolean&nbsp;force)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reloads the current page (API contract 5.8).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#setClipboard(org.duckdns.hjow.swingwebpanel.core.ClipboardSink, org.duckdns.hjow.swingwebpanel.core.ClipboardSource)">setClipboard</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ClipboardSink.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ClipboardSink</A>&nbsp;writer,
+             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ClipboardSource.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ClipboardSource</A>&nbsp;reader)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Shares the component's clipboard service with its document runtimes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#setConsoleDispatcher(org.duckdns.hjow.swingwebpanel.core.ConsoleDispatcher)">setConsoleDispatcher</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html" title="class in org.duckdns.hjow.swingwebpanel.core">ConsoleDispatcher</A>&nbsp;dispatcher)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the dispatcher that receives the console output of the pages of this session; pages created later use it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#setContent(java.lang.String, java.lang.String)">setContent</A></B>(java.lang.String&nbsp;content,
+           java.lang.String&nbsp;contentType)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Shows content given by the host (API contract 5.10).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#setCookiesShared(boolean)">setCookiesShared</A></B>(boolean&nbsp;shared)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells the session that its cookie store is shared with other components, so that disposing this session must not clear it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#setDocumentVisible(boolean)">setDocumentVisible</A></B>(boolean&nbsp;visible)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells the pages whether the component is on the screen (Page Visibility: <code>document.visibilityState</code> becomes <code>visible</code> or
+ <code>hidden</code> and <code>visibilitychange</code> fires at the document).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#setDownloadHandler(org.duckdns.hjow.swingwebpanel.core.DownloadHandler)">setDownloadHandler</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DownloadHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.core">DownloadHandler</A>&nbsp;handler)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Installs the handler that receives navigations which must be downloaded; null removes it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#setHoverText(java.lang.String)">setHoverText</A></B>(java.lang.String&nbsp;href)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets or clears a link-hover overlay without changing progress or losing the underlying load status.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#setJavascriptEnabled(boolean)">setJavascriptEnabled</A></B>(boolean&nbsp;enabled)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the JavaScript flag.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#setOnline(boolean)">setOnline</A></B>(boolean&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells the pages whether the host has a network connection (<code>navigator.onLine</code>; the <code>online</code> and <code>offline</code> events fire at the window of
+ the pages).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#setPage(java.lang.String)">setPage</A></B>(java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts loading an address (API contract 5.2).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#setPopupBlockingEnabled(boolean)">setPopupBlockingEnabled</A></B>(boolean&nbsp;enabled)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Turns the popup blocker on or off (API contract 5.28).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#setResubmitConfirmer(org.duckdns.hjow.swingwebpanel.core.ResubmitConfirmer)">setResubmitConfirmer</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ResubmitConfirmer.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ResubmitConfirmer</A>&nbsp;confirmer)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Installs the confirmer that is asked before a form is sent again (a refresh of a page that a <code>POST</code> produced).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#setRootWindowClosingEnabled(boolean)">setRootWindowClosingEnabled</A></B>(boolean&nbsp;enabled)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Allows or forbids scripts to close the window of a component that the host created (API contract 5.23).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#setStatusMessage(java.lang.String)">setStatusMessage</A></B>(java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Shows a short message in the status text without changing the progress (used for downloads, which never change the page, the
+ history or the progress).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#setUserAgent(java.lang.String)">setUserAgent</A></B>(java.lang.String&nbsp;agent)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the user agent used by later requests.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#setWebMessageDispatcher(org.duckdns.hjow.swingwebpanel.core.WebMessageDispatcher)">setWebMessageDispatcher</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/WebMessageDispatcher.html" title="class in org.duckdns.hjow.swingwebpanel.core">WebMessageDispatcher</A>&nbsp;dispatcher)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Installs the component's dispatcher for its subsequent documents.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#setWindowCloseHandler(org.duckdns.hjow.swingwebpanel.core.WindowCloseHandler)">setWindowCloseHandler</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/WindowCloseHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.core">WindowCloseHandler</A>&nbsp;handler)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the receiver of the accepted close requests of this window.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#setWindowOpener(org.duckdns.hjow.swingwebpanel.core.WindowOpener)">setWindowOpener</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/WindowOpener.html" title="interface in org.duckdns.hjow.swingwebpanel.core">WindowOpener</A>&nbsp;opener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets what opens new windows for the pages of this session.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#startAsOpenedWindow(org.duckdns.hjow.swingwebpanel.core.BrowserSession, org.duckdns.hjow.swingwebpanel.core.OpenRequest, boolean)">startAsOpenedWindow</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" title="class in org.duckdns.hjow.swingwebpanel.core">BrowserSession</A>&nbsp;from,
+                    <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html" title="class in org.duckdns.hjow.swingwebpanel.core">OpenRequest</A>&nbsp;request,
+                    boolean&nbsp;related)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Makes this new session the window that a page opened (plan item P31-08): the window counts as created by web content, takes over
+ the settings of the window that opened it, and gets its scriptable first <code>about:blank</code> document at once.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#stop()">stop</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cancels the running navigation, if any, and resets progress (extension method).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#submit(org.duckdns.hjow.swingwebpanel.dom.html.FormSubmission)">submit</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormSubmission.html" title="class in org.duckdns.hjow.swingwebpanel.dom.html">FormSubmission</A>&nbsp;submission)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Receives a form submission of the page and starts the navigation that it asks for (the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/FormSubmitSink.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><CODE>FormSubmitSink</CODE></A> contract; the call
+ arrives on the document thread of the page and does not block it).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#submitDocumentTask(java.lang.Runnable)">submitDocumentTask</A></B>(java.lang.Runnable&nbsp;work)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Queues internal DOM/style/layout work on this session's single document thread.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#viewportChanged(boolean, boolean)">viewportChanged</A></B>(boolean&nbsp;resized,
+                boolean&nbsp;scrolled)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reports a change of the viewport (the size of the visible area or the scroll position) to the pages with scripts: they get the
+ <code>resize</code> and <code>scroll</code> events and their media query lists are evaluated again.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="DEFAULT_USER_AGENT"><!-- --></A><H3>
+DEFAULT_USER_AGENT</H3>
+<PRE>
+public static final java.lang.String <B>DEFAULT_USER_AGENT</B></PRE>
+<DL>
+<DD>Default user agent used when none was set (API contract 5.1).
+ <p>
+ 지정하지 않았을 때 쓰는 기본 User-Agent(API 계약 5.1).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.core.BrowserSession.DEFAULT_USER_AGENT">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="BrowserSession(org.duckdns.hjow.swingwebpanel.core.PageLoader, org.duckdns.hjow.swingwebpanel.core.SessionListener)"><!-- --></A><H3>
+BrowserSession</H3>
+<PRE>
+public <B>BrowserSession</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageLoader</A>&nbsp;loader,
+                      <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/SessionListener.html" title="interface in org.duckdns.hjow.swingwebpanel.core">SessionListener</A>&nbsp;listener)</PRE>
+<DL>
+<DD>Creates a session with its own cookie store.
+ <p>
+ 자기만의 쿠키 저장소를 가진 세션을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>loader</CODE> - strategy that loads pages, not null / 페이지를 읽는 전략(null 불가)<DD><CODE>listener</CODE> - observer or null / 관찰자 또는 null</DL>
+</DL>
+<HR>
+
+<A NAME="BrowserSession(org.duckdns.hjow.swingwebpanel.core.PageLoader, org.duckdns.hjow.swingwebpanel.core.SessionListener, org.duckdns.hjow.swingwebpanel.net.CookieStore)"><!-- --></A><H3>
+BrowserSession</H3>
+<PRE>
+public <B>BrowserSession</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageLoader</A>&nbsp;loader,
+                      <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/SessionListener.html" title="interface in org.duckdns.hjow.swingwebpanel.core">SessionListener</A>&nbsp;listener,
+                      <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CookieStore.html" title="class in org.duckdns.hjow.swingwebpanel.net">CookieStore</A>&nbsp;cookies)</PRE>
+<DL>
+<DD>Creates a session that uses the given cookie store (the same store that its page loader uses).
+ <p>
+ 주어진 쿠키 저장소(페이지 로더가 쓰는 것과 같은 저장소)를 쓰는 세션을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>loader</CODE> - strategy that loads pages, not null / 페이지를 읽는 전략(null 불가)<DD><CODE>listener</CODE> - observer or null / 관찰자 또는 null<DD><CODE>cookies</CODE> - cookie store of the component, not null / 컴포넌트의 쿠키 저장소(null 불가)</DL>
+</DL>
+<HR>
+
+<A NAME="BrowserSession(org.duckdns.hjow.swingwebpanel.core.PageLoader, org.duckdns.hjow.swingwebpanel.core.SessionListener, org.duckdns.hjow.swingwebpanel.net.CookieStore, org.duckdns.hjow.swingwebpanel.storage.LocalStorageManager)"><!-- --></A><H3>
+BrowserSession</H3>
+<PRE>
+public <B>BrowserSession</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageLoader</A>&nbsp;loader,
+                      <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/SessionListener.html" title="interface in org.duckdns.hjow.swingwebpanel.core">SessionListener</A>&nbsp;listener,
+                      <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CookieStore.html" title="class in org.duckdns.hjow.swingwebpanel.net">CookieStore</A>&nbsp;cookies,
+                      <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html" title="class in org.duckdns.hjow.swingwebpanel.storage">LocalStorageManager</A>&nbsp;local)</PRE>
+<DL>
+<DD>Creates a session with its own cookie store and a given localStorage manager (used by tests to avoid touching the process-wide one).
+ <p>
+ 쿠키 저장소와 주어진 localStorage 관리자를 쓰는 세션을 만든다(시험이 프로세스 공용 관리자를 건드리지 않도록 쓴다).
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>loader</CODE> - strategy that loads pages, not null / 페이지를 읽는 전략(null 불가)<DD><CODE>listener</CODE> - observer or null / 관찰자 또는 null<DD><CODE>cookies</CODE> - cookie store of the component, not null / 컴포넌트의 쿠키 저장소(null 불가)<DD><CODE>local</CODE> - localStorage manager, not null / localStorage 관리자(null 불가)</DL>
+</DL>
+<HR>
+
+<A NAME="BrowserSession(org.duckdns.hjow.swingwebpanel.core.PageLoader, org.duckdns.hjow.swingwebpanel.core.SessionListener, org.duckdns.hjow.swingwebpanel.net.CookieStore, org.duckdns.hjow.swingwebpanel.storage.LocalStorageManager, org.duckdns.hjow.swingwebpanel.core.DocumentLoop)"><!-- --></A><H3>
+BrowserSession</H3>
+<PRE>
+public <B>BrowserSession</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageLoader</A>&nbsp;loader,
+                      <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/SessionListener.html" title="interface in org.duckdns.hjow.swingwebpanel.core">SessionListener</A>&nbsp;listener,
+                      <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CookieStore.html" title="class in org.duckdns.hjow.swingwebpanel.net">CookieStore</A>&nbsp;cookies,
+                      <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html" title="class in org.duckdns.hjow.swingwebpanel.storage">LocalStorageManager</A>&nbsp;local,
+                      <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DocumentLoop.html" title="class in org.duckdns.hjow.swingwebpanel.core">DocumentLoop</A>&nbsp;loop)</PRE>
+<DL>
+<DD>Creates a session that runs its document tasks on a given document loop: the session of a window that a page opened shares the
+ loop of its opener (plan item P31-08-a).
+ <p>
+ 주어진 문서 루프에서 문서 작업을 실행하는 세션을 만든다: 페이지가 연 창의 세션은 여는 창의 루프를 함께 쓴다(계획 P31-08-a).
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>loader</CODE> - strategy that loads pages, not null / 페이지를 읽는 전략(null 불가)<DD><CODE>listener</CODE> - observer or null / 관찰자 또는 null<DD><CODE>cookies</CODE> - cookie store of the component, not null / 컴포넌트의 쿠키 저장소(null 불가)<DD><CODE>local</CODE> - localStorage manager, not null / localStorage 관리자(null 불가)<DD><CODE>loop</CODE> - the document loop to share, or null for a loop of its own / 함께 쓸 문서 루프. 자기 루프이면 null</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="setWebMessageDispatcher(org.duckdns.hjow.swingwebpanel.core.WebMessageDispatcher)"><!-- --></A><H3>
+setWebMessageDispatcher</H3>
+<PRE>
+public void <B>setWebMessageDispatcher</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/WebMessageDispatcher.html" title="class in org.duckdns.hjow.swingwebpanel.core">WebMessageDispatcher</A>&nbsp;dispatcher)</PRE>
+<DL>
+<DD>Installs the component's dispatcher for its subsequent documents.
+ <p>
+ 이후 문서에 적용할 컴포넌트 통지기를 설치한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>dispatcher</CODE> - component message dispatcher / 컴포넌트 메시지 통지기</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setConsoleDispatcher(org.duckdns.hjow.swingwebpanel.core.ConsoleDispatcher)"><!-- --></A><H3>
+setConsoleDispatcher</H3>
+<PRE>
+public void <B>setConsoleDispatcher</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html" title="class in org.duckdns.hjow.swingwebpanel.core">ConsoleDispatcher</A>&nbsp;dispatcher)</PRE>
+<DL>
+<DD>Sets the dispatcher that receives the console output of the pages of this session; pages created later use it.
+ <p>
+ 이 세션의 페이지가 쓰는 콘솔 출력을 받는 통지기를 지정한다. 그 뒤에 만들어지는 페이지가 사용한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>dispatcher</CODE> - the dispatcher or null / 통지기 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="documentLoop()"><!-- --></A><H3>
+documentLoop</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DocumentLoop.html" title="class in org.duckdns.hjow.swingwebpanel.core">DocumentLoop</A> <B>documentLoop</B>()</PRE>
+<DL>
+<DD>Returns the document loop of this session, so that a window opened by one of its pages can share it.
+ <p>
+ 이 세션의 문서 루프를 반환한다. 이 세션의 페이지가 연 창이 함께 쓸 수 있게 한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the loop / 루프</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setWindowOpener(org.duckdns.hjow.swingwebpanel.core.WindowOpener)"><!-- --></A><H3>
+setWindowOpener</H3>
+<PRE>
+public void <B>setWindowOpener</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/WindowOpener.html" title="interface in org.duckdns.hjow.swingwebpanel.core">WindowOpener</A>&nbsp;opener)</PRE>
+<DL>
+<DD>Sets what opens new windows for the pages of this session.
+ <p>
+ 이 세션의 페이지를 위해 새 창을 여는 것을 정한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>opener</CODE> - the opener, or null if no window can be opened / 여는 것. 창을 열 수 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setPopupBlockingEnabled(boolean)"><!-- --></A><H3>
+setPopupBlockingEnabled</H3>
+<PRE>
+public boolean <B>setPopupBlockingEnabled</B>(boolean&nbsp;enabled)</PRE>
+<DL>
+<DD>Turns the popup blocker on or off (API contract 5.28).
+ <p>
+ 팝업 차단을 켜거나 끈다(API 계약 5.28).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>enabled</CODE> - true to block windows that a page asks for without an action of the user / 페이지가 사용자의 조작 없이 요청한 창을
+                막으려면 true
+<DT><B>Returns:</B><DD>true if the value changed / 값이 바뀌었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isPopupBlockingEnabled()"><!-- --></A><H3>
+isPopupBlockingEnabled</H3>
+<PRE>
+public boolean <B>isPopupBlockingEnabled</B>()</PRE>
+<DL>
+<DD>Tells whether the popup blocker is on.
+ <p>
+ 팝업 차단이 켜져 있는지 알려 준다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if on / 켜져 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="noteUserActivation()"><!-- --></A><H3>
+noteUserActivation</H3>
+<PRE>
+public void <B>noteUserActivation</B>()</PRE>
+<DL>
+<DD>Notes an action of the user in a page of this window (a press of a mouse button or a key): for a few seconds a page may open one
+ window (the transient activation of the HTML Standard, kept per window).
+ <p>
+ 이 창의 페이지에서 일어난 사용자의 조작(마우스 단추나 키를 누름)을 기록한다: 몇 초 동안 페이지가 창 하나를 열 수 있다(HTML 표준의 일시적
+ 활성화. 창마다 보관한다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="consumeUserActivation()"><!-- --></A><H3>
+consumeUserActivation</H3>
+<PRE>
+public boolean <B>consumeUserActivation</B>()</PRE>
+<DL>
+<DD>Uses up the activation of the last action of the user, if it is still valid: one action opens one window.
+ <p>
+ 사용자의 마지막 조작의 활성화가 아직 유효하면 소비한다: 조작 한 번이 창 하나를 연다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if there was a valid activation / 유효한 활성화가 있었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="startAsOpenedWindow(org.duckdns.hjow.swingwebpanel.core.BrowserSession, org.duckdns.hjow.swingwebpanel.core.OpenRequest, boolean)"><!-- --></A><H3>
+startAsOpenedWindow</H3>
+<PRE>
+public void <B>startAsOpenedWindow</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" title="class in org.duckdns.hjow.swingwebpanel.core">BrowserSession</A>&nbsp;from,
+                                <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html" title="class in org.duckdns.hjow.swingwebpanel.core">OpenRequest</A>&nbsp;request,
+                                boolean&nbsp;related)</PRE>
+<DL>
+<DD>Makes this new session the window that a page opened (plan item P31-08): the window counts as created by web content, takes over
+ the settings of the window that opened it, and gets its scriptable first <code>about:blank</code> document at once. A related
+ window also gets the opener, the group and a copy of the session storage. Then the requested address is loaded. It is called by
+ the opening session right after the component of the new window was created.
+ <p>
+ 이 새 세션을 페이지가 연 창으로 만든다(계획 P31-08): 창은 웹 콘텐츠가 만든 것으로 치고, 자신을 연 창의 설정을 이어받으며, 스크립트를 실행할
+ 수 있는 처음 <code>about:blank</code> 문서를 곧바로 가진다. 관계가 있는 창은 opener, 그룹, sessionStorage 의 복사본도 받는다. 그 뒤 요청한
+ 주소를 읽는다. 새 창의 컴포넌트를 만든 직후에 여는 세션이 부른다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>from</CODE> - the session that opened the window / 창을 연 세션<DD><CODE>request</CODE> - what was asked for / 요청한 것<DD><CODE>related</CODE> - true if the window keeps a connection to its opener / 창이 여는 창과 관계를 유지하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSessionStorageStore()"><!-- --></A><H3>
+getSessionStorageStore</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/SessionStorage.html" title="class in org.duckdns.hjow.swingwebpanel.storage">SessionStorage</A> <B>getSessionStorageStore</B>()</PRE>
+<DL>
+<DD>Returns the sessionStorage of this component (for the script layer).
+ <p>
+ 이 컴포넌트의 sessionStorage 를 반환한다(스크립트 계층용).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>sessionStorage / sessionStorage</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLocalStorageManager()"><!-- --></A><H3>
+getLocalStorageManager</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html" title="class in org.duckdns.hjow.swingwebpanel.storage">LocalStorageManager</A> <B>getLocalStorageManager</B>()</PRE>
+<DL>
+<DD>Returns the process-wide localStorage manager (for the script layer).
+ <p>
+ 프로세스 공용 localStorage 관리자를 반환한다(스크립트 계층용).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>manager / 관리자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLocalStorage()"><!-- --></A><H3>
+getLocalStorage</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/StorageEntry.html" title="class in org.duckdns.hjow.swingwebpanel.storage">StorageEntry</A>&gt; <B>getLocalStorage</B>()</PRE>
+<DL>
+<DD>Returns a read-only copy of all localStorage items of all origins (API contract 5.17).
+ <p>
+ 모든 오리진의 모든 localStorage 항목의 읽기 전용 복사본을 반환한다(API 계약 5.17).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>entries sorted by origin and key / 오리진, 키 순으로 정렬된 항목</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSessionStorage()"><!-- --></A><H3>
+getSessionStorage</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/StorageEntry.html" title="class in org.duckdns.hjow.swingwebpanel.storage">StorageEntry</A>&gt; <B>getSessionStorage</B>()</PRE>
+<DL>
+<DD>Returns a read-only copy of all sessionStorage items of all origins of this component (API contract 5.17).
+ <p>
+ 이 컴포넌트의 모든 오리진의 모든 sessionStorage 항목의 읽기 전용 복사본을 반환한다(API 계약 5.17).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>entries sorted by origin and key / 오리진, 키 순으로 정렬된 항목</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCookies()"><!-- --></A><H3>
+getCookies</H3>
+<PRE>
+public java.lang.String <B>getCookies</B>()</PRE>
+<DL>
+<DD>Returns all cookies of this component as "name=value; name=value" (API contract 5.16).
+ <p>
+ 이 컴포넌트의 모든 쿠키를 "name=value; name=value" 로 반환한다(API 계약 5.16).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>cookies, empty if none / 쿠키. 없으면 빈 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setCookiesShared(boolean)"><!-- --></A><H3>
+setCookiesShared</H3>
+<PRE>
+public void <B>setCookiesShared</B>(boolean&nbsp;shared)</PRE>
+<DL>
+<DD>Tells the session that its cookie store is shared with other components, so that disposing this session must not clear it.
+ <p>
+ 쿠키 저장소를 다른 컴포넌트와 공유함을 세션에 알린다. 이 세션을 폐기할 때 저장소를 비우면 안 된다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>shared</CODE> - true if the store is shared / 저장소를 공유하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setDownloadHandler(org.duckdns.hjow.swingwebpanel.core.DownloadHandler)"><!-- --></A><H3>
+setDownloadHandler</H3>
+<PRE>
+public void <B>setDownloadHandler</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DownloadHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.core">DownloadHandler</A>&nbsp;handler)</PRE>
+<DL>
+<DD>Installs the handler that receives navigations which must be downloaded; null removes it.
+ <p>
+ 다운로드해야 하는 이동을 받는 핸들러를 설치한다. null 이면 제거한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>handler</CODE> - handler or null / 핸들러 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setClipboard(org.duckdns.hjow.swingwebpanel.core.ClipboardSink, org.duckdns.hjow.swingwebpanel.core.ClipboardSource)"><!-- --></A><H3>
+setClipboard</H3>
+<PRE>
+public void <B>setClipboard</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ClipboardSink.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ClipboardSink</A>&nbsp;writer,
+                         <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ClipboardSource.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ClipboardSource</A>&nbsp;reader)</PRE>
+<DL>
+<DD>Shares the component's clipboard service with its document runtimes.
+ <p>
+ 컴포넌트의 클립보드 서비스를 문서 런타임과 공유한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>writer</CODE> - plain text writer / 일반 텍스트 쓰기<DD><CODE>reader</CODE> - clipboard reader / 클립보드 읽기</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setUserAgent(java.lang.String)"><!-- --></A><H3>
+setUserAgent</H3>
+<PRE>
+public void <B>setUserAgent</B>(java.lang.String&nbsp;agent)</PRE>
+<DL>
+<DD>Sets the user agent used by later requests.
+ <p>
+ 이후 요청에 쓸 User-Agent 를 지정한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>agent</CODE> - user agent: not null, not blank, without CR/LF / User-Agent(null, 공백뿐, CR/LF 포함 불가)
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - for an invalid value / 잘못된 값일 때
+<DD><CODE>java.lang.IllegalStateException</CODE> - if disposed / 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getUserAgent()"><!-- --></A><H3>
+getUserAgent</H3>
+<PRE>
+public java.lang.String <B>getUserAgent</B>()</PRE>
+<DL>
+<DD>Returns the user agent (the last value that was set, or the default).
+ <p>
+ User-Agent 를 반환한다(마지막으로 지정한 값 또는 기본값).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>user agent / User-Agent</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addHeaders(java.util.Map)"><!-- --></A><H3>
+addHeaders</H3>
+<PRE>
+public void <B>addHeaders</B>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;newHeaders)</PRE>
+<DL>
+<DD>Adds extra headers with overwrite semantics (API contract 5.15).
+ <p>
+ 추가 헤더를 덮어쓰기 방식으로 더한다(API 계약 5.15).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>newHeaders</CODE> - header map / 헤더 맵
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - for null maps or invalid names/values / null 맵이나 잘못된 이름/값일 때
+<DD><CODE>java.lang.IllegalStateException</CODE> - if disposed / 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHeaders()"><!-- --></A><H3>
+getHeaders</H3>
+<PRE>
+public java.util.Map&lt;java.lang.String,java.lang.String&gt; <B>getHeaders</B>()</PRE>
+<DL>
+<DD>Returns a copy of the extra headers (the user agent is not included).
+ <p>
+ 추가 헤더의 복사본을 반환한다(User-Agent 는 포함되지 않음).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>header copy / 헤더 복사본</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setJavascriptEnabled(boolean)"><!-- --></A><H3>
+setJavascriptEnabled</H3>
+<PRE>
+public void <B>setJavascriptEnabled</B>(boolean&nbsp;enabled)</PRE>
+<DL>
+<DD>Sets the JavaScript flag. Disabling cancels current and parsing hosts; enabling applies only to new pages.
+ <p>
+ JavaScript 설정을 바꾼다. 끄면 현재·파싱 중 호스트를 취소하며 켜면 새 페이지부터 적용한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>enabled</CODE> - new value / 새 값
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if disposed / 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="postMessage(java.lang.Object, java.lang.String)"><!-- --></A><H3>
+postMessage</H3>
+<PRE>
+public void <B>postMessage</B>(java.lang.Object&nbsp;message,
+                        java.lang.String&nbsp;targetOrigin)</PRE>
+<DL>
+<DD>Captures one target before copying the caller's value and schedules the message.
+ <p>
+ 호출자의 값을 복사하기 전에 수신 문서 하나를 정하고 메시지 작업을 예약한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>message</CODE> - supported Java message data / 지원하는 Java 메시지 데이터<DD><CODE>targetOrigin</CODE> - a wildcard or an absolute URL / 와일드카드 또는 절대 주소
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - for invalid origin or data / 잘못된 주소 또는 값이면
+<DD><CODE>java.lang.IllegalStateException</CODE> - when disposed / 폐기되었으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="viewportChanged(boolean, boolean)"><!-- --></A><H3>
+viewportChanged</H3>
+<PRE>
+public void <B>viewportChanged</B>(boolean&nbsp;resized,
+                            boolean&nbsp;scrolled)</PRE>
+<DL>
+<DD>Reports a change of the viewport (the size of the visible area or the scroll position) to the pages with scripts: they get the
+ <code>resize</code> and <code>scroll</code> events and their media query lists are evaluated again. It may be called on any thread; the
+ events run on the document queue.
+ <p>
+ 뷰포트(보이는 영역의 크기나 스크롤 위치)의 변화를 스크립트가 있는 페이지에 알린다: 페이지는 <code>resize</code>, <code>scroll</code> 이벤트를
+ 받고 미디어 질의 목록이 다시 평가된다. 어느 스레드에서나 부를 수 있고 이벤트는 문서 큐에서 실행된다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>resized</CODE> - true if the viewport size changed / 뷰포트 크기가 바뀌었으면 true<DD><CODE>scrolled</CODE> - true if the scroll position changed / 스크롤 위치가 바뀌었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isOnline()"><!-- --></A><H3>
+isOnline</H3>
+<PRE>
+public boolean <B>isOnline</B>()</PRE>
+<DL>
+<DD>Tells whether the host says that it is online.
+ <p>
+ 호스트가 연결되어 있다고 하는지 알려 준다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true while online / 연결된 동안 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setDocumentVisible(boolean)"><!-- --></A><H3>
+setDocumentVisible</H3>
+<PRE>
+public void <B>setDocumentVisible</B>(boolean&nbsp;visible)</PRE>
+<DL>
+<DD>Tells the pages whether the component is on the screen (Page Visibility: <code>document.visibilityState</code> becomes <code>visible</code> or
+ <code>hidden</code> and <code>visibilitychange</code> fires at the document). A call that does not change the state does nothing. It may be called on any
+ thread; the events run on the document queue.
+ <p>
+ 컴포넌트가 화면에 있는지 페이지에 알린다(Page Visibility: <code>document.visibilityState</code> 가 <code>visible</code> 또는 <code>hidden</code> 이 되고 문서에
+ <code>visibilitychange</code> 가 발생한다). 상태가 바뀌지 않는 호출은 아무것도 하지 않는다. 어느 스레드에서나 부를 수 있고 이벤트는 문서 큐에서 실행된다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>visible</CODE> - true if the component is shown / 컴포넌트가 보이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setOnline(boolean)"><!-- --></A><H3>
+setOnline</H3>
+<PRE>
+public void <B>setOnline</B>(boolean&nbsp;value)</PRE>
+<DL>
+<DD>Tells the pages whether the host has a network connection (<code>navigator.onLine</code>; the <code>online</code> and <code>offline</code> events fire at the window of
+ the pages). A call that does not change the state does nothing. It may be called on any thread; the events run on the document queue.
+ <p>
+ 호스트에 네트워크 연결이 있는지 페이지에 알린다(<code>navigator.onLine</code>. 페이지의 window 에 <code>online</code>, <code>offline</code> 이벤트가 발생한다).
+ 상태가 바뀌지 않는 호출은 아무것도 하지 않는다. 어느 스레드에서나 부를 수 있고 이벤트는 문서 큐에서 실행된다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - true if the host is online / 호스트가 연결되어 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isJavascriptEnabled()"><!-- --></A><H3>
+isJavascriptEnabled</H3>
+<PRE>
+public boolean <B>isJavascriptEnabled</B>()</PRE>
+<DL>
+<DD>Returns the JavaScript flag.
+ <p>
+ JavaScript 설정을 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if enabled / 켜져 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setPage(java.lang.String)"><!-- --></A><H3>
+setPage</H3>
+<PRE>
+public void <B>setPage</B>(java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Starts loading an address (API contract 5.2). An address that differs from the shown page only in the fragment is a navigation inside the same document:
+ the page is not requested again and does not hear its unloading events, the history gets an entry, the target scrolls into view and <code>hashchange</code>
+ fires. The same address as the shown one is loaded again as a new entry.
+ <p>
+ 주소 읽기를 시작한다(API 계약 5.2). 보이는 페이지와 프래그먼트만 다른 주소는 같은 문서 안의 이동이다. 페이지를 다시 요청하지 않고 언로드 이벤트도 듣지
+ 않으며, 이력에 항목을 추가하고, 대상이 보이도록 스크롤하며, <code>hashchange</code> 가 발생한다. 보이는 페이지와 완전히 같은 주소는 새 항목으로 다시 읽는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - absolute http, https, ftp, classpath or about:blank address / 절대 http, https, ftp, classpath 또는 about:blank 주소
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - for null, blank, relative, unparsable and about:text addresses / null, 공백, 상대, 해석 불가, about:text 주소일 때
+<DD><CODE>java.lang.IllegalStateException</CODE> - if disposed / 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setContent(java.lang.String, java.lang.String)"><!-- --></A><H3>
+setContent</H3>
+<PRE>
+public void <B>setContent</B>(java.lang.String&nbsp;content,
+                       java.lang.String&nbsp;contentType)</PRE>
+<DL>
+<DD>Shows content given by the host (API contract 5.10).
+ <p>
+ 호스트가 준 콘텐츠를 보여 준다(API 계약 5.10).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>content</CODE> - source text kept unchanged; empty is allowed / 그대로 보관하는 원문(빈 문자열 허용)<DD><CODE>contentType</CODE> - MIME type, parameters and case are normalized / MIME 타입(매개변수와 대소문자는 정규화)
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - for null values or an unsupported MIME type / null 이거나 지원하지 않는 MIME 타입일 때
+<DD><CODE>java.lang.IllegalStateException</CODE> - if disposed / 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="back(int)"><!-- --></A><H3>
+back</H3>
+<PRE>
+public void <B>back</B>(int&nbsp;n)</PRE>
+<DL>
+<DD>Goes back n entries; does nothing if exactly n entries back do not exist (API contract 5.5).
+ <p>
+ 이력을 n 칸 뒤로 이동한다. 정확히 n 칸 뒤가 없으면 아무 동작도 하지 않는다(API 계약 5.5).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>n</CODE> - number of entries / 칸 수
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if disposed / 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="forward(int)"><!-- --></A><H3>
+forward</H3>
+<PRE>
+public void <B>forward</B>(int&nbsp;n)</PRE>
+<DL>
+<DD>Goes forward n entries; does nothing if exactly n entries forward do not exist (API contract 5.5).
+ <p>
+ 이력을 n 칸 앞으로 이동한다. 정확히 n 칸 앞이 없으면 아무 동작도 하지 않는다(API 계약 5.5).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>n</CODE> - number of entries / 칸 수
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if disposed / 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setStatusMessage(java.lang.String)"><!-- --></A><H3>
+setStatusMessage</H3>
+<PRE>
+public void <B>setStatusMessage</B>(java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Shows a short message in the status text without changing the progress (used for downloads, which never change the page, the
+ history or the progress). Does nothing after disposal.
+ <p>
+ 진행률을 바꾸지 않고 상태 메시지에 짧은 문구를 보인다(페이지, 이력, 진행률을 바꾸지 않는 다운로드가 쓴다). 폐기된 뒤에는 아무것도 하지 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the message / 메시지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="refresh(boolean)"><!-- --></A><H3>
+refresh</H3>
+<PRE>
+public void <B>refresh</B>(boolean&nbsp;force)</PRE>
+<DL>
+<DD>Reloads the current page (API contract 5.8).
+ <p>
+ 현재 페이지를 다시 읽는다(API 계약 5.8).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>force</CODE> - true to bypass caches / 캐시를 우회하려면 true
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if disposed / 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setResubmitConfirmer(org.duckdns.hjow.swingwebpanel.core.ResubmitConfirmer)"><!-- --></A><H3>
+setResubmitConfirmer</H3>
+<PRE>
+public void <B>setResubmitConfirmer</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ResubmitConfirmer.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ResubmitConfirmer</A>&nbsp;confirmer)</PRE>
+<DL>
+<DD>Installs the confirmer that is asked before a form is sent again (a refresh of a page that a <code>POST</code> produced). Without
+ one the form is never sent again.
+ <p>
+ 폼을 다시 보내기 전에(<code>POST</code> 가 만든 페이지의 새로고침) 묻는 확인기를 설치한다. 없으면 폼을 다시 보내지 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>confirmer</CODE> - the confirmer or null / 확인기 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="submit(org.duckdns.hjow.swingwebpanel.dom.html.FormSubmission)"><!-- --></A><H3>
+submit</H3>
+<PRE>
+public void <B>submit</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormSubmission.html" title="class in org.duckdns.hjow.swingwebpanel.dom.html">FormSubmission</A>&nbsp;submission)</PRE>
+<DL>
+<DD>Receives a form submission of the page and starts the navigation that it asks for (the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/FormSubmitSink.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><CODE>FormSubmitSink</CODE></A> contract; the call
+ arrives on the document thread of the page and does not block it).
+ <p>
+ 페이지의 폼 제출을 받아 그것이 요구하는 이동을 시작한다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/FormSubmitSink.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><CODE>FormSubmitSink</CODE></A> 계약. 호출은 페이지의 문서 스레드에서 오며 이 스레드를 막지 않는다).
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/FormSubmitSink.html#submit(org.duckdns.hjow.swingwebpanel.dom.html.FormSubmission)">submit</A></CODE> in interface <CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/FormSubmitSink.html" title="interface in org.duckdns.hjow.swingwebpanel.core">FormSubmitSink</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>submission</CODE> - the submission / 제출 정보</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="stop()"><!-- --></A><H3>
+stop</H3>
+<PRE>
+public void <B>stop</B>()</PRE>
+<DL>
+<DD>Cancels the running navigation, if any, and resets progress (extension method).
+ <p>
+ 진행 중인 이동이 있으면 취소하고 진행률을 되돌린다(확장 메서드).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if disposed / 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPage()"><!-- --></A><H3>
+getPage</H3>
+<PRE>
+public java.lang.String <B>getPage</B>()</PRE>
+<DL>
+<DD>Returns the URL of the confirmed page.
+ <p>
+ 확정된 페이지의 URL 을 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>URL / URL</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getContent()"><!-- --></A><H3>
+getContent</H3>
+<PRE>
+public java.lang.String <B>getContent</B>()</PRE>
+<DL>
+<DD>Returns the source text of the confirmed page.
+ <p>
+ 확정된 페이지의 원문을 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>source text / 원문</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMimeType()"><!-- --></A><H3>
+getMimeType</H3>
+<PRE>
+public java.lang.String <B>getMimeType</B>()</PRE>
+<DL>
+<DD>Returns the MIME type of the confirmed page.
+ <p>
+ 확정된 페이지의 MIME 타입을 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>MIME type / MIME 타입</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTitle()"><!-- --></A><H3>
+getTitle</H3>
+<PRE>
+public java.lang.String <B>getTitle</B>()</PRE>
+<DL>
+<DD>Returns the title of the confirmed page.
+ <p>
+ 확정된 페이지의 제목을 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>title, empty if unknown / 제목(모르면 빈 문자열)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSnapshot()"><!-- --></A><H3>
+getSnapshot</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A> <B>getSnapshot</B>()</PRE>
+<DL>
+<DD>Returns the confirmed page snapshot.
+ <p>
+ 확정된 페이지 스냅샷을 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>snapshot / 스냅샷</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHistories()"><!-- --></A><H3>
+getHistories</H3>
+<PRE>
+public java.util.Vector&lt;java.lang.String&gt; <B>getHistories</B>()</PRE>
+<DL>
+<DD>Returns a copy of all history URLs.
+ <p>
+ 모든 이력 URL 의 복사본을 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>URLs, oldest first / URL 목록(오래된 것이 앞)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHistoryIndex()"><!-- --></A><H3>
+getHistoryIndex</H3>
+<PRE>
+public int <B>getHistoryIndex</B>()</PRE>
+<DL>
+<DD>Returns the current history position (0 based).
+ <p>
+ 현재 이력 위치(0 기반)를 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>position / 위치</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStatusText()"><!-- --></A><H3>
+getStatusText</H3>
+<PRE>
+public java.lang.String <B>getStatusText</B>()</PRE>
+<DL>
+<DD>Returns the status bar text.
+ <p>
+ 상태바 메시지를 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>status text / 상태 메시지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getNavigationCount()"><!-- --></A><H3>
+getNavigationCount</H3>
+<PRE>
+public long <B>getNavigationCount</B>()</PRE>
+<DL>
+<DD>Returns the navigation serial so default actions can detect a listener-initiated move before it commits.
+ <p>리스너가 시작한 이동을 확정 전에도 기본 동작이 감지하도록 이동 번호를 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>number of started navigations / 시작한 이동 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setHoverText(java.lang.String)"><!-- --></A><H3>
+setHoverText</H3>
+<PRE>
+public void <B>setHoverText</B>(java.lang.String&nbsp;href)</PRE>
+<DL>
+<DD>Sets or clears a link-hover overlay without changing progress or losing the underlying load status.
+ <p>진행률이나 원래 로딩 상태를 잃지 않고 링크 호버 표시를 설정·해제한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>href</CODE> - hovered address, or null to restore loading status / 호버 주소. null이면 원래 상태 복원</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getProgress()"><!-- --></A><H3>
+getProgress</H3>
+<PRE>
+public int <B>getProgress</B>()</PRE>
+<DL>
+<DD>Returns the progress value: 0 to 100, or -1 when indeterminate.
+ <p>
+ 진행률을 반환한다: 0~100, 불확정이면 -1.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>progress / 진행률</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setRootWindowClosingEnabled(boolean)"><!-- --></A><H3>
+setRootWindowClosingEnabled</H3>
+<PRE>
+public boolean <B>setRootWindowClosingEnabled</B>(boolean&nbsp;enabled)</PRE>
+<DL>
+<DD>Allows or forbids scripts to close the window of a component that the host created (API contract 5.23). Forbidding it cancels a
+ closing of such a window that is under way.
+ <p>
+ 호스트가 만든 컴포넌트의 창을 스크립트가 닫는 것을 허용하거나 막는다(API 계약 5.23). 막으면 진행 중인 그런 창의 닫기를 취소한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>enabled</CODE> - true to allow / 허용하려면 true
+<DT><B>Returns:</B><DD>the previous value / 이전 값
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if disposed / 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isRootWindowClosingEnabled()"><!-- --></A><H3>
+isRootWindowClosingEnabled</H3>
+<PRE>
+public boolean <B>isRootWindowClosingEnabled</B>()</PRE>
+<DL>
+<DD>Tells whether scripts may close the window of a component that the host created.
+ <p>
+ 호스트가 만든 컴포넌트의 창을 스크립트가 닫을 수 있는지 알려 준다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if allowed / 허용이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setWindowCloseHandler(org.duckdns.hjow.swingwebpanel.core.WindowCloseHandler)"><!-- --></A><H3>
+setWindowCloseHandler</H3>
+<PRE>
+public void <B>setWindowCloseHandler</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/WindowCloseHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.core">WindowCloseHandler</A>&nbsp;handler)</PRE>
+<DL>
+<DD>Sets the receiver of the accepted close requests of this window. It is called on the event dispatch thread after the unloading
+ events of the page ran.
+ <p>
+ 이 창의 받아들인 닫기 요청을 받을 처리기를 정한다. 페이지의 언로드 이벤트가 실행된 뒤 이벤트 디스패치 스레드에서 호출된다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>handler</CODE> - the receiver or null / 처리기 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isWindowClosing()"><!-- --></A><H3>
+isWindowClosing</H3>
+<PRE>
+public boolean <B>isWindowClosing</B>()</PRE>
+<DL>
+<DD>Tells whether a script closes the window (<code>window.closed</code> is then true although the page still runs).
+ <p>
+ 스크립트가 창을 닫는 중인지 알려 준다(이때 페이지는 아직 실행 중이지만 <code>window.closed</code> 는 true 이다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true while closing / 닫는 중이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="clean()"><!-- --></A><H3>
+clean</H3>
+<PRE>
+public void <B>clean</B>()</PRE>
+<DL>
+<DD>Cancels everything, shows the blank page, resets the history and clears this component's caches and storage
+ (API contract 5.13). User agent, headers, JavaScript flag and listeners are kept.
+ <p>
+ 모든 작업을 취소하고 빈 페이지를 보여 주며 이력을 초기화하고 이 컴포넌트의 캐시와 저장소를 비운다(API 계약 5.13).
+ User-Agent, 헤더, JavaScript 설정, 리스너는 유지한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if disposed / 폐기되었을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispose()"><!-- --></A><H3>
+dispose</H3>
+<PRE>
+public void <B>dispose</B>()</PRE>
+<DL>
+<DD>Disposes the session: cleans up, stops the document thread, forgets headers and the observer. Calling it again does nothing.
+ <p>
+ 세션을 폐기한다: 정리하고, 문서 스레드를 멈추며, 헤더와 관찰자를 잊는다. 다시 호출해도 아무 일도 없다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispose(boolean)"><!-- --></A><H3>
+dispose</H3>
+<PRE>
+public void <B>dispose</B>(boolean&nbsp;keepLocalStorage)</PRE>
+<DL>
+<DD>Disposes the session like <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#dispose()"><CODE>dispose()</CODE></A>, optionally leaving the process-wide localStorage as it is: a window that a page
+ opened, or a tab of a browser, goes away without taking the stored data of the other windows with it (API contract 5.28).
+ <p>
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html#dispose()"><CODE>dispose()</CODE></A> 처럼 세션을 폐기하되, 원하면 프로세스 공용 localStorage 를 그대로 둔다: 페이지가 연 창이나 브라우저의 탭이 다른 창의
+ 저장 데이터를 함께 가져가지 않고 사라진다(API 계약 5.28).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>keepLocalStorage</CODE> - true to leave localStorage untouched / localStorage 를 건드리지 않으려면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isDisposed()"><!-- --></A><H3>
+isDisposed</H3>
+<PRE>
+public boolean <B>isDisposed</B>()</PRE>
+<DL>
+<DD>Tells whether the session was disposed.
+ <p>
+ 세션이 폐기되었는지 알려 준다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if disposed / 폐기되었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="awaitIdle(long)"><!-- --></A><H3>
+awaitIdle</H3>
+<PRE>
+public boolean <B>awaitIdle</B>(long&nbsp;timeoutMs)</PRE>
+<DL>
+<DD>Waits until the document thread has no queued work (for tests and diagnostics).
+ <p>
+ 문서 스레드의 대기 작업이 없어질 때까지 기다린다(시험과 진단용).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>timeoutMs</CODE> - maximum wait / 최대 대기 시간(밀리초)
+<DT><B>Returns:</B><DD>true if idle in time / 제때 비었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="submitDocumentTask(java.lang.Runnable)"><!-- --></A><H3>
+submitDocumentTask</H3>
+<PRE>
+public boolean <B>submitDocumentTask</B>(java.lang.Runnable&nbsp;work)</PRE>
+<DL>
+<DD>Queues internal DOM/style/layout work on this session's single document thread. Work must check that its page is
+ still current before reading the DOM and before publishing results; it must never wait for the EDT.
+ <p>
+ 내부 DOM·스타일·배치 작업을 세션의 단일 문서 스레드에 넣는다. 작업은 DOM 접근 전과 게시 전에 자기 페이지가 여전히 현재인지 확인하며 EDT를 기다리면 안 된다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>work</CODE> - internal work, not null / 내부 작업(null 불가)
+<DT><B>Returns:</B><DD>false after disposal or executor shutdown / 폐기 또는 실행기 종료 후에는 false
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - for null / null이면</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/CacheOwner.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="BrowserSession.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

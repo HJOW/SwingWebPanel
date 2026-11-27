@@ -1,0 +1,961 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+HtmlParser
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="HtmlParser";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlMarkupSupport.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/html/HtmlParser.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="HtmlParser.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.html</FONT>
+<BR>
+Class HtmlParser</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.html.HtmlParser</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserControl.html" title="interface in org.duckdns.hjow.swingwebpanel.html">ParserControl</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public final class <B>HtmlParser</B><DT>extends java.lang.Object<DT>implements <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserControl.html" title="interface in org.duckdns.hjow.swingwebpanel.html">ParserControl</A></DL>
+</PRE>
+
+<P>
+The HTML parser: it connects the encoding detection (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html" title="class in org.duckdns.hjow.swingwebpanel.html"><CODE>EncodingSniffer</CODE></A>), the input preprocessing
+ (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/InputPreprocessor.html" title="class in org.duckdns.hjow.swingwebpanel.html"><CODE>InputPreprocessor</CODE></A>), the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html" title="class in org.duckdns.hjow.swingwebpanel.html"><CODE>HtmlTokenizer</CODE></A> and the <CODE>HtmlTreeBuilder</CODE> and builds a DOM tree of
+ <code>org.duckdns.hjow.swingwebpanel.dom</code> from markup. It is implemented from scratch after the parsing chapter of the HTML Standard; nothing
+ of the JRE's HTML or XML parsers is used.
+ <p>
+ Typical use:
+ <pre>
+ Document doc = HtmlParser.parseDocument("&lt;p&gt;Hello &lt;b&gt;world");              // a whole document
+ Document doc2 = HtmlParser.parseDocument(bytes, "euc-kr", "http://host/a.html");  // bytes of a response, with encoding detection
+ DocumentFragment f = HtmlParser.parseFragment(contextElement, "&lt;li&gt;one&lt;li&gt;two"); // innerHTML
+ </pre>
+ For documents that load resources while they are parsed (scripts, <code>document.write</code>), create an instance, set a
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserListener.html" title="interface in org.duckdns.hjow.swingwebpanel.html"><CODE>ParserListener</CODE></A> and call <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#run()"><CODE>run()</CODE></A>; when the listener calls <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserControl.html#pause()"><CODE>ParserControl.pause()</CODE></A> (for example to wait for an
+ external script), <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#run()"><CODE>run()</CODE></A> returns and <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#resume()"><CODE>resume()</CODE></A> continues. HTML parse errors never stop the parser; they are collected
+ in <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#getErrors()"><CODE>getErrors()</CODE></A>.
+ <p>
+ Threading: an instance is used by one thread at a time (the thread that owns the document).
+ <p>
+ HTML 파서: 인코딩 판정(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html" title="class in org.duckdns.hjow.swingwebpanel.html"><CODE>EncodingSniffer</CODE></A>), 입력 전처리(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/InputPreprocessor.html" title="class in org.duckdns.hjow.swingwebpanel.html"><CODE>InputPreprocessor</CODE></A>), <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTokenizer.html" title="class in org.duckdns.hjow.swingwebpanel.html"><CODE>HtmlTokenizer</CODE></A>, <CODE>HtmlTreeBuilder</CODE> 를 이어
+ 마크업으로부터 <code>org.duckdns.hjow.swingwebpanel.dom</code> 의 DOM 트리를 만든다. HTML 표준의 파싱 장을 따라 처음부터 구현했으며 JRE 의 HTML/XML 파서는 쓰지 않는다.
+ <p>
+ 사용 예:
+ <pre>
+ Document doc = HtmlParser.parseDocument("&lt;p&gt;Hello &lt;b&gt;world");              // 문서 전체
+ Document doc2 = HtmlParser.parseDocument(bytes, "euc-kr", "http://host/a.html");  // 응답 바이트(인코딩 판정 포함)
+ DocumentFragment f = HtmlParser.parseFragment(contextElement, "&lt;li&gt;one&lt;li&gt;two"); // innerHTML
+ </pre>
+ 파싱 중 자원을 불러오는 문서(스크립트, <code>document.write</code>)는 인스턴스를 만들어 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserListener.html" title="interface in org.duckdns.hjow.swingwebpanel.html"><CODE>ParserListener</CODE></A> 를 지정하고 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#run()"><CODE>run()</CODE></A> 을 호출한다.
+ 리스너가 (예: 외부 스크립트를 기다리려고) <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserControl.html#pause()"><CODE>ParserControl.pause()</CODE></A> 를 호출하면 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#run()"><CODE>run()</CODE></A> 이 반환되고 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#resume()"><CODE>resume()</CODE></A> 으로 계속한다.
+ HTML 파싱 오류는 파서를 멈추지 않으며 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#getErrors()"><CODE>getErrors()</CODE></A> 에 모인다.
+ <p>
+ 스레드: 인스턴스는 한 번에 한 스레드(문서를 소유한 스레드)가 쓴다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#HtmlParser(org.duckdns.hjow.swingwebpanel.dom.Document, org.duckdns.hjow.swingwebpanel.html.DecodedText)">HtmlParser</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+           <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html" title="class in org.duckdns.hjow.swingwebpanel.html">DecodedText</A>&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a parser for bytes that have been decoded by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html" title="class in org.duckdns.hjow.swingwebpanel.html"><CODE>EncodingSniffer</CODE></A>; a <code>meta</code> element that contradicts a
+ tentative decision restarts the parse with the right encoding (as long as no script has been run).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#HtmlParser(org.duckdns.hjow.swingwebpanel.dom.Document, java.lang.String)">HtmlParser</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+           java.lang.String&nbsp;source)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a parser for already decoded text.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html" title="class in org.duckdns.hjow.swingwebpanel.html">DecodedText</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#getDecodedText()">getDecodedText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the decoded input of a byte parse (with the final encoding decision), or null for a string parse.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#getDocument()">getDocument</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the document that nodes are created in.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#getErrorCodes()">getErrorCodes</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the error codes of the last pass in order.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#getErrorCount()">getErrorCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of parse errors of the last pass, including those that were not stored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParseError.html" title="class in org.duckdns.hjow.swingwebpanel.html">ParseError</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#getErrors()">getErrors</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the stored parse errors of the last pass.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#insertAtInsertionPoint(java.lang.String)">insertAtInsertionPoint</A></B>(java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inserts markup text at the insertion point (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserControl.html#insertAtInsertionPoint(java.lang.String)"><CODE>ParserControl.insertAtInsertionPoint(String)</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#isFinished()">isFinished</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the parse is complete.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#isFragment()">isFragment</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a fragment is being parsed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#isPaused()">isPaused</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the parser is paused.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#metaCharset(java.lang.String)">metaCharset</A></B>(java.lang.String&nbsp;canonicalName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Called by the tree builder when a <code>meta</code> element declares an encoding.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#parseDocument(byte[], java.lang.String, java.lang.String)">parseDocument</A></B>(byte[]&nbsp;bytes,
+              java.lang.String&nbsp;httpCharset,
+              java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Decodes the bytes of a response with <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html" title="class in org.duckdns.hjow.swingwebpanel.html"><CODE>EncodingSniffer</CODE></A> and parses them into a new HTML document.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#parseDocument(java.lang.String)">parseDocument</A></B>(java.lang.String&nbsp;source)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses markup text into a new HTML document (scripting enabled, no listener).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#parseDocument(java.lang.String, java.lang.String, org.duckdns.hjow.swingwebpanel.html.ParserListener, boolean)">parseDocument</A></B>(java.lang.String&nbsp;source,
+              java.lang.String&nbsp;url,
+              <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserListener.html" title="interface in org.duckdns.hjow.swingwebpanel.html">ParserListener</A>&nbsp;listener,
+              boolean&nbsp;scripting)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses markup text into a new HTML document.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentFragment.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentFragment</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#parseFragment(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)">parseFragment</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;context,
+              java.lang.String&nbsp;markup)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses markup in the context of an element ("HTML fragment parsing algorithm", the algorithm behind <code>innerHTML</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentFragment.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentFragment</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#parseFragment(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String, boolean)">parseFragment</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;context,
+              java.lang.String&nbsp;markup,
+              boolean&nbsp;scripting)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses markup in the context of an element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#pause()">pause</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Asks <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#run()"><CODE>run()</CODE></A> to return after the current token.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#resume()">resume</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Continues after <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserControl.html#pause()"><CODE>ParserControl.pause()</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#run()">run</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses until the end of the input or until a listener pauses the parser.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#setErrorLimit(int)">setErrorLimit</A></B>(int&nbsp;limit)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets how many parse errors are stored (the counter keeps counting).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#setListener(org.duckdns.hjow.swingwebpanel.html.ParserListener)">setListener</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserListener.html" title="interface in org.duckdns.hjow.swingwebpanel.html">ParserListener</A>&nbsp;l)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the listener that is told about scripts, style sheets, images and so on (call before <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#run()"><CODE>run()</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#setScanInputErrors(boolean)">setScanInputErrors</A></B>(boolean&nbsp;enabled)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Switches the scan for input stream errors (control characters, noncharacters) on or off; it is on by default.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#setScripting(boolean)">setScripting</A></B>(boolean&nbsp;enabled)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the parser scripting flag: if true (the default) the content of <code>noscript</code> is raw text, as when JavaScript is
+ enabled.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#setSrcdoc(boolean)">setSrcdoc</A></B>(boolean&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Marks the document as an iframe srcdoc document: no quirks mode detection.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentFragment.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentFragment</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#takeFragment()">takeFragment</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the nodes of a finished fragment parse as a document fragment (the nodes are moved out of the internal root element).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="HtmlParser(org.duckdns.hjow.swingwebpanel.dom.Document, java.lang.String)"><!-- --></A><H3>
+HtmlParser</H3>
+<PRE>
+public <B>HtmlParser</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+                  java.lang.String&nbsp;source)</PRE>
+<DL>
+<DD>Creates a parser for already decoded text.
+ <p>
+ 이미 디코딩된 텍스트를 위한 파서를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>doc</CODE> - document that receives the nodes (it should be empty) / 노드를 받는 문서(비어 있어야 한다)<DD><CODE>source</CODE> - markup text (line ends may be CR LF, CR or LF) / 마크업 텍스트(줄 끝은 CR LF, CR, LF 모두 가능)</DL>
+</DL>
+<HR>
+
+<A NAME="HtmlParser(org.duckdns.hjow.swingwebpanel.dom.Document, org.duckdns.hjow.swingwebpanel.html.DecodedText)"><!-- --></A><H3>
+HtmlParser</H3>
+<PRE>
+public <B>HtmlParser</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+                  <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html" title="class in org.duckdns.hjow.swingwebpanel.html">DecodedText</A>&nbsp;text)</PRE>
+<DL>
+<DD>Creates a parser for bytes that have been decoded by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html" title="class in org.duckdns.hjow.swingwebpanel.html"><CODE>EncodingSniffer</CODE></A>; a <code>meta</code> element that contradicts a
+ tentative decision restarts the parse with the right encoding (as long as no script has been run).
+ <p>
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html" title="class in org.duckdns.hjow.swingwebpanel.html"><CODE>EncodingSniffer</CODE></A> 로 디코딩한 바이트를 위한 파서를 만든다. 잠정적인 판정과 모순되는 <code>meta</code> 요소가 나오면(스크립트가 아직 실행되지
+ 않았다면) 올바른 인코딩으로 파싱을 다시 시작한다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>doc</CODE> - document that receives the nodes (it should be empty) / 노드를 받는 문서(비어 있어야 한다)<DD><CODE>text</CODE> - decoded text / 디코딩된 텍스트</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="setListener(org.duckdns.hjow.swingwebpanel.html.ParserListener)"><!-- --></A><H3>
+setListener</H3>
+<PRE>
+public void <B>setListener</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserListener.html" title="interface in org.duckdns.hjow.swingwebpanel.html">ParserListener</A>&nbsp;l)</PRE>
+<DL>
+<DD>Sets the listener that is told about scripts, style sheets, images and so on (call before <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#run()"><CODE>run()</CODE></A>).
+ <p>
+ 스크립트, 스타일시트, 이미지 등을 통지받는 리스너를 지정한다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#run()"><CODE>run()</CODE></A> 전에 호출).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>l</CODE> - listener or null / 리스너 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setScripting(boolean)"><!-- --></A><H3>
+setScripting</H3>
+<PRE>
+public void <B>setScripting</B>(boolean&nbsp;enabled)</PRE>
+<DL>
+<DD>Sets the parser scripting flag: if true (the default) the content of <code>noscript</code> is raw text, as when JavaScript is
+ enabled.
+ <p>
+ parser scripting 플래그를 지정한다. true(기본값)이면 <code>noscript</code> 내용이 원문 텍스트로 처리된다. 자바스크립트가 켜진 때와 같다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>enabled</CODE> - true if scripting is enabled / 스크립트가 켜져 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setSrcdoc(boolean)"><!-- --></A><H3>
+setSrcdoc</H3>
+<PRE>
+public void <B>setSrcdoc</B>(boolean&nbsp;value)</PRE>
+<DL>
+<DD>Marks the document as an iframe srcdoc document: no quirks mode detection.
+ <p>
+ 문서를 iframe srcdoc 문서로 표시한다: quirks 모드를 판정하지 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - true for srcdoc / srcdoc 이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setErrorLimit(int)"><!-- --></A><H3>
+setErrorLimit</H3>
+<PRE>
+public void <B>setErrorLimit</B>(int&nbsp;limit)</PRE>
+<DL>
+<DD>Sets how many parse errors are stored (the counter keeps counting).
+ <p>
+ 저장할 파싱 오류의 수를 지정한다(개수는 계속 센다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>limit</CODE> - maximum number / 최대 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setScanInputErrors(boolean)"><!-- --></A><H3>
+setScanInputErrors</H3>
+<PRE>
+public void <B>setScanInputErrors</B>(boolean&nbsp;enabled)</PRE>
+<DL>
+<DD>Switches the scan for input stream errors (control characters, noncharacters) on or off; it is on by default.
+ <p>
+ 입력 스트림 오류(제어 문자, 비문자) 검사를 켜거나 끈다. 기본값은 켜짐이다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>enabled</CODE> - true to scan / 검사하려면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="run()"><!-- --></A><H3>
+run</H3>
+<PRE>
+public void <B>run</B>()</PRE>
+<DL>
+<DD>Parses until the end of the input or until a listener pauses the parser.
+ <p>
+ 입력 끝까지, 또는 리스너가 파서를 멈출 때까지 파싱한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="resume()"><!-- --></A><H3>
+resume</H3>
+<PRE>
+public void <B>resume</B>()</PRE>
+<DL>
+<DD>Continues after <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserControl.html#pause()"><CODE>ParserControl.pause()</CODE></A>.
+ <p>
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserControl.html#pause()"><CODE>ParserControl.pause()</CODE></A> 뒤에 계속한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="metaCharset(java.lang.String)"><!-- --></A><H3>
+metaCharset</H3>
+<PRE>
+public boolean <B>metaCharset</B>(java.lang.String&nbsp;canonicalName)</PRE>
+<DL>
+<DD>Called by the tree builder when a <code>meta</code> element declares an encoding.
+ <p>
+ <code>meta</code> 요소가 인코딩을 선언했을 때 트리 생성기가 호출한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>canonicalName</CODE> - canonical encoding name / 표준 인코딩 이름
+<DT><B>Returns:</B><DD>true if the parse must restart / 파싱을 다시 시작해야 하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="insertAtInsertionPoint(java.lang.String)"><!-- --></A><H3>
+insertAtInsertionPoint</H3>
+<PRE>
+public void <B>insertAtInsertionPoint</B>(java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Inserts markup text at the insertion point (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserControl.html#insertAtInsertionPoint(java.lang.String)"><CODE>ParserControl.insertAtInsertionPoint(String)</CODE></A>).
+ <p>
+ 삽입 지점에 마크업 텍스트를 삽입한다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserControl.html#insertAtInsertionPoint(java.lang.String)"><CODE>ParserControl.insertAtInsertionPoint(String)</CODE></A> 참조).
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserControl.html#insertAtInsertionPoint(java.lang.String)">insertAtInsertionPoint</A></CODE> in interface <CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserControl.html" title="interface in org.duckdns.hjow.swingwebpanel.html">ParserControl</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - markup text / 마크업 텍스트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="pause()"><!-- --></A><H3>
+pause</H3>
+<PRE>
+public void <B>pause</B>()</PRE>
+<DL>
+<DD>Asks <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#run()"><CODE>run()</CODE></A> to return after the current token.
+ <p>
+ 현재 토큰 뒤에 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html#run()"><CODE>run()</CODE></A> 이 반환되도록 요청한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserControl.html#pause()">pause</A></CODE> in interface <CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserControl.html" title="interface in org.duckdns.hjow.swingwebpanel.html">ParserControl</A></CODE></DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isPaused()"><!-- --></A><H3>
+isPaused</H3>
+<PRE>
+public boolean <B>isPaused</B>()</PRE>
+<DL>
+<DD>Tells whether the parser is paused.
+ <p>
+ 파서가 일시 정지 상태인지 알려 준다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if paused / 일시 정지이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isFinished()"><!-- --></A><H3>
+isFinished</H3>
+<PRE>
+public boolean <B>isFinished</B>()</PRE>
+<DL>
+<DD>Tells whether the parse is complete.
+ <p>
+ 파싱이 끝났는지 알려 준다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if complete / 끝났으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isFragment()"><!-- --></A><H3>
+isFragment</H3>
+<PRE>
+public boolean <B>isFragment</B>()</PRE>
+<DL>
+<DD>Tells whether a fragment is being parsed.
+ <p>
+ 조각을 파싱 중인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserControl.html#isFragment()">isFragment</A></CODE> in interface <CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserControl.html" title="interface in org.duckdns.hjow.swingwebpanel.html">ParserControl</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for a fragment parse / 조각 파싱이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDocument()"><!-- --></A><H3>
+getDocument</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A> <B>getDocument</B>()</PRE>
+<DL>
+<DD>Returns the document that nodes are created in.
+ <p>
+ 노드를 만드는 문서를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserControl.html#getDocument()">getDocument</A></CODE> in interface <CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserControl.html" title="interface in org.duckdns.hjow.swingwebpanel.html">ParserControl</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the document / 문서</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getErrors()"><!-- --></A><H3>
+getErrors</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParseError.html" title="class in org.duckdns.hjow.swingwebpanel.html">ParseError</A>&gt; <B>getErrors</B>()</PRE>
+<DL>
+<DD>Returns the stored parse errors of the last pass.
+ <p>
+ 마지막 패스에서 저장된 파싱 오류를 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>unmodifiable list / 수정할 수 없는 목록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getErrorCount()"><!-- --></A><H3>
+getErrorCount</H3>
+<PRE>
+public int <B>getErrorCount</B>()</PRE>
+<DL>
+<DD>Returns the number of parse errors of the last pass, including those that were not stored.
+ <p>
+ 마지막 패스의 파싱 오류 수를 저장하지 않은 것까지 포함해 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>count / 개수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getErrorCodes()"><!-- --></A><H3>
+getErrorCodes</H3>
+<PRE>
+public java.util.List&lt;java.lang.String&gt; <B>getErrorCodes</B>()</PRE>
+<DL>
+<DD>Returns the error codes of the last pass in order.
+ <p>
+ 마지막 패스의 오류 코드를 순서대로 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>codes / 코드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDecodedText()"><!-- --></A><H3>
+getDecodedText</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html" title="class in org.duckdns.hjow.swingwebpanel.html">DecodedText</A> <B>getDecodedText</B>()</PRE>
+<DL>
+<DD>Returns the decoded input of a byte parse (with the final encoding decision), or null for a string parse.
+ <p>
+ 바이트 파싱의 디코딩된 입력(최종 인코딩 판정 포함)을 반환한다. 문자열 파싱이면 null.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the decoded text or null / 디코딩 결과 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="takeFragment()"><!-- --></A><H3>
+takeFragment</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentFragment.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentFragment</A> <B>takeFragment</B>()</PRE>
+<DL>
+<DD>Returns the nodes of a finished fragment parse as a document fragment (the nodes are moved out of the internal root element).
+ <p>
+ 끝난 조각 파싱의 노드를 문서 조각으로 반환한다(노드는 내부 루트 요소에서 옮겨진다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the fragment, or null if this is not a fragment parse / 조각. 조각 파싱이 아니면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseDocument(java.lang.String)"><!-- --></A><H3>
+parseDocument</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A> <B>parseDocument</B>(java.lang.String&nbsp;source)</PRE>
+<DL>
+<DD>Parses markup text into a new HTML document (scripting enabled, no listener).
+ <p>
+ 마크업 텍스트를 새 HTML 문서로 파싱한다(스크립트 활성, 리스너 없음).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>source</CODE> - markup text / 마크업 텍스트
+<DT><B>Returns:</B><DD>the document / 문서</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseDocument(java.lang.String, java.lang.String, org.duckdns.hjow.swingwebpanel.html.ParserListener, boolean)"><!-- --></A><H3>
+parseDocument</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A> <B>parseDocument</B>(java.lang.String&nbsp;source,
+                                     java.lang.String&nbsp;url,
+                                     <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/ParserListener.html" title="interface in org.duckdns.hjow.swingwebpanel.html">ParserListener</A>&nbsp;listener,
+                                     boolean&nbsp;scripting)</PRE>
+<DL>
+<DD>Parses markup text into a new HTML document.
+ <p>
+ 마크업 텍스트를 새 HTML 문서로 파싱한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>source</CODE> - markup text / 마크업 텍스트<DD><CODE>url</CODE> - document URL (used to resolve <code>base</code>), or null / 문서 URL(<code>base</code> 해석에 쓴다). 없으면 null<DD><CODE>listener</CODE> - listener or null / 리스너 또는 null<DD><CODE>scripting</CODE> - parser scripting flag / parser scripting 플래그
+<DT><B>Returns:</B><DD>the document / 문서</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseDocument(byte[], java.lang.String, java.lang.String)"><!-- --></A><H3>
+parseDocument</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A> <B>parseDocument</B>(byte[]&nbsp;bytes,
+                                     java.lang.String&nbsp;httpCharset,
+                                     java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Decodes the bytes of a response with <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html" title="class in org.duckdns.hjow.swingwebpanel.html"><CODE>EncodingSniffer</CODE></A> and parses them into a new HTML document.
+ <p>
+ 응답 바이트를 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html" title="class in org.duckdns.hjow.swingwebpanel.html"><CODE>EncodingSniffer</CODE></A> 로 디코딩해 새 HTML 문서로 파싱한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>bytes</CODE> - response body / 응답 본문<DD><CODE>httpCharset</CODE> - charset parameter of the Content-Type header, or null / Content-Type 헤더의 charset 매개변수 또는 null<DD><CODE>url</CODE> - document URL or null / 문서 URL 또는 null
+<DT><B>Returns:</B><DD>the document; <code>getCharacterSet()</code> tells the encoding that was used / 문서. <code>getCharacterSet()</code> 이 사용한 인코딩을 알려 준다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseFragment(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)"><!-- --></A><H3>
+parseFragment</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentFragment.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentFragment</A> <B>parseFragment</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;context,
+                                             java.lang.String&nbsp;markup)</PRE>
+<DL>
+<DD>Parses markup in the context of an element ("HTML fragment parsing algorithm", the algorithm behind <code>innerHTML</code>).
+ The nodes are created in the owner document of the context element and returned in a new document fragment; scripts in the
+ markup are marked "already started" so that they never run.
+ <p>
+ 요소를 컨텍스트로 마크업을 파싱한다("HTML fragment parsing algorithm", <code>innerHTML</code> 의 알고리즘). 노드는 컨텍스트 요소의 소유
+ 문서에서 만들어 새 문서 조각에 담아 반환한다. 마크업 안의 스크립트는 "already started" 로 표시되어 절대 실행되지 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>context</CODE> - the context element (for <code>innerHTML</code> the element itself) / 컨텍스트 요소(<code>innerHTML</code> 이면 요소 자신)<DD><CODE>markup</CODE> - markup text / 마크업 텍스트
+<DT><B>Returns:</B><DD>the fragment / 조각</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseFragment(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String, boolean)"><!-- --></A><H3>
+parseFragment</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentFragment.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentFragment</A> <B>parseFragment</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;context,
+                                             java.lang.String&nbsp;markup,
+                                             boolean&nbsp;scripting)</PRE>
+<DL>
+<DD>Parses markup in the context of an element.
+ <p>
+ 요소를 컨텍스트로 마크업을 파싱한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>context</CODE> - the context element / 컨텍스트 요소<DD><CODE>markup</CODE> - markup text / 마크업 텍스트<DD><CODE>scripting</CODE> - parser scripting flag (decides how <code>noscript</code> is parsed) / parser scripting 플래그(<code>noscript</code> 를 파싱하는 방식을 정한다)
+<DT><B>Returns:</B><DD>the fragment / 조각</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlMarkupSupport.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/html/HtmlParser.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="HtmlParser.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,435 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+AudioDecoders
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="AudioDecoders";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoder.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/BlockFloatSource.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoders.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="AudioDecoders.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.audio</FONT>
+<BR>
+Class AudioDecoders</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.audio.AudioDecoders</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>AudioDecoders</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The registry of audio decoders and the single entry point of the audio pipeline (plan items P18-01, P18-02, P18-07): it chooses the
+ decoder from the <em>signature of the data</em> and uses the MIME type of the response only as a hint (a decoder that names the hinted
+ MIME type is asked first), so the same extension or MIME type with a different real codec is decoded correctly and a wrong MIME type
+ does not make a valid file fail. Decoders of the other audio families (MP3, AAC, Opus, WebM) are found by name when their classes
+ exist; a missing class is skipped silently. The registry is thread-safe.
+ <p>
+ 오디오 디코더 등록부이자 오디오 파이프라인의 유일한 진입점(계획 P18-01, P18-02, P18-07): 디코더를 <em>데이터의 시그니처</em>로 고르고 응답의 MIME 타입은
+ 힌트로만 쓴다(힌트의 MIME 타입을 선언한 디코더에게 먼저 묻는다). 그래서 확장자나 MIME 타입이 같아도 실제 코덱이 다른 경우를 올바르게 디코딩하고
+ 잘못된 MIME 타입 때문에 올바른 파일이 실패하지 않는다. 다른 계열(MP3, AAC, Opus, WebM)의 디코더는 클래스가 있으면 이름으로 찾으며 없으면 조용히
+ 건너뛴다. 등록부는 스레드 안전하다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoders.html#canPlayType(java.lang.String)">canPlayType</A></B>(java.lang.String&nbsp;type)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The answer of HTMLMediaElement.canPlayType for a MIME type: the empty string when the type or one of the listed codecs is not
+ supported, <code>"probably"</code> when the type and all listed codecs are supported, and <code>"maybe"</code> for a supported
+ type without a codecs list.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoders.html#getSupportedMimeTypes()">getSupportedMimeTypes</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns every MIME type that a registered decoder handles, sorted.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoders.html#isSupportedMime(java.lang.String)">isSupportedMime</A></B>(java.lang.String&nbsp;mime)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a registered decoder handles a MIME type (parameters are ignored).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoders.html#normalizeMime(java.lang.String)">normalizeMime</A></B>(java.lang.String&nbsp;mime)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Normalizes a MIME type: parameters removed, lower case, trimmed; null for null or empty.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio">PcmSource</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoders.html#open(byte[], java.lang.String, org.duckdns.hjow.swingwebpanel.media.DecodeLimits)">open</A></B>(byte[]&nbsp;data,
+     java.lang.String&nbsp;mimeHint,
+     <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html" title="class in org.duckdns.hjow.swingwebpanel.media">DecodeLimits</A>&nbsp;limits)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opens encoded audio for decoding.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio">PcmSource</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoders.html#openMedia(org.duckdns.hjow.swingwebpanel.media.audio.MediaData, java.lang.String, org.duckdns.hjow.swingwebpanel.media.DecodeLimits)">openMedia</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">MediaData</A>&nbsp;data,
+          java.lang.String&nbsp;mimeHint,
+          <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html" title="class in org.duckdns.hjow.swingwebpanel.media">DecodeLimits</A>&nbsp;limits)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opens playback PCM from a fetched memory or file resource.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FloatPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio">FloatPcmSource</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoders.html#openWide(byte[], java.lang.String, org.duckdns.hjow.swingwebpanel.media.DecodeLimits)">openWide</A></B>(byte[]&nbsp;data,
+         java.lang.String&nbsp;mimeHint,
+         <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html" title="class in org.duckdns.hjow.swingwebpanel.media">DecodeLimits</A>&nbsp;limits)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opens encoded audio for decoding with the channels and the precision of the file (plan item P25-05): the decoder is chosen exactly as
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoders.html#open(byte[], java.lang.String, org.duckdns.hjow.swingwebpanel.media.DecodeLimits)"><CODE>open(byte[], java.lang.String, org.duckdns.hjow.swingwebpanel.media.DecodeLimits)</CODE></A> chooses it (by the signature of the data, the MIME type is only a hint); a decoder that implements <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/WideAudioDecoder.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>WideAudioDecoder</CODE></A> delivers
+ 32 bit float samples in every channel of the file, any other decoder is used through its 16 bit path (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmFloatAdapter.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>PcmFloatAdapter</CODE></A>, at most two
+ channels).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoders.html#register(org.duckdns.hjow.swingwebpanel.media.audio.AudioDecoder)">register</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoder.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio">AudioDecoder</A>&nbsp;decoder)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Registers an additional decoder; it is asked after the ones that are already registered.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="register(org.duckdns.hjow.swingwebpanel.media.audio.AudioDecoder)"><!-- --></A><H3>
+register</H3>
+<PRE>
+public static void <B>register</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoder.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio">AudioDecoder</A>&nbsp;decoder)</PRE>
+<DL>
+<DD>Registers an additional decoder; it is asked after the ones that are already registered.
+ <p>
+ 디코더를 추가로 등록한다. 이미 등록된 것들 다음에 묻는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>decoder</CODE> - the decoder / 디코더</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="open(byte[], java.lang.String, org.duckdns.hjow.swingwebpanel.media.DecodeLimits)"><!-- --></A><H3>
+open</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio">PcmSource</A> <B>open</B>(byte[]&nbsp;data,
+                             java.lang.String&nbsp;mimeHint,
+                             <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html" title="class in org.duckdns.hjow.swingwebpanel.media">DecodeLimits</A>&nbsp;limits)
+                      throws <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></PRE>
+<DL>
+<DD>Opens encoded audio for decoding.
+ <p>
+ 인코딩된 오디오를 디코딩하려고 연다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - the whole encoded data / 인코딩된 전체 데이터<DD><CODE>mimeHint</CODE> - MIME type of the response, may be null; only a hint / 응답의 MIME 타입. null 가능하며 힌트일 뿐이다<DD><CODE>limits</CODE> - limits, null for the defaults / 제한. null 이면 기본값
+<DT><B>Returns:</B><DD>a PCM source positioned at the start / 처음에 위치한 PCM 소스
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></CODE> - CORRUPT for empty or damaged data, TOO_LARGE over the limits, UNSUPPORTED_FORMAT if no decoder recognizes the data / 비었거나 손상된 데이터는 CORRUPT, 제한 초과는 TOO_LARGE, 어떤 디코더도 알아보지 못하면 UNSUPPORTED_FORMAT</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="openMedia(org.duckdns.hjow.swingwebpanel.media.audio.MediaData, java.lang.String, org.duckdns.hjow.swingwebpanel.media.DecodeLimits)"><!-- --></A><H3>
+openMedia</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio">PcmSource</A> <B>openMedia</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">MediaData</A>&nbsp;data,
+                                  java.lang.String&nbsp;mimeHint,
+                                  <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html" title="class in org.duckdns.hjow.swingwebpanel.media">DecodeLimits</A>&nbsp;limits)
+                           throws <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></PRE>
+<DL>
+<DD>Opens playback PCM from a fetched memory or file resource. The caller still owns the resource and may open it again.
+ <p>
+ 메모리나 파일로 가져온 리소스를 재생 PCM으로 연다. 리소스는 호출자가 계속 소유하며 다시 열 수 있다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - encoded media resource / 인코딩된 미디어 리소스<DD><CODE>mimeHint</CODE> - MIME type hint or null / MIME 타입 힌트 또는 null<DD><CODE>limits</CODE> - resource limits, null for defaults / 리소스 제한. null이면 기본값
+<DT><B>Returns:</B><DD>PCM positioned at the start / 시작 위치의 PCM 소스
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></CODE> - for invalid, unsupported or unreadable data / 손상·미지원·읽기 실패 시</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="openWide(byte[], java.lang.String, org.duckdns.hjow.swingwebpanel.media.DecodeLimits)"><!-- --></A><H3>
+openWide</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FloatPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio">FloatPcmSource</A> <B>openWide</B>(byte[]&nbsp;data,
+                                      java.lang.String&nbsp;mimeHint,
+                                      <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html" title="class in org.duckdns.hjow.swingwebpanel.media">DecodeLimits</A>&nbsp;limits)
+                               throws <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></PRE>
+<DL>
+<DD>Opens encoded audio for decoding with the channels and the precision of the file (plan item P25-05): the decoder is chosen exactly as
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoders.html#open(byte[], java.lang.String, org.duckdns.hjow.swingwebpanel.media.DecodeLimits)"><CODE>open(byte[], java.lang.String, org.duckdns.hjow.swingwebpanel.media.DecodeLimits)</CODE></A> chooses it (by the signature of the data, the MIME type is only a hint); a decoder that implements <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/WideAudioDecoder.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>WideAudioDecoder</CODE></A> delivers
+ 32 bit float samples in every channel of the file, any other decoder is used through its 16 bit path (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmFloatAdapter.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>PcmFloatAdapter</CODE></A>, at most two
+ channels). The result is read from the start to the end.
+ <p>
+ 파일의 채널과 정밀도로 디코딩하려고 인코딩된 오디오를 연다(계획 P25-05). 디코더는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoders.html#open(byte[], java.lang.String, org.duckdns.hjow.swingwebpanel.media.DecodeLimits)"><CODE>open(byte[], java.lang.String, org.duckdns.hjow.swingwebpanel.media.DecodeLimits)</CODE></A> 이 고르는 것과 똑같이 고른다(데이터의 시그니처로.
+ MIME 타입은 힌트일 뿐이다). <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/WideAudioDecoder.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>WideAudioDecoder</CODE></A> 를 구현한 디코더는 파일의 모든 채널을 32비트 float 표본으로 주고, 다른 디코더는 16비트 경로로
+ 쓴다(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmFloatAdapter.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>PcmFloatAdapter</CODE></A>, 채널은 최대 둘). 결과는 처음부터 끝까지 읽는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - the whole encoded data / 인코딩된 전체 데이터<DD><CODE>mimeHint</CODE> - MIME type of the response, may be null; only a hint / 응답의 MIME 타입. null 가능하며 힌트일 뿐이다<DD><CODE>limits</CODE> - limits, null for the defaults / 제한. null 이면 기본값
+<DT><B>Returns:</B><DD>a float source positioned at the start / 처음에 위치한 float 소스
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></CODE> - the same failures as <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoders.html#open(byte[], java.lang.String, org.duckdns.hjow.swingwebpanel.media.DecodeLimits)"><CODE>open(byte[], java.lang.String, org.duckdns.hjow.swingwebpanel.media.DecodeLimits)</CODE></A> / <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoders.html#open(byte[], java.lang.String, org.duckdns.hjow.swingwebpanel.media.DecodeLimits)"><CODE>open(byte[], java.lang.String, org.duckdns.hjow.swingwebpanel.media.DecodeLimits)</CODE></A> 과 같은 실패</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="normalizeMime(java.lang.String)"><!-- --></A><H3>
+normalizeMime</H3>
+<PRE>
+public static java.lang.String <B>normalizeMime</B>(java.lang.String&nbsp;mime)</PRE>
+<DL>
+<DD>Normalizes a MIME type: parameters removed, lower case, trimmed; null for null or empty.
+ <p>
+ MIME 타입을 정규화한다: 매개변수를 떼고 소문자로 바꾸고 공백을 없앤다. null 이나 빈 값이면 null.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>mime</CODE> - MIME type or null / MIME 타입 또는 null
+<DT><B>Returns:</B><DD>normalized type or null / 정규화한 타입 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSupportedMimeTypes()"><!-- --></A><H3>
+getSupportedMimeTypes</H3>
+<PRE>
+public static java.util.List&lt;java.lang.String&gt; <B>getSupportedMimeTypes</B>()</PRE>
+<DL>
+<DD>Returns every MIME type that a registered decoder handles, sorted.
+ <p>
+ 등록된 디코더가 처리하는 모든 MIME 타입을 정렬해 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>MIME types / MIME 타입</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isSupportedMime(java.lang.String)"><!-- --></A><H3>
+isSupportedMime</H3>
+<PRE>
+public static boolean <B>isSupportedMime</B>(java.lang.String&nbsp;mime)</PRE>
+<DL>
+<DD>Tells whether a registered decoder handles a MIME type (parameters are ignored).
+ <p>
+ 등록된 디코더가 MIME 타입을 처리하는지 알려 준다(매개변수는 무시한다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>mime</CODE> - MIME type, may contain parameters / MIME 타입. 매개변수가 있어도 된다
+<DT><B>Returns:</B><DD>true if supported / 지원하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="canPlayType(java.lang.String)"><!-- --></A><H3>
+canPlayType</H3>
+<PRE>
+public static java.lang.String <B>canPlayType</B>(java.lang.String&nbsp;type)</PRE>
+<DL>
+<DD>The answer of HTMLMediaElement.canPlayType for a MIME type: the empty string when the type or one of the listed codecs is not
+ supported, <code>"probably"</code> when the type and all listed codecs are supported, and <code>"maybe"</code> for a supported
+ type without a codecs list.
+ <p>
+ MIME 타입에 대한 HTMLMediaElement.canPlayType 의 답: 타입이나 나열한 코덱 중 하나라도 지원하지 않으면 빈 문자열, 타입과 나열한 모든 코덱을
+ 지원하면 <code>"probably"</code>, 코덱 목록이 없는 지원하는 타입이면 <code>"maybe"</code>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - MIME type, optionally with <code>codecs="a, b"</code> / MIME 타입. <code>codecs="a, b"</code> 가 있어도 된다
+<DT><B>Returns:</B><DD>"", "maybe" or "probably" / "", "maybe" 또는 "probably"</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoder.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/BlockFloatSource.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoders.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="AudioDecoders.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

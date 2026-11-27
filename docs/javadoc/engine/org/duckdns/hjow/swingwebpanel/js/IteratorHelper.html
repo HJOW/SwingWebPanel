@@ -1,0 +1,459 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+IteratorHelper
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="IteratorHelper";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html" title="class in org.duckdns.hjow.swingwebpanel.js"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/IteratorRecord.html" title="class in org.duckdns.hjow.swingwebpanel.js"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/IteratorHelper.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="IteratorHelper.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js</FONT>
+<BR>
+Class IteratorHelper</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.IteratorHelper</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>IteratorHelper</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The iterator abstract operations of ECMA-262 6th edition 7.4 (GetIterator, IteratorNext, IteratorStep, IteratorClose,
+ CreateIterResultObject) and a convenience to drain an iterable into a Java list. Built-ins that consume iterables
+ (Array.from, Map, Set, Promise.all, spread ...) and the interpreter (for-of, destructuring, spread) use these methods so
+ that the protocol, including closing the iterator on early exit, is implemented exactly once.
+ <p>
+ ECMA-262 6판 7.4 의 이터레이터 추상 연산(GetIterator, IteratorNext, IteratorStep, IteratorClose, CreateIterResultObject)과
+ 반복 가능 객체를 Java 목록으로 모으는 편의 메서드. 반복 가능 객체를 소비하는 내장 객체(Array.from, Map, Set, Promise.all, 전개 ...)와
+ 인터프리터(for-of, 구조 분해, 전개)가 이 메서드를 쓰므로, 조기 종료 시 이터레이터를 닫는 것을 포함한 프로토콜이 한 곳에만 구현된다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/IteratorHelper.html#close(org.duckdns.hjow.swingwebpanel.js.JsObject)">close</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;iterator)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IteratorClose (7.4.6) for a normal completion: calls the iterator's return method if it has one and checks its result.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/IteratorHelper.html#closeQuietly(org.duckdns.hjow.swingwebpanel.js.JsObject)">closeQuietly</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;iterator)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IteratorClose (7.4.6) for a throw completion: calls return but ignores any error it raises, so the original exception
+ can be rethrown by the caller.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/IteratorHelper.html#createResult(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsValue, boolean)">createResult</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm,
+             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;value,
+             boolean&nbsp;done)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CreateIterResultObject (7.4.7): <code>{ value, done }</code> with both properties enumerable and writable.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/IteratorHelper.html#getIterator(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsValue)">getIterator</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm,
+            <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;iterable)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GetIterator (7.4.1): calls the value's @@iterator method and checks that the result is an object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/IteratorHelper.html#getIteratorFromMethod(org.duckdns.hjow.swingwebpanel.js.JsValue, org.duckdns.hjow.swingwebpanel.js.JsValue)">getIteratorFromMethod</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;iterable,
+                      <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;method)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GetIterator with a known @@iterator method.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/IteratorHelper.html#isDone(org.duckdns.hjow.swingwebpanel.js.JsObject)">isDone</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;result)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IteratorComplete (7.4.3): ToBoolean of the result's done property.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/IteratorHelper.html#next(org.duckdns.hjow.swingwebpanel.js.JsObject, org.duckdns.hjow.swingwebpanel.js.JsValue)">next</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;iterator,
+     <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IteratorNext (7.4.2): calls <code>iterator.next(value)</code> and checks that the result is an object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/IteratorHelper.html#step(org.duckdns.hjow.swingwebpanel.js.JsObject)">step</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;iterator)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IteratorStep (7.4.5): advances the iterator and returns the result object, or null when the iterator is done.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/IteratorHelper.html#toList(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsValue)">toList</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm,
+       <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;iterable)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Drains an iterable into a Java list.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/IteratorHelper.html#value(org.duckdns.hjow.swingwebpanel.js.JsObject)">value</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;result)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IteratorValue (7.4.4): the result's value property.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getIterator(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+getIterator</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>getIterator</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm,
+                                   <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;iterable)</PRE>
+<DL>
+<DD>GetIterator (7.4.1): calls the value's @@iterator method and checks that the result is an object.
+ <p>
+ GetIterator (7.4.1): 값의 @@iterator 메서드를 호출하고 결과가 객체인지 확인한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>realm</CODE> - the realm / realm<DD><CODE>iterable</CODE> - the iterable value / 반복 가능한 값
+<DT><B>Returns:</B><DD>the iterator object / 이터레이터 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getIteratorFromMethod(org.duckdns.hjow.swingwebpanel.js.JsValue, org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+getIteratorFromMethod</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>getIteratorFromMethod</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;iterable,
+                                             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;method)</PRE>
+<DL>
+<DD>GetIterator with a known @@iterator method.
+ <p>
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>iterable</CODE> - the iterable value / 반복 가능한 값<DD><CODE>method</CODE> - the @@iterator function / @@iterator 함수
+<DT><B>Returns:</B><DD>the iterator object / 이터레이터 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="next(org.duckdns.hjow.swingwebpanel.js.JsObject, org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+next</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>next</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;iterator,
+                            <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;value)</PRE>
+<DL>
+<DD>IteratorNext (7.4.2): calls <code>iterator.next(value)</code> and checks that the result is an object.
+ <p>
+ IteratorNext (7.4.2): <code>iterator.next(value)</code> 를 호출하고 결과가 객체인지 확인한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>iterator</CODE> - the iterator / 이터레이터<DD><CODE>value</CODE> - the value sent to next, or null to send no argument / next 에 보낼 값. 인수를 보내지 않으려면 null
+<DT><B>Returns:</B><DD>the iterator result object / 이터레이터 결과 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isDone(org.duckdns.hjow.swingwebpanel.js.JsObject)"><!-- --></A><H3>
+isDone</H3>
+<PRE>
+public static boolean <B>isDone</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;result)</PRE>
+<DL>
+<DD>IteratorComplete (7.4.3): ToBoolean of the result's done property.
+ <p>
+ IteratorComplete (7.4.3): 결과의 done 프로퍼티에 ToBoolean 을 적용한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>result</CODE> - the iterator result object / 이터레이터 결과 객체
+<DT><B>Returns:</B><DD>true if the iterator is finished / 이터레이터가 끝났으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="value(org.duckdns.hjow.swingwebpanel.js.JsObject)"><!-- --></A><H3>
+value</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A> <B>value</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;result)</PRE>
+<DL>
+<DD>IteratorValue (7.4.4): the result's value property.
+ <p>
+ IteratorValue (7.4.4): 결과의 value 프로퍼티.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>result</CODE> - the iterator result object / 이터레이터 결과 객체
+<DT><B>Returns:</B><DD>the value / 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="step(org.duckdns.hjow.swingwebpanel.js.JsObject)"><!-- --></A><H3>
+step</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>step</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;iterator)</PRE>
+<DL>
+<DD>IteratorStep (7.4.5): advances the iterator and returns the result object, or null when the iterator is done.
+ <p>
+ IteratorStep (7.4.5): 이터레이터를 한 걸음 진행하고 결과 객체를 반환한다. 끝났으면 null.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>iterator</CODE> - the iterator / 이터레이터
+<DT><B>Returns:</B><DD>the result object or null if done / 결과 객체. 끝났으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="close(org.duckdns.hjow.swingwebpanel.js.JsObject)"><!-- --></A><H3>
+close</H3>
+<PRE>
+public static void <B>close</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;iterator)</PRE>
+<DL>
+<DD>IteratorClose (7.4.6) for a normal completion: calls the iterator's return method if it has one and checks its result.
+ <p>
+ 정상 완료에 대한 IteratorClose (7.4.6): 이터레이터에 return 메서드가 있으면 호출하고 결과를 확인한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>iterator</CODE> - the iterator / 이터레이터</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="closeQuietly(org.duckdns.hjow.swingwebpanel.js.JsObject)"><!-- --></A><H3>
+closeQuietly</H3>
+<PRE>
+public static void <B>closeQuietly</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;iterator)</PRE>
+<DL>
+<DD>IteratorClose (7.4.6) for a throw completion: calls return but ignores any error it raises, so the original exception
+ can be rethrown by the caller.
+ <p>
+ throw 완료에 대한 IteratorClose (7.4.6): return 을 호출하되 그 안에서 난 오류는 무시하여 호출자가 원래 예외를 다시 던질 수 있게 한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>iterator</CODE> - the iterator / 이터레이터</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createResult(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsValue, boolean)"><!-- --></A><H3>
+createResult</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>createResult</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm,
+                                    <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;value,
+                                    boolean&nbsp;done)</PRE>
+<DL>
+<DD>CreateIterResultObject (7.4.7): <code>{ value, done }</code> with both properties enumerable and writable.
+ <p>
+ CreateIterResultObject (7.4.7): <code>{ value, done }</code>. 두 프로퍼티 모두 열거 가능하고 쓸 수 있다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>realm</CODE> - the realm / realm<DD><CODE>value</CODE> - the value / 값<DD><CODE>done</CODE> - the done flag / done 플래그
+<DT><B>Returns:</B><DD>the result object / 결과 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toList(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+toList</H3>
+<PRE>
+public static java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&gt; <B>toList</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm,
+                                             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;iterable)</PRE>
+<DL>
+<DD>Drains an iterable into a Java list. If reading fails midway the iterator is closed quietly and the error is rethrown.
+ <p>
+ 반복 가능 객체를 Java 목록으로 모은다. 중간에 읽기가 실패하면 이터레이터를 조용히 닫고 오류를 다시 던진다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>realm</CODE> - the realm / realm<DD><CODE>iterable</CODE> - the iterable value / 반복 가능한 값
+<DT><B>Returns:</B><DD>the produced values / 생성된 값들</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ExecutionLimits.html" title="class in org.duckdns.hjow.swingwebpanel.js"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/IteratorRecord.html" title="class in org.duckdns.hjow.swingwebpanel.js"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/IteratorHelper.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="IteratorHelper.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

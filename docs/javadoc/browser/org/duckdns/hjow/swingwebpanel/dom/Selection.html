@@ -1,0 +1,791 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+Selection
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Selection";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/SelectionListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/Selection.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Selection.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom</FONT>
+<BR>
+Class Selection</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.dom.Selection</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>Selection</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The selection of a document (W3C Selection API, <code>Selection</code>): none or one <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>Range</CODE></A> and a direction, so that the
+ <em>anchor</em> (where the selection started) and the <em>focus</em> (where it ends now) can be told apart from the range's start and end.
+ This is the model only: the screen (marking the selected text, mouse and keyboard selection, the clipboard) is connected by the component
+ (plan item P11-08). The range of the selection is live, like every <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>Range</CODE></A>; scripts can read it with <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#getRangeAt(int)"><CODE>getRangeAt(int)</CODE></A> and
+ change it directly. Only one range is supported, as in the browsers that follow the specification (<code>rangeCount</code> is 0 or 1).
+ <p>
+ 문서의 선택(W3C Selection API 의 <code>Selection</code>): 없거나 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>Range</CODE></A> 하나와 방향으로 이루어지며, 선택이 시작한 곳인 <em>anchor</em> 와
+ 지금 끝나는 곳인 <em>focus</em> 를 범위의 시작과 끝과 구별한다. 모델만 담당한다: 화면(선택한 텍스트 표시, 마우스와 키보드 선택, 클립보드)은
+ 컴포넌트가 연결한다(계획 P11-08). 선택의 범위는 모든 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>Range</CODE></A> 처럼 살아 있으며 스크립트가 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#getRangeAt(int)"><CODE>getRangeAt(int)</CODE></A> 로 읽고 직접 바꿀 수 있다.
+ 규격을 따르는 브라우저처럼 범위는 하나만 지원한다(<code>rangeCount</code> 는 0 또는 1).
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#addRange(org.duckdns.hjow.swingwebpanel.dom.Range)">addRange</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A>&nbsp;newRange)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Makes a range the range of the selection, unless the selection has one already or the range is not in the document of the selection
+ (then nothing happens).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#collapse(org.duckdns.hjow.swingwebpanel.dom.Node, int)">collapse</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+         int&nbsp;offset)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collapses the selection to a point (null empties it).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#collapseToEnd()">collapseToEnd</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collapses the selection to its end.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#collapseToStart()">collapseToStart</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collapses the selection to its start.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#containsNode(org.duckdns.hjow.swingwebpanel.dom.Node, boolean)">containsNode</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+             boolean&nbsp;allowPartialContainment)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the selection contains a node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#deleteFromDocument()">deleteFromDocument</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes the selected content from the document.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#extend(org.duckdns.hjow.swingwebpanel.dom.Node, int)">extend</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+       int&nbsp;offset)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Moves the focus of the selection to a point; the anchor stays.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#getAnchorNode()">getAnchorNode</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the node where the selection started.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#getAnchorOffset()">getAnchorOffset</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the offset where the selection started.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#getDirection()">getDirection</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the direction of the selection: <code>none</code> for an empty or collapsed selection, otherwise <code>forward</code> or
+ <code>backward</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#getDocument()">getDocument</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the document of the selection.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#getFocusNode()">getFocusNode</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the node where the selection ends now.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#getFocusOffset()">getFocusOffset</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the offset where the selection ends now.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#getRangeAt(int)">getRangeAt</A></B>(int&nbsp;index)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a range of the selection (the live range object itself).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#getRangeCount()">getRangeCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of ranges (0 or 1).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#getType()">getType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the kind of the selection: <code>None</code>, <code>Caret</code> or <code>Range</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#isCollapsed()">isCollapsed</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the selection is empty or collapsed to a point.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#removeAllRanges()">removeAllRanges</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Empties the selection.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#removeRange(org.duckdns.hjow.swingwebpanel.dom.Range)">removeRange</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A>&nbsp;old)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes a range from the selection.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#selectAllChildren(org.duckdns.hjow.swingwebpanel.dom.Node)">selectAllChildren</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Selects everything inside a node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#setBaseAndExtent(org.duckdns.hjow.swingwebpanel.dom.Node, int, org.duckdns.hjow.swingwebpanel.dom.Node, int)">setBaseAndExtent</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;anchorNode,
+                 int&nbsp;anchorOffset,
+                 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;focusNode,
+                 int&nbsp;focusOffset)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Selects from an anchor point to a focus point.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#setListener(org.duckdns.hjow.swingwebpanel.dom.SelectionListener)">setListener</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/SelectionListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">SelectionListener</A>&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the listener that is told about every change of the selection (null removes it).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html#toString()">toString</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the selected text.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="setListener(org.duckdns.hjow.swingwebpanel.dom.SelectionListener)"><!-- --></A><H3>
+setListener</H3>
+<PRE>
+public void <B>setListener</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/SelectionListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">SelectionListener</A>&nbsp;listener)</PRE>
+<DL>
+<DD>Sets the listener that is told about every change of the selection (null removes it). The component that shows the page uses it to
+ draw the highlight of the selection and to fire <code>selectionchange</code>.
+ <p>
+ 선택이 바뀔 때마다 알리는 리스너를 지정한다(null 이면 제거). 페이지를 보여 주는 컴포넌트가 이것으로 선택 강조를 그리고
+ <code>selectionchange</code> 를 보낸다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>listener</CODE> - the listener or null / 리스너. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDocument()"><!-- --></A><H3>
+getDocument</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A> <B>getDocument</B>()</PRE>
+<DL>
+<DD>Returns the document of the selection.
+ <p>
+ 선택의 문서를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the document / 문서</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getAnchorNode()"><!-- --></A><H3>
+getAnchorNode</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A> <B>getAnchorNode</B>()</PRE>
+<DL>
+<DD>Returns the node where the selection started.
+ <p>
+ 선택이 시작한 노드를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the anchor node, or null for an empty selection / anchor 노드. 선택이 비어 있으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getAnchorOffset()"><!-- --></A><H3>
+getAnchorOffset</H3>
+<PRE>
+public int <B>getAnchorOffset</B>()</PRE>
+<DL>
+<DD>Returns the offset where the selection started.
+ <p>
+ 선택이 시작한 오프셋을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the anchor offset, 0 for an empty selection / anchor 오프셋. 선택이 비어 있으면 0</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFocusNode()"><!-- --></A><H3>
+getFocusNode</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A> <B>getFocusNode</B>()</PRE>
+<DL>
+<DD>Returns the node where the selection ends now.
+ <p>
+ 선택이 지금 끝나는 노드를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the focus node, or null for an empty selection / focus 노드. 선택이 비어 있으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFocusOffset()"><!-- --></A><H3>
+getFocusOffset</H3>
+<PRE>
+public int <B>getFocusOffset</B>()</PRE>
+<DL>
+<DD>Returns the offset where the selection ends now.
+ <p>
+ 선택이 지금 끝나는 오프셋을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the focus offset, 0 for an empty selection / focus 오프셋. 선택이 비어 있으면 0</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isCollapsed()"><!-- --></A><H3>
+isCollapsed</H3>
+<PRE>
+public boolean <B>isCollapsed</B>()</PRE>
+<DL>
+<DD>Tells whether the selection is empty or collapsed to a point.
+ <p>
+ 선택이 비어 있거나 한 점으로 접혀 있는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if there is no range or it is collapsed / 범위가 없거나 접혀 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRangeCount()"><!-- --></A><H3>
+getRangeCount</H3>
+<PRE>
+public int <B>getRangeCount</B>()</PRE>
+<DL>
+<DD>Returns the number of ranges (0 or 1).
+ <p>
+ 범위 수(0 또는 1)를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of ranges / 범위 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getType()"><!-- --></A><H3>
+getType</H3>
+<PRE>
+public java.lang.String <B>getType</B>()</PRE>
+<DL>
+<DD>Returns the kind of the selection: <code>None</code>, <code>Caret</code> or <code>Range</code>.
+ <p>
+ 선택의 종류를 반환한다: <code>None</code>, <code>Caret</code>, <code>Range</code>.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the type name / 종류 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDirection()"><!-- --></A><H3>
+getDirection</H3>
+<PRE>
+public java.lang.String <B>getDirection</B>()</PRE>
+<DL>
+<DD>Returns the direction of the selection: <code>none</code> for an empty or collapsed selection, otherwise <code>forward</code> or
+ <code>backward</code>.
+ <p>
+ 선택의 방향을 반환한다: 비어 있거나 접힌 선택은 <code>none</code>, 아니면 <code>forward</code> 또는 <code>backward</code>.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the direction name / 방향 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getRangeAt(int)"><!-- --></A><H3>
+getRangeAt</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A> <B>getRangeAt</B>(int&nbsp;index)</PRE>
+<DL>
+<DD>Returns a range of the selection (the live range object itself).
+ <p>
+ 선택의 범위를 반환한다(살아 있는 범위 객체 자체).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>index</CODE> - the index (only 0 exists) / 인덱스(0 만 있다)
+<DT><B>Returns:</B><DD>the range / 범위
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - IndexSizeError if there is no such range / 그런 범위가 없으면 IndexSizeError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addRange(org.duckdns.hjow.swingwebpanel.dom.Range)"><!-- --></A><H3>
+addRange</H3>
+<PRE>
+public void <B>addRange</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A>&nbsp;newRange)</PRE>
+<DL>
+<DD>Makes a range the range of the selection, unless the selection has one already or the range is not in the document of the selection
+ (then nothing happens).
+ <p>
+ 범위를 선택의 범위로 삼는다. 선택에 이미 범위가 있거나 범위가 선택의 문서 안에 없으면 아무 일도 일어나지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>newRange</CODE> - the range / 범위</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeRange(org.duckdns.hjow.swingwebpanel.dom.Range)"><!-- --></A><H3>
+removeRange</H3>
+<PRE>
+public void <B>removeRange</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A>&nbsp;old)</PRE>
+<DL>
+<DD>Removes a range from the selection.
+ <p>
+ 선택에서 범위를 제거한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>old</CODE> - the range / 범위
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - NotFoundError if the range is not the range of the selection / 선택의 범위가 아니면 NotFoundError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeAllRanges()"><!-- --></A><H3>
+removeAllRanges</H3>
+<PRE>
+public void <B>removeAllRanges</B>()</PRE>
+<DL>
+<DD>Empties the selection.
+ <p>
+ 선택을 비운다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="collapse(org.duckdns.hjow.swingwebpanel.dom.Node, int)"><!-- --></A><H3>
+collapse</H3>
+<PRE>
+public void <B>collapse</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+                     int&nbsp;offset)</PRE>
+<DL>
+<DD>Collapses the selection to a point (null empties it).
+ <p>
+ 선택을 한 점으로 접는다(null 이면 비운다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node, or null / 노드. 없으면 null<DD><CODE>offset</CODE> - the offset / 오프셋
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidNodeTypeError, IndexSizeError / InvalidNodeTypeError, IndexSizeError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="collapseToStart()"><!-- --></A><H3>
+collapseToStart</H3>
+<PRE>
+public void <B>collapseToStart</B>()</PRE>
+<DL>
+<DD>Collapses the selection to its start.
+ <p>
+ 선택을 시작으로 접는다.
+<P>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidStateError for an empty selection / 선택이 비어 있으면 InvalidStateError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="collapseToEnd()"><!-- --></A><H3>
+collapseToEnd</H3>
+<PRE>
+public void <B>collapseToEnd</B>()</PRE>
+<DL>
+<DD>Collapses the selection to its end.
+ <p>
+ 선택을 끝으로 접는다.
+<P>
+<DD><DL>
+
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidStateError for an empty selection / 선택이 비어 있으면 InvalidStateError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="extend(org.duckdns.hjow.swingwebpanel.dom.Node, int)"><!-- --></A><H3>
+extend</H3>
+<PRE>
+public void <B>extend</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+                   int&nbsp;offset)</PRE>
+<DL>
+<DD>Moves the focus of the selection to a point; the anchor stays.
+ <p>
+ 선택의 focus 를 한 점으로 옮긴다. anchor 는 그대로이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node / 노드<DD><CODE>offset</CODE> - the offset / 오프셋
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidStateError for an empty selection, InvalidNodeTypeError, IndexSizeError / 선택이 비어 있으면 InvalidStateError,
+                      InvalidNodeTypeError, IndexSizeError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setBaseAndExtent(org.duckdns.hjow.swingwebpanel.dom.Node, int, org.duckdns.hjow.swingwebpanel.dom.Node, int)"><!-- --></A><H3>
+setBaseAndExtent</H3>
+<PRE>
+public void <B>setBaseAndExtent</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;anchorNode,
+                             int&nbsp;anchorOffset,
+                             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;focusNode,
+                             int&nbsp;focusOffset)</PRE>
+<DL>
+<DD>Selects from an anchor point to a focus point.
+ <p>
+ anchor 점부터 focus 점까지를 선택한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>anchorNode</CODE> - the anchor node / anchor 노드<DD><CODE>anchorOffset</CODE> - the anchor offset / anchor 오프셋<DD><CODE>focusNode</CODE> - the focus node / focus 노드<DD><CODE>focusOffset</CODE> - the focus offset / focus 오프셋
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidNodeTypeError, IndexSizeError / InvalidNodeTypeError, IndexSizeError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="selectAllChildren(org.duckdns.hjow.swingwebpanel.dom.Node)"><!-- --></A><H3>
+selectAllChildren</H3>
+<PRE>
+public void <B>selectAllChildren</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</PRE>
+<DL>
+<DD>Selects everything inside a node.
+ <p>
+ 노드 안의 모든 것을 선택한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node / 노드
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidNodeTypeError for a document type / 문서 유형이면 InvalidNodeTypeError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="deleteFromDocument()"><!-- --></A><H3>
+deleteFromDocument</H3>
+<PRE>
+public void <B>deleteFromDocument</B>()</PRE>
+<DL>
+<DD>Removes the selected content from the document.
+ <p>
+ 선택한 내용을 문서에서 지운다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="containsNode(org.duckdns.hjow.swingwebpanel.dom.Node, boolean)"><!-- --></A><H3>
+containsNode</H3>
+<PRE>
+public boolean <B>containsNode</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+                            boolean&nbsp;allowPartialContainment)</PRE>
+<DL>
+<DD>Tells whether the selection contains a node. With partial containment any overlap counts; without it the node must lie completely
+ inside the range (a node whose start and end touch the boundary points of the range counts as inside).
+ <p>
+ 선택이 노드를 포함하는지 알려 준다. 부분 포함을 허용하면 조금이라도 겹치면 되고, 아니면 노드가 범위 안에 완전히 있어야 한다(노드의 시작과 끝이
+ 범위의 경계점에 닿아도 안에 있는 것으로 본다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node / 노드<DD><CODE>allowPartialContainment</CODE> - true to count a node that only overlaps / 겹치기만 하는 노드도 세려면 true
+<DT><B>Returns:</B><DD>true if contained / 포함하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toString()"><!-- --></A><H3>
+toString</H3>
+<PRE>
+public java.lang.String <B>toString</B>()</PRE>
+<DL>
+<DD>Returns the selected text.
+ <p>
+ 선택한 텍스트를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>toString</CODE> in class <CODE>java.lang.Object</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the text, empty for an empty selection / 텍스트. 선택이 비어 있으면 빈 문자열</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/SelectionListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/Selection.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Selection.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

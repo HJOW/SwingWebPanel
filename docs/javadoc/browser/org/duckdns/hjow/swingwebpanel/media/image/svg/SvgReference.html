@@ -1,0 +1,404 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+SvgReference
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="SvgReference";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html" title="class in org.duckdns.hjow.swingwebpanel.media.image.svg"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/image/svg/SvgReference.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SvgReference.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.image.svg</FONT>
+<BR>
+Class SvgReference</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.image.svg.SvgReference</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>SvgReference</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The SVG definitions that an HTML element refers to with <code>filter: url(#id)</code>, <code>clip-path: url(#id)</code> or
+ <code>mask-image: url(#id)</code> (CSS Filter Effects Level 1 section 5, https://www.w3.org/TR/filter-effects-1/#FilterProperty, and CSS Masking Level 1
+ sections 5 and 7, https://www.w3.org/TR/css-masking-1/): the <code>svg</code> element that contains the definitions, parsed once, and the operations that
+ apply a <code>filter</code>, a <code>clipPath</code> or a <code>mask</code> element of it to the pixels of an HTML element. The same engine as for SVG
+ images does the work (every filter primitive, nested clip paths and masks, <code>use</code>, units), so the result is the one that an SVG element with the
+ same attribute would have. The HTML element plays the part of the filtered element: its border box is the bounding box (<code>objectBoundingBox</code>
+ units) and its top left corner is the origin of the user space (<code>userSpaceOnUse</code> units); the lengths of percentages are relative to the box.
+ Only definitions in the same document are used: nothing is loaded and no script runs. The methods change the helper element of the document and are
+ therefore synchronized.
+ <p>
+ HTML 요소가 <code>filter: url(#id)</code>, <code>clip-path: url(#id)</code>, <code>mask-image: url(#id)</code> 로 가리키는 SVG 정의(CSS Filter Effects Level 1 5 절,
+ https://www.w3.org/TR/filter-effects-1/#FilterProperty, CSS Masking Level 1 5, 7 절, https://www.w3.org/TR/css-masking-1/): 정의가 든 <code>svg</code> 요소를 한 번
+ 해석해 두고, 그 안의 <code>filter</code>, <code>clipPath</code>, <code>mask</code> 요소를 HTML 요소의 픽셀에 적용하는 연산을 제공한다. SVG 이미지와 같은 엔진이 일하므로(모든
+ 필터 기본 요소, 중첩된 클립 경로와 마스크, <code>use</code>, 단위) 같은 속성을 가진 SVG 요소와 같은 결과이다. HTML 요소가 필터가 걸리는 요소 역할을 한다: border box 가
+ 경계 상자(<code>objectBoundingBox</code> 단위)이고 왼쪽 위 모서리가 사용자 공간의 원점(<code>userSpaceOnUse</code> 단위)이며 백분율 길이는 상자 기준이다. 같은 문서의 정의만
+ 쓴다: 아무것도 가져오지 않고 스크립트도 실행하지 않는다. 메서드는 문서의 보조 요소를 바꾸므로 동기화되어 있다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgReference.html#applyClipPath(java.lang.String, java.awt.image.BufferedImage, java.awt.geom.AffineTransform, double, double)">applyClipPath</A></B>(java.lang.String&nbsp;id,
+              java.awt.image.BufferedImage&nbsp;layer,
+              java.awt.geom.AffineTransform&nbsp;ctm,
+              double&nbsp;w,
+              double&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clips the pixels of an HTML element with a <code>clipPath</code> element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgReference.html#applyFilter(java.lang.String, java.awt.image.BufferedImage, java.awt.geom.AffineTransform, double, double)">applyFilter</A></B>(java.lang.String&nbsp;id,
+            java.awt.image.BufferedImage&nbsp;layer,
+            java.awt.geom.AffineTransform&nbsp;ctm,
+            double&nbsp;w,
+            double&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Applies a <code>filter</code> element to the pixels of an HTML element: the result replaces the pixels and everything outside of the filter region is
+ removed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgReference.html#filterReach(java.lang.String, double, double)">filterReach</A></B>(java.lang.String&nbsp;id,
+            double&nbsp;w,
+            double&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns how far the filter region of a <code>filter</code> element reaches beyond the border box of the element it filters.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgReference.html#has(java.lang.String, java.lang.String)">has</A></B>(java.lang.String&nbsp;id,
+    java.lang.String&nbsp;kind)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the document has an element of a kind with an id.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;float[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgReference.html#maskCoverage(java.lang.String, int, int, java.awt.geom.AffineTransform, double, double)">maskCoverage</A></B>(java.lang.String&nbsp;id,
+             int&nbsp;width,
+             int&nbsp;height,
+             java.awt.geom.AffineTransform&nbsp;ctm,
+             double&nbsp;w,
+             double&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the coverage of a <code>mask</code> element over a layer: the value that multiplies the alpha of the pixels of the element, from 0 to 1 for
+ every pixel (the luminance or the alpha of the mask according to <code>mask-type</code>, with the region and the units of the element).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgReference.html" title="class in org.duckdns.hjow.swingwebpanel.media.image.svg">SvgReference</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgReference.html#parse(byte[])">parse</A></B>(byte[]&nbsp;xml)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses an <code>svg</code> element that contains the definitions.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="parse(byte[])"><!-- --></A><H3>
+parse</H3>
+<PRE>
+public static <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgReference.html" title="class in org.duckdns.hjow.swingwebpanel.media.image.svg">SvgReference</A> <B>parse</B>(byte[]&nbsp;xml)
+                          throws <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></PRE>
+<DL>
+<DD>Parses an <code>svg</code> element that contains the definitions.
+ <p>
+ 정의가 든 <code>svg</code> 요소를 해석한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>xml</CODE> - the element as an XML document in UTF-8 / UTF-8 XML 문서로 나타낸 요소
+<DT><B>Returns:</B><DD>the reference / 참조
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></CODE> - if the document is not well formed or too large / 문서가 올바르지 않거나 너무 크면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="has(java.lang.String, java.lang.String)"><!-- --></A><H3>
+has</H3>
+<PRE>
+public boolean <B>has</B>(java.lang.String&nbsp;id,
+                   java.lang.String&nbsp;kind)</PRE>
+<DL>
+<DD>Tells whether the document has an element of a kind with an id.
+ <p>
+ 문서에 id 가 있는 어떤 종류의 요소가 있는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - the id / id<DD><CODE>kind</CODE> - <code>filter</code>, <code>clipPath</code> or <code>mask</code> / <code>filter</code>, <code>clipPath</code>, <code>mask</code>
+<DT><B>Returns:</B><DD>true if there is such an element / 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="filterReach(java.lang.String, double, double)"><!-- --></A><H3>
+filterReach</H3>
+<PRE>
+public double[] <B>filterReach</B>(java.lang.String&nbsp;id,
+                            double&nbsp;w,
+                            double&nbsp;h)</PRE>
+<DL>
+<DD>Returns how far the filter region of a <code>filter</code> element reaches beyond the border box of the element it filters.
+ <p>
+ <code>filter</code> 요소의 필터 영역이 필터가 걸리는 요소의 border box 밖으로 얼마나 뻗는지 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - the id of the filter element / 필터 요소의 id<DD><CODE>w</CODE> - the width of the border box / border box 너비<DD><CODE>h</CODE> - the height of the border box / border box 높이
+<DT><B>Returns:</B><DD>{left, top, right, bottom} in user space units (not negative) / 사용자 공간 단위의 {왼쪽, 위쪽, 오른쪽, 아래쪽}(음수가 아님)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="applyFilter(java.lang.String, java.awt.image.BufferedImage, java.awt.geom.AffineTransform, double, double)"><!-- --></A><H3>
+applyFilter</H3>
+<PRE>
+public boolean <B>applyFilter</B>(java.lang.String&nbsp;id,
+                           java.awt.image.BufferedImage&nbsp;layer,
+                           java.awt.geom.AffineTransform&nbsp;ctm,
+                           double&nbsp;w,
+                           double&nbsp;h)</PRE>
+<DL>
+<DD>Applies a <code>filter</code> element to the pixels of an HTML element: the result replaces the pixels and everything outside of the filter region is
+ removed. The pixels of a layer that is not wide enough for the filter region are cut off at the edge of the layer.
+ <p>
+ HTML 요소의 픽셀에 <code>filter</code> 요소를 적용한다: 결과가 픽셀을 대체하고 필터 영역 밖은 모두 지워진다. 필터 영역에 비해 좁은 레이어의 픽셀은 레이어
+ 가장자리에서 잘린다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - the id of the filter element / 필터 요소의 id<DD><CODE>layer</CODE> - the pixels (ARGB, not premultiplied), changed in place / 픽셀(알파를 미리 곱하지 않은 ARGB). 제자리에서 바뀐다<DD><CODE>ctm</CODE> - the transform from the user space of the element (the origin is the top left corner of its border box) to the layer / 요소의 사용자 공간(원점은
+              border box 의 왼쪽 위 모서리)에서 레이어로의 변환<DD><CODE>w</CODE> - the width of the border box / border box 너비<DD><CODE>h</CODE> - the height of the border box / border box 높이
+<DT><B>Returns:</B><DD>true if the filter was applied, false if it could not be (a filter that is not available, or the drawing stopped because of the limits) / 필터를
+         적용했으면 true. 쓸 수 없는 필터이거나 제한 때문에 그리기가 멈추면 false</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="applyClipPath(java.lang.String, java.awt.image.BufferedImage, java.awt.geom.AffineTransform, double, double)"><!-- --></A><H3>
+applyClipPath</H3>
+<PRE>
+public boolean <B>applyClipPath</B>(java.lang.String&nbsp;id,
+                             java.awt.image.BufferedImage&nbsp;layer,
+                             java.awt.geom.AffineTransform&nbsp;ctm,
+                             double&nbsp;w,
+                             double&nbsp;h)</PRE>
+<DL>
+<DD>Clips the pixels of an HTML element with a <code>clipPath</code> element.
+ <p>
+ HTML 요소의 픽셀을 <code>clipPath</code> 요소로 자른다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - the id of the clipPath element / clipPath 요소의 id<DD><CODE>layer</CODE> - the pixels (ARGB, not premultiplied), changed in place / 픽셀(알파를 미리 곱하지 않은 ARGB). 제자리에서 바뀐다<DD><CODE>ctm</CODE> - the transform from the user space of the element to the layer / 요소의 사용자 공간에서 레이어로의 변환<DD><CODE>w</CODE> - the width of the border box / border box 너비<DD><CODE>h</CODE> - the height of the border box / border box 높이
+<DT><B>Returns:</B><DD>true if the pixels were clipped / 잘랐으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="maskCoverage(java.lang.String, int, int, java.awt.geom.AffineTransform, double, double)"><!-- --></A><H3>
+maskCoverage</H3>
+<PRE>
+public float[] <B>maskCoverage</B>(java.lang.String&nbsp;id,
+                            int&nbsp;width,
+                            int&nbsp;height,
+                            java.awt.geom.AffineTransform&nbsp;ctm,
+                            double&nbsp;w,
+                            double&nbsp;h)</PRE>
+<DL>
+<DD>Returns the coverage of a <code>mask</code> element over a layer: the value that multiplies the alpha of the pixels of the element, from 0 to 1 for
+ every pixel (the luminance or the alpha of the mask according to <code>mask-type</code>, with the region and the units of the element).
+ <p>
+ <code>mask</code> 요소가 레이어에 주는 덮임을 반환한다: 요소의 픽셀 알파에 곱하는 값이며 픽셀마다 0~1 이다(<code>mask-type</code> 에 따른 마스크의 휘도나 알파, 요소의 영역과
+ 단위를 적용).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - the id of the mask element / 마스크 요소의 id<DD><CODE>width</CODE> - the width of the layer / 레이어 너비<DD><CODE>height</CODE> - the height of the layer / 레이어 높이<DD><CODE>ctm</CODE> - the transform from the user space of the element to the layer / 요소의 사용자 공간에서 레이어로의 변환<DD><CODE>w</CODE> - the width of the border box / border box 너비<DD><CODE>h</CODE> - the height of the border box / border box 높이
+<DT><B>Returns:</B><DD>one value per pixel, row by row, or null if the mask is not available (the element is then not masked) / 픽셀마다 값 하나(행 순서). 마스크를 쓸 수
+         없으면 null(그러면 요소를 가리지 않는다)</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/svg/SvgImage.html" title="class in org.duckdns.hjow.swingwebpanel.media.image.svg"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/image/svg/SvgReference.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SvgReference.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

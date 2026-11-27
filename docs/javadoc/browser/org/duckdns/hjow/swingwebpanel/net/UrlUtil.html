@@ -1,0 +1,656 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+UrlUtil
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="UrlUtil";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/SslConfigurer.html" title="interface in org.duckdns.hjow.swingwebpanel.net"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.Parts.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/net/UrlUtil.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="UrlUtil.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.net</FONT>
+<BR>
+Class UrlUtil</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.net.UrlUtil</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>UrlUtil</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+URL helper implementing RFC 3986 parsing, relative reference resolution and dot-segment removal on plain strings,
+ plus the project specific <code>classpath://</code> canonical form. It never decodes percent escapes while resolving
+ (no double decoding) and never treats <code>+</code> in a path as a space; decoding is an explicit single step
+ (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.html#percentDecode(java.lang.String)"><CODE>percentDecode(String)</CODE></A>) used only where a protocol needs the decoded path (FTP and classpath).
+ <p>
+ The <code>classpath://a/b.html</code> form means: everything after <code>classpath:</code> and any slashes is the resource path
+ <code>a/b.html</code> (never an authority), so <code>classpath://a/b.html</code> resolved with <code>c.css</code> is
+ <code>classpath://a/c.css</code>; <code>..</code> cannot climb above the class path root.
+ <p>
+ Use: <code>UrlUtil.resolve("http://h/a/b.html", "../c.css")</code> gives <code>http://h/c.css</code>.
+ <p>
+ RFC 3986 의 해석, 상대 참조 결합, 점 세그먼트 제거를 문자열 위에서 구현한 URL 도우미이며 프로젝트 전용 <code>classpath://</code>
+ 정규 형식도 다룬다. 결합 중에는 퍼센트 인코딩을 디코딩하지 않으며(중복 디코딩 없음) 경로의 <code>+</code> 를 공백으로
+ 보지 않는다. 디코딩은 프로토콜이 필요로 하는 곳(FTP, 클래스패스)에서만 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.html#percentDecode(java.lang.String)"><CODE>percentDecode(String)</CODE></A> 로 한 번 명시적으로 수행한다.
+ <p>
+ <code>classpath://a/b.html</code> 형식은 <code>classpath:</code> 와 이어지는 슬래시 뒤의 전부가 리소스 경로 <code>a/b.html</code> 이라는
+ 뜻이다(authority 가 아님). 이 주소에 <code>c.css</code> 를 결합하면 <code>classpath://a/c.css</code> 이고, <code>..</code> 는
+ 클래스패스 루트 위로 올라갈 수 없다.
+ <p>
+ 사용: <code>UrlUtil.resolve("http://h/a/b.html", "../c.css")</code> 의 결과는 <code>http://h/c.css</code> 이다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.Parts.html" title="class in org.duckdns.hjow.swingwebpanel.net">UrlUtil.Parts</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The parsed pieces of a URL reference.</TD>
+</TR>
+</TABLE>
+&nbsp;<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.html#SCHEME_CLASSPATH">SCHEME_CLASSPATH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scheme name of class path resources.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.html#SCHEME_FILE">SCHEME_FILE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The scheme for local files. / 로컬 파일의 스킴.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.html#defaultPort(java.lang.String)">defaultPort</A></B>(java.lang.String&nbsp;scheme)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the default port of a scheme or -1.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.html#effectivePort(org.duckdns.hjow.swingwebpanel.net.UrlUtil.Parts)">effectivePort</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.Parts.html" title="class in org.duckdns.hjow.swingwebpanel.net">UrlUtil.Parts</A>&nbsp;p)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the effective port: the explicit one or the scheme default.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.html#encodeIllegal(java.lang.String)">encodeIllegal</A></B>(java.lang.String&nbsp;input)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Makes user typed text safe for parsing: trims, removes tab/CR/LF, turns '\' into '/' in the path of special
+ schemes, and percent-encodes spaces, control characters, non-ASCII characters (as UTF-8) and other characters
+ that are not allowed in URLs.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.html#getFragment(java.lang.String)">getFragment</A></B>(java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the fragment (text after '#') or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.html#getScheme(java.lang.String)">getScheme</A></B>(java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the lower-case scheme of a URL string, or null when it has none (relative reference).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.html#normalize(java.lang.String)">normalize</A></B>(java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Normalizes an absolute URL: lower-case scheme and host, default port removed, dot segments removed,
+ empty path of a hierarchical URL turned into '/', escape hex digits upper-cased.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.Parts.html" title="class in org.duckdns.hjow.swingwebpanel.net">UrlUtil.Parts</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.html#parse(java.lang.String)">parse</A></B>(java.lang.String&nbsp;input)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a URL or a relative reference after <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.html#encodeIllegal(java.lang.String)"><CODE>encodeIllegal(String)</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.html#percentDecode(java.lang.String)">percentDecode</A></B>(java.lang.String&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Decodes %XX escapes exactly once as UTF-8 (invalid sequences become U+FFFD). '+' is left unchanged.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.html#percentEncodeComponent(java.lang.String)">percentEncodeComponent</A></B>(java.lang.String&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Percent-encodes every character except letters, digits and <code>-.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.html#removeDotSegments(java.lang.String)">removeDotSegments</A></B>(java.lang.String&nbsp;path)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes "." and ".." segments (RFC 3986 5.2.4); ".." can never go above the root.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.html#resolve(java.lang.String, java.lang.String)">resolve</A></B>(java.lang.String&nbsp;base,
+        java.lang.String&nbsp;ref)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Resolves a reference against a base URL following RFC 3986 section 5.2 and returns a normalized absolute URL.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.html#stripFragment(java.lang.String)">stripFragment</A></B>(java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the URL without its fragment.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.net.URL</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.html#toJavaUrl(java.lang.String)">toJavaUrl</A></B>(java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Converts an http or https URL text to a <CODE>URL</CODE> object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.html#toString(org.duckdns.hjow.swingwebpanel.net.UrlUtil.Parts)">toString</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.Parts.html" title="class in org.duckdns.hjow.swingwebpanel.net">UrlUtil.Parts</A>&nbsp;p)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Converts parts back to text.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="SCHEME_CLASSPATH"><!-- --></A><H3>
+SCHEME_CLASSPATH</H3>
+<PRE>
+public static final java.lang.String <B>SCHEME_CLASSPATH</B></PRE>
+<DL>
+<DD>Scheme name of class path resources.
+ <p>
+ 클래스패스 리소스의 스킴 이름.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.net.UrlUtil.SCHEME_CLASSPATH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SCHEME_FILE"><!-- --></A><H3>
+SCHEME_FILE</H3>
+<PRE>
+public static final java.lang.String <B>SCHEME_FILE</B></PRE>
+<DL>
+<DD>The scheme for local files. / 로컬 파일의 스킴.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.net.UrlUtil.SCHEME_FILE">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getScheme(java.lang.String)"><!-- --></A><H3>
+getScheme</H3>
+<PRE>
+public static java.lang.String <B>getScheme</B>(java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Returns the lower-case scheme of a URL string, or null when it has none (relative reference).
+ <p>
+ URL 문자열의 소문자 스킴을 돌려준다. 스킴이 없으면(상대 참조) null.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - URL text / URL 문자열
+<DT><B>Returns:</B><DD>scheme or null / 스킴 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="defaultPort(java.lang.String)"><!-- --></A><H3>
+defaultPort</H3>
+<PRE>
+public static int <B>defaultPort</B>(java.lang.String&nbsp;scheme)</PRE>
+<DL>
+<DD>Returns the default port of a scheme or -1.
+ <p>
+ 스킴의 기본 포트를 돌려준다. 없으면 -1.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>scheme</CODE> - scheme in lower case / 소문자 스킴
+<DT><B>Returns:</B><DD>default port or -1 / 기본 포트 또는 -1</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="effectivePort(org.duckdns.hjow.swingwebpanel.net.UrlUtil.Parts)"><!-- --></A><H3>
+effectivePort</H3>
+<PRE>
+public static int <B>effectivePort</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.Parts.html" title="class in org.duckdns.hjow.swingwebpanel.net">UrlUtil.Parts</A>&nbsp;p)</PRE>
+<DL>
+<DD>Returns the effective port: the explicit one or the scheme default.
+ <p>
+ 실효 포트를 돌려준다. 명시한 포트이거나 스킴 기본값이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>p</CODE> - parsed URL / 분해된 URL
+<DT><B>Returns:</B><DD>port or -1 / 포트 또는 -1</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="encodeIllegal(java.lang.String)"><!-- --></A><H3>
+encodeIllegal</H3>
+<PRE>
+public static java.lang.String <B>encodeIllegal</B>(java.lang.String&nbsp;input)</PRE>
+<DL>
+<DD>Makes user typed text safe for parsing: trims, removes tab/CR/LF, turns '\' into '/' in the path of special
+ schemes, and percent-encodes spaces, control characters, non-ASCII characters (as UTF-8) and other characters
+ that are not allowed in URLs. A '%' that is not followed by two hex digits becomes %25. Existing valid escapes stay.
+ <p>
+ 사용자가 입력한 문자열을 해석하기 안전하게 만든다. 앞뒤 공백과 탭/CR/LF 를 지우고, 특수 스킴에서는 경로의 '\' 를 '/' 로
+ 바꾸며, 공백/제어 문자/비 ASCII 문자(UTF-8)와 URL 에 허용되지 않는 문자를 퍼센트 인코딩한다. 16진수 두 자리가 뒤따르지
+ 않는 '%' 는 %25 가 된다. 이미 올바른 이스케이프는 그대로 둔다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>input</CODE> - raw text / 원본 문자열
+<DT><B>Returns:</B><DD>a string that contains only URL characters / URL 문자만 가진 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parse(java.lang.String)"><!-- --></A><H3>
+parse</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.Parts.html" title="class in org.duckdns.hjow.swingwebpanel.net">UrlUtil.Parts</A> <B>parse</B>(java.lang.String&nbsp;input)</PRE>
+<DL>
+<DD>Parses a URL or a relative reference after <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.html#encodeIllegal(java.lang.String)"><CODE>encodeIllegal(String)</CODE></A>.
+ <p>
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.html#encodeIllegal(java.lang.String)"><CODE>encodeIllegal(String)</CODE></A> 를 적용한 뒤 URL 또는 상대 참조를 분해한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>input</CODE> - URL text / URL 문자열
+<DT><B>Returns:</B><DD>the parts / 분해 결과
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - for null, empty text or an invalid port / null, 빈 문자열, 잘못된 포트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toString(org.duckdns.hjow.swingwebpanel.net.UrlUtil.Parts)"><!-- --></A><H3>
+toString</H3>
+<PRE>
+public static java.lang.String <B>toString</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.Parts.html" title="class in org.duckdns.hjow.swingwebpanel.net">UrlUtil.Parts</A>&nbsp;p)</PRE>
+<DL>
+<DD>Converts parts back to text. Class path URLs use the canonical form <code>classpath://path</code>.
+ <p>
+ 분해 결과를 다시 문자열로 만든다. 클래스패스 URL 은 정규 형식 <code>classpath://경로</code> 를 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>p</CODE> - parts / 분해 결과
+<DT><B>Returns:</B><DD>URL text / URL 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="normalize(java.lang.String)"><!-- --></A><H3>
+normalize</H3>
+<PRE>
+public static java.lang.String <B>normalize</B>(java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Normalizes an absolute URL: lower-case scheme and host, default port removed, dot segments removed,
+ empty path of a hierarchical URL turned into '/', escape hex digits upper-cased.
+ <p>
+ 절대 URL 을 정규화한다. 스킴/호스트 소문자, 기본 포트 제거, 점 세그먼트 제거, 계층 URL 의 빈 경로를 '/' 로,
+ 이스케이프의 16진수를 대문자로 바꾼다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - absolute URL / 절대 URL
+<DT><B>Returns:</B><DD>normalized URL / 정규화된 URL
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - when the text is not an absolute URL / 절대 URL 이 아닐 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="resolve(java.lang.String, java.lang.String)"><!-- --></A><H3>
+resolve</H3>
+<PRE>
+public static java.lang.String <B>resolve</B>(java.lang.String&nbsp;base,
+                                       java.lang.String&nbsp;ref)</PRE>
+<DL>
+<DD>Resolves a reference against a base URL following RFC 3986 section 5.2 and returns a normalized absolute URL.
+ A relative reference needs a hierarchical base (http, https, ftp, file, classpath).
+ <p>
+ RFC 3986 5.2 절에 따라 참조를 기준 URL 에 결합하고 정규화된 절대 URL 을 돌려준다.
+ 상대 참조에는 계층형 기준(http, https, ftp, file, classpath)이 필요하다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>base</CODE> - base URL, may be null when the reference is absolute / 기준 URL. 참조가 절대면 null 가능<DD><CODE>ref</CODE> - reference text / 참조 문자열
+<DT><B>Returns:</B><DD>absolute URL / 절대 URL
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - when a relative reference cannot be resolved / 상대 참조를 결합할 수 없을 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeDotSegments(java.lang.String)"><!-- --></A><H3>
+removeDotSegments</H3>
+<PRE>
+public static java.lang.String <B>removeDotSegments</B>(java.lang.String&nbsp;path)</PRE>
+<DL>
+<DD>Removes "." and ".." segments (RFC 3986 5.2.4); ".." can never go above the root.
+ <p>
+ "." 와 ".." 세그먼트를 제거한다(RFC 3986 5.2.4). ".." 는 루트 위로 올라갈 수 없다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>path</CODE> - path / 경로
+<DT><B>Returns:</B><DD>path without dot segments / 점 세그먼트가 없는 경로</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="stripFragment(java.lang.String)"><!-- --></A><H3>
+stripFragment</H3>
+<PRE>
+public static java.lang.String <B>stripFragment</B>(java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Returns the URL without its fragment.
+ <p>
+ 프래그먼트를 뺀 URL 을 돌려준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - URL text / URL 문자열
+<DT><B>Returns:</B><DD>URL without '#...' / '#...' 가 없는 URL</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFragment(java.lang.String)"><!-- --></A><H3>
+getFragment</H3>
+<PRE>
+public static java.lang.String <B>getFragment</B>(java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Returns the fragment (text after '#') or null.
+ <p>
+ 프래그먼트('#' 뒤 문자열)를 돌려준다. 없으면 null.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - URL text / URL 문자열
+<DT><B>Returns:</B><DD>fragment or null / 프래그먼트 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="percentDecode(java.lang.String)"><!-- --></A><H3>
+percentDecode</H3>
+<PRE>
+public static java.lang.String <B>percentDecode</B>(java.lang.String&nbsp;s)</PRE>
+<DL>
+<DD>Decodes %XX escapes exactly once as UTF-8 (invalid sequences become U+FFFD). '+' is left unchanged.
+ <p>
+ %XX 이스케이프를 UTF-8 로 정확히 한 번 디코딩한다(잘못된 순서는 U+FFFD). '+' 는 그대로 둔다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - encoded text / 인코딩된 문자열
+<DT><B>Returns:</B><DD>decoded text / 디코딩된 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="percentEncodeComponent(java.lang.String)"><!-- --></A><H3>
+percentEncodeComponent</H3>
+<PRE>
+public static java.lang.String <B>percentEncodeComponent</B>(java.lang.String&nbsp;s)</PRE>
+<DL>
+<DD>Percent-encodes every character except letters, digits and <code>-._~</code> (UTF-8 bytes). Suitable for one
+ path segment such as an FTP file name.
+ <p>
+ 영문자, 숫자, <code>-._~</code> 를 제외한 모든 문자를 퍼센트 인코딩한다(UTF-8 바이트). FTP 파일 이름 같은 경로 세그먼트 하나에 알맞다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - text / 문자열
+<DT><B>Returns:</B><DD>encoded text / 인코딩된 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toJavaUrl(java.lang.String)"><!-- --></A><H3>
+toJavaUrl</H3>
+<PRE>
+public static java.net.URL <B>toJavaUrl</B>(java.lang.String&nbsp;url)
+                              throws java.net.MalformedURLException</PRE>
+<DL>
+<DD>Converts an http or https URL text to a <CODE>URL</CODE> object.
+ <p>
+ http 또는 https URL 문자열을 <CODE>URL</CODE> 객체로 바꾼다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - absolute URL / 절대 URL
+<DT><B>Returns:</B><DD>URL object / URL 객체
+<DT><B>Throws:</B>
+<DD><CODE>java.net.MalformedURLException</CODE> - when the JRE rejects it / JRE 가 거부할 때</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/SslConfigurer.html" title="interface in org.duckdns.hjow.swingwebpanel.net"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/UrlUtil.Parts.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/net/UrlUtil.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="UrlUtil.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,368 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+WebpDecoder
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="WebpDecoder";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/image/webp/WebpDecoder.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WebpDecoder.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.image.webp</FONT>
+<BR>
+Class WebpDecoder</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.image.webp.WebpDecoder</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/ImageDecoder.html" title="interface in org.duckdns.hjow.swingwebpanel.media.image">ImageDecoder</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public final class <B>WebpDecoder</B><DT>extends java.lang.Object<DT>implements <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/ImageDecoder.html" title="interface in org.duckdns.hjow.swingwebpanel.media.image">ImageDecoder</A></DL>
+</PRE>
+
+<P>
+The decoder of WebP images (plan item P18-03; FEATURE_MATRIX IMG-05; "WebP Container Specification" and RFC 6386 for the lossy VP8 key
+ frames, "WebP Lossless Bitstream Specification" for VP8L). It reads the RIFF container and supports the simple files (a single
+ <code>VP8 </code> or <code>VP8L</code> chunk) and the extended files (<code>VP8X</code>) with the alpha plane (<code>ALPH</code>) of lossy
+ images and with animation (<code>ANIM</code>, <code>ANMF</code>); the EXIF chunk gives the orientation (applied to the pixels, see <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/ExifOrientation.html" title="class in org.duckdns.hjow.swingwebpanel.media.image"><CODE>ExifOrientation</CODE></A>); the ICCP chunk gives the colour profile (a matrix/TRC or gray ICC profile converts the pixels to sRGB, see <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/color/ColorProfile.html" title="class in org.duckdns.hjow.swingwebpanel.media.image.color"><CODE>ColorProfile</CODE></A>; other profiles are ignored); XMP and unknown chunks are skipped.
+ Animation frames are composed on a transparent canvas with the blending and disposal methods of each frame, so every <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/DecodedFrame.html" title="class in org.duckdns.hjow.swingwebpanel.media.image"><CODE>DecodedFrame</CODE></A>
+ is a complete canvas. The background colour of the animation header is ignored, as browsers do. Frame delays of 10 ms or less are shown for
+ 100 ms, the policy of the other animated formats of this project.
+ <p>
+ WebP 이미지의 디코더(계획 P18-03; FEATURE_MATRIX IMG-05; 손실 VP8 키 프레임은 RFC 6386, VP8L 은 "WebP Lossless Bitstream Specification",
+ 컨테이너는 "WebP Container Specification"). RIFF 컨테이너를 읽고 단순 파일(<code>VP8 </code> 또는 <code>VP8L</code> 청크 하나)과 손실 영상의
+ 알파 평면(<code>ALPH</code>), 애니메이션(<code>ANIM</code>, <code>ANMF</code>)을 가진 확장 파일(<code>VP8X</code>)을 지원한다.
+ EXIF 청크는 방향을 주고(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/ExifOrientation.html" title="class in org.duckdns.hjow.swingwebpanel.media.image"><CODE>ExifOrientation</CODE></A> 참조, 픽셀에 적용한다) ICCP 청크는 색 프로파일을 준다(행렬/TRC 나 회색조 ICC 프로파일은 픽셀을
+ sRGB 로 바꾸고 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/color/ColorProfile.html" title="class in org.duckdns.hjow.swingwebpanel.media.image.color"><CODE>ColorProfile</CODE></A> 참조, 다른 프로파일은 무시한다). XMP 청크와 알 수 없는 청크는 건너뛴다. 애니메이션 프레임은 투명한 캔버스에
+ 프레임별 합성/처리 방법으로 합성하므로 모든 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/DecodedFrame.html" title="class in org.duckdns.hjow.swingwebpanel.media.image"><CODE>DecodedFrame</CODE></A> 이 완전한 캔버스이다. 애니메이션 헤더의 배경색은 브라우저처럼 무시한다.
+ 지연 10 ms 이하인 프레임은 이 프로젝트의 다른 애니메이션 형식과 같은 정책으로 100 ms 동안 보인다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/webp/WebpDecoder.html#WebpDecoder()">WebpDecoder</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the decoder (also used by the registry through reflection).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/webp/WebpDecoder.html#accepts(byte[])">accepts</A></B>(byte[]&nbsp;head)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the first bytes are <code>RIFF</code>, a size and <code>WEBP</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/DecodedImage.html" title="class in org.duckdns.hjow.swingwebpanel.media.image">DecodedImage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/webp/WebpDecoder.html#decode(byte[], org.duckdns.hjow.swingwebpanel.media.DecodeLimits)">decode</A></B>(byte[]&nbsp;data,
+       <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html" title="class in org.duckdns.hjow.swingwebpanel.media">DecodeLimits</A>&nbsp;limits)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Decodes a WebP file completely; an animation yields all composed frames.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/webp/WebpDecoder.html#getFormatName()">getFormatName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the format name.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/webp/WebpDecoder.html#getMimeTypes()">getMimeTypes</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the MIME types of the format.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="WebpDecoder()"><!-- --></A><H3>
+WebpDecoder</H3>
+<PRE>
+public <B>WebpDecoder</B>()</PRE>
+<DL>
+<DD>Creates the decoder (also used by the registry through reflection).
+ <p>
+ 디코더를 만든다(등록부가 리플렉션으로도 쓴다).
+<P>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getFormatName()"><!-- --></A><H3>
+getFormatName</H3>
+<PRE>
+public java.lang.String <B>getFormatName</B>()</PRE>
+<DL>
+<DD>Returns the format name.
+ <p>
+ 형식 이름을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/ImageDecoder.html#getFormatName()">getFormatName</A></CODE> in interface <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/ImageDecoder.html" title="interface in org.duckdns.hjow.swingwebpanel.media.image">ImageDecoder</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD><code>webp</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMimeTypes()"><!-- --></A><H3>
+getMimeTypes</H3>
+<PRE>
+public java.lang.String[] <B>getMimeTypes</B>()</PRE>
+<DL>
+<DD>Returns the MIME types of the format.
+ <p>
+ 형식의 MIME 타입을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/ImageDecoder.html#getMimeTypes()">getMimeTypes</A></CODE> in interface <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/ImageDecoder.html" title="interface in org.duckdns.hjow.swingwebpanel.media.image">ImageDecoder</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD><code>image/webp</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="accepts(byte[])"><!-- --></A><H3>
+accepts</H3>
+<PRE>
+public boolean <B>accepts</B>(byte[]&nbsp;head)</PRE>
+<DL>
+<DD>Tells whether the first bytes are <code>RIFF</code>, a size and <code>WEBP</code>.
+ <p>
+ 첫 바이트가 <code>RIFF</code>, 크기, <code>WEBP</code> 인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/ImageDecoder.html#accepts(byte[])">accepts</A></CODE> in interface <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/ImageDecoder.html" title="interface in org.duckdns.hjow.swingwebpanel.media.image">ImageDecoder</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>head</CODE> - the first bytes of the data / 데이터의 첫 바이트
+<DT><B>Returns:</B><DD>true if the signature matches / 시그니처가 맞으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="decode(byte[], org.duckdns.hjow.swingwebpanel.media.DecodeLimits)"><!-- --></A><H3>
+decode</H3>
+<PRE>
+public <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/DecodedImage.html" title="class in org.duckdns.hjow.swingwebpanel.media.image">DecodedImage</A> <B>decode</B>(byte[]&nbsp;data,
+                           <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html" title="class in org.duckdns.hjow.swingwebpanel.media">DecodeLimits</A>&nbsp;limits)
+                    throws <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></PRE>
+<DL>
+<DD>Decodes a WebP file completely; an animation yields all composed frames.
+ <p>
+ WebP 파일 전체를 디코딩한다. 애니메이션이면 합성된 프레임을 모두 담는다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/ImageDecoder.html#decode(byte[], org.duckdns.hjow.swingwebpanel.media.DecodeLimits)">decode</A></CODE> in interface <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/ImageDecoder.html" title="interface in org.duckdns.hjow.swingwebpanel.media.image">ImageDecoder</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - file data / 파일 데이터<DD><CODE>limits</CODE> - limits / 제한
+<DT><B>Returns:</B><DD>decoded image / 디코딩된 이미지
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A></CODE> - CORRUPT for damaged or truncated data, UNSUPPORTED_FORMAT for another format, TOO_LARGE over a limit, CANCELLED if the thread is interrupted / 손상되거나 잘린 데이터는 CORRUPT, 다른 형식은 UNSUPPORTED_FORMAT, 제한 초과는 TOO_LARGE, 스레드가 인터럽트되면 CANCELLED</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/image/webp/WebpDecoder.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WebpDecoder.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

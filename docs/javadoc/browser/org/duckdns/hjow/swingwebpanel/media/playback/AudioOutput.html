@@ -1,0 +1,350 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+AudioOutput
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="AudioOutput";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.playback"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/playback/AudioOutput.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="AudioOutput.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.playback</FONT>
+<BR>
+Interface AudioOutput</H2>
+<DL>
+<DT><B>All Known Implementing Classes:</B> <DD><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementTap.Pipe.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">MediaElementTap.Pipe</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public interface <B>AudioOutput</B></DL>
+</PRE>
+
+<P>
+One open audio output for 16-bit signed little-endian interleaved PCM of a fixed sample rate and channel count (plan item P18-08). The
+ player writes decoded blocks to it and derives the playback position from the number of frames that are queued and not rendered yet.
+ The default implementation is a Java Sound line (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/JavaSoundOutputFactory.html" title="class in org.duckdns.hjow.swingwebpanel.media.playback"><CODE>JavaSoundOutputFactory</CODE></A>); a host or a test can supply another one (for example a
+ recorder) through <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.playback"><CODE>AudioOutputFactory</CODE></A>. All methods are called by the playback thread of one player, except <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutput.html#getQueuedFrames()"><CODE>getQueuedFrames()</CODE></A>
+ (called by any thread that asks for the position) and <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutput.html#close()"><CODE>close()</CODE></A> (the playback thread, at the end); implementations must make these
+ safe. An output is created in the stopped state: written data waits in its buffer until <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutput.html#start()"><CODE>start()</CODE></A>.
+ <p>
+ 샘플링 주파수와 채널 수가 정해진 16비트 부호 있는 리틀 엔디언 인터리브 PCM 을 위한 열린 오디오 출력 하나(계획 P18-08). 재생기는 디코딩한 블록을
+ 여기에 쓰고, 큐에 있지만 아직 재생되지 않은 프레임 수로 재생 위치를 구한다. 기본 구현은 Java Sound 라인(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/JavaSoundOutputFactory.html" title="class in org.duckdns.hjow.swingwebpanel.media.playback"><CODE>JavaSoundOutputFactory</CODE></A>)이며
+ 호스트나 시험은 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.playback"><CODE>AudioOutputFactory</CODE></A> 로 다른 출력(예: 기록기)을 줄 수 있다. 모든 메서드는 재생기 하나의 재생 스레드가 부르며, 예외는
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutput.html#getQueuedFrames()"><CODE>getQueuedFrames()</CODE></A>(위치를 묻는 모든 스레드)와 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutput.html#close()"><CODE>close()</CODE></A>(끝낼 때 재생 스레드)이고 구현은 이들이 안전하도록 해야 한다. 출력은 멈춘
+ 상태로 만들어지며 쓴 데이터는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutput.html#start()"><CODE>start()</CODE></A> 까지 버퍼에서 기다린다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutput.html#close()">close</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Releases the output; it is not used again.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutput.html#flush()">flush</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Discards the queued data (a seek); the output keeps its started or stopped state.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutput.html#getQueuedFrames()">getQueuedFrames</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of frames that were written and not rendered yet (also the frames of a stopped output).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutput.html#start()">start</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts or resumes rendering of the queued data.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutput.html#stop()">stop</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pauses rendering; the queued data stays and continues at <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutput.html#start()"><CODE>start()</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutput.html#write(byte[], int, int)">write</A></B>(byte[]&nbsp;data,
+      int&nbsp;offset,
+      int&nbsp;length)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writes as many whole frames as fit into the buffer now and returns at once; it never blocks.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="write(byte[], int, int)"><!-- --></A><H3>
+write</H3>
+<PRE>
+int <B>write</B>(byte[]&nbsp;data,
+          int&nbsp;offset,
+          int&nbsp;length)</PRE>
+<DL>
+<DD>Writes as many whole frames as fit into the buffer now and returns at once; it never blocks. A return value of 0 means that the buffer
+ is full (the caller waits and tries again).
+ <p>
+ 지금 버퍼에 들어가는 만큼의 완전한 프레임을 쓰고 곧바로 돌아온다. 절대 블록하지 않는다. 반환값 0 은 버퍼가 가득 찼다는 뜻이다(호출자가
+ 기다렸다가 다시 시도한다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - the PCM bytes / PCM 바이트<DD><CODE>offset</CODE> - the start offset / 시작 위치<DD><CODE>length</CODE> - the number of bytes offered (a multiple of the frame size) / 제안하는 바이트 수(프레임 크기의 배수)
+<DT><B>Returns:</B><DD>the number of bytes taken (a multiple of the frame size) / 받아들인 바이트 수(프레임 크기의 배수)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getQueuedFrames()"><!-- --></A><H3>
+getQueuedFrames</H3>
+<PRE>
+long <B>getQueuedFrames</B>()</PRE>
+<DL>
+<DD>Returns the number of frames that were written and not rendered yet (also the frames of a stopped output). It is 0 when the buffer is
+ empty, which is how the player knows that the last sound has been heard. Callable from any thread.
+ <p>
+ 쓰였지만 아직 재생되지 않은 프레임 수를 반환한다(멈춘 출력의 프레임도 포함). 버퍼가 비면 0 이며 재생기는 이것으로 마지막 소리까지 들렸음을
+ 안다. 어느 스레드에서나 부를 수 있다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the queued frames / 큐에 있는 프레임 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="start()"><!-- --></A><H3>
+start</H3>
+<PRE>
+void <B>start</B>()</PRE>
+<DL>
+<DD>Starts or resumes rendering of the queued data.
+ <p>
+ 큐에 있는 데이터의 재생을 시작하거나 재개한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="stop()"><!-- --></A><H3>
+stop</H3>
+<PRE>
+void <B>stop</B>()</PRE>
+<DL>
+<DD>Pauses rendering; the queued data stays and continues at <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutput.html#start()"><CODE>start()</CODE></A>.
+ <p>
+ 재생을 멈춘다. 큐에 있는 데이터는 남고 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutput.html#start()"><CODE>start()</CODE></A> 에서 이어진다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="flush()"><!-- --></A><H3>
+flush</H3>
+<PRE>
+void <B>flush</B>()</PRE>
+<DL>
+<DD>Discards the queued data (a seek); the output keeps its started or stopped state.
+ <p>
+ 큐에 있는 데이터를 버린다(탐색). 출력은 시작/정지 상태를 유지한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="close()"><!-- --></A><H3>
+close</H3>
+<PRE>
+void <B>close</B>()</PRE>
+<DL>
+<DD>Releases the output; it is not used again. Repeated calls are harmless.
+ <p>
+ 출력을 해제한다. 다시 쓰지 않는다. 여러 번 불러도 무해하다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/AudioOutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.playback"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/playback/AudioOutput.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="AudioOutput.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

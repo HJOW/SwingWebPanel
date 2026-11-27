@@ -1,0 +1,657 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+BiquadCoefficients
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="BiquadCoefficients";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadFilter.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="BiquadCoefficients.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.webaudio.dsp</FONT>
+<BR>
+Class BiquadCoefficients</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.BiquadCoefficients</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>BiquadCoefficients</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The coefficients of a biquad filter (Web Audio API 1.13.5, "Filters Characteristics"). The transfer function is
+ <code>H(z) = (b0 + b1 z^-1 + b2 z^-2) / (1 + a1 z^-1 + a2 z^-2)</code> where the coefficients are already divided by <code>a0</code>.
+ The formulas of the eight filter types are those of the specification (the Audio EQ Cookbook). Where the formulas are not defined
+ (a frequency of 0 or of the Nyquist frequency, a Q of 0) the limit of the transfer function is used, so that automating a parameter
+ through such a value does not produce a NaN: this is the behavior of the reference implementation (Chromium, <code>biquad.cc</code>).
+ <p>
+ 쌍이차 필터의 계수(Web Audio API 1.13.5, "Filters Characteristics"). 전달 함수는 <code>H(z) = (b0 + b1 z^-1 + b2 z^-2) / (1 + a1 z^-1 + a2 z^-2)</code>
+ 이며 계수는 이미 <code>a0</code> 로 나눈 값이다. 여덟 가지 필터 종류의 식은 규격(Audio EQ Cookbook)의 식이다. 식이 정의되지 않는 곳(주파수 0 또는
+ 나이퀴스트 주파수, Q 0)에서는 전달 함수의 극한을 써서 파라미터를 그 값 위로 자동화해도 NaN 이 생기지 않게 한다: 참조 구현(Chromium,
+ <code>biquad.cc</code>)의 동작이다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html#a1">a1</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The coefficient <code>a1</code> divided by <code>a0</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html#a2">a2</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The coefficient <code>a2</code> divided by <code>a0</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html#ALLPASS">ALLPASS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filter type: all-pass.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html#b0">b0</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The coefficient <code>b0</code> divided by <code>a0</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html#b1">b1</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The coefficient <code>b1</code> divided by <code>a0</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html#b2">b2</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The coefficient <code>b2</code> divided by <code>a0</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html#BANDPASS">BANDPASS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filter type: band-pass.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html#HIGHPASS">HIGHPASS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filter type: high-pass (the <code>Q</code> is in dB).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html#HIGHSHELF">HIGHSHELF</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filter type: high shelf.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html#LOWPASS">LOWPASS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filter type: low-pass (the <code>Q</code> is in dB).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html#LOWSHELF">LOWSHELF</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filter type: low shelf.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html#NOTCH">NOTCH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filter type: notch.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html#PEAKING">PEAKING</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filter type: peaking.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html#BiquadCoefficients()">BiquadCoefficients</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the coefficients of a filter that passes the signal unchanged.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html#compute(int, double, double, double)">compute</A></B>(int&nbsp;type,
+        double&nbsp;freq,
+        double&nbsp;q,
+        double&nbsp;gainDb)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Computes the coefficients of a filter.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html#copyFrom(org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.BiquadCoefficients)">copyFrom</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp">BiquadCoefficients</A>&nbsp;other)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Copies the coefficients of another filter.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html#response(double, double[])">response</A></B>(double&nbsp;normalizedFrequency,
+         double[]&nbsp;out)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Computes the complex frequency response at a normalized frequency.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html#tailFrames(long)">tailFrames</A></B>(long&nbsp;maxFrames)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Estimates the number of frames after which the response of the filter to a silent input has decayed below the threshold of 16 bit
+ audio, from the radius of the poles.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="LOWPASS"><!-- --></A><H3>
+LOWPASS</H3>
+<PRE>
+public static final int <B>LOWPASS</B></PRE>
+<DL>
+<DD>Filter type: low-pass (the <code>Q</code> is in dB).
+ <p>
+ 필터 종류: 저역 통과(<code>Q</code> 는 dB).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.BiquadCoefficients.LOWPASS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="HIGHPASS"><!-- --></A><H3>
+HIGHPASS</H3>
+<PRE>
+public static final int <B>HIGHPASS</B></PRE>
+<DL>
+<DD>Filter type: high-pass (the <code>Q</code> is in dB).
+ <p>
+ 필터 종류: 고역 통과(<code>Q</code> 는 dB).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.BiquadCoefficients.HIGHPASS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BANDPASS"><!-- --></A><H3>
+BANDPASS</H3>
+<PRE>
+public static final int <B>BANDPASS</B></PRE>
+<DL>
+<DD>Filter type: band-pass.
+ <p>
+ 필터 종류: 대역 통과.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.BiquadCoefficients.BANDPASS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LOWSHELF"><!-- --></A><H3>
+LOWSHELF</H3>
+<PRE>
+public static final int <B>LOWSHELF</B></PRE>
+<DL>
+<DD>Filter type: low shelf.
+ <p>
+ 필터 종류: 저역 선반.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.BiquadCoefficients.LOWSHELF">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="HIGHSHELF"><!-- --></A><H3>
+HIGHSHELF</H3>
+<PRE>
+public static final int <B>HIGHSHELF</B></PRE>
+<DL>
+<DD>Filter type: high shelf.
+ <p>
+ 필터 종류: 고역 선반.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.BiquadCoefficients.HIGHSHELF">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PEAKING"><!-- --></A><H3>
+PEAKING</H3>
+<PRE>
+public static final int <B>PEAKING</B></PRE>
+<DL>
+<DD>Filter type: peaking.
+ <p>
+ 필터 종류: 피킹.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.BiquadCoefficients.PEAKING">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="NOTCH"><!-- --></A><H3>
+NOTCH</H3>
+<PRE>
+public static final int <B>NOTCH</B></PRE>
+<DL>
+<DD>Filter type: notch.
+ <p>
+ 필터 종류: 노치.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.BiquadCoefficients.NOTCH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ALLPASS"><!-- --></A><H3>
+ALLPASS</H3>
+<PRE>
+public static final int <B>ALLPASS</B></PRE>
+<DL>
+<DD>Filter type: all-pass.
+ <p>
+ 필터 종류: 전역 통과.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.BiquadCoefficients.ALLPASS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="b0"><!-- --></A><H3>
+b0</H3>
+<PRE>
+public double <B>b0</B></PRE>
+<DL>
+<DD>The coefficient <code>b0</code> divided by <code>a0</code>.
+ <p>
+ <code>a0</code> 로 나눈 계수 <code>b0</code>.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="b1"><!-- --></A><H3>
+b1</H3>
+<PRE>
+public double <B>b1</B></PRE>
+<DL>
+<DD>The coefficient <code>b1</code> divided by <code>a0</code>.
+ <p>
+ <code>a0</code> 로 나눈 계수 <code>b1</code>.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="b2"><!-- --></A><H3>
+b2</H3>
+<PRE>
+public double <B>b2</B></PRE>
+<DL>
+<DD>The coefficient <code>b2</code> divided by <code>a0</code>.
+ <p>
+ <code>a0</code> 로 나눈 계수 <code>b2</code>.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="a1"><!-- --></A><H3>
+a1</H3>
+<PRE>
+public double <B>a1</B></PRE>
+<DL>
+<DD>The coefficient <code>a1</code> divided by <code>a0</code>.
+ <p>
+ <code>a0</code> 로 나눈 계수 <code>a1</code>.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="a2"><!-- --></A><H3>
+a2</H3>
+<PRE>
+public double <B>a2</B></PRE>
+<DL>
+<DD>The coefficient <code>a2</code> divided by <code>a0</code>.
+ <p>
+ <code>a0</code> 로 나눈 계수 <code>a2</code>.
+<P>
+<DL>
+</DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="BiquadCoefficients()"><!-- --></A><H3>
+BiquadCoefficients</H3>
+<PRE>
+public <B>BiquadCoefficients</B>()</PRE>
+<DL>
+<DD>Creates the coefficients of a filter that passes the signal unchanged.
+ <p>
+ 신호를 그대로 통과시키는 필터의 계수를 만든다.
+<P>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="copyFrom(org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.BiquadCoefficients)"><!-- --></A><H3>
+copyFrom</H3>
+<PRE>
+public void <B>copyFrom</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp">BiquadCoefficients</A>&nbsp;other)</PRE>
+<DL>
+<DD>Copies the coefficients of another filter.
+ <p>
+ 다른 필터의 계수를 복사한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>other</CODE> - the other coefficients / 다른 계수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="compute(int, double, double, double)"><!-- --></A><H3>
+compute</H3>
+<PRE>
+public void <B>compute</B>(int&nbsp;type,
+                    double&nbsp;freq,
+                    double&nbsp;q,
+                    double&nbsp;gainDb)</PRE>
+<DL>
+<DD>Computes the coefficients of a filter.
+ <p>
+ 필터의 계수를 계산한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - the filter type, one of the type constants / 필터 종류(종류 상수 중 하나)<DD><CODE>freq</CODE> - the frequency divided by the Nyquist frequency (1 is the Nyquist frequency), already including the detune / 나이퀴스트 주파수로 나눈
+               주파수(1 이 나이퀴스트 주파수). 디튠이 이미 반영된 값<DD><CODE>q</CODE> - the Q value (in dB for low-pass and high-pass, linear for the others) / Q 값(저역/고역 통과는 dB, 나머지는 선형)<DD><CODE>gainDb</CODE> - the gain in dB (used by the shelves and the peaking filter) / 이득(dB). 선반과 피킹 필터가 쓴다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="response(double, double[])"><!-- --></A><H3>
+response</H3>
+<PRE>
+public void <B>response</B>(double&nbsp;normalizedFrequency,
+                     double[]&nbsp;out)</PRE>
+<DL>
+<DD>Computes the complex frequency response at a normalized frequency.
+ <p>
+ 정규화된 주파수에서의 복소 주파수 응답을 계산한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>normalizedFrequency</CODE> - the frequency divided by the Nyquist frequency, from 0 to 1 / 나이퀴스트 주파수로 나눈 주파수(0 ~ 1)<DD><CODE>out</CODE> - receives the real and the imaginary part of the response / 응답의 실수부와 허수부를 받는다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="tailFrames(long)"><!-- --></A><H3>
+tailFrames</H3>
+<PRE>
+public long <B>tailFrames</B>(long&nbsp;maxFrames)</PRE>
+<DL>
+<DD>Estimates the number of frames after which the response of the filter to a silent input has decayed below the threshold of 16 bit
+ audio, from the radius of the poles. The estimate is limited to the given maximum (a filter that does not decay, because it is
+ unstable or has a pole on the unit circle, has the maximum).
+ <p>
+ 필터가 무음 입력에 대해 응답이 16비트 오디오의 문턱 아래로 줄어들기까지의 프레임 수를 극의 반지름으로 추정한다. 추정값은 주어진 최댓값으로
+ 제한된다(불안정하거나 단위원 위에 극이 있어 감쇠하지 않는 필터는 최댓값을 가진다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>maxFrames</CODE> - the largest value to return / 반환할 최댓값
+<DT><B>Returns:</B><DD>the tail time in frames / 꼬리 시간(프레임)</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadFilter.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="BiquadCoefficients.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

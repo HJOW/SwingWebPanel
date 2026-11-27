@@ -1,0 +1,401 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+CanvasBindings
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="CanvasBindings";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBitmap.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBindings.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CanvasBindings.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.host.canvas</FONT>
+<BR>
+Class CanvasBindings</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.host.canvas.CanvasBindings</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/render/CanvasSource.html" title="interface in org.duckdns.hjow.swingwebpanel.render">CanvasSource</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public final class <B>CanvasBindings</B><DT>extends java.lang.Object<DT>implements <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/render/CanvasSource.html" title="interface in org.duckdns.hjow.swingwebpanel.render">CanvasSource</A></DL>
+</PRE>
+
+<P>
+The canvas of one page (plan items P20-05, P00-08): it installs the script interface of <code>HTMLCanvasElement</code>
+ (<code>width</code>, <code>height</code>, <code>getContext</code>, <code>toDataURL</code>, <code>toBlob</code>), <code>CanvasRenderingContext2D</code>,
+ <code>CanvasGradient</code>, <code>CanvasPattern</code>, <code>TextMetrics</code> and <code>ImageData</code>, owns the <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><CODE>CanvasSurface</CODE></A> of every
+ canvas element that a script touched, and answers the renderer as a <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/render/CanvasSource.html" title="interface in org.duckdns.hjow.swingwebpanel.render"><CODE>CanvasSource</CODE></A>. <code>getContext("2d")</code> returns the one
+ context of the canvas; every other context type (<code>webgl</code>, <code>webgl2</code>, <code>experimental-webgl</code>, <code>webgpu</code>,
+ <code>bitmaprenderer</code>, unknown names) returns null, no WebGL or WebGPU interface object is defined and <code>navigator.gpu</code> does not
+ exist, because 3D acceleration is not supported by this project. Setting the <code>width</code> or <code>height</code> attribute, even to the
+ same value, replaces the bitmap with a transparent one and resets the context. Reading pixels back from a canvas that drew cross-origin
+ images without permission (<code>getImageData</code>, <code>toDataURL</code>, <code>toBlob</code>) throws <code>SecurityError</code>.
+ <p>
+ 한 페이지의 캔버스(계획 P20-05, P00-08): <code>HTMLCanvasElement</code>(<code>width</code>, <code>height</code>, <code>getContext</code>,
+ <code>toDataURL</code>, <code>toBlob</code>), <code>CanvasRenderingContext2D</code>, <code>CanvasGradient</code>, <code>CanvasPattern</code>,
+ <code>TextMetrics</code>, <code>ImageData</code> 의 스크립트 인터페이스를 설치하고, 스크립트가 건드린 모든 canvas 요소의 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasSurface.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><CODE>CanvasSurface</CODE></A> 를
+ 소유하며, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/render/CanvasSource.html" title="interface in org.duckdns.hjow.swingwebpanel.render"><CODE>CanvasSource</CODE></A> 로서 렌더러에 답한다. <code>getContext("2d")</code> 는 캔버스의 하나뿐인 컨텍스트를 반환하고, 다른 모든 컨텍스트 형식
+ (<code>webgl</code>, <code>webgl2</code>, <code>experimental-webgl</code>, <code>webgpu</code>, <code>bitmaprenderer</code>, 모르는 이름)은 null 을
+ 반환한다. 이 프로젝트는 3D 가속을 지원하지 않으므로 WebGL 이나 WebGPU 인터페이스 객체도 <code>navigator.gpu</code> 도 정의하지 않는다.
+ <code>width</code> 나 <code>height</code> 속성을 (같은 값이라도) 지정하면 비트맵이 투명한 새것으로 바뀌고 컨텍스트가 초기화된다. 허락 없이 다른 오리진의
+ 이미지를 그린 캔버스에서 화소를 읽어 오면(<code>getImageData</code>, <code>toDataURL</code>, <code>toBlob</code>) <code>SecurityError</code> 를 던진다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBindings.html#CanvasBindings(org.duckdns.hjow.swingwebpanel.js.host.canvas.CanvasHost)">CanvasBindings</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasHost.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.canvas">CanvasHost</A>&nbsp;host)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the canvas bindings of a page; the realm and the bridge of the page may not exist yet, they are read by <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBindings.html#install(org.duckdns.hjow.swingwebpanel.js.JsObject)"><CODE>install(org.duckdns.hjow.swingwebpanel.js.JsObject)</CODE></A>.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBindings.html#dispose()">dispose</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Releases every bitmap and context; the bindings draw nothing afterwards.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/DecodedImage.html" title="class in org.duckdns.hjow.swingwebpanel.media.image">DecodedImage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBindings.html#getCanvasImage(org.duckdns.hjow.swingwebpanel.dom.Element)">getCanvasImage</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;canvas)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the snapshot that the renderer paints.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBindings.html#install(org.duckdns.hjow.swingwebpanel.js.JsObject)">install</A></B>(org.duckdns.hjow.swingwebpanel.js.JsObject&nbsp;g)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Installs the interfaces, the members of the canvas element and the document listener.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBindings.html#installShared(org.duckdns.hjow.swingwebpanel.js.JsObject)">installShared</A></B>(org.duckdns.hjow.swingwebpanel.js.JsObject&nbsp;g)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Installs what every script context that has canvases needs, a page and a worker alike: the interfaces <code>CanvasRenderingContext2D</code>,
+ <code>OffscreenCanvasRenderingContext2D</code>, <code>CanvasGradient</code>, <code>CanvasPattern</code>, <code>TextMetrics</code>,
+ <code>ImageData</code>, <code>Path2D</code>, <code>OffscreenCanvas</code> and <code>ImageBitmap</code> and the global function
+ <code>createImageBitmap()</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBindings.html#surfaceCount()">surfaceCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns how many canvases have a surface (for tests).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="CanvasBindings(org.duckdns.hjow.swingwebpanel.js.host.canvas.CanvasHost)"><!-- --></A><H3>
+CanvasBindings</H3>
+<PRE>
+public <B>CanvasBindings</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasHost.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.canvas">CanvasHost</A>&nbsp;host)</PRE>
+<DL>
+<DD>Creates the canvas bindings of a page; the realm and the bridge of the page may not exist yet, they are read by <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBindings.html#install(org.duckdns.hjow.swingwebpanel.js.JsObject)"><CODE>install(org.duckdns.hjow.swingwebpanel.js.JsObject)</CODE></A>.
+ <p>
+ 페이지의 캔버스 연결을 만든다. 페이지의 realm 과 브리지는 아직 없을 수 있으며 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBindings.html#install(org.duckdns.hjow.swingwebpanel.js.JsObject)"><CODE>install(org.duckdns.hjow.swingwebpanel.js.JsObject)</CODE></A> 이 읽는다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>host</CODE> - the page / 페이지</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getCanvasImage(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+getCanvasImage</H3>
+<PRE>
+public <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/image/DecodedImage.html" title="class in org.duckdns.hjow.swingwebpanel.media.image">DecodedImage</A> <B>getCanvasImage</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;canvas)</PRE>
+<DL>
+<DD>Returns the snapshot that the renderer paints.
+ <p>
+ 렌더러가 그리는 스냅샷을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/render/CanvasSource.html#getCanvasImage(org.duckdns.hjow.swingwebpanel.dom.Element)">getCanvasImage</A></CODE> in interface <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/render/CanvasSource.html" title="interface in org.duckdns.hjow.swingwebpanel.render">CanvasSource</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>canvas</CODE> - the <code>canvas</code> element / <code>canvas</code> 요소
+<DT><B>Returns:</B><DD>the snapshot or null / 스냅샷 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispose()"><!-- --></A><H3>
+dispose</H3>
+<PRE>
+public void <B>dispose</B>()</PRE>
+<DL>
+<DD>Releases every bitmap and context; the bindings draw nothing afterwards.
+ <p>
+ 모든 비트맵과 컨텍스트를 해제한다. 그 뒤 연결은 아무것도 그리지 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="surfaceCount()"><!-- --></A><H3>
+surfaceCount</H3>
+<PRE>
+public int <B>surfaceCount</B>()</PRE>
+<DL>
+<DD>Returns how many canvases have a surface (for tests).
+ <p>
+ 표면을 가진 캔버스의 수를 반환한다(시험용).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number / 개수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="install(org.duckdns.hjow.swingwebpanel.js.JsObject)"><!-- --></A><H3>
+install</H3>
+<PRE>
+public void <B>install</B>(org.duckdns.hjow.swingwebpanel.js.JsObject&nbsp;g)</PRE>
+<DL>
+<DD>Installs the interfaces, the members of the canvas element and the document listener.
+ <p>
+ 인터페이스, 캔버스 요소의 멤버, 문서 리스너를 설치한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>g</CODE> - the global object / 전역 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="installShared(org.duckdns.hjow.swingwebpanel.js.JsObject)"><!-- --></A><H3>
+installShared</H3>
+<PRE>
+public void <B>installShared</B>(org.duckdns.hjow.swingwebpanel.js.JsObject&nbsp;g)</PRE>
+<DL>
+<DD>Installs what every script context that has canvases needs, a page and a worker alike: the interfaces <code>CanvasRenderingContext2D</code>,
+ <code>OffscreenCanvasRenderingContext2D</code>, <code>CanvasGradient</code>, <code>CanvasPattern</code>, <code>TextMetrics</code>,
+ <code>ImageData</code>, <code>Path2D</code>, <code>OffscreenCanvas</code> and <code>ImageBitmap</code> and the global function
+ <code>createImageBitmap()</code>. The <code>canvas</code> element is not part of it (a worker has no elements).
+ <p>
+ 캔버스를 가진 모든 스크립트 문맥(페이지와 worker)이 필요로 하는 것을 설치한다: 인터페이스 <code>CanvasRenderingContext2D</code>,
+ <code>OffscreenCanvasRenderingContext2D</code>, <code>CanvasGradient</code>, <code>CanvasPattern</code>, <code>TextMetrics</code>, <code>ImageData</code>,
+ <code>Path2D</code>, <code>OffscreenCanvas</code>, <code>ImageBitmap</code> 과 전역 함수 <code>createImageBitmap()</code>. <code>canvas</code> 요소는 여기에 속하지
+ 않는다(worker 에는 요소가 없다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>g</CODE> - the global object / 전역 객체</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBitmap.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.canvas"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/canvas/CanvasBindings.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CanvasBindings.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

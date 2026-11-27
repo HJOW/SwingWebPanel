@@ -1,0 +1,537 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+DynamicsCompressorKernel
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="DynamicsCompressorKernel";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/ConvolutionKernel.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/Fft.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/DynamicsCompressorKernel.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="DynamicsCompressorKernel.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.webaudio.dsp</FONT>
+<BR>
+Class DynamicsCompressorKernel</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.DynamicsCompressorKernel</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>DynamicsCompressorKernel</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The signal processing of a dynamics compressor (Web Audio API 1.19, section 1.19.4): a look-ahead pre-delay of 6 ms, a peak detector
+ on the undelayed input that is linked across the channels, the static compression curve with a soft knee, an envelope with an attack
+ and an adaptive release, a fixed makeup gain, and the metering of the gain reduction.
+ <p>
+ The specification fixes the structure and the constraints of the curves and leaves their shape to the implementation. This class
+ follows the design of the Blink implementation (Chromium <code>third_party/blink/renderer/platform/audio/dynamics_compressor.cc</code>,
+ commit 8d101571406d3ef5bda7446b34568192ad99b3b5, read 2026-11-22, BSD license; the notice above is kept because the structure, the
+ constants of the release polynomial and the equations are carried over): an exponential knee whose parameter <code>k</code> is chosen
+ so that the slope after the knee is <code>1 / ratio</code>, a linear segment in decibels after the knee, an attack rate that
+ depends on the largest gain difference of the attack, a release rate from a fourth-order polynomial of the gain difference (the
+ adaptive release zones), the pre-warp by <code>asin</code> and <code>sin</code>, and the makeup gain
+ <code>(1 / curve(1)) ^ 0.6</code>.
+ <p>
+ 다이내믹 컴프레서의 신호 처리(Web Audio API 1.19, 1.19.4절): 6 ms 의 선행 지연, 채널을 묶은 지연 전 입력의 피크 검출기, 부드러운 무릎이 있는 정적 압축
+ 곡선, 어택과 적응형 릴리즈가 있는 엔벨로프, 고정 메이크업 게인, 이득 감소 측정.
+ <p>
+ 규격은 구조와 곡선의 제약만 정하고 곡선 모양은 구현에 맡긴다. 이 클래스는 Blink 구현(Chromium
+ <code>third_party/blink/renderer/platform/audio/dynamics_compressor.cc</code>, 커밋 8d101571406d3ef5bda7446b34568192ad99b3b5, 2026-11-22 열람, BSD
+ 라이선스. 구조, 릴리즈 다항식의 상수, 식을 가져왔으므로 위의 고지를 유지한다)의 설계를 따른다. 무릎 뒤 기울기가 <code>1 / ratio</code> 가 되도록 매개변수
+ <code>k</code> 를 고르는 지수 무릎, 무릎 뒤의 데시벨 직선, 어택의 최대 이득 차이에 따른 어택 속도, 이득 차이의 4차 다항식으로 구하는 릴리즈 속도(적응형 릴리즈
+ 구간), <code>asin</code> 과 <code>sin</code> 으로 하는 사전 왜곡, 메이크업 게인 <code>(1 / curve(1)) ^ 0.6</code> 을 따른다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/DynamicsCompressorKernel.html#METERING_RELEASE_TIME_CONSTANT">METERING_RELEASE_TIME_CONSTANT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The time constant of the metering release in seconds: the metered reduction hits peaks at once and recovers with this constant.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/DynamicsCompressorKernel.html#PRE_DELAY_SECONDS">PRE_DELAY_SECONDS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The look-ahead delay in seconds.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/DynamicsCompressorKernel.html#DynamicsCompressorKernel(double, int)">DynamicsCompressorKernel</A></B>(double&nbsp;sampleRate,
+                         int&nbsp;channels)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a compressor with an empty state.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/DynamicsCompressorKernel.html#curve(double)">curve</A></B>(double&nbsp;x)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Applies the static compression curve (as built by <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/DynamicsCompressorKernel.html#setStaticCurve(double, double, double)"><CODE>setStaticCurve(double, double, double)</CODE></A>) to a linear amplitude.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/DynamicsCompressorKernel.html#getMakeupGain()">getMakeupGain</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the makeup gain of the current static curve: <code>(1 / curve(1)) ^ 0.6</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/DynamicsCompressorKernel.html#getPreDelayFrames()">getPreDelayFrames</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of frames of the look-ahead delay (the latency of the node).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/DynamicsCompressorKernel.html#getReduction()">getReduction</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the gain reduction in decibels that was metered at the end of the last block (0 or less).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/DynamicsCompressorKernel.html#getTailFrames()">getTailFrames</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of frames after which the metered reduction has fallen to about 0.7 percent of its last value (five time
+ constants of the metering): the tail time of the node together with the pre-delay.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/DynamicsCompressorKernel.html#process(float[][], float[][], int, int, double, double, double, double, double)">process</A></B>(float[][]&nbsp;in,
+        float[][]&nbsp;out,
+        int&nbsp;channels,
+        int&nbsp;frames,
+        double&nbsp;thresholdDb,
+        double&nbsp;kneeDb,
+        double&nbsp;newRatio,
+        double&nbsp;attackTime,
+        double&nbsp;releaseTime)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Compresses a block.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/DynamicsCompressorKernel.html#reset()">reset</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clears the state: the pre-delay lines, the detector, the gain and the metering.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/DynamicsCompressorKernel.html#setStaticCurve(double, double, double)">setStaticCurve</A></B>(double&nbsp;thresholdDb,
+               double&nbsp;kneeDb,
+               double&nbsp;newRatio)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Builds the static curve for a threshold, a knee and a ratio (only when one of them changed) and returns the exponent of the knee.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="PRE_DELAY_SECONDS"><!-- --></A><H3>
+PRE_DELAY_SECONDS</H3>
+<PRE>
+public static final double <B>PRE_DELAY_SECONDS</B></PRE>
+<DL>
+<DD>The look-ahead delay in seconds.
+ <p>
+ 선행 지연(초).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.DynamicsCompressorKernel.PRE_DELAY_SECONDS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="METERING_RELEASE_TIME_CONSTANT"><!-- --></A><H3>
+METERING_RELEASE_TIME_CONSTANT</H3>
+<PRE>
+public static final double <B>METERING_RELEASE_TIME_CONSTANT</B></PRE>
+<DL>
+<DD>The time constant of the metering release in seconds: the metered reduction hits peaks at once and recovers with this constant.
+ <p>
+ 측정 릴리즈의 시간 상수(초): 측정한 감소량은 피크를 즉시 따라가고 이 상수로 회복한다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.DynamicsCompressorKernel.METERING_RELEASE_TIME_CONSTANT">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="DynamicsCompressorKernel(double, int)"><!-- --></A><H3>
+DynamicsCompressorKernel</H3>
+<PRE>
+public <B>DynamicsCompressorKernel</B>(double&nbsp;sampleRate,
+                                int&nbsp;channels)</PRE>
+<DL>
+<DD>Creates a compressor with an empty state.
+ <p>
+ 상태가 빈 컴프레서를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>sampleRate</CODE> - the sample rate in Hz / 샘플링 주파수(Hz)<DD><CODE>channels</CODE> - the largest number of channels, 1 or 2 / 최대 채널 수(1 또는 2)</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getPreDelayFrames()"><!-- --></A><H3>
+getPreDelayFrames</H3>
+<PRE>
+public int <B>getPreDelayFrames</B>()</PRE>
+<DL>
+<DD>Returns the number of frames of the look-ahead delay (the latency of the node).
+ <p>
+ 선행 지연의 프레임 수(노드의 지연)를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the pre-delay in frames / 선행 지연(프레임)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTailFrames()"><!-- --></A><H3>
+getTailFrames</H3>
+<PRE>
+public int <B>getTailFrames</B>()</PRE>
+<DL>
+<DD>Returns the number of frames after which the metered reduction has fallen to about 0.7 percent of its last value (five time
+ constants of the metering): the tail time of the node together with the pre-delay.
+ <p>
+ 측정한 감소량이 마지막 값의 약 0.7 퍼센트로 줄어드는 프레임 수(측정 시간 상수의 다섯 배)를 반환한다. 선행 지연과 함께 노드의 꼬리 시간이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the tail in frames / 꼬리(프레임)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getReduction()"><!-- --></A><H3>
+getReduction</H3>
+<PRE>
+public double <B>getReduction</B>()</PRE>
+<DL>
+<DD>Returns the gain reduction in decibels that was metered at the end of the last block (0 or less).
+ <p>
+ 마지막 블록 끝에서 측정한 이득 감소량(dB, 0 이하)을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the reduction / 감소량</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="reset()"><!-- --></A><H3>
+reset</H3>
+<PRE>
+public void <B>reset</B>()</PRE>
+<DL>
+<DD>Clears the state: the pre-delay lines, the detector, the gain and the metering.
+ <p>
+ 상태를 지운다: 선행 지연선, 검출기, 게인, 측정.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setStaticCurve(double, double, double)"><!-- --></A><H3>
+setStaticCurve</H3>
+<PRE>
+public double <B>setStaticCurve</B>(double&nbsp;thresholdDb,
+                             double&nbsp;kneeDb,
+                             double&nbsp;newRatio)</PRE>
+<DL>
+<DD>Builds the static curve for a threshold, a knee and a ratio (only when one of them changed) and returns the exponent of the knee.
+ <p>
+ 임계값, 무릎, 비율에 대한 정적 곡선을 만들고(그중 하나가 바뀐 경우에만) 무릎 지수를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>thresholdDb</CODE> - the threshold in decibels / 임계값(dB)<DD><CODE>kneeDb</CODE> - the knee in decibels / 무릎(dB)<DD><CODE>newRatio</CODE> - the ratio / 비율
+<DT><B>Returns:</B><DD>the exponent of the knee / 무릎 지수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="curve(double)"><!-- --></A><H3>
+curve</H3>
+<PRE>
+public double <B>curve</B>(double&nbsp;x)</PRE>
+<DL>
+<DD>Applies the static compression curve (as built by <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/DynamicsCompressorKernel.html#setStaticCurve(double, double, double)"><CODE>setStaticCurve(double, double, double)</CODE></A>) to a linear amplitude.
+ <p>
+ (<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/DynamicsCompressorKernel.html#setStaticCurve(double, double, double)"><CODE>setStaticCurve(double, double, double)</CODE></A> 로 만든) 정적 압축 곡선을 선형 진폭에 적용한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - the input amplitude, 0 or more / 입력 진폭(0 이상)
+<DT><B>Returns:</B><DD>the output amplitude / 출력 진폭</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMakeupGain()"><!-- --></A><H3>
+getMakeupGain</H3>
+<PRE>
+public double <B>getMakeupGain</B>()</PRE>
+<DL>
+<DD>Returns the makeup gain of the current static curve: <code>(1 / curve(1)) ^ 0.6</code>.
+ <p>
+ 현재 정적 곡선의 메이크업 게인 <code>(1 / curve(1)) ^ 0.6</code> 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the gain / 게인</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="process(float[][], float[][], int, int, double, double, double, double, double)"><!-- --></A><H3>
+process</H3>
+<PRE>
+public void <B>process</B>(float[][]&nbsp;in,
+                    float[][]&nbsp;out,
+                    int&nbsp;channels,
+                    int&nbsp;frames,
+                    double&nbsp;thresholdDb,
+                    double&nbsp;kneeDb,
+                    double&nbsp;newRatio,
+                    double&nbsp;attackTime,
+                    double&nbsp;releaseTime)</PRE>
+<DL>
+<DD>Compresses a block. The channels of the input are read for every frame (the detector uses the largest absolute value of all
+ channels, so every channel gets the same gain), and the output has the same number of channels.
+ <p>
+ 블록을 압축한다. 프레임마다 입력의 채널을 읽고(검출기는 모든 채널의 절댓값 최댓값을 쓰므로 모든 채널이 같은 게인을 받는다) 출력은 같은 채널 수이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>in</CODE> - the input channels / 입력 채널<DD><CODE>out</CODE> - the output channels, as many as the input / 출력 채널(입력과 같은 수)<DD><CODE>channels</CODE> - the number of channels, at most the number given to the constructor / 채널 수(생성자에 준 수 이하)<DD><CODE>frames</CODE> - the number of frames / 프레임 수<DD><CODE>thresholdDb</CODE> - the threshold in decibels / 임계값(dB)<DD><CODE>kneeDb</CODE> - the knee in decibels / 무릎(dB)<DD><CODE>newRatio</CODE> - the ratio / 비율<DD><CODE>attackTime</CODE> - the attack time in seconds / 어택 시간(초)<DD><CODE>releaseTime</CODE> - the release time in seconds / 릴리즈 시간(초)</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/ConvolutionKernel.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/Fft.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/DynamicsCompressorKernel.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="DynamicsCompressorKernel.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,663 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ControlDisplay
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ControlDisplay";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FileEntry.html" title="class in org.duckdns.hjow.swingwebpanel.dom.html"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ControlDisplay.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom.html</FONT>
+<BR>
+Class ControlDisplay</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.dom.html.ControlDisplay</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ControlDisplay</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Read-only helpers that tell the renderer and the layout what a form control shows: which kind of control an element is, the label of a
+ button, the text of a text field (the placeholder when it is empty), the labels of the options of a <code>select</code> element. They only
+ read the live state of the controls, so they must be called on the document thread (or on a thread that owns the document).
+ <p>
+ 렌더러와 레이아웃에 폼 컨트롤이 무엇을 보여 주는지 알려 주는 읽기 전용 도우미: 요소가 어떤 종류의 컨트롤인지, 버튼의 라벨, 텍스트 필드의 글(비어 있으면
+ placeholder), <code>select</code> 요소의 option 라벨. 컨트롤의 살아 있는 상태만 읽으므로 문서 스레드(또는 문서를 소유한 스레드)에서 불러야 한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#METER">METER</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The kind of a <code>meter</code> element. / <code>meter</code> 요소의 종류.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#PROGRESS">PROGRESS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The kind of a <code>progress</code> element. / <code>progress</code> 요소의 종류.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#SELECT">SELECT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The kind of a <code>select</code> element. / <code>select</code> 요소의 종류.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#TEXTAREA">TEXTAREA</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The kind of a <code>textarea</code> element. / <code>textarea</code> 요소의 종류.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#buttonLabel(org.duckdns.hjow.swingwebpanel.dom.Element)">buttonLabel</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;input)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the label of a button-like <code>input</code>: its <code>value</code> attribute, or the default label of the type
+ (<code>Submit</code>, <code>Reset</code>), or the empty string.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#fieldText(org.duckdns.hjow.swingwebpanel.dom.Element)">fieldText</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text that a text field or a textarea shows for its value: the value, with every character of a password replaced by a
+ bullet.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#isDisabled(org.duckdns.hjow.swingwebpanel.dom.Element)">isDisabled</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a form control is disabled (by its own <code>disabled</code> attribute or by a disabled <code>fieldset</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#isListBox(org.duckdns.hjow.swingwebpanel.dom.Element)">isListBox</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether an element is a list box (a <code>select</code> element with the <code>multiple</code> attribute or a display size above 1).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#isPushButton(java.lang.String)">isPushButton</A></B>(java.lang.String&nbsp;kind)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether an input type is shown as a push button (<code>button</code>, <code>submit</code>, <code>reset</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#isReadOnly(org.duckdns.hjow.swingwebpanel.dom.Element)">isReadOnly</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the user cannot edit the text of a text field or textarea because of its <code>readonly</code> attribute.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#isTextField(java.lang.String)">isTextField</A></B>(java.lang.String&nbsp;kind)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether an input type is shown as a one-line text field (the text types, the number and date types and the others that the user
+ edits as text).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#kind(org.duckdns.hjow.swingwebpanel.dom.Element)">kind</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the kind of control of an element: the (normalized) <code>type</code> of an <code>input</code> element
+ (<code>text</code>, <code>checkbox</code>, <code>submit</code> ...), or <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#TEXTAREA"><CODE>TEXTAREA</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#SELECT"><CODE>SELECT</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#PROGRESS"><CODE>PROGRESS</CODE></A>,
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#METER"><CODE>METER</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#maxLength(org.duckdns.hjow.swingwebpanel.dom.Element)">maxLength</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <code>maxlength</code> of a text field or textarea, or -1 if it has none.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#optionLabels(org.duckdns.hjow.swingwebpanel.dom.Element)">optionLabels</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;select)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the labels of the options of a select element in document order (the labels of the options inside option groups included; the
+ labels of the groups themselves are not in the list).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#placeholder(org.duckdns.hjow.swingwebpanel.dom.Element)">placeholder</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the placeholder that a text field or textarea shows while it is empty, or the empty string if it shows none.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#rowElements(org.duckdns.hjow.swingwebpanel.dom.Element)">rowElements</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;select)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the rows of a select element in the order in which a list shows them: an <code>optgroup</code> element (a label row) is followed
+ by its <code>option</code> children, and <code>option</code> children of the select element itself stand alone.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#sample(org.duckdns.hjow.swingwebpanel.dom.Element)">sample</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a sample of the text that the control may show, for choosing a font that can display it: the value, the placeholder, the label of a
+ button, the option labels of a select element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#selectedLabel(org.duckdns.hjow.swingwebpanel.dom.Element)">selectedLabel</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;select)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the label of the selected option of a drop-down select element (the first selected option), or the empty string if none is
+ selected.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="TEXTAREA"><!-- --></A><H3>
+TEXTAREA</H3>
+<PRE>
+public static final java.lang.String <B>TEXTAREA</B></PRE>
+<DL>
+<DD>The kind of a <code>textarea</code> element. / <code>textarea</code> 요소의 종류.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.html.ControlDisplay.TEXTAREA">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SELECT"><!-- --></A><H3>
+SELECT</H3>
+<PRE>
+public static final java.lang.String <B>SELECT</B></PRE>
+<DL>
+<DD>The kind of a <code>select</code> element. / <code>select</code> 요소의 종류.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.html.ControlDisplay.SELECT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PROGRESS"><!-- --></A><H3>
+PROGRESS</H3>
+<PRE>
+public static final java.lang.String <B>PROGRESS</B></PRE>
+<DL>
+<DD>The kind of a <code>progress</code> element. / <code>progress</code> 요소의 종류.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.html.ControlDisplay.PROGRESS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="METER"><!-- --></A><H3>
+METER</H3>
+<PRE>
+public static final java.lang.String <B>METER</B></PRE>
+<DL>
+<DD>The kind of a <code>meter</code> element. / <code>meter</code> 요소의 종류.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.html.ControlDisplay.METER">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="kind(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+kind</H3>
+<PRE>
+public static java.lang.String <B>kind</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Returns the kind of control of an element: the (normalized) <code>type</code> of an <code>input</code> element
+ (<code>text</code>, <code>checkbox</code>, <code>submit</code> ...), or <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#TEXTAREA"><CODE>TEXTAREA</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#SELECT"><CODE>SELECT</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#PROGRESS"><CODE>PROGRESS</CODE></A>,
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#METER"><CODE>METER</CODE></A>. Other elements, including <code>button</code>, give null.
+ <p>
+ 요소의 컨트롤 종류를 반환한다: <code>input</code> 요소의 (정규화된) <code>type</code>(<code>text</code>, <code>checkbox</code>,
+ <code>submit</code> 등), 또는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#TEXTAREA"><CODE>TEXTAREA</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#SELECT"><CODE>SELECT</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#PROGRESS"><CODE>PROGRESS</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#METER"><CODE>METER</CODE></A>. <code>button</code> 을 비롯한 다른 요소는 null.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element, may be null / 요소. null 가능
+<DT><B>Returns:</B><DD>the kind or null / 종류 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isTextField(java.lang.String)"><!-- --></A><H3>
+isTextField</H3>
+<PRE>
+public static boolean <B>isTextField</B>(java.lang.String&nbsp;kind)</PRE>
+<DL>
+<DD>Tells whether an input type is shown as a one-line text field (the text types, the number and date types and the others that the user
+ edits as text).
+ <p>
+ input 종류가 한 줄 텍스트 필드로 보이는지 알려 준다(텍스트 종류, 숫자와 날짜 종류, 글로 편집하는 나머지).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>kind</CODE> - the kind from <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#kind(org.duckdns.hjow.swingwebpanel.dom.Element)"><CODE>kind(Element)</CODE></A> / <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#kind(org.duckdns.hjow.swingwebpanel.dom.Element)"><CODE>kind(Element)</CODE></A> 의 종류
+<DT><B>Returns:</B><DD>true for a text field / 텍스트 필드이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isPushButton(java.lang.String)"><!-- --></A><H3>
+isPushButton</H3>
+<PRE>
+public static boolean <B>isPushButton</B>(java.lang.String&nbsp;kind)</PRE>
+<DL>
+<DD>Tells whether an input type is shown as a push button (<code>button</code>, <code>submit</code>, <code>reset</code>).
+ <p>
+ input 종류가 누름 단추로 보이는지 알려 준다(<code>button</code>, <code>submit</code>, <code>reset</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>kind</CODE> - the kind / 종류
+<DT><B>Returns:</B><DD>true for a push button / 누름 단추이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isListBox(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+isListBox</H3>
+<PRE>
+public static boolean <B>isListBox</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Tells whether an element is a list box (a <code>select</code> element with the <code>multiple</code> attribute or a display size above 1).
+ <p>
+ 요소가 리스트 박스(<code>multiple</code> 속성이 있거나 표시 크기가 1 을 넘는 <code>select</code> 요소)인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>true for a list box / 리스트 박스이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="buttonLabel(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+buttonLabel</H3>
+<PRE>
+public static java.lang.String <B>buttonLabel</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;input)</PRE>
+<DL>
+<DD>Returns the label of a button-like <code>input</code>: its <code>value</code> attribute, or the default label of the type
+ (<code>Submit</code>, <code>Reset</code>), or the empty string. An image button shows its <code>alt</code> text.
+ <p>
+ 단추처럼 보이는 <code>input</code> 의 라벨을 반환한다: <code>value</code> 속성, 없으면 종류의 기본 라벨(<code>Submit</code>, <code>Reset</code>),
+ 그것도 없으면 빈 문자열. 이미지 단추는 <code>alt</code> 글을 보여 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>input</CODE> - the input element / input 요소
+<DT><B>Returns:</B><DD>the label / 라벨</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fieldText(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+fieldText</H3>
+<PRE>
+public static java.lang.String <B>fieldText</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Returns the text that a text field or a textarea shows for its value: the value, with every character of a password replaced by a
+ bullet. The placeholder is not included; see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#placeholder(org.duckdns.hjow.swingwebpanel.dom.Element)"><CODE>placeholder(Element)</CODE></A>.
+ <p>
+ 텍스트 필드나 textarea 가 값으로 보여 주는 글을 반환한다: 값이며 암호는 글자마다 검은 점으로 바꾼다. placeholder 는 포함하지 않는다.
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html#placeholder(org.duckdns.hjow.swingwebpanel.dom.Element)"><CODE>placeholder(Element)</CODE></A> 를 참조.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the control / 컨트롤
+<DT><B>Returns:</B><DD>the text, empty if none / 글. 없으면 빈 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="placeholder(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+placeholder</H3>
+<PRE>
+public static java.lang.String <B>placeholder</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Returns the placeholder that a text field or textarea shows while it is empty, or the empty string if it shows none.
+ <p>
+ 텍스트 필드나 textarea 가 비어 있을 때 보여 주는 placeholder 를 반환한다. 없으면 빈 문자열.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the control / 컨트롤
+<DT><B>Returns:</B><DD>the placeholder / placeholder</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="sample(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+sample</H3>
+<PRE>
+public static java.lang.String <B>sample</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Returns a sample of the text that the control may show, for choosing a font that can display it: the value, the placeholder, the label of a
+ button, the option labels of a select element.
+ <p>
+ 컨트롤이 보여 줄 수 있는 글의 표본을 반환한다(그 글을 표시할 수 있는 글꼴을 고르는 데 쓴다): 값, placeholder, 단추의 라벨, select 의 option 라벨.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the control / 컨트롤
+<DT><B>Returns:</B><DD>the sample, may be empty / 표본. 비어 있을 수 있다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="optionLabels(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+optionLabels</H3>
+<PRE>
+public static java.util.List&lt;java.lang.String&gt; <B>optionLabels</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;select)</PRE>
+<DL>
+<DD>Returns the labels of the options of a select element in document order (the labels of the options inside option groups included; the
+ labels of the groups themselves are not in the list).
+ <p>
+ select 요소의 option 라벨을 문서 순서로 반환한다(optgroup 안의 option 도 포함하며 그룹 자체의 라벨은 목록에 없다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>select</CODE> - the select element / select 요소
+<DT><B>Returns:</B><DD>the labels / 라벨</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="rowElements(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+rowElements</H3>
+<PRE>
+public static java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&gt; <B>rowElements</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;select)</PRE>
+<DL>
+<DD>Returns the rows of a select element in the order in which a list shows them: an <code>optgroup</code> element (a label row) is followed
+ by its <code>option</code> children, and <code>option</code> children of the select element itself stand alone. The renderer and the host
+ use the same list, so that the row under the mouse is the same element in both.
+ <p>
+ select 요소의 행을 목록이 보여 주는 순서로 반환한다: <code>optgroup</code> 요소(라벨 행) 뒤에 그 <code>option</code> 자식이 오고, select 요소의 직접
+ <code>option</code> 자식은 따로 선다. 렌더러와 호스트가 같은 목록을 쓰므로 마우스 아래의 행이 양쪽에서 같은 요소이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>select</CODE> - the select element / select 요소
+<DT><B>Returns:</B><DD>the <code>optgroup</code> and <code>option</code> elements / <code>optgroup</code> 과 <code>option</code> 요소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isDisabled(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+isDisabled</H3>
+<PRE>
+public static boolean <B>isDisabled</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Tells whether a form control is disabled (by its own <code>disabled</code> attribute or by a disabled <code>fieldset</code>).
+ <p>
+ 폼 컨트롤이 비활성인지 알려 준다(자신의 <code>disabled</code> 속성이나 비활성 <code>fieldset</code> 때문에).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>true if disabled / 비활성이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isReadOnly(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+isReadOnly</H3>
+<PRE>
+public static boolean <B>isReadOnly</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Tells whether the user cannot edit the text of a text field or textarea because of its <code>readonly</code> attribute.
+ <p>
+ 텍스트 필드나 textarea 가 <code>readonly</code> 속성 때문에 사용자가 글을 편집할 수 없는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>true if read-only / 읽기 전용이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="maxLength(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+maxLength</H3>
+<PRE>
+public static int <B>maxLength</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Returns the <code>maxlength</code> of a text field or textarea, or -1 if it has none.
+ <p>
+ 텍스트 필드나 textarea 의 <code>maxlength</code> 를 반환한다. 없으면 -1.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>the maximum length in UTF-16 code units, or -1 / 최대 길이(UTF-16 코드 단위). 없으면 -1</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="selectedLabel(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+selectedLabel</H3>
+<PRE>
+public static java.lang.String <B>selectedLabel</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;select)</PRE>
+<DL>
+<DD>Returns the label of the selected option of a drop-down select element (the first selected option), or the empty string if none is
+ selected.
+ <p>
+ 드롭다운 select 요소에서 선택된 option(첫 번째 선택된 것)의 라벨을 반환한다. 선택된 것이 없으면 빈 문자열.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>select</CODE> - the select element / select 요소
+<DT><B>Returns:</B><DD>the label / 라벨</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FileEntry.html" title="class in org.duckdns.hjow.swingwebpanel.dom.html"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/html/ControlDisplay.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ControlDisplay.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

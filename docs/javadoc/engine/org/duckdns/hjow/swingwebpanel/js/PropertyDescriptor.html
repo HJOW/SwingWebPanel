@@ -1,0 +1,647 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+PropertyDescriptor
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="PropertyDescriptor";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/Property.html" title="class in org.duckdns.hjow.swingwebpanel.js"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyKeys.html" title="class in org.duckdns.hjow.swingwebpanel.js"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PropertyDescriptor.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js</FONT>
+<BR>
+Class PropertyDescriptor</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>PropertyDescriptor</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+A Property Descriptor specification type (ECMA-262 6th edition 6.2.4). Every field may be absent:
+ a Java <code>null</code> field means "absent" (not specified), unlike a JavaScript value. For <code>get</code> and
+ <code>set</code> the present values are either a callable object or <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/Js.html#UNDEFINED"><CODE>Js.UNDEFINED</CODE></A>.
+ Use <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#isAccessor()"><CODE>isAccessor()</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#isData()"><CODE>isData()</CODE></A> and <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#isGeneric()"><CODE>isGeneric()</CODE></A> to classify it.
+ <p>
+ 프로퍼티 기술자 명세 형식(ECMA-262 6판 6.2.4). 모든 필드는 없을 수 있다. Java <code>null</code> 필드는
+ "지정되지 않음"을 뜻하며 JavaScript 값이 아니다. <code>get</code>, <code>set</code> 이 있으면 호출 가능 객체 또는
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/Js.html#UNDEFINED"><CODE>Js.UNDEFINED</CODE></A> 이다. 분류에는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#isAccessor()"><CODE>isAccessor()</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#isData()"><CODE>isData()</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#isGeneric()"><CODE>isGeneric()</CODE></A> 를 사용한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#configurable">configurable</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The [[Configurable]] field or null if absent.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#enumerable">enumerable</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The [[Enumerable]] field or null if absent.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#get">get</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The [[Get]] field (callable object or undefined) or null if absent.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#set">set</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The [[Set]] field (callable object or undefined) or null if absent.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#value">value</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The [[Value]] field or null if absent.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#writable">writable</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The [[Writable]] field or null if absent.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#PropertyDescriptor()">PropertyDescriptor</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an empty (generic, all absent) descriptor.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html" title="class in org.duckdns.hjow.swingwebpanel.js">PropertyDescriptor</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#accessor(org.duckdns.hjow.swingwebpanel.js.JsObject, org.duckdns.hjow.swingwebpanel.js.JsObject, boolean, boolean)">accessor</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;getter,
+         <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;setter,
+         boolean&nbsp;enumerable,
+         boolean&nbsp;configurable)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a complete accessor descriptor.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html" title="class in org.duckdns.hjow.swingwebpanel.js">PropertyDescriptor</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#data(org.duckdns.hjow.swingwebpanel.js.JsValue, boolean, boolean, boolean)">data</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;value,
+     boolean&nbsp;writable,
+     boolean&nbsp;enumerable,
+     boolean&nbsp;configurable)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a complete data descriptor.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#isAccessor()">isAccessor</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns true if the descriptor has a [[Get]] or [[Set]] field.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#isConfigurableTrue()">isConfigurableTrue</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns true if the [[Configurable]] field is present and true.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#isData()">isData</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns true if the descriptor has a [[Value]] or [[Writable]] field.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#isEmpty()">isEmpty</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns true if no field is present at all.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#isEnumerableTrue()">isEnumerableTrue</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns true if the [[Enumerable]] field is present and true.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#isGeneric()">isGeneric</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns true if the descriptor is neither accessor nor data.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#isWritableTrue()">isWritableTrue</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns true if the [[Writable]] field is present and true.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html" title="class in org.duckdns.hjow.swingwebpanel.js">PropertyDescriptor</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html#valueOnly(org.duckdns.hjow.swingwebpanel.js.JsValue)">valueOnly</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a data descriptor that only carries a value (used by [[Set]] on existing properties).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="value"><!-- --></A><H3>
+value</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A> <B>value</B></PRE>
+<DL>
+<DD>The [[Value]] field or null if absent.
+ <p>
+ [[Value]] 필드. 없으면 null.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="get"><!-- --></A><H3>
+get</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A> <B>get</B></PRE>
+<DL>
+<DD>The [[Get]] field (callable object or undefined) or null if absent.
+ <p>
+ [[Get]] 필드(호출 가능 객체 또는 undefined). 없으면 null.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="set"><!-- --></A><H3>
+set</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A> <B>set</B></PRE>
+<DL>
+<DD>The [[Set]] field (callable object or undefined) or null if absent.
+ <p>
+ [[Set]] 필드(호출 가능 객체 또는 undefined). 없으면 null.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="writable"><!-- --></A><H3>
+writable</H3>
+<PRE>
+public java.lang.Boolean <B>writable</B></PRE>
+<DL>
+<DD>The [[Writable]] field or null if absent.
+ <p>
+ [[Writable]] 필드. 없으면 null.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="enumerable"><!-- --></A><H3>
+enumerable</H3>
+<PRE>
+public java.lang.Boolean <B>enumerable</B></PRE>
+<DL>
+<DD>The [[Enumerable]] field or null if absent.
+ <p>
+ [[Enumerable]] 필드. 없으면 null.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="configurable"><!-- --></A><H3>
+configurable</H3>
+<PRE>
+public java.lang.Boolean <B>configurable</B></PRE>
+<DL>
+<DD>The [[Configurable]] field or null if absent.
+ <p>
+ [[Configurable]] 필드. 없으면 null.
+<P>
+<DL>
+</DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="PropertyDescriptor()"><!-- --></A><H3>
+PropertyDescriptor</H3>
+<PRE>
+public <B>PropertyDescriptor</B>()</PRE>
+<DL>
+<DD>Creates an empty (generic, all absent) descriptor.
+ <p>
+ 빈(일반, 모든 필드 없음) 기술자를 만든다.
+<P>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="data(org.duckdns.hjow.swingwebpanel.js.JsValue, boolean, boolean, boolean)"><!-- --></A><H3>
+data</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html" title="class in org.duckdns.hjow.swingwebpanel.js">PropertyDescriptor</A> <B>data</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;value,
+                                      boolean&nbsp;writable,
+                                      boolean&nbsp;enumerable,
+                                      boolean&nbsp;configurable)</PRE>
+<DL>
+<DD>Creates a complete data descriptor.
+ <p>
+ 완전한 데이터 기술자를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - the value / 값<DD><CODE>writable</CODE> - writable / writable<DD><CODE>enumerable</CODE> - enumerable / enumerable<DD><CODE>configurable</CODE> - configurable / configurable
+<DT><B>Returns:</B><DD>the descriptor / 기술자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="valueOnly(org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+valueOnly</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html" title="class in org.duckdns.hjow.swingwebpanel.js">PropertyDescriptor</A> <B>valueOnly</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;value)</PRE>
+<DL>
+<DD>Creates a data descriptor that only carries a value (used by [[Set]] on existing properties).
+ <p>
+ 값만 가진 데이터 기술자를 만든다(기존 프로퍼티에 대한 [[Set]] 이 사용).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - the value / 값
+<DT><B>Returns:</B><DD>the descriptor / 기술자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="accessor(org.duckdns.hjow.swingwebpanel.js.JsObject, org.duckdns.hjow.swingwebpanel.js.JsObject, boolean, boolean)"><!-- --></A><H3>
+accessor</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html" title="class in org.duckdns.hjow.swingwebpanel.js">PropertyDescriptor</A> <B>accessor</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;getter,
+                                          <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;setter,
+                                          boolean&nbsp;enumerable,
+                                          boolean&nbsp;configurable)</PRE>
+<DL>
+<DD>Creates a complete accessor descriptor.
+ <p>
+ 완전한 접근자 기술자를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>getter</CODE> - getter or null for undefined / getter. undefined 이면 null<DD><CODE>setter</CODE> - setter or null for undefined / setter. undefined 이면 null<DD><CODE>enumerable</CODE> - enumerable / enumerable<DD><CODE>configurable</CODE> - configurable / configurable
+<DT><B>Returns:</B><DD>the descriptor / 기술자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isAccessor()"><!-- --></A><H3>
+isAccessor</H3>
+<PRE>
+public boolean <B>isAccessor</B>()</PRE>
+<DL>
+<DD>Returns true if the descriptor has a [[Get]] or [[Set]] field.
+ <p>
+ [[Get]] 또는 [[Set]] 필드가 있으면 true.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for accessor descriptors / 접근자 기술자이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isData()"><!-- --></A><H3>
+isData</H3>
+<PRE>
+public boolean <B>isData</B>()</PRE>
+<DL>
+<DD>Returns true if the descriptor has a [[Value]] or [[Writable]] field.
+ <p>
+ [[Value]] 또는 [[Writable]] 필드가 있으면 true.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for data descriptors / 데이터 기술자이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isGeneric()"><!-- --></A><H3>
+isGeneric</H3>
+<PRE>
+public boolean <B>isGeneric</B>()</PRE>
+<DL>
+<DD>Returns true if the descriptor is neither accessor nor data.
+ <p>
+ 접근자도 데이터도 아니면 true.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for generic descriptors / 일반 기술자이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isEmpty()"><!-- --></A><H3>
+isEmpty</H3>
+<PRE>
+public boolean <B>isEmpty</B>()</PRE>
+<DL>
+<DD>Returns true if no field is present at all.
+ <p>
+ 모든 필드가 없으면 true.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if empty / 비어 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isWritableTrue()"><!-- --></A><H3>
+isWritableTrue</H3>
+<PRE>
+public boolean <B>isWritableTrue</B>()</PRE>
+<DL>
+<DD>Returns true if the [[Writable]] field is present and true.
+ <p>
+ [[Writable]] 필드가 있고 true 이면 true.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if writable is true / writable 이 true 이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isEnumerableTrue()"><!-- --></A><H3>
+isEnumerableTrue</H3>
+<PRE>
+public boolean <B>isEnumerableTrue</B>()</PRE>
+<DL>
+<DD>Returns true if the [[Enumerable]] field is present and true.
+ <p>
+ [[Enumerable]] 필드가 있고 true 이면 true.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if enumerable is true / enumerable 이 true 이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isConfigurableTrue()"><!-- --></A><H3>
+isConfigurableTrue</H3>
+<PRE>
+public boolean <B>isConfigurableTrue</B>()</PRE>
+<DL>
+<DD>Returns true if the [[Configurable]] field is present and true.
+ <p>
+ [[Configurable]] 필드가 있고 true 이면 true.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if configurable is true / configurable 이 true 이면 true</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/Property.html" title="class in org.duckdns.hjow.swingwebpanel.js"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyKeys.html" title="class in org.duckdns.hjow.swingwebpanel.js"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PropertyDescriptor.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,527 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+TextEmphasis
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="TextEmphasis";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TableBorder.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSet.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="TextEmphasis.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.layout</FONT>
+<BR>
+Class TextEmphasis</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.layout.TextEmphasis</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>TextEmphasis</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The emphasis marks of a style (CSS Text Decoration Module Level 4, <a href="https://www.w3.org/TR/css-text-decor-4/#emphasis-marks">https://www.w3.org/TR/css-text-decor-4/#emphasis-marks</a>,
+ W3C Working Draft 4 May 2022): <code>text-emphasis-style</code> (a filled or open shape: <code>dot</code>, <code>circle</code>, <code>double-circle</code>, <code>triangle</code>,
+ <code>sesame</code>, or a string), <code>text-emphasis-color</code> and <code>text-emphasis-position</code> (<code>over</code> or <code>under</code> the text in horizontal text). A mark
+ is drawn once for each typographic character unit at 50 percent of the font size, centered on the character, except for separators (Z*), punctuation (P*, with a few exceptions
+ such as <code>#</code> and <code>%</code>) and control, format and unassigned characters (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html#marked(int)"><CODE>marked(int)</CODE></A>). The room for the marks is added to the line like the room of ruby text:
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html#reserve"><CODE>reserve</CODE></A> is the height that is added above (<code>over</code>) or below (<code>under</code>) the text fragment. The marks of vertical text are not drawn.
+ <p>
+ Usage: <code>TextEmphasis e = TextEmphasis.of(style); if (e != null) { ... e.getMark() ... }</code>.
+ <p>
+ 스타일의 강조점(CSS Text Decoration Module Level 4, W3C 작업 초안 2022-05-04): <code>text-emphasis-style</code>(채운 또는 빈 모양: <code>dot</code>, <code>circle</code>,
+ <code>double-circle</code>, <code>triangle</code>, <code>sesame</code>, 또는 문자열), <code>text-emphasis-color</code>, <code>text-emphasis-position</code>(가로 텍스트에서 텍스트의
+ 위(<code>over</code>) 또는 아래(<code>under</code>)). 점은 글자 단위마다 한 번, 글꼴 크기의 50 % 로 글자 가운데에 그리며 구분자(Z*), 문장 부호(P*. <code>#</code>, <code>%</code> 등
+ 몇 가지 예외 제외), 제어/서식/미할당 문자에는 그리지 않는다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html#marked(int)"><CODE>marked(int)</CODE></A>). 점의 공간은 ruby 텍스트의 공간처럼 줄에 더해진다: <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html#reserve"><CODE>reserve</CODE></A> 는 텍스트 조각의 위(<code>over</code>)
+ 또는 아래(<code>under</code>)에 더하는 높이이다. 세로쓰기 텍스트의 점은 그리지 않는다.
+ <p>
+ 사용법: <code>TextEmphasis e = TextEmphasis.of(style); if (e != null) { ... e.getMark() ... }</code>.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html#MARK_SCALE">MARK_SCALE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The size of the marks relative to the font size.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html#getColor()">getColor</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the color of the marks.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.awt.Font</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html#getFont()">getFont</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the font of the marks (50 percent of the size of the text font).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html#getMark()">getMark</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the mark.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html#isOver()">isOver</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells where the marks are.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html#isVertical()">isVertical</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the marks belong to text in a vertical typographic mode (<code>writing-mode: vertical-rl</code> or <code>vertical-lr</code>): such
+ marks stand upright at the right (<code>over</code>) or at the left (<code>under</code>) of the glyphs, and the default shape is the sesame.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html#markAscent()">markAscent</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the ascent of the mark font.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html#markBaseline(double, double, double)">markBaseline</A></B>(double&nbsp;baseline,
+             double&nbsp;textAscent,
+             double&nbsp;textDescent)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the baseline of the marks of a text fragment.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html#markDescent()">markDescent</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the descent of the mark font.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html#marked(int)">marked</A></B>(int&nbsp;cp)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a character gets a mark: not separators (Z*), not punctuation (P*) except a few symbols, and not control, format or unassigned characters.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html" title="class in org.duckdns.hjow.swingwebpanel.layout">TextEmphasis</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html#of(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)">of</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reads the emphasis marks of a style.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html#reserve()">reserve</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the height that the marks add to the line: the height of the mark font, above the text for <code>over</code> and below it for <code>under</code>.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="MARK_SCALE"><!-- --></A><H3>
+MARK_SCALE</H3>
+<PRE>
+public static final double <B>MARK_SCALE</B></PRE>
+<DL>
+<DD>The size of the marks relative to the font size. 점의 크기(글꼴 크기 대비).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.layout.TextEmphasis.MARK_SCALE">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="of(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)"><!-- --></A><H3>
+of</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html" title="class in org.duckdns.hjow.swingwebpanel.layout">TextEmphasis</A> <B>of</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s)</PRE>
+<DL>
+<DD>Reads the emphasis marks of a style.
+ <p>
+ 스타일의 강조점을 읽는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - the style, may be null / 스타일. null 가능
+<DT><B>Returns:</B><DD>the marks, or null for <code>none</code> / 강조점. <code>none</code> 이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isVertical()"><!-- --></A><H3>
+isVertical</H3>
+<PRE>
+public boolean <B>isVertical</B>()</PRE>
+<DL>
+<DD>Tells whether the marks belong to text in a vertical typographic mode (<code>writing-mode: vertical-rl</code> or <code>vertical-lr</code>): such
+ marks stand upright at the right (<code>over</code>) or at the left (<code>under</code>) of the glyphs, and the default shape is the sesame.
+ <p>
+ 점이 세로 조판 모드(<code>writing-mode: vertical-rl</code> 또는 <code>vertical-lr</code>)의 텍스트에 속하는지 알려 준다: 그런 점은 글리프의 오른쪽(<code>over</code>)이나
+ 왼쪽(<code>under</code>)에 똑바로 서며 기본 모양은 sesame 이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for vertical typographic mode / 세로 조판 모드이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="markAscent()"><!-- --></A><H3>
+markAscent</H3>
+<PRE>
+public double <B>markAscent</B>()</PRE>
+<DL>
+<DD>Returns the ascent of the mark font.
+ <p>
+ 점 글꼴의 ascent 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the ascent in px / ascent(px)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="markDescent()"><!-- --></A><H3>
+markDescent</H3>
+<PRE>
+public double <B>markDescent</B>()</PRE>
+<DL>
+<DD>Returns the descent of the mark font.
+ <p>
+ 점 글꼴의 descent 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the descent in px / descent(px)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="marked(int)"><!-- --></A><H3>
+marked</H3>
+<PRE>
+public static boolean <B>marked</B>(int&nbsp;cp)</PRE>
+<DL>
+<DD>Tells whether a character gets a mark: not separators (Z*), not punctuation (P*) except a few symbols, and not control, format or unassigned characters.
+ <p>
+ 글자에 점이 붙는지 알려 준다: 구분자(Z*), 몇 가지 기호를 뺀 문장 부호(P*), 제어/서식/미할당 문자에는 붙지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>cp</CODE> - the code point / 코드 포인트
+<DT><B>Returns:</B><DD>true if the character is marked / 점이 붙으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMark()"><!-- --></A><H3>
+getMark</H3>
+<PRE>
+public java.lang.String <B>getMark</B>()</PRE>
+<DL>
+<DD>Returns the mark.
+ <p>
+ 점을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the mark text / 점 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getColor()"><!-- --></A><H3>
+getColor</H3>
+<PRE>
+public int <B>getColor</B>()</PRE>
+<DL>
+<DD>Returns the color of the marks.
+ <p>
+ 점의 색을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the ARGB color / ARGB 색</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isOver()"><!-- --></A><H3>
+isOver</H3>
+<PRE>
+public boolean <B>isOver</B>()</PRE>
+<DL>
+<DD>Tells where the marks are.
+ <p>
+ 점이 어디에 있는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for over the text, false for under it / 텍스트 위이면 true, 아래이면 false</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFont()"><!-- --></A><H3>
+getFont</H3>
+<PRE>
+public java.awt.Font <B>getFont</B>()</PRE>
+<DL>
+<DD>Returns the font of the marks (50 percent of the size of the text font).
+ <p>
+ 점의 글꼴을 반환한다(텍스트 글꼴 크기의 50 %).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the font / 글꼴</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="reserve()"><!-- --></A><H3>
+reserve</H3>
+<PRE>
+public double <B>reserve</B>()</PRE>
+<DL>
+<DD>Returns the height that the marks add to the line: the height of the mark font, above the text for <code>over</code> and below it for <code>under</code>.
+ <p>
+ 점이 줄에 더하는 높이를 반환한다: 점 글꼴의 높이이며 <code>over</code> 이면 텍스트 위, <code>under</code> 이면 아래에 더한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the height in px / 높이(px)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="markBaseline(double, double, double)"><!-- --></A><H3>
+markBaseline</H3>
+<PRE>
+public double <B>markBaseline</B>(double&nbsp;baseline,
+                           double&nbsp;textAscent,
+                           double&nbsp;textDescent)</PRE>
+<DL>
+<DD>Returns the baseline of the marks of a text fragment. The marks stand in the room that <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html#reserve"><CODE>reserve</CODE></A> gave: over the text, just above its ascent (the part that
+ the text font itself needs; the room of the marks is on top of it), and under the text, just below its descent.
+ <p>
+ 텍스트 조각의 점의 기준선을 반환한다. 점은 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html#reserve"><CODE>reserve</CODE></A> 가 준 공간에 선다: 위이면 텍스트 자신의 ascent(글꼴 자체가 필요로 하는 부분. 점의 공간은 그 위에 더해진다) 바로 위,
+ 아래이면 descent 바로 아래.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>baseline</CODE> - the baseline of the text / 텍스트의 기준선<DD><CODE>textAscent</CODE> - the ascent of the text font itself / 텍스트 글꼴 자체의 ascent<DD><CODE>textDescent</CODE> - the descent of the text font itself / 텍스트 글꼴 자체의 descent
+<DT><B>Returns:</B><DD>the baseline of the marks / 점의 기준선</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TableBorder.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSet.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="TextEmphasis.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

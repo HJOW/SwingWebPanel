@@ -1,0 +1,1398 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+PseudoClasses
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="PseudoClasses";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/NamespaceMap.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorList.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PseudoClasses.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.selector</FONT>
+<BR>
+Class PseudoClasses</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>PseudoClasses</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The registry of the pseudo-classes and pseudo-elements the selector parser knows. Each pseudo-class has a numeric id (used by the matcher
+ instead of string comparisons) and an argument kind that tells the parser what its parentheses may contain. A name that is not in the registry
+ makes the whole selector invalid, exactly as in a browser. Some pseudo-classes are known and valid but can never match in this engine
+ (for example <code>:fullscreen</code>); they are registered with <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#NEVER"><CODE>NEVER</CODE></A>.
+ <p>
+ 선택자 파서가 아는 의사 클래스와 의사 요소의 등록부. 각 의사 클래스에는 숫자 id(매처가 문자열 비교 대신 사용)와 괄호 안에 올 수 있는 내용을
+ 알려 주는 인수 종류가 있다. 등록부에 없는 이름은 브라우저처럼 선택자 전체를 무효로 만든다. 일부 의사 클래스(예: <code>:fullscreen</code>)는
+ 올바르지만 이 엔진에서는 일치할 수 없으며 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#NEVER"><CODE>NEVER</CODE></A> 로 등록한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#ACTIVE">ACTIVE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:active</code>. / 의사 클래스 id: <code>:active</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#ANY_LINK">ANY_LINK</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:any-link</code>. / 의사 클래스 id: <code>:any-link</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#ARG_ANY">ARG_ANY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Argument kind: any component values (accepted and ignored). / 인수 종류: 임의의 컴포넌트 값(받아들이고 무시).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#ARG_DIR">ARG_DIR</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Argument kind: a direction keyword. / 인수 종류: 방향 키워드.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#ARG_FORGIVING">ARG_FORGIVING</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Argument kind: forgiving selector list (invalid entries are ignored). / 인수 종류: 관대한 선택자 목록(잘못된 항목은 무시).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#ARG_LANG">ARG_LANG</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Argument kind: language ranges. / 인수 종류: 언어 범위.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#ARG_LIST">ARG_LIST</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Argument kind: strict selector list. / 인수 종류: 엄격한 선택자 목록.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#ARG_NONE">ARG_NONE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Argument kind: no parentheses. / 인수 종류: 괄호 없음.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#ARG_NTH">ARG_NTH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Argument kind: An+B only. / 인수 종류: An+B 만.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#ARG_NTH_OF">ARG_NTH_OF</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Argument kind: An+B with an optional <code>of S</code> clause. / 인수 종류: 선택적 <code>of S</code> 절이 붙은 An+B.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#ARG_RELATIVE">ARG_RELATIVE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Argument kind: relative selector list. / 인수 종류: 상대 선택자 목록.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#CHECKED">CHECKED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:checked</code>. / 의사 클래스 id: <code>:checked</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#DEFAULT">DEFAULT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:default</code>. / 의사 클래스 id: <code>:default</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#DEFINED">DEFINED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:defined</code>. / 의사 클래스 id: <code>:defined</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#DIR">DIR</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:dir()</code>. / 의사 클래스 id: <code>:dir()</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#DISABLED">DISABLED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:disabled</code>. / 의사 클래스 id: <code>:disabled</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#EMPTY">EMPTY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:empty</code>. / 의사 클래스 id: <code>:empty</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#ENABLED">ENABLED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:enabled</code>. / 의사 클래스 id: <code>:enabled</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#FIRST_CHILD">FIRST_CHILD</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:first-child</code>. / 의사 클래스 id: <code>:first-child</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#FIRST_OF_TYPE">FIRST_OF_TYPE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:first-of-type</code>. / 의사 클래스 id: <code>:first-of-type</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#FOCUS">FOCUS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:focus</code>. / 의사 클래스 id: <code>:focus</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#FOCUS_VISIBLE">FOCUS_VISIBLE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:focus-visible</code>. / 의사 클래스 id: <code>:focus-visible</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#FOCUS_WITHIN">FOCUS_WITHIN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:focus-within</code>. / 의사 클래스 id: <code>:focus-within</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#HAS">HAS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:has()</code>. / 의사 클래스 id: <code>:has()</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#HOVER">HOVER</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:hover</code>. / 의사 클래스 id: <code>:hover</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#IN_RANGE">IN_RANGE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:in-range</code>. / 의사 클래스 id: <code>:in-range</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#INDETERMINATE">INDETERMINATE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:indeterminate</code>. / 의사 클래스 id: <code>:indeterminate</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#INVALID">INVALID</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:invalid</code>. / 의사 클래스 id: <code>:invalid</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#IS">IS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:is()</code> (and <code>:matches()</code>, <code>:-webkit-any()</code>). / 의사 클래스 id: <code>:is()</code>(와 <code>:matches()</code>, <code>:-webkit-any()</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#LANG">LANG</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:lang()</code>. / 의사 클래스 id: <code>:lang()</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#LAST_CHILD">LAST_CHILD</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:last-child</code>. / 의사 클래스 id: <code>:last-child</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#LAST_OF_TYPE">LAST_OF_TYPE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:last-of-type</code>. / 의사 클래스 id: <code>:last-of-type</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#LINK">LINK</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:link</code>. / 의사 클래스 id: <code>:link</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#MODAL">MODAL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:modal</code> (a dialog in the top layer). / 의사 클래스 id: <code>:modal</code>(최상위 계층의 대화상자).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#NEVER">NEVER</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: valid pseudo-classes that never match in this engine. / 의사 클래스 id: 올바르지만 이 엔진에서는 일치하지 않는 의사 클래스.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#NOT">NOT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:not()</code>. / 의사 클래스 id: <code>:not()</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#NTH_CHILD">NTH_CHILD</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:nth-child()</code>. / 의사 클래스 id: <code>:nth-child()</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#NTH_LAST_CHILD">NTH_LAST_CHILD</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:nth-last-child()</code>. / 의사 클래스 id: <code>:nth-last-child()</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#NTH_LAST_OF_TYPE">NTH_LAST_OF_TYPE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:nth-last-of-type()</code>. / 의사 클래스 id: <code>:nth-last-of-type()</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#NTH_OF_TYPE">NTH_OF_TYPE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:nth-of-type()</code>. / 의사 클래스 id: <code>:nth-of-type()</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#ONLY_CHILD">ONLY_CHILD</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:only-child</code>. / 의사 클래스 id: <code>:only-child</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#ONLY_OF_TYPE">ONLY_OF_TYPE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:only-of-type</code>. / 의사 클래스 id: <code>:only-of-type</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#OPEN">OPEN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:open</code>. / 의사 클래스 id: <code>:open</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#OPTIONAL">OPTIONAL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:optional</code>. / 의사 클래스 id: <code>:optional</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#OUT_OF_RANGE">OUT_OF_RANGE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:out-of-range</code>. / 의사 클래스 id: <code>:out-of-range</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#PLACEHOLDER_SHOWN">PLACEHOLDER_SHOWN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:placeholder-shown</code>. / 의사 클래스 id: <code>:placeholder-shown</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#READ_ONLY">READ_ONLY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:read-only</code>. / 의사 클래스 id: <code>:read-only</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#READ_WRITE">READ_WRITE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:read-write</code>. / 의사 클래스 id: <code>:read-write</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#REQUIRED">REQUIRED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:required</code>. / 의사 클래스 id: <code>:required</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#ROOT">ROOT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:root</code>. / 의사 클래스 id: <code>:root</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#SCOPE">SCOPE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:scope</code>. / 의사 클래스 id: <code>:scope</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#TARGET">TARGET</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:target</code>. / 의사 클래스 id: <code>:target</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#VALID">VALID</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:valid</code>. / 의사 클래스 id: <code>:valid</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#VISITED">VISITED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:visited</code>. / 의사 클래스 id: <code>:visited</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#WHERE">WHERE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Id: <code>:where()</code>. / 의사 클래스 id: <code>:where()</code>.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#isLegacyPseudoElement(java.lang.String)">isLegacyPseudoElement</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a pseudo-element may be written with a single colon.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#isPseudoElement(java.lang.String)">isPseudoElement</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a name is a known pseudo-element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html#lookup(java.lang.String)">lookup</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Looks up a pseudo-class.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="ROOT"><!-- --></A><H3>
+ROOT</H3>
+<PRE>
+public static final int <B>ROOT</B></PRE>
+<DL>
+<DD>Id: <code>:root</code>. / 의사 클래스 id: <code>:root</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.ROOT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="EMPTY"><!-- --></A><H3>
+EMPTY</H3>
+<PRE>
+public static final int <B>EMPTY</B></PRE>
+<DL>
+<DD>Id: <code>:empty</code>. / 의사 클래스 id: <code>:empty</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.EMPTY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FIRST_CHILD"><!-- --></A><H3>
+FIRST_CHILD</H3>
+<PRE>
+public static final int <B>FIRST_CHILD</B></PRE>
+<DL>
+<DD>Id: <code>:first-child</code>. / 의사 클래스 id: <code>:first-child</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.FIRST_CHILD">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LAST_CHILD"><!-- --></A><H3>
+LAST_CHILD</H3>
+<PRE>
+public static final int <B>LAST_CHILD</B></PRE>
+<DL>
+<DD>Id: <code>:last-child</code>. / 의사 클래스 id: <code>:last-child</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.LAST_CHILD">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ONLY_CHILD"><!-- --></A><H3>
+ONLY_CHILD</H3>
+<PRE>
+public static final int <B>ONLY_CHILD</B></PRE>
+<DL>
+<DD>Id: <code>:only-child</code>. / 의사 클래스 id: <code>:only-child</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.ONLY_CHILD">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FIRST_OF_TYPE"><!-- --></A><H3>
+FIRST_OF_TYPE</H3>
+<PRE>
+public static final int <B>FIRST_OF_TYPE</B></PRE>
+<DL>
+<DD>Id: <code>:first-of-type</code>. / 의사 클래스 id: <code>:first-of-type</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.FIRST_OF_TYPE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LAST_OF_TYPE"><!-- --></A><H3>
+LAST_OF_TYPE</H3>
+<PRE>
+public static final int <B>LAST_OF_TYPE</B></PRE>
+<DL>
+<DD>Id: <code>:last-of-type</code>. / 의사 클래스 id: <code>:last-of-type</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.LAST_OF_TYPE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ONLY_OF_TYPE"><!-- --></A><H3>
+ONLY_OF_TYPE</H3>
+<PRE>
+public static final int <B>ONLY_OF_TYPE</B></PRE>
+<DL>
+<DD>Id: <code>:only-of-type</code>. / 의사 클래스 id: <code>:only-of-type</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.ONLY_OF_TYPE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="NTH_CHILD"><!-- --></A><H3>
+NTH_CHILD</H3>
+<PRE>
+public static final int <B>NTH_CHILD</B></PRE>
+<DL>
+<DD>Id: <code>:nth-child()</code>. / 의사 클래스 id: <code>:nth-child()</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.NTH_CHILD">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="NTH_LAST_CHILD"><!-- --></A><H3>
+NTH_LAST_CHILD</H3>
+<PRE>
+public static final int <B>NTH_LAST_CHILD</B></PRE>
+<DL>
+<DD>Id: <code>:nth-last-child()</code>. / 의사 클래스 id: <code>:nth-last-child()</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.NTH_LAST_CHILD">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="NTH_OF_TYPE"><!-- --></A><H3>
+NTH_OF_TYPE</H3>
+<PRE>
+public static final int <B>NTH_OF_TYPE</B></PRE>
+<DL>
+<DD>Id: <code>:nth-of-type()</code>. / 의사 클래스 id: <code>:nth-of-type()</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.NTH_OF_TYPE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="NTH_LAST_OF_TYPE"><!-- --></A><H3>
+NTH_LAST_OF_TYPE</H3>
+<PRE>
+public static final int <B>NTH_LAST_OF_TYPE</B></PRE>
+<DL>
+<DD>Id: <code>:nth-last-of-type()</code>. / 의사 클래스 id: <code>:nth-last-of-type()</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.NTH_LAST_OF_TYPE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="NOT"><!-- --></A><H3>
+NOT</H3>
+<PRE>
+public static final int <B>NOT</B></PRE>
+<DL>
+<DD>Id: <code>:not()</code>. / 의사 클래스 id: <code>:not()</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.NOT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="IS"><!-- --></A><H3>
+IS</H3>
+<PRE>
+public static final int <B>IS</B></PRE>
+<DL>
+<DD>Id: <code>:is()</code> (and <code>:matches()</code>, <code>:-webkit-any()</code>). / 의사 클래스 id: <code>:is()</code>(와 <code>:matches()</code>, <code>:-webkit-any()</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.IS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="WHERE"><!-- --></A><H3>
+WHERE</H3>
+<PRE>
+public static final int <B>WHERE</B></PRE>
+<DL>
+<DD>Id: <code>:where()</code>. / 의사 클래스 id: <code>:where()</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.WHERE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="HAS"><!-- --></A><H3>
+HAS</H3>
+<PRE>
+public static final int <B>HAS</B></PRE>
+<DL>
+<DD>Id: <code>:has()</code>. / 의사 클래스 id: <code>:has()</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.HAS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="HOVER"><!-- --></A><H3>
+HOVER</H3>
+<PRE>
+public static final int <B>HOVER</B></PRE>
+<DL>
+<DD>Id: <code>:hover</code>. / 의사 클래스 id: <code>:hover</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.HOVER">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ACTIVE"><!-- --></A><H3>
+ACTIVE</H3>
+<PRE>
+public static final int <B>ACTIVE</B></PRE>
+<DL>
+<DD>Id: <code>:active</code>. / 의사 클래스 id: <code>:active</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.ACTIVE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FOCUS"><!-- --></A><H3>
+FOCUS</H3>
+<PRE>
+public static final int <B>FOCUS</B></PRE>
+<DL>
+<DD>Id: <code>:focus</code>. / 의사 클래스 id: <code>:focus</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.FOCUS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FOCUS_VISIBLE"><!-- --></A><H3>
+FOCUS_VISIBLE</H3>
+<PRE>
+public static final int <B>FOCUS_VISIBLE</B></PRE>
+<DL>
+<DD>Id: <code>:focus-visible</code>. / 의사 클래스 id: <code>:focus-visible</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.FOCUS_VISIBLE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FOCUS_WITHIN"><!-- --></A><H3>
+FOCUS_WITHIN</H3>
+<PRE>
+public static final int <B>FOCUS_WITHIN</B></PRE>
+<DL>
+<DD>Id: <code>:focus-within</code>. / 의사 클래스 id: <code>:focus-within</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.FOCUS_WITHIN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LINK"><!-- --></A><H3>
+LINK</H3>
+<PRE>
+public static final int <B>LINK</B></PRE>
+<DL>
+<DD>Id: <code>:link</code>. / 의사 클래스 id: <code>:link</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.LINK">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ANY_LINK"><!-- --></A><H3>
+ANY_LINK</H3>
+<PRE>
+public static final int <B>ANY_LINK</B></PRE>
+<DL>
+<DD>Id: <code>:any-link</code>. / 의사 클래스 id: <code>:any-link</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.ANY_LINK">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="VISITED"><!-- --></A><H3>
+VISITED</H3>
+<PRE>
+public static final int <B>VISITED</B></PRE>
+<DL>
+<DD>Id: <code>:visited</code>. / 의사 클래스 id: <code>:visited</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.VISITED">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="TARGET"><!-- --></A><H3>
+TARGET</H3>
+<PRE>
+public static final int <B>TARGET</B></PRE>
+<DL>
+<DD>Id: <code>:target</code>. / 의사 클래스 id: <code>:target</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.TARGET">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SCOPE"><!-- --></A><H3>
+SCOPE</H3>
+<PRE>
+public static final int <B>SCOPE</B></PRE>
+<DL>
+<DD>Id: <code>:scope</code>. / 의사 클래스 id: <code>:scope</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.SCOPE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ENABLED"><!-- --></A><H3>
+ENABLED</H3>
+<PRE>
+public static final int <B>ENABLED</B></PRE>
+<DL>
+<DD>Id: <code>:enabled</code>. / 의사 클래스 id: <code>:enabled</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.ENABLED">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DISABLED"><!-- --></A><H3>
+DISABLED</H3>
+<PRE>
+public static final int <B>DISABLED</B></PRE>
+<DL>
+<DD>Id: <code>:disabled</code>. / 의사 클래스 id: <code>:disabled</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.DISABLED">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="CHECKED"><!-- --></A><H3>
+CHECKED</H3>
+<PRE>
+public static final int <B>CHECKED</B></PRE>
+<DL>
+<DD>Id: <code>:checked</code>. / 의사 클래스 id: <code>:checked</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.CHECKED">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="INDETERMINATE"><!-- --></A><H3>
+INDETERMINATE</H3>
+<PRE>
+public static final int <B>INDETERMINATE</B></PRE>
+<DL>
+<DD>Id: <code>:indeterminate</code>. / 의사 클래스 id: <code>:indeterminate</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.INDETERMINATE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT"><!-- --></A><H3>
+DEFAULT</H3>
+<PRE>
+public static final int <B>DEFAULT</B></PRE>
+<DL>
+<DD>Id: <code>:default</code>. / 의사 클래스 id: <code>:default</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.DEFAULT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="REQUIRED"><!-- --></A><H3>
+REQUIRED</H3>
+<PRE>
+public static final int <B>REQUIRED</B></PRE>
+<DL>
+<DD>Id: <code>:required</code>. / 의사 클래스 id: <code>:required</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.REQUIRED">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="OPTIONAL"><!-- --></A><H3>
+OPTIONAL</H3>
+<PRE>
+public static final int <B>OPTIONAL</B></PRE>
+<DL>
+<DD>Id: <code>:optional</code>. / 의사 클래스 id: <code>:optional</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.OPTIONAL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="READ_ONLY"><!-- --></A><H3>
+READ_ONLY</H3>
+<PRE>
+public static final int <B>READ_ONLY</B></PRE>
+<DL>
+<DD>Id: <code>:read-only</code>. / 의사 클래스 id: <code>:read-only</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.READ_ONLY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="READ_WRITE"><!-- --></A><H3>
+READ_WRITE</H3>
+<PRE>
+public static final int <B>READ_WRITE</B></PRE>
+<DL>
+<DD>Id: <code>:read-write</code>. / 의사 클래스 id: <code>:read-write</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.READ_WRITE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PLACEHOLDER_SHOWN"><!-- --></A><H3>
+PLACEHOLDER_SHOWN</H3>
+<PRE>
+public static final int <B>PLACEHOLDER_SHOWN</B></PRE>
+<DL>
+<DD>Id: <code>:placeholder-shown</code>. / 의사 클래스 id: <code>:placeholder-shown</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.PLACEHOLDER_SHOWN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="VALID"><!-- --></A><H3>
+VALID</H3>
+<PRE>
+public static final int <B>VALID</B></PRE>
+<DL>
+<DD>Id: <code>:valid</code>. / 의사 클래스 id: <code>:valid</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.VALID">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="INVALID"><!-- --></A><H3>
+INVALID</H3>
+<PRE>
+public static final int <B>INVALID</B></PRE>
+<DL>
+<DD>Id: <code>:invalid</code>. / 의사 클래스 id: <code>:invalid</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.INVALID">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="IN_RANGE"><!-- --></A><H3>
+IN_RANGE</H3>
+<PRE>
+public static final int <B>IN_RANGE</B></PRE>
+<DL>
+<DD>Id: <code>:in-range</code>. / 의사 클래스 id: <code>:in-range</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.IN_RANGE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="OUT_OF_RANGE"><!-- --></A><H3>
+OUT_OF_RANGE</H3>
+<PRE>
+public static final int <B>OUT_OF_RANGE</B></PRE>
+<DL>
+<DD>Id: <code>:out-of-range</code>. / 의사 클래스 id: <code>:out-of-range</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.OUT_OF_RANGE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LANG"><!-- --></A><H3>
+LANG</H3>
+<PRE>
+public static final int <B>LANG</B></PRE>
+<DL>
+<DD>Id: <code>:lang()</code>. / 의사 클래스 id: <code>:lang()</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.LANG">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DIR"><!-- --></A><H3>
+DIR</H3>
+<PRE>
+public static final int <B>DIR</B></PRE>
+<DL>
+<DD>Id: <code>:dir()</code>. / 의사 클래스 id: <code>:dir()</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.DIR">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFINED"><!-- --></A><H3>
+DEFINED</H3>
+<PRE>
+public static final int <B>DEFINED</B></PRE>
+<DL>
+<DD>Id: <code>:defined</code>. / 의사 클래스 id: <code>:defined</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.DEFINED">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="OPEN"><!-- --></A><H3>
+OPEN</H3>
+<PRE>
+public static final int <B>OPEN</B></PRE>
+<DL>
+<DD>Id: <code>:open</code>. / 의사 클래스 id: <code>:open</code>.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.OPEN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MODAL"><!-- --></A><H3>
+MODAL</H3>
+<PRE>
+public static final int <B>MODAL</B></PRE>
+<DL>
+<DD>Id: <code>:modal</code> (a dialog in the top layer). / 의사 클래스 id: <code>:modal</code>(최상위 계층의 대화상자).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.MODAL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="NEVER"><!-- --></A><H3>
+NEVER</H3>
+<PRE>
+public static final int <B>NEVER</B></PRE>
+<DL>
+<DD>Id: valid pseudo-classes that never match in this engine. / 의사 클래스 id: 올바르지만 이 엔진에서는 일치하지 않는 의사 클래스.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.NEVER">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ARG_NONE"><!-- --></A><H3>
+ARG_NONE</H3>
+<PRE>
+public static final int <B>ARG_NONE</B></PRE>
+<DL>
+<DD>Argument kind: no parentheses. / 인수 종류: 괄호 없음.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.ARG_NONE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ARG_NTH"><!-- --></A><H3>
+ARG_NTH</H3>
+<PRE>
+public static final int <B>ARG_NTH</B></PRE>
+<DL>
+<DD>Argument kind: An+B only. / 인수 종류: An+B 만.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.ARG_NTH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ARG_NTH_OF"><!-- --></A><H3>
+ARG_NTH_OF</H3>
+<PRE>
+public static final int <B>ARG_NTH_OF</B></PRE>
+<DL>
+<DD>Argument kind: An+B with an optional <code>of S</code> clause. / 인수 종류: 선택적 <code>of S</code> 절이 붙은 An+B.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.ARG_NTH_OF">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ARG_FORGIVING"><!-- --></A><H3>
+ARG_FORGIVING</H3>
+<PRE>
+public static final int <B>ARG_FORGIVING</B></PRE>
+<DL>
+<DD>Argument kind: forgiving selector list (invalid entries are ignored). / 인수 종류: 관대한 선택자 목록(잘못된 항목은 무시).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.ARG_FORGIVING">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ARG_LIST"><!-- --></A><H3>
+ARG_LIST</H3>
+<PRE>
+public static final int <B>ARG_LIST</B></PRE>
+<DL>
+<DD>Argument kind: strict selector list. / 인수 종류: 엄격한 선택자 목록.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.ARG_LIST">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ARG_RELATIVE"><!-- --></A><H3>
+ARG_RELATIVE</H3>
+<PRE>
+public static final int <B>ARG_RELATIVE</B></PRE>
+<DL>
+<DD>Argument kind: relative selector list. / 인수 종류: 상대 선택자 목록.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.ARG_RELATIVE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ARG_LANG"><!-- --></A><H3>
+ARG_LANG</H3>
+<PRE>
+public static final int <B>ARG_LANG</B></PRE>
+<DL>
+<DD>Argument kind: language ranges. / 인수 종류: 언어 범위.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.ARG_LANG">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ARG_DIR"><!-- --></A><H3>
+ARG_DIR</H3>
+<PRE>
+public static final int <B>ARG_DIR</B></PRE>
+<DL>
+<DD>Argument kind: a direction keyword. / 인수 종류: 방향 키워드.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.ARG_DIR">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ARG_ANY"><!-- --></A><H3>
+ARG_ANY</H3>
+<PRE>
+public static final int <B>ARG_ANY</B></PRE>
+<DL>
+<DD>Argument kind: any component values (accepted and ignored). / 인수 종류: 임의의 컴포넌트 값(받아들이고 무시).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.selector.PseudoClasses.ARG_ANY">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="lookup(java.lang.String)"><!-- --></A><H3>
+lookup</H3>
+<PRE>
+public static int[] <B>lookup</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Looks up a pseudo-class.
+ <p>
+ 의사 클래스를 찾는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - lower-case name without the colon / 콜론 없는 소문자 이름
+<DT><B>Returns:</B><DD>an array {id, argument kind}, or null if the name is unknown / {id, 인수 종류} 배열. 이름을 모르면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isPseudoElement(java.lang.String)"><!-- --></A><H3>
+isPseudoElement</H3>
+<PRE>
+public static boolean <B>isPseudoElement</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Tells whether a name is a known pseudo-element.
+ <p>
+ 이름이 알려진 의사 요소인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - lower-case name without the colons / 콜론 없는 소문자 이름
+<DT><B>Returns:</B><DD>true if known / 알려져 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isLegacyPseudoElement(java.lang.String)"><!-- --></A><H3>
+isLegacyPseudoElement</H3>
+<PRE>
+public static boolean <B>isLegacyPseudoElement</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Tells whether a pseudo-element may be written with a single colon.
+ <p>
+ 의사 요소를 콜론 하나로 쓸 수 있는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - lower-case name / 소문자 이름
+<DT><B>Returns:</B><DD>true for the legacy forms / 이전 형식이면 true</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/NamespaceMap.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorList.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/selector/PseudoClasses.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PseudoClasses.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

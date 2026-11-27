@@ -1,0 +1,226 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+org.duckdns.hjow.swingwebpanel.media.webaudio.dsp
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="org.duckdns.hjow.swingwebpanel.media.webaudio.dsp";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<H2>
+Package org.duckdns.hjow.swingwebpanel.media.webaudio.dsp
+</H2>
+Signal processing helpers of the Web Audio engine (plan items P25-02 to P25-04): the FFT, the biquad filter coefficients and kernel
+ and the general IIR kernel.
+<P>
+<B>See:</B>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="#package_description"><B>Description</B></A>
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadCoefficients.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp">BiquadCoefficients</A></B></TD>
+<TD>The coefficients of a biquad filter (Web Audio API 1.13.5, "Filters Characteristics").</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/BiquadFilter.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp">BiquadFilter</A></B></TD>
+<TD>The processing of a biquad filter (direct form I, double precision): for every channel it keeps the last two inputs and the last two
+ outputs and applies the coefficients that are given for the block.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/ConvolutionKernel.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp">ConvolutionKernel</A></B></TD>
+<TD>The frequency-domain form of one impulse response channel for a <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/PartitionedConvolver.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><CODE>PartitionedConvolver</CODE></A>: the impulse response is cut into
+ partitions, and the spectrum of every partition is computed once.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/DynamicsCompressorKernel.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp">DynamicsCompressorKernel</A></B></TD>
+<TD>The signal processing of a dynamics compressor (Web Audio API 1.19, section 1.19.4): a look-ahead pre-delay of 6 ms, a peak detector
+ on the undelayed input that is linked across the channels, the static compression curve with a soft knee, an envelope with an attack
+ and an adaptive release, a fixed makeup gain, and the metering of the gain reduction.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/Fft.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp">Fft</A></B></TD>
+<TD>An in-place complex FFT of a power-of-two size (radix 2, iterative).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp">HrtfDatabase</A></B></TD>
+<TD>The head-related transfer functions (HRTF) that the <code>HRTF</code> panning model of the <code>PannerNode</code> uses: the
+ measurements of the MIT KEMAR dummy head microphone, loaded from the resource <code>kemar-compact.hrtf</code> that sits next to this
+ class (it is part of the product JAR and is read from the class path).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfRenderer.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp">HrtfRenderer</A></B></TD>
+<TD>Renders a mono source into the two ears with the HRTF of a direction: the signal is convolved with the left and the right ear
+ kernels of <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfSet.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><CODE>HrtfSet</CODE></A> (one FIR filter per ear, with the interaural delay inside the kernel).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfSet.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp">HrtfSet</A></B></TD>
+<TD>The HRTF data of <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/HrtfDatabase.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><CODE>HrtfDatabase</CODE></A> prepared for one sample rate, and the interpolation between the measured directions: for any
+ azimuth and elevation it produces the pair of impulse responses (the kernels of the left and the right ear) that a source in that
+ direction needs.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/IirFilter.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp">IirFilter</A></B></TD>
+<TD>A general IIR filter of the Web Audio API (1.21): the transfer function <code>H(z) = sum b[m] z^-m / sum a[n] z^-n</code> with at most
+ 20 coefficients in each array.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/PartitionedConvolver.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp">PartitionedConvolver</A></B></TD>
+<TD>Convolves one input channel with one impulse response channel in blocks of a render quantum, without any latency and with the cost of
+ a partitioned FFT convolution (see <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/ConvolutionKernel.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><CODE>ConvolutionKernel</CODE></A> for the layout).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/WaveShaperKernel.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp">WaveShaperKernel</A></B></TD>
+<TD>The processing of a wave shaper for one channel (Web Audio API 1.31): the shaping curve with linear interpolation and the optional
+ oversampling.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+<A NAME="package_description"><!-- --></A><H2>
+Package org.duckdns.hjow.swingwebpanel.media.webaudio.dsp Description
+</H2>
+
+<P>
+Signal processing helpers of the Web Audio engine (plan items P25-02 to P25-04): the FFT, the biquad filter coefficients and kernel
+ and the general IIR kernel. The classes know nothing about the audio graph, so they can be tested with plain arrays.
+ <p>
+ Web Audio 엔진의 신호 처리 도우미(계획 P25-02~P25-04): FFT, 쌍이차 필터 계수와 커널, 일반 IIR 커널. 이 클래스들은 오디오 그래프를 모르므로
+ 단순한 배열로 시험할 수 있다.
+<P>
+
+<P>
+<DL>
+</DL>
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

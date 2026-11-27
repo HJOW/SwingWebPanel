@@ -1,0 +1,424 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+FocusManager
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="FocusManager";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/FocusEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/FocusManager.Visibility.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/FocusManager.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="FocusManager.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom</FONT>
+<BR>
+Class FocusManager</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.dom.FocusManager</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>FocusManager</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The focus of a document (HTML Standard, "focus"): which elements can have the focus, the order of the Tab key, moving the focus
+ with the <code>blur</code>, <code>focusout</code>, <code>focus</code> and <code>focusin</code> events in the order of the UI Events
+ specification, and the effect that the focus of the window (the component) has on the event of the focused element. The judgment is made
+ from the DOM only (attributes, tree); elements that are not displayed are excluded by the caller that knows the layout.
+ <p>
+ 문서의 포커스(HTML 표준 "focus"): 포커스를 가질 수 있는 요소, Tab 키의 순서, UI Events 명세의 순서로 <code>blur</code>, <code>focusout</code>,
+ <code>focus</code>, <code>focusin</code> 이벤트를 보내며 포커스를 옮기는 일, 창(컴포넌트)의 포커스가 포커스를 가진 요소의 이벤트에 주는 영향.
+ 판정은 DOM(속성, 트리)만으로 하며, 표시되지 않는 요소는 레이아웃을 아는 호출자가 제외한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/FocusManager.Visibility.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">FocusManager.Visibility</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether an element is displayed (the layout side knows; the DOM does not).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/FocusManager.html#blur(org.duckdns.hjow.swingwebpanel.dom.Element, boolean)">blur</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+     boolean&nbsp;windowHasFocus)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes the focus from an element if it has it (the <code>blur()</code> method).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/FocusManager.html#focus(org.duckdns.hjow.swingwebpanel.dom.Element, boolean)">focus</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;target,
+      boolean&nbsp;windowHasFocus)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gives the focus to an element if it can have it (the <code>focus()</code> method and the focus of a click).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/FocusManager.html#getFocused(org.duckdns.hjow.swingwebpanel.dom.Document)">getFocused</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the element that has the focus, or null if none has it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/FocusManager.html#isFocusable(org.duckdns.hjow.swingwebpanel.dom.Element)">isFocusable</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether an element is focusable by itself: an element with a valid <code>tabindex</code>, a link with <code>href</code>, an
+ enabled form control (not <code>hidden</code> inputs), an <code>iframe</code>, audio controls, an editable element or a <code>summary</code>; an
+ element that is disabled or has a <code>hidden</code> ancestor is not.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/FocusManager.html#next(org.duckdns.hjow.swingwebpanel.dom.Document, org.duckdns.hjow.swingwebpanel.dom.Element, boolean, org.duckdns.hjow.swingwebpanel.dom.FocusManager.Visibility)">next</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+     <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;from,
+     boolean&nbsp;forward,
+     <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/FocusManager.Visibility.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">FocusManager.Visibility</A>&nbsp;visible)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Finds the element that the Tab key (or Shift+Tab) moves the focus to: elements with a positive <code>tabindex</code> come first, in
+ the order of their values and then the document order, then the others in document order; elements with a negative
+ <code>tabindex</code> are skipped.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/FocusManager.html#tabIndex(org.duckdns.hjow.swingwebpanel.dom.Element)">tabIndex</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the position of the element in the Tab order: the <code>tabindex</code> value, or 0 for an element that is focusable by
+ default, or -1 if it cannot be reached with the Tab key.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/FocusManager.html#windowFocusChanged(org.duckdns.hjow.swingwebpanel.dom.Document, boolean)">windowFocusChanged</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+                   boolean&nbsp;gained)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells the document that the window (the component) gained or lost the focus: the focused element gets <code>focus</code> and
+ <code>focusin</code> or <code>blur</code> and <code>focusout</code> but stays the focused element.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="isFocusable(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+isFocusable</H3>
+<PRE>
+public static boolean <B>isFocusable</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Tells whether an element is focusable by itself: an element with a valid <code>tabindex</code>, a link with <code>href</code>, an
+ enabled form control (not <code>hidden</code> inputs), an <code>iframe</code>, audio controls, an editable element or a <code>summary</code>; an
+ element that is disabled or has a <code>hidden</code> ancestor is not.
+ <p>
+ 요소가 스스로 포커스를 가질 수 있는지 알려 준다: 유효한 <code>tabindex</code> 가 있는 요소, <code>href</code> 가 있는 링크, 사용할 수 있는 폼
+ 컨트롤(<code>hidden</code> 입력은 제외), <code>iframe</code>, 오디오 컨트롤, 편집 가능한 요소, <code>summary</code>. 비활성이거나 <code>hidden</code> 조상이 있는
+ 요소는 아니다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>true if it can have the focus / 포커스를 가질 수 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="tabIndex(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+tabIndex</H3>
+<PRE>
+public static int <B>tabIndex</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Returns the position of the element in the Tab order: the <code>tabindex</code> value, or 0 for an element that is focusable by
+ default, or -1 if it cannot be reached with the Tab key.
+ <p>
+ 요소의 Tab 순서 위치를 반환한다: <code>tabindex</code> 값, 기본으로 포커스를 가지는 요소는 0, Tab 키로 닿을 수 없으면 -1.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>the value / 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFocused(org.duckdns.hjow.swingwebpanel.dom.Document)"><!-- --></A><H3>
+getFocused</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>getFocused</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc)</PRE>
+<DL>
+<DD>Returns the element that has the focus, or null if none has it.
+ <p>
+ 포커스를 가진 요소를 반환한다. 없으면 null.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>doc</CODE> - the document / 문서
+<DT><B>Returns:</B><DD>the element or null / 요소. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="focus(org.duckdns.hjow.swingwebpanel.dom.Element, boolean)"><!-- --></A><H3>
+focus</H3>
+<PRE>
+public static boolean <B>focus</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;target,
+                            boolean&nbsp;windowHasFocus)</PRE>
+<DL>
+<DD>Gives the focus to an element if it can have it (the <code>focus()</code> method and the focus of a click). Events are sent in the
+ order <code>blur</code>, <code>focusout</code> to the old element and <code>focus</code>, <code>focusin</code> to the new one. The
+ events are trusted: the user agent sends them.
+ <p>
+ 요소가 포커스를 가질 수 있으면 포커스를 준다(<code>focus()</code> 메서드와 클릭의 포커스). 이벤트는 이전 요소에 <code>blur</code>,
+ <code>focusout</code>, 새 요소에 <code>focus</code>, <code>focusin</code> 순서로 보낸다. 사용자 에이전트가 보내므로 신뢰 이벤트이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>target</CODE> - the element / 요소<DD><CODE>windowHasFocus</CODE> - whether the window (the component) has the focus, so that the events are sent / 창(컴포넌트)에 포커스가 있어 이벤트를 보낼지
+<DT><B>Returns:</B><DD>true if the focus moved / 포커스가 옮겨졌으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="blur(org.duckdns.hjow.swingwebpanel.dom.Element, boolean)"><!-- --></A><H3>
+blur</H3>
+<PRE>
+public static boolean <B>blur</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                           boolean&nbsp;windowHasFocus)</PRE>
+<DL>
+<DD>Removes the focus from an element if it has it (the <code>blur()</code> method).
+ <p>
+ 요소가 포커스를 가졌으면 포커스를 거둔다(<code>blur()</code> 메서드).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소<DD><CODE>windowHasFocus</CODE> - whether the events are sent / 이벤트를 보낼지
+<DT><B>Returns:</B><DD>true if the element had the focus / 요소가 포커스를 가지고 있었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="windowFocusChanged(org.duckdns.hjow.swingwebpanel.dom.Document, boolean)"><!-- --></A><H3>
+windowFocusChanged</H3>
+<PRE>
+public static void <B>windowFocusChanged</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+                                      boolean&nbsp;gained)</PRE>
+<DL>
+<DD>Tells the document that the window (the component) gained or lost the focus: the focused element gets <code>focus</code> and
+ <code>focusin</code> or <code>blur</code> and <code>focusout</code> but stays the focused element.
+ <p>
+ 창(컴포넌트)이 포커스를 얻거나 잃었음을 문서에 알린다. 포커스를 가진 요소는 <code>focus</code>, <code>focusin</code> 또는 <code>blur</code>,
+ <code>focusout</code> 을 받으며 포커스를 가진 요소로 남는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>doc</CODE> - the document / 문서<DD><CODE>gained</CODE> - true if the window gained the focus / 창이 포커스를 얻었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="next(org.duckdns.hjow.swingwebpanel.dom.Document, org.duckdns.hjow.swingwebpanel.dom.Element, boolean, org.duckdns.hjow.swingwebpanel.dom.FocusManager.Visibility)"><!-- --></A><H3>
+next</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>next</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+                           <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;from,
+                           boolean&nbsp;forward,
+                           <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/FocusManager.Visibility.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">FocusManager.Visibility</A>&nbsp;visible)</PRE>
+<DL>
+<DD>Finds the element that the Tab key (or Shift+Tab) moves the focus to: elements with a positive <code>tabindex</code> come first, in
+ the order of their values and then the document order, then the others in document order; elements with a negative
+ <code>tabindex</code> are skipped. Returns null after the last (or before the first) element, which is the moment to leave the
+ document.
+ <p>
+ Tab 키(또는 Shift+Tab)가 포커스를 옮길 요소를 찾는다: <code>tabindex</code> 가 양수인 요소가 값 순서와 문서 순서대로 먼저 오고, 그다음 나머지가
+ 문서 순서로 온다. <code>tabindex</code> 가 음수인 요소는 건너뛴다. 마지막 요소 다음(또는 첫 요소 이전)이면 null 이며, 문서를 떠날 때이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>doc</CODE> - the document / 문서<DD><CODE>from</CODE> - the element that has the focus now, or null / 지금 포커스를 가진 요소. 없으면 null<DD><CODE>forward</CODE> - true for Tab, false for Shift+Tab / Tab 이면 true, Shift+Tab 이면 false<DD><CODE>visible</CODE> - tells whether an element is displayed, or null to accept all / 요소가 표시되는지 알려 준다. 모두 받으려면 null
+<DT><B>Returns:</B><DD>the next element or null / 다음 요소. 없으면 null</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/FocusEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/FocusManager.Visibility.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/FocusManager.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="FocusManager.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

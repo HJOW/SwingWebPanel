@@ -1,0 +1,382 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+WorkletLimits
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="WorkletLimits";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletHost.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletLimits.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WorkletLimits.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#methods_inherited_from_class_java.lang.Object">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;METHOD</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet</FONT>
+<BR>
+Class WorkletLimits</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet.WorkletLimits</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>WorkletLimits</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The limits of the audio worklet. The script of a worklet runs on the rendering thread of an audio context, so its time is scarce: a render quantum of 128 frames is about 2.7 ms
+ at 48 kHz, and the interpreter needs about a quarter of a millisecond for a simple processor (measured: 0.2 to 0.3 ms for a loop over the 128 frames). The limits below keep a
+ runaway script from holding the rendering thread, and keep a real-time context responsive when the worklet is busy.
+ <p>
+ 오디오 worklet 의 한도. worklet 의 스크립트는 오디오 컨텍스트의 렌더링 스레드에서 실행되므로 시간이 귀하다: 128 프레임의 render quantum 은 48 kHz 에서 약 2.7 ms 이며, 인터프리터는 단순한
+ 프로세서 하나에 약 0.25 ms 가 든다(측정: 128 프레임을 도는 반복문 하나에 0.2 ~ 0.3 ms). 아래 한도는 폭주하는 스크립트가 렌더링 스레드를 붙잡지 못하게 하고, worklet 이 바쁠 때도 실시간
+ 컨텍스트가 응답하게 한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletLimits.html#MAX_MODULES_PER_LOAD">MAX_MODULES_PER_LOAD</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The largest number of modules (source texts) that one <code>addModule()</code> loads (the module and what it imports, directly or not); a larger graph is refused.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletLimits.html#MAX_PENDING_TASKS">MAX_PENDING_TASKS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The largest number of tasks (messages, module loads, constructions) that wait for the worklet thread; further tasks are dropped.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletLimits.html#MAX_PROCESSORS">MAX_PROCESSORS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The largest number of processor names that one worklet global scope can register.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletLimits.html#PROCESS_STEP_LIMIT">PROCESS_STEP_LIMIT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The step limit of one call of <code>process()</code> (the engine counts statements, loop iterations and calls).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletLimits.html#REALTIME_CONSTRUCT_WAIT_MILLIS">REALTIME_CONSTRUCT_WAIT_MILLIS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;How long the control message that creates a processor waits for the script realm in a real-time context, in milliseconds; if the realm is still busy the construction is
+ tried again at the next quantum.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletLimits.html#REALTIME_LOCK_WAIT_MILLIS">REALTIME_LOCK_WAIT_MILLIS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;How long the rendering thread of a real-time context waits for the script realm when the worklet thread is busy (a module is being evaluated, a message handler runs), in
+ milliseconds.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletLimits.html#REALTIME_PROCESS_TIME_LIMIT_MILLIS">REALTIME_PROCESS_TIME_LIMIT_MILLIS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The time limit of one call of <code>process()</code> in a real-time context, in milliseconds: a call that takes longer fails like one that throws.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="PROCESS_STEP_LIMIT"><!-- --></A><H3>
+PROCESS_STEP_LIMIT</H3>
+<PRE>
+public static final long <B>PROCESS_STEP_LIMIT</B></PRE>
+<DL>
+<DD>The step limit of one call of <code>process()</code> (the engine counts statements, loop iterations and calls). A processor that exceeds it fails like one that throws
+ (the <code>processorerror</code> event, silence for good). A processor that loops over 128 frames with a few statements needs a few thousand steps.
+ <p>
+ <code>process()</code> 호출 하나의 단계 수 한도(엔진은 문장, 반복 한 번, 호출을 센다). 넘으면 예외를 던진 것처럼 실패한다(<code>processorerror</code> 이벤트, 영구 무음). 128 프레임을 몇 문장으로 도는
+ 프로세서는 수천 단계가 든다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet.WorkletLimits.PROCESS_STEP_LIMIT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="REALTIME_PROCESS_TIME_LIMIT_MILLIS"><!-- --></A><H3>
+REALTIME_PROCESS_TIME_LIMIT_MILLIS</H3>
+<PRE>
+public static final long <B>REALTIME_PROCESS_TIME_LIMIT_MILLIS</B></PRE>
+<DL>
+<DD>The time limit of one call of <code>process()</code> in a real-time context, in milliseconds: a call that takes longer fails like one that throws. It is about
+ 37 render quanta at 48 kHz; a processor that needs this long cannot be played anyway.
+ <p>
+ 실시간 컨텍스트에서 <code>process()</code> 호출 하나의 시간 한도(밀리초): 더 오래 걸리는 호출은 예외를 던진 것처럼 실패한다. 48 kHz 에서 render quantum 약 37 개이며, 이만큼 걸리는
+ 프로세서는 어차피 재생할 수 없다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet.WorkletLimits.REALTIME_PROCESS_TIME_LIMIT_MILLIS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="REALTIME_LOCK_WAIT_MILLIS"><!-- --></A><H3>
+REALTIME_LOCK_WAIT_MILLIS</H3>
+<PRE>
+public static final long <B>REALTIME_LOCK_WAIT_MILLIS</B></PRE>
+<DL>
+<DD>How long the rendering thread of a real-time context waits for the script realm when the worklet thread is busy (a module is being evaluated, a message handler runs), in
+ milliseconds. If the realm is still busy, the node outputs silence for that quantum (<A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#SKIPPED"><CODE>AudioWorkletNode.SKIPPED</CODE></A>) and
+ every other node of the same quantum gives up at once, so that the rendering thread loses this time once per quantum and not once per node.
+ <p>
+ worklet 스레드가 바쁠 때(모듈을 평가하거나 메시지 핸들러가 실행 중일 때) 실시간 컨텍스트의 렌더링 스레드가 스크립트 realm 을 기다리는 시간(밀리초). 그래도 realm 이 바쁘면 노드는 그
+ quantum 의 출력을 무음으로 하고(<A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#SKIPPED"><CODE>AudioWorkletNode.SKIPPED</CODE></A>) 같은 quantum 의 다른 노드는 곧바로 포기하므로, 렌더링 스레드가 이
+ 시간을 노드마다가 아니라 quantum 마다 한 번만 잃는다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet.WorkletLimits.REALTIME_LOCK_WAIT_MILLIS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="REALTIME_CONSTRUCT_WAIT_MILLIS"><!-- --></A><H3>
+REALTIME_CONSTRUCT_WAIT_MILLIS</H3>
+<PRE>
+public static final long <B>REALTIME_CONSTRUCT_WAIT_MILLIS</B></PRE>
+<DL>
+<DD>How long the control message that creates a processor waits for the script realm in a real-time context, in milliseconds; if the realm is still busy the construction is
+ tried again at the next quantum.
+ <p>
+ 실시간 컨텍스트에서 프로세서를 만드는 제어 메시지가 스크립트 realm 을 기다리는 시간(밀리초). 그래도 바쁘면 다음 quantum 에 다시 시도한다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet.WorkletLimits.REALTIME_CONSTRUCT_WAIT_MILLIS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAX_PENDING_TASKS"><!-- --></A><H3>
+MAX_PENDING_TASKS</H3>
+<PRE>
+public static final int <B>MAX_PENDING_TASKS</B></PRE>
+<DL>
+<DD>The largest number of tasks (messages, module loads, constructions) that wait for the worklet thread; further tasks are dropped. A page that floods the processor port
+ cannot grow the queue without bound.
+ <p>
+ worklet 스레드를 기다릴 수 있는 작업(메시지, 모듈 로드, 생성)의 최대 수. 더 오는 작업은 버린다. 프로세서 포트를 범람시키는 페이지가 큐를 끝없이 키울 수 없다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet.WorkletLimits.MAX_PENDING_TASKS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAX_MODULES_PER_LOAD"><!-- --></A><H3>
+MAX_MODULES_PER_LOAD</H3>
+<PRE>
+public static final int <B>MAX_MODULES_PER_LOAD</B></PRE>
+<DL>
+<DD>The largest number of modules (source texts) that one <code>addModule()</code> loads (the module and what it imports, directly or not); a larger graph is refused.
+ <p>
+ <code>addModule()</code> 한 번이 불러오는 모듈(소스 텍스트)의 최대 수(모듈과 그것이 직간접으로 import 하는 것). 더 큰 그래프는 거부한다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet.WorkletLimits.MAX_MODULES_PER_LOAD">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAX_PROCESSORS"><!-- --></A><H3>
+MAX_PROCESSORS</H3>
+<PRE>
+public static final int <B>MAX_PROCESSORS</B></PRE>
+<DL>
+<DD>The largest number of processor names that one worklet global scope can register.
+ <p>
+ worklet 전역 범위 하나가 등록할 수 있는 프로세서 이름의 최대 수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet.WorkletLimits.MAX_PROCESSORS">Constant Field Values</A></DL>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletHost.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletLimits.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WorkletLimits.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#methods_inherited_from_class_java.lang.Object">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;METHOD</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,463 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+EncodingLabels
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="EncodingLabels";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DocumentModes.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/html/EncodingLabels.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="EncodingLabels.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.html</FONT>
+<BR>
+Class EncodingLabels</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.html.EncodingLabels</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>EncodingLabels</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Label and name handling of the Encoding Standard: it maps the labels that appear in HTTP headers and <code>meta</code> elements
+ (<code>utf8</code>, <code>euc-kr</code>, <code>ks_c_5601-1987</code>, ...) to the canonical encoding names
+ (<code>UTF-8</code>, <code>EUC-KR</code>, ...) using the generated table <CODE>EncodingLabelData</CODE>, and maps each canonical name to a
+ charset that the running JRE can decode with. The table is built once on first use.
+ <p>
+ Encoding 표준의 라벨과 이름 처리: HTTP 헤더와 <code>meta</code> 요소에 나오는 라벨(<code>utf8</code>, <code>euc-kr</code>,
+ <code>ks_c_5601-1987</code> 등)을 생성된 표 <CODE>EncodingLabelData</CODE> 로 표준 인코딩 이름(<code>UTF-8</code>, <code>EUC-KR</code> 등)에 대응시키고,
+ 각 표준 이름을 실행 중인 JRE 가 디코딩할 수 있는 charset 에 대응시킨다. 표는 처음 쓸 때 한 번 만든다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingLabels.html#REPLACEMENT">REPLACEMENT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Canonical name of the "replacement" encoding (decodes to one U+FFFD).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingLabels.html#UTF_16BE">UTF_16BE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Canonical name of UTF-16 big endian.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingLabels.html#UTF_16LE">UTF_16LE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Canonical name of UTF-16 little endian.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingLabels.html#UTF_8">UTF_8</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Canonical name of UTF-8.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingLabels.html#WINDOWS_1252">WINDOWS_1252</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Canonical name of windows-1252, the default encoding of this implementation.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingLabels.html#X_USER_DEFINED">X_USER_DEFINED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Canonical name of the legacy single-byte encoding that maps bytes 0x80-0xFF to the private use area.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingLabels.html#canonicalName(java.lang.String)">canonicalName</A></B>(java.lang.String&nbsp;label)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the canonical encoding name for a label ("get an encoding"), ignoring ASCII case and surrounding ASCII white space.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingLabels.html#decode(byte[], int, java.lang.String)">decode</A></B>(byte[]&nbsp;bytes,
+       int&nbsp;offset,
+       java.lang.String&nbsp;canonical)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Decodes bytes in a canonical encoding.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingLabels.html#isDecodable(java.lang.String)">isDecodable</A></B>(java.lang.String&nbsp;canonical)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether this JRE can decode a canonical encoding (through a Java charset or this class's own decoders).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingLabels.html#javaCharsetName(java.lang.String)">javaCharsetName</A></B>(java.lang.String&nbsp;canonical)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the name of a Java charset that decodes a canonical encoding, or null when the JRE has none (or the encoding is decoded
+ by this implementation itself: <code>x-user-defined</code>, <code>windows-1252</code>, <code>replacement</code>).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="UTF_8"><!-- --></A><H3>
+UTF_8</H3>
+<PRE>
+public static final java.lang.String <B>UTF_8</B></PRE>
+<DL>
+<DD>Canonical name of UTF-8.
+ <p>
+ UTF-8 의 표준 이름.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.EncodingLabels.UTF_8">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="UTF_16BE"><!-- --></A><H3>
+UTF_16BE</H3>
+<PRE>
+public static final java.lang.String <B>UTF_16BE</B></PRE>
+<DL>
+<DD>Canonical name of UTF-16 big endian.
+ <p>
+ UTF-16 빅 엔디언의 표준 이름.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.EncodingLabels.UTF_16BE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="UTF_16LE"><!-- --></A><H3>
+UTF_16LE</H3>
+<PRE>
+public static final java.lang.String <B>UTF_16LE</B></PRE>
+<DL>
+<DD>Canonical name of UTF-16 little endian.
+ <p>
+ UTF-16 리틀 엔디언의 표준 이름.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.EncodingLabels.UTF_16LE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="WINDOWS_1252"><!-- --></A><H3>
+WINDOWS_1252</H3>
+<PRE>
+public static final java.lang.String <B>WINDOWS_1252</B></PRE>
+<DL>
+<DD>Canonical name of windows-1252, the default encoding of this implementation.
+ <p>
+ 이 구현의 기본 인코딩인 windows-1252 의 표준 이름.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.EncodingLabels.WINDOWS_1252">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="X_USER_DEFINED"><!-- --></A><H3>
+X_USER_DEFINED</H3>
+<PRE>
+public static final java.lang.String <B>X_USER_DEFINED</B></PRE>
+<DL>
+<DD>Canonical name of the legacy single-byte encoding that maps bytes 0x80-0xFF to the private use area.
+ <p>
+ 바이트 0x80-0xFF 를 사설 영역으로 대응시키는 옛 단일 바이트 인코딩의 표준 이름.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.EncodingLabels.X_USER_DEFINED">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="REPLACEMENT"><!-- --></A><H3>
+REPLACEMENT</H3>
+<PRE>
+public static final java.lang.String <B>REPLACEMENT</B></PRE>
+<DL>
+<DD>Canonical name of the "replacement" encoding (decodes to one U+FFFD).
+ <p>
+ "replacement" 인코딩(U+FFFD 하나로 디코딩됨)의 표준 이름.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.EncodingLabels.REPLACEMENT">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="canonicalName(java.lang.String)"><!-- --></A><H3>
+canonicalName</H3>
+<PRE>
+public static java.lang.String <B>canonicalName</B>(java.lang.String&nbsp;label)</PRE>
+<DL>
+<DD>Returns the canonical encoding name for a label ("get an encoding"), ignoring ASCII case and surrounding ASCII white space.
+ <p>
+ 라벨에 대한 표준 인코딩 이름을 반환한다("get an encoding"). ASCII 대소문자와 앞뒤 ASCII 공백은 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>label</CODE> - label such as <code>utf8</code> or <code>EUC-KR</code>, may be null / <code>utf8</code>, <code>EUC-KR</code> 같은 라벨, null 가능
+<DT><B>Returns:</B><DD>canonical name (for example <code>UTF-8</code>), or null if the label is unknown / 표준 이름(예: <code>UTF-8</code>), 알 수 없는 라벨이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="javaCharsetName(java.lang.String)"><!-- --></A><H3>
+javaCharsetName</H3>
+<PRE>
+public static java.lang.String <B>javaCharsetName</B>(java.lang.String&nbsp;canonical)</PRE>
+<DL>
+<DD>Returns the name of a Java charset that decodes a canonical encoding, or null when the JRE has none (or the encoding is decoded
+ by this implementation itself: <code>x-user-defined</code>, <code>windows-1252</code>, <code>replacement</code>).
+ <p>
+ 표준 인코딩을 디코딩하는 Java charset 이름을 반환한다. JRE 에 없거나 이 구현이 직접 디코딩하는 인코딩(<code>x-user-defined</code>,
+ <code>windows-1252</code>, <code>replacement</code>)이면 null.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>canonical</CODE> - canonical name / 표준 이름
+<DT><B>Returns:</B><DD>Java charset name or null / Java charset 이름 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isDecodable(java.lang.String)"><!-- --></A><H3>
+isDecodable</H3>
+<PRE>
+public static boolean <B>isDecodable</B>(java.lang.String&nbsp;canonical)</PRE>
+<DL>
+<DD>Tells whether this JRE can decode a canonical encoding (through a Java charset or this class's own decoders).
+ <p>
+ 이 JRE 가 표준 인코딩을 디코딩할 수 있는지(Java charset 또는 이 클래스의 자체 디코더로) 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>canonical</CODE> - canonical name / 표준 이름
+<DT><B>Returns:</B><DD>true if text in that encoding can be decoded / 그 인코딩의 텍스트를 디코딩할 수 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="decode(byte[], int, java.lang.String)"><!-- --></A><H3>
+decode</H3>
+<PRE>
+public static java.lang.String <B>decode</B>(byte[]&nbsp;bytes,
+                                      int&nbsp;offset,
+                                      java.lang.String&nbsp;canonical)</PRE>
+<DL>
+<DD>Decodes bytes in a canonical encoding. Malformed or unmappable input becomes U+FFFD, as the Encoding Standard requires; no
+ exception is thrown. An encoding that this JRE cannot decode is decoded as windows-1252.
+ <p>
+ 표준 인코딩의 바이트를 디코딩한다. Encoding 표준대로 잘못되었거나 대응할 수 없는 입력은 U+FFFD 가 되며 예외는 던지지 않는다. 이 JRE 가
+ 디코딩할 수 없는 인코딩은 windows-1252 로 디코딩한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>bytes</CODE> - bytes / 바이트<DD><CODE>offset</CODE> - first byte to decode / 디코딩할 첫 바이트의 위치<DD><CODE>canonical</CODE> - canonical name / 표준 이름
+<DT><B>Returns:</B><DD>decoded text / 디코딩된 문자열</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DocumentModes.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/html/EncodingLabels.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="EncodingLabels.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,623 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+BookmarkModel
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="BookmarkModel";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkHtml.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp.model"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="BookmarkModel.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.desktopapp.model</FONT>
+<BR>
+Class BookmarkModel</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkModel</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>BookmarkModel</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The bookmarks of the browser application (plan item P31-06): a tree of folders and bookmarks under one root folder. One model exists
+ per process and all windows share it, so a change made in one window is seen in the others at once; every change is announced to the
+ listeners. Use it on the event dispatch thread.
+ <p>
+ 브라우저 응용 프로그램의 북마크(계획 P31-06): 루트 폴더 하나 아래의 폴더와 북마크의 트리. 프로세스에 모델이 하나 있고 모든 창이 공유하므로, 한
+ 창에서 한 변경이 다른 창에 바로 보인다. 모든 변경은 리스너에 알린다. 이벤트 디스패치 스레드에서 쓴다.
+ <p>
+ 사용 예 / Example:
+ <pre>
+ BookmarkModel model = new BookmarkModel();
+ model.add(model.getRoot(), BookmarkNode.bookmark("Example", "https://example.com/"));
+ boolean known = model.contains("https://example.com/");
+ </pre>
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkModel.Listener</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Receives the changes of the bookmarks.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.html#BookmarkModel()">BookmarkModel</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates empty bookmarks.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.html#add(org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode, org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode)">add</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;parent,
+    <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;node)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adds an entry at the end of a folder.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.html#add(org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode, org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode, int)">add</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;parent,
+    <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;node,
+    int&nbsp;index)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adds an entry at a position of a folder.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.html#addAll(org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode, org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode)">addAll</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;parent,
+       <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;source)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Appends the entries of a folder outside the model at the end of a folder of the model; the entries are moved, not copied.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.html#addListener(org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkModel.Listener)">addListener</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkModel.Listener</A>&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adds a listener.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.html#contains(java.lang.String)">contains</A></B>(java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether an address is bookmarked.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.html#countBookmarks()">countBookmarks</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Counts the bookmarks (not the folders) of the whole tree.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.html#edit(org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode, java.lang.String, java.lang.String)">edit</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;node,
+     java.lang.String&nbsp;name,
+     java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Changes the name and the address of an entry.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.html#find(java.lang.String)">find</A></B>(java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Finds the first bookmark with an address.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.html#getRoot()">getRoot</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the root folder.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.html#move(org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode, org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode, int)">move</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;node,
+     <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;newParent,
+     int&nbsp;index)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Moves an entry to a position of a folder.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.html#remove(org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode)">remove</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;node)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes an entry (a folder with everything in it).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.html#removeListener(org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkModel.Listener)">removeListener</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkModel.Listener</A>&nbsp;listener)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes a listener.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.html#replaceAll(org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode)">replaceAll</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;source)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Replaces all bookmarks with the entries of another root folder; the entries are moved, not copied.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.html#shift(org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode, int)">shift</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;node,
+      int&nbsp;delta)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Moves an entry up or down inside its folder.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="BookmarkModel()"><!-- --></A><H3>
+BookmarkModel</H3>
+<PRE>
+public <B>BookmarkModel</B>()</PRE>
+<DL>
+<DD>Creates empty bookmarks.
+ <p>
+ 빈 북마크를 만든다.
+<P>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getRoot()"><!-- --></A><H3>
+getRoot</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A> <B>getRoot</B>()</PRE>
+<DL>
+<DD>Returns the root folder.
+ <p>
+ 루트 폴더를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the root / 루트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="add(org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode, org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode)"><!-- --></A><H3>
+add</H3>
+<PRE>
+public void <B>add</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;parent,
+                <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;node)</PRE>
+<DL>
+<DD>Adds an entry at the end of a folder.
+ <p>
+ 폴더 끝에 항목을 더한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>parent</CODE> - the folder / 폴더<DD><CODE>node</CODE> - an entry that is not in a model / 모델에 없는 항목
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the parent is not a folder of this model or the entry is already in a folder / 부모가 이 모델의
+                                  폴더가 아니거나 항목이 이미 폴더에 있으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="add(org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode, org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode, int)"><!-- --></A><H3>
+add</H3>
+<PRE>
+public void <B>add</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;parent,
+                <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;node,
+                int&nbsp;index)</PRE>
+<DL>
+<DD>Adds an entry at a position of a folder.
+ <p>
+ 폴더의 한 위치에 항목을 더한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>parent</CODE> - the folder / 폴더<DD><CODE>node</CODE> - an entry that is not in a model / 모델에 없는 항목<DD><CODE>index</CODE> - the position, cut to the range of the folder / 위치. 폴더의 범위로 자른다
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the parent is not a folder of this model or the entry is already in a folder / 부모가 이 모델의
+                                  폴더가 아니거나 항목이 이미 폴더에 있으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="remove(org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode)"><!-- --></A><H3>
+remove</H3>
+<PRE>
+public boolean <B>remove</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;node)</PRE>
+<DL>
+<DD>Removes an entry (a folder with everything in it).
+ <p>
+ 항목을 지운다(폴더이면 그 안의 모든 것과 함께).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - an entry of this model other than the root / 루트가 아닌 이 모델의 항목
+<DT><B>Returns:</B><DD>true if it was removed / 지웠으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="edit(org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode, java.lang.String, java.lang.String)"><!-- --></A><H3>
+edit</H3>
+<PRE>
+public void <B>edit</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;node,
+                 java.lang.String&nbsp;name,
+                 java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Changes the name and the address of an entry.
+ <p>
+ 항목의 이름과 주소를 바꾼다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - an entry of this model / 이 모델의 항목<DD><CODE>name</CODE> - the new name / 새 이름<DD><CODE>url</CODE> - the new address (ignored for a folder) / 새 주소(폴더이면 무시한다)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="move(org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode, org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode, int)"><!-- --></A><H3>
+move</H3>
+<PRE>
+public boolean <B>move</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;node,
+                    <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;newParent,
+                    int&nbsp;index)</PRE>
+<DL>
+<DD>Moves an entry to a position of a folder. A folder cannot be moved into itself or into a folder inside it.
+ <p>
+ 항목을 폴더의 한 위치로 옮긴다. 폴더를 자기 자신이나 자기 안의 폴더로 옮길 수는 없다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - an entry of this model other than the root / 루트가 아닌 이 모델의 항목<DD><CODE>newParent</CODE> - the folder to move into / 옮겨 갈 폴더<DD><CODE>index</CODE> - the position in that folder as it is before the move, cut to its range / 옮기기 전 기준으로 그 폴더에서의 위치.
+                  범위로 자른다
+<DT><B>Returns:</B><DD>true if the entry was moved / 옮겼으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="shift(org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode, int)"><!-- --></A><H3>
+shift</H3>
+<PRE>
+public boolean <B>shift</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;node,
+                     int&nbsp;delta)</PRE>
+<DL>
+<DD>Moves an entry up or down inside its folder.
+ <p>
+ 항목을 그 폴더 안에서 위나 아래로 옮긴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - an entry of this model other than the root / 루트가 아닌 이 모델의 항목<DD><CODE>delta</CODE> - -1 for one place up, 1 for one place down / 한 칸 위이면 -1, 한 칸 아래이면 1
+<DT><B>Returns:</B><DD>true if the entry was moved / 옮겼으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="replaceAll(org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode)"><!-- --></A><H3>
+replaceAll</H3>
+<PRE>
+public void <B>replaceAll</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;source)</PRE>
+<DL>
+<DD>Replaces all bookmarks with the entries of another root folder; the entries are moved, not copied.
+ <p>
+ 모든 북마크를 다른 루트 폴더의 항목으로 바꾼다. 항목은 복사하지 않고 옮긴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>source</CODE> - a folder outside this model whose entries are taken / 항목을 가져올, 이 모델 밖의 폴더</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addAll(org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode, org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode)"><!-- --></A><H3>
+addAll</H3>
+<PRE>
+public void <B>addAll</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;parent,
+                   <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A>&nbsp;source)</PRE>
+<DL>
+<DD>Appends the entries of a folder outside the model at the end of a folder of the model; the entries are moved, not copied.
+ <p>
+ 모델 밖 폴더의 항목을 모델의 폴더 끝에 더한다. 항목은 복사하지 않고 옮긴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>parent</CODE> - the folder of this model that receives the entries / 항목을 받을 이 모델의 폴더<DD><CODE>source</CODE> - a folder outside this model whose entries are taken / 항목을 가져올, 이 모델 밖의 폴더
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the parent is not a folder of this model / 부모가 이 모델의 폴더가 아니면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="contains(java.lang.String)"><!-- --></A><H3>
+contains</H3>
+<PRE>
+public boolean <B>contains</B>(java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Tells whether an address is bookmarked.
+ <p>
+ 주소가 북마크되어 있는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - the address / 주소
+<DT><B>Returns:</B><DD>true if a bookmark has exactly this address / 정확히 이 주소인 북마크가 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="find(java.lang.String)"><!-- --></A><H3>
+find</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkNode.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkNode</A> <B>find</B>(java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Finds the first bookmark with an address.
+ <p>
+ 주소가 같은 첫 북마크를 찾는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - the address / 주소
+<DT><B>Returns:</B><DD>the bookmark, or null / 북마크. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="countBookmarks()"><!-- --></A><H3>
+countBookmarks</H3>
+<PRE>
+public int <B>countBookmarks</B>()</PRE>
+<DL>
+<DD>Counts the bookmarks (not the folders) of the whole tree.
+ <p>
+ 트리 전체의 북마크(폴더 제외) 수를 센다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the count / 개수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addListener(org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkModel.Listener)"><!-- --></A><H3>
+addListener</H3>
+<PRE>
+public void <B>addListener</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkModel.Listener</A>&nbsp;listener)</PRE>
+<DL>
+<DD>Adds a listener.
+ <p>
+ 리스너를 더한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>listener</CODE> - the listener / 리스너</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeListener(org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkModel.Listener)"><!-- --></A><H3>
+removeListener</H3>
+<PRE>
+public void <B>removeListener</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp.model">BookmarkModel.Listener</A>&nbsp;listener)</PRE>
+<DL>
+<DD>Removes a listener.
+ <p>
+ 리스너를 뺀다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>listener</CODE> - the listener / 리스너</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkHtml.html" title="class in org.duckdns.hjow.swingwebpanel.desktopapp.model"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.Listener.html" title="interface in org.duckdns.hjow.swingwebpanel.desktopapp.model"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/desktopapp/model/BookmarkModel.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="BookmarkModel.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

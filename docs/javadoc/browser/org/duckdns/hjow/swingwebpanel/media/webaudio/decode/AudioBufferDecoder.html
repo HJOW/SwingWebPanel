@@ -1,0 +1,467 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+AudioBufferDecoder
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="AudioBufferDecoder";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioDecodeService.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioBufferDecoder.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="AudioBufferDecoder.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.webaudio.decode</FONT>
+<BR>
+Class AudioBufferDecoder</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.webaudio.decode.AudioBufferDecoder</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>AudioBufferDecoder</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The decoding pipeline of <code>decodeAudioData</code> (plan item P25-05): encoded audio file data in, an <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>AudioBuffer</CODE></A> at the sample
+ rate of the context out. It reuses the audio decoders of the media layer through their <em>wide path</em>
+ (<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoders.html#openWide(byte[], java.lang.String, org.duckdns.hjow.swingwebpanel.media.DecodeLimits)"><CODE>AudioDecoders.openWide(byte[], java.lang.String, org.duckdns.hjow.swingwebpanel.media.DecodeLimits)</CODE></A>), which choose the decoder from the <em>signature of the data</em> (the MIME type is only a hint, the specification
+ says the type is determined by sniffing), so every format the media elements play is decoded here too: WAV (PCM, float, mu-law, A-law, ADPCM),
+ AIFF/AIFF-C, AU, FLAC (native and in Ogg), MP3, AAC (ADTS and MP4), Ogg Vorbis, Opus and WebM audio.
+ <p>
+ <b>Channels and samples.</b> The buffer has <em>every channel of the file</em> (up to 32; a 5.1 file gives six channels) with the precision of the file: an N bit
+ integer sample is exactly <code>sample / 2^(N-1)</code>, floating point samples are kept, and a lossy codec delivers its own float output without the
+ rounding to 16 bits and without clipping (so a value can leave the range -1 to 1, as it can in a browser). The channel order is the canonical one of the Web
+ Audio speaker layouts (front left, front right, front centre, LFE, back left, back right, back centre, side left, side right; mono and stereo as they are),
+ which is also the order of FFmpeg and of the <code>WAVEFORMATEXTENSIBLE</code> mask: formats that code the channels in another order (Vorbis, Opus mapping
+ family 1 and AAC) are mapped to it (see <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FloatPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>FloatPcmSource</CODE></A>). No mix is applied. Samples that are not finite numbers (what a decoder can produce from damaged data) are replaced by silence and reported in the warning.
+ <p>
+ <b>Resampling.</b> If the rate of the file differs from the wanted rate, every channel is converted with a <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><CODE>Resampler</CODE></A> while it is
+ decoded (block by block, so the whole file is never held in memory in float form before the conversion). The converted length is
+ <code>ceil(frames * wanted / rate)</code>.
+ <p>
+ <b>Errors and damaged data.</b> Data that cannot be decoded at all is an <code>EncodingError</code> (<CODE>AudioException.Kind#ENCODING</CODE>) with the cause attached
+ (unknown format, a header that is damaged or a format variant that is not supported, a file with no samples, a sample rate that cannot be converted, data over the
+ limits, no memory, more than 32 channels). <b>Data that is damaged or cut off after frames were decoded is not an error</b>: the frames before the damage
+ are the result and <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeResult.html#isTruncated()"><CODE>DecodeResult.isTruncated()</CODE></A> tells that it is only a part (as in a browser, which plays what it can decode; the Web Audio API 1.1 draft
+ encourages a warning in that case, which <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeResult.html#getWarning()"><CODE>DecodeResult.getWarning()</CODE></A> and <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeWarningCallback.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><CODE>DecodeWarningCallback</CODE></A> carry). A decoder that fails
+ before it delivered the first frame gives an <code>EncodingError</code>. A cancelled decoding ends with a <CODE>CancellationException</CODE> instead (no error: the result is
+ simply not wanted). Arguments that the caller controls (a null array, a sample rate outside 3000 to 768000 Hz) are errors of the caller.
+ <p>
+ <b>Limits.</b> The input is limited by <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html" title="class in org.duckdns.hjow.swingwebpanel.media"><CODE>DecodeLimits</CODE></A> (64 MB by default), the output by <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WebAudioLimits.html#MAX_BUFFER_SAMPLES"><CODE>WebAudioLimits.MAX_BUFFER_SAMPLES</CODE></A> samples (all channels
+ together), the number of decoded input samples by <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioBufferDecoder.html#MAX_INPUT_SAMPLES"><CODE>MAX_INPUT_SAMPLES</CODE></A>. The class has no state: it can be used from any number of threads at once.
+ <p>
+ <code>decodeAudioData</code> 의 디코딩 파이프라인(계획 P25-05): 인코딩된 오디오 파일 데이터가 들어가고 컨텍스트의 표본율인 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>AudioBuffer</CODE></A> 가 나온다.
+ 미디어 계층의 오디오 디코더를 <em>넓은 경로</em>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoders.html#openWide(byte[], java.lang.String, org.duckdns.hjow.swingwebpanel.media.DecodeLimits)"><CODE>AudioDecoders.openWide(byte[], java.lang.String, org.duckdns.hjow.swingwebpanel.media.DecodeLimits)</CODE></A>)로 재사용하며, 그 디코더는 <em>데이터의 시그니처</em>로 디코더를 고른다(MIME 타입은
+ 힌트일 뿐이며 규격도 타입을 스니핑으로 정한다고 한다). 그래서 미디어 요소가 재생하는 모든 형식을 여기서도 디코딩한다: WAV(PCM, 부동 소수점, mu-law, A-law, ADPCM),
+ AIFF/AIFF-C, AU, FLAC(네이티브와 Ogg), MP3, AAC(ADTS와 MP4), Ogg Vorbis, Opus, WebM 오디오.
+ <p>
+ <b>채널과 표본.</b> 버퍼는 <em>파일의 모든 채널</em>(최대 32개. 5.1 파일은 채널 여섯 개)을 파일의 정밀도로 가진다. N비트 정수 표본은 정확히 <code>표본 / 2^(N-1)</code>,
+ 부동 소수점 표본은 그대로이고, 손실 코덱은 16비트 반올림과 클리핑 없이 자기 float 출력을 준다(그래서 값이 브라우저에서처럼 -1 ~ 1 범위를 벗어날 수 있다). 채널 순서는 Web Audio 스피커
+ 배치의 표준 순서(앞 왼쪽, 앞 오른쪽, 앞 중앙, LFE, 뒤 왼쪽, 뒤 오른쪽, 뒤 중앙, 옆 왼쪽, 옆 오른쪽. 모노와 스테레오는 그대로)이며 이는 FFmpeg 와 <code>WAVEFORMATEXTENSIBLE</code>
+ 마스크의 순서이기도 하다. 채널을 다른 순서로 부호화하는 형식(Vorbis, Opus 매핑 군 1, AAC)은 이 순서로 바꾼다(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FloatPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>FloatPcmSource</CODE></A> 참조). 믹스는 하지 않는다. 유한하지 않은 수의 표본(디코더가 손상된 데이터에서 만들 수 있다)은 무음으로 바꾸고 경고에 알린다.
+ <p>
+ <b>리샘플링.</b> 파일의 표본율이 원하는 표본율과 다르면 디코딩하는 동안 채널마다 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><CODE>Resampler</CODE></A> 로 변환한다(블록 단위이므로 변환 전의 float 형태 전체를
+ 메모리에 두지 않는다). 변환한 길이는 <code>ceil(프레임 수 * 원하는 표본율 / 파일 표본율)</code> 이다.
+ <p>
+ <b>오류와 손상된 데이터.</b> 전혀 디코딩할 수 없는 데이터는 원인을 붙인 <code>EncodingError</code>(<CODE>AudioException.Kind#ENCODING</CODE>)이다(알 수 없는 형식, 손상된 헤더나
+ 지원하지 않는 형식 변형, 표본이 없는 파일, 변환할 수 없는 표본율, 한도를 넘는 데이터, 메모리 부족, 32개보다 많은 채널). <b>프레임을 디코딩한 뒤에 손상되거나 잘린 데이터는 오류가
+ 아니다</b>: 손상 앞의 프레임이 결과이고 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeResult.html#isTruncated()"><CODE>DecodeResult.isTruncated()</CODE></A> 가 일부뿐임을 알려 준다(디코딩할 수 있는 것을 재생하는 브라우저처럼. Web Audio API 1.1 초안은 이때 경고를
+ 권장하며 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeResult.html#getWarning()"><CODE>DecodeResult.getWarning()</CODE></A> 과 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeWarningCallback.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><CODE>DecodeWarningCallback</CODE></A> 이 그것을 전한다). 첫 프레임을 내기 전에 실패한 디코더는 <code>EncodingError</code> 이다. 취소된 디코딩은
+ 대신 <CODE>CancellationException</CODE> 으로 끝난다(오류가 아니다. 결과가 필요하지 않을 뿐이다). 호출한 쪽이 정하는 인수(null 배열, 3000 ~ 768000 Hz 밖의 표본율)는 호출한 쪽의 오류이다.
+ <p>
+ <b>한도.</b> 입력은 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html" title="class in org.duckdns.hjow.swingwebpanel.media"><CODE>DecodeLimits</CODE></A>(기본 64 MB)로, 출력은 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WebAudioLimits.html#MAX_BUFFER_SAMPLES"><CODE>WebAudioLimits.MAX_BUFFER_SAMPLES</CODE></A> 표본(모든 채널 합)으로, 디코딩한 입력 표본 수는
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioBufferDecoder.html#MAX_INPUT_SAMPLES"><CODE>MAX_INPUT_SAMPLES</CODE></A> 로 제한한다. 클래스에 상태가 없으므로 여러 스레드에서 동시에 써도 된다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioBufferDecoder.html#BLOCK_FRAMES">BLOCK_FRAMES</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The number of frames that are decoded and converted at a time.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioBufferDecoder.html#MAX_INPUT_SAMPLES">MAX_INPUT_SAMPLES</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The largest number of samples (all channels together) that may be decoded from the file, before the conversion: four times the size
+ limit of a buffer, which lets a file at a high sample rate be reduced to a buffer at the largest allowed size.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBuffer</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioBufferDecoder.html#decode(byte[], java.lang.String, float, org.duckdns.hjow.swingwebpanel.media.webaudio.decode.DecodeCancellation)">decode</A></B>(byte[]&nbsp;data,
+       java.lang.String&nbsp;mimeHint,
+       float&nbsp;sampleRate,
+       <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCancellation.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">DecodeCancellation</A>&nbsp;cancel)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Decodes audio file data into a buffer at a sample rate, with the default limits (see <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioBufferDecoder.html#decodeResult(byte[], java.lang.String, float, org.duckdns.hjow.swingwebpanel.media.webaudio.decode.DecodeCancellation)"><CODE>decodeResult(byte[], java.lang.String, float, org.duckdns.hjow.swingwebpanel.media.webaudio.decode.DecodeCancellation)</CODE></A> for the information about damaged
+ data that this method does not return).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBuffer</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioBufferDecoder.html#decode(byte[], java.lang.String, float, org.duckdns.hjow.swingwebpanel.media.webaudio.decode.DecodeCancellation, org.duckdns.hjow.swingwebpanel.media.DecodeLimits, long)">decode</A></B>(byte[]&nbsp;data,
+       java.lang.String&nbsp;mimeHint,
+       float&nbsp;sampleRate,
+       <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCancellation.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">DecodeCancellation</A>&nbsp;cancel,
+       <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html" title="class in org.duckdns.hjow.swingwebpanel.media">DecodeLimits</A>&nbsp;limits,
+       long&nbsp;maxOutputSamples)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Decodes audio file data into a buffer at a sample rate, with explicit limits (used by tests that need small ones).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeResult.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">DecodeResult</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioBufferDecoder.html#decodeResult(byte[], java.lang.String, float, org.duckdns.hjow.swingwebpanel.media.webaudio.decode.DecodeCancellation)">decodeResult</A></B>(byte[]&nbsp;data,
+             java.lang.String&nbsp;mimeHint,
+             float&nbsp;sampleRate,
+             <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCancellation.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">DecodeCancellation</A>&nbsp;cancel)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Decodes audio file data into a buffer at a sample rate, with the default limits, and tells whether the data was decoded completely.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeResult.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">DecodeResult</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioBufferDecoder.html#decodeResult(byte[], java.lang.String, float, org.duckdns.hjow.swingwebpanel.media.webaudio.decode.DecodeCancellation, org.duckdns.hjow.swingwebpanel.media.DecodeLimits, long)">decodeResult</A></B>(byte[]&nbsp;data,
+             java.lang.String&nbsp;mimeHint,
+             float&nbsp;sampleRate,
+             <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCancellation.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">DecodeCancellation</A>&nbsp;cancel,
+             <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html" title="class in org.duckdns.hjow.swingwebpanel.media">DecodeLimits</A>&nbsp;limits,
+             long&nbsp;maxOutputSamples)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Decodes audio file data into a buffer at a sample rate, with explicit limits, and tells whether the data was decoded completely.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="BLOCK_FRAMES"><!-- --></A><H3>
+BLOCK_FRAMES</H3>
+<PRE>
+public static final int <B>BLOCK_FRAMES</B></PRE>
+<DL>
+<DD>The number of frames that are decoded and converted at a time.
+ <p>
+ 한 번에 디코딩하고 변환하는 프레임 수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.decode.AudioBufferDecoder.BLOCK_FRAMES">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAX_INPUT_SAMPLES"><!-- --></A><H3>
+MAX_INPUT_SAMPLES</H3>
+<PRE>
+public static final long <B>MAX_INPUT_SAMPLES</B></PRE>
+<DL>
+<DD>The largest number of samples (all channels together) that may be decoded from the file, before the conversion: four times the size
+ limit of a buffer, which lets a file at a high sample rate be reduced to a buffer at the largest allowed size.
+ <p>
+ 변환 전에 파일에서 디코딩할 수 있는 표본 수(모든 채널 합)의 최댓값: 버퍼 크기 한도의 4배. 표본율이 높은 파일을 허용되는 가장 큰 크기의 버퍼로 줄일 수
+ 있게 한다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.decode.AudioBufferDecoder.MAX_INPUT_SAMPLES">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="decode(byte[], java.lang.String, float, org.duckdns.hjow.swingwebpanel.media.webaudio.decode.DecodeCancellation)"><!-- --></A><H3>
+decode</H3>
+<PRE>
+public static <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBuffer</A> <B>decode</B>(byte[]&nbsp;data,
+                                 java.lang.String&nbsp;mimeHint,
+                                 float&nbsp;sampleRate,
+                                 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCancellation.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">DecodeCancellation</A>&nbsp;cancel)</PRE>
+<DL>
+<DD>Decodes audio file data into a buffer at a sample rate, with the default limits (see <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioBufferDecoder.html#decodeResult(byte[], java.lang.String, float, org.duckdns.hjow.swingwebpanel.media.webaudio.decode.DecodeCancellation)"><CODE>decodeResult(byte[], java.lang.String, float, org.duckdns.hjow.swingwebpanel.media.webaudio.decode.DecodeCancellation)</CODE></A> for the information about damaged
+ data that this method does not return).
+ <p>
+ 오디오 파일 데이터를 어떤 표본율의 버퍼로 디코딩한다. 기본 한도를 쓴다(손상된 데이터에 대한 정보는 이 메서드가 돌려주지 않으며 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioBufferDecoder.html#decodeResult(byte[], java.lang.String, float, org.duckdns.hjow.swingwebpanel.media.webaudio.decode.DecodeCancellation)"><CODE>decodeResult(byte[], java.lang.String, float, org.duckdns.hjow.swingwebpanel.media.webaudio.decode.DecodeCancellation)</CODE></A> 를 참조).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - the whole encoded file / 인코딩된 파일 전체<DD><CODE>mimeHint</CODE> - the MIME type of the data or null; only a hint / 데이터의 MIME 타입 또는 null. 힌트일 뿐이다<DD><CODE>sampleRate</CODE> - the sample rate of the result, from 3000 to 768000 Hz / 결과의 표본율(3000 ~ 768000 Hz)<DD><CODE>cancel</CODE> - a flag that tells that the result is no longer wanted, or null / 결과가 더는 필요하지 않음을 알리는 플래그. null 가능
+<DT><B>Returns:</B><DD>the buffer, with the channels of the file and <code>ceil(frames * sampleRate / rateOfTheFile)</code> frames / 파일의 채널을 가지며 프레임 수가
+         <code>ceil(프레임 수 * sampleRate / 파일의 표본율)</code> 인 버퍼
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioException</A></CODE> - <code>EncodingError</code> if the data cannot be decoded; <code>NotSupportedError</code> for a sample
+                               rate outside the range / 데이터를 디코딩할 수 없으면 <code>EncodingError</code>. 범위 밖의 표본율이면 <code>NotSupportedError</code>
+<DD><CODE>java.util.concurrent.CancellationException</CODE> - if the decoding was cancelled / 디코딩이 취소되었으면
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if <code>data</code> is null / <code>data</code> 가 null 이면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="decode(byte[], java.lang.String, float, org.duckdns.hjow.swingwebpanel.media.webaudio.decode.DecodeCancellation, org.duckdns.hjow.swingwebpanel.media.DecodeLimits, long)"><!-- --></A><H3>
+decode</H3>
+<PRE>
+public static <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBuffer</A> <B>decode</B>(byte[]&nbsp;data,
+                                 java.lang.String&nbsp;mimeHint,
+                                 float&nbsp;sampleRate,
+                                 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCancellation.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">DecodeCancellation</A>&nbsp;cancel,
+                                 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html" title="class in org.duckdns.hjow.swingwebpanel.media">DecodeLimits</A>&nbsp;limits,
+                                 long&nbsp;maxOutputSamples)</PRE>
+<DL>
+<DD>Decodes audio file data into a buffer at a sample rate, with explicit limits (used by tests that need small ones).
+ <p>
+ 오디오 파일 데이터를 어떤 표본율의 버퍼로 디코딩한다. 한도를 직접 정한다(작은 한도가 필요한 시험이 쓴다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - the whole encoded file / 인코딩된 파일 전체<DD><CODE>mimeHint</CODE> - the MIME type of the data or null; only a hint / 데이터의 MIME 타입 또는 null. 힌트일 뿐이다<DD><CODE>sampleRate</CODE> - the sample rate of the result, from 3000 to 768000 Hz / 결과의 표본율(3000 ~ 768000 Hz)<DD><CODE>cancel</CODE> - a flag that tells that the result is no longer wanted, or null / 결과가 더는 필요하지 않음을 알리는 플래그. null 가능<DD><CODE>limits</CODE> - the limits of the media decoders, null for the defaults / 미디어 디코더의 한도. null 이면 기본값<DD><CODE>maxOutputSamples</CODE> - the most samples (all channels together) the buffer may hold, at most
+                         <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WebAudioLimits.html#MAX_BUFFER_SAMPLES"><CODE>WebAudioLimits.MAX_BUFFER_SAMPLES</CODE></A> / 버퍼가 담을 수 있는 최대 표본 수(모든 채널 합). <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WebAudioLimits.html#MAX_BUFFER_SAMPLES"><CODE>WebAudioLimits.MAX_BUFFER_SAMPLES</CODE></A> 이하
+<DT><B>Returns:</B><DD>the buffer / 버퍼
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioException</A></CODE> - <code>EncodingError</code> if the data cannot be decoded; <code>NotSupportedError</code> for a sample
+                               rate outside the range / 데이터를 디코딩할 수 없으면 <code>EncodingError</code>. 범위 밖의 표본율이면 <code>NotSupportedError</code>
+<DD><CODE>java.util.concurrent.CancellationException</CODE> - if the decoding was cancelled / 디코딩이 취소되었으면
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if <code>data</code> is null or the limit is not positive / <code>data</code> 가 null 이거나 한도가 양수가 아니면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="decodeResult(byte[], java.lang.String, float, org.duckdns.hjow.swingwebpanel.media.webaudio.decode.DecodeCancellation)"><!-- --></A><H3>
+decodeResult</H3>
+<PRE>
+public static <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeResult.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">DecodeResult</A> <B>decodeResult</B>(byte[]&nbsp;data,
+                                        java.lang.String&nbsp;mimeHint,
+                                        float&nbsp;sampleRate,
+                                        <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCancellation.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">DecodeCancellation</A>&nbsp;cancel)</PRE>
+<DL>
+<DD>Decodes audio file data into a buffer at a sample rate, with the default limits, and tells whether the data was decoded completely.
+ <p>
+ 오디오 파일 데이터를 어떤 표본율의 버퍼로 디코딩하고 데이터를 완전히 디코딩했는지 알려 준다. 기본 한도를 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - the whole encoded file / 인코딩된 파일 전체<DD><CODE>mimeHint</CODE> - the MIME type of the data or null; only a hint / 데이터의 MIME 타입 또는 null. 힌트일 뿐이다<DD><CODE>sampleRate</CODE> - the sample rate of the result, from 3000 to 768000 Hz / 결과의 표본율(3000 ~ 768000 Hz)<DD><CODE>cancel</CODE> - a flag that tells that the result is no longer wanted, or null / 결과가 더는 필요하지 않음을 알리는 플래그. null 가능
+<DT><B>Returns:</B><DD>the buffer and the warning for damaged or cut-off data / 버퍼와, 손상되었거나 잘린 데이터에 대한 경고
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioException</A></CODE> - <code>EncodingError</code> if the data cannot be decoded; <code>NotSupportedError</code> for a sample
+                               rate outside the range / 데이터를 디코딩할 수 없으면 <code>EncodingError</code>. 범위 밖의 표본율이면 <code>NotSupportedError</code>
+<DD><CODE>java.util.concurrent.CancellationException</CODE> - if the decoding was cancelled / 디코딩이 취소되었으면
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if <code>data</code> is null / <code>data</code> 가 null 이면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="decodeResult(byte[], java.lang.String, float, org.duckdns.hjow.swingwebpanel.media.webaudio.decode.DecodeCancellation, org.duckdns.hjow.swingwebpanel.media.DecodeLimits, long)"><!-- --></A><H3>
+decodeResult</H3>
+<PRE>
+public static <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeResult.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">DecodeResult</A> <B>decodeResult</B>(byte[]&nbsp;data,
+                                        java.lang.String&nbsp;mimeHint,
+                                        float&nbsp;sampleRate,
+                                        <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeCancellation.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode">DecodeCancellation</A>&nbsp;cancel,
+                                        <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/DecodeLimits.html" title="class in org.duckdns.hjow.swingwebpanel.media">DecodeLimits</A>&nbsp;limits,
+                                        long&nbsp;maxOutputSamples)</PRE>
+<DL>
+<DD>Decodes audio file data into a buffer at a sample rate, with explicit limits, and tells whether the data was decoded completely.
+ <p>
+ 오디오 파일 데이터를 어떤 표본율의 버퍼로 디코딩하고 데이터를 완전히 디코딩했는지 알려 준다. 한도를 직접 정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - the whole encoded file / 인코딩된 파일 전체<DD><CODE>mimeHint</CODE> - the MIME type of the data or null; only a hint / 데이터의 MIME 타입 또는 null. 힌트일 뿐이다<DD><CODE>sampleRate</CODE> - the sample rate of the result, from 3000 to 768000 Hz / 결과의 표본율(3000 ~ 768000 Hz)<DD><CODE>cancel</CODE> - a flag that tells that the result is no longer wanted, or null / 결과가 더는 필요하지 않음을 알리는 플래그. null 가능<DD><CODE>limits</CODE> - the limits of the media decoders, null for the defaults / 미디어 디코더의 한도. null 이면 기본값<DD><CODE>maxOutputSamples</CODE> - the most samples (all channels together) the buffer may hold, at most
+                         <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WebAudioLimits.html#MAX_BUFFER_SAMPLES"><CODE>WebAudioLimits.MAX_BUFFER_SAMPLES</CODE></A> / 버퍼가 담을 수 있는 최대 표본 수(모든 채널 합). <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WebAudioLimits.html#MAX_BUFFER_SAMPLES"><CODE>WebAudioLimits.MAX_BUFFER_SAMPLES</CODE></A> 이하
+<DT><B>Returns:</B><DD>the buffer and the warning for damaged or cut-off data / 버퍼와, 손상되었거나 잘린 데이터에 대한 경고
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioException</A></CODE> - <code>EncodingError</code> if the data cannot be decoded; <code>NotSupportedError</code> for a sample
+                               rate outside the range / 데이터를 디코딩할 수 없으면 <code>EncodingError</code>. 범위 밖의 표본율이면 <code>NotSupportedError</code>
+<DD><CODE>java.util.concurrent.CancellationException</CODE> - if the decoding was cancelled / 디코딩이 취소되었으면
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if <code>data</code> is null or the limit is not positive / <code>data</code> 가 null 이거나 한도가 양수가 아니면</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioDecodeService.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/decode/AudioBufferDecoder.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="AudioBufferDecoder.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

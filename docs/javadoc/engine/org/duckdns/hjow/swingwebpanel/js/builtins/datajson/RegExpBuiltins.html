@@ -1,0 +1,277 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+RegExpBuiltins
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="RegExpBuiltins";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/JsonBuiltins.html" title="class in org.duckdns.hjow.swingwebpanel.js.builtins.datajson"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/builtins/datajson/RegExpBuiltins.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="RegExpBuiltins.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.builtins.datajson</FONT>
+<BR>
+Class RegExpBuiltins</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.builtins.datajson.RegExpBuiltins</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>RegExpBuiltins</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The built-in <code>RegExp</code> constructor and <code>RegExp.prototype</code> (ECMA-262 6th edition 21.2) on top of the regular expression
+ engine of the package js.regexp: construction and Annex B <code>compile</code>, <code>exec</code> with the <code>lastIndex</code> protocol of the
+ global and sticky flags, <code>test</code>, <code>toString</code>, the flag accessors, <code>[Symbol.match]</code>, <code>[Symbol.replace]</code>,
+ <code>[Symbol.search]</code>, <code>[Symbol.split]</code> and <code>RegExp[Symbol.species]</code>.
+ <p>
+ Resource limits: a match that exceeds the step or backtrack limit of the engine becomes a <code>RangeError</code> with a message that names
+ the limit. If a cancellation hook (see <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/RegExpBuiltins.html#setCancelHook(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.regexp.RegExpCancel)"><CODE>setCancelHook(JsRealm, RegExpCancel)</CODE></A>) reports cancellation, the match is aborted with a
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/ScriptAbortedException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>ScriptAbortedException</CODE></A> (reason CANCELLED) so the host can stop the script. The step limit can be changed per realm with
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/RegExpBuiltins.html#setStepLimit(org.duckdns.hjow.swingwebpanel.js.JsRealm, long)"><CODE>setStepLimit(JsRealm, long)</CODE></A>.
+ <p>
+ Extensions beyond ES2015: <code>s</code>/<code>d</code>, named capture result groups, lookbehind, matchAll and Unicode property escapes.
+ Not implemented: the legacy static properties <code>RegExp.$1</code> and
+ <code>RegExp.lastMatch</code>.
+ <p>
+ js.regexp 패키지의 정규식 엔진 위에 만든 내장 <code>RegExp</code> 생성자와 <code>RegExp.prototype</code>(ECMA-262 6판 21.2): 생성과 부속서 B 의
+ <code>compile</code>, g/y 플래그의 <code>lastIndex</code> 규약을 따르는 <code>exec</code>, <code>test</code>, <code>toString</code>,
+ 플래그 접근자, <code>[Symbol.match]</code>, <code>[Symbol.replace]</code>, <code>[Symbol.search]</code>, <code>[Symbol.split]</code>,
+ <code>RegExp[Symbol.species]</code>.
+ <p>
+ 자원 제한: 엔진의 단계 수나 역추적 제한을 넘는 일치는 제한 이름을 알리는 <code>RangeError</code> 가 된다. 취소 훅(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/RegExpBuiltins.html#setCancelHook(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.regexp.RegExpCancel)"><CODE>setCancelHook(JsRealm, RegExpCancel)</CODE></A>)이
+ 취소를 알리면 일치를 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/ScriptAbortedException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>ScriptAbortedException</CODE></A>(이유 CANCELLED)으로 중단하여 호스트가 스크립트를 멈출 수 있게 한다. 단계 제한은
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/RegExpBuiltins.html#setStepLimit(org.duckdns.hjow.swingwebpanel.js.JsRealm, long)"><CODE>setStepLimit(JsRealm, long)</CODE></A> 으로 realm 마다 바꿀 수 있다.
+ <p>
+ ES2015 를 넘는 확장: <code>s</code>/<code>d</code>, 이름 있는 캡처 결과, 뒤쪽 탐색, matchAll, 유니코드 속성 escape.
+ 미구현: 구형 정적 프로퍼티 <code>RegExp.$1</code>, <code>RegExp.lastMatch</code>.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/RegExpBuiltins.html#setCancelHook(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.regexp.RegExpCancel)">setCancelHook</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm,
+              <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCancel.html" title="interface in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpCancel</A>&nbsp;hook)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Installs the cancellation hook polled by regular expression matches of a realm (the host usually forwards the cancellation flag of the
+ script execution limits); null removes it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/RegExpBuiltins.html#setStepLimit(org.duckdns.hjow.swingwebpanel.js.JsRealm, long)">setStepLimit</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm,
+             long&nbsp;limit)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the matching step limit used by regular expressions created later in a realm; null-like values (zero or less) restore the default.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="setCancelHook(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.regexp.RegExpCancel)"><!-- --></A><H3>
+setCancelHook</H3>
+<PRE>
+public static void <B>setCancelHook</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm,
+                                 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/regexp/RegExpCancel.html" title="interface in org.duckdns.hjow.swingwebpanel.js.regexp">RegExpCancel</A>&nbsp;hook)</PRE>
+<DL>
+<DD>Installs the cancellation hook polled by regular expression matches of a realm (the host usually forwards the cancellation flag of the
+ script execution limits); null removes it.
+ <p>
+ realm 의 정규식 일치가 주기적으로 확인하는 취소 훅을 설치한다(호스트는 보통 스크립트 실행 제한의 취소 플래그를 전달한다). null 이면 제거한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>realm</CODE> - the realm / realm<DD><CODE>hook</CODE> - the hook or null / 훅 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setStepLimit(org.duckdns.hjow.swingwebpanel.js.JsRealm, long)"><!-- --></A><H3>
+setStepLimit</H3>
+<PRE>
+public static void <B>setStepLimit</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm,
+                                long&nbsp;limit)</PRE>
+<DL>
+<DD>Sets the matching step limit used by regular expressions created later in a realm; null-like values (zero or less) restore the default.
+ <p>
+ 이후 realm 에서 만드는 정규식이 쓰는 일치 단계 제한을 지정한다. 0 이하이면 기본값으로 되돌린다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>realm</CODE> - the realm / realm<DD><CODE>limit</CODE> - maximum matching steps per match / 일치 한 번당 최대 단계 수</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/JsonBuiltins.html" title="class in org.duckdns.hjow.swingwebpanel.js.builtins.datajson"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/builtins/datajson/RegExpBuiltins.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="RegExpBuiltins.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

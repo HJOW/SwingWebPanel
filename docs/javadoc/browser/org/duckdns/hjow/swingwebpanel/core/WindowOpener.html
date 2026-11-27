@@ -1,0 +1,298 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+WindowOpener
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="WindowOpener";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/WindowCloseHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ZoomControl.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/WindowOpener.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WindowOpener.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.core</FONT>
+<BR>
+Interface WindowOpener</H2>
+<HR>
+<DL>
+<DT><PRE>public interface <B>WindowOpener</B></DL>
+</PRE>
+
+<P>
+Opens new windows for the pages of a component (plan item P31-08). The component installs it on its session; the session calls it when
+ a page needs a window that does not exist yet.
+ <p>
+ 컴포넌트의 페이지를 위해 새 창을 연다(계획 P31-08). 컴포넌트가 자기 세션에 설치하고, 페이지가 아직 없는 창을 필요로 하면 세션이 부른다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/WindowOpener.html#canOpenWindows()">canOpenWindows</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether windows can be opened for scripts at all (a host without a screen cannot show any).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/WindowOpener.html#openFromLink(org.duckdns.hjow.swingwebpanel.core.OpenRequest, java.lang.Runnable)">openFromLink</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html" title="class in org.duckdns.hjow.swingwebpanel.core">OpenRequest</A>&nbsp;request,
+             java.lang.Runnable&nbsp;fallback)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Offers a link, a form submission or a choice of the user that asks for a new window to the host.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" title="class in org.duckdns.hjow.swingwebpanel.core">BrowserSession</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/WindowOpener.html#openFromScript(org.duckdns.hjow.swingwebpanel.core.OpenRequest, org.duckdns.hjow.swingwebpanel.core.DocumentLoop)">openFromScript</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html" title="class in org.duckdns.hjow.swingwebpanel.core">OpenRequest</A>&nbsp;request,
+               <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DocumentLoop.html" title="class in org.duckdns.hjow.swingwebpanel.core">DocumentLoop</A>&nbsp;shared)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the window of a <code>window.open</code> call.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/WindowOpener.html#popupBlocked(org.duckdns.hjow.swingwebpanel.core.OpenRequest)">popupBlocked</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html" title="class in org.duckdns.hjow.swingwebpanel.core">OpenRequest</A>&nbsp;request)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells the host that a window was not opened because the page asked for it without an action of the user.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="openFromScript(org.duckdns.hjow.swingwebpanel.core.OpenRequest, org.duckdns.hjow.swingwebpanel.core.DocumentLoop)"><!-- --></A><H3>
+openFromScript</H3>
+<PRE>
+<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" title="class in org.duckdns.hjow.swingwebpanel.core">BrowserSession</A> <B>openFromScript</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html" title="class in org.duckdns.hjow.swingwebpanel.core">OpenRequest</A>&nbsp;request,
+                              <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DocumentLoop.html" title="class in org.duckdns.hjow.swingwebpanel.core">DocumentLoop</A>&nbsp;shared)</PRE>
+<DL>
+<DD>Creates the window of a <code>window.open</code> call. It is called on the thread that runs the calling script and must return
+ at once: the session of the new window has to exist when the call returns, because the script gets its window object as the
+ result. The window itself is shown later on the event dispatch thread.
+ <p>
+ <code>window.open</code> 호출의 창을 만든다. 호출한 스크립트를 실행하는 스레드에서 불리며 곧바로 돌아와야 한다: 스크립트가 결과로 그 창
+ 객체를 받으므로, 호출이 돌아올 때 새 창의 세션이 있어야 한다. 창 자체는 나중에 이벤트 디스패치 스레드에서 보인다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>request</CODE> - what the script asked for / 스크립트가 요청한 것<DD><CODE>shared</CODE> - the document loop that the new window must share with its opener, or null for a loop of its own / 새 창이 여는
+                창과 함께 써야 하는 문서 루프. 자기 루프이면 null
+<DT><B>Returns:</B><DD>the session of the new window, or null if no window is opened / 새 창의 세션. 창을 열지 않으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="canOpenWindows()"><!-- --></A><H3>
+canOpenWindows</H3>
+<PRE>
+boolean <B>canOpenWindows</B>()</PRE>
+<DL>
+<DD>Tells whether windows can be opened for scripts at all (a host without a screen cannot show any). It is called on the thread
+ that runs the calling script, before the popup blocker is asked.
+ <p>
+ 스크립트를 위해 창을 열 수 있는지 알려 준다(화면이 없는 호스트는 보일 수 없다). 호출한 스크립트를 실행하는 스레드에서, 팝업 차단을 묻기 전에
+ 불린다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if a window can be shown / 창을 보일 수 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="openFromLink(org.duckdns.hjow.swingwebpanel.core.OpenRequest, java.lang.Runnable)"><!-- --></A><H3>
+openFromLink</H3>
+<PRE>
+void <B>openFromLink</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html" title="class in org.duckdns.hjow.swingwebpanel.core">OpenRequest</A>&nbsp;request,
+                  java.lang.Runnable&nbsp;fallback)</PRE>
+<DL>
+<DD>Offers a link, a form submission or a choice of the user that asks for a new window to the host. The host answers later on the
+ event dispatch thread; if it does not take the request, the fallback runs (on the event dispatch thread) so that the page gets
+ the behavior that it had without a host for new windows.
+ <p>
+ 새 창을 요청하는 링크, 폼 제출, 사용자의 선택을 호스트에 제안한다. 호스트는 나중에 이벤트 디스패치 스레드에서 답한다. 호스트가 요청을 받지
+ 않으면 대체 동작이 (이벤트 디스패치 스레드에서) 실행되어, 새 창을 다루는 호스트가 없을 때의 동작을 페이지가 얻는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>request</CODE> - what was asked for / 요청한 것<DD><CODE>fallback</CODE> - what to do if the host does not take the request, or null / 호스트가 요청을 받지 않으면 할 일. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="popupBlocked(org.duckdns.hjow.swingwebpanel.core.OpenRequest)"><!-- --></A><H3>
+popupBlocked</H3>
+<PRE>
+void <B>popupBlocked</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html" title="class in org.duckdns.hjow.swingwebpanel.core">OpenRequest</A>&nbsp;request)</PRE>
+<DL>
+<DD>Tells the host that a window was not opened because the page asked for it without an action of the user.
+ <p>
+ 페이지가 사용자의 조작 없이 요청했기 때문에 창을 열지 않았음을 호스트에 알린다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>request</CODE> - what was asked for / 요청한 것</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/WindowCloseHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ZoomControl.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/WindowOpener.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WindowOpener.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

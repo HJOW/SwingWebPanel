@@ -1,0 +1,365 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+org.duckdns.hjow.swingwebpanel.layout
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="org.duckdns.hjow.swingwebpanel.layout";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/worker/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<H2>
+Package org.duckdns.hjow.swingwebpanel.layout
+</H2>
+Layout engine: layout box tree, block/inline/table/flex layouts and font measurement.
+<P>
+<B>See:</B>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="#package_description"><B>Description</B></A>
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Interface Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/ContainerSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">ContainerSource</A></B></TD>
+<TD>A <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StyleSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><CODE>StyleSource</CODE></A> whose styles depend on the size of the query containers of the layout (the style sheets contain <code>@container</code>
+ rules).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/CounterStyleSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">CounterStyleSource</A></B></TD>
+<TD>A <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StyleSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><CODE>StyleSource</CODE></A> that knows the counter styles the style sheets define with <code>@counter-style</code> (CSS Counter Styles Level 3), so that
+ <code>list-style-type</code> and <code>counter()</code> can use them.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.Resolver.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">FilterSpec.Resolver</A></B></TD>
+<TD>Finds the SVG definitions that a reference to a filter element names (the renderer implements it with the document of the box).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/MarkerImageSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">MarkerImageSource</A></B></TD>
+<TD>Tells the layout the size of the image of a list marker (<code>list-style-image</code>, CSS Lists 3 section 3.3): the renderer knows the images that have
+ arrived and the image functions of CSS Images 4.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/OrientedContent.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">OrientedContent</A></B></TD>
+<TD>The content of a replaced element whose picture was turned by metadata of the file (the EXIF orientation of a JPEG, PNG or WebP image).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">PaintWalker.Visitor</A></B></TD>
+<TD>Receives the painting events of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>PaintWalker</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PositionTrySource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">PositionTrySource</A></B></TD>
+<TD>A <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StyleSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><CODE>StyleSource</CODE></A> that knows the position options that the style sheets define with <code>@position-try</code> (CSS Anchor Positioning Level 1 section 6.4), so that
+ <code>position-try-fallbacks</code> can use them when an anchor-positioned box overflows.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/ReplacedContent.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">ReplacedContent</A></B></TD>
+<TD>The external content of a replaced element (an image, audio controls, a canvas, a form control, an unsupported-video placeholder ...).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/ReplacedFallback.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">ReplacedFallback</A></B></TD>
+<TD>An optional extension of a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/ReplacedResolver.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><CODE>ReplacedResolver</CODE></A> for the elements that cannot show their content: it gives the text that an
+ <code>img</code> element without a usable image stands for (HTML5 REC 2014-10-28 section 10.4.2, https://www.w3.org/TR/2014/REC-html5-20141028/rendering.html#images).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/ReplacedResolver.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">ReplacedResolver</A></B></TD>
+<TD>Tells the layout engine what external content a replaced element has (the loaded image, the media placeholder, the form control ...).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/ShapeImageSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">ShapeImageSource</A></B></TD>
+<TD>An optional extension of a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/ReplacedResolver.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><CODE>ReplacedResolver</CODE></A> that gives the images that define a <code>shape-outside</code> (CSS Shapes Module Level 1
+ section 4): the resolver of the renderer implements it, a resolver without it (as in many layout tests) treats an image shape like
+ <code>none</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StyleSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">StyleSource</A></B></TD>
+<TD>Supplies the computed styles that the layout engine needs.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSet.Loader.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">WebFontSet.Loader</A></B></TD>
+<TD>The source of the bytes of a font file: the request layer of the page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSet.TimedLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">WebFontSet.TimedLoader</A></B></TD>
+<TD>A <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSet.Loader.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><CODE>WebFontSet.Loader</CODE></A> that also tells when the request of a font started and when its bytes arrived, so that <code>font-display</code> can tell whether the
+ font arrived in time (CSS Fonts 4 section 4.8).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">WebFontSource</A></B></TD>
+<TD>The web fonts of a page for the layout (plan item P10-05, CSS Fonts Level 3 <code>@font-face</code>): the font resolver asks it for
+ every family name of <code>font-family</code> before it looks for an installed font of that name.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/ClipPaths.html" title="class in org.duckdns.hjow.swingwebpanel.layout">ClipPaths</A></B></TD>
+<TD>The shape of <code>clip-path</code> (plan items P10-08, CSS Masking Level 1 section 5 "Clipping paths",
+ https://www.w3.org/TR/css-masking-1/, Candidate Recommendation Draft 2021-08-05, retrieved 2026-11-17, and CSS Shapes Level 1 section 3 for the
+ basic shapes): the basic shapes <code>inset()</code> (with <code>round</code> and one to four radii per axis like <code>border-radius</code>),
+ <code>circle()</code>, <code>ellipse()</code>, <code>polygon()</code> (with <code>nonzero</code> and <code>evenodd</code>), <code>rect()</code>,
+ <code>xywh()</code> and <code>path()</code> (SVG path data with <code>nonzero</code> or <code>evenodd</code>), with the reference boxes
+ <code>border-box</code> (the default), <code>padding-box</code>, <code>content-box</code> and <code>margin-box</code> (<code>fill-box</code> is the
+ content box, <code>stroke-box</code> and <code>view-box</code> are the border box).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/CssStyleSource.html" title="class in org.duckdns.hjow.swingwebpanel.layout">CssStyleSource</A></B></TD>
+<TD>A <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StyleSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><CODE>StyleSource</CODE></A> on top of the CSS engine: computed styles come from the cascade of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html" title="class in org.duckdns.hjow.swingwebpanel.css"><CODE>CssEngine</CODE></A> (user-agent, author and
+ inline styles, media queries, <code>::before</code>/<code>::after</code> rules).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Effects.html" title="class in org.duckdns.hjow.swingwebpanel.layout">Effects</A></B></TD>
+<TD>Small helpers for the properties that paint a stacking context as one group: <code>filter</code> (CSS Filter Effects 1),
+ <code>mix-blend-mode</code> and <code>isolation</code> (CSS Compositing and Blending Level 1, https://www.w3.org/TR/compositing-1/) and the
+ mask properties (CSS Masking Level 1).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html" title="class in org.duckdns.hjow.swingwebpanel.layout">FilterSpec</A></B></TD>
+<TD>The parsed value of the <code>filter</code> property (CSS Filter Effects Module Level 1, https://www.w3.org/TR/filter-effects-1/, Working
+ Draft 2018-12-18, retrieved 2026-11-17, section 6 "Filter functions" and section 13.1 "Filter functions in SVG terms"): the list of the filter functions
+ <code>blur()</code>, <code>brightness()</code>, <code>contrast()</code>, <code>drop-shadow()</code>, <code>grayscale()</code>,
+ <code>hue-rotate()</code>, <code>invert()</code>, <code>opacity()</code>, <code>saturate()</code> and <code>sepia()</code> with their
+ amounts, in the order of the declaration (the first function takes the element as input, the next ones take the output of the previous
+ one).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.Op.html" title="class in org.duckdns.hjow.swingwebpanel.layout">FilterSpec.Op</A></B></TD>
+<TD>One filter function with its arguments.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FontFeatures.html" title="class in org.duckdns.hjow.swingwebpanel.layout">FontFeatures</A></B></TD>
+<TD>The OpenType features that a style asks for (CSS Fonts Level 4, <a href="https://www.w3.org/TR/css-fonts-4/#feature-precedence">https://www.w3.org/TR/css-fonts-4/#feature-precedence</a>):
+ the <code>font-variant-*</code> properties (and the <code>font-variant</code> shorthand) and <code>font-kerning</code> turn into feature tags, and the
+ tags of <code>font-feature-settings</code> are applied after them, so that the settings win (the order of precedence of the specification).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A></B></TD>
+<TD>A box of the layout tree (plan item P09-01).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutEngine.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutEngine</A></B></TD>
+<TD>The layout engine (plan items P09-01, P09-02, P09-03): turns a DOM document and the computed styles into a tree of boxes with
+ coordinates, see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>LayoutBox</CODE></A> and <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>LayoutResult</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutResult</A></B></TD>
+<TD>The result of a layout run (plan items P09-01, P09-02, P09-03): the root of the box tree, the size of the whole document for
+ <code>preferredSize</code>, the map from DOM nodes to their boxes and hit testing.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/MotionPath.html" title="class in org.duckdns.hjow.swingwebpanel.layout">MotionPath</A></B></TD>
+<TD>The offset transform of CSS Motion Path Module Level 1 (<a href="https://www.w3.org/TR/motion-1/">https://www.w3.org/TR/motion-1/</a>, W3C Working Draft 5 November 2024):
+ <code>offset-path</code> (<code>path()</code>, <code>circle()</code>, <code>ellipse()</code>, <code>inset()</code>, <code>rect()</code>, <code>xywh()</code>,
+ <code>polygon()</code>, <code>ray()</code> and a reference box alone), <code>offset-distance</code>, <code>offset-position</code>, <code>offset-anchor</code> and
+ <code>offset-rotate</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.html" title="class in org.duckdns.hjow.swingwebpanel.layout">PaintWalker</A></B></TD>
+<TD>Walks the box tree in the painting order of CSS 2.1 Appendix E (plan item P10-01) and reports what is to be painted to a
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><CODE>PaintWalker.Visitor</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html" title="class in org.duckdns.hjow.swingwebpanel.layout">Resizing</A></B></TD>
+<TD>The geometry of the <code>resize</code> property (CSS Basic User Interface Module Level 4, https://www.w3.org/TR/css-ui-4/#resize, section 6.1
+ "resize: Resizability of elements"): which boxes the user may resize, in which directions, and where their resize handle is.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/ShapeImage.html" title="class in org.duckdns.hjow.swingwebpanel.layout">ShapeImage</A></B></TD>
+<TD>The alpha channel of an image that gives the float area of a float whose <code>shape-outside</code> is an image (CSS Shapes Module Level 1
+ section 4 "Shapes from Image", https://www.w3.org/TR/css-shapes-1/#shapes-from-image): the width and the height in image pixels and one
+ alpha value from 0 (transparent) to 255 (opaque) for every pixel in row order.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StickyConstraint.html" title="class in org.duckdns.hjow.swingwebpanel.layout">StickyConstraint</A></B></TD>
+<TD>The geometry that decides how far a <code>position:sticky</code> box is shifted while the page scrolls (CSS Positioned Layout Module
+ Level 3, section 3.4 "Sticky positioning", https://www.w3.org/TR/css-position-3/#sticky-pos).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TableBorder.html" title="class in org.duckdns.hjow.swingwebpanel.layout">TableBorder</A></B></TD>
+<TD>One segment of a collapsed table border (plan item P10-02): the winner of the conflict between the borders of the cells, rows, row
+ groups, columns, column groups and the table that meet at a grid line (CSS 2.1 17.6.2.1), as a rectangle to paint.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/TextEmphasis.html" title="class in org.duckdns.hjow.swingwebpanel.layout">TextEmphasis</A></B></TD>
+<TD>The emphasis marks of a style (CSS Text Decoration Module Level 4, <a href="https://www.w3.org/TR/css-text-decor-4/#emphasis-marks">https://www.w3.org/TR/css-text-decor-4/#emphasis-marks</a>,
+ W3C Working Draft 4 May 2022): <code>text-emphasis-style</code> (a filled or open shape: <code>dot</code>, <code>circle</code>, <code>double-circle</code>, <code>triangle</code>,
+ <code>sesame</code>, or a string), <code>text-emphasis-color</code> and <code>text-emphasis-position</code> (<code>over</code> or <code>under</code> the text in horizontal text).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSet.html" title="class in org.duckdns.hjow.swingwebpanel.layout">WebFontSet</A></B></TD>
+<TD>The <code>@font-face</code> faces of a page (plan item P10-05, CSS Fonts Level 3 section 4 https://www.w3.org/TR/css-fonts-3/ edition
+ (edition of the feature table); WOFF 1.0 https://www.w3.org/TR/WOFF/): the faces are made from the rules, the sources of a face are tried in order, and a
+ face that is loaded is chosen for a request by the font matching of CSS Fonts 3 section 5.2 (the style first, then the weight in the
+ order that depends on the requested weight).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Woff.html" title="class in org.duckdns.hjow.swingwebpanel.layout">Woff</A></B></TD>
+<TD>The decoder of WOFF 1.0 web fonts (plan item P10-05, https://www.w3.org/TR/WOFF/, W3C Recommendation 2012-12-13): a
+ WOFF file is an sfnt (TrueType or OpenType) font whose tables are compressed one by one with zlib.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Enum Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.Type.html" title="enum in org.duckdns.hjow.swingwebpanel.layout">LayoutBox.Type</A></B></TD>
+<TD>The kind of a box.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+<A NAME="package_description"><!-- --></A><H2>
+Package org.duckdns.hjow.swingwebpanel.layout Description
+</H2>
+
+<P>
+Layout engine: layout box tree, block/inline/table/flex layouts and font measurement.
+ <p>
+ 레이아웃 엔진: 레이아웃 상자 트리, 블록/인라인/표/플렉스 배치, 글꼴 측정.
+<P>
+
+<P>
+<DL>
+</DL>
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/worker/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/media/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

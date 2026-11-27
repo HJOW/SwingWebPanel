@@ -1,0 +1,461 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ImageMaps
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ImageMaps";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageLookup.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageReplacedResolver.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/render/ImageMaps.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ImageMaps.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.render</FONT>
+<BR>
+Class ImageMaps</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.render.ImageMaps</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ImageMaps</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Client-side image maps of HTML (HTML5 REC 2014-10-28 section 4.7.13, https://www.w3.org/TR/2014/REC-html5-20141028/embedded-content-0.html#image-maps,
+ retrieved 2026-11-17): an <code>img</code> with a <code>usemap</code> attribute is associated with the <code>map</code> element that the
+ attribute names, and the <code>area</code> elements of the map are shapes that are layered on the image in reverse tree order (the
+ first <code>area</code> in tree order is the top-most shape). A point of the image belongs to the first shape that contains it, also
+ when that shape has no <code>href</code> (a dead area catches the point, so the image or the link around the image is not used). The
+ coordinates of the shapes are in CSS pixels of the displayed image, so they are not affected by the zoom and by transforms. This class
+ only reads the DOM and computes; it is thread-confined to its caller like the DOM.
+ <p>
+ HTML 의 클라이언트 쪽 이미지 맵(HTML5 REC 2014-10-28 §4.7.13): <code>usemap</code> 속성이 있는 <code>img</code> 는 속성이 가리키는 <code>map</code> 요소와 연결되고,
+ 맵의 <code>area</code> 요소는 트리 순서의 역순으로 이미지 위에 겹쳐지는 모양이다(트리 순서의 첫 <code>area</code> 가 맨 위 모양). 이미지의 한 점은 그 점을 포함하는
+ 첫 모양에 속하며, 그 모양에 <code>href</code> 가 없어도 마찬가지이다(죽은 영역이 점을 잡으므로 이미지나 이미지를 감싼 링크는 쓰이지 않는다). 모양의 좌표는 표시된
+ 이미지의 CSS 픽셀이므로 확대와 변환의 영향을 받지 않는다. 이 클래스는 DOM 을 읽고 계산만 하며 DOM 처럼 호출자의 스레드에 묶인다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageMaps.html#areaAt(org.duckdns.hjow.swingwebpanel.dom.Element, double, double, double, double)">areaAt</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;img,
+       double&nbsp;x,
+       double&nbsp;y,
+       double&nbsp;w,
+       double&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Finds the <code>area</code> of the map of an image that is at a point of the image: the first area in tree order whose shape
+ contains the point (the shapes are layered in reverse tree order, so that one is the top-most).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageMaps.html#areaAt(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, org.duckdns.hjow.swingwebpanel.dom.Element, double, double, int, int)">areaAt</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box,
+       <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;img,
+       double&nbsp;docX,
+       double&nbsp;docY,
+       int&nbsp;scrollX,
+       int&nbsp;scrollY)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Finds the <code>area</code> of the image map of an image that covers a point of the page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageMaps.html#areasOf(org.duckdns.hjow.swingwebpanel.dom.Element)">areasOf</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;map)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <code>area</code> elements of a map in tree order.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageMaps.html#contains(org.duckdns.hjow.swingwebpanel.dom.Element, double, double, double, double)">contains</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;area,
+         double&nbsp;x,
+         double&nbsp;y,
+         double&nbsp;w,
+         double&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the shape of an <code>area</code> contains a point of the image (HTML5 2014 section 4.7.13.2): the shape is
+ empty if the <code>coords</code> list has fewer items than its state needs, an odd last item of a polygon and the items past the
+ ones that a state uses are dropped, a rectangle with its corners in the wrong order is swapped, and a circle needs a positive
+ radius.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageMaps.html#findMap(org.duckdns.hjow.swingwebpanel.dom.Document, java.lang.String)">findMap</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+        java.lang.String&nbsp;useMap)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Finds the <code>map</code> element that a <code>usemap</code> value refers to: the rules for parsing a hash-name reference of
+ HTML5 2014 section 2.4.9 return the first <code>map</code> in tree order that has an <code>id</code> equal to the text after the
+ first "#" or a <code>name</code> that matches it without regard to case.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageMaps.html#localPoint(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double, double, int, int)">localPoint</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box,
+           double&nbsp;docX,
+           double&nbsp;docY,
+           int&nbsp;scrollX,
+           int&nbsp;scrollY)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Moves a point of the page into the coordinate system of a box: the scroll offset is subtracted if the box is inside a fixed box (as
+ the hit test does), and the transforms of the box and its ancestors are undone, so zoom and transforms do not change what a
+ point of the displayed image means.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageMaps.html#serverSideSuffix(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.dom.Element, double, double, int, int)">serverSideSuffix</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;hit,
+                 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;target,
+                 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;link,
+                 double&nbsp;docX,
+                 double&nbsp;docY,
+                 int&nbsp;scrollX,
+                 int&nbsp;scrollY)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the hyperlink suffix of a server-side image map (HTML5 2014 section 4.5.1, the activation behavior of <code>a</code>): if the
+ click went to an <code>img</code> with an <code>ismap</code> attribute inside an <code>a</code> link, the address that is followed
+ gets <code>?</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="findMap(org.duckdns.hjow.swingwebpanel.dom.Document, java.lang.String)"><!-- --></A><H3>
+findMap</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>findMap</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+                              java.lang.String&nbsp;useMap)</PRE>
+<DL>
+<DD>Finds the <code>map</code> element that a <code>usemap</code> value refers to: the rules for parsing a hash-name reference of
+ HTML5 2014 section 2.4.9 return the first <code>map</code> in tree order that has an <code>id</code> equal to the text after the
+ first "#" or a <code>name</code> that matches it without regard to case. A value without "#" or with "#" at its end names no map.
+ <p>
+ <code>usemap</code> 값이 가리키는 <code>map</code> 요소를 찾는다: HTML5 2014 §2.4.9 의 해시 이름 참조 해석 규칙은 첫 "#" 뒤의 문자열과 같은 <code>id</code> 를
+ 가졌거나 대소문자를 구분하지 않고 같은 <code>name</code> 을 가진 트리 순서의 첫 <code>map</code> 을 돌려준다. "#" 이 없거나 맨 끝에 있는 값은 맵을 가리키지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>doc</CODE> - the document / 문서<DD><CODE>useMap</CODE> - the value of the <code>usemap</code> attribute, may be null / <code>usemap</code> 속성 값. null 일 수 있다
+<DT><B>Returns:</B><DD>the map element, or null / map 요소. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="areasOf(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+areasOf</H3>
+<PRE>
+public static java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&gt; <B>areasOf</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;map)</PRE>
+<DL>
+<DD>Returns the <code>area</code> elements of a map in tree order.
+ <p>
+ 맵의 <code>area</code> 요소를 트리 순서로 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>map</CODE> - the map element / map 요소
+<DT><B>Returns:</B><DD>the areas, never null / area 요소들. null 이 아니다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="areaAt(org.duckdns.hjow.swingwebpanel.dom.Element, double, double, double, double)"><!-- --></A><H3>
+areaAt</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>areaAt</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;img,
+                             double&nbsp;x,
+                             double&nbsp;y,
+                             double&nbsp;w,
+                             double&nbsp;h)</PRE>
+<DL>
+<DD>Finds the <code>area</code> of the map of an image that is at a point of the image: the first area in tree order whose shape
+ contains the point (the shapes are layered in reverse tree order, so that one is the top-most).
+ <p>
+ 이미지의 맵에서 이미지의 한 점에 있는 <code>area</code> 를 찾는다: 모양이 점을 포함하는 트리 순서의 첫 area(모양은 트리 순서의 역순으로 겹쳐지므로 그것이 맨 위이다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>img</CODE> - the <code>img</code> element / <code>img</code> 요소<DD><CODE>x</CODE> - x in CSS pixels from the left edge of the displayed image / 표시된 이미지의 왼쪽 가장자리에서 CSS 픽셀 x<DD><CODE>y</CODE> - y in CSS pixels from the top edge of the displayed image / 표시된 이미지의 위쪽 가장자리에서 CSS 픽셀 y<DD><CODE>w</CODE> - the displayed width of the image / 표시된 이미지의 너비<DD><CODE>h</CODE> - the displayed height of the image / 표시된 이미지의 높이
+<DT><B>Returns:</B><DD>the area, or null if the image has no map or no shape covers the point / area. 맵이 없거나 점을 덮는 모양이 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="contains(org.duckdns.hjow.swingwebpanel.dom.Element, double, double, double, double)"><!-- --></A><H3>
+contains</H3>
+<PRE>
+public static boolean <B>contains</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;area,
+                               double&nbsp;x,
+                               double&nbsp;y,
+                               double&nbsp;w,
+                               double&nbsp;h)</PRE>
+<DL>
+<DD>Tells whether the shape of an <code>area</code> contains a point of the image (HTML5 2014 section 4.7.13.2): the shape is
+ empty if the <code>coords</code> list has fewer items than its state needs, an odd last item of a polygon and the items past the
+ ones that a state uses are dropped, a rectangle with its corners in the wrong order is swapped, and a circle needs a positive
+ radius. The edges of a rectangle belong to it on the left and the top, the points of a circle include its edge, and a polygon uses
+ the even-odd rule.
+ <p>
+ <code>area</code> 의 모양이 이미지의 한 점을 포함하는지 알려 준다(HTML5 2014 §4.7.13.2): <code>coords</code> 목록의 항목이 상태에 필요한 수보다 적으면 모양이 비어
+ 있고, 다각형의 홀수 마지막 항목과 상태가 쓰는 것을 넘는 항목은 버리며, 모서리 순서가 틀린 직사각형은 서로 바꾸고, 원은 양의 반지름이 필요하다. 직사각형은 왼쪽과 위쪽
+ 가장자리를 포함하고 원은 가장자리를 포함하며 다각형은 짝홀 규칙을 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>area</CODE> - the <code>area</code> element / <code>area</code> 요소<DD><CODE>x</CODE> - x in CSS pixels from the left edge of the displayed image / 표시된 이미지의 왼쪽 가장자리에서 CSS 픽셀 x<DD><CODE>y</CODE> - y in CSS pixels from the top edge of the displayed image / 표시된 이미지의 위쪽 가장자리에서 CSS 픽셀 y<DD><CODE>w</CODE> - the displayed width of the image / 표시된 이미지의 너비<DD><CODE>h</CODE> - the displayed height of the image / 표시된 이미지의 높이
+<DT><B>Returns:</B><DD>true if the point is inside the shape / 점이 모양 안이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="areaAt(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, org.duckdns.hjow.swingwebpanel.dom.Element, double, double, int, int)"><!-- --></A><H3>
+areaAt</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>areaAt</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box,
+                             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;img,
+                             double&nbsp;docX,
+                             double&nbsp;docY,
+                             int&nbsp;scrollX,
+                             int&nbsp;scrollY)</PRE>
+<DL>
+<DD>Finds the <code>area</code> of the image map of an image that covers a point of the page. The point is moved into the coordinate
+ system of the image (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageMaps.html#localPoint(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double, double, int, int)"><CODE>localPoint(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double, double, int, int)</CODE></A>) and the content box of the image is the origin, because the coordinates of an image
+ map are in CSS pixels of the displayed image.
+ <p>
+ 이미지 맵이 있는 이미지에서 페이지의 한 점을 덮는 <code>area</code> 를 찾는다. 점을 이미지의 좌표계로 옮기고(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageMaps.html#localPoint(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double, double, int, int)"><CODE>localPoint(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double, double, int, int)</CODE></A> 참조) 이미지 맵 좌표는 표시된 이미지의
+ CSS 픽셀이므로 이미지의 content box 를 원점으로 삼는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>box</CODE> - the replaced box of the image / 이미지의 치환 상자<DD><CODE>img</CODE> - the <code>img</code> element / <code>img</code> 요소<DD><CODE>docX</CODE> - x in document coordinates / 문서 좌표 x<DD><CODE>docY</CODE> - y in document coordinates / 문서 좌표 y<DD><CODE>scrollX</CODE> - horizontal scroll offset / 가로 스크롤 오프셋<DD><CODE>scrollY</CODE> - vertical scroll offset / 세로 스크롤 오프셋
+<DT><B>Returns:</B><DD>the area, or null if no shape covers the point / area. 점을 덮는 모양이 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="localPoint(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double, double, int, int)"><!-- --></A><H3>
+localPoint</H3>
+<PRE>
+public static double[] <B>localPoint</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box,
+                                  double&nbsp;docX,
+                                  double&nbsp;docY,
+                                  int&nbsp;scrollX,
+                                  int&nbsp;scrollY)</PRE>
+<DL>
+<DD>Moves a point of the page into the coordinate system of a box: the scroll offset is subtracted if the box is inside a fixed box (as
+ the hit test does), and the transforms of the box and its ancestors are undone, so zoom and transforms do not change what a
+ point of the displayed image means.
+ <p>
+ 페이지의 한 점을 상자의 좌표계로 옮긴다: 상자가 fixed 상자 안이면 (히트 테스트처럼) 스크롤 오프셋을 빼고 상자와 조상의 변환을 되돌리므로 확대와 변환은 표시된 이미지의
+ 점이 뜻하는 바를 바꾸지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>box</CODE> - the box / 상자<DD><CODE>docX</CODE> - x in document coordinates / 문서 좌표 x<DD><CODE>docY</CODE> - y in document coordinates / 문서 좌표 y<DD><CODE>scrollX</CODE> - horizontal scroll offset / 가로 스크롤 오프셋<DD><CODE>scrollY</CODE> - vertical scroll offset / 세로 스크롤 오프셋
+<DT><B>Returns:</B><DD>the point {x, y} in the untransformed document coordinates of the box, or null if the transform cannot be inverted / 변환하지 않은 상자의 문서 좌표의 점 {x, y}. 변환을
+         되돌릴 수 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="serverSideSuffix(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.dom.Element, double, double, int, int)"><!-- --></A><H3>
+serverSideSuffix</H3>
+<PRE>
+public static java.lang.String <B>serverSideSuffix</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;hit,
+                                                <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;target,
+                                                <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;link,
+                                                double&nbsp;docX,
+                                                double&nbsp;docY,
+                                                int&nbsp;scrollX,
+                                                int&nbsp;scrollY)</PRE>
+<DL>
+<DD>Returns the hyperlink suffix of a server-side image map (HTML5 2014 section 4.5.1, the activation behavior of <code>a</code>): if the
+ click went to an <code>img</code> with an <code>ismap</code> attribute inside an <code>a</code> link, the address that is followed
+ gets <code>?x,y</code> appended, with the distance in CSS pixels from the left and top edge of the border of the image to the
+ click as integers (a point in the part of the image that has no such distance is zero).
+ <p>
+ 서버 쪽 이미지 맵의 하이퍼링크 접미사를 반환한다(HTML5 2014 §4.5.1, <code>a</code> 의 활성화 동작): <code>a</code> 링크 안의 <code>ismap</code> 속성이 있는
+ <code>img</code> 로 클릭이 갔으면 따라가는 주소 뒤에 <code>?x,y</code> 가 붙는다. 값은 이미지 border 의 왼쪽과 위쪽 가장자리에서 클릭까지의 CSS 픽셀 거리이며 정수이다
+ (그런 거리가 없는 부분의 점은 0).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>hit</CODE> - the box of the element that was hit / 맞은 요소의 상자<DD><CODE>target</CODE> - the element that received the click / 클릭을 받은 요소<DD><CODE>link</CODE> - the link that is followed / 따라가는 링크<DD><CODE>docX</CODE> - x of the click in document coordinates / 클릭의 문서 좌표 x<DD><CODE>docY</CODE> - y of the click in document coordinates / 클릭의 문서 좌표 y<DD><CODE>scrollX</CODE> - horizontal scroll offset / 가로 스크롤 오프셋<DD><CODE>scrollY</CODE> - vertical scroll offset / 세로 스크롤 오프셋
+<DT><B>Returns:</B><DD>the suffix such as <code>?12,34</code>, or the empty string if the click is not on a server-side image map / <code>?12,34</code> 같은 접미사. 서버 쪽 이미지 맵 위의
+         클릭이 아니면 빈 문자열</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageLookup.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageReplacedResolver.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/render/ImageMaps.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ImageMaps.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

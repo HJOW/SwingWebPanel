@@ -1,0 +1,412 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+org.duckdns.hjow.swingwebpanel.core
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="org.duckdns.hjow.swingwebpanel.core";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/frames/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<H2>
+Package org.duckdns.hjow.swingwebpanel.core
+</H2>
+Component state: per-component session (settings, cookies, caches, sessionStorage), navigation control, history, status model, EDT helpers and lifetime tokens.
+<P>
+<B>See:</B>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="#package_description"><B>Description</B></A>
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Interface Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/CacheOwner.html" title="interface in org.duckdns.hjow.swingwebpanel.core">CacheOwner</A></B></TD>
+<TD>Implemented by a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><CODE>PageLoader</CODE></A> that keeps caches for its component (the HTTP cache of the network loader, later also caches of
+ decoded resources).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ClipboardSink.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ClipboardSink</A></B></TD>
+<TD>Where the copied text of the page goes (plan item P11-08).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ClipboardSource.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ClipboardSource</A></B></TD>
+<TD>Where the pasted data of the page comes from (plan item P20-06).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ColorChooser.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ColorChooser</A></B></TD>
+<TD>Lets the user choose the color of a color control (<code>input type=color</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DownloadHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.core">DownloadHandler</A></B></TD>
+<TD>Receives navigations that turned out to be file downloads (API contract section 7).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/FormSubmitSink.html" title="interface in org.duckdns.hjow.swingwebpanel.core">FormSubmitSink</A></B></TD>
+<TD>The receiver of the form submissions of a page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDocument.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageDocument</A></B></TD>
+<TD>The live objects that belong to one confirmed page (DOM, style sheets, layout, script realm, timers, media).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageLoader</A></B></TD>
+<TD>Strategy that turns a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/NavigationRequest.html" title="class in org.duckdns.hjow.swingwebpanel.core"><CODE>NavigationRequest</CODE></A> into a confirmed <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core"><CODE>PageSnapshot</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.InputMethodSwitch.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageSelection.InputMethodSwitch</A></B></TD>
+<TD>What turns the input methods of the component on and off (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html#setInputMethodSwitch(org.duckdns.hjow.swingwebpanel.core.PageSelection.InputMethodSwitch)"><CODE>PageSelection.setInputMethodSwitch(org.duckdns.hjow.swingwebpanel.core.PageSelection.InputMethodSwitch)</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.Host.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageView.Host</A></B></TD>
+<TD>EDT notification supplied by the Swing host. / Swing 호스트가 제공하는 EDT 통지.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.HostWithScriptLimits.html" title="interface in org.duckdns.hjow.swingwebpanel.core">PageView.HostWithScriptLimits</A></B></TD>
+<TD>Optional script time policy supplied by the Swing host. / Swing 호스트가 선택적으로 제공하는 스크립트 시간 정책.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ProgressSink.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ProgressSink</A></B></TD>
+<TD>Receives the status text and progress of a running navigation.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ResubmitConfirmer.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ResubmitConfirmer</A></B></TD>
+<TD>Asks the user whether a form may be sent again.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/SessionListener.html" title="interface in org.duckdns.hjow.swingwebpanel.core">SessionListener</A></B></TD>
+<TD>Observer of the state of a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" title="class in org.duckdns.hjow.swingwebpanel.core"><CODE>BrowserSession</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/UploadChooser.html" title="interface in org.duckdns.hjow.swingwebpanel.core">UploadChooser</A></B></TD>
+<TD>Lets the user choose the files of a file upload control.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/WindowCloseHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.core">WindowCloseHandler</A></B></TD>
+<TD>Receives the request to close the window of a component after a script called <code>window.close()</code> and the component accepted
+ the call (API contract 5.23).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/WindowOpener.html" title="interface in org.duckdns.hjow.swingwebpanel.core">WindowOpener</A></B></TD>
+<TD>Opens new windows for the pages of a component (plan item P31-08).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ZoomControl.html" title="interface in org.duckdns.hjow.swingwebpanel.core">ZoomControl</A></B></TD>
+<TD>What the input handlers (Ctrl+wheel and Ctrl+plus, Ctrl+minus, Ctrl+0) need from the component to change the page zoom (plan item P11-08).</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/BrowserSession.html" title="class in org.duckdns.hjow.swingwebpanel.core">BrowserSession</A></B></TD>
+<TD>All state of one browser component: user agent, extra headers, JavaScript flag, the confirmed page, history, status text and
+ progress.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ConsoleDispatcher.html" title="class in org.duckdns.hjow.swingwebpanel.core">ConsoleDispatcher</A></B></TD>
+<TD>Registry and dispatcher of the host's console listeners (API contract 5.20).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ControlOverlays.html" title="class in org.duckdns.hjow.swingwebpanel.core">ControlOverlays</A></B></TD>
+<TD>The Swing components that the page puts over its form controls and the dialogs that the controls need: the editor over the text field or
+ text area that has the focus (<CODE>ControlEditor</CODE>), the bubble that shows a validation message next to a control, and the file chooser of
+ a file upload control.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DefaultPageLoader.html" title="class in org.duckdns.hjow.swingwebpanel.core">DefaultPageLoader</A></B></TD>
+<TD>The loader used until the real network/content/rendering pipeline is connected (plan stages P04 to P09).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DocumentLoop.html" title="class in org.duckdns.hjow.swingwebpanel.core">DocumentLoop</A></B></TD>
+<TD>The document thread of one or more components: a single thread that runs their document tasks (page confirmation, script tasks,
+ layout) one after the other.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/FontDefaults.html" title="class in org.duckdns.hjow.swingwebpanel.core">FontDefaults</A></B></TD>
+<TD>The default fonts of one component (API contract 5.27): the family for content whose author named no font, the families behind the
+ generic names <code>serif</code>, <code>sans-serif</code> and <code>monospace</code>, the size of <code>font-size: medium</code>, and
+ the size of the monospace elements.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/HtmlPageDocument.html" title="class in org.duckdns.hjow.swingwebpanel.core">HtmlPageDocument</A></B></TD>
+<TD>The live document of a page: the DOM tree that the HTML parser built from the page source (plan items P07, P15-01).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/HyperlinkDispatcher.html" title="class in org.duckdns.hjow.swingwebpanel.core">HyperlinkDispatcher</A></B></TD>
+<TD>Registry and dispatcher of the host's hyperlink listeners.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/NavigationRequest.html" title="class in org.duckdns.hjow.swingwebpanel.core">NavigationRequest</A></B></TD>
+<TD>Everything a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><CODE>PageLoader</CODE></A> needs to load one page: what to load, the settings that were in effect when the
+ navigation started (user agent, extra headers, JavaScript flag, forced reload) and the means to report progress and to
+ notice cancellation.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/NetworkPageLoader.html" title="class in org.duckdns.hjow.swingwebpanel.core">NetworkPageLoader</A></B></TD>
+<TD>The page loader of the component: it connects the navigation machinery to the network layer.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/OpenRequest.html" title="class in org.duckdns.hjow.swingwebpanel.core">OpenRequest</A></B></TD>
+<TD>What a page asked for when it needs a new window (plan item P31-08): a call of <code>window.open</code>, a link or form whose target
+ names no existing browsing context, or a link that the user chose to open elsewhere (Ctrl, Shift or the middle button).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageComposition.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageComposition</A></B></TD>
+<TD>Text input by an input method into an editing host of the page (plan item P20-06), for languages that assemble characters before they
+ are final, such as Korean (Hangul letters become a syllable) and Japanese.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageDragDrop.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageDragDrop</A></B></TD>
+<TD>HTML drag and drop of the page (plan item P20-06, HTML Standard 6.11): the user presses the main mouse button on a draggable element
+ (an element with <code>draggable="true"</code>, an image or a link) or on the selected text, moves the pointer, and releases it over
+ another place of the same page.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageEditing.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageEditing</A></B></TD>
+<TD>Editing by the user in the rendered page (plan item P20-06): what the keys do inside an editing host (an element with
+ <code>contenteditable</code>, or a document in design mode).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageInput.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageInput</A></B></TD>
+<TD>Basic pointer/link input for the rendered component.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKeyboard.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageKeyboard</A></B></TD>
+<TD>Keyboard and focus input of the rendered component (plan items P11-01 and P11-02): AWT key events become DOM <code>keydown</code>,
+ <code>keypress</code> and <code>keyup</code> events for the element that has the focus (the body if none has it), a key that is not
+ cancelled does what the browser does (Tab moves the focus along the tab order and leaves the component after the last element, Enter
+ follows a link or presses a button, Space releases a button), and the focus of the component itself is passed on to the document so
+ that its focused element gets <code>focus</code> and <code>blur</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSelection.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSelection</A></B></TD>
+<TD>The selection of the text of the page by the user (plan item P11-08): the mouse gestures that select (drag, double click for a word,
+ triple click for a paragraph, a drag that goes on from those, Shift+click), Select All, the copy of the selection, and the highlight that
+ the page shows.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageSnapshot.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageSnapshot</A></B></TD>
+<TD>An immutable snapshot of one confirmed page: its URL, the received source text, MIME type, base URL and kind.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageView.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageView</A></B></TD>
+<TD>Connects a session's DOM/CSS/layout to Swing.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageZoom.html" title="class in org.duckdns.hjow.swingwebpanel.core">PageZoom</A></B></TD>
+<TD>The rules of the page zoom (plan item P11-08): the allowed range of the zoom factor and the steps that the keyboard and the wheel go
+ through.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ParsingPageLoader.html" title="class in org.duckdns.hjow.swingwebpanel.core">ParsingPageLoader</A></B></TD>
+<TD>A page loader that completes the snapshots of another loader with a DOM tree (plan items P07, P17-02, P17-04): <code>text/html</code> source
+ is parsed by the HTML parser, <code>text/markdown</code> is converted to HTML first and then parsed, and <code>text/plain</code> becomes a
+ document with one <code>pre</code> element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PostData.html" title="class in org.duckdns.hjow.swingwebpanel.core">PostData</A></B></TD>
+<TD>The request body of a form submission that made a page (<code>POST</code>), kept with the page so that the page can be shown again
+ without sending the form a second time (history moves use the stored source) and sent again only after the user agreed (refresh).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/Version.html" title="class in org.duckdns.hjow.swingwebpanel.core">Version</A></B></TD>
+<TD>Build-time constants that identify the SwingWebPanel library.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/ViewMetrics.html" title="class in org.duckdns.hjow.swingwebpanel.core">ViewMetrics</A></B></TD>
+<TD>Size information that the layout engine reports to the component so that it can behave as a <code>Scrollable</code> view:
+ the minimum width the laid-out content needs, the height of the content and the scroll step.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/WebMessageDispatcher.html" title="class in org.duckdns.hjow.swingwebpanel.core">WebMessageDispatcher</A></B></TD>
+<TD>Owns the component's bounded page-to-Java message queue and EDT listener registry.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Enum Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DownloadRequiredException.Reason.html" title="enum in org.duckdns.hjow.swingwebpanel.core">DownloadRequiredException.Reason</A></B></TD>
+<TD>Why the response is downloaded.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/NavigationType.html" title="enum in org.duckdns.hjow.swingwebpanel.core">NavigationType</A></B></TD>
+<TD>Why a navigation was started.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageKind.html" title="enum in org.duckdns.hjow.swingwebpanel.core">PageKind</A></B></TD>
+<TD>The kind of a confirmed page: how its content came to be.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Exception Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DownloadRequiredException.html" title="class in org.duckdns.hjow.swingwebpanel.core">DownloadRequiredException</A></B></TD>
+<TD>Thrown by a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/PageLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.core"><CODE>PageLoader</CODE></A> when the response of a main document navigation must be downloaded as a file instead of being shown
+ (API contract section 7): the server marked it as an attachment, or its type is not a displayable document.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+<A NAME="package_description"><!-- --></A><H2>
+Package org.duckdns.hjow.swingwebpanel.core Description
+</H2>
+
+<P>
+Component state: per-component session (settings, cookies, caches, sessionStorage), navigation control, history, status model, EDT helpers and lifetime tokens.
+ <p>
+ 컴포넌트 상태: 컴포넌트별 세션(설정, 쿠키, 캐시, sessionStorage), 이동 제어, 이력, 상태 모델, EDT 도우미, 수명 토큰.
+<P>
+
+<P>
+<DL>
+</DL>
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/frames/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/core/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

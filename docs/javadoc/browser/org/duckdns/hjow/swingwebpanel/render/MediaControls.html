@@ -1,0 +1,512 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+MediaControls
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="MediaControls";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageSource.html" title="interface in org.duckdns.hjow.swingwebpanel.render"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.Layout.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/render/MediaControls.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="MediaControls.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.render</FONT>
+<BR>
+Class MediaControls</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.render.MediaControls</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>MediaControls</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The geometry of the control bar of an <code>audio</code> element with <code>controls</code> (plan item P18-08): where the play button,
+ the time label, the seek bar, the mute button and the volume slider are in a bar of a given size, which one lies under a point, and what
+ position or volume a point on a slider means. The painter and the input handler use the same functions, so what the user sees is what the
+ mouse hits. The bar adapts to its width: a narrow bar drops the volume slider, then the time label and the mute button, then the seek
+ bar, and keeps the play button.
+ <p>
+ <code>controls</code> 가 있는 <code>audio</code> 요소의 컨트롤 막대의 기하(계획 P18-08): 주어진 크기의 막대에서 재생 버튼, 시간 표시, 탐색 막대,
+ 음소거 버튼, 음량 슬라이더가 어디에 있는지, 한 점 아래에 어느 것이 있는지, 슬라이더 위의 점이 어떤 위치나 음량을 뜻하는지. 그리기와 입력 처리가
+ 같은 함수를 쓰므로 사용자가 보는 것이 마우스가 맞히는 것이다. 막대는 너비에 맞춘다: 좁은 막대는 음량 슬라이더, 그다음 시간 표시와 음소거 버튼,
+ 그다음 탐색 막대를 빼고 재생 버튼은 남긴다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.Layout.html" title="class in org.duckdns.hjow.swingwebpanel.render">MediaControls.Layout</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The rectangles of the parts, each as x, y, width, height relative to the top left corner of the bar, or null if the part is not shown.</TD>
+</TR>
+</TABLE>
+&nbsp;<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.html#PART_MUTE">PART_MUTE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Part: the mute button.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.html#PART_NONE">PART_NONE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Part: nothing (the background of the bar).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.html#PART_PLAY">PART_PLAY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Part: the play and pause button.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.html#PART_SEEK">PART_SEEK</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Part: the seek bar.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.html#PART_TIME">PART_TIME</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Part: the time label.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.html#PART_VOLUME">PART_VOLUME</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Part: the volume slider.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.html#formatTime(double)">formatTime</A></B>(double&nbsp;seconds)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Formats a time as <code>m:ss</code>, or <code>h:mm:ss</code> from one hour.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.html#fractionAt(double, double, int, double)">fractionAt</A></B>(double&nbsp;w,
+           double&nbsp;h,
+           int&nbsp;part,
+           double&nbsp;x)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the fraction, from 0 to 1, that a point on a slider stands for.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.Layout.html" title="class in org.duckdns.hjow.swingwebpanel.render">MediaControls.Layout</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.html#layout(double, double)">layout</A></B>(double&nbsp;w,
+       double&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Computes the layout of a bar.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.html#partAt(double, double, double, double)">partAt</A></B>(double&nbsp;w,
+       double&nbsp;h,
+       double&nbsp;x,
+       double&nbsp;y)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells which part of the bar lies under a point.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.html#timeText(org.duckdns.hjow.swingwebpanel.render.MediaControlState)">timeText</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControlState.html" title="class in org.duckdns.hjow.swingwebpanel.render">MediaControlState</A>&nbsp;state)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text of the time label: the position, and the length when it is known (<code>1:05 / 3:20</code>).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="PART_NONE"><!-- --></A><H3>
+PART_NONE</H3>
+<PRE>
+public static final int <B>PART_NONE</B></PRE>
+<DL>
+<DD>Part: nothing (the background of the bar).
+ <p>
+ 부분: 없음(막대의 배경).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.MediaControls.PART_NONE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PART_PLAY"><!-- --></A><H3>
+PART_PLAY</H3>
+<PRE>
+public static final int <B>PART_PLAY</B></PRE>
+<DL>
+<DD>Part: the play and pause button.
+ <p>
+ 부분: 재생/일시정지 버튼.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.MediaControls.PART_PLAY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PART_TIME"><!-- --></A><H3>
+PART_TIME</H3>
+<PRE>
+public static final int <B>PART_TIME</B></PRE>
+<DL>
+<DD>Part: the time label.
+ <p>
+ 부분: 시간 표시.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.MediaControls.PART_TIME">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PART_SEEK"><!-- --></A><H3>
+PART_SEEK</H3>
+<PRE>
+public static final int <B>PART_SEEK</B></PRE>
+<DL>
+<DD>Part: the seek bar.
+ <p>
+ 부분: 탐색 막대.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.MediaControls.PART_SEEK">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PART_MUTE"><!-- --></A><H3>
+PART_MUTE</H3>
+<PRE>
+public static final int <B>PART_MUTE</B></PRE>
+<DL>
+<DD>Part: the mute button.
+ <p>
+ 부분: 음소거 버튼.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.MediaControls.PART_MUTE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PART_VOLUME"><!-- --></A><H3>
+PART_VOLUME</H3>
+<PRE>
+public static final int <B>PART_VOLUME</B></PRE>
+<DL>
+<DD>Part: the volume slider.
+ <p>
+ 부분: 음량 슬라이더.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.render.MediaControls.PART_VOLUME">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="layout(double, double)"><!-- --></A><H3>
+layout</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.Layout.html" title="class in org.duckdns.hjow.swingwebpanel.render">MediaControls.Layout</A> <B>layout</B>(double&nbsp;w,
+                                          double&nbsp;h)</PRE>
+<DL>
+<DD>Computes the layout of a bar.
+ <p>
+ 막대의 배치를 계산한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>w</CODE> - the width of the bar in pixels / 막대의 너비(픽셀)<DD><CODE>h</CODE> - the height of the bar in pixels / 막대의 높이(픽셀)
+<DT><B>Returns:</B><DD>the rectangles of the parts / 부분들의 사각형</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="partAt(double, double, double, double)"><!-- --></A><H3>
+partAt</H3>
+<PRE>
+public static int <B>partAt</B>(double&nbsp;w,
+                         double&nbsp;h,
+                         double&nbsp;x,
+                         double&nbsp;y)</PRE>
+<DL>
+<DD>Tells which part of the bar lies under a point. The slider parts count the whole height of the bar around the track, so a click does
+ not have to hit the thin track exactly.
+ <p>
+ 막대의 어느 부분이 점 아래에 있는지 알려 준다. 슬라이더 부분은 트랙 둘레의 막대 전체 높이를 포함하므로 얇은 트랙을 정확히 맞히지 않아도 된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>w</CODE> - the width of the bar / 막대의 너비<DD><CODE>h</CODE> - the height of the bar / 막대의 높이<DD><CODE>x</CODE> - the x of the point relative to the bar / 막대를 기준으로 한 점의 x<DD><CODE>y</CODE> - the y of the point relative to the bar / 막대를 기준으로 한 점의 y
+<DT><B>Returns:</B><DD>one of the <code>PART_</code> constants / <code>PART_</code> 상수 중 하나</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fractionAt(double, double, int, double)"><!-- --></A><H3>
+fractionAt</H3>
+<PRE>
+public static double <B>fractionAt</B>(double&nbsp;w,
+                                double&nbsp;h,
+                                int&nbsp;part,
+                                double&nbsp;x)</PRE>
+<DL>
+<DD>Returns the fraction, from 0 to 1, that a point on a slider stands for.
+ <p>
+ 슬라이더 위의 점이 뜻하는 0 에서 1 사이의 비율을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>w</CODE> - the width of the bar / 막대의 너비<DD><CODE>h</CODE> - the height of the bar / 막대의 높이<DD><CODE>part</CODE> - <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.html#PART_SEEK"><CODE>PART_SEEK</CODE></A> or <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.html#PART_VOLUME"><CODE>PART_VOLUME</CODE></A> / <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.html#PART_SEEK"><CODE>PART_SEEK</CODE></A> 또는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.html#PART_VOLUME"><CODE>PART_VOLUME</CODE></A><DD><CODE>x</CODE> - the x of the point relative to the bar (it may lie outside while dragging) / 막대를 기준으로 한 점의 x(끌 때는 밖일 수 있다)
+<DT><B>Returns:</B><DD>the fraction, 0 if the part is not shown / 비율. 부분이 보이지 않으면 0</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="formatTime(double)"><!-- --></A><H3>
+formatTime</H3>
+<PRE>
+public static java.lang.String <B>formatTime</B>(double&nbsp;seconds)</PRE>
+<DL>
+<DD>Formats a time as <code>m:ss</code>, or <code>h:mm:ss</code> from one hour. A time that is not finite or negative shows as 0:00.
+ <p>
+ 시간을 <code>m:ss</code>, 한 시간부터는 <code>h:mm:ss</code> 로 만든다. 유한하지 않거나 음수인 시간은 0:00 으로 보인다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>seconds</CODE> - the time / 시간
+<DT><B>Returns:</B><DD>the text / 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="timeText(org.duckdns.hjow.swingwebpanel.render.MediaControlState)"><!-- --></A><H3>
+timeText</H3>
+<PRE>
+public static java.lang.String <B>timeText</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControlState.html" title="class in org.duckdns.hjow.swingwebpanel.render">MediaControlState</A>&nbsp;state)</PRE>
+<DL>
+<DD>Returns the text of the time label: the position, and the length when it is known (<code>1:05 / 3:20</code>).
+ <p>
+ 시간 표시의 문자열을 반환한다: 위치, 그리고 길이를 알면 길이(<code>1:05 / 3:20</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>state</CODE> - the state of the bar / 막대의 상태
+<DT><B>Returns:</B><DD>the text / 문자열</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/ImageSource.html" title="interface in org.duckdns.hjow.swingwebpanel.render"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/MediaControls.Layout.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/render/MediaControls.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="MediaControls.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

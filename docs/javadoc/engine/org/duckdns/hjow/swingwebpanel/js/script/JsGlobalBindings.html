@@ -1,0 +1,455 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+JsGlobalBindings
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="JsGlobalBindings";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsCompiledScript.html" title="class in org.duckdns.hjow.swingwebpanel.js.script"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.script"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/script/JsGlobalBindings.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="JsGlobalBindings.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_classes_inherited_from_class_java.util.AbstractMap">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.script</FONT>
+<BR>
+Class JsGlobalBindings</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by ">java.util.AbstractMap&lt;java.lang.String,java.lang.Object&gt;
+      <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.script.JsGlobalBindings</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD>java.util.Map&lt;java.lang.String,java.lang.Object&gt;, javax.script.Bindings</DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public final class <B>JsGlobalBindings</B><DT>extends java.util.AbstractMap&lt;java.lang.String,java.lang.Object&gt;<DT>implements javax.script.Bindings</DL>
+</PRE>
+
+<P>
+The <code>ENGINE_SCOPE</code> bindings of the default context of a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.script"><CODE>JsScriptEngine</CODE></A>: a live view of the global object of the engine.
+ <code>engine.put("x", 1)</code> is <code>globalThis.x = 1</code>, and a <code>var</code>, function declaration or assignment of a script is visible through
+ <code>engine.get("x")</code>. Values follow the conversion rules of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsEngine</CODE></A> with one difference that fits the Java Scripting API:
+ a script value <code>undefined</code> reads as <code>null</code>. The keys follow the contract of <CODE>Bindings</CODE>: a null key is a
+ <code>NullPointerException</code>, a key that is not a string is a <code>ClassCastException</code>, an empty key is an
+ <code>IllegalArgumentException</code>. The enumerable global variables are the entries; the built-in objects are readable by name but are not
+ entries. A global declared with <code>var</code> cannot be deleted from a JavaScript global object, so <code>remove</code> sets it to undefined.
+ <p>
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.script"><CODE>JsScriptEngine</CODE></A> 의 기본 컨텍스트의 <code>ENGINE_SCOPE</code> 바인딩: 엔진의 전역 객체에 대한 살아 있는 보기. <code>engine.put("x", 1)</code> 은
+ <code>globalThis.x = 1</code> 이며, 스크립트의 <code>var</code>, 함수 선언, 대입은 <code>engine.get("x")</code> 로 보인다. 값은 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsEngine</CODE></A> 의 변환 규칙을
+ 따르되 Java Scripting API 에 맞춘 차이 하나가 있다: 스크립트 값 <code>undefined</code> 는 <code>null</code> 로 읽힌다. 키는 <CODE>Bindings</CODE> 의 규약을
+ 따른다: null 키는 <code>NullPointerException</code>, 문자열이 아닌 키는 <code>ClassCastException</code>, 빈 키는 <code>IllegalArgumentException</code>. 항목은 열거 가능한
+ 전역 변수이며 내장 객체는 이름으로 읽을 수 있지만 항목은 아니다. <code>var</code> 로 선언한 전역은 JavaScript 전역 객체에서 삭제할 수 없으므로
+ <code>remove</code> 는 그것을 undefined 로 만든다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="nested_classes_inherited_from_class_java.util.AbstractMap"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Nested classes/interfaces inherited from class java.util.AbstractMap</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>java.util.AbstractMap.SimpleEntry&lt;K,V&gt;, java.util.AbstractMap.SimpleImmutableEntry&lt;K,V&gt;</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<A NAME="nested_classes_inherited_from_class_java.util.Map"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Nested classes/interfaces inherited from interface java.util.Map</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>java.util.Map.Entry&lt;K,V&gt;</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsGlobalBindings.html#containsKey(java.lang.Object)">containsKey</A></B>(java.lang.Object&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a global variable exists.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Set&lt;java.util.Map.Entry&lt;java.lang.String,java.lang.Object&gt;&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsGlobalBindings.html#entrySet()">entrySet</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the entries (the enumerable global variables) as a live view.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsGlobalBindings.html#get(java.lang.Object)">get</A></B>(java.lang.Object&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reads a global variable.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed">JsEngine</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsGlobalBindings.html#getEngine()">getEngine</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the engine whose global object these bindings show.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsGlobalBindings.html#put(java.lang.String, java.lang.Object)">put</A></B>(java.lang.String&nbsp;name,
+    java.lang.Object&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Assigns a global variable.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsGlobalBindings.html#putAll(java.util.Map)">putAll</A></B>(java.util.Map&lt;? extends java.lang.String,? extends java.lang.Object&gt;&nbsp;toMerge)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Copies all entries of a map into the global object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsGlobalBindings.html#remove(java.lang.Object)">remove</A></B>(java.lang.Object&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Deletes a global variable (or sets it to undefined when it cannot be deleted).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.util.AbstractMap"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.util.AbstractMap</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clear, clone, containsValue, equals, hashCode, isEmpty, keySet, size, toString, values</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>finalize, getClass, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.util.Map"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from interface java.util.Map</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clear, containsValue, equals, hashCode, isEmpty, keySet, size, values</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getEngine()"><!-- --></A><H3>
+getEngine</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed">JsEngine</A> <B>getEngine</B>()</PRE>
+<DL>
+<DD>Returns the engine whose global object these bindings show.
+ <p>
+ 이 바인딩이 보여 주는 전역 객체를 가진 엔진을 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the engine / 엔진</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="get(java.lang.Object)"><!-- --></A><H3>
+get</H3>
+<PRE>
+public java.lang.Object <B>get</B>(java.lang.Object&nbsp;key)</PRE>
+<DL>
+<DD>Reads a global variable.
+ <p>
+ 전역 변수를 읽는다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>get</CODE> in interface <CODE>java.util.Map&lt;java.lang.String,java.lang.Object&gt;</CODE><DT><B>Specified by:</B><DD><CODE>get</CODE> in interface <CODE>javax.script.Bindings</CODE><DT><B>Overrides:</B><DD><CODE>get</CODE> in class <CODE>java.util.AbstractMap&lt;java.lang.String,java.lang.Object&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the name / 이름
+<DT><B>Returns:</B><DD>the value, null if there is none or it is undefined / 값. 없거나 undefined 이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="containsKey(java.lang.Object)"><!-- --></A><H3>
+containsKey</H3>
+<PRE>
+public boolean <B>containsKey</B>(java.lang.Object&nbsp;key)</PRE>
+<DL>
+<DD>Tells whether a global variable exists.
+ <p>
+ 전역 변수가 있는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>containsKey</CODE> in interface <CODE>java.util.Map&lt;java.lang.String,java.lang.Object&gt;</CODE><DT><B>Specified by:</B><DD><CODE>containsKey</CODE> in interface <CODE>javax.script.Bindings</CODE><DT><B>Overrides:</B><DD><CODE>containsKey</CODE> in class <CODE>java.util.AbstractMap&lt;java.lang.String,java.lang.Object&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the name / 이름
+<DT><B>Returns:</B><DD>true if it exists / 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="put(java.lang.String, java.lang.Object)"><!-- --></A><H3>
+put</H3>
+<PRE>
+public java.lang.Object <B>put</B>(java.lang.String&nbsp;name,
+                            java.lang.Object&nbsp;value)</PRE>
+<DL>
+<DD>Assigns a global variable.
+ <p>
+ 전역 변수에 대입한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>put</CODE> in interface <CODE>java.util.Map&lt;java.lang.String,java.lang.Object&gt;</CODE><DT><B>Specified by:</B><DD><CODE>put</CODE> in interface <CODE>javax.script.Bindings</CODE><DT><B>Overrides:</B><DD><CODE>put</CODE> in class <CODE>java.util.AbstractMap&lt;java.lang.String,java.lang.Object&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the name / 이름<DD><CODE>value</CODE> - the value (converted by the rules of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsEngine</CODE></A>) / 값(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsEngine</CODE></A> 의 규칙대로 변환)
+<DT><B>Returns:</B><DD>the previous value or null / 이전 값. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="remove(java.lang.Object)"><!-- --></A><H3>
+remove</H3>
+<PRE>
+public java.lang.Object <B>remove</B>(java.lang.Object&nbsp;key)</PRE>
+<DL>
+<DD>Deletes a global variable (or sets it to undefined when it cannot be deleted).
+ <p>
+ 전역 변수를 삭제한다(삭제할 수 없으면 undefined 로 만든다).
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>remove</CODE> in interface <CODE>java.util.Map&lt;java.lang.String,java.lang.Object&gt;</CODE><DT><B>Specified by:</B><DD><CODE>remove</CODE> in interface <CODE>javax.script.Bindings</CODE><DT><B>Overrides:</B><DD><CODE>remove</CODE> in class <CODE>java.util.AbstractMap&lt;java.lang.String,java.lang.Object&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the name / 이름
+<DT><B>Returns:</B><DD>the previous value or null / 이전 값. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="putAll(java.util.Map)"><!-- --></A><H3>
+putAll</H3>
+<PRE>
+public void <B>putAll</B>(java.util.Map&lt;? extends java.lang.String,? extends java.lang.Object&gt;&nbsp;toMerge)</PRE>
+<DL>
+<DD>Copies all entries of a map into the global object.
+ <p>
+ 맵의 모든 항목을 전역 객체로 복사한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>putAll</CODE> in interface <CODE>java.util.Map&lt;java.lang.String,java.lang.Object&gt;</CODE><DT><B>Specified by:</B><DD><CODE>putAll</CODE> in interface <CODE>javax.script.Bindings</CODE><DT><B>Overrides:</B><DD><CODE>putAll</CODE> in class <CODE>java.util.AbstractMap&lt;java.lang.String,java.lang.Object&gt;</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>toMerge</CODE> - the entries / 항목</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="entrySet()"><!-- --></A><H3>
+entrySet</H3>
+<PRE>
+public java.util.Set&lt;java.util.Map.Entry&lt;java.lang.String,java.lang.Object&gt;&gt; <B>entrySet</B>()</PRE>
+<DL>
+<DD>Returns the entries (the enumerable global variables) as a live view.
+ <p>
+ 항목(열거 가능한 전역 변수)을 살아 있는 보기로 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>entrySet</CODE> in interface <CODE>java.util.Map&lt;java.lang.String,java.lang.Object&gt;</CODE><DT><B>Specified by:</B><DD><CODE>entrySet</CODE> in class <CODE>java.util.AbstractMap&lt;java.lang.String,java.lang.Object&gt;</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the entries / 항목</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsCompiledScript.html" title="class in org.duckdns.hjow.swingwebpanel.js.script"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.script"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/script/JsGlobalBindings.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="JsGlobalBindings.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_classes_inherited_from_class_java.util.AbstractMap">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

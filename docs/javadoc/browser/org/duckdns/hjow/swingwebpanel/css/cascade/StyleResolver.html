@@ -1,0 +1,1364 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+StyleResolver
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="StyleResolver";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleChangeListener.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cascade"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="StyleResolver.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.cascade</FONT>
+<BR>
+Class StyleResolver</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.cascade.StyleResolver</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMutationListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">DomMutationListener</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public final class <B>StyleResolver</B><DT>extends java.lang.Object<DT>implements <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMutationListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">DomMutationListener</A></DL>
+</PRE>
+
+<P>
+The style engine of a document: it finds the rules that match an element, orders their declarations by the cascade (origin and importance, then
+ specificity, then source order), computes the values and caches the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade"><CODE>ComputedStyle</CODE></A> of every element. It subscribes to the DOM mutations of the
+ document and drops exactly the cached styles a change can affect: an attribute change invalidates the subtree of the element (the whole parent subtree
+ if the style sheets use sibling combinators, the whole document if they use <code>:has()</code>), a change of the child list does so only when structural
+ selectors (<code>:first-child</code>, <code>:empty</code>, <code>+</code> ...) exist, and a change of the dynamic state (hover, focus, form state) only
+ recomputes the styles whose computation consulted that state. A change of the media environment or of the style sheets rebuilds the rule index.
+ <p>
+ <b>Cascade order</b> (ascending): user agent normal, user normal, presentational hints, author normal (the <code>style</code> attribute last),
+ author important, user important, user agent important. <b>Threading</b>: a resolver belongs to the thread that owns the document (the document thread
+ of the browser session); it is not synchronized.
+ <p>
+ 문서의 스타일 엔진: 요소와 일치하는 규칙을 찾고, 선언을 캐스케이드(출처와 중요도, 구체성, 소스 순서)로 정렬하고, 값을 계산하고, 요소마다 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade"><CODE>ComputedStyle</CODE></A> 을 캐시한다.
+ 문서의 DOM 변경을 구독하여 변경이 영향을 줄 수 있는 캐시된 스타일만 버린다: 속성 변경은 요소의 서브트리를(스타일 시트가 형제 결합자를 쓰면 부모 서브트리 전체, <code>:has()</code>
+ 를 쓰면 문서 전체), 자식 목록 변경은 구조 선택자(<code>:first-child</code>, <code>:empty</code>, <code>+</code> 등)가 있을 때만, 동적 상태(hover, focus, 폼 상태) 변경은 계산에서 그
+ 상태를 조회한 스타일만 다시 계산한다. 미디어 환경이나 스타일 시트가 바뀌면 규칙 색인을 다시 만든다.
+ <p>
+ <b>캐스케이드 순서</b>(오름차순): 사용자 에이전트 일반, 사용자 일반, 표현 힌트, 작성자 일반(<code>style</code> 속성이 마지막), 작성자 중요, 사용자 중요, 사용자 에이전트 중요.
+ <b>스레드</b>: 리졸버는 문서를 소유한 스레드(브라우저 세션의 문서 스레드)에 속하며 동기화하지 않는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#StyleResolver(org.duckdns.hjow.swingwebpanel.dom.Document, org.duckdns.hjow.swingwebpanel.css.media.MediaEnvironment)">StyleResolver</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+              <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html" title="class in org.duckdns.hjow.swingwebpanel.css.media">MediaEnvironment</A>&nbsp;env)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a resolver and subscribes to the DOM changes of the document.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#addChangeListener(org.duckdns.hjow.swingwebpanel.css.cascade.StyleChangeListener)">addChangeListener</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleChangeListener.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cascade">StyleChangeListener</A>&nbsp;l)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Registers a listener for invalidations.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#computeDeclared(org.duckdns.hjow.swingwebpanel.dom.Element, java.util.Map, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)">computeDeclared</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                java.util.Map&lt;java.lang.Integer,<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&gt;&nbsp;declared,
+                <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;own)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Computes the values of declarations that are not part of the cascade (the keyframes of an animation) for an element: lengths
+ are relative to the font size of the element (the declared <code>font-size</code> if there is one), inheritance is from the parent
+ of the element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#computeRegisteredValue(java.lang.String, java.util.List, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)">computeRegisteredValue</A></B>(java.lang.String&nbsp;name,
+                       java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&nbsp;tokens,
+                       <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;base)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Computes the typed value of a declaration of a registered property (in a keyframe, for example) against the font size of a style: the lengths become pixels.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#consumeSheetSourceChange()">consumeSheetSourceChange</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a <code>style</code> or <code>link</code> element changed since the last call, and clears the flag.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#dispose()">dispose</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unsubscribes from the document and drops all caches.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleAnimator.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cascade">StyleAnimator</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#getAnimator()">getAnimator</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the animator that was set (the script host reaches the Web Animations of the document through it).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#getComputedStyle(org.duckdns.hjow.swingwebpanel.dom.Element)">getComputedStyle</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the computed style of an element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Map&lt;java.lang.String,<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CounterStyleRule</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#getCounterStyleRules()">getCounterStyleRules</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the counter styles defined by the style sheets (<code>@counter-style</code>), by name.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#getDefaultFontSize()">getDefaultFontSize</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the default font size.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/FontFeatureValuesRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">FontFeatureValuesRule</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#getFontFeatureValues()">getFontFeatureValues</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <code>@font-feature-values</code> rules of the style sheets that apply, in document order (CSS Fonts 4 section 6.9): the function
+ values of <code>font-variant-alternates</code> look their names up in them.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#getHighlightStyle(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)">getHighlightStyle</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                  java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the style of the custom highlight pseudo-element <code>::highlight(name)</code> of an element (CSS Custom Highlight API 1 section 4.2.3 and CSS
+ Pseudo-Elements 4 section 3.5): a highlight property that the cascade of the element's <code>::highlight(name)</code> does not set (or sets to
+ <code>inherit</code>/<code>unset</code>) inherits from the highlight of the parent element, whether or not the property is inherited, and for the root
+ element the inherited <code>color</code> is <code>currentcolor</code> (the computed value stays the keyword <code>currentcolor</code>, which the painter
+ resolves to the color of the text).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html" title="class in org.duckdns.hjow.swingwebpanel.css.media">MediaEnvironment</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#getMediaEnvironment()">getMediaEnvironment</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy of the current media environment.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/PageRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">PageRule</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#getPageRules()">getPageRules</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the page rules (<code>@page</code>) of the style sheets that apply to the environment, in the order of the sources.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/PositionTryRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">PositionTryRule</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#getPositionTryRule(java.lang.String)">getPositionTryRule</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the position option of a name (<code>@position-try</code>): the last rule of that name in the style sheets that apply to the environment
+ (CSS Anchor Positioning 1 section 6.4: rules of one name cascade like <code>@keyframes</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#getPseudoComputedStyle(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)">getPseudoComputedStyle</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                       java.lang.String&nbsp;pseudo)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the computed style that <code>getComputedStyle(element, pseudo)</code> reports for a pseudo-element: the style of the pseudo-element
+ if a rule targets it, otherwise the style that a pseudo-element without any rule has (the properties that inherit come from the element, the
+ others have their initial value).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.BitSet</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#getPseudoDeclared(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)">getPseudoDeclared</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                  java.lang.String&nbsp;pseudo)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the properties that the rules of a pseudo-element of an element declare (set by the cascade, before inheritance and initial values): the
+ renderer of a part that the user agent draws itself (the button of a file control, <code>::file-selector-button</code>) keeps its own look for the
+ properties that the author did not set.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#getPseudoStyle(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)">getPseudoStyle</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+               java.lang.String&nbsp;pseudo)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the style of a pseudo-element of an element (<code>before</code>, <code>after</code>, <code>first-line</code>, <code>first-letter</code>,
+ <code>marker</code>, <code>selection</code>, <code>placeholder</code> ...).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#getStartingStyle(org.duckdns.hjow.swingwebpanel.dom.Element)">getStartingStyle</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Computes the starting style of an element (CSS Transitions Level 2, section 3.3): the style that the element would have if the rules inside
+ <code>@starting-style</code> applied in addition to the others, inheriting from the style that the parent has now.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#getStyleVersion()">getStyleVersion</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of invalidations so far (a cheap way to see whether styles may have changed).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#hasStartingStyles()">hasStartingStyles</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the style sheets of the document contain a rule inside <code>@starting-style</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#invalidate()">invalidate</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Drops everything that was cached (also the rule index) and notifies the listeners that the whole document is stale.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#invalidateElement(org.duckdns.hjow.swingwebpanel.dom.Element)">invalidateElement</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Drops the cached style of an element and its descendants (an animation changed its value) and notifies the listeners.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#mutated(org.duckdns.hjow.swingwebpanel.dom.MutationRecord, boolean)">mutated</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/MutationRecord.html" title="class in org.duckdns.hjow.swingwebpanel.dom">MutationRecord</A>&nbsp;record,
+        boolean&nbsp;connected)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reacts to a DOM change by invalidating exactly the styles it can affect.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#registeredPropertyNames()">registeredPropertyNames</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the names of the registered custom properties (<code>@property</code>) that have a typed syntax, so that their values can be animated: a property
+ with the universal syntax <code>*</code> has no type to interpolate.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#removeChangeListener(org.duckdns.hjow.swingwebpanel.css.cascade.StyleChangeListener)">removeChangeListener</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleChangeListener.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cascade">StyleChangeListener</A>&nbsp;l)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes a listener.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#restyleWithCustom(org.duckdns.hjow.swingwebpanel.dom.Element, java.util.Map)">restyleWithCustom</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                  java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;overrides)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Computes the style of an element again with other values for some custom properties, as if the element had declared them last: the declarations that
+ use the properties with <code>var()</code> see the new values.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#setAnimator(org.duckdns.hjow.swingwebpanel.css.cascade.StyleAnimator)">setAnimator</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleAnimator.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cascade">StyleAnimator</A>&nbsp;a)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the animator that turns the computed style of an element into its animated style (transitions and animations, P10-07):
+ it is called whenever the style of an element is computed (not for pseudo-elements), the style it returns is what the element
+ and its descendants (which inherit from it) get.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#setDefaultFontSize(double)">setDefaultFontSize</A></B>(double&nbsp;px)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the default font size: the size of <code>font-size: medium</code>, to which the other size keywords are scaled, and the size
+ that the root element starts from.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#setDiagnostics(org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)">setDiagnostics</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A>&nbsp;d)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets a collector for the diagnostics of presentational hints.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#setElementState(org.duckdns.hjow.swingwebpanel.css.selector.ElementState)">setElementState</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/ElementState.html" title="interface in org.duckdns.hjow.swingwebpanel.css.selector">ElementState</A>&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the provider of the dynamic element state (hover, focus, form state).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#setMediaEnvironment(org.duckdns.hjow.swingwebpanel.css.media.MediaEnvironment)">setMediaEnvironment</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html" title="class in org.duckdns.hjow.swingwebpanel.css.media">MediaEnvironment</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets a new media environment; the media dependent rules are re-evaluated and the styles recomputed if it differs from the current one.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#setPresentationalHints(org.duckdns.hjow.swingwebpanel.css.cascade.PresentationalHints)">setPresentationalHints</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/PresentationalHints.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cascade">PresentationalHints</A>&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the presentational hints (the default maps the presentational attributes of HTML).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#setStyleSheets(java.util.List)">setStyleSheets</A></B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheet.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">StyleSheet</A>&gt;&nbsp;sheets)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the author style sheets (in document order).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#setUserStyleSheets(java.util.List)">setUserStyleSheets</A></B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheet.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">StyleSheet</A>&gt;&nbsp;sheets)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the user style sheets.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#stateChanged(org.duckdns.hjow.swingwebpanel.dom.Element)">stateChanged</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells the resolver that the dynamic state of an element (hover, focus, checked ...) changed; the styles whose computation consulted such state are
+ recomputed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#typedCustomValue(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, java.lang.String)">typedCustomValue</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s,
+                 java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the typed value of a registered custom property in a style (a length, a number, a color ...), parsed from its computed text with the syntax of the
+ registration.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#updateContainerSizes(java.util.Map)">updateContainerSizes</A></B>(java.util.Map&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>,double[]&gt;&nbsp;measured)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Records the sizes of the query containers that a layout measured.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#usesContainerQueries()">usesContainerQueries</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the style sheets contain a rule inside <code>@container</code>: then the styles depend on the size of the containers, which only
+ the layout knows, and the layout has to report the sizes with <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#updateContainerSizes(java.util.Map)"><CODE>updateContainerSizes(Map)</CODE></A>.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="StyleResolver(org.duckdns.hjow.swingwebpanel.dom.Document, org.duckdns.hjow.swingwebpanel.css.media.MediaEnvironment)"><!-- --></A><H3>
+StyleResolver</H3>
+<PRE>
+public <B>StyleResolver</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+                     <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html" title="class in org.duckdns.hjow.swingwebpanel.css.media">MediaEnvironment</A>&nbsp;env)</PRE>
+<DL>
+<DD>Creates a resolver and subscribes to the DOM changes of the document.
+ <p>
+ 리졸버를 만들고 문서의 DOM 변경을 구독한다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>doc</CODE> - the document / 문서<DD><CODE>env</CODE> - the media environment (copied) / 미디어 환경(복사됨)</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="setStyleSheets(java.util.List)"><!-- --></A><H3>
+setStyleSheets</H3>
+<PRE>
+public void <B>setStyleSheets</B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheet.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">StyleSheet</A>&gt;&nbsp;sheets)</PRE>
+<DL>
+<DD>Sets the author style sheets (in document order). The user agent sheet is always included.
+ <p>
+ 작성자 스타일 시트를 설정한다(문서 순서). 사용자 에이전트 시트는 항상 포함된다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>sheets</CODE> - the sheets / 시트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setUserStyleSheets(java.util.List)"><!-- --></A><H3>
+setUserStyleSheets</H3>
+<PRE>
+public void <B>setUserStyleSheets</B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheet.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">StyleSheet</A>&gt;&nbsp;sheets)</PRE>
+<DL>
+<DD>Sets the user style sheets.
+ <p>
+ 사용자 스타일 시트를 설정한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>sheets</CODE> - the sheets / 시트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setDefaultFontSize(double)"><!-- --></A><H3>
+setDefaultFontSize</H3>
+<PRE>
+public void <B>setDefaultFontSize</B>(double&nbsp;px)</PRE>
+<DL>
+<DD>Sets the default font size: the size of <code>font-size: medium</code>, to which the other size keywords are scaled, and the size
+ that the root element starts from. The built-in value is 16.
+ <p>
+ 기본 글꼴 크기를 정한다: <code>font-size: medium</code> 의 크기이며, 다른 크기 키워드는 이것에 비례하고, 루트 요소가 여기서 시작한다. 내장
+ 값은 16 이다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>px</CODE> - the size in CSS pixels, a positive finite number / 크기(CSS 픽셀). 유한한 양수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDefaultFontSize()"><!-- --></A><H3>
+getDefaultFontSize</H3>
+<PRE>
+public double <B>getDefaultFontSize</B>()</PRE>
+<DL>
+<DD>Returns the default font size.
+ <p>
+ 기본 글꼴 크기를 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the size of <code>font-size: medium</code> in CSS pixels / <code>font-size: medium</code> 의 크기(CSS 픽셀)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setElementState(org.duckdns.hjow.swingwebpanel.css.selector.ElementState)"><!-- --></A><H3>
+setElementState</H3>
+<PRE>
+public void <B>setElementState</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/ElementState.html" title="interface in org.duckdns.hjow.swingwebpanel.css.selector">ElementState</A>&nbsp;s)</PRE>
+<DL>
+<DD>Sets the provider of the dynamic element state (hover, focus, form state).
+ <p>
+ 동적 요소 상태(hover, focus, 폼 상태)의 제공자를 설정한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - the provider or null / 제공자 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setPresentationalHints(org.duckdns.hjow.swingwebpanel.css.cascade.PresentationalHints)"><!-- --></A><H3>
+setPresentationalHints</H3>
+<PRE>
+public void <B>setPresentationalHints</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/PresentationalHints.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cascade">PresentationalHints</A>&nbsp;h)</PRE>
+<DL>
+<DD>Sets the presentational hints (the default maps the presentational attributes of HTML).
+ <p>
+ 표현 힌트를 설정한다(기본 구현은 HTML 의 표현 속성을 대응시킨다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>h</CODE> - the hints or null for none / 힌트. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setDiagnostics(org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)"><!-- --></A><H3>
+setDiagnostics</H3>
+<PRE>
+public void <B>setDiagnostics</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A>&nbsp;d)</PRE>
+<DL>
+<DD>Sets a collector for the diagnostics of presentational hints.
+ <p>
+ 표현 힌트의 진단을 모을 수집기를 설정한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>d</CODE> - collector or null / 수집기 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMediaEnvironment(org.duckdns.hjow.swingwebpanel.css.media.MediaEnvironment)"><!-- --></A><H3>
+setMediaEnvironment</H3>
+<PRE>
+public void <B>setMediaEnvironment</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html" title="class in org.duckdns.hjow.swingwebpanel.css.media">MediaEnvironment</A>&nbsp;e)</PRE>
+<DL>
+<DD>Sets a new media environment; the media dependent rules are re-evaluated and the styles recomputed if it differs from the current one.
+ <p>
+ 새 미디어 환경을 설정한다. 현재와 다르면 미디어에 의존하는 규칙을 다시 평가하고 스타일을 다시 계산한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the environment (copied) / 환경(복사됨)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMediaEnvironment()"><!-- --></A><H3>
+getMediaEnvironment</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html" title="class in org.duckdns.hjow.swingwebpanel.css.media">MediaEnvironment</A> <B>getMediaEnvironment</B>()</PRE>
+<DL>
+<DD>Returns a copy of the current media environment.
+ <p>
+ 현재 미디어 환경의 복사본을 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the environment / 환경</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addChangeListener(org.duckdns.hjow.swingwebpanel.css.cascade.StyleChangeListener)"><!-- --></A><H3>
+addChangeListener</H3>
+<PRE>
+public void <B>addChangeListener</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleChangeListener.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cascade">StyleChangeListener</A>&nbsp;l)</PRE>
+<DL>
+<DD>Registers a listener for invalidations.
+ <p>
+ 무효화 리스너를 등록한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>l</CODE> - the listener / 리스너</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeChangeListener(org.duckdns.hjow.swingwebpanel.css.cascade.StyleChangeListener)"><!-- --></A><H3>
+removeChangeListener</H3>
+<PRE>
+public void <B>removeChangeListener</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleChangeListener.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cascade">StyleChangeListener</A>&nbsp;l)</PRE>
+<DL>
+<DD>Removes a listener.
+ <p>
+ 리스너를 제거한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>l</CODE> - the listener / 리스너</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStyleVersion()"><!-- --></A><H3>
+getStyleVersion</H3>
+<PRE>
+public int <B>getStyleVersion</B>()</PRE>
+<DL>
+<DD>Returns the number of invalidations so far (a cheap way to see whether styles may have changed).
+ <p>
+ 지금까지의 무효화 횟수를 반환한다(스타일이 바뀌었을 수 있는지 싸게 알아보는 방법).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the version / 버전</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="consumeSheetSourceChange()"><!-- --></A><H3>
+consumeSheetSourceChange</H3>
+<PRE>
+public boolean <B>consumeSheetSourceChange</B>()</PRE>
+<DL>
+<DD>Tells whether a <code>style</code> or <code>link</code> element changed since the last call, and clears the flag. The host then collects the
+ style sheets again and calls <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#setStyleSheets(java.util.List)"><CODE>setStyleSheets(List)</CODE></A>.
+ <p>
+ 마지막 호출 뒤에 <code>style</code> 이나 <code>link</code> 요소가 바뀌었는지 알려 주고 플래그를 지운다. 그러면 호스트가 스타일 시트를 다시 모아
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#setStyleSheets(java.util.List)"><CODE>setStyleSheets(List)</CODE></A> 를 호출한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if the sources of the style sheets changed / 스타일 시트의 출처가 바뀌었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setAnimator(org.duckdns.hjow.swingwebpanel.css.cascade.StyleAnimator)"><!-- --></A><H3>
+setAnimator</H3>
+<PRE>
+public void <B>setAnimator</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleAnimator.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cascade">StyleAnimator</A>&nbsp;a)</PRE>
+<DL>
+<DD>Sets the animator that turns the computed style of an element into its animated style (transitions and animations, P10-07):
+ it is called whenever the style of an element is computed (not for pseudo-elements), the style it returns is what the element
+ and its descendants (which inherit from it) get.
+ <p>
+ 요소의 계산 스타일을 애니메이션이 적용된 스타일로 바꾸는 애니메이터를 정한다(전환과 애니메이션, P10-07): 요소의 스타일을 계산할 때마다(의사 요소는 제외) 불리고,
+ 돌려준 스타일이 그 요소와 그것을 상속하는 자손이 얻는 스타일이다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>a</CODE> - the animator, null for none / 애니메이터. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getAnimator()"><!-- --></A><H3>
+getAnimator</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleAnimator.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cascade">StyleAnimator</A> <B>getAnimator</B>()</PRE>
+<DL>
+<DD>Returns the animator that was set (the script host reaches the Web Animations of the document through it).
+ <p>
+ 정해 둔 애니메이터를 반환한다(스크립트 호스트가 이것을 통해 문서의 Web Animations 에 닿는다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the animator or null / 애니메이터 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="invalidateElement(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+invalidateElement</H3>
+<PRE>
+public void <B>invalidateElement</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Drops the cached style of an element and its descendants (an animation changed its value) and notifies the listeners.
+ <p>
+ 요소와 그 자손의 캐시한 스타일을 버리고(애니메이션이 값을 바꿨다) 리스너에 알린다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="computeDeclared(org.duckdns.hjow.swingwebpanel.dom.Element, java.util.Map, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)"><!-- --></A><H3>
+computeDeclared</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A> <B>computeDeclared</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                                     java.util.Map&lt;java.lang.Integer,<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&gt;&nbsp;declared,
+                                     <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;own)</PRE>
+<DL>
+<DD>Computes the values of declarations that are not part of the cascade (the keyframes of an animation) for an element: lengths
+ are relative to the font size of the element (the declared <code>font-size</code> if there is one), inheritance is from the parent
+ of the element. Only the declared properties of the result are meaningful.
+ <p>
+ 캐스케이드에 속하지 않는 선언(애니메이션의 키프레임)의 값을 요소를 기준으로 계산한다: 길이는 요소의 글꼴 크기(선언된 <code>font-size</code> 가 있으면 그것)를
+ 기준으로 하고 상속은 요소의 부모에서 온다. 결과에서는 선언한 속성만 의미가 있다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소<DD><CODE>declared</CODE> - the declared values by property id / 속성 id 별 선언 값<DD><CODE>own</CODE> - the computed style of the element (its font size is the base of relative lengths) / 요소의 계산 스타일(글꼴 크기가 상대 길이의 기준)
+<DT><B>Returns:</B><DD>the computed style / 계산 스타일</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="invalidate()"><!-- --></A><H3>
+invalidate</H3>
+<PRE>
+public void <B>invalidate</B>()</PRE>
+<DL>
+<DD>Drops everything that was cached (also the rule index) and notifies the listeners that the whole document is stale.
+ <p>
+ 캐시한 모든 것(규칙 색인 포함)을 버리고 문서 전체가 낡았음을 리스너에 알린다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="stateChanged(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+stateChanged</H3>
+<PRE>
+public void <B>stateChanged</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Tells the resolver that the dynamic state of an element (hover, focus, checked ...) changed; the styles whose computation consulted such state are
+ recomputed. Call it from the input layer after changing the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/ElementState.html" title="interface in org.duckdns.hjow.swingwebpanel.css.selector"><CODE>ElementState</CODE></A>.
+ <p>
+ 요소의 동적 상태(hover, focus, checked 등)가 바뀌었음을 리졸버에 알린다. 계산에서 그런 상태를 조회한 스타일을 다시 계산한다. 입력 계층이
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/ElementState.html" title="interface in org.duckdns.hjow.swingwebpanel.css.selector"><CODE>ElementState</CODE></A> 를 바꾼 뒤 호출한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element whose state changed (may be null) / 상태가 바뀐 요소(null 가능)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispose()"><!-- --></A><H3>
+dispose</H3>
+<PRE>
+public void <B>dispose</B>()</PRE>
+<DL>
+<DD>Unsubscribes from the document and drops all caches. The resolver cannot be used afterwards.
+ <p>
+ 문서 구독을 끊고 모든 캐시를 버린다. 이후에는 리졸버를 쓸 수 없다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getComputedStyle(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+getComputedStyle</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A> <B>getComputedStyle</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Returns the computed style of an element. The result is cached until something that can change it happens.
+ <p>
+ 요소의 계산 스타일을 반환한다. 결과는 그것을 바꿀 수 있는 일이 일어날 때까지 캐시된다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element, which must belong to the document / 요소. 문서에 속해야 한다
+<DT><B>Returns:</B><DD>the computed style, never null / 계산 스타일. null 이 아니다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasStartingStyles()"><!-- --></A><H3>
+hasStartingStyles</H3>
+<PRE>
+public boolean <B>hasStartingStyles</B>()</PRE>
+<DL>
+<DD>Tells whether the style sheets of the document contain a rule inside <code>@starting-style</code>.
+ <p>
+ 문서의 스타일 시트에 <code>@starting-style</code> 안의 규칙이 있는지 알려 준다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if one exists / 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStartingStyle(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+getStartingStyle</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A> <B>getStartingStyle</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Computes the starting style of an element (CSS Transitions Level 2, section 3.3): the style that the element would have if the rules inside
+ <code>@starting-style</code> applied in addition to the others, inheriting from the style that the parent has now. The animator compares it
+ with the style of the element to start transitions on an element that had no before-change style (a new element, or one that was not rendered).
+ The result is not cached.
+ <p>
+ 요소의 시작 스타일을 계산한다(CSS Transitions Level 2, 3.3 절): <code>@starting-style</code> 안의 규칙이 다른 규칙과 함께 적용될 때 요소가 가질 스타일이며,
+ 부모의 지금 스타일을 상속한다. 애니메이터는 이것을 요소의 스타일과 비교해 변경 전 스타일이 없던 요소(새 요소나 렌더링되지 않던 요소)의 전환을 시작한다.
+ 결과는 캐시하지 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element, which must belong to the document / 요소. 문서에 속해야 한다
+<DT><B>Returns:</B><DD>the starting style, or null if no rule inside <code>@starting-style</code> exists / 시작 스타일. <code>@starting-style</code> 안의 규칙이 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPseudoStyle(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)"><!-- --></A><H3>
+getPseudoStyle</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A> <B>getPseudoStyle</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                                    java.lang.String&nbsp;pseudo)</PRE>
+<DL>
+<DD>Returns the style of a pseudo-element of an element (<code>before</code>, <code>after</code>, <code>first-line</code>, <code>first-letter</code>,
+ <code>marker</code>, <code>selection</code>, <code>placeholder</code> ...).
+ <p>
+ 요소의 의사 요소 스타일을 반환한다(<code>before</code>, <code>after</code>, <code>first-line</code>, <code>first-letter</code>, <code>marker</code>,
+ <code>selection</code>, <code>placeholder</code> 등).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the originating element / 원본 요소<DD><CODE>pseudo</CODE> - the pseudo-element name without colons / 콜론 없는 의사 요소 이름
+<DT><B>Returns:</B><DD>the style, or null if no rule targets that pseudo-element / 스타일. 그 의사 요소를 가리키는 규칙이 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPseudoDeclared(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)"><!-- --></A><H3>
+getPseudoDeclared</H3>
+<PRE>
+public java.util.BitSet <B>getPseudoDeclared</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                                          java.lang.String&nbsp;pseudo)</PRE>
+<DL>
+<DD>Returns the properties that the rules of a pseudo-element of an element declare (set by the cascade, before inheritance and initial values): the
+ renderer of a part that the user agent draws itself (the button of a file control, <code>::file-selector-button</code>) keeps its own look for the
+ properties that the author did not set.
+ <p>
+ 요소의 의사 요소 규칙이 선언하는 속성(상속과 초기값 이전에 계단식이 정한 것)을 반환한다: 사용자 에이전트가 직접 그리는 부분(파일 컨트롤의 단추,
+ <code>::file-selector-button</code>)의 그리는 쪽은 작성자가 정하지 않은 속성에 대해 자신의 모양을 지킨다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the originating element / 원본 요소<DD><CODE>pseudo</CODE> - the pseudo-element name / 의사 요소 이름
+<DT><B>Returns:</B><DD>the set of property ids (empty if no rule targets the pseudo-element) / 속성 id 집합(그 의사 요소를 가리키는 규칙이 없으면 비어 있음)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHighlightStyle(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)"><!-- --></A><H3>
+getHighlightStyle</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A> <B>getHighlightStyle</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                                       java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns the style of the custom highlight pseudo-element <code>::highlight(name)</code> of an element (CSS Custom Highlight API 1 section 4.2.3 and CSS
+ Pseudo-Elements 4 section 3.5): a highlight property that the cascade of the element's <code>::highlight(name)</code> does not set (or sets to
+ <code>inherit</code>/<code>unset</code>) inherits from the highlight of the parent element, whether or not the property is inherited, and for the root
+ element the inherited <code>color</code> is <code>currentcolor</code> (the computed value stays the keyword <code>currentcolor</code>, which the painter
+ resolves to the color of the text). The other properties are those of the element. The style is never null.
+ <p>
+ 요소의 사용자 정의 하이라이트 의사 요소 <code>::highlight(name)</code> 의 스타일을 반환한다(CSS Custom Highlight API 1 4.2.3 절, CSS Pseudo-Elements 4 3.5 절): 요소의
+ <code>::highlight(name)</code> 계단식이 정하지 않은(또는 <code>inherit</code>/<code>unset</code> 으로 정한) 하이라이트 속성은 상속 속성인지와 상관없이 부모 요소의 하이라이트에서
+ 물려받고, 루트 요소에서 물려받는 <code>color</code> 는 <code>currentcolor</code> 이다(계산 값은 키워드 <code>currentcolor</code> 로 남고 그리는 쪽이 텍스트의 색으로 푼다).
+ 다른 속성은 요소의 것이다. 스타일은 null 이 아니다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the originating element / 원본 요소<DD><CODE>name</CODE> - the custom highlight name / 사용자 정의 하이라이트 이름
+<DT><B>Returns:</B><DD>the style / 스타일</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPseudoComputedStyle(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)"><!-- --></A><H3>
+getPseudoComputedStyle</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A> <B>getPseudoComputedStyle</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                                            java.lang.String&nbsp;pseudo)</PRE>
+<DL>
+<DD>Returns the computed style that <code>getComputedStyle(element, pseudo)</code> reports for a pseudo-element: the style of the pseudo-element
+ if a rule targets it, otherwise the style that a pseudo-element without any rule has (the properties that inherit come from the element, the
+ others have their initial value).
+ <p>
+ 의사 요소에 대해 <code>getComputedStyle(element, pseudo)</code> 가 알려 주는 계산 스타일을 반환한다: 규칙이 가리키는 의사 요소이면 그 스타일, 아니면 규칙이 전혀 없는
+ 의사 요소의 스타일(상속하는 속성은 요소에서 오고 나머지는 초기값).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the originating element / 원본 요소<DD><CODE>pseudo</CODE> - the pseudo-element name without colons / 콜론 없는 의사 요소 이름
+<DT><B>Returns:</B><DD>the style, never null / 스타일. null 이 아니다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="usesContainerQueries()"><!-- --></A><H3>
+usesContainerQueries</H3>
+<PRE>
+public boolean <B>usesContainerQueries</B>()</PRE>
+<DL>
+<DD>Tells whether the style sheets contain a rule inside <code>@container</code>: then the styles depend on the size of the containers, which only
+ the layout knows, and the layout has to report the sizes with <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#updateContainerSizes(java.util.Map)"><CODE>updateContainerSizes(Map)</CODE></A>.
+ <p>
+ 스타일 시트에 <code>@container</code> 안의 규칙이 있는지 알려 준다. 있으면 스타일이 컨테이너 크기에 달려 있는데 그것은 레이아웃만 알므로, 레이아웃이
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html#updateContainerSizes(java.util.Map)"><CODE>updateContainerSizes(Map)</CODE></A> 로 크기를 알려야 한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if container queries are in use / 컨테이너 질의가 쓰이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFontFeatureValues()"><!-- --></A><H3>
+getFontFeatureValues</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/FontFeatureValuesRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">FontFeatureValuesRule</A>&gt; <B>getFontFeatureValues</B>()</PRE>
+<DL>
+<DD>Returns the <code>@font-feature-values</code> rules of the style sheets that apply, in document order (CSS Fonts 4 section 6.9): the function
+ values of <code>font-variant-alternates</code> look their names up in them.
+ <p>
+ 적용되는 스타일 시트의 <code>@font-feature-values</code> 규칙을 문서 순서로 반환한다(CSS Fonts 4 6.9 절): <code>font-variant-alternates</code> 의 함수 값이 여기서 이름을 찾는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a copy of the list / 목록의 복사본</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCounterStyleRules()"><!-- --></A><H3>
+getCounterStyleRules</H3>
+<PRE>
+public java.util.Map&lt;java.lang.String,<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CounterStyleRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CounterStyleRule</A>&gt; <B>getCounterStyleRules</B>()</PRE>
+<DL>
+<DD>Returns the counter styles defined by the style sheets (<code>@counter-style</code>), by name.
+ <p>
+ 스타일 시트가 정의한 카운터 스타일(<code>@counter-style</code>)을 이름별로 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a copy of the definitions in the order of their first definition / 처음 정의한 순서의 정의 복사본</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPositionTryRule(java.lang.String)"><!-- --></A><H3>
+getPositionTryRule</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/PositionTryRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">PositionTryRule</A> <B>getPositionTryRule</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns the position option of a name (<code>@position-try</code>): the last rule of that name in the style sheets that apply to the environment
+ (CSS Anchor Positioning 1 section 6.4: rules of one name cascade like <code>@keyframes</code>).
+ <p>
+ 이름의 위치 대안(<code>@position-try</code>)을 반환한다: 환경에 적용되는 스타일 시트에서 그 이름의 마지막 규칙(CSS Anchor Positioning 1 6.4 절: 같은 이름의 규칙은
+ <code>@keyframes</code> 처럼 캐스케이드된다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the dashed identifier / 대시 식별자
+<DT><B>Returns:</B><DD>the rule or null / 규칙. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPageRules()"><!-- --></A><H3>
+getPageRules</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/PageRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">PageRule</A>&gt; <B>getPageRules</B>()</PRE>
+<DL>
+<DD>Returns the page rules (<code>@page</code>) of the style sheets that apply to the environment, in the order of the sources. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/PageStyles.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade"><CODE>PageStyles</CODE></A>
+ turns them into the page box of a page.
+ <p>
+ 환경에 적용되는 스타일 시트의 <code>@page</code> 규칙을 소스 순서로 반환한다. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/PageStyles.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade"><CODE>PageStyles</CODE></A> 가 이것으로 쪽의 쪽 상자를 만든다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a copy of the rules / 규칙 복사본</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="registeredPropertyNames()"><!-- --></A><H3>
+registeredPropertyNames</H3>
+<PRE>
+public java.util.List&lt;java.lang.String&gt; <B>registeredPropertyNames</B>()</PRE>
+<DL>
+<DD>Returns the names of the registered custom properties (<code>@property</code>) that have a typed syntax, so that their values can be animated: a property
+ with the universal syntax <code>*</code> has no type to interpolate.
+ <p>
+ 형 있는 문법을 가진 등록된 사용자 정의 속성(<code>@property</code>)의 이름을 반환한다. 값을 애니메이션할 수 있도록 하기 위한 것이며 보편 문법 <code>*</code> 의
+ 속성은 보간할 형이 없다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the names in the order of the registration / 등록 순서의 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="typedCustomValue(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, java.lang.String)"><!-- --></A><H3>
+typedCustomValue</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A> <B>typedCustomValue</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s,
+                                 java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns the typed value of a registered custom property in a style (a length, a number, a color ...), parsed from its computed text with the syntax of the
+ registration.
+ <p>
+ 스타일에 있는 등록된 사용자 정의 속성의 형 있는 값(길이, 숫자, 색 등)을 반환한다. 등록의 문법으로 계산된 텍스트를 파싱한 것이다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - the style / 스타일<DD><CODE>name</CODE> - the name of the property / 속성 이름
+<DT><B>Returns:</B><DD>the typed value, or null if the property is not registered with a typed syntax or has no value / 형 있는 값. 형 있는 문법으로 등록되지 않았거나 값이 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="computeRegisteredValue(java.lang.String, java.util.List, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)"><!-- --></A><H3>
+computeRegisteredValue</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A> <B>computeRegisteredValue</B>(java.lang.String&nbsp;name,
+                                       java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&nbsp;tokens,
+                                       <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;base)</PRE>
+<DL>
+<DD>Computes the typed value of a declaration of a registered property (in a keyframe, for example) against the font size of a style: the lengths become pixels.
+ <p>
+ 등록된 속성의 선언(예: 키프레임 안의 것)의 형 있는 값을 스타일의 글꼴 크기를 기준으로 계산한다: 길이는 픽셀이 된다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the name of the property / 속성 이름<DD><CODE>tokens</CODE> - the declared tokens / 선언한 토큰<DD><CODE>base</CODE> - the style that gives the font size / 글꼴 크기를 주는 스타일
+<DT><B>Returns:</B><DD>the computed typed value, or null if the declaration is not valid for the syntax / 계산된 형 있는 값. 문법에 맞지 않으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="restyleWithCustom(org.duckdns.hjow.swingwebpanel.dom.Element, java.util.Map)"><!-- --></A><H3>
+restyleWithCustom</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A> <B>restyleWithCustom</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                                       java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;overrides)</PRE>
+<DL>
+<DD>Computes the style of an element again with other values for some custom properties, as if the element had declared them last: the declarations that
+ use the properties with <code>var()</code> see the new values. This is how an animation of a registered custom property reaches the properties that
+ depend on it. The style is not cached and the animator is not asked.
+ <p>
+ 요소의 스타일을 일부 사용자 정의 속성의 다른 값으로 다시 계산한다. 요소가 그 값을 가장 나중에 선언한 것처럼 계산하므로 <code>var()</code> 로 그 속성을 쓰는 선언이
+ 새 값을 본다. 등록된 사용자 정의 속성의 애니메이션이 그에 의존하는 속성에 닿는 방법이다. 스타일은 캐시하지 않고 애니메이터에게 묻지도 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element, which must belong to the document / 요소. 문서에 속해야 한다<DD><CODE>overrides</CODE> - the new values (CSS text) by custom property name / 사용자 정의 속성 이름별 새 값(CSS 문자열)
+<DT><B>Returns:</B><DD>the style / 스타일</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="updateContainerSizes(java.util.Map)"><!-- --></A><H3>
+updateContainerSizes</H3>
+<PRE>
+public boolean <B>updateContainerSizes</B>(java.util.Map&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>,double[]&gt;&nbsp;measured)</PRE>
+<DL>
+<DD>Records the sizes of the query containers that a layout measured. A container whose size differs from the recorded one (or that is new, or
+ gone) has its descendants' styles dropped, because the <code>@container</code> rules they match may have changed; no listener is notified,
+ as this happens while the layout runs: the caller lays out again if the result is true.
+ <p>
+ 레이아웃이 잰 질의 컨테이너의 크기를 기록한다. 기록과 크기가 다른(또는 새로 생겼거나 사라진) 컨테이너는 자손의 스타일을 버린다. 자손이 일치하는 <code>@container</code>
+ 규칙이 바뀌었을 수 있기 때문이다. 레이아웃이 도는 중에 일어나는 일이므로 리스너에는 알리지 않으며, 결과가 true 이면 호출한 쪽이 다시 배치한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>measured</CODE> - the content box sizes {width, height} by container element / 컨테이너 요소별 content box 크기 {너비, 높이}
+<DT><B>Returns:</B><DD>true if any recorded size changed / 기록한 크기가 하나라도 바뀌었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mutated(org.duckdns.hjow.swingwebpanel.dom.MutationRecord, boolean)"><!-- --></A><H3>
+mutated</H3>
+<PRE>
+public void <B>mutated</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/MutationRecord.html" title="class in org.duckdns.hjow.swingwebpanel.dom">MutationRecord</A>&nbsp;record,
+                    boolean&nbsp;connected)</PRE>
+<DL>
+<DD>Reacts to a DOM change by invalidating exactly the styles it can affect.
+ <p>
+ DOM 변경에 반응해 그 변경이 영향을 줄 수 있는 스타일만 무효화한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMutationListener.html#mutated(org.duckdns.hjow.swingwebpanel.dom.MutationRecord, boolean)">mutated</A></CODE> in interface <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomMutationListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">DomMutationListener</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>record</CODE> - the change / 변경<DD><CODE>connected</CODE> - true if the target is connected to the document / 대상이 문서에 연결되어 있으면 true</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleChangeListener.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cascade"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="StyleResolver.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

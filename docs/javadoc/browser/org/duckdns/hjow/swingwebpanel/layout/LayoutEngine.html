@@ -1,0 +1,299 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+LayoutEngine
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="LayoutEngine";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.Type.html" title="enum in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/LayoutEngine.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="LayoutEngine.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.layout</FONT>
+<BR>
+Class LayoutEngine</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.layout.LayoutEngine</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>LayoutEngine</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The layout engine (plan items P09-01, P09-02, P09-03): turns a DOM document and the computed styles into a tree of boxes with
+ coordinates, see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>LayoutBox</CODE></A> and <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>LayoutResult</CODE></A>. The engine is stateless; every call builds a new result from scratch
+ (a full relayout), so a width change is handled by calling it again with the new viewport width. The caller (the document thread)
+ decides when to relayout: only when the viewport width, the DOM, the styles or the replaced content changed, never from inside a layout
+ callback, so relayout cannot loop.
+ <p>
+ Threading: the call reads the DOM and the styles and must run on the thread that owns the document (it blocks the caller). The work is
+ done on a helper thread with a large stack, because block nesting up to <CODE>BoxBuilder.MAX_DEPTH</CODE> levels is laid out recursively; the
+ helper never writes to the document. The returned <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>LayoutResult</CODE></A> is immutable by convention and may be read on any thread.
+ Layout cannot be cancelled while it runs.
+ <p>
+ Floats, <code>clear</code>, relative, absolute and fixed positioning, stacking order and clipping are implemented (P10-01);
+ <code>position:sticky</code> is laid out like <code>position:relative</code> without an offset (no scroll-dependent shift). Tables
+ (P10-02), flex containers, multi-column containers, grid containers and vertical writing modes (P10-03, see <CODE>FlexLayouter</CODE>,
+ <CODE>MulticolLayouter</CODE>, <CODE>GridLayouter</CODE> and <CODE>OrthogonalLayouter</CODE>) are implemented.
+ <p>
+ 레이아웃 엔진(계획 P09-01, P09-02, P09-03): DOM 문서와 계산 스타일을 좌표를 가진 상자 트리로 바꾼다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>LayoutBox</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>LayoutResult</CODE></A> 참고).
+ 엔진은 상태가 없고 호출마다 새 결과를 처음부터 만든다(전체 재배치). 너비 변화는 새 뷰포트 너비로 다시 호출해서 처리한다. 재배치 시점은 호출자(문서 스레드)가
+ 정한다: 뷰포트 너비, DOM, 스타일, 치환 콘텐츠가 바뀌었을 때만 하며 레이아웃 콜백 안에서는 하지 않으므로 재배치가 반복되지 않는다.
+ <p>
+ 스레드: 호출은 DOM 과 스타일을 읽으며 문서를 소유한 스레드에서 실행해야 한다(호출자를 막는다). <CODE>BoxBuilder.MAX_DEPTH</CODE> 단계까지의 블록 중첩을 재귀로
+ 배치하므로 큰 스택을 가진 보조 스레드에서 작업하며 보조 스레드는 문서에 쓰지 않는다. 반환된 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>LayoutResult</CODE></A> 는 관례상 불변이며 어느 스레드에서나
+ 읽을 수 있다. 실행 중인 레이아웃은 취소할 수 없다.
+ <p>
+ float, <code>clear</code>, 상대/절대/고정 배치, 쌓임 순서, 자르기를 구현했다(P10-01). <code>position:sticky</code> 는 오프셋이 없는
+ <code>position:relative</code> 처럼 배치한다(스크롤에 따라 움직이지 않음). 표(P10-02), 플렉스 컨테이너, 다단 컨테이너, 그리드 컨테이너, 세로 쓰기 모드(P10-03, <CODE>FlexLayouter</CODE>,
+ <CODE>MulticolLayouter</CODE>, <CODE>GridLayouter</CODE>, <CODE>OrthogonalLayouter</CODE> 참조)는 구현했다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutResult</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutEngine.html#layout(org.duckdns.hjow.swingwebpanel.dom.Document, org.duckdns.hjow.swingwebpanel.layout.StyleSource, org.duckdns.hjow.swingwebpanel.layout.ReplacedResolver, double, double)">layout</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+       <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StyleSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">StyleSource</A>&nbsp;styles,
+       <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/ReplacedResolver.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">ReplacedResolver</A>&nbsp;replaced,
+       double&nbsp;viewportWidth,
+       double&nbsp;viewportHeight)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lays out a document.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutResult</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutEngine.html#layout(org.duckdns.hjow.swingwebpanel.dom.Document, org.duckdns.hjow.swingwebpanel.layout.StyleSource, org.duckdns.hjow.swingwebpanel.layout.ReplacedResolver, double, double, org.duckdns.hjow.swingwebpanel.layout.WebFontSource)">layout</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+       <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StyleSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">StyleSource</A>&nbsp;styles,
+       <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/ReplacedResolver.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">ReplacedResolver</A>&nbsp;replaced,
+       double&nbsp;viewportWidth,
+       double&nbsp;viewportHeight,
+       <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">WebFontSource</A>&nbsp;webFonts)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lays out a document with the web fonts of the page (P10-05): the families that <code>@font-face</code> rules declare are looked up
+ in <code>webFonts</code> before the installed fonts, for the time of this layout only.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="layout(org.duckdns.hjow.swingwebpanel.dom.Document, org.duckdns.hjow.swingwebpanel.layout.StyleSource, org.duckdns.hjow.swingwebpanel.layout.ReplacedResolver, double, double)"><!-- --></A><H3>
+layout</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutResult</A> <B>layout</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+                                  <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StyleSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">StyleSource</A>&nbsp;styles,
+                                  <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/ReplacedResolver.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">ReplacedResolver</A>&nbsp;replaced,
+                                  double&nbsp;viewportWidth,
+                                  double&nbsp;viewportHeight)</PRE>
+<DL>
+<DD>Lays out a document.
+ <p>
+ 문서를 배치한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>doc</CODE> - the document / 문서<DD><CODE>styles</CODE> - source of computed styles / 계산 스타일 공급자<DD><CODE>replaced</CODE> - source of replaced content (may be null) / 치환 콘텐츠 공급자(null 가능)<DD><CODE>viewportWidth</CODE> - width of the viewport in CSS pixels (the width of the initial containing block) / CSS 픽셀 뷰포트 너비(초기 포함 블록의 너비)<DD><CODE>viewportHeight</CODE> - height of the viewport (the base of percentage heights of the root) / 뷰포트 높이(루트의 백분율 높이 기준)
+<DT><B>Returns:</B><DD>the result / 결과
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if doc or styles is null / doc 이나 styles 가 null 이면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="layout(org.duckdns.hjow.swingwebpanel.dom.Document, org.duckdns.hjow.swingwebpanel.layout.StyleSource, org.duckdns.hjow.swingwebpanel.layout.ReplacedResolver, double, double, org.duckdns.hjow.swingwebpanel.layout.WebFontSource)"><!-- --></A><H3>
+layout</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutResult</A> <B>layout</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+                                  <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StyleSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">StyleSource</A>&nbsp;styles,
+                                  <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/ReplacedResolver.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">ReplacedResolver</A>&nbsp;replaced,
+                                  double&nbsp;viewportWidth,
+                                  double&nbsp;viewportHeight,
+                                  <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/WebFontSource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">WebFontSource</A>&nbsp;webFonts)</PRE>
+<DL>
+<DD>Lays out a document with the web fonts of the page (P10-05): the families that <code>@font-face</code> rules declare are looked up
+ in <code>webFonts</code> before the installed fonts, for the time of this layout only.
+ <p>
+ 페이지의 웹 글꼴로 문서를 배치한다(P10-05): <code>@font-face</code> 규칙이 선언한 패밀리는 이 레이아웃 동안만 설치된 글꼴보다 먼저 <code>webFonts</code> 에서 찾는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>doc</CODE> - the document / 문서<DD><CODE>styles</CODE> - source of computed styles / 계산 스타일 공급자<DD><CODE>replaced</CODE> - source of replaced content (may be null) / 치환 콘텐츠 공급자(null 가능)<DD><CODE>viewportWidth</CODE> - width of the viewport in CSS pixels / CSS 픽셀 뷰포트 너비<DD><CODE>viewportHeight</CODE> - height of the viewport / 뷰포트 높이<DD><CODE>webFonts</CODE> - the web fonts of the page, may be null / 페이지의 웹 글꼴. null 가능
+<DT><B>Returns:</B><DD>the result / 결과
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if doc or styles is null / doc 이나 styles 가 null 이면</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.Type.html" title="enum in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutResult.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/LayoutEngine.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="LayoutEngine.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

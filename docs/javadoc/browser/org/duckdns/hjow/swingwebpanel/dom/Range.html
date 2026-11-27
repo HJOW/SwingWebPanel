@@ -1,0 +1,1133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+Range
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Range";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PropertyNodeList.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/Range.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Range.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom</FONT>
+<BR>
+Class Range</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.dom.Range</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>Range</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+A range of content in a DOM tree (DOM Standard, "Interface Range"): two boundary points, each a node and an offset in it (a character
+ offset in a text-like node, a child index in any other node). A range is live: when nodes are inserted or removed, or character data is
+ replaced, the boundary points move with the content (see <CODE>LiveRanges</CODE>), so that a range keeps standing for the same content. It
+ offers the boundary operations (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#setStart(org.duckdns.hjow.swingwebpanel.dom.Node, int)"><CODE>setStart(org.duckdns.hjow.swingwebpanel.dom.Node, int)</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#selectNode(org.duckdns.hjow.swingwebpanel.dom.Node)"><CODE>selectNode(org.duckdns.hjow.swingwebpanel.dom.Node)</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#collapse(boolean)"><CODE>collapse(boolean)</CODE></A> ...), the comparison of boundary points, the
+ operations on the content (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#cloneContents()"><CODE>cloneContents()</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#extractContents()"><CODE>extractContents()</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#deleteContents()"><CODE>deleteContents()</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#insertNode(org.duckdns.hjow.swingwebpanel.dom.Node)"><CODE>insertNode(org.duckdns.hjow.swingwebpanel.dom.Node)</CODE></A>,
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#surroundContents(org.duckdns.hjow.swingwebpanel.dom.Node)"><CODE>surroundContents(org.duckdns.hjow.swingwebpanel.dom.Node)</CODE></A>), <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#toString()"><CODE>toString()</CODE></A>, and <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#createContextualFragment(java.lang.String)"><CODE>createContextualFragment(java.lang.String)</CODE></A> of the DOM Parsing specification. Geometry
+ (<code>getBoundingClientRect</code>) is not part of this class; the host adds it because it needs the layout.
+ <p>
+ Restriction against the Standard: the changes of a tree of another document do not move a boundary point that was set into that tree
+ (the registry of live ranges belongs to the document that created the range).
+ <p>
+ DOM 트리 안의 내용 범위(DOM 표준 "Interface Range"): 두 경계점이며 각각 노드와 그 안의 오프셋(텍스트 계열 노드는 문자 오프셋, 그 밖의 노드는 자식
+ 인덱스)이다. 범위는 살아 있다: 노드가 삽입되거나 제거되거나 문자 데이터가 바뀌면 경계점이 내용과 함께 움직여(<CODE>LiveRanges</CODE> 참조) 범위가 계속
+ 같은 내용을 가리킨다. 경계 연산(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#setStart(org.duckdns.hjow.swingwebpanel.dom.Node, int)"><CODE>setStart(org.duckdns.hjow.swingwebpanel.dom.Node, int)</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#selectNode(org.duckdns.hjow.swingwebpanel.dom.Node)"><CODE>selectNode(org.duckdns.hjow.swingwebpanel.dom.Node)</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#collapse(boolean)"><CODE>collapse(boolean)</CODE></A> 등), 경계점 비교, 내용 연산(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#cloneContents()"><CODE>cloneContents()</CODE></A>,
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#extractContents()"><CODE>extractContents()</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#deleteContents()"><CODE>deleteContents()</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#insertNode(org.duckdns.hjow.swingwebpanel.dom.Node)"><CODE>insertNode(org.duckdns.hjow.swingwebpanel.dom.Node)</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#surroundContents(org.duckdns.hjow.swingwebpanel.dom.Node)"><CODE>surroundContents(org.duckdns.hjow.swingwebpanel.dom.Node)</CODE></A>), <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#toString()"><CODE>toString()</CODE></A>, DOM Parsing 규격의
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#createContextualFragment(java.lang.String)"><CODE>createContextualFragment(java.lang.String)</CODE></A> 를 제공한다. 기하(<code>getBoundingClientRect</code>)는 레이아웃이 필요하므로 이 클래스가 아니라 호스트가 더한다.
+ <p>
+ 표준과 다른 제한: 다른 문서의 트리에 정한 경계점은 그 문서의 변경을 따라가지 않는다(살아 있는 범위의 등록부는 범위를 만든 문서의 것이다).
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#END_TO_END">END_TO_END</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mode: the end of this range with the end of the other.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#END_TO_START">END_TO_START</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mode: the start of this range with the end of the other.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#START_TO_END">START_TO_END</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mode: the end of this range with the start of the other.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#START_TO_START">START_TO_START</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>compareBoundaryPoints</code> mode: the start of this range with the start of the other.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#Range(org.duckdns.hjow.swingwebpanel.dom.Document)">Range</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;document)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a range in a document, collapsed at the start of the document, and registers it so that it follows the changes of the tree.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentFragment.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentFragment</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#cloneContents()">cloneContents</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the ranges' contents as a document fragment without changing the tree (copies of the content).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#cloneRange()">cloneRange</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a new range with the same boundary points.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#collapse(boolean)">collapse</A></B>(boolean&nbsp;toStart)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collapses the range to one of its boundary points.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#compareBoundaryPoints(short, org.duckdns.hjow.swingwebpanel.dom.Range)">compareBoundaryPoints</A></B>(short&nbsp;how,
+                      <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A>&nbsp;other)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Compares a boundary point of this range with a boundary point of another range.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#comparePoint(org.duckdns.hjow.swingwebpanel.dom.Node, int)">comparePoint</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+             int&nbsp;offset)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Compares a point with the range: before the start, inside, or after the end.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#comparePointOrder(org.duckdns.hjow.swingwebpanel.dom.Node, int, org.duckdns.hjow.swingwebpanel.dom.Node, int)">comparePointOrder</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;nodeA,
+                  int&nbsp;offsetA,
+                  <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;nodeB,
+                  int&nbsp;offsetB)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Compares two boundary points of a document: returns a negative number if the first is before the second, 0 if they are the same
+ point and a positive number if it is after.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentFragment.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentFragment</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#createContextualFragment(java.lang.String)">createContextualFragment</A></B>(java.lang.String&nbsp;markup)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a piece of markup in the context of the start of the range and returns it as a document fragment (DOM Parsing and
+ Serialization, <code>createContextualFragment</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#deleteContents()">deleteContents</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes the content of the range from the tree and collapses the range to where the content was.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#detach()">detach</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Does nothing (the DOM Standard keeps the method for compatibility only).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentFragment.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentFragment</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#extractContents()">extractContents</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Moves the content of the range out of the tree into a document fragment and collapses the range to where the content was.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#getCommonAncestorContainer()">getCommonAncestorContainer</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the deepest node that contains both boundary points.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#getDocument()">getDocument</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the document that created the range.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#getEndContainer()">getEndContainer</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the node of the end boundary point.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#getEndOffset()">getEndOffset</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the offset of the end boundary point.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#getStartContainer()">getStartContainer</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the node of the start boundary point.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#getStartOffset()">getStartOffset</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the offset of the start boundary point.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#insertNode(org.duckdns.hjow.swingwebpanel.dom.Node)">insertNode</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inserts a node at the start boundary point of the range (a text node there is split) and, for a collapsed range, extends the range
+ to cover the new node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#intersectsNode(org.duckdns.hjow.swingwebpanel.dom.Node)">intersectsNode</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a node touches the range (any part of it is inside the range).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#isCollapsed()">isCollapsed</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the two boundary points are the same.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#isPointInRange(org.duckdns.hjow.swingwebpanel.dom.Node, int)">isPointInRange</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+               int&nbsp;offset)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a point is inside the range (a point in another tree is outside).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#selectNode(org.duckdns.hjow.swingwebpanel.dom.Node)">selectNode</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Makes the range surround a node (the start before it, the end after it).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#selectNodeContents(org.duckdns.hjow.swingwebpanel.dom.Node)">selectNodeContents</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Makes the range cover everything inside a node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#setEnd(org.duckdns.hjow.swingwebpanel.dom.Node, int)">setEnd</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+       int&nbsp;offset)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the end boundary point.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#setEndAfter(org.duckdns.hjow.swingwebpanel.dom.Node)">setEndAfter</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the end after a node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#setEndBefore(org.duckdns.hjow.swingwebpanel.dom.Node)">setEndBefore</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the end before a node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#setStart(org.duckdns.hjow.swingwebpanel.dom.Node, int)">setStart</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+         int&nbsp;offset)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the start boundary point.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#setStartAfter(org.duckdns.hjow.swingwebpanel.dom.Node)">setStartAfter</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the start after a node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#setStartBefore(org.duckdns.hjow.swingwebpanel.dom.Node)">setStartBefore</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the start before a node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#surroundContents(org.duckdns.hjow.swingwebpanel.dom.Node)">surroundContents</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;newParent)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wraps the content of the range in a new parent: the content is extracted, the (emptied) new parent is inserted at the range, the
+ content becomes its children, and the range selects the new parent.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#toString()">toString</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text of the range: the character data of the text nodes (not comments) that the range covers, cut at the boundary points.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="START_TO_START"><!-- --></A><H3>
+START_TO_START</H3>
+<PRE>
+public static final short <B>START_TO_START</B></PRE>
+<DL>
+<DD><code>compareBoundaryPoints</code> mode: the start of this range with the start of the other.
+ <p>
+ <code>compareBoundaryPoints</code> 방식: 이 범위의 시작과 다른 범위의 시작.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.Range.START_TO_START">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="START_TO_END"><!-- --></A><H3>
+START_TO_END</H3>
+<PRE>
+public static final short <B>START_TO_END</B></PRE>
+<DL>
+<DD>Mode: the end of this range with the start of the other.
+ <p>
+ 방식: 이 범위의 끝과 다른 범위의 시작.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.Range.START_TO_END">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="END_TO_END"><!-- --></A><H3>
+END_TO_END</H3>
+<PRE>
+public static final short <B>END_TO_END</B></PRE>
+<DL>
+<DD>Mode: the end of this range with the end of the other.
+ <p>
+ 방식: 이 범위의 끝과 다른 범위의 끝.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.Range.END_TO_END">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="END_TO_START"><!-- --></A><H3>
+END_TO_START</H3>
+<PRE>
+public static final short <B>END_TO_START</B></PRE>
+<DL>
+<DD>Mode: the start of this range with the end of the other.
+ <p>
+ 방식: 이 범위의 시작과 다른 범위의 끝.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.Range.END_TO_START">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="Range(org.duckdns.hjow.swingwebpanel.dom.Document)"><!-- --></A><H3>
+Range</H3>
+<PRE>
+public <B>Range</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;document)</PRE>
+<DL>
+<DD>Creates a range in a document, collapsed at the start of the document, and registers it so that it follows the changes of the tree.
+ <p>
+ 문서에 범위를 만든다. 문서의 시작에 접혀 있으며, 트리의 변경을 따라가도록 등록한다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>document</CODE> - the document, not null / 문서(null 불가)</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getDocument()"><!-- --></A><H3>
+getDocument</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A> <B>getDocument</B>()</PRE>
+<DL>
+<DD>Returns the document that created the range.
+ <p>
+ 범위를 만든 문서를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the document / 문서</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStartContainer()"><!-- --></A><H3>
+getStartContainer</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A> <B>getStartContainer</B>()</PRE>
+<DL>
+<DD>Returns the node of the start boundary point.
+ <p>
+ 시작 경계점의 노드를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStartOffset()"><!-- --></A><H3>
+getStartOffset</H3>
+<PRE>
+public int <B>getStartOffset</B>()</PRE>
+<DL>
+<DD>Returns the offset of the start boundary point.
+ <p>
+ 시작 경계점의 오프셋을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the offset / 오프셋</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEndContainer()"><!-- --></A><H3>
+getEndContainer</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A> <B>getEndContainer</B>()</PRE>
+<DL>
+<DD>Returns the node of the end boundary point.
+ <p>
+ 끝 경계점의 노드를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the node / 노드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEndOffset()"><!-- --></A><H3>
+getEndOffset</H3>
+<PRE>
+public int <B>getEndOffset</B>()</PRE>
+<DL>
+<DD>Returns the offset of the end boundary point.
+ <p>
+ 끝 경계점의 오프셋을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the offset / 오프셋</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isCollapsed()"><!-- --></A><H3>
+isCollapsed</H3>
+<PRE>
+public boolean <B>isCollapsed</B>()</PRE>
+<DL>
+<DD>Tells whether the two boundary points are the same.
+ <p>
+ 두 경계점이 같은지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if collapsed / 접혀 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCommonAncestorContainer()"><!-- --></A><H3>
+getCommonAncestorContainer</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A> <B>getCommonAncestorContainer</B>()</PRE>
+<DL>
+<DD>Returns the deepest node that contains both boundary points.
+ <p>
+ 두 경계점을 모두 포함하는 가장 깊은 노드를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the common ancestor container / 공통 조상 컨테이너</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setStart(org.duckdns.hjow.swingwebpanel.dom.Node, int)"><!-- --></A><H3>
+setStart</H3>
+<PRE>
+public void <B>setStart</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+                     int&nbsp;offset)</PRE>
+<DL>
+<DD>Sets the start boundary point. If the new start is after the end, or in another tree, the end moves to the new start as well.
+ <p>
+ 시작 경계점을 지정한다. 새 시작이 끝보다 뒤이거나 다른 트리이면 끝도 새 시작으로 옮겨 간다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node / 노드<DD><CODE>offset</CODE> - the offset / 오프셋
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidNodeTypeError, IndexSizeError / InvalidNodeTypeError, IndexSizeError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setEnd(org.duckdns.hjow.swingwebpanel.dom.Node, int)"><!-- --></A><H3>
+setEnd</H3>
+<PRE>
+public void <B>setEnd</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+                   int&nbsp;offset)</PRE>
+<DL>
+<DD>Sets the end boundary point. If the new end is before the start, or in another tree, the start moves to the new end as well.
+ <p>
+ 끝 경계점을 지정한다. 새 끝이 시작보다 앞이거나 다른 트리이면 시작도 새 끝으로 옮겨 간다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node / 노드<DD><CODE>offset</CODE> - the offset / 오프셋
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidNodeTypeError, IndexSizeError / InvalidNodeTypeError, IndexSizeError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setStartBefore(org.duckdns.hjow.swingwebpanel.dom.Node)"><!-- --></A><H3>
+setStartBefore</H3>
+<PRE>
+public void <B>setStartBefore</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</PRE>
+<DL>
+<DD>Sets the start before a node.
+ <p>
+ 노드 앞으로 시작을 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node (it needs a parent) / 노드(부모가 있어야 한다)
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidNodeTypeError if the node has no parent / 부모가 없으면 InvalidNodeTypeError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setStartAfter(org.duckdns.hjow.swingwebpanel.dom.Node)"><!-- --></A><H3>
+setStartAfter</H3>
+<PRE>
+public void <B>setStartAfter</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</PRE>
+<DL>
+<DD>Sets the start after a node.
+ <p>
+ 노드 뒤로 시작을 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node (it needs a parent) / 노드(부모가 있어야 한다)
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidNodeTypeError if the node has no parent / 부모가 없으면 InvalidNodeTypeError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setEndBefore(org.duckdns.hjow.swingwebpanel.dom.Node)"><!-- --></A><H3>
+setEndBefore</H3>
+<PRE>
+public void <B>setEndBefore</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</PRE>
+<DL>
+<DD>Sets the end before a node.
+ <p>
+ 노드 앞으로 끝을 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node (it needs a parent) / 노드(부모가 있어야 한다)
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidNodeTypeError if the node has no parent / 부모가 없으면 InvalidNodeTypeError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setEndAfter(org.duckdns.hjow.swingwebpanel.dom.Node)"><!-- --></A><H3>
+setEndAfter</H3>
+<PRE>
+public void <B>setEndAfter</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</PRE>
+<DL>
+<DD>Sets the end after a node.
+ <p>
+ 노드 뒤로 끝을 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node (it needs a parent) / 노드(부모가 있어야 한다)
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidNodeTypeError if the node has no parent / 부모가 없으면 InvalidNodeTypeError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="collapse(boolean)"><!-- --></A><H3>
+collapse</H3>
+<PRE>
+public void <B>collapse</B>(boolean&nbsp;toStart)</PRE>
+<DL>
+<DD>Collapses the range to one of its boundary points.
+ <p>
+ 범위를 경계점 하나로 접는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>toStart</CODE> - true to collapse to the start, false to the end / 시작으로 접으려면 true, 끝으로 접으려면 false</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="selectNode(org.duckdns.hjow.swingwebpanel.dom.Node)"><!-- --></A><H3>
+selectNode</H3>
+<PRE>
+public void <B>selectNode</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</PRE>
+<DL>
+<DD>Makes the range surround a node (the start before it, the end after it).
+ <p>
+ 범위가 노드를 감싸게 한다(노드 앞에서 시작해 노드 뒤에서 끝난다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node (it needs a parent) / 노드(부모가 있어야 한다)
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidNodeTypeError if the node has no parent / 부모가 없으면 InvalidNodeTypeError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="selectNodeContents(org.duckdns.hjow.swingwebpanel.dom.Node)"><!-- --></A><H3>
+selectNodeContents</H3>
+<PRE>
+public void <B>selectNodeContents</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</PRE>
+<DL>
+<DD>Makes the range cover everything inside a node.
+ <p>
+ 범위가 노드 안의 모든 것을 덮게 한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node / 노드
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidNodeTypeError for a document type / 문서 유형이면 InvalidNodeTypeError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="compareBoundaryPoints(short, org.duckdns.hjow.swingwebpanel.dom.Range)"><!-- --></A><H3>
+compareBoundaryPoints</H3>
+<PRE>
+public short <B>compareBoundaryPoints</B>(short&nbsp;how,
+                                   <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A>&nbsp;other)</PRE>
+<DL>
+<DD>Compares a boundary point of this range with a boundary point of another range.
+ <p>
+ 이 범위의 경계점을 다른 범위의 경계점과 비교한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>how</CODE> - <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#START_TO_START"><CODE>START_TO_START</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#START_TO_END"><CODE>START_TO_END</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#END_TO_END"><CODE>END_TO_END</CODE></A> or <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html#END_TO_START"><CODE>END_TO_START</CODE></A> / 비교 방식<DD><CODE>other</CODE> - the other range / 다른 범위
+<DT><B>Returns:</B><DD>-1, 0 or 1 when the point of this range is before, equal to or after the point of the other range / 이 범위의 점이 앞, 같음, 뒤일 때 -1, 0, 1
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - NotSupportedError for another mode, WrongDocumentError if the ranges are in different trees / 다른 방식이면
+                      NotSupportedError, 범위가 다른 트리에 있으면 WrongDocumentError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="comparePoint(org.duckdns.hjow.swingwebpanel.dom.Node, int)"><!-- --></A><H3>
+comparePoint</H3>
+<PRE>
+public short <B>comparePoint</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+                          int&nbsp;offset)</PRE>
+<DL>
+<DD>Compares a point with the range: before the start, inside, or after the end.
+ <p>
+ 점을 범위와 비교한다: 시작 앞, 안, 끝 뒤.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node of the point / 점의 노드<DD><CODE>offset</CODE> - the offset of the point / 점의 오프셋
+<DT><B>Returns:</B><DD>-1 if before the range, 0 if in it, 1 if after it / 범위 앞이면 -1, 안이면 0, 뒤이면 1
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - WrongDocumentError, InvalidNodeTypeError, IndexSizeError / WrongDocumentError, InvalidNodeTypeError, IndexSizeError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isPointInRange(org.duckdns.hjow.swingwebpanel.dom.Node, int)"><!-- --></A><H3>
+isPointInRange</H3>
+<PRE>
+public boolean <B>isPointInRange</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node,
+                              int&nbsp;offset)</PRE>
+<DL>
+<DD>Tells whether a point is inside the range (a point in another tree is outside).
+ <p>
+ 점이 범위 안에 있는지 알려 준다(다른 트리의 점은 밖이다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node of the point / 점의 노드<DD><CODE>offset</CODE> - the offset of the point / 점의 오프셋
+<DT><B>Returns:</B><DD>true if inside / 안이면 true
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidNodeTypeError, IndexSizeError / InvalidNodeTypeError, IndexSizeError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="intersectsNode(org.duckdns.hjow.swingwebpanel.dom.Node)"><!-- --></A><H3>
+intersectsNode</H3>
+<PRE>
+public boolean <B>intersectsNode</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</PRE>
+<DL>
+<DD>Tells whether a node touches the range (any part of it is inside the range).
+ <p>
+ 노드가 범위와 닿는지(노드의 어느 부분이라도 범위 안에 있는지) 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node / 노드
+<DT><B>Returns:</B><DD>true if the node and the range overlap / 노드와 범위가 겹치면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="cloneRange()"><!-- --></A><H3>
+cloneRange</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Range.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Range</A> <B>cloneRange</B>()</PRE>
+<DL>
+<DD>Returns a new range with the same boundary points.
+ <p>
+ 경계점이 같은 새 범위를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the copy / 복사본</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="detach()"><!-- --></A><H3>
+detach</H3>
+<PRE>
+public void <B>detach</B>()</PRE>
+<DL>
+<DD>Does nothing (the DOM Standard keeps the method for compatibility only).
+ <p>
+ 아무것도 하지 않는다(DOM 표준은 호환성을 위해서만 이 메서드를 남겨 두었다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="cloneContents()"><!-- --></A><H3>
+cloneContents</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentFragment.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentFragment</A> <B>cloneContents</B>()</PRE>
+<DL>
+<DD>Returns the ranges' contents as a document fragment without changing the tree (copies of the content).
+ <p>
+ 트리를 바꾸지 않고 범위의 내용을 문서 조각으로 반환한다(내용의 복사본).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the fragment / 조각
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - HierarchyRequestError if a document type is inside the range / 문서 유형이 범위 안에 있으면 HierarchyRequestError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="extractContents()"><!-- --></A><H3>
+extractContents</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentFragment.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentFragment</A> <B>extractContents</B>()</PRE>
+<DL>
+<DD>Moves the content of the range out of the tree into a document fragment and collapses the range to where the content was.
+ <p>
+ 범위의 내용을 트리에서 꺼내 문서 조각으로 옮기고 범위를 내용이 있던 자리로 접는다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the fragment / 조각
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - HierarchyRequestError if a document type is inside the range / 문서 유형이 범위 안에 있으면 HierarchyRequestError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="deleteContents()"><!-- --></A><H3>
+deleteContents</H3>
+<PRE>
+public void <B>deleteContents</B>()</PRE>
+<DL>
+<DD>Removes the content of the range from the tree and collapses the range to where the content was.
+ <p>
+ 범위의 내용을 트리에서 지우고 범위를 내용이 있던 자리로 접는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="insertNode(org.duckdns.hjow.swingwebpanel.dom.Node)"><!-- --></A><H3>
+insertNode</H3>
+<PRE>
+public void <B>insertNode</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</PRE>
+<DL>
+<DD>Inserts a node at the start boundary point of the range (a text node there is split) and, for a collapsed range, extends the range
+ to cover the new node.
+ <p>
+ 노드를 범위의 시작 경계점에 삽입한다(그곳의 텍스트 노드는 쪼갠다). 접힌 범위이면 범위가 새 노드를 덮도록 늘린다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node (a document fragment inserts its children) / 노드(문서 조각이면 그 자식을 삽입한다)
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - HierarchyRequestError and the other errors of node insertion / HierarchyRequestError 와 노드 삽입의 다른 오류</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="surroundContents(org.duckdns.hjow.swingwebpanel.dom.Node)"><!-- --></A><H3>
+surroundContents</H3>
+<PRE>
+public void <B>surroundContents</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;newParent)</PRE>
+<DL>
+<DD>Wraps the content of the range in a new parent: the content is extracted, the (emptied) new parent is inserted at the range, the
+ content becomes its children, and the range selects the new parent.
+ <p>
+ 범위의 내용을 새 부모로 감싼다: 내용을 꺼내고, (비운) 새 부모를 범위에 삽입하고, 내용을 그 자식으로 만들고, 범위가 새 부모를 선택한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>newParent</CODE> - the new parent / 새 부모
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidStateError if a non-text node is partially contained, InvalidNodeTypeError for a document, document type
+                      or fragment / 텍스트가 아닌 노드가 부분적으로 포함되면 InvalidStateError, 문서/문서 유형/조각이면 InvalidNodeTypeError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toString()"><!-- --></A><H3>
+toString</H3>
+<PRE>
+public java.lang.String <B>toString</B>()</PRE>
+<DL>
+<DD>Returns the text of the range: the character data of the text nodes (not comments) that the range covers, cut at the boundary points.
+ <p>
+ 범위의 텍스트를 반환한다: 범위가 덮는 텍스트 노드(주석은 아니다)의 문자 데이터를 경계점에서 잘라 이은 것.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>toString</CODE> in class <CODE>java.lang.Object</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the text / 텍스트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createContextualFragment(java.lang.String)"><!-- --></A><H3>
+createContextualFragment</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DocumentFragment.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DocumentFragment</A> <B>createContextualFragment</B>(java.lang.String&nbsp;markup)</PRE>
+<DL>
+<DD>Parses a piece of markup in the context of the start of the range and returns it as a document fragment (DOM Parsing and
+ Serialization, <code>createContextualFragment</code>). The context is the start container if it is an element, the parent element
+ of a text-like start container, and a new <code>body</code> element if there is no usable element or the context is the root
+ <code>html</code> element of an HTML document.
+ <p>
+ 범위 시작의 문맥에서 마크업 조각을 해석해 문서 조각으로 반환한다(DOM Parsing and Serialization 의 <code>createContextualFragment</code>).
+ 문맥은 시작 컨테이너가 요소이면 그 요소, 텍스트 계열이면 부모 요소이며, 쓸 수 있는 요소가 없거나 HTML 문서의 루트 <code>html</code>
+ 요소이면 새 <code>body</code> 요소이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>markup</CODE> - the markup / 마크업
+<DT><B>Returns:</B><DD>the fragment / 조각</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="comparePointOrder(org.duckdns.hjow.swingwebpanel.dom.Node, int, org.duckdns.hjow.swingwebpanel.dom.Node, int)"><!-- --></A><H3>
+comparePointOrder</H3>
+<PRE>
+public static int <B>comparePointOrder</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;nodeA,
+                                    int&nbsp;offsetA,
+                                    <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;nodeB,
+                                    int&nbsp;offsetB)</PRE>
+<DL>
+<DD>Compares two boundary points of a document: returns a negative number if the first is before the second, 0 if they are the same
+ point and a positive number if it is after.
+ <p>
+ 문서의 두 경계점을 비교한다: 첫째가 둘째보다 앞이면 음수, 같은 점이면 0, 뒤이면 양수를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>nodeA</CODE> - the node of the first point / 첫째 점의 노드<DD><CODE>offsetA</CODE> - the offset of the first point / 첫째 점의 오프셋<DD><CODE>nodeB</CODE> - the node of the second point / 둘째 점의 노드<DD><CODE>offsetB</CODE> - the offset of the second point / 둘째 점의 오프셋
+<DT><B>Returns:</B><DD>the comparison / 비교 결과</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PropertyNodeList.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Selection.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/Range.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Range.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

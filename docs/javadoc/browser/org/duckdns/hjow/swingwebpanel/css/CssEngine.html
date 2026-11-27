@@ -1,0 +1,540 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+CssEngine
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="CssEngine";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.Entry.html" title="class in org.duckdns.hjow.swingwebpanel.css"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/CssEngine.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CssEngine.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css</FONT>
+<BR>
+Class CssEngine</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.CssEngine</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>CssEngine</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The CSS engine of one document, wired together: it installs the selector engine (<code>querySelector</code> and friends), collects the style sheets of the
+ document (<code>&lt;style&gt;</code>, <code>&lt;link rel="stylesheet"&gt;</code>, <code>@import</code>) through a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheetLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cssom"><CODE>StyleSheetLoader</CODE></A>, and creates the
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade"><CODE>StyleResolver</CODE></A> that computes the styles. The current DOM owner creates one engine per document, calls
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html#loadStyleSheets()"><CODE>loadStyleSheets()</CODE></A> during parsing or on the confirmed document queue, and shares it with layout. When the sources of the style sheets change
+ (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html#refreshIfNeeded()"><CODE>refreshIfNeeded()</CODE></A>) the sheets are collected again.
+ <p>
+ 문서 하나의 CSS 엔진을 하나로 묶은 것: 선택자 엔진(<code>querySelector</code> 등)을 설치하고, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheetLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cssom"><CODE>StyleSheetLoader</CODE></A> 로 문서의 스타일 시트(<code>&lt;style&gt;</code>,
+ <code>&lt;link rel="stylesheet"&gt;</code>, <code>@import</code>)를 모으고, 스타일을 계산하는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade"><CODE>StyleResolver</CODE></A> 를 만든다. 현재 DOM 소유자는 문서마다 엔진
+ 하나를 만들고 파싱 중 또는 확정된 문서 큐에서 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html#loadStyleSheets()"><CODE>loadStyleSheets()</CODE></A> 를 호출하며 레이아웃과 공유한다. 스타일 시트의 출처가 바뀌면(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html#refreshIfNeeded()"><CODE>refreshIfNeeded()</CODE></A>) 시트를 다시 모은다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html#CssEngine(org.duckdns.hjow.swingwebpanel.dom.Document, org.duckdns.hjow.swingwebpanel.css.cssom.StyleSheetLoader, org.duckdns.hjow.swingwebpanel.css.media.MediaEnvironment)">CssEngine</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;document,
+          <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheetLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cssom">StyleSheetLoader</A>&nbsp;loader,
+          <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html" title="class in org.duckdns.hjow.swingwebpanel.css.media">MediaEnvironment</A>&nbsp;env)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the engine of a document and installs the selector engine on it.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html#dispose()">dispose</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Releases the resolver (it stops listening to the document).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheet.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">StyleSheet</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html#getAdoptedStyleSheets()">getAdoptedStyleSheets</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the constructed sheets that the document adopted.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html#getComputedStyle(org.duckdns.hjow.swingwebpanel.dom.Element)">getComputedStyle</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the computed style of an element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html#getDiagnostics()">getDiagnostics</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the diagnostics collected so far.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheet.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">StyleSheet</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html#getDocumentStyleSheets()">getDocumentStyleSheets</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the style sheets of the document collected last, in document order, without the adopted sheets (what <code>document.styleSheets</code>
+ lists).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">StyleResolver</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html#getResolver()">getResolver</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the resolver.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/selector/CssSelectorEngine.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">CssSelectorEngine</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html#getSelectorEngine()">getSelectorEngine</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the selector engine installed on the document.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheet.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">StyleSheet</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html#getStyleSheets()">getStyleSheets</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns all the author style sheets that the engine applies: the sheets collected last, followed by the adopted constructed sheets.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html#loadStyleSheets()">loadStyleSheets</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collects the style sheets of the document and gives them to the resolver.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html#refreshIfNeeded()">refreshIfNeeded</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collects the style sheets again if a <code>style</code> or <code>link</code> element changed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html#setAdoptedStyleSheets(java.util.List)">setAdoptedStyleSheets</A></B>(java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheet.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">StyleSheet</A>&gt;&nbsp;list)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Replaces the constructed style sheets that the document adopts (<code>document.adoptedStyleSheets</code>); they apply after the sheets of the
+ document, in the given order, and the styles are computed again.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html#setChangeListener(java.lang.Runnable)">setChangeListener</A></B>(java.lang.Runnable&nbsp;l)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Registers the receiver that is told after a script changed a style sheet that the engine uses (the owner invalidates the layout and the view).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="CssEngine(org.duckdns.hjow.swingwebpanel.dom.Document, org.duckdns.hjow.swingwebpanel.css.cssom.StyleSheetLoader, org.duckdns.hjow.swingwebpanel.css.media.MediaEnvironment)"><!-- --></A><H3>
+CssEngine</H3>
+<PRE>
+public <B>CssEngine</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;document,
+                 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheetLoader.html" title="interface in org.duckdns.hjow.swingwebpanel.css.cssom">StyleSheetLoader</A>&nbsp;loader,
+                 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html" title="class in org.duckdns.hjow.swingwebpanel.css.media">MediaEnvironment</A>&nbsp;env)</PRE>
+<DL>
+<DD>Creates the engine of a document and installs the selector engine on it. The style sheets are not collected yet.
+ <p>
+ 문서의 엔진을 만들고 그 문서에 선택자 엔진을 설치한다. 스타일 시트는 아직 모으지 않는다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>document</CODE> - the document / 문서<DD><CODE>loader</CODE> - loads linked and imported style sheets, or null to skip them / 링크와 가져오기 스타일 시트를 읽는다. 건너뛰려면 null<DD><CODE>env</CODE> - the media environment / 미디어 환경</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="loadStyleSheets()"><!-- --></A><H3>
+loadStyleSheets</H3>
+<PRE>
+public void <B>loadStyleSheets</B>()</PRE>
+<DL>
+<DD>Collects the style sheets of the document and gives them to the resolver. It may block on the loader, so call it on a loading thread.
+ <p>
+ 문서의 스타일 시트를 모아 리졸버에 준다. 로더에서 막힐 수 있으므로 로딩 스레드에서 호출한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setAdoptedStyleSheets(java.util.List)"><!-- --></A><H3>
+setAdoptedStyleSheets</H3>
+<PRE>
+public void <B>setAdoptedStyleSheets</B>(java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheet.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">StyleSheet</A>&gt;&nbsp;list)</PRE>
+<DL>
+<DD>Replaces the constructed style sheets that the document adopts (<code>document.adoptedStyleSheets</code>); they apply after the sheets of the
+ document, in the given order, and the styles are computed again.
+ <p>
+ 문서가 채택하는 생성 스타일 시트를 바꾼다(<code>document.adoptedStyleSheets</code>). 문서의 시트 다음에 주어진 순서로 적용되며 스타일을 다시 계산한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>list</CODE> - the adopted sheets in order / 순서대로의 채택한 시트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getAdoptedStyleSheets()"><!-- --></A><H3>
+getAdoptedStyleSheets</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheet.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">StyleSheet</A>&gt; <B>getAdoptedStyleSheets</B>()</PRE>
+<DL>
+<DD>Returns the constructed sheets that the document adopted.
+ <p>
+ 문서가 채택한 생성 시트를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the sheets in order / 순서대로의 시트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setChangeListener(java.lang.Runnable)"><!-- --></A><H3>
+setChangeListener</H3>
+<PRE>
+public void <B>setChangeListener</B>(java.lang.Runnable&nbsp;l)</PRE>
+<DL>
+<DD>Registers the receiver that is told after a script changed a style sheet that the engine uses (the owner invalidates the layout and the view).
+ <p>
+ 스크립트가 엔진이 쓰는 스타일 시트를 바꾼 뒤 알려 받는 쪽을 등록한다(소유자가 레이아웃과 뷰를 무효화한다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>l</CODE> - the receiver or null / 받는 쪽 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="refreshIfNeeded()"><!-- --></A><H3>
+refreshIfNeeded</H3>
+<PRE>
+public boolean <B>refreshIfNeeded</B>()</PRE>
+<DL>
+<DD>Collects the style sheets again if a <code>style</code> or <code>link</code> element changed.
+ <p>
+ <code>style</code> 이나 <code>link</code> 요소가 바뀌었으면 스타일 시트를 다시 모은다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if the sheets were collected again / 다시 모았으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getComputedStyle(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+getComputedStyle</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A> <B>getComputedStyle</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Returns the computed style of an element.
+ <p>
+ 요소의 계산 스타일을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>the style / 스타일</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getResolver()"><!-- --></A><H3>
+getResolver</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/StyleResolver.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">StyleResolver</A> <B>getResolver</B>()</PRE>
+<DL>
+<DD>Returns the resolver.
+ <p>
+ 리졸버를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the resolver / 리졸버</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSelectorEngine()"><!-- --></A><H3>
+getSelectorEngine</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/selector/CssSelectorEngine.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">CssSelectorEngine</A> <B>getSelectorEngine</B>()</PRE>
+<DL>
+<DD>Returns the selector engine installed on the document.
+ <p>
+ 문서에 설치된 선택자 엔진을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the engine / 엔진</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDiagnostics()"><!-- --></A><H3>
+getDiagnostics</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A> <B>getDiagnostics</B>()</PRE>
+<DL>
+<DD>Returns the diagnostics collected so far.
+ <p>
+ 지금까지 모은 진단을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the collector / 수집기</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStyleSheets()"><!-- --></A><H3>
+getStyleSheets</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheet.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">StyleSheet</A>&gt; <B>getStyleSheets</B>()</PRE>
+<DL>
+<DD>Returns all the author style sheets that the engine applies: the sheets collected last, followed by the adopted constructed sheets.
+ <p>
+ 엔진이 적용하는 모든 작성자 스타일 시트를 반환한다: 마지막으로 모은 시트, 이어서 채택한 생성 시트.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the sheets, or null before <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html#loadStyleSheets()"><CODE>loadStyleSheets()</CODE></A> / 시트. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html#loadStyleSheets()"><CODE>loadStyleSheets()</CODE></A> 전에는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDocumentStyleSheets()"><!-- --></A><H3>
+getDocumentStyleSheets</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheet.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">StyleSheet</A>&gt; <B>getDocumentStyleSheets</B>()</PRE>
+<DL>
+<DD>Returns the style sheets of the document collected last, in document order, without the adopted sheets (what <code>document.styleSheets</code>
+ lists).
+ <p>
+ 마지막으로 모은 문서의 스타일 시트를 채택한 시트 없이 문서 순서로 반환한다(<code>document.styleSheets</code> 가 나열하는 것).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the sheets, or null before <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html#loadStyleSheets()"><CODE>loadStyleSheets()</CODE></A> / 시트. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssEngine.html#loadStyleSheets()"><CODE>loadStyleSheets()</CODE></A> 전에는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispose()"><!-- --></A><H3>
+dispose</H3>
+<PRE>
+public void <B>dispose</B>()</PRE>
+<DL>
+<DD>Releases the resolver (it stops listening to the document). The selector engine stays installed on the document.
+ <p>
+ 리졸버를 해제한다(문서 구독을 멈춘다). 선택자 엔진은 문서에 설치된 채로 남는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.Entry.html" title="class in org.duckdns.hjow.swingwebpanel.css"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/CssEngine.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CssEngine.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

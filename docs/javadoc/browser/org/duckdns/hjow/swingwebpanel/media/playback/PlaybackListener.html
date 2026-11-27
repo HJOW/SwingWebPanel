@@ -1,0 +1,407 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+PlaybackListener
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="PlaybackListener";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/MediaRanges.html" title="class in org.duckdns.hjow.swingwebpanel.media.playback"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/playback/PlaybackListener.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PlaybackListener.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.playback</FONT>
+<BR>
+Interface PlaybackListener</H2>
+<HR>
+<DL>
+<DT><PRE>public interface <B>PlaybackListener</B></DL>
+</PRE>
+
+<P>
+Receives what a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/MediaPlayer.html" title="class in org.duckdns.hjow.swingwebpanel.media.playback"><CODE>MediaPlayer</CODE></A> reports (plan items P18-08, P18-05-c). Every method is called on the playback thread of the player,
+ outside its internal locks, so an implementation must only record the fact or queue work for the owner of the page and return quickly.
+ Nothing is reported after <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/MediaPlayer.html#close()"><CODE>MediaPlayer.close()</CODE></A> returned. The player holds its listener weakly: the owner keeps the listener
+ reachable for as long as it wants reports.
+ <p>
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/MediaPlayer.html" title="class in org.duckdns.hjow.swingwebpanel.media.playback"><CODE>MediaPlayer</CODE></A> 가 알리는 것을 받는다(계획 P18-08, P18-05-c). 모든 메서드는 재생기의 재생 스레드에서 내부 잠금 밖에서 호출되므로, 구현은 사실을
+ 기록하거나 페이지 소유자에게 작업을 올리기만 하고 빨리 돌아와야 한다. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/MediaPlayer.html#close()"><CODE>MediaPlayer.close()</CODE></A> 가 돌아온 뒤에는 아무것도 알리지 않는다.
+ 재생기는 리스너를 약하게 참조하므로, 보고를 원하는 동안은 소유자가 리스너를 도달 가능하게 유지해야 한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/PlaybackListener.html#durationKnown(double)">durationKnown</A></B>(double&nbsp;seconds)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The length of the media became known only now (a source that could not tell its length in advance reached its end).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/PlaybackListener.html#ended()">ended</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The end was reached and the last sound has been rendered (not reported while looping).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/PlaybackListener.html#failed(org.duckdns.hjow.swingwebpanel.media.MediaException)">failed</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A>&nbsp;error)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Playback failed and stopped: the data turned out to be damaged, or the output device cannot be opened.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/PlaybackListener.html#loaded(org.duckdns.hjow.swingwebpanel.media.playback.MediaInfo)">loaded</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/MediaInfo.html" title="class in org.duckdns.hjow.swingwebpanel.media.playback">MediaInfo</A>&nbsp;info)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The headers were read and the media can be played: the duration and the format are known.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/PlaybackListener.html#loadFailed(org.duckdns.hjow.swingwebpanel.media.MediaException)">loadFailed</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A>&nbsp;error)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The data cannot be played (unsupported format, damaged headers, too large).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/PlaybackListener.html#looped()">looped</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The playback wrapped around to the start because of the loop flag.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/PlaybackListener.html#seeked()">seeked</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A seek ended: the next sound comes from the new position.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/PlaybackListener.html#started()">started</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The sound began: the output was opened and accepted the first data after a play request (also a resume after a pause, and the restart
+ after the end).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/PlaybackListener.html#timeUpdate()">timeUpdate</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Playback is going on: a regular report (at least four times a second) that the position moved.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="loaded(org.duckdns.hjow.swingwebpanel.media.playback.MediaInfo)"><!-- --></A><H3>
+loaded</H3>
+<PRE>
+void <B>loaded</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/MediaInfo.html" title="class in org.duckdns.hjow.swingwebpanel.media.playback">MediaInfo</A>&nbsp;info)</PRE>
+<DL>
+<DD>The headers were read and the media can be played: the duration and the format are known.
+ <p>
+ 헤더를 읽었고 미디어를 재생할 수 있다: 길이와 형식을 안다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>info</CODE> - the facts about the media / 미디어에 대한 정보</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="loadFailed(org.duckdns.hjow.swingwebpanel.media.MediaException)"><!-- --></A><H3>
+loadFailed</H3>
+<PRE>
+void <B>loadFailed</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A>&nbsp;error)</PRE>
+<DL>
+<DD>The data cannot be played (unsupported format, damaged headers, too large). Only reported once, instead of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/PlaybackListener.html#loaded(org.duckdns.hjow.swingwebpanel.media.playback.MediaInfo)"><CODE>loaded(MediaInfo)</CODE></A>.
+ <p>
+ 데이터를 재생할 수 없다(지원하지 않는 형식, 손상된 헤더, 너무 큼). <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/PlaybackListener.html#loaded(org.duckdns.hjow.swingwebpanel.media.playback.MediaInfo)"><CODE>loaded(MediaInfo)</CODE></A> 대신 한 번만 알린다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>error</CODE> - the reason / 이유</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="started()"><!-- --></A><H3>
+started</H3>
+<PRE>
+void <B>started</B>()</PRE>
+<DL>
+<DD>The sound began: the output was opened and accepted the first data after a play request (also a resume after a pause, and the restart
+ after the end). Reported once per start, so a page can tell that <code>play()</code> really worked.
+ <p>
+ 소리가 시작되었다: 재생 요청(일시정지 뒤의 재개와 끝난 뒤의 재시작 포함)에 이어 출력이 열리고 첫 데이터를 받아들였다. 시작마다 한 번 알리므로
+ 페이지는 <code>play()</code> 가 정말 동작했음을 알 수 있다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="seeked()"><!-- --></A><H3>
+seeked</H3>
+<PRE>
+void <B>seeked</B>()</PRE>
+<DL>
+<DD>A seek ended: the next sound comes from the new position.
+ <p>
+ 탐색이 끝났다: 다음 소리는 새 위치에서 나온다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="looped()"><!-- --></A><H3>
+looped</H3>
+<PRE>
+void <B>looped</B>()</PRE>
+<DL>
+<DD>The playback wrapped around to the start because of the loop flag.
+ <p>
+ 반복 플래그 때문에 재생이 처음으로 되돌아갔다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="ended()"><!-- --></A><H3>
+ended</H3>
+<PRE>
+void <B>ended</B>()</PRE>
+<DL>
+<DD>The end was reached and the last sound has been rendered (not reported while looping).
+ <p>
+ 끝에 닿았고 마지막 소리까지 재생되었다(반복 중에는 알리지 않는다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="durationKnown(double)"><!-- --></A><H3>
+durationKnown</H3>
+<PRE>
+void <B>durationKnown</B>(double&nbsp;seconds)</PRE>
+<DL>
+<DD>The length of the media became known only now (a source that could not tell its length in advance reached its end).
+ <p>
+ 미디어의 길이를 지금에서야 알게 되었다(길이를 미리 말하지 못하던 소스가 끝에 닿았다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>seconds</CODE> - the duration / 길이(초)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="timeUpdate()"><!-- --></A><H3>
+timeUpdate</H3>
+<PRE>
+void <B>timeUpdate</B>()</PRE>
+<DL>
+<DD>Playback is going on: a regular report (at least four times a second) that the position moved.
+ <p>
+ 재생이 진행 중이다: 위치가 움직였다는 정기 보고(초당 4번 이상).
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="failed(org.duckdns.hjow.swingwebpanel.media.MediaException)"><!-- --></A><H3>
+failed</H3>
+<PRE>
+void <B>failed</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/MediaException.html" title="class in org.duckdns.hjow.swingwebpanel.media">MediaException</A>&nbsp;error)</PRE>
+<DL>
+<DD>Playback failed and stopped: the data turned out to be damaged, or the output device cannot be opened. The player stays loaded; a
+ later <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/MediaPlayer.html#play()"><CODE>MediaPlayer.play()</CODE></A> tries again.
+ <p>
+ 재생이 실패하여 멈췄다: 데이터가 손상된 것으로 드러났거나 출력 장치를 열 수 없다. 재생기는 로드된 채로 있으며 이후의
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/MediaPlayer.html#play()"><CODE>MediaPlayer.play()</CODE></A> 가 다시 시도한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>error</CODE> - the reason (ACCESS_FAILED for the device, CORRUPT for damaged data) / 이유(장치는 ACCESS_FAILED, 손상된 데이터는 CORRUPT)</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/playback/MediaRanges.html" title="class in org.duckdns.hjow.swingwebpanel.media.playback"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/playback/PlaybackListener.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PlaybackListener.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,514 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+CssParser
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="CssParser";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssFunction.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CssParser.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.syntax</FONT>
+<BR>
+Class CssParser</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.syntax.CssParser</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>CssParser</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The parser of CSS Syntax Module Level 3 (section 5, "Parsing"): it turns text into component values and the component values into rules
+ and declarations, with the error recovery of the specification. A broken declaration is skipped up to the next semicolon, a rule without a
+ block is dropped, an unterminated block is closed at the end of input, and none of this affects the neighbouring declarations and rules.
+ <p>
+ Entry points: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#parseStylesheet(java.lang.String, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)"><CODE>parseStylesheet(java.lang.String, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#parseRuleList(java.util.List, boolean, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)"><CODE>parseRuleList(java.util.List<org.duckdns.hjow.swingwebpanel.css.syntax.ComponentValue>, boolean, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)</CODE></A> (the contents of <code>@media</code>), <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#parseDeclarationList(java.lang.String, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)"><CODE>parseDeclarationList(java.lang.String, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)</CODE></A> (a
+ <code>style</code> attribute), <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#parseDeclaration(java.lang.String)"><CODE>parseDeclaration(java.lang.String)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#parseComponentValues(java.lang.String)"><CODE>parseComponentValues(java.lang.String)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#splitCommas(java.util.List)"><CODE>splitCommas(java.util.List<org.duckdns.hjow.swingwebpanel.css.syntax.ComponentValue>)</CODE></A>.
+ <p>
+ CSS Syntax Module Level 3 의 파서(5절 "Parsing"): 텍스트를 컴포넌트 값으로, 컴포넌트 값을 규칙과 선언으로 바꾸며 규격의 오류 복구를 따른다.
+ 잘못된 선언은 다음 세미콜론까지 건너뛰고, 블록이 없는 규칙은 버리며, 끝나지 않은 블록은 입력 끝에서 닫는다. 이런 처리는 이웃 선언과 규칙에 영향을 주지 않는다.
+ <p>
+ 진입점: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#parseStylesheet(java.lang.String, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)"><CODE>parseStylesheet(java.lang.String, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#parseRuleList(java.util.List, boolean, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)"><CODE>parseRuleList(java.util.List<org.duckdns.hjow.swingwebpanel.css.syntax.ComponentValue>, boolean, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)</CODE></A>(<code>@media</code> 의 내용), <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#parseDeclarationList(java.lang.String, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)"><CODE>parseDeclarationList(java.lang.String, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)</CODE></A>(<code>style</code> 속성),
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#parseDeclaration(java.lang.String)"><CODE>parseDeclaration(java.lang.String)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#parseComponentValues(java.lang.String)"><CODE>parseComponentValues(java.lang.String)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#splitCommas(java.util.List)"><CODE>splitCommas(java.util.List<org.duckdns.hjow.swingwebpanel.css.syntax.ComponentValue>)</CODE></A>.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#MAX_NESTING">MAX_NESTING</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Maximum nesting depth of blocks and functions.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#isWhitespace(org.duckdns.hjow.swingwebpanel.css.syntax.ComponentValue)">isWhitespace</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a component value is a whitespace token.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;java.lang.Object&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#parseBlockContents(java.util.List, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)">parseBlockContents</A></B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&nbsp;list,
+                   <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A>&nbsp;diag)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses the contents of a style rule block that may nest rules (CSS Nesting Module Level 1, CSS Syntax Level 3 "consume a block's contents"):
+ the declarations, the nested qualified rules and the nested at-rules in source order.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#parseComponentValues(java.lang.String)">parseComponentValues</A></B>(java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tokenizes text and groups the tokens into component values (blocks and functions are nested).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/SyntaxDeclaration.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">SyntaxDeclaration</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#parseDeclaration(java.lang.String)">parseDeclaration</A></B>(java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses one declaration text such as <code>color: red !</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/DeclarationBlock.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">DeclarationBlock</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#parseDeclarationBlock(java.util.List, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)">parseDeclarationBlock</A></B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&nbsp;list,
+                      <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A>&nbsp;diag)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses component values into declarations and at-rules.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/SyntaxDeclaration.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">SyntaxDeclaration</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#parseDeclarationList(java.lang.String, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)">parseDeclarationList</A></B>(java.lang.String&nbsp;text,
+                     <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A>&nbsp;diag)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses the contents of a declaration block (or a <code>style</code> attribute text) into declarations.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/SyntaxRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">SyntaxRule</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#parseRuleList(java.util.List, boolean, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)">parseRuleList</A></B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&nbsp;list,
+              boolean&nbsp;topLevel,
+              <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A>&nbsp;diag)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a list of component values into rules (the contents of a grouping at-rule such as <code>@media</code>, or a whole style sheet).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/SyntaxRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">SyntaxRule</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#parseStylesheet(java.lang.String, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)">parseStylesheet</A></B>(java.lang.String&nbsp;text,
+                <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A>&nbsp;diag)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a whole style sheet text into its top-level rules.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#splitCommas(java.util.List)">splitCommas</A></B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&nbsp;list)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Splits a list at its top-level commas; each part is trimmed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html#trim(java.util.List)">trim</A></B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&nbsp;list)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy of the list without leading and trailing whitespace.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="MAX_NESTING"><!-- --></A><H3>
+MAX_NESTING</H3>
+<PRE>
+public static final int <B>MAX_NESTING</B></PRE>
+<DL>
+<DD>Maximum nesting depth of blocks and functions. Hostile input that nests deeper is treated as if the text ended there, so that no recursive
+ consumer (calc parsing, <code>var()</code> substitution, serialization) can overflow the Java stack.
+ <p>
+ 블록과 함수의 최대 중첩 깊이. 이보다 깊이 중첩한 악의적인 입력은 거기서 텍스트가 끝난 것으로 다뤄, 재귀하는 소비자(calc 파싱, <code>var()</code> 치환, 직렬화)가
+ Java 스택을 넘치게 하지 못한다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssParser.MAX_NESTING">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="parseComponentValues(java.lang.String)"><!-- --></A><H3>
+parseComponentValues</H3>
+<PRE>
+public static java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt; <B>parseComponentValues</B>(java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Tokenizes text and groups the tokens into component values (blocks and functions are nested). The nesting is handled with an explicit
+ stack, so even extremely deep input cannot overflow the Java stack; blocks left open at the end of input are closed implicitly.
+ <p>
+ 텍스트를 토큰화하고 토큰을 컴포넌트 값(블록과 함수는 중첩)으로 묶는다. 중첩은 명시적 스택으로 처리하므로 아주 깊은 입력도 Java 스택을 넘치게 하지
+ 않으며, 입력 끝에서 열려 있는 블록은 암묵적으로 닫는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - CSS text / CSS 문자열
+<DT><B>Returns:</B><DD>component values / 컴포넌트 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isWhitespace(org.duckdns.hjow.swingwebpanel.css.syntax.ComponentValue)"><!-- --></A><H3>
+isWhitespace</H3>
+<PRE>
+public static boolean <B>isWhitespace</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&nbsp;v)</PRE>
+<DL>
+<DD>Tells whether a component value is a whitespace token.
+ <p>
+ 컴포넌트 값이 공백 토큰인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - component value / 컴포넌트 값
+<DT><B>Returns:</B><DD>true for whitespace / 공백이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="trim(java.util.List)"><!-- --></A><H3>
+trim</H3>
+<PRE>
+public static java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt; <B>trim</B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&nbsp;list)</PRE>
+<DL>
+<DD>Returns a copy of the list without leading and trailing whitespace.
+ <p>
+ 앞뒤 공백을 제거한 목록의 복사본을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>list</CODE> - component values / 컴포넌트 값
+<DT><B>Returns:</B><DD>trimmed copy / 다듬은 복사본</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="splitCommas(java.util.List)"><!-- --></A><H3>
+splitCommas</H3>
+<PRE>
+public static java.util.List&lt;java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&gt; <B>splitCommas</B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&nbsp;list)</PRE>
+<DL>
+<DD>Splits a list at its top-level commas; each part is trimmed.
+ <p>
+ 목록을 최상위 쉼표에서 나눈다. 각 조각은 앞뒤 공백을 제거한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>list</CODE> - component values / 컴포넌트 값
+<DT><B>Returns:</B><DD>the parts (a list without commas gives one part) / 조각들(쉼표가 없으면 조각 하나)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseStylesheet(java.lang.String, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)"><!-- --></A><H3>
+parseStylesheet</H3>
+<PRE>
+public static java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/SyntaxRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">SyntaxRule</A>&gt; <B>parseStylesheet</B>(java.lang.String&nbsp;text,
+                                                         <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A>&nbsp;diag)</PRE>
+<DL>
+<DD>Parses a whole style sheet text into its top-level rules. The tokens CDO and CDC between rules are ignored.
+ <p>
+ 스타일 시트 텍스트 전체를 최상위 규칙들로 파싱한다. 규칙 사이의 CDO, CDC 토큰은 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - CSS text / CSS 문자열<DD><CODE>diag</CODE> - collector or null / 수집기 또는 null
+<DT><B>Returns:</B><DD>rules in source order / 소스 순서의 규칙</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseRuleList(java.util.List, boolean, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)"><!-- --></A><H3>
+parseRuleList</H3>
+<PRE>
+public static java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/SyntaxRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">SyntaxRule</A>&gt; <B>parseRuleList</B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&nbsp;list,
+                                                       boolean&nbsp;topLevel,
+                                                       <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A>&nbsp;diag)</PRE>
+<DL>
+<DD>Parses a list of component values into rules (the contents of a grouping at-rule such as <code>@media</code>, or a whole style sheet).
+ <p>
+ 컴포넌트 값 목록을 규칙들로 파싱한다(<code>@media</code> 같은 그룹 at-규칙의 내용이나 스타일 시트 전체).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>list</CODE> - component values / 컴포넌트 값<DD><CODE>topLevel</CODE> - true to ignore CDO and CDC (top level of a style sheet) / 최상위(CDO, CDC 무시)이면 true<DD><CODE>diag</CODE> - collector or null / 수집기 또는 null
+<DT><B>Returns:</B><DD>rules in source order / 소스 순서의 규칙</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseDeclarationList(java.lang.String, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)"><!-- --></A><H3>
+parseDeclarationList</H3>
+<PRE>
+public static java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/SyntaxDeclaration.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">SyntaxDeclaration</A>&gt; <B>parseDeclarationList</B>(java.lang.String&nbsp;text,
+                                                                     <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A>&nbsp;diag)</PRE>
+<DL>
+<DD>Parses the contents of a declaration block (or a <code>style</code> attribute text) into declarations.
+ <p>
+ 선언 블록의 내용(또는 <code>style</code> 속성 텍스트)을 선언들로 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - CSS text / CSS 문자열<DD><CODE>diag</CODE> - collector or null / 수집기 또는 null
+<DT><B>Returns:</B><DD>declarations in source order / 소스 순서의 선언</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseDeclarationBlock(java.util.List, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)"><!-- --></A><H3>
+parseDeclarationBlock</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/DeclarationBlock.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">DeclarationBlock</A> <B>parseDeclarationBlock</B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&nbsp;list,
+                                                     <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A>&nbsp;diag)</PRE>
+<DL>
+<DD>Parses component values into declarations and at-rules.
+ <p>
+ 컴포넌트 값을 선언과 at-규칙으로 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>list</CODE> - component values (block contents) / 컴포넌트 값(블록의 내용)<DD><CODE>diag</CODE> - collector or null / 수집기 또는 null
+<DT><B>Returns:</B><DD>declarations and at-rules / 선언과 at-규칙</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseBlockContents(java.util.List, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)"><!-- --></A><H3>
+parseBlockContents</H3>
+<PRE>
+public static java.util.List&lt;java.lang.Object&gt; <B>parseBlockContents</B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&nbsp;list,
+                                                                  <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A>&nbsp;diag)</PRE>
+<DL>
+<DD>Parses the contents of a style rule block that may nest rules (CSS Nesting Module Level 1, CSS Syntax Level 3 "consume a block's contents"):
+ the declarations, the nested qualified rules and the nested at-rules in source order. A segment that starts with an identifier is a declaration
+ unless it contains a top-level <code>{}</code> block next to other values (<code>a:hover { ... }</code> is a nested rule, <code>--x: { }</code>
+ is a custom property declaration); a segment that ends in a block is a nested qualified rule whose prelude is what precedes the block.
+ <p>
+ 규칙을 중첩할 수 있는 스타일 규칙 블록의 내용을 파싱한다(CSS Nesting Module Level 1, CSS Syntax Level 3 "consume a block's contents"): 선언, 중첩된 한정 규칙, 중첩된
+ at-규칙을 소스 순서대로. 식별자로 시작하는 조각은, 다른 값과 함께 최상위 <code>{}</code> 블록이 들어 있지 않으면 선언이다(<code>a:hover { ... }</code> 는 중첩 규칙이고
+ <code>--x: { }</code> 는 사용자 정의 속성 선언이다). 블록으로 끝나는 조각은 블록 앞이 전문인 중첩 한정 규칙이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>list</CODE> - component values (block contents) / 컴포넌트 값(블록의 내용)<DD><CODE>diag</CODE> - collector or null / 수집기 또는 null
+<DT><B>Returns:</B><DD>a list of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/SyntaxDeclaration.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax"><CODE>SyntaxDeclaration</CODE></A> and <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/SyntaxRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax"><CODE>SyntaxRule</CODE></A> objects in source order / 소스 순서의 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/SyntaxDeclaration.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax"><CODE>SyntaxDeclaration</CODE></A> 과 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/SyntaxRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax"><CODE>SyntaxRule</CODE></A> 목록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parseDeclaration(java.lang.String)"><!-- --></A><H3>
+parseDeclaration</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/SyntaxDeclaration.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">SyntaxDeclaration</A> <B>parseDeclaration</B>(java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Parses one declaration text such as <code>color: red !important</code>.
+ <p>
+ <code>color: red !important</code> 같은 선언 하나를 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - declaration text / 선언 문자열
+<DT><B>Returns:</B><DD>the declaration, or null if the text is not a valid declaration / 선언. 올바른 선언이 아니면 null</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssFunction.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CssParser.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

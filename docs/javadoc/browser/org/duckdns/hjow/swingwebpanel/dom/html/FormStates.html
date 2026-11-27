@@ -1,0 +1,527 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+FormStates
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="FormStates";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormHostAdapter.html" title="class in org.duckdns.hjow.swingwebpanel.dom.html"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormSubmission.html" title="class in org.duckdns.hjow.swingwebpanel.dom.html"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/html/FormStates.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="FormStates.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom.html</FONT>
+<BR>
+Class FormStates</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.dom.html.FormStates</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>FormStates</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The form related selector states of the elements that the form layer implements (HTML Standard 4.16.3 "Pseudo-classes"): <code>:checked</code>,
+ <code>:disabled</code>, <code>:enabled</code>, <code>:indeterminate</code>, <code>:default</code>, <code>:required</code>, <code>:optional</code>,
+ <code>:read-write</code>, <code>:valid</code>, <code>:invalid</code>, <code>:in-range</code>, <code>:out-of-range</code> and
+ <code>:placeholder-shown</code>. Every method answers from the live state of the control (the typed value, the checkedness, the selectedness, the
+ validity), not from the content attributes. A method returns null for an element that the form layer does not implement, so that the selector engine falls
+ back to the content attributes.
+ <p>
+ 폼 계층이 구현하는 요소의 폼 관련 선택자 상태(HTML 표준 4.16.3 "Pseudo-classes"): <code>:checked</code>, <code>:disabled</code>, <code>:enabled</code>,
+ <code>:indeterminate</code>, <code>:default</code>, <code>:required</code>, <code>:optional</code>, <code>:read-write</code>, <code>:valid</code>,
+ <code>:invalid</code>, <code>:in-range</code>, <code>:out-of-range</code>, <code>:placeholder-shown</code>. 모든 메서드는 콘텐츠 속성이 아니라 컨트롤의 실제 상태(입력한 값,
+ checkedness, selectedness, 유효성)로 답한다. 폼 계층이 구현하지 않는 요소에는 null 을 반환해, 선택자 엔진이 콘텐츠 속성으로 대신하게 한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.Boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormStates.html#checked(org.duckdns.hjow.swingwebpanel.dom.Element)">checked</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>:checked</code>: a checkbox or radio button whose checkedness is true, an option whose selectedness is true.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.Boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormStates.html#disabled(org.duckdns.hjow.swingwebpanel.dom.Element)">disabled</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>:disabled</code>: a form control that is disabled (including the effect of a disabled fieldset), an option or optgroup that is disabled.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.Boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormStates.html#enabled(org.duckdns.hjow.swingwebpanel.dom.Element)">enabled</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>:enabled</code>: a form control that can be disabled and is not.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.Boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormStates.html#indeterminate(org.duckdns.hjow.swingwebpanel.dom.Element)">indeterminate</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>:indeterminate</code>: a checkbox whose indeterminateness is true, a radio button whose group has no checked member, a progress
+ element without a <code>value</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.Boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormStates.html#inRange(org.duckdns.hjow.swingwebpanel.dom.Element)">inRange</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>:in-range</code>: an input that has range limitations and whose value is neither below the minimum nor above the maximum.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.Boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormStates.html#invalid(org.duckdns.hjow.swingwebpanel.dom.Element)">invalid</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>:invalid</code>: a control that is a candidate for constraint validation and violates a constraint; a form or fieldset with an invalid candidate control.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.Boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormStates.html#isDefault(org.duckdns.hjow.swingwebpanel.dom.Element)">isDefault</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>:default</code>: a checkbox or radio button with the <code>checked</code> attribute, an option with the <code>selected</code> attribute, and the default
+ button of a form (its first submit button in tree order).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.Boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormStates.html#optional(org.duckdns.hjow.swingwebpanel.dom.Element)">optional</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>:optional</code>: a control to which the <code>required</code> attribute applies and that does not have it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.Boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormStates.html#outOfRange(org.duckdns.hjow.swingwebpanel.dom.Element)">outOfRange</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>:out-of-range</code>: an input that has range limitations and whose value is below the minimum or above the maximum.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.Boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormStates.html#placeholderShown(org.duckdns.hjow.swingwebpanel.dom.Element)">placeholderShown</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>:placeholder-shown</code>: a text control whose placeholder is displayed (it has a non-empty placeholder and its value is empty).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.Boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormStates.html#readWrite(org.duckdns.hjow.swingwebpanel.dom.Element)">readWrite</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>:read-write</code>: a text control that the user can edit (not disabled, not read-only).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.Boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormStates.html#required(org.duckdns.hjow.swingwebpanel.dom.Element)">required</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>:required</code>: a control to which the <code>required</code> attribute applies and that has it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.Boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormStates.html#valid(org.duckdns.hjow.swingwebpanel.dom.Element)">valid</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>:valid</code>: a control that is a candidate for constraint validation and satisfies its constraints; a form or fieldset whose candidate controls are all valid.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="checked(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+checked</H3>
+<PRE>
+public static java.lang.Boolean <B>checked</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD><code>:checked</code>: a checkbox or radio button whose checkedness is true, an option whose selectedness is true.
+ <p>
+ <code>:checked</code>: checkedness 가 true 인 체크박스나 라디오 버튼, selectedness 가 true 인 option.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>the answer, or null if the form layer does not implement the element / 답. 폼 계층이 구현하지 않는 요소이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="disabled(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+disabled</H3>
+<PRE>
+public static java.lang.Boolean <B>disabled</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD><code>:disabled</code>: a form control that is disabled (including the effect of a disabled fieldset), an option or optgroup that is disabled.
+ <p>
+ <code>:disabled</code>: 비활성 폼 컨트롤(비활성 fieldset 의 영향 포함), 비활성 option 이나 optgroup.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>the answer, or null if the form layer does not implement the element / 답. 폼 계층이 구현하지 않는 요소이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="enabled(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+enabled</H3>
+<PRE>
+public static java.lang.Boolean <B>enabled</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD><code>:enabled</code>: a form control that can be disabled and is not.
+ <p>
+ <code>:enabled</code>: 비활성이 될 수 있는데 아닌 폼 컨트롤.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>the answer, or null if the form layer does not implement the element / 답. 폼 계층이 구현하지 않는 요소이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="indeterminate(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+indeterminate</H3>
+<PRE>
+public static java.lang.Boolean <B>indeterminate</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD><code>:indeterminate</code>: a checkbox whose indeterminateness is true, a radio button whose group has no checked member, a progress
+ element without a <code>value</code>.
+ <p>
+ <code>:indeterminate</code>: indeterminateness 가 true 인 체크박스, 그룹에 체크된 구성원이 없는 라디오 버튼, <code>value</code> 가 없는 progress.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>the answer, or null if the form layer does not implement the element / 답. 폼 계층이 구현하지 않는 요소이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isDefault(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+isDefault</H3>
+<PRE>
+public static java.lang.Boolean <B>isDefault</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD><code>:default</code>: a checkbox or radio button with the <code>checked</code> attribute, an option with the <code>selected</code> attribute, and the default
+ button of a form (its first submit button in tree order).
+ <p>
+ <code>:default</code>: <code>checked</code> 속성이 있는 체크박스나 라디오 버튼, <code>selected</code> 속성이 있는 option, 폼의 기본 버튼(트리 순서로 첫 제출 버튼).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>the answer, or null if the form layer does not implement the element / 답. 폼 계층이 구현하지 않는 요소이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="required(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+required</H3>
+<PRE>
+public static java.lang.Boolean <B>required</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD><code>:required</code>: a control to which the <code>required</code> attribute applies and that has it.
+ <p>
+ <code>:required</code>: <code>required</code> 속성이 적용되고 그 속성이 있는 컨트롤.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>the answer, or null if the form layer does not implement the element / 답. 폼 계층이 구현하지 않는 요소이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="optional(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+optional</H3>
+<PRE>
+public static java.lang.Boolean <B>optional</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD><code>:optional</code>: a control to which the <code>required</code> attribute applies and that does not have it.
+ <p>
+ <code>:optional</code>: <code>required</code> 속성이 적용되는데 그 속성이 없는 컨트롤.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>the answer, or null if the form layer does not implement the element / 답. 폼 계층이 구현하지 않는 요소이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="readWrite(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+readWrite</H3>
+<PRE>
+public static java.lang.Boolean <B>readWrite</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD><code>:read-write</code>: a text control that the user can edit (not disabled, not read-only). <code>:read-only</code> is its negation.
+ <p>
+ <code>:read-write</code>: 사용자가 편집할 수 있는(비활성이 아니고 읽기 전용이 아닌) 텍스트 컨트롤. <code>:read-only</code> 는 그 부정이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>the answer, or null if the form layer does not decide it for the element / 답. 폼 계층이 정하지 않는 요소이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="placeholderShown(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+placeholderShown</H3>
+<PRE>
+public static java.lang.Boolean <B>placeholderShown</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD><code>:placeholder-shown</code>: a text control whose placeholder is displayed (it has a non-empty placeholder and its value is empty).
+ <p>
+ <code>:placeholder-shown</code>: placeholder 가 표시되는(비어 있지 않은 placeholder 가 있고 값이 비어 있는) 텍스트 컨트롤.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>the answer, or null if the form layer does not implement the element / 답. 폼 계층이 구현하지 않는 요소이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="valid(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+valid</H3>
+<PRE>
+public static java.lang.Boolean <B>valid</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD><code>:valid</code>: a control that is a candidate for constraint validation and satisfies its constraints; a form or fieldset whose candidate controls are all valid.
+ <p>
+ <code>:valid</code>: 제약 검증의 대상이며 제약을 만족하는 컨트롤. 대상 컨트롤이 모두 올바른 form 이나 fieldset.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>the answer, or null if the form layer does not implement the element / 답. 폼 계층이 구현하지 않는 요소이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="invalid(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+invalid</H3>
+<PRE>
+public static java.lang.Boolean <B>invalid</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD><code>:invalid</code>: a control that is a candidate for constraint validation and violates a constraint; a form or fieldset with an invalid candidate control.
+ <p>
+ <code>:invalid</code>: 제약 검증의 대상이며 제약을 어기는 컨트롤. 올바르지 않은 대상 컨트롤이 있는 form 이나 fieldset.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>the answer, or null if the form layer does not implement the element / 답. 폼 계층이 구현하지 않는 요소이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="inRange(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+inRange</H3>
+<PRE>
+public static java.lang.Boolean <B>inRange</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD><code>:in-range</code>: an input that has range limitations and whose value is neither below the minimum nor above the maximum.
+ <p>
+ <code>:in-range</code>: 범위 제한이 있고 값이 최솟값보다 작지도 최댓값보다 크지도 않은 input.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>the answer, or null if the form layer does not implement the element / 답. 폼 계층이 구현하지 않는 요소이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="outOfRange(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+outOfRange</H3>
+<PRE>
+public static java.lang.Boolean <B>outOfRange</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD><code>:out-of-range</code>: an input that has range limitations and whose value is below the minimum or above the maximum.
+ <p>
+ <code>:out-of-range</code>: 범위 제한이 있고 값이 최솟값보다 작거나 최댓값보다 큰 input.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>the answer, or null if the form layer does not implement the element / 답. 폼 계층이 구현하지 않는 요소이면 null</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormHostAdapter.html" title="class in org.duckdns.hjow.swingwebpanel.dom.html"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FormSubmission.html" title="class in org.duckdns.hjow.swingwebpanel.dom.html"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/html/FormStates.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="FormStates.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

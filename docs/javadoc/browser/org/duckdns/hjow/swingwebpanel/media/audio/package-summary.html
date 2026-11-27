@@ -1,0 +1,259 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+org.duckdns.hjow.swingwebpanel.media.audio
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="org.duckdns.hjow.swingwebpanel.media.audio";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/aac/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/audio/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<H2>
+Package org.duckdns.hjow.swingwebpanel.media.audio
+</H2>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Interface Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoder.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio">AudioDecoder</A></B></TD>
+<TD>A decoder for one audio container/codec family (plan items P18-02, P18-07).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio">ByteSource</A></B></TD>
+<TD>Random-access bytes of an encoded audio resource (plan item P18-08): the length is known and any position can be read, so a decoder can read
+ the headers, an index and then frame after frame without the whole resource in memory.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FloatPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio">FloatPcmSource</A></B></TD>
+<TD>A stream of decoded audio with the <em>channels and the precision of the file</em>: 32 bit floating point samples in the range -1 to 1
+ (a sample of an N bit integer file is exactly <code>sample / 2^(N-1)</code>, a lossy codec delivers its own float output without the
+ rounding to 16 bits and without the clipping), one array per channel, produced on demand so that a long recording is never decoded
+ into memory as a whole (plan item P25-05, the wide path of the decoders).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio">PcmSource</A></B></TD>
+<TD>A stream of decoded audio: 16-bit signed little-endian interleaved PCM that is produced on demand, so a long recording is never decoded into
+ memory as a whole (plan item P18-08).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/WideAudioDecoder.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio">WideAudioDecoder</A></B></TD>
+<TD>An <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoder.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>AudioDecoder</CODE></A> that can also deliver the channels and the precision of the file (plan item P25-05): in addition to
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoder.html#open(byte[], org.duckdns.hjow.swingwebpanel.media.DecodeLimits)"><CODE>AudioDecoder.open(byte[], DecodeLimits)</CODE></A>, which gives 16 bit PCM of at most two channels for playing, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/WideAudioDecoder.html#openWide(byte[], org.duckdns.hjow.swingwebpanel.media.DecodeLimits)"><CODE>WideAudioDecoder.openWide(byte[], DecodeLimits)</CODE></A> gives
+ a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FloatPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>FloatPcmSource</CODE></A>.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ArrayByteSource.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">ArrayByteSource</A></B></TD>
+<TD>A <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>ByteSource</CODE></A> over a byte array that is already in memory (a short resource, a test, the derived Ogg stream of a small WebM file).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/AudioDecoders.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">AudioDecoders</A></B></TD>
+<TD>The registry of audio decoders and the single entry point of the audio pipeline (plan items P18-01, P18-02, P18-07): it chooses the
+ decoder from the <em>signature of the data</em> and uses the MIME type of the response only as a hint (a decoder that names the hinted
+ MIME type is asked first), so the same extension or MIME type with a different real codec is decoded correctly and a wrong MIME type
+ does not make a valid file fail.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/BlockFloatSource.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">BlockFloatSource</A></B></TD>
+<TD>Base class of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FloatPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>FloatPcmSource</CODE></A> implementations that decode in blocks, the counterpart of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/BlockPcmSource.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>BlockPcmSource</CODE></A>: a subclass only has to
+ produce the next block of decoded samples (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/BlockFloatSource.html#fill(float[][])"><CODE>BlockFloatSource.fill(float[][])</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/BlockPcmSource.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">BlockPcmSource</A></B></TD>
+<TD>Base class of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>PcmSource</CODE></A> implementations that decode in blocks: a subclass only has to produce the next block of decoded PCM
+ (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/BlockPcmSource.html#fill(byte[])"><CODE>BlockPcmSource.fill(byte[])</CODE></A>) and, if it can, jump to a position (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/BlockPcmSource.html#seekTo(long)"><CODE>BlockPcmSource.seekTo(long)</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteAudioDecoder.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">ByteAudioDecoder</A></B></TD>
+<TD>A decoder for an array or a seekable byte source.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/Bytes.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">Bytes</A></B></TD>
+<TD>Helpers to read integers of a given byte order from a byte array, with overflow-safe range checks.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">ChannelMixer</A></B></TD>
+<TD>Mixes the channels of a multi-channel layout down to stereo (plan item P18-07).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FileByteSource.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">FileByteSource</A></B></TD>
+<TD>A <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>ByteSource</CODE></A> over a complete file (the temporary file into which a long media resource was spooled, plan item P18-08).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">MediaData</A></B></TD>
+<TD>The encoded bytes of one fetched media resource (plan item P18-08), either in memory (a short resource) or in a temporary file that this
+ object owns (a long one, see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaSpool.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>MediaSpool</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaSpool.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">MediaSpool</A></B></TD>
+<TD>The receiver of the body of a media response while it streams in (plan item P18-08): the first <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaSpool.html#MEMORY_LIMIT"><CODE>MediaSpool.MEMORY_LIMIT</CODE></A> bytes stay in memory;
+ when the body grows beyond that, everything moves to a temporary file (<code>File.createTempFile</code> in the default temporary directory)
+ and the rest is appended there, so a long recording never sits in the heap.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmConverter.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">PcmConverter</A></B></TD>
+<TD>Sample conversions shared by the decoders: clipping a full-scale float to 16 bits, narrowing integer samples of any width to 16 bits
+ with rounding, and the ITU-T G.711 mu-law and A-law expansion tables.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmFloatAdapter.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">PcmFloatAdapter</A></B></TD>
+<TD>Presents a 16 bit <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/PcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>PcmSource</CODE></A> as a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FloatPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>FloatPcmSource</CODE></A>: every sample becomes <code>sample / 32768</code>, which is exact.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Exception Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSourceException.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">ByteSourceException</A></B></TD>
+<TD>An input error of a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>ByteSource</CODE></A>: the temporary file of a media resource could not be read (it was closed because the page or the
+ element went away, or it was removed from outside).</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+<DL>
+</DL>
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/aac/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/audio/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

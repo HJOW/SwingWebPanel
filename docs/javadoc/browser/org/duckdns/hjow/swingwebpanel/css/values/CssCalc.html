@@ -1,0 +1,614 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+CssCalc
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="CssCalc";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.AnchorResolver.html" title="interface in org.duckdns.hjow.swingwebpanel.css.values"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CssCalc.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.values</FONT>
+<BR>
+Class CssCalc</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">org.duckdns.hjow.swingwebpanel.css.values.CssValue</A>
+      <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.values.CssCalc</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>CssCalc</B><DT>extends <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A></DL>
+</PRE>
+
+<P>
+A math expression value: <code>calc()</code> and the math functions <code>min() max() clamp() abs() sign() round() mod() rem() sin() cos() tan()
+ asin() acos() atan() atan2() pow() sqrt() hypot() log() exp()</code> of CSS Values and Units Level 4. The parser enforces the type rules (a sum needs
+ compatible types, a product needs a number on one side, a quotient a number on the right) and rejects expressions that break them. At computed-value
+ time <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html#simplify(org.duckdns.hjow.swingwebpanel.css.values.LengthContext)"><CODE>simplify(LengthContext)</CODE></A> folds everything that does not depend on a percentage; what depends on a percentage stays a CssCalc and is
+ finished by the layout with <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html#resolve(org.duckdns.hjow.swingwebpanel.css.values.LengthContext, double)"><CODE>resolve(LengthContext, double)</CODE></A> once the reference length is known.
+ <p>
+ 수식 값: <code>calc()</code> 와 CSS Values and Units Level 4 의 수학 함수 <code>min() max() clamp() abs() sign() round() mod() rem() sin() cos() tan() asin()
+ acos() atan() atan2() pow() sqrt() hypot() log() exp()</code>. 파서는 형식 규칙(합은 호환되는 형식, 곱은 한쪽이 숫자, 나눗셈은 오른쪽이 숫자)을 검사하고
+ 어기는 식을 거부한다. 계산 값을 구할 때 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html#simplify(org.duckdns.hjow.swingwebpanel.css.values.LengthContext)"><CODE>simplify(LengthContext)</CODE></A> 가 백분율에 의존하지 않는 부분을 모두 접으며, 백분율에 의존하는 식은 CssCalc 로
+ 남아 기준 길이가 정해진 뒤 레이아웃이 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html#resolve(org.duckdns.hjow.swingwebpanel.css.values.LengthContext, double)"><CODE>resolve(LengthContext, double)</CODE></A> 로 마무리한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.AnchorResolver.html" title="interface in org.duckdns.hjow.swingwebpanel.css.values">CssCalc.AnchorResolver</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Resolves one <code>anchor()</code> or <code>anchor-size()</code> function of an expression when the box is positioned.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.FunctionMapper.html" title="interface in org.duckdns.hjow.swingwebpanel.css.values">CssCalc.FunctionMapper</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rewrites one <code>anchor()</code> or <code>anchor-size()</code> function of an expression into another function (the position fallback tactics).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html#hasAnchor()">hasAnchor</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the expression has an <code>anchor()</code> or <code>anchor-size()</code> function (CSS Anchor Positioning 1 sections 3.2 and 5.1).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html#hasPercentage()">hasPercentage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the value depends on a percentage.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html#isAngle()">isAngle</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the result is an angle.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html#isLength()">isLength</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the result is a length (without a percentage).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html#isLengthPercentage()">isLengthPercentage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the result may be a length or a percentage.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html#isMathFunction(java.lang.String)">isMathFunction</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a function name is calc or a math function handled by this class.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html#isNumber()">isNumber</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the result is a plain number.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html#isPercentage()">isPercentage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the result is a percentage.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html#isTime()">isTime</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the result is a time.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssCalc</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html#mapAnchors(org.duckdns.hjow.swingwebpanel.css.values.CssCalc.FunctionMapper)">mapAnchors</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.FunctionMapper.html" title="interface in org.duckdns.hjow.swingwebpanel.css.values">CssCalc.FunctionMapper</A>&nbsp;m)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rewrites the anchor functions of the expression: the result has the same shape, with every anchor function replaced by what the mapper gives.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssCalc</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html#parse(org.duckdns.hjow.swingwebpanel.css.syntax.CssFunction)">parse</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssFunction.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">CssFunction</A>&nbsp;f)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a math function.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html#resolve(org.duckdns.hjow.swingwebpanel.css.values.LengthContext, double)">resolve</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/LengthContext.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">LengthContext</A>&nbsp;lc,
+        double&nbsp;percentBase)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Evaluates the expression to pixels (or the canonical unit of its type).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html#simplify(org.duckdns.hjow.swingwebpanel.css.values.LengthContext)">simplify</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/LengthContext.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">LengthContext</A>&nbsp;lc)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Folds the expression for a computed value: without a percentage it becomes a number, length, angle or time; with a percentage the parts that
+ do not depend on it are folded and a CssCalc remains (a pure percentage expression becomes a CssPercentage).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html#toCssText()">toCssText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serializes the expression.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssCalc</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html#withAnchors(org.duckdns.hjow.swingwebpanel.css.values.CssCalc.AnchorResolver)">withAnchors</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.AnchorResolver.html" title="interface in org.duckdns.hjow.swingwebpanel.css.values">CssCalc.AnchorResolver</A>&nbsp;r)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Replaces the anchor functions of the expression by the values that they resolve to: the result is a plain expression of lengths and percentages.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.css.values.CssValue"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.css.values.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html#isKeyword(java.lang.String)">isKeyword</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html#toString()">toString</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="isMathFunction(java.lang.String)"><!-- --></A><H3>
+isMathFunction</H3>
+<PRE>
+public static boolean <B>isMathFunction</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Tells whether a function name is calc or a math function handled by this class.
+ <p>
+ 함수 이름이 calc 이거나 이 클래스가 다루는 수학 함수인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - function name / 함수 이름
+<DT><B>Returns:</B><DD>true for calc and math functions / calc 와 수학 함수이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parse(org.duckdns.hjow.swingwebpanel.css.syntax.CssFunction)"><!-- --></A><H3>
+parse</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssCalc</A> <B>parse</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssFunction.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">CssFunction</A>&nbsp;f)</PRE>
+<DL>
+<DD>Parses a math function.
+ <p>
+ 수학 함수를 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>f</CODE> - the function component value / 함수 컴포넌트 값
+<DT><B>Returns:</B><DD>the value, or null if the expression is invalid / 값. 식이 올바르지 않으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isNumber()"><!-- --></A><H3>
+isNumber</H3>
+<PRE>
+public boolean <B>isNumber</B>()</PRE>
+<DL>
+<DD>Tells whether the result is a plain number.
+ <p>
+ 결과가 일반 숫자인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for numbers / 숫자이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isLength()"><!-- --></A><H3>
+isLength</H3>
+<PRE>
+public boolean <B>isLength</B>()</PRE>
+<DL>
+<DD>Tells whether the result is a length (without a percentage).
+ <p>
+ 결과가 길이(백분율 없음)인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for lengths / 길이이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isPercentage()"><!-- --></A><H3>
+isPercentage</H3>
+<PRE>
+public boolean <B>isPercentage</B>()</PRE>
+<DL>
+<DD>Tells whether the result is a percentage.
+ <p>
+ 결과가 백분율인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for percentages / 백분율이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isLengthPercentage()"><!-- --></A><H3>
+isLengthPercentage</H3>
+<PRE>
+public boolean <B>isLengthPercentage</B>()</PRE>
+<DL>
+<DD>Tells whether the result may be a length or a percentage.
+ <p>
+ 결과가 길이 또는 백분율일 수 있는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for length-percentage results / 길이-백분율 결과이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isAngle()"><!-- --></A><H3>
+isAngle</H3>
+<PRE>
+public boolean <B>isAngle</B>()</PRE>
+<DL>
+<DD>Tells whether the result is an angle.
+ <p>
+ 결과가 각도인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for angles / 각도이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isTime()"><!-- --></A><H3>
+isTime</H3>
+<PRE>
+public boolean <B>isTime</B>()</PRE>
+<DL>
+<DD>Tells whether the result is a time.
+ <p>
+ 결과가 시간인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for times / 시간이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasPercentage()"><!-- --></A><H3>
+hasPercentage</H3>
+<PRE>
+public boolean <B>hasPercentage</B>()</PRE>
+<DL>
+<DD>Tells whether the value depends on a percentage.
+ <p>
+ 값이 백분율에 의존하는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if a percentage occurs / 백분율이 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="simplify(org.duckdns.hjow.swingwebpanel.css.values.LengthContext)"><!-- --></A><H3>
+simplify</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A> <B>simplify</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/LengthContext.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">LengthContext</A>&nbsp;lc)</PRE>
+<DL>
+<DD>Folds the expression for a computed value: without a percentage it becomes a number, length, angle or time; with a percentage the parts that
+ do not depend on it are folded and a CssCalc remains (a pure percentage expression becomes a CssPercentage).
+ <p>
+ 계산 값을 위해 식을 접는다: 백분율이 없으면 숫자, 길이, 각도, 시간이 되고, 백분율이 있으면 그에 의존하지 않는 부분만 접어 CssCalc 가 남는다(순수한 백분율 식은
+ CssPercentage 가 된다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>lc</CODE> - reference sizes for relative units / 상대 단위의 기준 크기
+<DT><B>Returns:</B><DD>the simplified value / 단순화한 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mapAnchors(org.duckdns.hjow.swingwebpanel.css.values.CssCalc.FunctionMapper)"><!-- --></A><H3>
+mapAnchors</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssCalc</A> <B>mapAnchors</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.FunctionMapper.html" title="interface in org.duckdns.hjow.swingwebpanel.css.values">CssCalc.FunctionMapper</A>&nbsp;m)</PRE>
+<DL>
+<DD>Rewrites the anchor functions of the expression: the result has the same shape, with every anchor function replaced by what the mapper gives.
+ <p>
+ 식의 anchor 함수를 고쳐 쓴다: 결과는 모양이 같고 모든 anchor 함수가 변환기가 주는 것으로 바뀐다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>m</CODE> - the mapper / 변환기
+<DT><B>Returns:</B><DD>the new expression / 새 식</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasAnchor()"><!-- --></A><H3>
+hasAnchor</H3>
+<PRE>
+public boolean <B>hasAnchor</B>()</PRE>
+<DL>
+<DD>Tells whether the expression has an <code>anchor()</code> or <code>anchor-size()</code> function (CSS Anchor Positioning 1 sections 3.2 and 5.1).
+ <p>
+ 식에 <code>anchor()</code> 나 <code>anchor-size()</code> 함수가 있는지 알려 준다(CSS Anchor Positioning 1 3.2, 5.1 절).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if there is one / 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="withAnchors(org.duckdns.hjow.swingwebpanel.css.values.CssCalc.AnchorResolver)"><!-- --></A><H3>
+withAnchors</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssCalc</A> <B>withAnchors</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.AnchorResolver.html" title="interface in org.duckdns.hjow.swingwebpanel.css.values">CssCalc.AnchorResolver</A>&nbsp;r)</PRE>
+<DL>
+<DD>Replaces the anchor functions of the expression by the values that they resolve to: the result is a plain expression of lengths and percentages.
+ <p>
+ 식의 anchor 함수를 그것이 푸는 값으로 바꾼다. 결과는 길이와 백분율로만 된 일반 식이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>r</CODE> - the resolver / 해석기
+<DT><B>Returns:</B><DD>the expression, or null if a function cannot be resolved and has no usable fallback (the property then behaves as if it were <code>auto</code>) / 식. 함수를 풀 수
+         없고 쓸 수 있는 대체값도 없으면 null(그러면 속성은 <code>auto</code> 인 것처럼 동작한다)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="resolve(org.duckdns.hjow.swingwebpanel.css.values.LengthContext, double)"><!-- --></A><H3>
+resolve</H3>
+<PRE>
+public double <B>resolve</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/LengthContext.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">LengthContext</A>&nbsp;lc,
+                      double&nbsp;percentBase)</PRE>
+<DL>
+<DD>Evaluates the expression to pixels (or the canonical unit of its type).
+ <p>
+ 식을 픽셀(또는 그 형식의 기준 단위)로 계산한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>lc</CODE> - reference sizes for relative units / 상대 단위의 기준 크기<DD><CODE>percentBase</CODE> - the length that 100% stands for / 100% 가 뜻하는 길이
+<DT><B>Returns:</B><DD>the value / 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toCssText()"><!-- --></A><H3>
+toCssText</H3>
+<PRE>
+public java.lang.String <B>toCssText</B>()</PRE>
+<DL>
+<DD>Serializes the expression.
+ <p>
+ 식을 직렬화한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html#toCssText()">toCssText</A></CODE> in class <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>CSS text / CSS 문자열</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssCalc.AnchorResolver.html" title="interface in org.duckdns.hjow.swingwebpanel.css.values"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/values/CssCalc.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CssCalc.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

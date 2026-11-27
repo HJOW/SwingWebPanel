@@ -1,0 +1,683 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+VttNode
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="VttNode";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttFile.html" title="class in org.duckdns.hjow.swingwebpanel.media.vtt"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttParser.html" title="class in org.duckdns.hjow.swingwebpanel.media.vtt"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="VttNode.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.vtt</FONT>
+<BR>
+Class VttNode</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.vtt.VttNode</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>VttNode</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+A WebVTT node object (WebVTT 6.4): a node of the tree that the cue text parser builds. An internal node (the root list, a class span, italic,
+ bold, underline, ruby, ruby text, voice or language span) has children, applicable classes and an applicable language; a leaf is a text or a
+ timestamp. The fields are public because the class is a plain record.
+ <p>
+ WebVTT 노드 객체(WebVTT 6.4): cue 텍스트 파서가 만드는 트리의 노드. 내부 노드(루트 목록, 클래스/기울임/굵게/밑줄/루비/루비 텍스트/목소리/언어 span)는
+ 자식, 적용되는 클래스, 적용되는 언어를 가지며, 잎은 텍스트 또는 타임스탬프이다. 클래스는 단순한 기록이므로 필드는 public 이다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#BOLD">BOLD</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The kind: bold (<code>b</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.vtt">VttNode</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#children">children</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The children of an internal node (empty for a leaf).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#CLASS">CLASS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The kind: a class span (<code>c</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#classes">classes</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The applicable classes of an internal node.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#ITALIC">ITALIC</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The kind: italic (<code>i</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#kind">kind</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The kind of the node, one of the constants of this class.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#language">language</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The applicable language of an internal node, or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#LANGUAGE">LANGUAGE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The kind: a language span (<code>lang</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#LIST">LIST</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The kind: the root list of nodes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.vtt">VttNode</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#parent">parent</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The parent, or null for the root.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#RUBY">RUBY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The kind: ruby (<code>ruby</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#RUBY_TEXT">RUBY_TEXT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The kind: ruby text (<code>rt</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#TEXT">TEXT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The kind: a text; <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#value"><CODE>value</CODE></A> is the text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#time">time</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The time of a timestamp node in seconds.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#TIMESTAMP">TIMESTAMP</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The kind: a timestamp; <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#time"><CODE>time</CODE></A> is the time.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#UNDERLINE">UNDERLINE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The kind: underline (<code>u</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#value">value</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The text of a text node, or the voice of a voice span.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#VOICE">VOICE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The kind: a voice span (<code>v</code>) whose <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#value"><CODE>value</CODE></A> is the name of the voice.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#VttNode(int)">VttNode</A></B>(int&nbsp;kind)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a node.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#isInternal()">isInternal</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the node is an internal node.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="LIST"><!-- --></A><H3>
+LIST</H3>
+<PRE>
+public static final int <B>LIST</B></PRE>
+<DL>
+<DD>The kind: the root list of nodes.
+ <p>
+ 종류: 노드의 루트 목록.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.vtt.VttNode.LIST">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="CLASS"><!-- --></A><H3>
+CLASS</H3>
+<PRE>
+public static final int <B>CLASS</B></PRE>
+<DL>
+<DD>The kind: a class span (<code>c</code>).
+ <p>
+ 종류: 클래스 span(<code>c</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.vtt.VttNode.CLASS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ITALIC"><!-- --></A><H3>
+ITALIC</H3>
+<PRE>
+public static final int <B>ITALIC</B></PRE>
+<DL>
+<DD>The kind: italic (<code>i</code>).
+ <p>
+ 종류: 기울임(<code>i</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.vtt.VttNode.ITALIC">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BOLD"><!-- --></A><H3>
+BOLD</H3>
+<PRE>
+public static final int <B>BOLD</B></PRE>
+<DL>
+<DD>The kind: bold (<code>b</code>).
+ <p>
+ 종류: 굵게(<code>b</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.vtt.VttNode.BOLD">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="UNDERLINE"><!-- --></A><H3>
+UNDERLINE</H3>
+<PRE>
+public static final int <B>UNDERLINE</B></PRE>
+<DL>
+<DD>The kind: underline (<code>u</code>).
+ <p>
+ 종류: 밑줄(<code>u</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.vtt.VttNode.UNDERLINE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="RUBY"><!-- --></A><H3>
+RUBY</H3>
+<PRE>
+public static final int <B>RUBY</B></PRE>
+<DL>
+<DD>The kind: ruby (<code>ruby</code>).
+ <p>
+ 종류: 루비(<code>ruby</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.vtt.VttNode.RUBY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="RUBY_TEXT"><!-- --></A><H3>
+RUBY_TEXT</H3>
+<PRE>
+public static final int <B>RUBY_TEXT</B></PRE>
+<DL>
+<DD>The kind: ruby text (<code>rt</code>).
+ <p>
+ 종류: 루비 텍스트(<code>rt</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.vtt.VttNode.RUBY_TEXT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="VOICE"><!-- --></A><H3>
+VOICE</H3>
+<PRE>
+public static final int <B>VOICE</B></PRE>
+<DL>
+<DD>The kind: a voice span (<code>v</code>) whose <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#value"><CODE>value</CODE></A> is the name of the voice.
+ <p>
+ 종류: 목소리 span(<code>v</code>). <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#value"><CODE>value</CODE></A> 가 목소리의 이름이다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.vtt.VttNode.VOICE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LANGUAGE"><!-- --></A><H3>
+LANGUAGE</H3>
+<PRE>
+public static final int <B>LANGUAGE</B></PRE>
+<DL>
+<DD>The kind: a language span (<code>lang</code>).
+ <p>
+ 종류: 언어 span(<code>lang</code>).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.vtt.VttNode.LANGUAGE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="TEXT"><!-- --></A><H3>
+TEXT</H3>
+<PRE>
+public static final int <B>TEXT</B></PRE>
+<DL>
+<DD>The kind: a text; <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#value"><CODE>value</CODE></A> is the text.
+ <p>
+ 종류: 텍스트. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#value"><CODE>value</CODE></A> 가 텍스트이다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.vtt.VttNode.TEXT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="TIMESTAMP"><!-- --></A><H3>
+TIMESTAMP</H3>
+<PRE>
+public static final int <B>TIMESTAMP</B></PRE>
+<DL>
+<DD>The kind: a timestamp; <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#time"><CODE>time</CODE></A> is the time.
+ <p>
+ 종류: 타임스탬프. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html#time"><CODE>time</CODE></A> 이 시각이다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.vtt.VttNode.TIMESTAMP">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="kind"><!-- --></A><H3>
+kind</H3>
+<PRE>
+public final int <B>kind</B></PRE>
+<DL>
+<DD>The kind of the node, one of the constants of this class.
+ <p>
+ 노드의 종류(이 클래스의 상수 중 하나).
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="children"><!-- --></A><H3>
+children</H3>
+<PRE>
+public final java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.vtt">VttNode</A>&gt; <B>children</B></PRE>
+<DL>
+<DD>The children of an internal node (empty for a leaf).
+ <p>
+ 내부 노드의 자식(잎은 비어 있음).
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="parent"><!-- --></A><H3>
+parent</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.vtt">VttNode</A> <B>parent</B></PRE>
+<DL>
+<DD>The parent, or null for the root.
+ <p>
+ 부모. 루트는 null.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="classes"><!-- --></A><H3>
+classes</H3>
+<PRE>
+public final java.util.List&lt;java.lang.String&gt; <B>classes</B></PRE>
+<DL>
+<DD>The applicable classes of an internal node.
+ <p>
+ 내부 노드에 적용되는 클래스.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="language"><!-- --></A><H3>
+language</H3>
+<PRE>
+public java.lang.String <B>language</B></PRE>
+<DL>
+<DD>The applicable language of an internal node, or null.
+ <p>
+ 내부 노드에 적용되는 언어. 없으면 null.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="value"><!-- --></A><H3>
+value</H3>
+<PRE>
+public java.lang.String <B>value</B></PRE>
+<DL>
+<DD>The text of a text node, or the voice of a voice span.
+ <p>
+ 텍스트 노드의 텍스트 또는 목소리 span 의 목소리.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="time"><!-- --></A><H3>
+time</H3>
+<PRE>
+public double <B>time</B></PRE>
+<DL>
+<DD>The time of a timestamp node in seconds.
+ <p>
+ 타임스탬프 노드의 시각(초).
+<P>
+<DL>
+</DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="VttNode(int)"><!-- --></A><H3>
+VttNode</H3>
+<PRE>
+public <B>VttNode</B>(int&nbsp;kind)</PRE>
+<DL>
+<DD>Creates a node.
+ <p>
+ 노드를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>kind</CODE> - the kind / 종류</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="isInternal()"><!-- --></A><H3>
+isInternal</H3>
+<PRE>
+public boolean <B>isInternal</B>()</PRE>
+<DL>
+<DD>Tells whether the node is an internal node.
+ <p>
+ 노드가 내부 노드인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>false for a text or a timestamp / 텍스트나 타임스탬프이면 false</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttFile.html" title="class in org.duckdns.hjow.swingwebpanel.media.vtt"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttParser.html" title="class in org.duckdns.hjow.swingwebpanel.media.vtt"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/vtt/VttNode.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="VttNode.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,482 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+AudioBuffer
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="AudioBuffer";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AnalyserNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBufferSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="AudioBuffer.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.webaudio</FONT>
+<BR>
+Class AudioBuffer</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.webaudio.AudioBuffer</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>AudioBuffer</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+An in-memory audio asset: linear PCM floats in a number of channels with a sample rate (Web Audio API 1.4). A source node plays it and
+ an offline context renders into it. The channel arrays are live: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html#getChannelData(int)"><CODE>getChannelData(int)</CODE></A> returns the array itself, so the script
+ layer can wrap it without a copy. A playing source node shares the arrays (the specification says it acquires the content at
+ <code>start()</code>; this engine does not copy, so a change of the arrays while the buffer plays is heard).
+ <p>
+ 메모리 안의 오디오 자료: 샘플링 주파수를 가진 여러 채널의 선형 PCM float(Web Audio API 1.4). 원천 노드가 재생하고 오프라인 컨텍스트가 여기에
+ 렌더링한다. 채널 배열은 살아 있다: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html#getChannelData(int)"><CODE>getChannelData(int)</CODE></A> 는 배열 자체를 반환하므로 스크립트 계층이 복사 없이 감쌀 수 있다. 재생 중인 원천
+ 노드는 배열을 공유한다(규격은 <code>start()</code> 때 내용을 획득한다고 하지만 이 엔진은 복사하지 않으므로, 재생 중에 배열을 바꾸면 그 소리가 들린다).
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html#AudioBuffer(int, int, float)">AudioBuffer</A></B>(int&nbsp;numberOfChannels,
+            int&nbsp;length,
+            float&nbsp;sampleRate)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a silent buffer.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html#copyFromChannel(float[], int, int)">copyFromChannel</A></B>(float[]&nbsp;destination,
+                int&nbsp;channelNumber,
+                int&nbsp;bufferOffset)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Copies the samples of a channel into an array, starting at a frame of the channel (<code>copyFromChannel</code>, Web Audio API
+ 1.4.3).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html#copyToChannel(float[], int, int)">copyToChannel</A></B>(float[]&nbsp;source,
+              int&nbsp;channelNumber,
+              int&nbsp;bufferOffset)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Copies the samples of an array into a channel, starting at a frame of the channel (<code>copyToChannel</code>, Web Audio API 1.4.3).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;float[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html#getChannelData(int)">getChannelData</A></B>(int&nbsp;channel)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the live array of a channel.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html#getDuration()">getDuration</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the duration in seconds: the length divided by the sample rate.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html#getLength()">getLength</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of sample frames of every channel.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html#getNumberOfChannels()">getNumberOfChannels</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of channels.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;float</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html#getSampleRate()">getSampleRate</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the sample rate in Hz.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBuffer</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html#wrap(float[][], float)">wrap</A></B>(float[][]&nbsp;channels,
+     float&nbsp;sampleRate)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a buffer that adopts the given channel arrays (no copy).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="AudioBuffer(int, int, float)"><!-- --></A><H3>
+AudioBuffer</H3>
+<PRE>
+public <B>AudioBuffer</B>(int&nbsp;numberOfChannels,
+                   int&nbsp;length,
+                   float&nbsp;sampleRate)</PRE>
+<DL>
+<DD>Creates a silent buffer. Every argument must be inside its range, or a <code>NotSupportedError</code> is thrown
+ (<code>createBuffer</code>, Web Audio API 1.1.2).
+ <p>
+ 무음 버퍼를 만든다. 모든 인수가 범위 안이어야 하며 아니면 <code>NotSupportedError</code> 를 던진다(<code>createBuffer</code>,
+ Web Audio API 1.1.2).
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>numberOfChannels</CODE> - the number of channels, from 1 to <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WebAudioLimits.html#MAX_CHANNELS"><CODE>WebAudioLimits.MAX_CHANNELS</CODE></A> / 채널 수(1 ~ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WebAudioLimits.html#MAX_CHANNELS"><CODE>WebAudioLimits.MAX_CHANNELS</CODE></A>)<DD><CODE>length</CODE> - the number of sample frames, at least 1 / 샘플 프레임 수(1 이상)<DD><CODE>sampleRate</CODE> - the sample rate, from 3000 to 768000 Hz / 샘플링 주파수(3000 ~ 768000 Hz)</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="wrap(float[][], float)"><!-- --></A><H3>
+wrap</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioBuffer</A> <B>wrap</B>(float[][]&nbsp;channels,
+                               float&nbsp;sampleRate)</PRE>
+<DL>
+<DD>Creates a buffer that adopts the given channel arrays (no copy). Used by code that has already produced the samples, such as the
+ audio file decoder, to avoid allocating and copying a second set of arrays. The arrays must not be modified by the caller through
+ a second reference unless it wants the buffer to change.
+ <p>
+ 주어진 채널 배열을 그대로 가져가는(복사하지 않는) 버퍼를 만든다. 오디오 파일 디코더처럼 샘플을 이미 만든 코드가 두 번째 배열 묶음을 할당하고
+ 복사하는 일을 피하려고 쓴다. 버퍼가 바뀌기를 원하는 경우가 아니라면 호출한 쪽은 두 번째 참조로 배열을 수정하지 않아야 한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>channels</CODE> - the channel arrays, 1 to <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WebAudioLimits.html#MAX_CHANNELS"><CODE>WebAudioLimits.MAX_CHANNELS</CODE></A> of them, all of the same length of at least 1 / 채널 배열(1 ~ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WebAudioLimits.html#MAX_CHANNELS"><CODE>WebAudioLimits.MAX_CHANNELS</CODE></A> 개, 길이는 모두 같고 1 이상)<DD><CODE>sampleRate</CODE> - the sample rate, from 3000 to 768000 Hz / 샘플링 주파수(3000 ~ 768000 Hz)
+<DT><B>Returns:</B><DD>the buffer, which shares the arrays / 배열을 공유하는 버퍼
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioException</A></CODE> - <code>NotSupportedError</code> if a count, the length (also when the arrays differ in length or the total is above
+                        <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WebAudioLimits.html#MAX_BUFFER_SAMPLES"><CODE>WebAudioLimits.MAX_BUFFER_SAMPLES</CODE></A>) or the sample rate is out of range / 개수, 길이(배열의 길이가 서로 다르거나 총량이
+                        <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/WebAudioLimits.html#MAX_BUFFER_SAMPLES"><CODE>WebAudioLimits.MAX_BUFFER_SAMPLES</CODE></A> 를 넘는 경우 포함), 샘플링 주파수가 범위 밖이면 <code>NotSupportedError</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getNumberOfChannels()"><!-- --></A><H3>
+getNumberOfChannels</H3>
+<PRE>
+public int <B>getNumberOfChannels</B>()</PRE>
+<DL>
+<DD>Returns the number of channels.
+ <p>
+ 채널 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of channels / 채널 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLength()"><!-- --></A><H3>
+getLength</H3>
+<PRE>
+public int <B>getLength</B>()</PRE>
+<DL>
+<DD>Returns the number of sample frames of every channel.
+ <p>
+ 모든 채널의 샘플 프레임 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the length / 길이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSampleRate()"><!-- --></A><H3>
+getSampleRate</H3>
+<PRE>
+public float <B>getSampleRate</B>()</PRE>
+<DL>
+<DD>Returns the sample rate in Hz.
+ <p>
+ 샘플링 주파수(Hz)를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the sample rate / 샘플링 주파수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDuration()"><!-- --></A><H3>
+getDuration</H3>
+<PRE>
+public double <B>getDuration</B>()</PRE>
+<DL>
+<DD>Returns the duration in seconds: the length divided by the sample rate.
+ <p>
+ 길이를 샘플링 주파수로 나눈 재생 시간(초)을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the duration / 재생 시간</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getChannelData(int)"><!-- --></A><H3>
+getChannelData</H3>
+<PRE>
+public float[] <B>getChannelData</B>(int&nbsp;channel)</PRE>
+<DL>
+<DD>Returns the live array of a channel.
+ <p>
+ 채널의 살아 있는 배열을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>channel</CODE> - the channel index / 채널 인덱스
+<DT><B>Returns:</B><DD>the samples (the array itself, not a copy) / 샘플(복사본이 아니라 배열 자체)
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioException</A></CODE> - <code>IndexSizeError</code> if the channel does not exist / 채널이 없으면 <code>IndexSizeError</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="copyFromChannel(float[], int, int)"><!-- --></A><H3>
+copyFromChannel</H3>
+<PRE>
+public void <B>copyFromChannel</B>(float[]&nbsp;destination,
+                            int&nbsp;channelNumber,
+                            int&nbsp;bufferOffset)</PRE>
+<DL>
+<DD>Copies the samples of a channel into an array, starting at a frame of the channel (<code>copyFromChannel</code>, Web Audio API
+ 1.4.3). With <i>N<sub>b</sub></i> frames in the buffer, <i>N<sub>f</sub></i> elements in the destination and the offset <i>k</i>, exactly
+ <code>max(0, min(N<sub>b</sub> - k, N<sub>f</sub>))</code> frames are copied to the start of the destination and the rest of the
+ destination is not modified. An offset at or after the end is therefore not an error: nothing is copied. The two integer arguments
+ stand for WebIDL <code>unsigned long</code> values (a negative Java value is a value of 2<sup>31</sup> or more).
+ <p>
+ 채널의 샘플을 배열로 복사한다. 채널의 어느 프레임에서 시작할지 정할 수 있다(<code>copyFromChannel</code>, Web Audio API 1.4.3). 버퍼의
+ 프레임이 <i>N<sub>b</sub></i>, 목적지 배열의 원소가 <i>N<sub>f</sub></i>, 시작이 <i>k</i> 이면 정확히
+ <code>max(0, min(N<sub>b</sub> - k, N<sub>f</sub>))</code> 프레임을 목적지의 앞에서부터 복사하고 목적지의 나머지는 바꾸지 않는다. 그래서 시작이
+ 끝과 같거나 그 뒤여도 오류가 아니며 아무것도 복사하지 않는다. 두 정수 인수는 WebIDL <code>unsigned long</code> 값을 뜻한다(음수인 Java 값은
+ 2<sup>31</sup> 이상인 값이다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>destination</CODE> - the array that receives the samples / 샘플을 받는 배열<DD><CODE>channelNumber</CODE> - the channel index / 채널 인덱스<DD><CODE>bufferOffset</CODE> - the first frame of the channel to copy / 복사할 채널의 첫 프레임
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioException</A></CODE> - <code>IndexSizeError</code> if the channel does not exist / 채널이 없으면 <code>IndexSizeError</code></DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="copyToChannel(float[], int, int)"><!-- --></A><H3>
+copyToChannel</H3>
+<PRE>
+public void <B>copyToChannel</B>(float[]&nbsp;source,
+                          int&nbsp;channelNumber,
+                          int&nbsp;bufferOffset)</PRE>
+<DL>
+<DD>Copies the samples of an array into a channel, starting at a frame of the channel (<code>copyToChannel</code>, Web Audio API 1.4.3).
+ With <i>N<sub>b</sub></i> frames in the buffer, <i>N<sub>f</sub></i> elements in the source and the offset <i>k</i>, exactly
+ <code>max(0, min(N<sub>b</sub> - k, N<sub>f</sub>))</code> frames are copied from the start of the source and the rest of the
+ buffer is not modified; elements of the source that do not fit are ignored and an offset at or after the end copies nothing. The two
+ integer arguments stand for WebIDL <code>unsigned long</code> values (a negative Java value is a value of 2<sup>31</sup> or more).
+ <p>
+ 배열의 샘플을 채널로 복사한다. 채널의 어느 프레임에서 시작할지 정할 수 있다(<code>copyToChannel</code>, Web Audio API 1.4.3). 버퍼의 프레임이
+ <i>N<sub>b</sub></i>, 원본 배열의 원소가 <i>N<sub>f</sub></i>, 시작이 <i>k</i> 이면 정확히 <code>max(0, min(N<sub>b</sub> - k, N<sub>f</sub>))</code>
+ 프레임을 원본의 앞에서부터 복사하고 버퍼의 나머지는 바꾸지 않는다. 들어가지 않는 원본 원소는 무시하고 시작이 끝과 같거나 그 뒤이면 아무것도 복사하지
+ 않는다. 두 정수 인수는 WebIDL <code>unsigned long</code> 값을 뜻한다(음수인 Java 값은 2<sup>31</sup> 이상인 값이다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>source</CODE> - the array with the samples / 샘플이 든 배열<DD><CODE>channelNumber</CODE> - the channel index / 채널 인덱스<DD><CODE>bufferOffset</CODE> - the first frame of the channel to overwrite / 덮어쓸 채널의 첫 프레임
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioException.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioException</A></CODE> - <code>IndexSizeError</code> if the channel does not exist / 채널이 없으면 <code>IndexSizeError</code></DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AnalyserNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBufferSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/AudioBuffer.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="AudioBuffer.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

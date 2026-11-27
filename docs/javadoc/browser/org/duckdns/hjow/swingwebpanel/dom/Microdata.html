@@ -1,0 +1,424 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+Microdata
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Microdata";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MessageEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MouseEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/Microdata.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Microdata.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom</FONT>
+<BR>
+Class Microdata</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.dom.Microdata</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>Microdata</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The microdata model of the W3C Working Group Note "HTML Microdata" (29 October 2013; the HTML5 2014 Recommendation has no microdata chapter
+ and the Note is the last published form of the feature): which elements are items, the item types, the property names, the properties of an
+ item (the "crawl" of the Note, section 5.2, with <code>itemref</code>), the top-level items of a document and the value of a property
+ element (<code>itemValue</code>). The functions only read the tree. Microdata attributes are defined for HTML elements only, so an element
+ of another namespace (SVG, MathML) is never an item and has no property names. Use: <code>Microdata.topLevelItems(document, types)</code>,
+ <code>Microdata.properties(itemElement)</code>.
+ <p>
+ W3C 작업 그룹 노트 "HTML Microdata"(2013-10-29; HTML5 2014 권고안에는 마이크로데이터 장이 없고 이 노트가 이 기능의 마지막 공개 형태이다)의 마이크로데이터
+ 모델: 어떤 요소가 아이템인지, 아이템 타입, 프로퍼티 이름, 아이템의 프로퍼티(노트 5.2절의 "crawl", <code>itemref</code> 포함), 문서의 최상위 아이템, 프로퍼티 요소의
+ 값(<code>itemValue</code>). 함수는 트리를 읽기만 한다. 마이크로데이터 속성은 HTML 요소에만 정의되므로 다른 네임스페이스(SVG, MathML)의 요소는 아이템이 아니고
+ 프로퍼티 이름도 없다. 사용: <code>Microdata.topLevelItems(document, types)</code>, <code>Microdata.properties(itemElement)</code>.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Microdata.html#isItem(org.duckdns.hjow.swingwebpanel.dom.Element)">isItem</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether an element creates an item: an HTML element with the <code>itemscope</code> attribute.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Microdata.html#itemTypes(org.duckdns.hjow.swingwebpanel.dom.Element)">itemTypes</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;item)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the item types of an item (the tokens of its <code>itemtype</code> attribute).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Microdata.html#itemValue(org.duckdns.hjow.swingwebpanel.dom.Element)">itemValue</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the value of a property element, as the <code>itemValue</code> attribute reads it: <code>null</code> for an element without
+ <code>itemprop</code>, the element itself for an item, the URL or text of the content attribute that belongs to the element type, and the
+ text content otherwise.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Microdata.html#properties(org.duckdns.hjow.swingwebpanel.dom.Element)">properties</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;item)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the properties of an item in tree order ("the properties of an item", section 5.2 of the Note): the elements with
+ <code>itemprop</code> that are descendants of the item, or of an element named by its <code>itemref</code>, without descending into
+ nested items.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Microdata.html#propertyNames(org.duckdns.hjow.swingwebpanel.dom.Element)">propertyNames</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the property names of an element (the tokens of its <code>itemprop</code> attribute; empty for an element that is not HTML).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Microdata.html#setItemValue(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)">setItemValue</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+             java.lang.String&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the value of a property element (the setter of <code>itemValue</code>): the content attribute that belongs to the element type, or
+ the text content.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Microdata.html#tokens(java.lang.String)">tokens</A></B>(java.lang.String&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Splits an attribute value into its unique space separated tokens (case sensitive, in order of the first occurrence).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Microdata.html#topLevelItems(org.duckdns.hjow.swingwebpanel.dom.Document, java.util.List)">topLevelItems</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+              java.util.List&lt;java.lang.String&gt;&nbsp;types)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the top-level microdata items of a document in tree order: the items that have no <code>itemprop</code> attribute and, when
+ types are given, whose item types include all of them.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="isItem(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+isItem</H3>
+<PRE>
+public static boolean <B>isItem</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Tells whether an element creates an item: an HTML element with the <code>itemscope</code> attribute.
+ <p>
+ 요소가 아이템을 만드는지 알려 준다: <code>itemscope</code> 속성이 있는 HTML 요소.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>true if the element is an item / 아이템이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="tokens(java.lang.String)"><!-- --></A><H3>
+tokens</H3>
+<PRE>
+public static java.util.List&lt;java.lang.String&gt; <B>tokens</B>(java.lang.String&nbsp;value)</PRE>
+<DL>
+<DD>Splits an attribute value into its unique space separated tokens (case sensitive, in order of the first occurrence).
+ <p>
+ 속성 값을 공백으로 구분된 고유 토큰으로 나눈다(대소문자 구분, 처음 나타난 순서).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - the value or null / 값 또는 null
+<DT><B>Returns:</B><DD>the tokens / 토큰</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="propertyNames(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+propertyNames</H3>
+<PRE>
+public static java.util.List&lt;java.lang.String&gt; <B>propertyNames</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Returns the property names of an element (the tokens of its <code>itemprop</code> attribute; empty for an element that is not HTML).
+ <p>
+ 요소의 프로퍼티 이름(<code>itemprop</code> 속성의 토큰)을 반환한다. HTML 요소가 아니면 비어 있다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>the names / 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="itemTypes(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+itemTypes</H3>
+<PRE>
+public static java.util.List&lt;java.lang.String&gt; <B>itemTypes</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;item)</PRE>
+<DL>
+<DD>Returns the item types of an item (the tokens of its <code>itemtype</code> attribute).
+ <p>
+ 아이템의 아이템 타입(<code>itemtype</code> 속성의 토큰)을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>item</CODE> - the item / 아이템
+<DT><B>Returns:</B><DD>the types / 타입</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="topLevelItems(org.duckdns.hjow.swingwebpanel.dom.Document, java.util.List)"><!-- --></A><H3>
+topLevelItems</H3>
+<PRE>
+public static java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&gt; <B>topLevelItems</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Document.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Document</A>&nbsp;doc,
+                                                    java.util.List&lt;java.lang.String&gt;&nbsp;types)</PRE>
+<DL>
+<DD>Returns the top-level microdata items of a document in tree order: the items that have no <code>itemprop</code> attribute and, when
+ types are given, whose item types include all of them.
+ <p>
+ 문서의 최상위 마이크로데이터 아이템을 트리 순서로 반환한다: <code>itemprop</code> 속성이 없는 아이템이며, 타입이 주어지면 아이템 타입에 그 타입이 모두 들어
+ 있는 것.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>doc</CODE> - the document / 문서<DD><CODE>types</CODE> - the wanted types (may be empty) / 원하는 타입(비어 있을 수 있음)
+<DT><B>Returns:</B><DD>the items / 아이템</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="properties(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+properties</H3>
+<PRE>
+public static java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&gt; <B>properties</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;item)</PRE>
+<DL>
+<DD>Returns the properties of an item in tree order ("the properties of an item", section 5.2 of the Note): the elements with
+ <code>itemprop</code> that are descendants of the item, or of an element named by its <code>itemref</code>, without descending into
+ nested items.
+ <p>
+ 아이템의 프로퍼티를 트리 순서로 반환한다(노트 5.2절 "the properties of an item"): 아이템의 후손이거나 <code>itemref</code> 가 가리키는 요소의 후손인
+ <code>itemprop</code> 요소이며 중첩된 아이템 안으로는 들어가지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>item</CODE> - the item (an element that is not an item gives an empty list) / 아이템(아이템이 아닌 요소는 빈 목록)
+<DT><B>Returns:</B><DD>the property elements / 프로퍼티 요소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="itemValue(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+itemValue</H3>
+<PRE>
+public static java.lang.Object <B>itemValue</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e)</PRE>
+<DL>
+<DD>Returns the value of a property element, as the <code>itemValue</code> attribute reads it: <code>null</code> for an element without
+ <code>itemprop</code>, the element itself for an item, the URL or text of the content attribute that belongs to the element type, and the
+ text content otherwise.
+ <p>
+ 프로퍼티 요소의 값을 <code>itemValue</code> 속성이 읽는 대로 반환한다: <code>itemprop</code> 가 없는 요소는 <code>null</code>, 아이템이면 요소 자신, 요소 종류에
+ 맞는 콘텐츠 속성의 URL 이나 텍스트, 그 밖에는 텍스트 콘텐츠.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>null, the element (an Element) or a String / null, 요소(Element) 또는 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setItemValue(org.duckdns.hjow.swingwebpanel.dom.Element, java.lang.String)"><!-- --></A><H3>
+setItemValue</H3>
+<PRE>
+public static void <B>setItemValue</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                                java.lang.String&nbsp;value)
+                         throws <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></PRE>
+<DL>
+<DD>Sets the value of a property element (the setter of <code>itemValue</code>): the content attribute that belongs to the element type, or
+ the text content.
+ <p>
+ 프로퍼티 요소의 값을 지정한다(<code>itemValue</code> 의 setter): 요소 종류에 맞는 콘텐츠 속성이나 텍스트 콘텐츠.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소<DD><CODE>value</CODE> - the new value / 새 값
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - InvalidAccessError for an element without <code>itemprop</code> and for an item / <code>itemprop</code> 가 없는 요소와 아이템은 InvalidAccessError</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MessageEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MouseEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/Microdata.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Microdata.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

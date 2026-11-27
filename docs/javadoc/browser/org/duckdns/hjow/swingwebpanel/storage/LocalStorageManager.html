@@ -1,0 +1,427 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+LocalStorageManager
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="LocalStorageManager";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/SessionStorage.html" title="class in org.duckdns.hjow.swingwebpanel.storage"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="LocalStorageManager.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.storage</FONT>
+<BR>
+Class LocalStorageManager</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.storage.LocalStorageManager</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>LocalStorageManager</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The process-wide localStorage: one store per origin shared by all components of the JVM process, kept in one temporary file that is
+ private to this process (the name contains the process id, a time stamp and a random number; files of other processes are never read,
+ changed or deleted). The file is the source of truth: before every operation the manager checks whether the file changed or vanished
+ since it last wrote or read it, and reloads it; a missing file simply means an empty store, and a file that cannot be parsed (damaged,
+ truncated, unknown version) resets the store (plan items P16-03 to P16-06). Nothing watches the file and nothing tries to restore data
+ that someone deleted. Writes go to a temporary file first and replace the real file in a way that never loses both versions on JRE 6
+ (where renaming over an existing file fails on Windows). The manager keeps no strong reference to components or documents (listeners are
+ weak), so it never prevents garbage collection of a component. The OS is expected to delete old temporary files.
+ <p>
+ 프로세스 공용 localStorage: JVM 프로세스의 모든 컴포넌트가 공유하는 오리진별 저장소이며, 이 프로세스 전용의 임시 파일 하나에 보관한다(이름에 프로세스
+ id, 시각, 난수가 들어 있어 다른 프로세스의 파일은 읽거나 바꾸거나 지우지 않는다). 파일이 원본이다: 매 연산 전에 파일이 마지막으로 쓰거나 읽은 뒤
+ 바뀌었거나 사라졌는지 확인하고 다시 읽는다. 파일이 없으면 빈 저장소로 보고, 해석할 수 없는 파일(손상, 잘림, 알 수 없는 버전)은 저장소를
+ 초기화한다(계획 P16-03~P16-06). 파일을 감시하지도, 누가 지운 데이터를 복구하려 하지도 않는다. 쓰기는 먼저 임시 파일에 한 뒤 실제 파일을
+ 교체하며, JRE 6(Windows 에서 기존 파일 위로 이름 바꾸기가 실패함)에서도 두 판을 모두 잃지 않는 방식을 쓴다. 관리자는 컴포넌트나 문서를 강한
+ 참조로 붙잡지 않으므로(리스너는 약한 참조) 컴포넌트의 가비지 컬렉션을 막지 않는다. 오래된 임시 파일은 OS 가 지우는 것으로 가정한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html#LocalStorageManager(java.io.File)">LocalStorageManager</A></B>(java.io.File&nbsp;file)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a manager that keeps its store in a given file (used by the process-wide instance and by tests).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html#addListener(org.duckdns.hjow.swingwebpanel.storage.StorageListener)">addListener</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/StorageListener.html" title="interface in org.duckdns.hjow.swingwebpanel.storage">StorageListener</A>&nbsp;l)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Registers a (weakly held) listener of a document.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html#clearAll()">clearAll</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes every item of every origin (the effect of <code>clean()</code> of any component) and reports a clear event for every origin
+ that had items.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/StorageEntry.html" title="class in org.duckdns.hjow.swingwebpanel.storage">StorageEntry</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html#entries()">entries</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a read-only copy of all items of all origins, sorted by origin and key.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/WebStorage.html" title="interface in org.duckdns.hjow.swingwebpanel.storage">WebStorage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html#forOrigin(org.duckdns.hjow.swingwebpanel.net.Origin, java.lang.Object)">forOrigin</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;origin,
+          java.lang.Object&nbsp;source)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the storage view of an origin.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.io.File</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html#getFile()">getFile</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the store file.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html" title="class in org.duckdns.hjow.swingwebpanel.storage">LocalStorageManager</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html#getInstance()">getInstance</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the manager of this process; its file is created lazily in the temporary directory with a name that is unique to this
+ process.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html#removeListener(org.duckdns.hjow.swingwebpanel.storage.StorageListener)">removeListener</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/StorageListener.html" title="interface in org.duckdns.hjow.swingwebpanel.storage">StorageListener</A>&nbsp;l)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes a listener.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="LocalStorageManager(java.io.File)"><!-- --></A><H3>
+LocalStorageManager</H3>
+<PRE>
+public <B>LocalStorageManager</B>(java.io.File&nbsp;file)</PRE>
+<DL>
+<DD>Creates a manager that keeps its store in a given file (used by the process-wide instance and by tests).
+ <p>
+ 주어진 파일에 저장소를 두는 관리자를 만든다(프로세스 공용 인스턴스와 시험이 쓴다).
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>file</CODE> - the store file; it need not exist / 저장소 파일. 없어도 된다</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getInstance()"><!-- --></A><H3>
+getInstance</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html" title="class in org.duckdns.hjow.swingwebpanel.storage">LocalStorageManager</A> <B>getInstance</B>()</PRE>
+<DL>
+<DD>Returns the manager of this process; its file is created lazily in the temporary directory with a name that is unique to this
+ process.
+ <p>
+ 이 프로세스의 관리자를 반환한다. 파일은 임시 디렉터리에 이 프로세스에서 유일한 이름으로 필요할 때 만들어진다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the shared manager / 공용 관리자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFile()"><!-- --></A><H3>
+getFile</H3>
+<PRE>
+public java.io.File <B>getFile</B>()</PRE>
+<DL>
+<DD>Returns the store file.
+ <p>
+ 저장소 파일을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>file / 파일</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="forOrigin(org.duckdns.hjow.swingwebpanel.net.Origin, java.lang.Object)"><!-- --></A><H3>
+forOrigin</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/WebStorage.html" title="interface in org.duckdns.hjow.swingwebpanel.storage">WebStorage</A> <B>forOrigin</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/Origin.html" title="class in org.duckdns.hjow.swingwebpanel.net">Origin</A>&nbsp;origin,
+                            java.lang.Object&nbsp;source)</PRE>
+<DL>
+<DD>Returns the storage view of an origin.
+ <p>
+ 오리진의 저장소 뷰를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>origin</CODE> - origin of the document / 문서의 오리진<DD><CODE>source</CODE> - the document that will use the view (excluded from change notifications), may be null / 뷰를 쓸 문서(변경 통지에서 제외). null 가능
+<DT><B>Returns:</B><DD>the view / 뷰
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - SecurityError for opaque origins (about:blank, about:text) / 불투명 오리진이면 SecurityError</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addListener(org.duckdns.hjow.swingwebpanel.storage.StorageListener)"><!-- --></A><H3>
+addListener</H3>
+<PRE>
+public void <B>addListener</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/StorageListener.html" title="interface in org.duckdns.hjow.swingwebpanel.storage">StorageListener</A>&nbsp;l)</PRE>
+<DL>
+<DD>Registers a (weakly held) listener of a document.
+ <p>
+ 문서의 리스너를 등록한다(약한 참조로 보관).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>l</CODE> - listener / 리스너</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeListener(org.duckdns.hjow.swingwebpanel.storage.StorageListener)"><!-- --></A><H3>
+removeListener</H3>
+<PRE>
+public void <B>removeListener</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/StorageListener.html" title="interface in org.duckdns.hjow.swingwebpanel.storage">StorageListener</A>&nbsp;l)</PRE>
+<DL>
+<DD>Removes a listener.
+ <p>
+ 리스너를 제거한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>l</CODE> - listener / 리스너</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="entries()"><!-- --></A><H3>
+entries</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/StorageEntry.html" title="class in org.duckdns.hjow.swingwebpanel.storage">StorageEntry</A>&gt; <B>entries</B>()</PRE>
+<DL>
+<DD>Returns a read-only copy of all items of all origins, sorted by origin and key.
+ <p>
+ 모든 오리진의 모든 항목의 읽기 전용 복사본을 오리진, 키 순으로 정렬해 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>entries / 항목</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="clearAll()"><!-- --></A><H3>
+clearAll</H3>
+<PRE>
+public void <B>clearAll</B>()</PRE>
+<DL>
+<DD>Removes every item of every origin (the effect of <code>clean()</code> of any component) and reports a clear event for every origin
+ that had items.
+ <p>
+ 모든 오리진의 모든 항목을 제거하고(어느 컴포넌트의 <code>clean()</code> 이든 같은 효과) 항목이 있던 오리진마다 clear 이벤트를 보고한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/SessionStorage.html" title="class in org.duckdns.hjow.swingwebpanel.storage"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/storage/LocalStorageManager.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="LocalStorageManager.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

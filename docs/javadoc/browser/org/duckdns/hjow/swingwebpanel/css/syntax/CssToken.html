@@ -1,0 +1,1098 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+CssToken
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="CssToken";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssTokenizer.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CssToken.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.syntax</FONT>
+<BR>
+Class CssToken</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">org.duckdns.hjow.swingwebpanel.css.syntax.ComponentValue</A>
+      <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.syntax.CssToken</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>CssToken</B><DT>extends <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A></DL>
+</PRE>
+
+<P>
+A token of the CSS Syntax Module Level 3. Besides the type it carries the data of the token: the text of identifiers, strings,
+ at-keywords, functions and hashes, the numeric value and unit of numbers, percentages and dimensions, the "id" flag of hash tokens
+ and the source position.
+ <p>
+ CSS Syntax Module Level 3 의 토큰. 종류 외에 토큰의 데이터를 가진다: 식별자, 문자열, at-키워드, 함수, 해시의 문자열, 숫자/백분율/차원의 값과 단위,
+ 해시 토큰의 "id" 플래그, 소스 위치.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#AT_KEYWORD">AT_KEYWORD</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: at-keyword. / 토큰 종류: at-키워드.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#BAD_STRING">BAD_STRING</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: bad string (unterminated at a newline). / 토큰 종류: 잘못된 문자열(줄바꿈에서 끝남).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#BAD_URL">BAD_URL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: bad url. / 토큰 종류: 잘못된 url.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#CDC">CDC</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: CDC (the characters - - gt). / 토큰 종류: CDC.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#CDO">CDO</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: CDO (the characters lt !</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#COLON">COLON</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: colon. / 토큰 종류: 콜론.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#COMMA">COMMA</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: comma. / 토큰 종류: 쉼표.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#DELIM">DELIM</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: delimiter (a single code point). / 토큰 종류: 구분 문자(코드 포인트 하나).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#DIMENSION">DIMENSION</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: dimension (number with unit). / 토큰 종류: 차원(단위가 붙은 숫자).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#EOF">EOF</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: end of input. / 토큰 종류: 입력의 끝.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#FUNCTION">FUNCTION</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: function name followed by an opening parenthesis. / 토큰 종류: 여는 소괄호가 붙은 함수 이름.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#HASH">HASH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: hash. / 토큰 종류: 해시.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#IDENT">IDENT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: identifier. / 토큰 종류: 식별자.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#LEFT_BRACE">LEFT_BRACE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: left curly brace. / 토큰 종류: 여는 중괄호.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#LEFT_BRACKET">LEFT_BRACKET</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: left square bracket. / 토큰 종류: 여는 대괄호.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#LEFT_PAREN">LEFT_PAREN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: left parenthesis. / 토큰 종류: 여는 소괄호.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#NUMBER">NUMBER</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: number. / 토큰 종류: 숫자.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#PERCENTAGE">PERCENTAGE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: percentage. / 토큰 종류: 백분율.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#RIGHT_BRACE">RIGHT_BRACE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: right curly brace. / 토큰 종류: 닫는 중괄호.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#RIGHT_BRACKET">RIGHT_BRACKET</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: right square bracket. / 토큰 종류: 닫는 대괄호.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#RIGHT_PAREN">RIGHT_PAREN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: right parenthesis. / 토큰 종류: 닫는 소괄호.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#SEMICOLON">SEMICOLON</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: semicolon. / 토큰 종류: 세미콜론.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#STRING">STRING</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: string. / 토큰 종류: 문자열.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#UNICODE_RANGE">UNICODE_RANGE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: unicode-range (the older Syntax 3 token). / 토큰 종류: unicode-range(이전 Syntax 3 토큰).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#URL">URL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: url token. / 토큰 종류: url 토큰.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#WHITESPACE">WHITESPACE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Token type: whitespace. / 토큰 종류: 공백.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#CssToken(int, java.lang.String, double, boolean, java.lang.String, boolean, java.lang.String, int)">CssToken</A></B>(int&nbsp;type,
+         java.lang.String&nbsp;value,
+         double&nbsp;number,
+         boolean&nbsp;integer,
+         java.lang.String&nbsp;unit,
+         boolean&nbsp;hashId,
+         java.lang.String&nbsp;repr,
+         int&nbsp;start)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a token.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#CssToken(int, java.lang.String, int)">CssToken</A></B>(int&nbsp;type,
+         java.lang.String&nbsp;value,
+         int&nbsp;start)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a token that only has a type and a text (no number data).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#getNumber()">getNumber</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the numeric value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#getStart()">getStart</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the source offset.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#getType()">getType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the token type.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#getUnit()">getUnit</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the unit of a dimension.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#getValue()">getValue</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text value (identifier name, string content, url, function name, at-keyword name, hash text, delimiter).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#is(int)">is</A></B>(int&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the token has a type.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#isDelim(char)">isDelim</A></B>(char&nbsp;c)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the token is the given delimiter.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#isHashId()">isHashId</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a hash token is an identifier-like hash (usable as id selector).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#isIdent(java.lang.String)">isIdent</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the token is an identifier with the given name (ASCII case-insensitive).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#isInteger()">isInteger</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the number was an integer.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html#toCssText()">toCssText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serializes the token.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.css.syntax.ComponentValue"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.css.syntax.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html#toString()">toString</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="IDENT"><!-- --></A><H3>
+IDENT</H3>
+<PRE>
+public static final int <B>IDENT</B></PRE>
+<DL>
+<DD>Token type: identifier. / 토큰 종류: 식별자.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.IDENT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FUNCTION"><!-- --></A><H3>
+FUNCTION</H3>
+<PRE>
+public static final int <B>FUNCTION</B></PRE>
+<DL>
+<DD>Token type: function name followed by an opening parenthesis. / 토큰 종류: 여는 소괄호가 붙은 함수 이름.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.FUNCTION">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="AT_KEYWORD"><!-- --></A><H3>
+AT_KEYWORD</H3>
+<PRE>
+public static final int <B>AT_KEYWORD</B></PRE>
+<DL>
+<DD>Token type: at-keyword. / 토큰 종류: at-키워드.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.AT_KEYWORD">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="HASH"><!-- --></A><H3>
+HASH</H3>
+<PRE>
+public static final int <B>HASH</B></PRE>
+<DL>
+<DD>Token type: hash. / 토큰 종류: 해시.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.HASH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="STRING"><!-- --></A><H3>
+STRING</H3>
+<PRE>
+public static final int <B>STRING</B></PRE>
+<DL>
+<DD>Token type: string. / 토큰 종류: 문자열.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.STRING">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BAD_STRING"><!-- --></A><H3>
+BAD_STRING</H3>
+<PRE>
+public static final int <B>BAD_STRING</B></PRE>
+<DL>
+<DD>Token type: bad string (unterminated at a newline). / 토큰 종류: 잘못된 문자열(줄바꿈에서 끝남).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.BAD_STRING">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="URL"><!-- --></A><H3>
+URL</H3>
+<PRE>
+public static final int <B>URL</B></PRE>
+<DL>
+<DD>Token type: url token. / 토큰 종류: url 토큰.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.URL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BAD_URL"><!-- --></A><H3>
+BAD_URL</H3>
+<PRE>
+public static final int <B>BAD_URL</B></PRE>
+<DL>
+<DD>Token type: bad url. / 토큰 종류: 잘못된 url.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.BAD_URL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DELIM"><!-- --></A><H3>
+DELIM</H3>
+<PRE>
+public static final int <B>DELIM</B></PRE>
+<DL>
+<DD>Token type: delimiter (a single code point). / 토큰 종류: 구분 문자(코드 포인트 하나).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.DELIM">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="NUMBER"><!-- --></A><H3>
+NUMBER</H3>
+<PRE>
+public static final int <B>NUMBER</B></PRE>
+<DL>
+<DD>Token type: number. / 토큰 종류: 숫자.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.NUMBER">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PERCENTAGE"><!-- --></A><H3>
+PERCENTAGE</H3>
+<PRE>
+public static final int <B>PERCENTAGE</B></PRE>
+<DL>
+<DD>Token type: percentage. / 토큰 종류: 백분율.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.PERCENTAGE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DIMENSION"><!-- --></A><H3>
+DIMENSION</H3>
+<PRE>
+public static final int <B>DIMENSION</B></PRE>
+<DL>
+<DD>Token type: dimension (number with unit). / 토큰 종류: 차원(단위가 붙은 숫자).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.DIMENSION">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="WHITESPACE"><!-- --></A><H3>
+WHITESPACE</H3>
+<PRE>
+public static final int <B>WHITESPACE</B></PRE>
+<DL>
+<DD>Token type: whitespace. / 토큰 종류: 공백.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.WHITESPACE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="CDO"><!-- --></A><H3>
+CDO</H3>
+<PRE>
+public static final int <B>CDO</B></PRE>
+<DL>
+<DD>Token type: CDO (the characters lt ! - -). / 토큰 종류: CDO.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.CDO">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="CDC"><!-- --></A><H3>
+CDC</H3>
+<PRE>
+public static final int <B>CDC</B></PRE>
+<DL>
+<DD>Token type: CDC (the characters - - gt). / 토큰 종류: CDC.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.CDC">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="COLON"><!-- --></A><H3>
+COLON</H3>
+<PRE>
+public static final int <B>COLON</B></PRE>
+<DL>
+<DD>Token type: colon. / 토큰 종류: 콜론.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.COLON">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SEMICOLON"><!-- --></A><H3>
+SEMICOLON</H3>
+<PRE>
+public static final int <B>SEMICOLON</B></PRE>
+<DL>
+<DD>Token type: semicolon. / 토큰 종류: 세미콜론.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.SEMICOLON">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="COMMA"><!-- --></A><H3>
+COMMA</H3>
+<PRE>
+public static final int <B>COMMA</B></PRE>
+<DL>
+<DD>Token type: comma. / 토큰 종류: 쉼표.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.COMMA">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LEFT_BRACKET"><!-- --></A><H3>
+LEFT_BRACKET</H3>
+<PRE>
+public static final int <B>LEFT_BRACKET</B></PRE>
+<DL>
+<DD>Token type: left square bracket. / 토큰 종류: 여는 대괄호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.LEFT_BRACKET">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="RIGHT_BRACKET"><!-- --></A><H3>
+RIGHT_BRACKET</H3>
+<PRE>
+public static final int <B>RIGHT_BRACKET</B></PRE>
+<DL>
+<DD>Token type: right square bracket. / 토큰 종류: 닫는 대괄호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.RIGHT_BRACKET">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LEFT_PAREN"><!-- --></A><H3>
+LEFT_PAREN</H3>
+<PRE>
+public static final int <B>LEFT_PAREN</B></PRE>
+<DL>
+<DD>Token type: left parenthesis. / 토큰 종류: 여는 소괄호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.LEFT_PAREN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="RIGHT_PAREN"><!-- --></A><H3>
+RIGHT_PAREN</H3>
+<PRE>
+public static final int <B>RIGHT_PAREN</B></PRE>
+<DL>
+<DD>Token type: right parenthesis. / 토큰 종류: 닫는 소괄호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.RIGHT_PAREN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LEFT_BRACE"><!-- --></A><H3>
+LEFT_BRACE</H3>
+<PRE>
+public static final int <B>LEFT_BRACE</B></PRE>
+<DL>
+<DD>Token type: left curly brace. / 토큰 종류: 여는 중괄호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.LEFT_BRACE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="RIGHT_BRACE"><!-- --></A><H3>
+RIGHT_BRACE</H3>
+<PRE>
+public static final int <B>RIGHT_BRACE</B></PRE>
+<DL>
+<DD>Token type: right curly brace. / 토큰 종류: 닫는 중괄호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.RIGHT_BRACE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="UNICODE_RANGE"><!-- --></A><H3>
+UNICODE_RANGE</H3>
+<PRE>
+public static final int <B>UNICODE_RANGE</B></PRE>
+<DL>
+<DD>Token type: unicode-range (the older Syntax 3 token). / 토큰 종류: unicode-range(이전 Syntax 3 토큰).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.UNICODE_RANGE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="EOF"><!-- --></A><H3>
+EOF</H3>
+<PRE>
+public static final int <B>EOF</B></PRE>
+<DL>
+<DD>Token type: end of input. / 토큰 종류: 입력의 끝.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.syntax.CssToken.EOF">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="CssToken(int, java.lang.String, double, boolean, java.lang.String, boolean, java.lang.String, int)"><!-- --></A><H3>
+CssToken</H3>
+<PRE>
+public <B>CssToken</B>(int&nbsp;type,
+                java.lang.String&nbsp;value,
+                double&nbsp;number,
+                boolean&nbsp;integer,
+                java.lang.String&nbsp;unit,
+                boolean&nbsp;hashId,
+                java.lang.String&nbsp;repr,
+                int&nbsp;start)</PRE>
+<DL>
+<DD>Creates a token.
+ <p>
+ 토큰을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - token type / 토큰 종류<DD><CODE>value</CODE> - text / 문자열<DD><CODE>number</CODE> - numeric value / 숫자 값<DD><CODE>integer</CODE> - integer flag / 정수 플래그<DD><CODE>unit</CODE> - unit or null / 단위 또는 null<DD><CODE>hashId</CODE> - id flag of hash tokens / 해시 토큰의 id 플래그<DD><CODE>repr</CODE> - original number text or null / 원래 숫자 문자열 또는 null<DD><CODE>start</CODE> - source offset / 소스 위치</DL>
+</DL>
+<HR>
+
+<A NAME="CssToken(int, java.lang.String, int)"><!-- --></A><H3>
+CssToken</H3>
+<PRE>
+public <B>CssToken</B>(int&nbsp;type,
+                java.lang.String&nbsp;value,
+                int&nbsp;start)</PRE>
+<DL>
+<DD>Creates a token that only has a type and a text (no number data).
+ <p>
+ 종류와 문자열만 있는 토큰(숫자 데이터 없음)을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - token type / 토큰 종류<DD><CODE>value</CODE> - text / 문자열<DD><CODE>start</CODE> - source offset / 소스 위치</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getType()"><!-- --></A><H3>
+getType</H3>
+<PRE>
+public int <B>getType</B>()</PRE>
+<DL>
+<DD>Returns the token type.
+ <p>
+ 토큰 종류를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>type constant / 종류 상수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getValue()"><!-- --></A><H3>
+getValue</H3>
+<PRE>
+public java.lang.String <B>getValue</B>()</PRE>
+<DL>
+<DD>Returns the text value (identifier name, string content, url, function name, at-keyword name, hash text, delimiter).
+ <p>
+ 문자열 값을 반환한다(식별자 이름, 문자열 내용, url, 함수 이름, at-키워드 이름, 해시 문자열, 구분 문자).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>text / 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getNumber()"><!-- --></A><H3>
+getNumber</H3>
+<PRE>
+public double <B>getNumber</B>()</PRE>
+<DL>
+<DD>Returns the numeric value.
+ <p>
+ 숫자 값을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>number / 숫자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isInteger()"><!-- --></A><H3>
+isInteger</H3>
+<PRE>
+public boolean <B>isInteger</B>()</PRE>
+<DL>
+<DD>Tells whether the number was an integer.
+ <p>
+ 숫자가 정수였는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for integers / 정수이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getUnit()"><!-- --></A><H3>
+getUnit</H3>
+<PRE>
+public java.lang.String <B>getUnit</B>()</PRE>
+<DL>
+<DD>Returns the unit of a dimension.
+ <p>
+ 차원의 단위를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>unit or null / 단위 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isHashId()"><!-- --></A><H3>
+isHashId</H3>
+<PRE>
+public boolean <B>isHashId</B>()</PRE>
+<DL>
+<DD>Tells whether a hash token is an identifier-like hash (usable as id selector).
+ <p>
+ 해시 토큰이 식별자 형태(id 선택자로 쓸 수 있음)인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for "id" hashes / "id" 해시이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStart()"><!-- --></A><H3>
+getStart</H3>
+<PRE>
+public int <B>getStart</B>()</PRE>
+<DL>
+<DD>Returns the source offset.
+ <p>
+ 소스 위치를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>offset / 위치</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="is(int)"><!-- --></A><H3>
+is</H3>
+<PRE>
+public boolean <B>is</B>(int&nbsp;t)</PRE>
+<DL>
+<DD>Tells whether the token has a type.
+ <p>
+ 토큰이 주어진 종류인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - type constant / 종류 상수
+<DT><B>Returns:</B><DD>true if equal / 같으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isIdent(java.lang.String)"><!-- --></A><H3>
+isIdent</H3>
+<PRE>
+public boolean <B>isIdent</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Tells whether the token is an identifier with the given name (ASCII case-insensitive).
+ <p>
+ 토큰이 주어진 이름의 식별자인지 알려 준다(ASCII 대소문자 무시).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - lower-case name / 소문자 이름
+<DT><B>Returns:</B><DD>true if it matches / 일치하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isDelim(char)"><!-- --></A><H3>
+isDelim</H3>
+<PRE>
+public boolean <B>isDelim</B>(char&nbsp;c)</PRE>
+<DL>
+<DD>Tells whether the token is the given delimiter.
+ <p>
+ 토큰이 주어진 구분 문자인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>c</CODE> - delimiter character / 구분 문자
+<DT><B>Returns:</B><DD>true if it matches / 일치하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toCssText()"><!-- --></A><H3>
+toCssText</H3>
+<PRE>
+public java.lang.String <B>toCssText</B>()</PRE>
+<DL>
+<DD>Serializes the token.
+ <p>
+ 토큰을 직렬화한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html#toCssText()">toCssText</A></CODE> in class <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>CSS text / CSS 문자열</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssParser.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/CssTokenizer.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/syntax/CssToken.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CssToken.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

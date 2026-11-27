@@ -1,0 +1,782 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+JsScriptEngineFactory
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="JsScriptEngineFactory";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.script"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="JsScriptEngineFactory.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.script</FONT>
+<BR>
+Class JsScriptEngineFactory</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.script.JsScriptEngineFactory</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD>javax.script.ScriptEngineFactory</DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public final class <B>JsScriptEngineFactory</B><DT>extends java.lang.Object<DT>implements javax.script.ScriptEngineFactory</DL>
+</PRE>
+
+<P>
+The factory of the Java Scripting API (JSR 223) engine targeting ECMAScript 2026. It is registered in
+ <code>META-INF/services/javax.script.ScriptEngineFactory</code> of the engine jar, so that
+ <pre>
+ ScriptEngine engine = new ScriptEngineManager().getEngineByName("swingwebpanel-js");
+ </pre>
+ finds it. <b>Names.</b> The Java runtime itself may already register an engine under the common names: JRE 6 and 7 have Rhino, JRE 8 to 14
+ have Nashorn (<code>js</code>, <code>JavaScript</code>, <code>javascript</code>, <code>ECMAScript</code>, <code>ecmascript</code>, the extension <code>js</code>, the MIME types
+ <code>application/javascript</code> and so on), and which factory <code>getEngineByName("javascript")</code> returns then depends on the order in which the
+ class path is searched. To make sure that nobody gets this engine by accident (or another engine by accident), this factory registers only
+ its <b>unique</b> identifiers: the names <code>swingwebpanel-js</code> and <code>swingwebpanel-javascript</code>, the extension <code>swjs</code>, the MIME type
+ <code>application/x-swingwebpanel-javascript</code>. A program that wants this engine under the common names (for example on a Java runtime that has
+ no engine of its own, such as Java 15 and later) starts the JVM with <code>-Dswingwebpanel.js.genericNames=true</code>; the common names, the
+ extension <code>js</code> and the common MIME types are then registered as well, and which engine <code>getEngineByName("javascript")</code> returns is up to the
+ search order of the Java runtime. This engine never delegates to Rhino, Nashorn or any other engine.
+ <p>
+ ECMAScript 2026을 대상으로 하는 Java Scripting API(JSR 223) 엔진의 팩터리. 엔진 JAR 의
+ <code>META-INF/services/javax.script.ScriptEngineFactory</code> 에 등록되어 있어 위 코드의 <code>getEngineByName("swingwebpanel-js")</code> 가 찾는다.
+ <b>이름.</b> Java 런타임이 이미 흔한 이름으로 엔진을 등록했을 수 있다. JRE 6, 7 은 Rhino, JRE 8~14 는 Nashorn 이 있고(<code>js</code>, <code>JavaScript</code>,
+ <code>javascript</code>, <code>ECMAScript</code>, <code>ecmascript</code>, 확장자 <code>js</code>, MIME <code>application/javascript</code> 등), 그때
+ <code>getEngineByName("javascript")</code> 가 어느 팩터리를 돌려주는지는 클래스패스를 찾는 순서에 달려 있다. 아무도 이 엔진을(또는 다른 엔진을) 우연히 얻지
+ 않도록 이 팩터리는 <b>고유한</b> 식별자만 등록한다: 이름 <code>swingwebpanel-js</code>, <code>swingwebpanel-javascript</code>, 확장자 <code>swjs</code>, MIME
+ <code>application/x-swingwebpanel-javascript</code>. 이 엔진을 흔한 이름으로 쓰려는 프로그램(예: 자체 엔진이 없는 Java 15 이상)은 JVM 을
+ <code>-Dswingwebpanel.js.genericNames=true</code> 로 시작한다. 그러면 흔한 이름, 확장자 <code>js</code>, 흔한 MIME 도 함께 등록되고
+ <code>getEngineByName("javascript")</code> 가 어느 엔진을 돌려주는지는 Java 런타임의 검색 순서에 달려 있다. 이 엔진은 Rhino, Nashorn 등 다른 엔진에 위임하지
+ 않는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#ENGINE_NAME">ENGINE_NAME</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The name of the engine.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#ENGINE_VERSION">ENGINE_VERSION</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The version of the engine.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#GENERIC_NAMES_PROPERTY">GENERIC_NAMES_PROPERTY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The name of the system property that adds the common names, extension and MIME types.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#LANGUAGE_NAME">LANGUAGE_NAME</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The name of the language.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#LANGUAGE_VERSION">LANGUAGE_VERSION</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The targeted language edition: ECMA-262, 17th edition (ECMAScript 2026).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#UNIQUE_NAME">UNIQUE_NAME</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The unique short name of the engine, the first of its names.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#JsScriptEngineFactory()">JsScriptEngineFactory</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the factory (the Java Scripting API finds it through the service file; programs may also create it directly).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#getEngineName()">getEngineName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the name of the engine.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#getEngineVersion()">getEngineVersion</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the version of the engine.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#getExtensions()">getExtensions</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the file extensions of scripts: <code>swjs</code>, and <code>js</code> with <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#GENERIC_NAMES_PROPERTY"><CODE>GENERIC_NAMES_PROPERTY</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#getLanguageName()">getLanguageName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the name of the language.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#getLanguageVersion()">getLanguageVersion</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the version of the language.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#getMethodCallSyntax(java.lang.String, java.lang.String, java.lang.String...)">getMethodCallSyntax</A></B>(java.lang.String&nbsp;obj,
+                    java.lang.String&nbsp;m,
+                    java.lang.String...&nbsp;args)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text of a method call: <code>obj.method(arg1, arg2)</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#getMimeTypes()">getMimeTypes</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the MIME types of scripts: <code>application/x-swingwebpanel-javascript</code>, and the common JavaScript types with
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#GENERIC_NAMES_PROPERTY"><CODE>GENERIC_NAMES_PROPERTY</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#getNames()">getNames</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the names of the engine: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#UNIQUE_NAME"><CODE>UNIQUE_NAME</CODE></A> first, then the other unique name, and the common names with
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#GENERIC_NAMES_PROPERTY"><CODE>GENERIC_NAMES_PROPERTY</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#getOutputStatement(java.lang.String)">getOutputStatement</A></B>(java.lang.String&nbsp;toDisplay)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a statement that prints a text: <code>print("text")</code> with the text written as a string literal.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#getParameter(java.lang.String)">getParameter</A></B>(java.lang.String&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a parameter of the engine: <code>javax.script.engine</code>, <code>javax.script.engine_version</code>, <code>javax.script.name</code> (the unique
+ name), <code>javax.script.language</code>, <code>javax.script.language_version</code> and <code>THREADING</code>, which is <code>MULTITHREADED</code>: an engine
+ may be used from several threads, its operations are serialized, and their effects are visible to the other threads.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#getProgram(java.lang.String...)">getProgram</A></B>(java.lang.String...&nbsp;statements)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a program that consists of the statements: each statement followed by a semicolon and a line break.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;javax.script.ScriptEngine</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#getScriptEngine()">getScriptEngine</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a new script engine with its own, independent state.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#isGenericNamesEnabled()">isGenericNamesEnabled</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the common names are registered, by the system property <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#GENERIC_NAMES_PROPERTY"><CODE>GENERIC_NAMES_PROPERTY</CODE></A>, read at the time of the call.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="GENERIC_NAMES_PROPERTY"><!-- --></A><H3>
+GENERIC_NAMES_PROPERTY</H3>
+<PRE>
+public static final java.lang.String <B>GENERIC_NAMES_PROPERTY</B></PRE>
+<DL>
+<DD>The name of the system property that adds the common names, extension and MIME types.
+ <p>
+ 흔한 이름, 확장자, MIME 을 추가하는 시스템 속성의 이름.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.script.JsScriptEngineFactory.GENERIC_NAMES_PROPERTY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ENGINE_NAME"><!-- --></A><H3>
+ENGINE_NAME</H3>
+<PRE>
+public static final java.lang.String <B>ENGINE_NAME</B></PRE>
+<DL>
+<DD>The name of the engine.
+ <p>
+ 엔진의 이름.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.script.JsScriptEngineFactory.ENGINE_NAME">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ENGINE_VERSION"><!-- --></A><H3>
+ENGINE_VERSION</H3>
+<PRE>
+public static final java.lang.String <B>ENGINE_VERSION</B></PRE>
+<DL>
+<DD>The version of the engine.
+ <p>
+ 엔진의 버전.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.script.JsScriptEngineFactory.ENGINE_VERSION">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="UNIQUE_NAME"><!-- --></A><H3>
+UNIQUE_NAME</H3>
+<PRE>
+public static final java.lang.String <B>UNIQUE_NAME</B></PRE>
+<DL>
+<DD>The unique short name of the engine, the first of its names.
+ <p>
+ 엔진의 고유한 짧은 이름. 이름 중 첫 번째이다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.script.JsScriptEngineFactory.UNIQUE_NAME">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LANGUAGE_NAME"><!-- --></A><H3>
+LANGUAGE_NAME</H3>
+<PRE>
+public static final java.lang.String <B>LANGUAGE_NAME</B></PRE>
+<DL>
+<DD>The name of the language.
+ <p>
+ 언어의 이름.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.script.JsScriptEngineFactory.LANGUAGE_NAME">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LANGUAGE_VERSION"><!-- --></A><H3>
+LANGUAGE_VERSION</H3>
+<PRE>
+public static final java.lang.String <B>LANGUAGE_VERSION</B></PRE>
+<DL>
+<DD>The targeted language edition: ECMA-262, 17th edition (ECMAScript 2026).
+ <p>
+ 대상 언어 판본: ECMA-262 제17판(ECMAScript 2026).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.script.JsScriptEngineFactory.LANGUAGE_VERSION">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="JsScriptEngineFactory()"><!-- --></A><H3>
+JsScriptEngineFactory</H3>
+<PRE>
+public <B>JsScriptEngineFactory</B>()</PRE>
+<DL>
+<DD>Creates the factory (the Java Scripting API finds it through the service file; programs may also create it directly).
+ <p>
+ 팩터리를 만든다(Java Scripting API 는 서비스 파일로 찾으며, 프로그램이 직접 만들어도 된다).
+<P>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="isGenericNamesEnabled()"><!-- --></A><H3>
+isGenericNamesEnabled</H3>
+<PRE>
+public static boolean <B>isGenericNamesEnabled</B>()</PRE>
+<DL>
+<DD>Tells whether the common names are registered, by the system property <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#GENERIC_NAMES_PROPERTY"><CODE>GENERIC_NAMES_PROPERTY</CODE></A>, read at the time of the call.
+ <p>
+ 시스템 속성 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#GENERIC_NAMES_PROPERTY"><CODE>GENERIC_NAMES_PROPERTY</CODE></A> 로 흔한 이름을 등록하는지 알려 준다. 호출하는 시점에 읽는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if the common names are registered / 흔한 이름을 등록하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEngineName()"><!-- --></A><H3>
+getEngineName</H3>
+<PRE>
+public java.lang.String <B>getEngineName</B>()</PRE>
+<DL>
+<DD>Returns the name of the engine.
+ <p>
+ 엔진의 이름을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getEngineName</CODE> in interface <CODE>javax.script.ScriptEngineFactory</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the name / 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEngineVersion()"><!-- --></A><H3>
+getEngineVersion</H3>
+<PRE>
+public java.lang.String <B>getEngineVersion</B>()</PRE>
+<DL>
+<DD>Returns the version of the engine.
+ <p>
+ 엔진의 버전을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getEngineVersion</CODE> in interface <CODE>javax.script.ScriptEngineFactory</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the version / 버전</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getExtensions()"><!-- --></A><H3>
+getExtensions</H3>
+<PRE>
+public java.util.List&lt;java.lang.String&gt; <B>getExtensions</B>()</PRE>
+<DL>
+<DD>Returns the file extensions of scripts: <code>swjs</code>, and <code>js</code> with <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#GENERIC_NAMES_PROPERTY"><CODE>GENERIC_NAMES_PROPERTY</CODE></A>.
+ <p>
+ 스크립트 파일의 확장자를 반환한다: <code>swjs</code>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#GENERIC_NAMES_PROPERTY"><CODE>GENERIC_NAMES_PROPERTY</CODE></A> 가 있으면 <code>js</code> 도.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getExtensions</CODE> in interface <CODE>javax.script.ScriptEngineFactory</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the extensions (not modifiable) / 확장자(수정할 수 없음)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMimeTypes()"><!-- --></A><H3>
+getMimeTypes</H3>
+<PRE>
+public java.util.List&lt;java.lang.String&gt; <B>getMimeTypes</B>()</PRE>
+<DL>
+<DD>Returns the MIME types of scripts: <code>application/x-swingwebpanel-javascript</code>, and the common JavaScript types with
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#GENERIC_NAMES_PROPERTY"><CODE>GENERIC_NAMES_PROPERTY</CODE></A>.
+ <p>
+ 스크립트의 MIME 타입을 반환한다: <code>application/x-swingwebpanel-javascript</code>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#GENERIC_NAMES_PROPERTY"><CODE>GENERIC_NAMES_PROPERTY</CODE></A> 가 있으면 흔한 JavaScript 타입도.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getMimeTypes</CODE> in interface <CODE>javax.script.ScriptEngineFactory</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the MIME types (not modifiable) / MIME 타입(수정할 수 없음)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getNames()"><!-- --></A><H3>
+getNames</H3>
+<PRE>
+public java.util.List&lt;java.lang.String&gt; <B>getNames</B>()</PRE>
+<DL>
+<DD>Returns the names of the engine: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#UNIQUE_NAME"><CODE>UNIQUE_NAME</CODE></A> first, then the other unique name, and the common names with
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#GENERIC_NAMES_PROPERTY"><CODE>GENERIC_NAMES_PROPERTY</CODE></A>.
+ <p>
+ 엔진의 이름을 반환한다: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#UNIQUE_NAME"><CODE>UNIQUE_NAME</CODE></A> 이 첫째, 그 다음 다른 고유한 이름, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#GENERIC_NAMES_PROPERTY"><CODE>GENERIC_NAMES_PROPERTY</CODE></A> 가 있으면 흔한 이름도.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getNames</CODE> in interface <CODE>javax.script.ScriptEngineFactory</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the names (not modifiable) / 이름(수정할 수 없음)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLanguageName()"><!-- --></A><H3>
+getLanguageName</H3>
+<PRE>
+public java.lang.String <B>getLanguageName</B>()</PRE>
+<DL>
+<DD>Returns the name of the language.
+ <p>
+ 언어의 이름을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getLanguageName</CODE> in interface <CODE>javax.script.ScriptEngineFactory</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the name / 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLanguageVersion()"><!-- --></A><H3>
+getLanguageVersion</H3>
+<PRE>
+public java.lang.String <B>getLanguageVersion</B>()</PRE>
+<DL>
+<DD>Returns the version of the language.
+ <p>
+ 언어의 버전을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getLanguageVersion</CODE> in interface <CODE>javax.script.ScriptEngineFactory</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the version / 버전</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getParameter(java.lang.String)"><!-- --></A><H3>
+getParameter</H3>
+<PRE>
+public java.lang.Object <B>getParameter</B>(java.lang.String&nbsp;key)</PRE>
+<DL>
+<DD>Returns a parameter of the engine: <code>javax.script.engine</code>, <code>javax.script.engine_version</code>, <code>javax.script.name</code> (the unique
+ name), <code>javax.script.language</code>, <code>javax.script.language_version</code> and <code>THREADING</code>, which is <code>MULTITHREADED</code>: an engine
+ may be used from several threads, its operations are serialized, and their effects are visible to the other threads.
+ <p>
+ 엔진의 매개변수를 반환한다: <code>javax.script.engine</code>, <code>javax.script.engine_version</code>, <code>javax.script.name</code>(고유한 이름),
+ <code>javax.script.language</code>, <code>javax.script.language_version</code>, 그리고 <code>MULTITHREADED</code> 인 <code>THREADING</code>. 엔진은 여러 스레드에서 쓸 수
+ 있고 연산은 직렬화되며 그 효과는 다른 스레드에 보인다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getParameter</CODE> in interface <CODE>javax.script.ScriptEngineFactory</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key / 키
+<DT><B>Returns:</B><DD>the value, null for an unknown key / 값. 모르는 키이면 null
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.NullPointerException</CODE> - if the key is null / 키가 null 이면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMethodCallSyntax(java.lang.String, java.lang.String, java.lang.String...)"><!-- --></A><H3>
+getMethodCallSyntax</H3>
+<PRE>
+public java.lang.String <B>getMethodCallSyntax</B>(java.lang.String&nbsp;obj,
+                                            java.lang.String&nbsp;m,
+                                            java.lang.String...&nbsp;args)</PRE>
+<DL>
+<DD>Returns the text of a method call: <code>obj.method(arg1, arg2)</code>.
+ <p>
+ 메서드 호출 문장을 반환한다: <code>obj.method(arg1, arg2)</code>.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getMethodCallSyntax</CODE> in interface <CODE>javax.script.ScriptEngineFactory</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>obj</CODE> - the object / 객체<DD><CODE>m</CODE> - the method / 메서드<DD><CODE>args</CODE> - the arguments / 인수
+<DT><B>Returns:</B><DD>the text / 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOutputStatement(java.lang.String)"><!-- --></A><H3>
+getOutputStatement</H3>
+<PRE>
+public java.lang.String <B>getOutputStatement</B>(java.lang.String&nbsp;toDisplay)</PRE>
+<DL>
+<DD>Returns a statement that prints a text: <code>print("text")</code> with the text written as a string literal.
+ <p>
+ 문자열을 출력하는 문장을 반환한다: 문자열을 리터럴로 쓴 <code>print("text")</code>.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getOutputStatement</CODE> in interface <CODE>javax.script.ScriptEngineFactory</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>toDisplay</CODE> - the text / 문자열
+<DT><B>Returns:</B><DD>the statement / 문장</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getProgram(java.lang.String...)"><!-- --></A><H3>
+getProgram</H3>
+<PRE>
+public java.lang.String <B>getProgram</B>(java.lang.String...&nbsp;statements)</PRE>
+<DL>
+<DD>Returns a program that consists of the statements: each statement followed by a semicolon and a line break.
+ <p>
+ 문장들로 이루어진 프로그램을 반환한다: 문장마다 세미콜론과 줄바꿈이 뒤따른다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getProgram</CODE> in interface <CODE>javax.script.ScriptEngineFactory</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>statements</CODE> - the statements / 문장들
+<DT><B>Returns:</B><DD>the program / 프로그램</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getScriptEngine()"><!-- --></A><H3>
+getScriptEngine</H3>
+<PRE>
+public javax.script.ScriptEngine <B>getScriptEngine</B>()</PRE>
+<DL>
+<DD>Creates a new script engine with its own, independent state.
+ <p>
+ 자신만의 독립된 상태를 가진 새 스크립트 엔진을 만든다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getScriptEngine</CODE> in interface <CODE>javax.script.ScriptEngineFactory</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the new engine / 새 엔진</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.script"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="JsScriptEngineFactory.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

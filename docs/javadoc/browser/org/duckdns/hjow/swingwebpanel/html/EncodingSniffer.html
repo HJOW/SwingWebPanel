@@ -1,0 +1,452 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+EncodingSniffer
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="EncodingSniffer";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingLabels.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlMarkupSupport.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="EncodingSniffer.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.html</FONT>
+<BR>
+Class EncodingSniffer</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.html.EncodingSniffer</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>EncodingSniffer</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The encoding sniffing algorithm of the HTML Standard ("determining the character encoding") for documents that arrive as bytes.
+ The order of decision is:
+ <ol>
+ <li>a byte order mark (UTF-8, UTF-16LE, UTF-16BE) - certain;</li>
+ <li>the <code>charset</code> label of the transport layer (HTTP Content-Type) - certain, if the label is known;</li>
+ <li>the prescan of the first 1024 bytes for <code>&lt;meta charset&gt;</code> or <code>&lt;meta http-equiv="content-type"&gt;</code> -
+ tentative (the tree builder confirms or corrects it later);</li>
+ <li>an extension of this implementation: if none of the above applies and the whole text is valid UTF-8 that contains multi-byte
+ sequences, UTF-8 is assumed (tentative); this avoids garbled Korean text in pages that declare nothing;</li>
+ <li>the fallback encoding, <code>windows-1252</code> unless the caller names another one - tentative.</li>
+ </ol>
+ Decoding never fails: malformed input becomes U+FFFD. Pages declared as UTF-16 by a <code>meta</code> element are decoded as UTF-8
+ and <code>x-user-defined</code> as windows-1252, as the standard requires.
+ <p>
+ 바이트로 도착하는 문서에 대한 HTML 표준의 인코딩 판정 알고리즘("determining the character encoding"). 판정 순서는 다음과 같다.
+ <ol>
+ <li>바이트 순서 표시(UTF-8, UTF-16LE, UTF-16BE) - 확실;</li>
+ <li>전송 계층(HTTP Content-Type)의 <code>charset</code> 라벨 - 라벨을 알 수 있으면 확실;</li>
+ <li>처음 1024 바이트에서 <code>&lt;meta charset&gt;</code> 또는 <code>&lt;meta http-equiv="content-type"&gt;</code> 를 찾는 사전 검사 - 잠정적
+ (트리 생성기가 나중에 확인하거나 바로잡는다);</li>
+ <li>이 구현의 확장: 위 어느 것도 해당하지 않고 전체 텍스트가 멀티바이트 순서가 있는 올바른 UTF-8 이면 UTF-8 로 가정(잠정적).
+ 아무것도 선언하지 않은 페이지에서 한글이 깨지는 것을 막는다;</li>
+ <li>대체 인코딩. 호출자가 다른 것을 지정하지 않으면 <code>windows-1252</code> - 잠정적.</li>
+ </ol>
+ 디코딩은 실패하지 않는다: 잘못된 입력은 U+FFFD 가 된다. <code>meta</code> 요소가 UTF-16 으로 선언한 페이지는 표준대로 UTF-8 로,
+ <code>x-user-defined</code> 는 windows-1252 로 디코딩한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html#PRESCAN_LIMIT">PRESCAN_LIMIT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of bytes that the meta prescan looks at.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html#bomEncoding(byte[])">bomEncoding</A></B>(byte[]&nbsp;b)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the encoding indicated by a byte order mark at the start of the bytes ("BOM sniffing").</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html#bomLength(byte[])">bomLength</A></B>(byte[]&nbsp;b)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the length in bytes of the byte order mark at the start of the bytes, or 0 if there is none.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html#charsetOfContentType(java.lang.String)">charsetOfContentType</A></B>(java.lang.String&nbsp;contentType)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Extracts the <code>charset</code> parameter value of a Content-Type header value, for example <code>euc-kr</code> from
+ <code>text/html; charset="EUC-KR"</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html" title="class in org.duckdns.hjow.swingwebpanel.html">DecodedText</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html#decode(byte[], java.lang.String)">decode</A></B>(byte[]&nbsp;bytes,
+       java.lang.String&nbsp;httpCharset)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Decodes a document with the default fallback encoding (windows-1252).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html" title="class in org.duckdns.hjow.swingwebpanel.html">DecodedText</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html#decode(byte[], java.lang.String, java.lang.String)">decode</A></B>(byte[]&nbsp;bytes,
+       java.lang.String&nbsp;httpCharset,
+       java.lang.String&nbsp;fallback)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Decodes a document.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html#extractFromMetaContent(java.lang.String)">extractFromMetaContent</A></B>(java.lang.String&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Extracts the canonical encoding from the <code>content</code> attribute value of a <code>meta</code> element ("algorithm for
+ extracting a character encoding from a meta element"), for example from <code>text/html; charset=euc-kr</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html#prescan(byte[])">prescan</A></B>(byte[]&nbsp;bytes)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Runs the prescan algorithm of the HTML Standard ("prescan a byte stream to determine its encoding") over the first
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html#PRESCAN_LIMIT"><CODE>PRESCAN_LIMIT</CODE></A> bytes and returns the encoding declared by the first usable <code>meta</code> element.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="PRESCAN_LIMIT"><!-- --></A><H3>
+PRESCAN_LIMIT</H3>
+<PRE>
+public static final int <B>PRESCAN_LIMIT</B></PRE>
+<DL>
+<DD>Number of bytes that the meta prescan looks at.
+ <p>
+ meta 사전 검사가 보는 바이트 수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.EncodingSniffer.PRESCAN_LIMIT">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="decode(byte[], java.lang.String)"><!-- --></A><H3>
+decode</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html" title="class in org.duckdns.hjow.swingwebpanel.html">DecodedText</A> <B>decode</B>(byte[]&nbsp;bytes,
+                                 java.lang.String&nbsp;httpCharset)</PRE>
+<DL>
+<DD>Decodes a document with the default fallback encoding (windows-1252).
+ <p>
+ 기본 대체 인코딩(windows-1252)으로 문서를 디코딩한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>bytes</CODE> - document bytes / 문서 바이트<DD><CODE>httpCharset</CODE> - the <code>charset</code> parameter value of the Content-Type header, or null / Content-Type 헤더의
+                    <code>charset</code> 매개변수 값 또는 null
+<DT><B>Returns:</B><DD>the decoded text with the decision / 판정이 담긴 디코딩 결과</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="decode(byte[], java.lang.String, java.lang.String)"><!-- --></A><H3>
+decode</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/DecodedText.html" title="class in org.duckdns.hjow.swingwebpanel.html">DecodedText</A> <B>decode</B>(byte[]&nbsp;bytes,
+                                 java.lang.String&nbsp;httpCharset,
+                                 java.lang.String&nbsp;fallback)</PRE>
+<DL>
+<DD>Decodes a document.
+ <p>
+ 문서를 디코딩한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>bytes</CODE> - document bytes / 문서 바이트<DD><CODE>httpCharset</CODE> - the <code>charset</code> parameter value of the Content-Type header, or null / Content-Type 헤더의
+                    <code>charset</code> 매개변수 값 또는 null<DD><CODE>fallback</CODE> - label of the encoding to use when nothing else decides (for example <code>euc-kr</code> for a Korean user
+                    locale), or null for windows-1252 / 아무것도 정하지 못했을 때 쓸 인코딩의 라벨(예: 한국어 로케일의 <code>euc-kr</code>),
+                    windows-1252 이면 null
+<DT><B>Returns:</B><DD>the decoded text with the decision / 판정이 담긴 디코딩 결과</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="bomEncoding(byte[])"><!-- --></A><H3>
+bomEncoding</H3>
+<PRE>
+public static java.lang.String <B>bomEncoding</B>(byte[]&nbsp;b)</PRE>
+<DL>
+<DD>Returns the encoding indicated by a byte order mark at the start of the bytes ("BOM sniffing").
+ <p>
+ 바이트 앞의 바이트 순서 표시가 나타내는 인코딩을 반환한다("BOM sniffing").
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>b</CODE> - bytes / 바이트
+<DT><B>Returns:</B><DD><code>UTF-8</code>, <code>UTF-16BE</code>, <code>UTF-16LE</code> or null / 해당 이름 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="bomLength(byte[])"><!-- --></A><H3>
+bomLength</H3>
+<PRE>
+public static int <B>bomLength</B>(byte[]&nbsp;b)</PRE>
+<DL>
+<DD>Returns the length in bytes of the byte order mark at the start of the bytes, or 0 if there is none.
+ <p>
+ 바이트 앞의 바이트 순서 표시의 길이(바이트)를 반환한다. 없으면 0.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>b</CODE> - bytes / 바이트
+<DT><B>Returns:</B><DD>3, 2 or 0 / 3, 2 또는 0</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="charsetOfContentType(java.lang.String)"><!-- --></A><H3>
+charsetOfContentType</H3>
+<PRE>
+public static java.lang.String <B>charsetOfContentType</B>(java.lang.String&nbsp;contentType)</PRE>
+<DL>
+<DD>Extracts the <code>charset</code> parameter value of a Content-Type header value, for example <code>euc-kr</code> from
+ <code>text/html; charset="EUC-KR"</code>.
+ <p>
+ Content-Type 헤더 값에서 <code>charset</code> 매개변수 값을 뽑는다. 예: <code>text/html; charset="EUC-KR"</code> 에서 <code>EUC-KR</code>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>contentType</CODE> - header value or null / 헤더 값 또는 null
+<DT><B>Returns:</B><DD>the label (quotes removed) or null / 라벨(따옴표 제거) 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="prescan(byte[])"><!-- --></A><H3>
+prescan</H3>
+<PRE>
+public static java.lang.String <B>prescan</B>(byte[]&nbsp;bytes)</PRE>
+<DL>
+<DD>Runs the prescan algorithm of the HTML Standard ("prescan a byte stream to determine its encoding") over the first
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html#PRESCAN_LIMIT"><CODE>PRESCAN_LIMIT</CODE></A> bytes and returns the encoding declared by the first usable <code>meta</code> element.
+ <p>
+ HTML 표준의 사전 검사 알고리즘("prescan a byte stream to determine its encoding")을 처음 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html#PRESCAN_LIMIT"><CODE>PRESCAN_LIMIT</CODE></A> 바이트에 실행해, 처음으로
+ 쓸 수 있는 <code>meta</code> 요소가 선언한 인코딩을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>bytes</CODE> - document bytes / 문서 바이트
+<DT><B>Returns:</B><DD>canonical encoding name or null / 표준 인코딩 이름 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="extractFromMetaContent(java.lang.String)"><!-- --></A><H3>
+extractFromMetaContent</H3>
+<PRE>
+public static java.lang.String <B>extractFromMetaContent</B>(java.lang.String&nbsp;value)</PRE>
+<DL>
+<DD>Extracts the canonical encoding from the <code>content</code> attribute value of a <code>meta</code> element ("algorithm for
+ extracting a character encoding from a meta element"), for example from <code>text/html; charset=euc-kr</code>.
+ <p>
+ <code>meta</code> 요소의 <code>content</code> 속성 값에서 표준 인코딩을 뽑는다("algorithm for extracting a character encoding from a meta
+ element"). 예: <code>text/html; charset=euc-kr</code>.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - attribute value / 속성 값
+<DT><B>Returns:</B><DD>canonical encoding name or null / 표준 인코딩 이름 또는 null</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/EncodingLabels.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlMarkupSupport.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/html/EncodingSniffer.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="EncodingSniffer.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

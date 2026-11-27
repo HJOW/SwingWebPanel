@@ -1,0 +1,953 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ProxyObject
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ProxyObject";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseRejectionTracker.html" title="interface in org.duckdns.hjow.swingwebpanel.js.builtins.meta"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/WeakReferenceBuiltins.html" title="class in org.duckdns.hjow.swingwebpanel.js.builtins.meta"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ProxyObject.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsObject">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.builtins.meta</FONT>
+<BR>
+Class ProxyObject</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">org.duckdns.hjow.swingwebpanel.js.JsValue</A>
+      <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsWeakKey.html" title="class in org.duckdns.hjow.swingwebpanel.js">org.duckdns.hjow.swingwebpanel.js.JsWeakKey</A>
+          <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">org.duckdns.hjow.swingwebpanel.js.JsObject</A>
+              <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.builtins.meta.ProxyObject</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ProxyObject</B><DT>extends <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></DL>
+</PRE>
+
+<P>
+A Proxy exotic object (ECMA-262 6th edition 9.5). Every internal method looks up the matching trap on the handler; without a
+ trap it forwards to the target. When a trap answers, the result is checked against the invariants that the spec derives from the
+ state of the target (non-configurable properties, non-extensible targets, frozen data properties, key lists), and a violated
+ invariant is a TypeError. After <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#revoke()"><CODE>revoke()</CODE></A> every operation fails with a TypeError.
+ <p>
+ Assumptions where the 6th edition text could not be read: key lists returned by <code>ownKeys</code> must not contain duplicates
+ (the rule of later editions, stricter than ES2015); [[GetOwnProperty]] checks only the configurable invariants of ES2015 (the
+ later non-writable check is not applied); [[Delete]] does not check the extensibility of the target (later editions do).
+ <p>
+ Proxy 이국적 객체(ECMA-262 6판 9.5). 모든 내부 메서드는 핸들러에서 같은 이름의 trap 을 찾고, trap 이 없으면 대상에 전달한다.
+ trap 이 답하면 대상의 상태에서 규격이 유도한 불변 조건(설정 불가 프로퍼티, 확장 불가 대상, 얼려진 데이터 프로퍼티, 키 목록)에 맞는지
+ 검사하며 어기면 TypeError 이다. <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#revoke()"><CODE>revoke()</CODE></A> 뒤에는 모든 연산이 TypeError 로 실패한다.
+ <p>
+ 6판 본문을 읽지 못해 둔 가정: <code>ownKeys</code> 가 돌려준 키 목록에는 중복이 없어야 한다(ES2015 보다 엄격한 후속 판의 규칙).
+ [[GetOwnProperty]] 는 ES2015 의 설정 가능 불변 조건만 검사한다(후속 판의 writable 검사는 적용하지 않음).
+ [[Delete]] 는 대상의 확장 가능 여부를 검사하지 않는다(후속 판은 검사함).
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsObject"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class org.duckdns.hjow.swingwebpanel.js.<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#extensible">extensible</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#properties">properties</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#prototype">prototype</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#ProxyObject(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsObject, org.duckdns.hjow.swingwebpanel.js.JsObject)">ProxyObject</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm,
+            <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;target,
+            <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;handler)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a proxy (ProxyCreate, 9.5.15).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#call(org.duckdns.hjow.swingwebpanel.js.JsValue, org.duckdns.hjow.swingwebpanel.js.JsValue[])">call</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;thisValue,
+     <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>[]&nbsp;args)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[[Call]] (9.5.13): the <code>apply</code> trap gets the target, the this value and an array of the arguments.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#className()">className</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns "Function" for callable proxies, "Array" for proxies of arrays and "Object" otherwise.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#construct(org.duckdns.hjow.swingwebpanel.js.JsValue[], org.duckdns.hjow.swingwebpanel.js.JsObject)">construct</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>[]&nbsp;args,
+          <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;newTarget)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[[Construct]] (9.5.14): the <code>construct</code> trap gets the target, an array of the arguments and new.target and must
+ return an object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#defineOwnProperty(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor)">defineOwnProperty</A></B>(java.lang.Object&nbsp;key,
+                  <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html" title="class in org.duckdns.hjow.swingwebpanel.js">PropertyDescriptor</A>&nbsp;desc)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[[DefineOwnProperty]] (9.5.6): a true result must be consistent with the target (a property cannot be reported as defined
+ if the target is non-extensible and lacks it, nor as non-configurable if the target's property is configurable).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#delete(java.lang.Object)">delete</A></B>(java.lang.Object&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[[Delete]] (9.5.10): a true result is not allowed for non-configurable target properties.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#get(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">get</A></B>(java.lang.Object&nbsp;key,
+    <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;receiver)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[[Get]] (9.5.8): the result must equal the value of a non-configurable, non-writable data property of the target and must be
+ undefined for a non-configurable accessor property without getter.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html" title="class in org.duckdns.hjow.swingwebpanel.js">PropertyDescriptor</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#getOwnProperty(java.lang.Object)">getOwnProperty</A></B>(java.lang.Object&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[[GetOwnProperty]] (9.5.5): the trap result must be an object or undefined, and must be compatible with the target's
+ property (a non-configurable result requires a non-configurable target property).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/Property.html" title="class in org.duckdns.hjow.swingwebpanel.js">Property</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#getOwnPropertySlot(java.lang.Object)">getOwnPropertySlot</A></B>(java.lang.Object&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a snapshot of the property built from the result of <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#getOwnProperty(java.lang.Object)"><CODE>getOwnProperty(Object)</CODE></A>, or null (revoked proxies give
+ null here so that error message formatting never throws).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#getPrototypeOf()">getPrototypeOf</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[[GetPrototypeOf]] (9.5.1): the trap result must be an object or null, and equal to the target's prototype if the
+ target is not extensible.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#getProxyHandler()">getProxyHandler</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the handler, or null if revoked.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#getProxyTarget()">getProxyTarget</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the target, or null if revoked.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#hasProperty(java.lang.Object)">hasProperty</A></B>(java.lang.Object&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[[HasProperty]] (9.5.7): a false result is not allowed for non-configurable target properties, nor for any existing
+ property of a non-extensible target.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#isArray()">isArray</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IsArray for proxies (7.2.2): forwards to the target; a revoked proxy is a TypeError.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#isCallable()">isCallable</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns true if the target is callable.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#isConstructor()">isConstructor</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns true if the target is a constructor.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#isExtensible()">isExtensible</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[[IsExtensible]] (9.5.3): the trap result must equal the target's extensibility.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#isRevoked()">isRevoked</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the proxy was revoked.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.Object&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#ownKeys()">ownKeys</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[[OwnPropertyKeys]] (9.5.12): the trap must return an array-like of strings and symbols without duplicates that contains
+ every non-configurable key of the target, and for a non-extensible target exactly the keys of the target.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#preventExtensions()">preventExtensions</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[[PreventExtensions]] (9.5.4): a true result requires that the target is no longer extensible.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#revoke()">revoke</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Revokes the proxy: target and handler are dropped and every later operation throws a TypeError.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#set(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue, org.duckdns.hjow.swingwebpanel.js.JsValue)">set</A></B>(java.lang.Object&nbsp;key,
+    <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;value,
+    <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;receiver)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[[Set]] (9.5.9): a true result must not contradict a non-configurable, non-writable data property of the target
+ (different value) or a non-configurable accessor property without setter.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#setPrototypeOf(org.duckdns.hjow.swingwebpanel.js.JsObject)">setPrototypeOf</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;proto)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[[SetPrototypeOf]] (9.5.2): a true result for a non-extensible target requires the same prototype as the target has.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#toString()">toString</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a description that never calls a trap.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsObject"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.js.<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#createDataProperty(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">createDataProperty</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#createDataPropertyOrThrow(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">createDataPropertyOrThrow</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#defineAccessor(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsObject, org.duckdns.hjow.swingwebpanel.js.JsObject, boolean, boolean)">defineAccessor</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#defineBuiltin(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">defineBuiltin</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#defineData(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue, boolean, boolean, boolean)">defineData</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#definePropertyOrThrow(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor)">definePropertyOrThrow</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#ensureCanAddPrivateElement()">ensureCanAddPrivateElement</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#get(java.lang.Object)">get</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#getString(java.lang.Object)">getString</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#hasOwnProperty(java.lang.Object)">hasOwnProperty</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#removeProperty(java.lang.Object)">removeProperty</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#set(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">set</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#setStrict(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">setStrict</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#storeProperty(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.Property)">storeProperty</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#type()">type</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#validateAndApply(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor, org.duckdns.hjow.swingwebpanel.js.Property)">validateAndApply</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsWeakKey"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.js.<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsWeakKey.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsWeakKey</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsWeakKey.html#getWeakAssociation(java.lang.Object)">getWeakAssociation</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsWeakKey.html#putWeakAssociation(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">putWeakAssociation</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsWeakKey.html#removeWeakAssociation(java.lang.Object)">removeWeakAssociation</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsValue"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.js.<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html#hasIsHtmlDda()">hasIsHtmlDda</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html#isNull()">isNull</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html#isNullOrUndefined()">isNullOrUndefined</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html#isObject()">isObject</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html#isUndefined()">isUndefined</A>, <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html#typeOf()">typeOf</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="ProxyObject(org.duckdns.hjow.swingwebpanel.js.JsRealm, org.duckdns.hjow.swingwebpanel.js.JsObject, org.duckdns.hjow.swingwebpanel.js.JsObject)"><!-- --></A><H3>
+ProxyObject</H3>
+<PRE>
+public <B>ProxyObject</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm,
+                   <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;target,
+                   <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;handler)</PRE>
+<DL>
+<DD>Creates a proxy (ProxyCreate, 9.5.15). The caller has verified that both arguments are objects.
+ <p>
+ 프록시를 만든다(ProxyCreate, 9.5.15). 호출자가 두 인수가 객체임을 확인했다고 가정한다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>realm</CODE> - the realm / realm<DD><CODE>target</CODE> - the target object, not null / 대상 객체(null 불가)<DD><CODE>handler</CODE> - the handler object, not null / 핸들러 객체(null 불가)</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getProxyTarget()"><!-- --></A><H3>
+getProxyTarget</H3>
+<PRE>
+public <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>getProxyTarget</B>()</PRE>
+<DL>
+<DD>Returns the target, or null if revoked.
+ <p>
+ 대상을 반환한다. 해제되었으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>target or null / 대상 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getProxyHandler()"><!-- --></A><H3>
+getProxyHandler</H3>
+<PRE>
+public <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>getProxyHandler</B>()</PRE>
+<DL>
+<DD>Returns the handler, or null if revoked.
+ <p>
+ 핸들러를 반환한다. 해제되었으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>handler or null / 핸들러 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isRevoked()"><!-- --></A><H3>
+isRevoked</H3>
+<PRE>
+public boolean <B>isRevoked</B>()</PRE>
+<DL>
+<DD>Tells whether the proxy was revoked.
+ <p>
+ 프록시가 해제되었는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if revoked / 해제되었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="revoke()"><!-- --></A><H3>
+revoke</H3>
+<PRE>
+public void <B>revoke</B>()</PRE>
+<DL>
+<DD>Revokes the proxy: target and handler are dropped and every later operation throws a TypeError.
+ <p>
+ 프록시를 해제한다: 대상과 핸들러를 버리며 이후 모든 연산은 TypeError 를 던진다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="className()"><!-- --></A><H3>
+className</H3>
+<PRE>
+public java.lang.String <B>className</B>()</PRE>
+<DL>
+<DD>Returns "Function" for callable proxies, "Array" for proxies of arrays and "Object" otherwise. It never throws; the TypeError
+ of a revoked proxy comes from <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#isArray()"><CODE>isArray()</CODE></A>.
+ <p>
+ 호출 가능한 프록시는 "Function", 배열의 프록시는 "Array", 그 밖에는 "Object" 를 반환한다. 예외를 던지지 않으며 해제된 프록시의
+ TypeError 는 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#isArray()"><CODE>isArray()</CODE></A> 에서 나온다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#className()">className</A></CODE> in class <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the class name / 클래스 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isArray()"><!-- --></A><H3>
+isArray</H3>
+<PRE>
+public boolean <B>isArray</B>()</PRE>
+<DL>
+<DD>IsArray for proxies (7.2.2): forwards to the target; a revoked proxy is a TypeError.
+ <p>
+ 프록시의 IsArray(7.2.2): 대상에 전달하며 해제된 프록시는 TypeError 이다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#isArray()">isArray</A></CODE> in class <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if the target is an array / 대상이 배열이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isCallable()"><!-- --></A><H3>
+isCallable</H3>
+<PRE>
+public boolean <B>isCallable</B>()</PRE>
+<DL>
+<DD>Returns true if the target is callable.
+ <p>
+ 대상이 호출 가능하면 true.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#isCallable()">isCallable</A></CODE> in class <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if callable / 호출 가능하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isConstructor()"><!-- --></A><H3>
+isConstructor</H3>
+<PRE>
+public boolean <B>isConstructor</B>()</PRE>
+<DL>
+<DD>Returns true if the target is a constructor.
+ <p>
+ 대상이 생성자이면 true.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#isConstructor()">isConstructor</A></CODE> in class <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if a constructor / 생성자이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toString()"><!-- --></A><H3>
+toString</H3>
+<PRE>
+public java.lang.String <B>toString</B>()</PRE>
+<DL>
+<DD>Returns a description that never calls a trap.
+ <p>
+ trap 을 호출하지 않는 설명을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#toString()">toString</A></CODE> in class <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>description / 설명</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPrototypeOf()"><!-- --></A><H3>
+getPrototypeOf</H3>
+<PRE>
+public <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>getPrototypeOf</B>()</PRE>
+<DL>
+<DD>[[GetPrototypeOf]] (9.5.1): the trap result must be an object or null, and equal to the target's prototype if the
+ target is not extensible.
+ <p>
+ [[GetPrototypeOf]] (9.5.1): trap 결과는 객체 또는 null 이어야 하며 대상이 확장 불가이면 대상의 프로토타입과 같아야 한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#getPrototypeOf()">getPrototypeOf</A></CODE> in class <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the prototype or null / 프로토타입 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setPrototypeOf(org.duckdns.hjow.swingwebpanel.js.JsObject)"><!-- --></A><H3>
+setPrototypeOf</H3>
+<PRE>
+public boolean <B>setPrototypeOf</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;proto)</PRE>
+<DL>
+<DD>[[SetPrototypeOf]] (9.5.2): a true result for a non-extensible target requires the same prototype as the target has.
+ <p>
+ [[SetPrototypeOf]] (9.5.2): 확장 불가 대상에서 true 결과는 대상이 가진 프로토타입과 같아야 한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#setPrototypeOf(org.duckdns.hjow.swingwebpanel.js.JsObject)">setPrototypeOf</A></CODE> in class <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>proto</CODE> - new prototype or null / 새 프로토타입 또는 null
+<DT><B>Returns:</B><DD>true on success / 성공하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isExtensible()"><!-- --></A><H3>
+isExtensible</H3>
+<PRE>
+public boolean <B>isExtensible</B>()</PRE>
+<DL>
+<DD>[[IsExtensible]] (9.5.3): the trap result must equal the target's extensibility.
+ <p>
+ [[IsExtensible]] (9.5.3): trap 결과는 대상의 확장 가능 여부와 같아야 한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#isExtensible()">isExtensible</A></CODE> in class <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if extensible / 확장 가능하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="preventExtensions()"><!-- --></A><H3>
+preventExtensions</H3>
+<PRE>
+public boolean <B>preventExtensions</B>()</PRE>
+<DL>
+<DD>[[PreventExtensions]] (9.5.4): a true result requires that the target is no longer extensible.
+ <p>
+ [[PreventExtensions]] (9.5.4): true 결과는 대상이 더 이상 확장 가능하지 않음을 요구한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#preventExtensions()">preventExtensions</A></CODE> in class <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true on success / 성공하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOwnProperty(java.lang.Object)"><!-- --></A><H3>
+getOwnProperty</H3>
+<PRE>
+public <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html" title="class in org.duckdns.hjow.swingwebpanel.js">PropertyDescriptor</A> <B>getOwnProperty</B>(java.lang.Object&nbsp;key)</PRE>
+<DL>
+<DD>[[GetOwnProperty]] (9.5.5): the trap result must be an object or undefined, and must be compatible with the target's
+ property (a non-configurable result requires a non-configurable target property).
+ <p>
+ [[GetOwnProperty]] (9.5.5): trap 결과는 객체 또는 undefined 여야 하고 대상의 프로퍼티와 호환되어야 한다(설정 불가 결과는 대상의
+ 설정 불가 프로퍼티를 요구한다).
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#getOwnProperty(java.lang.Object)">getOwnProperty</A></CODE> in class <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key / 키
+<DT><B>Returns:</B><DD>a complete descriptor or null / 완전 기술자 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOwnPropertySlot(java.lang.Object)"><!-- --></A><H3>
+getOwnPropertySlot</H3>
+<PRE>
+public <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/Property.html" title="class in org.duckdns.hjow.swingwebpanel.js">Property</A> <B>getOwnPropertySlot</B>(java.lang.Object&nbsp;key)</PRE>
+<DL>
+<DD>Returns a snapshot of the property built from the result of <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#getOwnProperty(java.lang.Object)"><CODE>getOwnProperty(Object)</CODE></A>, or null (revoked proxies give
+ null here so that error message formatting never throws).
+ <p>
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html#getOwnProperty(java.lang.Object)"><CODE>getOwnProperty(Object)</CODE></A> 결과로 만든 프로퍼티 사본을 반환한다. 없으면 null(오류 메시지를 만드는 중 예외가 나지 않도록
+ 해제된 프록시는 여기서 null 을 준다).
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#getOwnPropertySlot(java.lang.Object)">getOwnPropertySlot</A></CODE> in class <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key / 키
+<DT><B>Returns:</B><DD>snapshot or null / 사본 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="defineOwnProperty(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor)"><!-- --></A><H3>
+defineOwnProperty</H3>
+<PRE>
+public boolean <B>defineOwnProperty</B>(java.lang.Object&nbsp;key,
+                                 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/PropertyDescriptor.html" title="class in org.duckdns.hjow.swingwebpanel.js">PropertyDescriptor</A>&nbsp;desc)</PRE>
+<DL>
+<DD>[[DefineOwnProperty]] (9.5.6): a true result must be consistent with the target (a property cannot be reported as defined
+ if the target is non-extensible and lacks it, nor as non-configurable if the target's property is configurable).
+ <p>
+ [[DefineOwnProperty]] (9.5.6): true 결과는 대상과 일관되어야 한다(확장 불가이고 프로퍼티가 없는 대상에서, 또는 대상 프로퍼티가
+ 설정 가능한데 설정 불가로 정의했다고 보고할 수 없다).
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#defineOwnProperty(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.PropertyDescriptor)">defineOwnProperty</A></CODE> in class <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key / 키<DD><CODE>desc</CODE> - the descriptor / 기술자
+<DT><B>Returns:</B><DD>true on success / 성공하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasProperty(java.lang.Object)"><!-- --></A><H3>
+hasProperty</H3>
+<PRE>
+public boolean <B>hasProperty</B>(java.lang.Object&nbsp;key)</PRE>
+<DL>
+<DD>[[HasProperty]] (9.5.7): a false result is not allowed for non-configurable target properties, nor for any existing
+ property of a non-extensible target.
+ <p>
+ [[HasProperty]] (9.5.7): 대상의 설정 불가 프로퍼티나 확장 불가 대상의 기존 프로퍼티에 대해서는 false 결과가 허용되지 않는다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#hasProperty(java.lang.Object)">hasProperty</A></CODE> in class <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key / 키
+<DT><B>Returns:</B><DD>true if the property exists / 프로퍼티가 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="get(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+get</H3>
+<PRE>
+public <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A> <B>get</B>(java.lang.Object&nbsp;key,
+                   <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;receiver)</PRE>
+<DL>
+<DD>[[Get]] (9.5.8): the result must equal the value of a non-configurable, non-writable data property of the target and must be
+ undefined for a non-configurable accessor property without getter.
+ <p>
+ [[Get]] (9.5.8): 결과는 대상의 설정 불가이고 writable 이 아닌 데이터 프로퍼티의 값과 같아야 하며, getter 가 없는 설정 불가 접근자
+ 프로퍼티에서는 undefined 여야 한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#get(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue)">get</A></CODE> in class <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key / 키<DD><CODE>receiver</CODE> - the receiver / receiver
+<DT><B>Returns:</B><DD>the value / 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="set(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue, org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+set</H3>
+<PRE>
+public boolean <B>set</B>(java.lang.Object&nbsp;key,
+                   <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;value,
+                   <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;receiver)</PRE>
+<DL>
+<DD>[[Set]] (9.5.9): a true result must not contradict a non-configurable, non-writable data property of the target
+ (different value) or a non-configurable accessor property without setter.
+ <p>
+ [[Set]] (9.5.9): true 결과는 대상의 설정 불가이고 writable 이 아닌 데이터 프로퍼티(다른 값)나 setter 가 없는 설정 불가 접근자
+ 프로퍼티와 모순되면 안 된다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#set(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue, org.duckdns.hjow.swingwebpanel.js.JsValue)">set</A></CODE> in class <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key / 키<DD><CODE>value</CODE> - the value / 값<DD><CODE>receiver</CODE> - the receiver / receiver
+<DT><B>Returns:</B><DD>true on success / 성공하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="delete(java.lang.Object)"><!-- --></A><H3>
+delete</H3>
+<PRE>
+public boolean <B>delete</B>(java.lang.Object&nbsp;key)</PRE>
+<DL>
+<DD>[[Delete]] (9.5.10): a true result is not allowed for non-configurable target properties.
+ <p>
+ [[Delete]] (9.5.10): 대상의 설정 불가 프로퍼티에 대해서는 true 결과가 허용되지 않는다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#delete(java.lang.Object)">delete</A></CODE> in class <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key / 키
+<DT><B>Returns:</B><DD>true if the property is gone / 프로퍼티가 없어졌으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="ownKeys()"><!-- --></A><H3>
+ownKeys</H3>
+<PRE>
+public java.util.List&lt;java.lang.Object&gt; <B>ownKeys</B>()</PRE>
+<DL>
+<DD>[[OwnPropertyKeys]] (9.5.12): the trap must return an array-like of strings and symbols without duplicates that contains
+ every non-configurable key of the target, and for a non-extensible target exactly the keys of the target.
+ <p>
+ [[OwnPropertyKeys]] (9.5.12): trap 은 중복 없는 문자열과 심볼의 배열 유사 객체를 돌려주어야 하며 대상의 설정 불가 키를 모두
+ 포함해야 하고, 확장 불가 대상에서는 정확히 대상의 키여야 한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#ownKeys()">ownKeys</A></CODE> in class <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a new list of keys / 키의 새 목록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="call(org.duckdns.hjow.swingwebpanel.js.JsValue, org.duckdns.hjow.swingwebpanel.js.JsValue[])"><!-- --></A><H3>
+call</H3>
+<PRE>
+public <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A> <B>call</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;thisValue,
+                    <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>[]&nbsp;args)</PRE>
+<DL>
+<DD>[[Call]] (9.5.13): the <code>apply</code> trap gets the target, the this value and an array of the arguments.
+ <p>
+ [[Call]] (9.5.13): <code>apply</code> trap 은 대상, this 값, 인수 배열을 받는다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#call(org.duckdns.hjow.swingwebpanel.js.JsValue, org.duckdns.hjow.swingwebpanel.js.JsValue[])">call</A></CODE> in class <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>thisValue</CODE> - the this value / this 값<DD><CODE>args</CODE> - arguments / 인수
+<DT><B>Returns:</B><DD>the result / 결과</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="construct(org.duckdns.hjow.swingwebpanel.js.JsValue[], org.duckdns.hjow.swingwebpanel.js.JsObject)"><!-- --></A><H3>
+construct</H3>
+<PRE>
+public <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>construct</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>[]&nbsp;args,
+                          <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;newTarget)</PRE>
+<DL>
+<DD>[[Construct]] (9.5.14): the <code>construct</code> trap gets the target, an array of the arguments and new.target and must
+ return an object.
+ <p>
+ [[Construct]] (9.5.14): <code>construct</code> trap 은 대상, 인수 배열, new.target 을 받으며 객체를 돌려주어야 한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html#construct(org.duckdns.hjow.swingwebpanel.js.JsValue[], org.duckdns.hjow.swingwebpanel.js.JsObject)">construct</A></CODE> in class <CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>args</CODE> - arguments / 인수<DD><CODE>newTarget</CODE> - the new.target / new.target
+<DT><B>Returns:</B><DD>the new object / 새 객체</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/PromiseRejectionTracker.html" title="interface in org.duckdns.hjow.swingwebpanel.js.builtins.meta"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/meta/WeakReferenceBuiltins.html" title="class in org.duckdns.hjow.swingwebpanel.js.builtins.meta"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/builtins/meta/ProxyObject.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ProxyObject.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsObject">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,293 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+FtpFetcher
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="FtpFetcher";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpException.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpListing.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/net/FtpFetcher.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="FtpFetcher.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.net</FONT>
+<BR>
+Class FtpFetcher</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.net.FtpFetcher</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>FtpFetcher</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Fetches <code>ftp://</code> URLs for the browser through <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpClient.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>FtpClient</CODE></A> (anonymous access only).
+ <ul>
+ <li><b>Directory or file?</b> A URL whose path is empty, "/" or ends with "/" is a directory. For any other path the server's
+ <code>CWD</code> decides: if the change succeeds the URL is a directory (the reported final URL then ends with "/" so that
+ relative links resolve correctly), otherwise the path is retrieved as a file.</li>
+ <li><b>Directory</b>: the answer is the generated HTML listing (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpListing.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>FtpListing</CODE></A>) with media type <code>text/html</code>,
+ charset UTF-8, flagged by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceResponse.html#isDirectoryListing()"><CODE>ResourceResponse.isDirectoryListing()</CODE></A>.</li>
+ <li><b>File</b>: the media type is guessed from the file name (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/MimeTypes.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>MimeTypes</CODE></A>); unknown files are
+ <code>application/octet-stream</code>, which the content layer routes to the download popup instead of showing them.
+ The body goes to the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResponseHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.net"><CODE>ResponseHandler</CODE></A> stream when it asks for one, else into memory (size limited).</li>
+ <li><b>Failures</b> (connect, login, missing path, unparsable or failed listing, failed transfer) are reported as status 404 with
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#FTP_FAILURE"><CODE>FailureKind.FTP_FAILURE</CODE></A> - the project shows a 404 page for FTP problems. Cancellation, memory limit and invalid
+ paths have their own kinds. A path with CR, LF or NUL is refused with <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#INVALID_URL"><CODE>FailureKind.INVALID_URL</CODE></A> before any connection.</li>
+ </ul>
+ <p>
+ <code>ftp://</code> URL 을 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpClient.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>FtpClient</CODE></A> 로 가져온다(익명 접근만).
+ <ul>
+ <li><b>디렉터리인가 파일인가?</b> 경로가 비었거나 "/" 이거나 "/" 로 끝나면 디렉터리이다. 그 밖의 경로는 서버의 <code>CWD</code> 가
+ 정한다. 이동이 성공하면 디렉터리이고(상대 링크가 올바르게 풀리도록 보고하는 최종 URL 은 "/" 로 끝난다), 실패하면 파일로 받는다.</li>
+ <li><b>디렉터리</b>: 생성한 HTML 목록(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpListing.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>FtpListing</CODE></A>)을 미디어 타입 <code>text/html</code>, UTF-8 로 답하며
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceResponse.html#isDirectoryListing()"><CODE>ResourceResponse.isDirectoryListing()</CODE></A> 으로 표시한다.</li>
+ <li><b>파일</b>: 미디어 타입은 파일 이름으로 추정하고(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/MimeTypes.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>MimeTypes</CODE></A>) 모르면 <code>application/octet-stream</code> 이며 콘텐츠 계층은
+ 이를 표시하지 않고 다운로드 팝업으로 보낸다. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResponseHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.net"><CODE>ResponseHandler</CODE></A> 가 스트림을 요구하면 본문을 그쪽으로, 아니면 메모리(크기 제한)로
+ 받는다.</li>
+ <li><b>실패</b>(연결, 로그인, 없는 경로, 해석 못한/실패한 목록, 전송 실패)는 상태 404 와 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#FTP_FAILURE"><CODE>FailureKind.FTP_FAILURE</CODE></A> 로 보고한다.
+ 프로젝트는 FTP 문제를 404 화면으로 보여 준다. 취소, 메모리 제한, 잘못된 경로는 각자의 종류를 가진다. CR, LF, NUL 이 든 경로는
+ 연결하기 전에 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#INVALID_URL"><CODE>FailureKind.INVALID_URL</CODE></A> 로 거부한다.</li>
+ </ul>
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpFetcher.html#FtpFetcher(org.duckdns.hjow.swingwebpanel.net.FetchLimits)">FtpFetcher</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html" title="class in org.duckdns.hjow.swingwebpanel.net">FetchLimits</A>&nbsp;limits)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a fetcher.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceResponse.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceResponse</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpFetcher.html#fetch(org.duckdns.hjow.swingwebpanel.net.ResourceRequest, org.duckdns.hjow.swingwebpanel.net.ResponseHandler)">fetch</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A>&nbsp;req,
+      <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResponseHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.net">ResponseHandler</A>&nbsp;handler)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fetches an ftp URL.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="FtpFetcher(org.duckdns.hjow.swingwebpanel.net.FetchLimits)"><!-- --></A><H3>
+FtpFetcher</H3>
+<PRE>
+public <B>FtpFetcher</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html" title="class in org.duckdns.hjow.swingwebpanel.net">FetchLimits</A>&nbsp;limits)</PRE>
+<DL>
+<DD>Creates a fetcher.
+ <p>
+ 가져오기 객체를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>limits</CODE> - limits, null for the defaults / 제한. null 이면 기본값</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="fetch(org.duckdns.hjow.swingwebpanel.net.ResourceRequest, org.duckdns.hjow.swingwebpanel.net.ResponseHandler)"><!-- --></A><H3>
+fetch</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceResponse.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceResponse</A> <B>fetch</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A>&nbsp;req,
+                              <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResponseHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.net">ResponseHandler</A>&nbsp;handler)</PRE>
+<DL>
+<DD>Fetches an ftp URL. Never throws for network problems.
+ <p>
+ ftp URL 을 가져온다. 네트워크 문제로 예외를 던지지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>req</CODE> - the request / 요청<DD><CODE>handler</CODE> - body handler for files, may be null / 파일용 본문 처리기. null 가능
+<DT><B>Returns:</B><DD>the response / 응답</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpException.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpListing.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/net/FtpFetcher.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="FtpFetcher.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

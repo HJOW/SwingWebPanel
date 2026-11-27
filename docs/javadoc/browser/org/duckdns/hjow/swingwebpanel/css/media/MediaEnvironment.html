@@ -1,0 +1,911 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+MediaEnvironment
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="MediaEnvironment";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaQueryList.html" title="class in org.duckdns.hjow.swingwebpanel.css.media"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="MediaEnvironment.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.media</FONT>
+<BR>
+Class MediaEnvironment</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.media.MediaEnvironment</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>MediaEnvironment</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The properties of the output device that media queries test: the viewport size, the pixel density, the color depth, the input capabilities
+ (<code>hover</code>, <code>pointer</code>), the user preferences (<code>prefers-color-scheme</code>, <code>prefers-reduced-motion</code>, ...) and the
+ media type (<code>screen</code> or <code>print</code>). The defaults describe a desktop screen with a mouse. The object is mutable; after changing it
+ hand it to <code>StyleResolver.setMediaEnvironment</code> so that the styles are recomputed.
+ <p>
+ 미디어 질의가 검사하는 출력 장치의 속성: 뷰포트 크기, 픽셀 밀도, 색 깊이, 입력 능력(<code>hover</code>, <code>pointer</code>), 사용자 선호
+ (<code>prefers-color-scheme</code>, <code>prefers-reduced-motion</code> 등), 미디어 종류(<code>screen</code> 또는 <code>print</code>). 기본값은 마우스가 있는 데스크톱
+ 화면이다. 객체는 가변이며, 바꾼 뒤 <code>StyleResolver.setMediaEnvironment</code> 에 넘겨야 스타일이 다시 계산된다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#MediaEnvironment()">MediaEnvironment</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the default environment: an 800 by 600 screen.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#MediaEnvironment(double, double)">MediaEnvironment</A></B>(double&nbsp;width,
+                 double&nbsp;height)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an environment with a viewport size.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html" title="class in org.duckdns.hjow.swingwebpanel.css.media">MediaEnvironment</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#copy()">copy</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns an independent copy.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#getColorBits()">getColorBits</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the bits per color component.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#getColorScheme()">getColorScheme</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the preferred color scheme.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#getContrast()">getContrast</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the contrast preference.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#getDeviceHeight()">getDeviceHeight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the device height.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#getDeviceWidth()">getDeviceWidth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the device width.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#getDisplayMode()">getDisplayMode</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the display mode.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#getHeight()">getHeight</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the viewport height.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#getHover()">getHover</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the hover capability.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#getMediaType()">getMediaType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the media type.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#getMonochromeBits()">getMonochromeBits</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the monochrome bits per pixel.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#getPointer()">getPointer</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the pointer accuracy.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#getReducedMotion()">getReducedMotion</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the reduced motion preference.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#getResolution()">getResolution</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the resolution in device pixels per CSS pixel.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#getWidth()">getWidth</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the viewport width.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#isScripting()">isScripting</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether scripting is enabled.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#sameAs(org.duckdns.hjow.swingwebpanel.css.media.MediaEnvironment)">sameAs</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html" title="class in org.duckdns.hjow.swingwebpanel.css.media">MediaEnvironment</A>&nbsp;o)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether another environment has the same values (so media-dependent styles need no recomputation).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#setColorBits(int)">setColorBits</A></B>(int&nbsp;bits)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the bits per color component (0 for a monochrome device).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#setColorScheme(java.lang.String)">setColorScheme</A></B>(java.lang.String&nbsp;scheme)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the preferred color scheme.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#setDeviceSize(double, double)">setDeviceSize</A></B>(double&nbsp;w,
+              double&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the device size (the screen, as opposed to the viewport).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#setInput(java.lang.String, java.lang.String)">setInput</A></B>(java.lang.String&nbsp;hover,
+         java.lang.String&nbsp;pointer)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the primary input capabilities.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#setMediaType(java.lang.String)">setMediaType</A></B>(java.lang.String&nbsp;type)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the media type.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#setMonochromeBits(int)">setMonochromeBits</A></B>(int&nbsp;bits)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the monochrome bits per pixel.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#setReducedMotion(java.lang.String)">setReducedMotion</A></B>(java.lang.String&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the reduced motion preference.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#setResolution(double)">setResolution</A></B>(double&nbsp;dppx)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the resolution.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#setScripting(boolean)">setScripting</A></B>(boolean&nbsp;enabled)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets whether scripting is enabled.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html#setViewport(double, double)">setViewport</A></B>(double&nbsp;w,
+            double&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the viewport size.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="MediaEnvironment()"><!-- --></A><H3>
+MediaEnvironment</H3>
+<PRE>
+public <B>MediaEnvironment</B>()</PRE>
+<DL>
+<DD>Creates the default environment: an 800 by 600 screen.
+ <p>
+ 기본 환경을 만든다: 800 x 600 화면.
+<P>
+</DL>
+<HR>
+
+<A NAME="MediaEnvironment(double, double)"><!-- --></A><H3>
+MediaEnvironment</H3>
+<PRE>
+public <B>MediaEnvironment</B>(double&nbsp;width,
+                        double&nbsp;height)</PRE>
+<DL>
+<DD>Creates an environment with a viewport size.
+ <p>
+ 뷰포트 크기를 지정해 환경을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>width</CODE> - viewport width / 뷰포트 폭<DD><CODE>height</CODE> - viewport height / 뷰포트 높이</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="copy()"><!-- --></A><H3>
+copy</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html" title="class in org.duckdns.hjow.swingwebpanel.css.media">MediaEnvironment</A> <B>copy</B>()</PRE>
+<DL>
+<DD>Returns an independent copy.
+ <p>
+ 독립된 복사본을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the copy / 복사본</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getWidth()"><!-- --></A><H3>
+getWidth</H3>
+<PRE>
+public double <B>getWidth</B>()</PRE>
+<DL>
+<DD>Returns the viewport width.
+ <p>
+ 뷰포트 폭을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>CSS pixels / CSS 픽셀</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHeight()"><!-- --></A><H3>
+getHeight</H3>
+<PRE>
+public double <B>getHeight</B>()</PRE>
+<DL>
+<DD>Returns the viewport height.
+ <p>
+ 뷰포트 높이를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>CSS pixels / CSS 픽셀</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setViewport(double, double)"><!-- --></A><H3>
+setViewport</H3>
+<PRE>
+public void <B>setViewport</B>(double&nbsp;w,
+                        double&nbsp;h)</PRE>
+<DL>
+<DD>Sets the viewport size.
+ <p>
+ 뷰포트 크기를 설정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>w</CODE> - width in CSS pixels / 폭(CSS 픽셀)<DD><CODE>h</CODE> - height in CSS pixels / 높이(CSS 픽셀)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDeviceWidth()"><!-- --></A><H3>
+getDeviceWidth</H3>
+<PRE>
+public double <B>getDeviceWidth</B>()</PRE>
+<DL>
+<DD>Returns the device width.
+ <p>
+ 장치 폭을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>CSS pixels / CSS 픽셀</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDeviceHeight()"><!-- --></A><H3>
+getDeviceHeight</H3>
+<PRE>
+public double <B>getDeviceHeight</B>()</PRE>
+<DL>
+<DD>Returns the device height.
+ <p>
+ 장치 높이를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>CSS pixels / CSS 픽셀</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setDeviceSize(double, double)"><!-- --></A><H3>
+setDeviceSize</H3>
+<PRE>
+public void <B>setDeviceSize</B>(double&nbsp;w,
+                          double&nbsp;h)</PRE>
+<DL>
+<DD>Sets the device size (the screen, as opposed to the viewport).
+ <p>
+ 장치 크기(뷰포트가 아니라 화면)를 설정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>w</CODE> - width / 폭<DD><CODE>h</CODE> - height / 높이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getResolution()"><!-- --></A><H3>
+getResolution</H3>
+<PRE>
+public double <B>getResolution</B>()</PRE>
+<DL>
+<DD>Returns the resolution in device pixels per CSS pixel.
+ <p>
+ 해상도를 CSS 픽셀당 장치 픽셀로 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>dppx / dppx</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setResolution(double)"><!-- --></A><H3>
+setResolution</H3>
+<PRE>
+public void <B>setResolution</B>(double&nbsp;dppx)</PRE>
+<DL>
+<DD>Sets the resolution.
+ <p>
+ 해상도를 설정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>dppx</CODE> - device pixels per CSS pixel / CSS 픽셀당 장치 픽셀</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getColorBits()"><!-- --></A><H3>
+getColorBits</H3>
+<PRE>
+public int <B>getColorBits</B>()</PRE>
+<DL>
+<DD>Returns the bits per color component.
+ <p>
+ 색 구성 요소당 비트를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>bits / 비트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setColorBits(int)"><!-- --></A><H3>
+setColorBits</H3>
+<PRE>
+public void <B>setColorBits</B>(int&nbsp;bits)</PRE>
+<DL>
+<DD>Sets the bits per color component (0 for a monochrome device).
+ <p>
+ 색 구성 요소당 비트를 설정한다(흑백 장치는 0).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>bits</CODE> - bits / 비트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMonochromeBits()"><!-- --></A><H3>
+getMonochromeBits</H3>
+<PRE>
+public int <B>getMonochromeBits</B>()</PRE>
+<DL>
+<DD>Returns the monochrome bits per pixel.
+ <p>
+ 흑백 픽셀당 비트를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>bits, 0 for color devices / 비트. 컬러 장치는 0</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMonochromeBits(int)"><!-- --></A><H3>
+setMonochromeBits</H3>
+<PRE>
+public void <B>setMonochromeBits</B>(int&nbsp;bits)</PRE>
+<DL>
+<DD>Sets the monochrome bits per pixel.
+ <p>
+ 흑백 픽셀당 비트를 설정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>bits</CODE> - bits / 비트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMediaType()"><!-- --></A><H3>
+getMediaType</H3>
+<PRE>
+public java.lang.String <B>getMediaType</B>()</PRE>
+<DL>
+<DD>Returns the media type.
+ <p>
+ 미디어 종류를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>screen or print / screen 또는 print</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMediaType(java.lang.String)"><!-- --></A><H3>
+setMediaType</H3>
+<PRE>
+public void <B>setMediaType</B>(java.lang.String&nbsp;type)</PRE>
+<DL>
+<DD>Sets the media type.
+ <p>
+ 미디어 종류를 설정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - screen or print / screen 또는 print</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getColorScheme()"><!-- --></A><H3>
+getColorScheme</H3>
+<PRE>
+public java.lang.String <B>getColorScheme</B>()</PRE>
+<DL>
+<DD>Returns the preferred color scheme.
+ <p>
+ 선호하는 색 구성표를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>light or dark / light 또는 dark</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setColorScheme(java.lang.String)"><!-- --></A><H3>
+setColorScheme</H3>
+<PRE>
+public void <B>setColorScheme</B>(java.lang.String&nbsp;scheme)</PRE>
+<DL>
+<DD>Sets the preferred color scheme.
+ <p>
+ 선호하는 색 구성표를 설정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>scheme</CODE> - light or dark / light 또는 dark</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getReducedMotion()"><!-- --></A><H3>
+getReducedMotion</H3>
+<PRE>
+public java.lang.String <B>getReducedMotion</B>()</PRE>
+<DL>
+<DD>Returns the reduced motion preference.
+ <p>
+ 동작 줄임 선호를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>no-preference or reduce / no-preference 또는 reduce</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setReducedMotion(java.lang.String)"><!-- --></A><H3>
+setReducedMotion</H3>
+<PRE>
+public void <B>setReducedMotion</B>(java.lang.String&nbsp;v)</PRE>
+<DL>
+<DD>Sets the reduced motion preference.
+ <p>
+ 동작 줄임 선호를 설정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - no-preference or reduce / no-preference 또는 reduce</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getContrast()"><!-- --></A><H3>
+getContrast</H3>
+<PRE>
+public java.lang.String <B>getContrast</B>()</PRE>
+<DL>
+<DD>Returns the contrast preference.
+ <p>
+ 대비 선호를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>no-preference, more, less or custom / no-preference, more, less, custom 중 하나</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHover()"><!-- --></A><H3>
+getHover</H3>
+<PRE>
+public java.lang.String <B>getHover</B>()</PRE>
+<DL>
+<DD>Returns the hover capability.
+ <p>
+ hover 능력을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>hover or none / hover 또는 none</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPointer()"><!-- --></A><H3>
+getPointer</H3>
+<PRE>
+public java.lang.String <B>getPointer</B>()</PRE>
+<DL>
+<DD>Returns the pointer accuracy.
+ <p>
+ 포인터 정확도를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>fine, coarse or none / fine, coarse, none 중 하나</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setInput(java.lang.String, java.lang.String)"><!-- --></A><H3>
+setInput</H3>
+<PRE>
+public void <B>setInput</B>(java.lang.String&nbsp;hover,
+                     java.lang.String&nbsp;pointer)</PRE>
+<DL>
+<DD>Sets the primary input capabilities.
+ <p>
+ 주 입력 장치의 능력을 설정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>hover</CODE> - hover or none / hover 또는 none<DD><CODE>pointer</CODE> - fine, coarse or none / fine, coarse, none 중 하나</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isScripting()"><!-- --></A><H3>
+isScripting</H3>
+<PRE>
+public boolean <B>isScripting</B>()</PRE>
+<DL>
+<DD>Tells whether scripting is enabled.
+ <p>
+ 스크립트가 켜져 있는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if enabled / 켜져 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setScripting(boolean)"><!-- --></A><H3>
+setScripting</H3>
+<PRE>
+public void <B>setScripting</B>(boolean&nbsp;enabled)</PRE>
+<DL>
+<DD>Sets whether scripting is enabled.
+ <p>
+ 스크립트가 켜져 있는지 설정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>enabled</CODE> - true if enabled / 켜져 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDisplayMode()"><!-- --></A><H3>
+getDisplayMode</H3>
+<PRE>
+public java.lang.String <B>getDisplayMode</B>()</PRE>
+<DL>
+<DD>Returns the display mode.
+ <p>
+ 표시 모드를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>browser, fullscreen, standalone ... / browser, fullscreen, standalone 등</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="sameAs(org.duckdns.hjow.swingwebpanel.css.media.MediaEnvironment)"><!-- --></A><H3>
+sameAs</H3>
+<PRE>
+public boolean <B>sameAs</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html" title="class in org.duckdns.hjow.swingwebpanel.css.media">MediaEnvironment</A>&nbsp;o)</PRE>
+<DL>
+<DD>Tells whether another environment has the same values (so media-dependent styles need no recomputation).
+ <p>
+ 다른 환경과 값이 같은지 알려 준다(그러면 미디어에 의존하는 스타일을 다시 계산하지 않아도 된다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>o</CODE> - the other environment / 다른 환경
+<DT><B>Returns:</B><DD>true if equal / 같으면 true</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaQueryList.html" title="class in org.duckdns.hjow.swingwebpanel.css.media"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/media/MediaEnvironment.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="MediaEnvironment.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

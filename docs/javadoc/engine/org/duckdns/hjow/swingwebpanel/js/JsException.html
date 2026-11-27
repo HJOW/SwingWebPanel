@@ -1,0 +1,838 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+JsException
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="JsException";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsErrorObject.html" title="class in org.duckdns.hjow.swingwebpanel.js"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsFunction.html" title="class in org.duckdns.hjow.swingwebpanel.js"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/JsException.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="JsException.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js</FONT>
+<BR>
+Class JsException</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by ">java.lang.Throwable
+      <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by ">java.lang.Exception
+          <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by ">java.lang.RuntimeException
+              <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.JsException</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD>java.io.Serializable</DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public class <B>JsException</B><DT>extends java.lang.RuntimeException</DL>
+</PRE>
+
+<P>
+A JavaScript exception travelling through Java code. It carries either an arbitrary thrown JavaScript value
+ (<code>throw 42</code>) or a lazily created native error (kind + message) so that Java built-ins can throw
+ <code>JsException.typeError("...")</code> without needing a realm; the error object is created when the exception is
+ caught by JavaScript code via <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getValue(org.duckdns.hjow.swingwebpanel.js.JsRealm)"><CODE>getValue(JsRealm)</CODE></A>.
+ Java stack traces are disabled for speed; position information of syntax errors is kept in <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getLine()"><CODE>getLine()</CODE></A>,
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getColumn()"><CODE>getColumn()</CODE></A> and <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getSourceName()"><CODE>getSourceName()</CODE></A>.
+ <p>
+ Java 코드를 통과하는 JavaScript 예외. 임의로 던진 JavaScript 값(<code>throw 42</code>)이나, 늦게 생성하는 기본 오류(종류 + 메시지)를
+ 담는다. 덕분에 Java 내장 함수는 realm 없이 <code>JsException.typeError("...")</code> 를 던질 수 있고, JavaScript 코드가
+ 예외를 잡을 때 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getValue(org.duckdns.hjow.swingwebpanel.js.JsRealm)"><CODE>getValue(JsRealm)</CODE></A> 로 오류 객체가 만들어진다.
+ 속도를 위해 Java 스택 추적은 끄며, 구문 오류의 위치 정보는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getLine()"><CODE>getLine()</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getColumn()"><CODE>getColumn()</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getSourceName()"><CODE>getSourceName()</CODE></A> 에 둔다.
+<P>
+
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../serialized-form.html#org.duckdns.hjow.swingwebpanel.js.JsException">Serialized Form</A></DL>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#JsException(org.duckdns.hjow.swingwebpanel.js.ErrorKind, java.lang.String)">JsException</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ErrorKind.html" title="enum in org.duckdns.hjow.swingwebpanel.js">ErrorKind</A>&nbsp;kind,
+            java.lang.String&nbsp;message)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a lazily materialized native error.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#JsException(org.duckdns.hjow.swingwebpanel.js.JsValue)">JsException</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;thrown)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wraps a thrown JavaScript value.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#describe(org.duckdns.hjow.swingwebpanel.js.JsValue)">describe</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Describes a value without invoking user code (reads only data properties).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Throwable</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#fillInStackTrace()">fillInStackTrace</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Disables Java stack trace capture for speed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getColumn()">getColumn</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the 1-based column of a syntax error, or 0.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getErrorMessage()">getErrorMessage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the plain message of a native error (without the kind name), or null for thrown values.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Throwable</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getHostCause()">getHostCause</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the Java exception that a host function threw, or null if this exception was raised by script code or by the engine.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ErrorKind.html" title="enum in org.duckdns.hjow.swingwebpanel.js">ErrorKind</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getKind()">getKind</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the error kind of a native error, or null if an arbitrary value was thrown.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getLine()">getLine</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the 1-based line of a syntax error, or 0.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getMessage()">getMessage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Describes the exception for Java logs, for example "TypeError: x is not a function (a.js:3:5)".</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getSourceName()">getSourceName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the source name of a syntax error, or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getThrowColumn()">getThrowColumn</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the 1-based column where the exception was first seen, or 0 when no position is known.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getThrowLine()">getThrowLine</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the 1-based line where the exception was first seen, or 0 when no position is known.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getThrowSourceName()">getThrowSourceName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the name of the script where the exception was first seen, or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getValue(org.duckdns.hjow.swingwebpanel.js.JsRealm)">getValue</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the JavaScript value of this exception, creating the error object in the given realm if needed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#hasValue()">hasValue</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns true if this exception carries a thrown value or an already created error object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#rangeError(java.lang.String)">rangeError</A></B>(java.lang.String&nbsp;message)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a RangeError.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#recordThrowSite(java.lang.String, int, int)">recordThrowSite</A></B>(java.lang.String&nbsp;source,
+                int&nbsp;atLine,
+                int&nbsp;atColumn)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Remembers where in a script the exception was first seen.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#referenceError(java.lang.String)">referenceError</A></B>(java.lang.String&nbsp;message)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a ReferenceError.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#syntaxError(java.lang.String)">syntaxError</A></B>(java.lang.String&nbsp;message)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a SyntaxError without position.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#syntaxError(java.lang.String, java.lang.String, int, int)">syntaxError</A></B>(java.lang.String&nbsp;message,
+            java.lang.String&nbsp;sourceName,
+            int&nbsp;line,
+            int&nbsp;column)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a SyntaxError with source position.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#typeError(java.lang.String)">typeError</A></B>(java.lang.String&nbsp;message)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a TypeError.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#uriError(java.lang.String)">uriError</A></B>(java.lang.String&nbsp;message)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a URIError.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#withHostCause(java.lang.Throwable)">withHostCause</A></B>(java.lang.Throwable&nbsp;cause)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Remembers the Java exception that a host function threw and that is being reported to the script as this exception.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Throwable"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Throwable</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>getCause, getLocalizedMessage, getStackTrace, initCause, printStackTrace, printStackTrace, printStackTrace, setStackTrace, toString</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="JsException(org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+JsException</H3>
+<PRE>
+public <B>JsException</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;thrown)</PRE>
+<DL>
+<DD>Wraps a thrown JavaScript value.
+ <p>
+ 던져진 JavaScript 값을 감싼다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>thrown</CODE> - the thrown value / 던져진 값</DL>
+</DL>
+<HR>
+
+<A NAME="JsException(org.duckdns.hjow.swingwebpanel.js.ErrorKind, java.lang.String)"><!-- --></A><H3>
+JsException</H3>
+<PRE>
+public <B>JsException</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ErrorKind.html" title="enum in org.duckdns.hjow.swingwebpanel.js">ErrorKind</A>&nbsp;kind,
+                   java.lang.String&nbsp;message)</PRE>
+<DL>
+<DD>Creates a lazily materialized native error.
+ <p>
+ 늦게 객체를 만드는 기본 오류를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>kind</CODE> - error kind / 오류 종류<DD><CODE>message</CODE> - error message / 오류 메시지</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="typeError(java.lang.String)"><!-- --></A><H3>
+typeError</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A> <B>typeError</B>(java.lang.String&nbsp;message)</PRE>
+<DL>
+<DD>Creates a TypeError.
+ <p>
+ TypeError 를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>message</CODE> - message / 메시지
+<DT><B>Returns:</B><DD>the exception to throw / 던질 예외</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="rangeError(java.lang.String)"><!-- --></A><H3>
+rangeError</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A> <B>rangeError</B>(java.lang.String&nbsp;message)</PRE>
+<DL>
+<DD>Creates a RangeError.
+ <p>
+ RangeError 를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>message</CODE> - message / 메시지
+<DT><B>Returns:</B><DD>the exception to throw / 던질 예외</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="referenceError(java.lang.String)"><!-- --></A><H3>
+referenceError</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A> <B>referenceError</B>(java.lang.String&nbsp;message)</PRE>
+<DL>
+<DD>Creates a ReferenceError.
+ <p>
+ ReferenceError 를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>message</CODE> - message / 메시지
+<DT><B>Returns:</B><DD>the exception to throw / 던질 예외</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="syntaxError(java.lang.String)"><!-- --></A><H3>
+syntaxError</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A> <B>syntaxError</B>(java.lang.String&nbsp;message)</PRE>
+<DL>
+<DD>Creates a SyntaxError without position.
+ <p>
+ 위치 정보가 없는 SyntaxError 를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>message</CODE> - message / 메시지
+<DT><B>Returns:</B><DD>the exception to throw / 던질 예외</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="syntaxError(java.lang.String, java.lang.String, int, int)"><!-- --></A><H3>
+syntaxError</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A> <B>syntaxError</B>(java.lang.String&nbsp;message,
+                                      java.lang.String&nbsp;sourceName,
+                                      int&nbsp;line,
+                                      int&nbsp;column)</PRE>
+<DL>
+<DD>Creates a SyntaxError with source position.
+ <p>
+ 소스 위치가 있는 SyntaxError 를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>message</CODE> - message / 메시지<DD><CODE>sourceName</CODE> - name of the source / 소스 이름<DD><CODE>line</CODE> - 1-based line / 1부터 시작하는 줄<DD><CODE>column</CODE> - 1-based column / 1부터 시작하는 열
+<DT><B>Returns:</B><DD>the exception to throw / 던질 예외</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="recordThrowSite(java.lang.String, int, int)"><!-- --></A><H3>
+recordThrowSite</H3>
+<PRE>
+public void <B>recordThrowSite</B>(java.lang.String&nbsp;source,
+                            int&nbsp;atLine,
+                            int&nbsp;atColumn)</PRE>
+<DL>
+<DD>Remembers where in a script the exception was first seen. The interpreter calls it for every expression that the exception leaves, so
+ the first call (from the innermost expression that was being evaluated) wins and later calls do nothing. Unlike <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getLine()"><CODE>getLine()</CODE></A>
+ (a position of a syntax error that is part of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getMessage()"><CODE>getMessage()</CODE></A>) this position never changes the message; it only lets a
+ host report where a runtime error happened.
+ <p>
+ 예외가 스크립트의 어디에서 처음 관찰되었는지 기억한다. 인터프리터가 예외가 빠져나가는 모든 표현식에서 호출하므로 첫 호출(평가 중이던 가장
+ 안쪽 표현식)이 이기고 이후 호출은 아무것도 하지 않는다. 구문 오류의 위치(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getLine()"><CODE>getLine()</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html#getMessage()"><CODE>getMessage()</CODE></A> 에 포함됨)와 달리 이 위치는
+ 메시지를 바꾸지 않으며, 호스트가 런타임 오류가 어디서 났는지 알려 주는 데에만 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>source</CODE> - the script name / 스크립트 이름<DD><CODE>atLine</CODE> - the 1-based line / 1부터 시작하는 줄<DD><CODE>atColumn</CODE> - the 1-based column / 1부터 시작하는 열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getThrowSourceName()"><!-- --></A><H3>
+getThrowSourceName</H3>
+<PRE>
+public java.lang.String <B>getThrowSourceName</B>()</PRE>
+<DL>
+<DD>Returns the name of the script where the exception was first seen, or null.
+ <p>
+ 예외가 처음 관찰된 스크립트의 이름을 반환한다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the script name or null / 스크립트 이름 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getThrowLine()"><!-- --></A><H3>
+getThrowLine</H3>
+<PRE>
+public int <B>getThrowLine</B>()</PRE>
+<DL>
+<DD>Returns the 1-based line where the exception was first seen, or 0 when no position is known.
+ <p>
+ 예외가 처음 관찰된 곳의 1부터 시작하는 줄을 반환한다. 위치를 모르면 0.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the line / 줄</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getThrowColumn()"><!-- --></A><H3>
+getThrowColumn</H3>
+<PRE>
+public int <B>getThrowColumn</B>()</PRE>
+<DL>
+<DD>Returns the 1-based column where the exception was first seen, or 0 when no position is known.
+ <p>
+ 예외가 처음 관찰된 곳의 1부터 시작하는 열을 반환한다. 위치를 모르면 0.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the column / 열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="withHostCause(java.lang.Throwable)"><!-- --></A><H3>
+withHostCause</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A> <B>withHostCause</B>(java.lang.Throwable&nbsp;cause)</PRE>
+<DL>
+<DD>Remembers the Java exception that a host function threw and that is being reported to the script as this exception.
+ <p>
+ 호스트 함수가 던져 스크립트에 이 예외로 보고되는 Java 예외를 기억한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>cause</CODE> - the Java exception / Java 예외
+<DT><B>Returns:</B><DD>this exception / 이 예외</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getHostCause()"><!-- --></A><H3>
+getHostCause</H3>
+<PRE>
+public java.lang.Throwable <B>getHostCause</B>()</PRE>
+<DL>
+<DD>Returns the Java exception that a host function threw, or null if this exception was raised by script code or by the engine.
+ <p>
+ 호스트 함수가 던진 Java 예외를 반환한다. 스크립트 코드나 엔진이 일으킨 예외이면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the Java exception or null / Java 예외 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="uriError(java.lang.String)"><!-- --></A><H3>
+uriError</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A> <B>uriError</B>(java.lang.String&nbsp;message)</PRE>
+<DL>
+<DD>Creates a URIError.
+ <p>
+ URIError 를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>message</CODE> - message / 메시지
+<DT><B>Returns:</B><DD>the exception to throw / 던질 예외</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getValue(org.duckdns.hjow.swingwebpanel.js.JsRealm)"><!-- --></A><H3>
+getValue</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A> <B>getValue</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm)</PRE>
+<DL>
+<DD>Returns the JavaScript value of this exception, creating the error object in the given realm if needed.
+ <p>
+ 이 예외의 JavaScript 값을 반환한다. 필요하면 주어진 realm 에서 오류 객체를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>realm</CODE> - realm used to create native errors / 기본 오류를 만들 realm
+<DT><B>Returns:</B><DD>the thrown value / 던져진 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasValue()"><!-- --></A><H3>
+hasValue</H3>
+<PRE>
+public boolean <B>hasValue</B>()</PRE>
+<DL>
+<DD>Returns true if this exception carries a thrown value or an already created error object.
+ <p>
+ 던져진 값이나 이미 만든 오류 객체를 갖고 있으면 true.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if a value is present / 값이 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getKind()"><!-- --></A><H3>
+getKind</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/ErrorKind.html" title="enum in org.duckdns.hjow.swingwebpanel.js">ErrorKind</A> <B>getKind</B>()</PRE>
+<DL>
+<DD>Returns the error kind of a native error, or null if an arbitrary value was thrown.
+ <p>
+ 기본 오류의 종류를 반환한다. 임의 값을 던졌으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>kind or null / 종류 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLine()"><!-- --></A><H3>
+getLine</H3>
+<PRE>
+public int <B>getLine</B>()</PRE>
+<DL>
+<DD>Returns the 1-based line of a syntax error, or 0.
+ <p>
+ 구문 오류의 줄 번호(1부터)를 반환한다. 모르면 0.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>line / 줄</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getColumn()"><!-- --></A><H3>
+getColumn</H3>
+<PRE>
+public int <B>getColumn</B>()</PRE>
+<DL>
+<DD>Returns the 1-based column of a syntax error, or 0.
+ <p>
+ 구문 오류의 열 번호(1부터)를 반환한다. 모르면 0.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>column / 열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSourceName()"><!-- --></A><H3>
+getSourceName</H3>
+<PRE>
+public java.lang.String <B>getSourceName</B>()</PRE>
+<DL>
+<DD>Returns the source name of a syntax error, or null.
+ <p>
+ 구문 오류의 소스 이름을 반환한다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>source name or null / 소스 이름 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getErrorMessage()"><!-- --></A><H3>
+getErrorMessage</H3>
+<PRE>
+public java.lang.String <B>getErrorMessage</B>()</PRE>
+<DL>
+<DD>Returns the plain message of a native error (without the kind name), or null for thrown values.
+ <p>
+ 기본 오류의 순수 메시지(종류 이름 제외)를 반환한다. 던진 값이면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>message or null / 메시지 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMessage()"><!-- --></A><H3>
+getMessage</H3>
+<PRE>
+public java.lang.String <B>getMessage</B>()</PRE>
+<DL>
+<DD>Describes the exception for Java logs, for example "TypeError: x is not a function (a.js:3:5)".
+ Never runs JavaScript code.
+ <p>
+ Java 로그용 설명을 반환한다. 예: "TypeError: x is not a function (a.js:3:5)". JavaScript 코드는 실행하지 않는다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>getMessage</CODE> in class <CODE>java.lang.Throwable</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>description / 설명</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fillInStackTrace()"><!-- --></A><H3>
+fillInStackTrace</H3>
+<PRE>
+public java.lang.Throwable <B>fillInStackTrace</B>()</PRE>
+<DL>
+<DD>Disables Java stack trace capture for speed.
+ <p>
+ 속도를 위해 Java 스택 추적 수집을 끈다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>fillInStackTrace</CODE> in class <CODE>java.lang.Throwable</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>this exception / 이 예외</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="describe(org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+describe</H3>
+<PRE>
+public static java.lang.String <B>describe</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;v)</PRE>
+<DL>
+<DD>Describes a value without invoking user code (reads only data properties).
+ <p>
+ 사용자 코드를 실행하지 않고 값을 설명한다(데이터 프로퍼티만 읽는다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - value / 값
+<DT><B>Returns:</B><DD>description / 설명</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsErrorObject.html" title="class in org.duckdns.hjow.swingwebpanel.js"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/JsFunction.html" title="class in org.duckdns.hjow.swingwebpanel.js"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/JsException.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="JsException.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

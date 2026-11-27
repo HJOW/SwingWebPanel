@@ -1,0 +1,465 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+WaveShaperKernel
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="WaveShaperKernel";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/PartitionedConvolver.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/WaveShaperKernel.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WaveShaperKernel.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.webaudio.dsp</FONT>
+<BR>
+Class WaveShaperKernel</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.webaudio.dsp.WaveShaperKernel</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>WaveShaperKernel</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The processing of a wave shaper for one channel (Web Audio API 1.31): the shaping curve with linear interpolation and the optional
+ oversampling. With the oversampling factor 1 the curve is applied to the input frames. With the factor 2 or 4 the signal is up-sampled
+ by half-band interpolation stages, shaped at the high rate and down-sampled again by the matching half-band decimation stages, so the
+ harmonics that the curve creates above the original Nyquist frequency are filtered out instead of folding back as aliasing.
+ <p>
+ Filters: the factor 2 uses one interpolator and one decimator of the half length 32 (a delay of 63 frames), the factor 4 adds an inner
+ stage pair of the half length 12 at the doubled rate (a delay of 74.5 frames). The filters are linear phase with about 80 dB of stop
+ band attenuation; the identity processing is flat within 0.01 dB up to 0.46 of the sample rate (about 20 kHz at 44.1 kHz, measured
+ with sine tones, see the tests). The delay is the price of the filters and is reported by <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/WaveShaperKernel.html#getLatency()"><CODE>getLatency()</CODE></A>; the specification leaves the filters and
+ their latency to the implementation.
+ <p>
+ 웨이브셰이퍼 한 채널의 처리(Web Audio API 1.31): 선형 보간하는 변환 곡선과 선택 사항인 오버샘플링. 오버샘플링 배수가 1 이면 곡선을 입력 프레임에
+ 바로 적용한다. 배수가 2 나 4 이면 신호를 반대역 보간 단계로 업샘플링하고 높은 주파수에서 곡선을 적용한 뒤 짝이 되는 반대역 데시메이션 단계로 다시
+ 다운샘플링하므로, 곡선이 원래 나이퀴스트 주파수 위에 만든 고조파는 앨리어싱으로 접히지 않고 걸러진다.
+ <p>
+ 필터: 배수 2 는 반 길이 32 의 보간기와 데시메이터 하나씩(지연 63 프레임)을 쓰고, 배수 4 는 두 배 속도에서 반 길이 12 의 안쪽 단계 쌍을 더한다(지연
+ 74.5 프레임). 필터는 선형 위상이며 저지 대역 감쇠가 약 80 dB 이다. 반 길이 32 는 샘플링 주파수의 0.46 배(44.1 kHz 에서 약 20 kHz)까지 항등 처리의 이득이 0.01 dB 안에서 평탄하다(사인으로 잰 값, 시험 참고). 지연은 필터의 대가이고 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/WaveShaperKernel.html#getLatency()"><CODE>getLatency()</CODE></A> 가 알려 준다. 규격은 필터와 그 지연을 구현에 맡긴다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/WaveShaperKernel.html#WaveShaperKernel(int)">WaveShaperKernel</A></B>(int&nbsp;factor)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a kernel.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/WaveShaperKernel.html#getFactor()">getFactor</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the oversampling factor.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/WaveShaperKernel.html#getLatency()">getLatency</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the delay of the filters in frames of the original rate: 0 for the factor 1, 63 for 2 and 74.5 for 4.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/WaveShaperKernel.html#getTailFrames()">getTailFrames</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a number of frames after which the output of a silent input is silent again (twice the latency plus a margin): the
+ tail time of the node. 0 for the factor 1.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/WaveShaperKernel.html#latencyOf(int)">latencyOf</A></B>(int&nbsp;factor)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the delay of the filters of a factor in frames of the original rate.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/WaveShaperKernel.html#process(float[], float[], int, float[])">process</A></B>(float[]&nbsp;in,
+        float[]&nbsp;out,
+        int&nbsp;frames,
+        float[]&nbsp;curve)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Shapes a block.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/WaveShaperKernel.html#reset()">reset</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clears the memory of the filters.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/WaveShaperKernel.html#shape(double, float[])">shape</A></B>(double&nbsp;x,
+      float[]&nbsp;curve)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Applies the shaping curve to one value with the linear interpolation of the specification: with <code>N</code> curve values,
+ <code>v = (N - 1) / 2 * (x + 1)</code>, the result is the first value for <code>v &lt; 0</code>, the last value for
+ <code>v &gt;= N - 1</code> and otherwise the interpolation of the values at <code>floor(v)</code> and <code>floor(v) + 1</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/WaveShaperKernel.html#tailFramesOf(int)">tailFramesOf</A></B>(int&nbsp;factor)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the tail of a factor (see <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/WaveShaperKernel.html#getTailFrames()"><CODE>getTailFrames()</CODE></A>).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="WaveShaperKernel(int)"><!-- --></A><H3>
+WaveShaperKernel</H3>
+<PRE>
+public <B>WaveShaperKernel</B>(int&nbsp;factor)</PRE>
+<DL>
+<DD>Creates a kernel.
+ <p>
+ 커널을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>factor</CODE> - the oversampling factor: 1, 2 or 4 / 오버샘플링 배수: 1, 2, 4
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the factor is not 1, 2 or 4 / 배수가 1, 2, 4 가 아니면</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getFactor()"><!-- --></A><H3>
+getFactor</H3>
+<PRE>
+public int <B>getFactor</B>()</PRE>
+<DL>
+<DD>Returns the oversampling factor.
+ <p>
+ 오버샘플링 배수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>1, 2 or 4 / 1, 2, 4</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLatency()"><!-- --></A><H3>
+getLatency</H3>
+<PRE>
+public double <B>getLatency</B>()</PRE>
+<DL>
+<DD>Returns the delay of the filters in frames of the original rate: 0 for the factor 1, 63 for 2 and 74.5 for 4.
+ <p>
+ 필터의 지연을 원래 속도의 프레임 단위로 반환한다. 배수 1 은 0, 2 는 63, 4 는 74.5.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the latency in frames / 지연(프레임)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="latencyOf(int)"><!-- --></A><H3>
+latencyOf</H3>
+<PRE>
+public static double <B>latencyOf</B>(int&nbsp;factor)</PRE>
+<DL>
+<DD>Returns the delay of the filters of a factor in frames of the original rate.
+ <p>
+ 배수의 필터 지연을 원래 속도의 프레임 단위로 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>factor</CODE> - the oversampling factor: 1, 2 or 4 / 오버샘플링 배수: 1, 2, 4
+<DT><B>Returns:</B><DD>the latency in frames / 지연(프레임)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTailFrames()"><!-- --></A><H3>
+getTailFrames</H3>
+<PRE>
+public int <B>getTailFrames</B>()</PRE>
+<DL>
+<DD>Returns a number of frames after which the output of a silent input is silent again (twice the latency plus a margin): the
+ tail time of the node. 0 for the factor 1.
+ <p>
+ 입력이 무음이 된 뒤 출력이 다시 무음이 되기까지의 프레임 수(지연의 두 배에 여유를 더한 값): 노드의 꼬리 시간. 배수 1 이면 0.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the tail in frames / 꼬리(프레임)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="tailFramesOf(int)"><!-- --></A><H3>
+tailFramesOf</H3>
+<PRE>
+public static int <B>tailFramesOf</B>(int&nbsp;factor)</PRE>
+<DL>
+<DD>Returns the tail of a factor (see <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/WaveShaperKernel.html#getTailFrames()"><CODE>getTailFrames()</CODE></A>).
+ <p>
+ 배수의 꼬리를 반환한다(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/WaveShaperKernel.html#getTailFrames()"><CODE>getTailFrames()</CODE></A> 참고).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>factor</CODE> - the oversampling factor: 1, 2 or 4 / 오버샘플링 배수: 1, 2, 4
+<DT><B>Returns:</B><DD>the tail in frames / 꼬리(프레임)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="reset()"><!-- --></A><H3>
+reset</H3>
+<PRE>
+public void <B>reset</B>()</PRE>
+<DL>
+<DD>Clears the memory of the filters.
+ <p>
+ 필터의 기억을 지운다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="process(float[], float[], int, float[])"><!-- --></A><H3>
+process</H3>
+<PRE>
+public void <B>process</B>(float[]&nbsp;in,
+                    float[]&nbsp;out,
+                    int&nbsp;frames,
+                    float[]&nbsp;curve)</PRE>
+<DL>
+<DD>Shapes a block. The input and the output may be the same array when the factor is 1.
+ <p>
+ 블록을 변환한다. 배수가 1 이면 입력과 출력이 같은 배열이어도 된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>in</CODE> - the input / 입력<DD><CODE>out</CODE> - the output / 출력<DD><CODE>frames</CODE> - the number of frames / 프레임 수<DD><CODE>curve</CODE> - the shaping curve with at least 2 values / 값이 둘 이상인 변환 곡선</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="shape(double, float[])"><!-- --></A><H3>
+shape</H3>
+<PRE>
+public static double <B>shape</B>(double&nbsp;x,
+                           float[]&nbsp;curve)</PRE>
+<DL>
+<DD>Applies the shaping curve to one value with the linear interpolation of the specification: with <code>N</code> curve values,
+ <code>v = (N - 1) / 2 * (x + 1)</code>, the result is the first value for <code>v &lt; 0</code>, the last value for
+ <code>v &gt;= N - 1</code> and otherwise the interpolation of the values at <code>floor(v)</code> and <code>floor(v) + 1</code>.
+ A NaN input is treated as 0.
+ <p>
+ 규격의 선형 보간으로 변환 곡선을 값 하나에 적용한다. 곡선 값이 <code>N</code> 개이면 <code>v = (N - 1) / 2 * (x + 1)</code> 이고, 결과는
+ <code>v &lt; 0</code> 이면 첫 값, <code>v &gt;= N - 1</code> 이면 마지막 값이며 그 밖에는 <code>floor(v)</code> 와 <code>floor(v) + 1</code> 의 값을
+ 보간한 것이다. NaN 입력은 0 으로 본다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>x</CODE> - the input sample / 입력 샘플<DD><CODE>curve</CODE> - the curve / 곡선
+<DT><B>Returns:</B><DD>the output sample / 출력 샘플</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/PartitionedConvolver.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.dsp"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/WaveShaperKernel.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WaveShaperKernel.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

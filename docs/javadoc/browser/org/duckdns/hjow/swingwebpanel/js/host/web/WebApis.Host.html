@@ -1,0 +1,414 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+WebApis.Host
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="WebApis.Host";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/web/WebApis.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.web"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/web/WebApis.ObjectUrlHost.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.web"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/web/WebApis.Host.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WebApis.Host.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.host.web</FONT>
+<BR>
+Interface WebApis.Host</H2>
+<DL>
+<DT><B>All Known Subinterfaces:</B> <DD><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/web/WebApis.ObjectUrlHost.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.web">WebApis.ObjectUrlHost</A></DD>
+</DL>
+<DL>
+<DT><B>Enclosing class:</B><DD><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/web/WebApis.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.web">WebApis</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public static interface <B>WebApis.Host</B></DL>
+</PRE>
+
+<P>
+What these APIs need from the script context that they are installed in: a page or a worker (plan item P20-09-b). Everything the
+ request APIs used to read from the page goes through this interface, so the same code runs in a dedicated worker, which has its own
+ realm and its own thread but no document.
+ <p>
+ 이 API가 설치되는 스크립트 문맥(페이지 또는 worker. 계획 P20-09-b)에서 필요로 하는 것. 요청 API가 페이지에서 읽던 모든 것이 이 인터페이스를
+ 거치므로, 같은 코드가 자기 realm 과 스레드는 있으나 문서가 없는 전용 worker 에서도 실행된다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/web/WebApis.Host.html#getBaseUrl()">getBaseUrl</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the URL that relative request URLs resolve against.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/DomBridge.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom">DomBridge</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/web/WebApis.Host.html#getBridge()">getBridge</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the DOM bridge of the realm (it holds the event interfaces that the APIs build on).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/web/WebApis.Host.html#getDocumentUrl()">getDocumentUrl</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the URL of the context: the document URL of a page, the script URL of a worker.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;org.duckdns.hjow.swingwebpanel.js.JsRealm</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/web/WebApis.Host.html#getRealm()">getRealm</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the realm that the APIs are installed in.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/Scheduler.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">Scheduler</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/web/WebApis.Host.html#getScheduler()">getScheduler</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the scheduler on which results are delivered (it runs tasks on the thread that owns the realm), or null for none.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequestSource.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">WebRequestSource</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/web/WebApis.Host.html#getWebRequestSource()">getWebRequestSource</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the request service of the component, or null if requests cannot be made.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/web/WebApis.Host.html#hasDocuments()">hasDocuments</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the context has documents, so that <code>XMLHttpRequest</code> may build a response document (a worker has not).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/web/WebApis.Host.html#isActive()">isActive</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether results may still be delivered: the context lives and its scripts run.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/web/WebApis.Host.html#runTask(java.lang.Runnable)">runTask</A></B>(java.lang.Runnable&nbsp;task)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Runs a task of the context: under its lock and limits, followed by the microtask checkpoint.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getRealm()"><!-- --></A><H3>
+getRealm</H3>
+<PRE>
+org.duckdns.hjow.swingwebpanel.js.JsRealm <B>getRealm</B>()</PRE>
+<DL>
+<DD>Returns the realm that the APIs are installed in.
+ <p>
+ API가 설치되는 realm 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the realm / realm</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBridge()"><!-- --></A><H3>
+getBridge</H3>
+<PRE>
+<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/DomBridge.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom">DomBridge</A> <B>getBridge</B>()</PRE>
+<DL>
+<DD>Returns the DOM bridge of the realm (it holds the event interfaces that the APIs build on).
+ <p>
+ realm 의 DOM 연결을 반환한다(API가 기반으로 삼는 이벤트 인터페이스가 들어 있다).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the bridge / 연결</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getWebRequestSource()"><!-- --></A><H3>
+getWebRequestSource</H3>
+<PRE>
+<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/WebRequestSource.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">WebRequestSource</A> <B>getWebRequestSource</B>()</PRE>
+<DL>
+<DD>Returns the request service of the component, or null if requests cannot be made.
+ <p>
+ 컴포넌트의 요청 서비스를 반환한다. 요청을 할 수 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the service or null / 서비스 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getScheduler()"><!-- --></A><H3>
+getScheduler</H3>
+<PRE>
+<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/Scheduler.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host">Scheduler</A> <B>getScheduler</B>()</PRE>
+<DL>
+<DD>Returns the scheduler on which results are delivered (it runs tasks on the thread that owns the realm), or null for none.
+ <p>
+ 결과를 전달하는 스케줄러(realm 을 소유한 스레드에서 작업을 실행한다)를 반환한다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the scheduler or null / 스케줄러 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isActive()"><!-- --></A><H3>
+isActive</H3>
+<PRE>
+boolean <B>isActive</B>()</PRE>
+<DL>
+<DD>Tells whether results may still be delivered: the context lives and its scripts run.
+ <p>
+ 결과를 아직 전달할 수 있는지 알려 준다. 문맥이 살아 있고 스크립트가 실행되는 중이어야 한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true while active / 활성이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="runTask(java.lang.Runnable)"><!-- --></A><H3>
+runTask</H3>
+<PRE>
+void <B>runTask</B>(java.lang.Runnable&nbsp;task)</PRE>
+<DL>
+<DD>Runs a task of the context: under its lock and limits, followed by the microtask checkpoint.
+ <p>
+ 문맥의 작업을 실행한다: 문맥의 잠금과 제한 아래에서 실행하고 마이크로태스크 검사점이 뒤따른다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>task</CODE> - the work / 작업</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDocumentUrl()"><!-- --></A><H3>
+getDocumentUrl</H3>
+<PRE>
+java.lang.String <B>getDocumentUrl</B>()</PRE>
+<DL>
+<DD>Returns the URL of the context: the document URL of a page, the script URL of a worker.
+ <p>
+ 문맥의 URL을 반환한다. 페이지는 문서 URL, worker 는 스크립트 URL.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the URL / URL</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getBaseUrl()"><!-- --></A><H3>
+getBaseUrl</H3>
+<PRE>
+java.lang.String <B>getBaseUrl</B>()</PRE>
+<DL>
+<DD>Returns the URL that relative request URLs resolve against.
+ <p>
+ 상대 요청 URL을 해석하는 기준 URL을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the base URL or null / 기준 URL 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasDocuments()"><!-- --></A><H3>
+hasDocuments</H3>
+<PRE>
+boolean <B>hasDocuments</B>()</PRE>
+<DL>
+<DD>Tells whether the context has documents, so that <code>XMLHttpRequest</code> may build a response document (a worker has not).
+ <p>
+ 문맥에 문서가 있어 <code>XMLHttpRequest</code> 가 응답 문서를 만들 수 있는지 알려 준다(worker 는 없다).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for a page / 페이지이면 true</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/web/WebApis.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.web"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/web/WebApis.ObjectUrlHost.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.web"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/web/WebApis.Host.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WebApis.Host.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

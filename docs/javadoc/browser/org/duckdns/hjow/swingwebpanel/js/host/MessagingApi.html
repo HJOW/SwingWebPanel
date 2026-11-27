@@ -1,0 +1,248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+MessagingApi
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="MessagingApi";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/MediaRequestSource.Request.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/ModuleScriptSource.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/MessagingApi.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="MessagingApi.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.host</FONT>
+<BR>
+Class MessagingApi</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.host.MessagingApi</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>MessagingApi</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Messaging of a page (plan items P20-09 and P20-09-b; W3C Web Messaging REC 2015-05-19 and the HTML Standard "Web messaging" of 2026-11-17):
+ <code>window.postMessage(message, targetOrigin [, transfer])</code> and <code>window.postMessage(message, {targetOrigin, transfer})</code>,
+ <code>MessageEvent</code>, and <code>structuredClone(value [, {transfer}])</code>; <code>MessageChannel</code> and <code>MessagePort</code>
+ are installed through <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/PortApi.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker"><CODE>PortApi</CODE></A>, because their ports are shared with workers. Messages are copied with the structured clone algorithm
+ (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured"><CODE>StructuredClone</CODE></A>), may carry ArrayBuffers and <code>MessagePort</code> objects in the transfer list
+ (they are moved, the source is detached), and are delivered later as tasks of the page on the scheduler of the component, never while the
+ sender runs. A <code>postMessage</code> to the window checks the target origin: <code>*</code> sends, <code>/</code> (the default of the
+ options form) sends to the same origin (the only window of this component), a URL sends only if it has the origin of the page, anything else
+ is a <code>SyntaxError</code>; a message to another origin is dropped silently, after it was cloned (so the transferred objects are given up
+ as the specification says). There is one browsing context, so the target of <code>window.postMessage</code> is always the window of the page.
+ <p>
+ 페이지의 메시징(계획 P20-09, P20-09-b. W3C Web Messaging REC 2015-05-19 와 2026-11-17 의 HTML 표준 "Web messaging"):
+ <code>window.postMessage(message, targetOrigin [, transfer])</code>, <code>window.postMessage(message, {targetOrigin, transfer})</code>,
+ <code>MessageEvent</code>, <code>structuredClone(value [, {transfer}])</code>. <code>MessageChannel</code> 과 <code>MessagePort</code> 는 포트를 worker 와
+ 공유하므로 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/PortApi.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker"><CODE>PortApi</CODE></A> 로 설치한다. 메시지는 구조화 복제 알고리즘(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured"><CODE>StructuredClone</CODE></A>)으로 복사하며 전달 목록에
+ ArrayBuffer 와 <code>MessagePort</code> 객체를 실을 수 있고(옮겨지고 원본은 분리된다), 보내는 쪽이 실행되는 동안이 아니라 나중에 컴포넌트의 스케줄러에서
+ 페이지의 작업으로 전달된다. window 에 대한 <code>postMessage</code> 는 대상 오리진을 검사한다: <code>*</code> 은 보내고, <code>/</code>(옵션 형식의 기본값)는
+ 같은 오리진에 보내며(이 컴포넌트의 유일한 window), URL 은 페이지의 오리진과 같을 때만 보내고, 그 밖은 <code>SyntaxError</code> 이다. 다른 오리진으로 가는
+ 메시지는 복제한 뒤 조용히 버려진다(그래서 규격대로 전달한 객체는 내놓는다). 브라우징 문맥이 하나뿐이므로 <code>window.postMessage</code> 의 대상은 언제나
+ 페이지의 window 이다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/MessagingApi.html#installMessageEvent(org.duckdns.hjow.swingwebpanel.js.dom.DomBridge, org.duckdns.hjow.swingwebpanel.js.JsRealm)">installMessageEvent</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/DomBridge.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom">DomBridge</A>&nbsp;bridge,
+                    org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;realm)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Defines the <code>MessageEvent</code> interface with its constructor (<code>data</code>, <code>origin</code>,
+ <code>lastEventId</code>, <code>source</code>, <code>ports</code> of the init dictionary).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="installMessageEvent(org.duckdns.hjow.swingwebpanel.js.dom.DomBridge, org.duckdns.hjow.swingwebpanel.js.JsRealm)"><!-- --></A><H3>
+installMessageEvent</H3>
+<PRE>
+public static void <B>installMessageEvent</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/DomBridge.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom">DomBridge</A>&nbsp;bridge,
+                                       org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;realm)</PRE>
+<DL>
+<DD>Defines the <code>MessageEvent</code> interface with its constructor (<code>data</code>, <code>origin</code>,
+ <code>lastEventId</code>, <code>source</code>, <code>ports</code> of the init dictionary).
+ <p>
+ 생성자와 함께 <code>MessageEvent</code> 인터페이스를 정의한다(초기화 사전의 <code>data</code>, <code>origin</code>, <code>lastEventId</code>,
+ <code>source</code>, <code>ports</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>bridge</CODE> - the bridge / 브리지<DD><CODE>realm</CODE> - the realm / realm</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/MediaRequestSource.Request.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/ModuleScriptSource.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/MessagingApi.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="MessagingApi.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

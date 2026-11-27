@@ -1,0 +1,580 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+WorkletScope
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="WorkletScope";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletLimits.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.Completion.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WorkletScope.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet</FONT>
+<BR>
+Class WorkletScope</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet.WorkletScope</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>WorkletScope</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The <code>AudioWorkletGlobalScope</code> of one audio context and everything that runs in it (Web Audio API 1.0, 1.32; HTML Worklets): a script realm of its own with the
+ built-in objects of ECMAScript 2015, the channel messaging and <code>registerProcessor()</code> (see <CODE>WorkletGlobals</CODE>), but no DOM and no window; it loads ES2015
+ modules for <code>audioWorklet.addModule()</code>, creates the <code>AudioWorkletProcessor</code> instance of every <code>AudioWorkletNode</code> and calls its
+ <code>process()</code> method in every render quantum.
+ <p>
+ <b>Threads, and who may touch the realm.</b> A script realm belongs to one thread at a time, so every use of the realm of this scope holds <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#lock"><CODE>lock</CODE></A> (a fair lock). Three
+ kinds of code take it:
+ <ul>
+ <li>the <em>worklet thread</em> (<code>swingwebpanel-audio-worklet-N</code>, a daemon thread that starts with the first <code>addModule()</code> and ends with the scope): it
+ evaluates modules and runs the <em>realm tasks</em> (the delivery of a message to a port of a processor). It fetches modules <em>without</em> the lock
+ (<CODE>ModuleGraphFetcher</CODE>), so a slow network never delays the rendering thread;</li>
+ <li>the <em>rendering thread</em> of the audio context: it constructs the processors (a control message at the start of a quantum, so that the result is the same on every run of an
+ offline context) and calls <code>process()</code> once per node per quantum. This is where the specification wants the script to run. In a real-time context it only
+ <em>tries</em> the lock for <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletLimits.html#REALTIME_LOCK_WAIT_MILLIS"><CODE>WorkletLimits.REALTIME_LOCK_WAIT_MILLIS</CODE></A> ms: if the worklet thread is busy the node is silent for that quantum
+ (<A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#SKIPPED"><CODE>AudioWorkletNode.SKIPPED</CODE></A>) and the other nodes of that quantum do not wait at all. A real-time context therefore never waits for a script that is not its
+ processor for long; an offline context has no deadline, waits for the lock and, before it processes a quantum, runs the pending realm tasks itself, so that a message posted before
+ <code>startRendering()</code> (or before a quantum) is delivered before that quantum, deterministically;</li>
+ <li>nobody else: the page never touches the realm. What the page needs reaches it as plain data (names, descriptors, serialized messages) through task queues.</li>
+ </ul>
+ A call of <code>process()</code> has a limit of <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletLimits.html#PROCESS_STEP_LIMIT"><CODE>WorkletLimits.PROCESS_STEP_LIMIT</CODE></A> steps and, in a real-time context,
+ <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletLimits.html#REALTIME_PROCESS_TIME_LIMIT_MILLIS"><CODE>WorkletLimits.REALTIME_PROCESS_TIME_LIMIT_MILLIS</CODE></A> ms; a processor that exceeds it fails like a processor that throws (<code>processorerror</code>, silence for good).
+ <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#dispose()"><CODE>dispose()</CODE></A> (the context was closed, the page was replaced, scripts were switched off) cancels the running script, drops the queues and ends the worklet thread without
+ waiting; the nodes of the scope are silent from then on.
+ <p>
+ 오디오 컨텍스트 하나의 <code>AudioWorkletGlobalScope</code> 와 그 안에서 실행되는 모든 것(Web Audio API 1.0, 1.32. HTML Worklets): ECMAScript 2015 의 내장 객체, 채널 메시징,
+ <code>registerProcessor()</code>(<CODE>WorkletGlobals</CODE> 참고)가 있지만 DOM 도 window 도 없는 자기만의 스크립트 realm 이다. <code>audioWorklet.addModule()</code> 를 위해 ES2015 모듈을 불러오고,
+ <code>AudioWorkletNode</code> 마다 <code>AudioWorkletProcessor</code> 인스턴스를 만들고, render quantum 마다 그 <code>process()</code> 메서드를 호출한다.
+ <p>
+ <b>스레드와 realm 을 만질 수 있는 쪽.</b> 스크립트 realm 은 한 번에 한 스레드의 것이므로 이 스코프의 realm 을 쓰는 모든 코드는 <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#lock"><CODE>lock</CODE></A>(공정한 잠금)을 쥔다. 세 종류의 코드가 쥔다:
+ <ul>
+ <li><em>worklet 스레드</em>(<code>swingwebpanel-audio-worklet-N</code>, 첫 <code>addModule()</code> 에 시작해 스코프와 함께 끝나는 데몬 스레드): 모듈을 평가하고 <em>realm 작업</em>(프로세서 포트로의
+ 메시지 전달)을 실행한다. 모듈은 잠금 <em>없이</em> 가져오므로(<CODE>ModuleGraphFetcher</CODE>) 느린 네트워크가 렌더링 스레드를 늦추지 않는다.</li>
+ <li>오디오 컨텍스트의 <em>렌더링 스레드</em>: 프로세서를 만들고(quantum 시작의 제어 메시지이므로 오프라인 컨텍스트의 결과는 실행할 때마다 같다) 노드마다 quantum 마다 한 번
+ <code>process()</code> 를 호출한다. 규격이 스크립트가 실행되기를 바라는 곳이 여기이다. 실시간 컨텍스트에서는 잠금을 <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletLimits.html#REALTIME_LOCK_WAIT_MILLIS"><CODE>WorkletLimits.REALTIME_LOCK_WAIT_MILLIS</CODE></A> ms 동안
+ <em>시도</em>만 한다: worklet 스레드가 바쁘면 노드는 그 quantum 에 무음이고(<A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.html#SKIPPED"><CODE>AudioWorkletNode.SKIPPED</CODE></A>) 같은 quantum 의 다른 노드는 전혀 기다리지 않는다. 그러므로 실시간 컨텍스트는
+ 자기 프로세서가 아닌 스크립트를 오래 기다리지 않는다. 오프라인 컨텍스트에는 기한이 없으므로 잠금을 기다리고, quantum 을 처리하기 전에 쌓인 realm 작업을 직접 실행하므로 <code>startRendering()</code>
+ 전(또는 quantum 전)에 보낸 메시지는 그 quantum 전에 결정적으로 전달된다.</li>
+ <li>그 밖에는 아무도 아니다: 페이지는 realm 을 만지지 않는다. 페이지에 필요한 것은 작업 큐를 거쳐 일반 데이터(이름, 설명, 직렬화된 메시지)로 닿는다.</li>
+ </ul>
+ <code>process()</code> 한 번의 호출은 <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletLimits.html#PROCESS_STEP_LIMIT"><CODE>WorkletLimits.PROCESS_STEP_LIMIT</CODE></A> 단계, 실시간 컨텍스트에서는 <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletLimits.html#REALTIME_PROCESS_TIME_LIMIT_MILLIS"><CODE>WorkletLimits.REALTIME_PROCESS_TIME_LIMIT_MILLIS</CODE></A> ms 의 한도가 있다.
+ 넘는 프로세서는 예외를 던지는 프로세서처럼 실패한다(<code>processorerror</code>, 영구 무음). <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#dispose()"><CODE>dispose()</CODE></A>(컨텍스트가 닫혔거나, 페이지가 교체되었거나, 스크립트가 꺼졌다)는 실행 중인 스크립트를
+ 취소하고, 큐를 비우고, 기다리지 않고 worklet 스레드를 끝낸다. 그 뒤 스코프의 노드는 무음이다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.Completion.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet">WorkletScope.Completion</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Told on the page, as a task of the page, how a call of <code>addModule()</code> ended.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#WorkletScope(org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet.WorkletHost, org.duckdns.hjow.swingwebpanel.media.webaudio.BaseAudioContext, int)">WorkletScope</A></B>(<A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletHost.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet">WorkletHost</A>&nbsp;host,
+             <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">BaseAudioContext</A>&nbsp;engine,
+             int&nbsp;serial)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the scope of a context; nothing runs until the first <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#addModule(java.lang.String, org.duckdns.hjow.swingwebpanel.js.host.ModuleScriptSource.Credentials, org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet.WorkletScope.Completion)"><CODE>addModule(java.lang.String, org.duckdns.hjow.swingwebpanel.js.host.ModuleScriptSource.Credentials, org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet.WorkletScope.Completion)</CODE></A>.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#addModule(java.lang.String, org.duckdns.hjow.swingwebpanel.js.host.ModuleScriptSource.Credentials, org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet.WorkletScope.Completion)">addModule</A></B>(java.lang.String&nbsp;moduleKey,
+          <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/ModuleScriptSource.Credentials.html" title="enum in org.duckdns.hjow.swingwebpanel.js.host">ModuleScriptSource.Credentials</A>&nbsp;credentials,
+          <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.Completion.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet">WorkletScope.Completion</A>&nbsp;done)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loads a module and everything it imports into the global scope, evaluates it (<code>registerProcessor()</code> calls happen here) and tells the page how it ended.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#dispose()">dispose</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ends the scope at once and from any thread without waiting: the script that runs is cancelled at its next step, the queues are dropped and the worklet thread ends.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#getCallCount()">getCallCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of calls of <code>process()</code> that were made (for tests and diagnostics).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ParamDescriptor.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioWorkletNode.ParamDescriptor</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#getDescriptors(java.lang.String)">getDescriptors</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the descriptors of the parameters of a processor, as the page knows them.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#getOverrunCallCount()">getOverrunCallCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of calls of <code>process()</code> in a real-time context that took longer than a render quantum lasts (for tests and diagnostics).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/ScriptContext.html" title="interface in org.duckdns.hjow.swingwebpanel.js.worker">ScriptContext</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#getScriptContext()">getScriptContext</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the script context of the worklet side, for the message channels of the nodes (<code>ChannelPorts.newChannel</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#getSkippedCallCount()">getSkippedCallCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of calls of <code>process()</code> that were skipped because the realm was busy (for tests and diagnostics).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#hasProcessor(java.lang.String)">hasProcessor</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the page may construct nodes for a name: the processor was registered and the page was told (the <em>node name to parameter descriptor map</em>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#isDisposed()">isDisposed</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the scope was disposed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#isThreadAlive()">isThreadAlive</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the worklet thread lives (for tests).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ProcessorFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioWorkletNode.ProcessorFactory</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#newFactory(java.lang.String, org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue, org.duckdns.hjow.swingwebpanel.js.worker.PortTarget)">newFactory</A></B>(java.lang.String&nbsp;name,
+           <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A>&nbsp;options,
+           <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/PortTarget.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker">PortTarget</A>&nbsp;port)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the factory that makes the processor of a node: the control message of the node runs it on the rendering thread at the start of a quantum.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="WorkletScope(org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet.WorkletHost, org.duckdns.hjow.swingwebpanel.media.webaudio.BaseAudioContext, int)"><!-- --></A><H3>
+WorkletScope</H3>
+<PRE>
+public <B>WorkletScope</B>(<A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletHost.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet">WorkletHost</A>&nbsp;host,
+                    <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/BaseAudioContext.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">BaseAudioContext</A>&nbsp;engine,
+                    int&nbsp;serial)</PRE>
+<DL>
+<DD>Creates the scope of a context; nothing runs until the first <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#addModule(java.lang.String, org.duckdns.hjow.swingwebpanel.js.host.ModuleScriptSource.Credentials, org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet.WorkletScope.Completion)"><CODE>addModule(java.lang.String, org.duckdns.hjow.swingwebpanel.js.host.ModuleScriptSource.Credentials, org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet.WorkletScope.Completion)</CODE></A>.
+ <p>
+ 컨텍스트의 스코프를 만든다. 첫 <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#addModule(java.lang.String, org.duckdns.hjow.swingwebpanel.js.host.ModuleScriptSource.Credentials, org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet.WorkletScope.Completion)"><CODE>addModule(java.lang.String, org.duckdns.hjow.swingwebpanel.js.host.ModuleScriptSource.Credentials, org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet.WorkletScope.Completion)</CODE></A> 전에는 아무것도 실행되지 않는다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>host</CODE> - the page that owns it / 소유한 페이지<DD><CODE>engine</CODE> - the engine context / 엔진 컨텍스트<DD><CODE>serial</CODE> - the number in the name of the worklet thread / worklet 스레드 이름의 번호</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getScriptContext()"><!-- --></A><H3>
+getScriptContext</H3>
+<PRE>
+public <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/ScriptContext.html" title="interface in org.duckdns.hjow.swingwebpanel.js.worker">ScriptContext</A> <B>getScriptContext</B>()</PRE>
+<DL>
+<DD>Returns the script context of the worklet side, for the message channels of the nodes (<code>ChannelPorts.newChannel</code>).
+ <p>
+ 노드의 메시지 채널을 위한 worklet 쪽 스크립트 문맥을 반환한다(<code>ChannelPorts.newChannel</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the context / 문맥</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addModule(java.lang.String, org.duckdns.hjow.swingwebpanel.js.host.ModuleScriptSource.Credentials, org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet.WorkletScope.Completion)"><!-- --></A><H3>
+addModule</H3>
+<PRE>
+public void <B>addModule</B>(java.lang.String&nbsp;moduleKey,
+                      <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/ModuleScriptSource.Credentials.html" title="enum in org.duckdns.hjow.swingwebpanel.js.host">ModuleScriptSource.Credentials</A>&nbsp;credentials,
+                      <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.Completion.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet">WorkletScope.Completion</A>&nbsp;done)</PRE>
+<DL>
+<DD>Loads a module and everything it imports into the global scope, evaluates it (<code>registerProcessor()</code> calls happen here) and tells the page how it ended. A module
+ that the scope has loaded already is not loaded again (the call succeeds). Callable from any thread; the work is done by the worklet thread.
+ <p>
+ 모듈과 그것이 import 하는 모든 것을 전역 범위에 불러와 평가하고(<code>registerProcessor()</code> 호출이 여기서 일어난다) 어떻게 끝났는지 페이지에 알린다. 스코프가 이미 불러온 모듈은 다시
+ 불러오지 않는다(호출은 성공한다). 어느 스레드에서나 부를 수 있으며 일은 worklet 스레드가 한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>moduleKey</CODE> - the absolute address of the module, without a fragment / 모듈의 절대 주소(조각 없음)<DD><CODE>credentials</CODE> - fetch credentials mode / 가져오기 자격 증명 모드<DD><CODE>done</CODE> - told on the page / 페이지에 알린다</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasProcessor(java.lang.String)"><!-- --></A><H3>
+hasProcessor</H3>
+<PRE>
+public boolean <B>hasProcessor</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Tells whether the page may construct nodes for a name: the processor was registered and the page was told (the <em>node name to parameter descriptor map</em>).
+ <p>
+ 페이지가 이름에 대해 노드를 만들 수 있는지 알려 준다: 프로세서가 등록되었고 페이지가 통지받았다(<em>node name to parameter descriptor map</em>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the name / 이름
+<DT><B>Returns:</B><DD>true if it is known / 알려져 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDescriptors(java.lang.String)"><!-- --></A><H3>
+getDescriptors</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ParamDescriptor.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioWorkletNode.ParamDescriptor</A>&gt; <B>getDescriptors</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns the descriptors of the parameters of a processor, as the page knows them.
+ <p>
+ 페이지가 아는 프로세서의 파라미터 설명을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the name / 이름
+<DT><B>Returns:</B><DD>the descriptors, read only; null if the name is not known / 설명(읽기 전용). 이름을 모르면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newFactory(java.lang.String, org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue, org.duckdns.hjow.swingwebpanel.js.worker.PortTarget)"><!-- --></A><H3>
+newFactory</H3>
+<PRE>
+public <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/AudioWorkletNode.ProcessorFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio">AudioWorkletNode.ProcessorFactory</A> <B>newFactory</B>(java.lang.String&nbsp;name,
+                                                    <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A>&nbsp;options,
+                                                    <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/PortTarget.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker">PortTarget</A>&nbsp;port)</PRE>
+<DL>
+<DD>Creates the factory that makes the processor of a node: the control message of the node runs it on the rendering thread at the start of a quantum. The processor is made
+ as the constructor of its class is called with the options and with the end of the message channel that belongs to the processor.
+ <p>
+ 노드의 프로세서를 만드는 팩터리를 만든다: 노드의 제어 메시지가 quantum 시작에 렌더링 스레드에서 실행한다. 프로세서는 그 클래스의 생성자를 옵션과, 프로세서에 속한 메시지 채널의 끝과 함께 호출해
+ 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the registered name / 등록된 이름<DD><CODE>options</CODE> - the serialized options object (<code>numberOfInputs</code>, <code>processorOptions</code> ...) / 직렬화된 옵션 객체(<code>numberOfInputs</code>,
+                <code>processorOptions</code> 등)<DD><CODE>port</CODE> - the end of the message channel that belongs to the processor (made with <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#getScriptContext()"><CODE>getScriptContext()</CODE></A>) / 프로세서에 속한 메시지 채널의 끝
+                (<A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#getScriptContext()"><CODE>getScriptContext()</CODE></A> 로 만든 것)
+<DT><B>Returns:</B><DD>the factory / 팩터리</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isDisposed()"><!-- --></A><H3>
+isDisposed</H3>
+<PRE>
+public boolean <B>isDisposed</B>()</PRE>
+<DL>
+<DD>Tells whether the scope was disposed.
+ <p>
+ 스코프가 폐기되었는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true after <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#dispose()"><CODE>dispose()</CODE></A> / <A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html#dispose()"><CODE>dispose()</CODE></A> 뒤에는 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isThreadAlive()"><!-- --></A><H3>
+isThreadAlive</H3>
+<PRE>
+public boolean <B>isThreadAlive</B>()</PRE>
+<DL>
+<DD>Tells whether the worklet thread lives (for tests).
+ <p>
+ worklet 스레드가 살아 있는지 알려 준다(시험용).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true while it lives / 살아 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSkippedCallCount()"><!-- --></A><H3>
+getSkippedCallCount</H3>
+<PRE>
+public long <B>getSkippedCallCount</B>()</PRE>
+<DL>
+<DD>Returns the number of calls of <code>process()</code> that were skipped because the realm was busy (for tests and diagnostics).
+ <p>
+ realm 이 바빠서 건너뛴 <code>process()</code> 호출의 수를 반환한다(시험과 진단용).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of calls / 호출 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCallCount()"><!-- --></A><H3>
+getCallCount</H3>
+<PRE>
+public long <B>getCallCount</B>()</PRE>
+<DL>
+<DD>Returns the number of calls of <code>process()</code> that were made (for tests and diagnostics).
+ <p>
+ <code>process()</code> 를 호출한 횟수를 반환한다(시험과 진단용).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of calls / 호출 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOverrunCallCount()"><!-- --></A><H3>
+getOverrunCallCount</H3>
+<PRE>
+public long <B>getOverrunCallCount</B>()</PRE>
+<DL>
+<DD>Returns the number of calls of <code>process()</code> in a real-time context that took longer than a render quantum lasts (for tests and diagnostics).
+ <p>
+ 실시간 컨텍스트에서 render quantum 이 지속되는 시간보다 오래 걸린 <code>process()</code> 호출의 수를 반환한다(시험과 진단용).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of calls / 호출 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispose()"><!-- --></A><H3>
+dispose</H3>
+<PRE>
+public void <B>dispose</B>()</PRE>
+<DL>
+<DD>Ends the scope at once and from any thread without waiting: the script that runs is cancelled at its next step, the queues are dropped and the worklet thread ends. Nodes
+ whose processors live in the scope are silent afterwards. Calling it again does nothing.
+ <p>
+ 스코프를 기다리지 않고 어느 스레드에서나 즉시 끝낸다: 실행 중인 스크립트는 다음 단계에서 취소되고, 큐가 비워지며, worklet 스레드가 끝난다. 프로세서가 스코프에 있는 노드는 그 뒤 무음이다. 다시
+ 불러도 아무 일도 없다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletLimits.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.Completion.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host.webaudio.worklet"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/webaudio/worklet/WorkletScope.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="WorkletScope.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

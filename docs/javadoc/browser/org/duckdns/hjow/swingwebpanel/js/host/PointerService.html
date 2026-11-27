@@ -1,0 +1,302 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+PointerService
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="PointerService";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageScripts.html" title="class in org.duckdns.hjow.swingwebpanel.js.host"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/Scheduler.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/PointerService.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PointerService.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.host</FONT>
+<BR>
+Interface PointerService</H2>
+<HR>
+<DL>
+<DT><PRE>public interface <B>PointerService</B></DL>
+</PRE>
+
+<P>
+The pointer capture service of a page (W3C Pointer Events, "Pointer capture"): the component keeps the state of the pointer, a script asks
+ for capture through the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><CODE>Element</CODE></A> methods <code>setPointerCapture</code>, <code>releasePointerCapture</code> and
+ <code>hasPointerCapture</code>, which the page layer checks against this service. All methods are called on the document queue (the thread that
+ runs the scripts of the page and delivers its input events), so the state needs no locking.
+ <p>
+ 페이지의 포인터 캡처 서비스(W3C Pointer Events, "Pointer capture"). 컴포넌트가 포인터의 상태를 보관하고, 스크립트는 요소의
+ <code>setPointerCapture</code>, <code>releasePointerCapture</code>, <code>hasPointerCapture</code> 메서드로 캡처를 요청하며, 페이지 계층이 이 서비스에 대어
+ 확인한다. 모든 메서드는 문서 큐(페이지의 스크립트를 실행하고 입력 이벤트를 전달하는 스레드)에서 호출하므로 상태에 잠금이 필요 없다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PointerService.html#hasCapture(int, org.duckdns.hjow.swingwebpanel.dom.Element)">hasCapture</A></B>(int&nbsp;pointerId,
+           <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether an element has the pending pointer capture of a pointer (true right after <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PointerService.html#setCapture(int, org.duckdns.hjow.swingwebpanel.dom.Element)"><CODE>setCapture(int, org.duckdns.hjow.swingwebpanel.dom.Element)</CODE></A>, before the event that
+ announces it).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PointerService.html#isActive(int)">isActive</A></B>(int&nbsp;pointerId)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a pointer id names an active pointer (the mouse of the component has the id 1 while it is over the component or a button
+ is down).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PointerService.html#releaseCapture(int, org.duckdns.hjow.swingwebpanel.dom.Element)">releaseCapture</A></B>(int&nbsp;pointerId,
+               <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clears the pending pointer capture of a pointer if the element has it; nothing happens otherwise.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PointerService.html#setCapture(int, org.duckdns.hjow.swingwebpanel.dom.Element)">setCapture</A></B>(int&nbsp;pointerId,
+           <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the pending pointer capture of a pointer to an element.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="isActive(int)"><!-- --></A><H3>
+isActive</H3>
+<PRE>
+boolean <B>isActive</B>(int&nbsp;pointerId)</PRE>
+<DL>
+<DD>Tells whether a pointer id names an active pointer (the mouse of the component has the id 1 while it is over the component or a button
+ is down).
+ <p>
+ 포인터 ID 가 활성 포인터를 가리키는지 알려 준다(컴포넌트의 마우스는 컴포넌트 위에 있거나 버튼이 눌려 있는 동안 ID 1 이다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>pointerId</CODE> - the id / ID
+<DT><B>Returns:</B><DD>true if the pointer is active / 활성 포인터이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setCapture(int, org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+setCapture</H3>
+<PRE>
+void <B>setCapture</B>(int&nbsp;pointerId,
+                <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element)</PRE>
+<DL>
+<DD>Sets the pending pointer capture of a pointer to an element. It has no effect (and no error) when the pointer has no button down or the
+ element is not in the document that the pointer is active in; the capture starts with the next pointer event (<code>gotpointercapture</code>).
+ <p>
+ 포인터의 대기 중인 포인터 캡처를 요소로 정한다. 포인터에 눌린 버튼이 없거나 요소가 포인터가 활성인 문서에 있지 않으면 효과도 오류도 없다. 캡처는 다음
+ 포인터 이벤트와 함께 시작한다(<code>gotpointercapture</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>pointerId</CODE> - the id / ID<DD><CODE>element</CODE> - the element that wants the capture / 캡처를 원하는 요소</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasCapture(int, org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+hasCapture</H3>
+<PRE>
+boolean <B>hasCapture</B>(int&nbsp;pointerId,
+                   <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element)</PRE>
+<DL>
+<DD>Tells whether an element has the pending pointer capture of a pointer (true right after <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PointerService.html#setCapture(int, org.duckdns.hjow.swingwebpanel.dom.Element)"><CODE>setCapture(int, org.duckdns.hjow.swingwebpanel.dom.Element)</CODE></A>, before the event that
+ announces it).
+ <p>
+ 요소가 포인터의 대기 중인 포인터 캡처를 가졌는지 알려 준다(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PointerService.html#setCapture(int, org.duckdns.hjow.swingwebpanel.dom.Element)"><CODE>setCapture(int, org.duckdns.hjow.swingwebpanel.dom.Element)</CODE></A> 직후, 그것을 알리는 이벤트 전에도 true).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>pointerId</CODE> - the id / ID<DD><CODE>element</CODE> - the element / 요소
+<DT><B>Returns:</B><DD>true if the element has it / 가졌으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="releaseCapture(int, org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+releaseCapture</H3>
+<PRE>
+void <B>releaseCapture</B>(int&nbsp;pointerId,
+                    <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element)</PRE>
+<DL>
+<DD>Clears the pending pointer capture of a pointer if the element has it; nothing happens otherwise. The capture ends with the next pointer
+ event (<code>lostpointercapture</code>).
+ <p>
+ 요소가 포인터의 대기 중인 포인터 캡처를 가졌으면 지운다. 아니면 아무 일도 없다. 캡처는 다음 포인터 이벤트와 함께 끝난다(<code>lostpointercapture</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>pointerId</CODE> - the id / ID<DD><CODE>element</CODE> - the element / 요소</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageScripts.html" title="class in org.duckdns.hjow.swingwebpanel.js.host"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/Scheduler.html" title="interface in org.duckdns.hjow.swingwebpanel.js.host"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/PointerService.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PointerService.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

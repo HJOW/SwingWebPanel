@@ -1,0 +1,578 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+DataAccess
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="DataAccess";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/DataLibInstaller.html" title="class in org.duckdns.hjow.swingwebpanel.js.builtins.datajson"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/builtins/datajson/DataAccess.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="DataAccess.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.builtins.datajson</FONT>
+<BR>
+Class DataAccess</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.builtins.datajson.DataAccess</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>DataAccess</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+A small public facade over the internal slots of the built-in <code>Date</code>, <code>RegExp</code>, <code>Map</code> and
+ <code>Set</code> objects, for host code that must read or create them without going through (changeable) script-visible methods: the
+ structured clone algorithm of the HTML Standard uses it. Every method works on the object itself, never calls a method that a page
+ script may have replaced.
+ <p>
+ 내장 <code>Date</code>, <code>RegExp</code>, <code>Map</code>, <code>Set</code> 객체의 내부 슬롯에 대한 작은 공개 창구. (바뀔 수 있는) 스크립트 공개
+ 메서드를 거치지 않고 읽거나 만들어야 하는 호스트 코드를 위한 것으로, HTML 표준의 구조화 복제 알고리즘이 쓴다. 모든 메서드는 객체 자체에 작용하며
+ 페이지 스크립트가 바꿨을 수 있는 메서드를 호출하지 않는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/DataAccess.html#dateValue(org.duckdns.hjow.swingwebpanel.js.JsObject)">dateValue</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;date)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the time value of a Date object (NaN for an invalid date).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/DataAccess.html#isDate(org.duckdns.hjow.swingwebpanel.js.JsValue)">isDate</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a value is a <code>Date</code> object (it has the [[DateValue]] slot).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/DataAccess.html#isMap(org.duckdns.hjow.swingwebpanel.js.JsValue)">isMap</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a value is a <code>Map</code> object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/DataAccess.html#isRegExp(org.duckdns.hjow.swingwebpanel.js.JsValue)">isRegExp</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a value is an initialized <code>RegExp</code> object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/DataAccess.html#isSet(org.duckdns.hjow.swingwebpanel.js.JsValue)">isSet</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a value is a <code>Set</code> object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>[]&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/DataAccess.html#mapEntries(org.duckdns.hjow.swingwebpanel.js.JsObject)">mapEntries</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;map)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a snapshot of the entries of a Map in insertion order, as pairs of key and value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/DataAccess.html#mapPut(org.duckdns.hjow.swingwebpanel.js.JsObject, org.duckdns.hjow.swingwebpanel.js.JsValue, org.duckdns.hjow.swingwebpanel.js.JsValue)">mapPut</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;map,
+       <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;key,
+       <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stores an entry in a Map the way <code>Map.prototype.set</code> does (keys compare with SameValueZero).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/DataAccess.html#newDate(org.duckdns.hjow.swingwebpanel.js.JsRealm, double)">newDate</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm,
+        double&nbsp;time)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a Date object of a realm for a time value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/DataAccess.html#newMap(org.duckdns.hjow.swingwebpanel.js.JsRealm)">newMap</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an empty Map of a realm.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/DataAccess.html#newRegExp(org.duckdns.hjow.swingwebpanel.js.JsRealm, java.lang.String, java.lang.String)">newRegExp</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm,
+          java.lang.String&nbsp;source,
+          java.lang.String&nbsp;flags)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a RegExp object of a realm with the intrinsic constructor of that realm (so the pattern is checked and compiled again).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/DataAccess.html#newSet(org.duckdns.hjow.swingwebpanel.js.JsRealm)">newSet</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an empty Set of a realm.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/DataAccess.html#regExpFlags(org.duckdns.hjow.swingwebpanel.js.JsObject)">regExpFlags</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;regExp)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the flags that a RegExp object was created with.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/DataAccess.html#regExpSource(org.duckdns.hjow.swingwebpanel.js.JsObject)">regExpSource</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;regExp)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the pattern text that a RegExp object was created from.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/DataAccess.html#setAdd(org.duckdns.hjow.swingwebpanel.js.JsObject, org.duckdns.hjow.swingwebpanel.js.JsValue)">setAdd</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;set,
+       <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Adds a value to a Set the way <code>Set.prototype.add</code> does.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.util.List&lt;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/DataAccess.html#setValues(org.duckdns.hjow.swingwebpanel.js.JsObject)">setValues</A></B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;set)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a snapshot of the values of a Set in insertion order.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="isDate(org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+isDate</H3>
+<PRE>
+public static boolean <B>isDate</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;v)</PRE>
+<DL>
+<DD>Tells whether a value is a <code>Date</code> object (it has the [[DateValue]] slot).
+ <p>
+ 값이 <code>Date</code> 객체([[DateValue]] 슬롯을 가진 것)인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the value / 값
+<DT><B>Returns:</B><DD>true for a Date / Date 이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dateValue(org.duckdns.hjow.swingwebpanel.js.JsObject)"><!-- --></A><H3>
+dateValue</H3>
+<PRE>
+public static double <B>dateValue</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;date)</PRE>
+<DL>
+<DD>Returns the time value of a Date object (NaN for an invalid date).
+ <p>
+ Date 객체의 시간 값을 반환한다(잘못된 날짜이면 NaN).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>date</CODE> - the Date object / Date 객체
+<DT><B>Returns:</B><DD>the time value in milliseconds / 시간 값(밀리초)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newDate(org.duckdns.hjow.swingwebpanel.js.JsRealm, double)"><!-- --></A><H3>
+newDate</H3>
+<PRE>
+public static <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>newDate</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm,
+                               double&nbsp;time)</PRE>
+<DL>
+<DD>Creates a Date object of a realm for a time value.
+ <p>
+ 시간 값으로 realm 의 Date 객체를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>realm</CODE> - the realm / realm<DD><CODE>time</CODE> - the time value (NaN for an invalid date) / 시간 값(잘못된 날짜이면 NaN)
+<DT><B>Returns:</B><DD>the Date object / Date 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isRegExp(org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+isRegExp</H3>
+<PRE>
+public static boolean <B>isRegExp</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;v)</PRE>
+<DL>
+<DD>Tells whether a value is an initialized <code>RegExp</code> object.
+ <p>
+ 값이 초기화된 <code>RegExp</code> 객체인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the value / 값
+<DT><B>Returns:</B><DD>true for a RegExp / RegExp 이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="regExpSource(org.duckdns.hjow.swingwebpanel.js.JsObject)"><!-- --></A><H3>
+regExpSource</H3>
+<PRE>
+public static java.lang.String <B>regExpSource</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;regExp)</PRE>
+<DL>
+<DD>Returns the pattern text that a RegExp object was created from.
+ <p>
+ RegExp 객체를 만든 패턴 문자열을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>regExp</CODE> - the RegExp object / RegExp 객체
+<DT><B>Returns:</B><DD>the source text / 원문</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="regExpFlags(org.duckdns.hjow.swingwebpanel.js.JsObject)"><!-- --></A><H3>
+regExpFlags</H3>
+<PRE>
+public static java.lang.String <B>regExpFlags</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;regExp)</PRE>
+<DL>
+<DD>Returns the flags that a RegExp object was created with.
+ <p>
+ RegExp 객체를 만들 때의 플래그를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>regExp</CODE> - the RegExp object / RegExp 객체
+<DT><B>Returns:</B><DD>the flags text / 플래그 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newRegExp(org.duckdns.hjow.swingwebpanel.js.JsRealm, java.lang.String, java.lang.String)"><!-- --></A><H3>
+newRegExp</H3>
+<PRE>
+public static <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>newRegExp</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm,
+                                 java.lang.String&nbsp;source,
+                                 java.lang.String&nbsp;flags)</PRE>
+<DL>
+<DD>Creates a RegExp object of a realm with the intrinsic constructor of that realm (so the pattern is checked and compiled again).
+ <p>
+ 해당 realm 의 내장 생성자로 RegExp 객체를 만든다(패턴을 다시 검사하고 컴파일한다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>realm</CODE> - the realm / realm<DD><CODE>source</CODE> - the pattern / 패턴<DD><CODE>flags</CODE> - the flags / 플래그
+<DT><B>Returns:</B><DD>the RegExp object / RegExp 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isMap(org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+isMap</H3>
+<PRE>
+public static boolean <B>isMap</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;v)</PRE>
+<DL>
+<DD>Tells whether a value is a <code>Map</code> object.
+ <p>
+ 값이 <code>Map</code> 객체인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the value / 값
+<DT><B>Returns:</B><DD>true for a Map / Map 이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isSet(org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+isSet</H3>
+<PRE>
+public static boolean <B>isSet</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;v)</PRE>
+<DL>
+<DD>Tells whether a value is a <code>Set</code> object.
+ <p>
+ 값이 <code>Set</code> 객체인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the value / 값
+<DT><B>Returns:</B><DD>true for a Set / Set 이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mapEntries(org.duckdns.hjow.swingwebpanel.js.JsObject)"><!-- --></A><H3>
+mapEntries</H3>
+<PRE>
+public static java.util.List&lt;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>[]&gt; <B>mapEntries</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;map)</PRE>
+<DL>
+<DD>Returns a snapshot of the entries of a Map in insertion order, as pairs of key and value.
+ <p>
+ Map 의 항목을 삽입 순서대로 (키, 값) 쌍으로 복사해 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>map</CODE> - the Map object / Map 객체
+<DT><B>Returns:</B><DD>the pairs / 쌍 목록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setValues(org.duckdns.hjow.swingwebpanel.js.JsObject)"><!-- --></A><H3>
+setValues</H3>
+<PRE>
+public static java.util.List&lt;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&gt; <B>setValues</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;set)</PRE>
+<DL>
+<DD>Returns a snapshot of the values of a Set in insertion order.
+ <p>
+ Set 의 값을 삽입 순서대로 복사해 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>set</CODE> - the Set object / Set 객체
+<DT><B>Returns:</B><DD>the values / 값 목록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newMap(org.duckdns.hjow.swingwebpanel.js.JsRealm)"><!-- --></A><H3>
+newMap</H3>
+<PRE>
+public static <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>newMap</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm)</PRE>
+<DL>
+<DD>Creates an empty Map of a realm.
+ <p>
+ realm 의 빈 Map 을 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>realm</CODE> - the realm / realm
+<DT><B>Returns:</B><DD>the Map object / Map 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="newSet(org.duckdns.hjow.swingwebpanel.js.JsRealm)"><!-- --></A><H3>
+newSet</H3>
+<PRE>
+public static <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A> <B>newSet</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsRealm.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsRealm</A>&nbsp;realm)</PRE>
+<DL>
+<DD>Creates an empty Set of a realm.
+ <p>
+ realm 의 빈 Set 을 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>realm</CODE> - the realm / realm
+<DT><B>Returns:</B><DD>the Set object / Set 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mapPut(org.duckdns.hjow.swingwebpanel.js.JsObject, org.duckdns.hjow.swingwebpanel.js.JsValue, org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+mapPut</H3>
+<PRE>
+public static void <B>mapPut</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;map,
+                          <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;key,
+                          <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;value)</PRE>
+<DL>
+<DD>Stores an entry in a Map the way <code>Map.prototype.set</code> does (keys compare with SameValueZero).
+ <p>
+ <code>Map.prototype.set</code> 처럼 Map 에 항목을 저장한다(키는 SameValueZero 로 비교한다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>map</CODE> - the Map object / Map 객체<DD><CODE>key</CODE> - the key / 키<DD><CODE>value</CODE> - the value / 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setAdd(org.duckdns.hjow.swingwebpanel.js.JsObject, org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+setAdd</H3>
+<PRE>
+public static void <B>setAdd</B>(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsObject.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsObject</A>&nbsp;set,
+                          <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/JsValue.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsValue</A>&nbsp;value)</PRE>
+<DL>
+<DD>Adds a value to a Set the way <code>Set.prototype.add</code> does.
+ <p>
+ <code>Set.prototype.add</code> 처럼 Set 에 값을 추가한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>set</CODE> - the Set object / Set 객체<DD><CODE>value</CODE> - the value / 값</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/builtins/datajson/DataLibInstaller.html" title="class in org.duckdns.hjow.swingwebpanel.js.builtins.datajson"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/builtins/datajson/DataAccess.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="DataAccess.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

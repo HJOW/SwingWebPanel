@@ -1,0 +1,671 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+PaintWalker.Visitor
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="PaintWalker.Visitor";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PositionTrySource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PaintWalker.Visitor.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.layout</FONT>
+<BR>
+Interface PaintWalker.Visitor</H2>
+<DL>
+<DT><B>Enclosing class:</B><DD><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.html" title="class in org.duckdns.hjow.swingwebpanel.layout">PaintWalker</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public static interface <B>PaintWalker.Visitor</B></DL>
+</PRE>
+
+<P>
+Receives the painting events of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>PaintWalker</CODE></A>. Every box that has a border box is reported once with <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#decorate(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>decorate(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A>
+ (including line boxes and anonymous boxes, which the renderer ignores but the hit test records); the text, markers and replaced
+ content follow with <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#content(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>content(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A>.
+ <p>
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>PaintWalker</CODE></A> 의 그리기 이벤트를 받는다. border box 를 가진 모든 상자는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#decorate(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>decorate(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A> 로 한 번 알려진다(줄 상자와 익명 상자 포함. 렌더러는 무시하지만
+ 히트 테스트는 기록한다). 텍스트, 표식, 치환 콘텐츠는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#content(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>content(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A> 로 이어진다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginClip(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double, double, double, double)">beginClip</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;owner,
+          double&nbsp;x,
+          double&nbsp;y,
+          double&nbsp;w,
+          double&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts a clip to a rectangle in document coordinates; everything until the matching <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#endClip(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>endClip(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A> is painted inside it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginClipPath(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, java.awt.Shape)">beginClipPath</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box,
+              java.awt.Shape&nbsp;shape)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts a group that is clipped to the shape of <code>clip-path</code> (P10-08): everything until the matching
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#endClipPath(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>endClipPath(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A> is painted and hit only inside the shape.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginEffects(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)">beginEffects</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts a group whose content is painted into a buffer that gets the effects of the box applied before it is drawn: the filter
+ functions of <code>filter</code> and then the mask of <code>mask-image</code> (CSS Filter Effects 1 and CSS Masking 1; the
+ order of the compositing model is filter, clip, mask, opacity).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginFixed(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)">beginFixed</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts a group of a fixed box: its coordinates are those at scroll offset 0 and stay on the same place of the viewport.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginOpacity(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double)">beginOpacity</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box,
+             double&nbsp;opacity)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts a group that is painted with an opacity below 1.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginSticky(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, org.duckdns.hjow.swingwebpanel.layout.StickyConstraint)">beginSticky</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box,
+            <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StickyConstraint.html" title="class in org.duckdns.hjow.swingwebpanel.layout">StickyConstraint</A>&nbsp;constraint)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts the group of a sticky box (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StickyConstraint.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>StickyConstraint</CODE></A>): everything until the matching <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#endSticky(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>endSticky(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A> is painted, and
+ hit, shifted by the amount that the constraint gives for the viewport while the page is scrolled.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginTransform(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, java.awt.geom.AffineTransform)">beginTransform</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box,
+               java.awt.geom.AffineTransform&nbsp;transform)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts a group that is painted with the 2D transform of a box (P10-06): everything until the matching <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#endTransform(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>endTransform(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A> is
+ painted in the local (laid-out) coordinates of the box and mapped by the transform.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#columnRules(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)">columnRules</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;container)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reports the column rules of a multi-column container (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getColumnRules()"><CODE>LayoutBox.getColumnRules()</CODE></A>), painted right after the
+ background and the border of the container and below its content.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#content(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)">content</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reports the content of a box: a text fragment, a list marker or the picture of a replaced box.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#decorate(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)">decorate</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reports the background, border and outline of a box (the box is a block, an inline fragment, a line, an anonymous block or a
+ replaced box).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#endClip(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)">endClip</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;owner)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ends the clip started by the matching <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginClip(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double, double, double, double)"><CODE>beginClip(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double, double, double, double)</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#endClipPath(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)">endClipPath</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ends the group started by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginClipPath(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, java.awt.Shape)"><CODE>beginClipPath(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, java.awt.Shape)</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#endEffects(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)">endEffects</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ends the group started by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginEffects(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>beginEffects(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#endFixed(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)">endFixed</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ends the group started by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginFixed(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>beginFixed(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#endOpacity(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)">endOpacity</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ends the group started by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginOpacity(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double)"><CODE>beginOpacity(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double)</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#endSticky(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)">endSticky</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ends the group started by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginSticky(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, org.duckdns.hjow.swingwebpanel.layout.StickyConstraint)"><CODE>beginSticky(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, org.duckdns.hjow.swingwebpanel.layout.StickyConstraint)</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#endTransform(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)">endTransform</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ends the group started by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginTransform(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, java.awt.geom.AffineTransform)"><CODE>beginTransform(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, java.awt.geom.AffineTransform)</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#resizer(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)">resizer</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reports the resize handle of a box with <code>resize</code> (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>Resizing</CODE></A>); it is painted above the content of the box, in
+ the corner of its padding box, after the clip of the padding box ended.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#tableBorders(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)">tableBorders</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;table)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reports the collapsed borders of a table (<code>border-collapse:collapse</code>), painted after the backgrounds of the
+ cells and above them (CSS 2.1 17.6.2); see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getCollapsedBorders()"><CODE>LayoutBox.getCollapsedBorders()</CODE></A>.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="decorate(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><!-- --></A><H3>
+decorate</H3>
+<PRE>
+void <B>decorate</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</PRE>
+<DL>
+<DD>Reports the background, border and outline of a box (the box is a block, an inline fragment, a line, an anonymous block or a
+ replaced box).
+ <p>
+ 상자의 배경, border, outline 을 알린다(상자는 블록, 인라인 조각, 줄, 익명 블록, 치환 상자 중 하나).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>box</CODE> - the box / 상자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="content(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><!-- --></A><H3>
+content</H3>
+<PRE>
+void <B>content</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</PRE>
+<DL>
+<DD>Reports the content of a box: a text fragment, a list marker or the picture of a replaced box.
+ <p>
+ 상자의 내용을 알린다: 텍스트 조각, 목록 표식, 치환 상자의 그림.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>box</CODE> - the box / 상자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="beginClip(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double, double, double, double)"><!-- --></A><H3>
+beginClip</H3>
+<PRE>
+void <B>beginClip</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;owner,
+               double&nbsp;x,
+               double&nbsp;y,
+               double&nbsp;w,
+               double&nbsp;h)</PRE>
+<DL>
+<DD>Starts a clip to a rectangle in document coordinates; everything until the matching <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#endClip(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>endClip(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A> is painted inside it.
+ <p>
+ 문서 좌표 사각형으로 자르기를 시작한다. 짝이 되는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#endClip(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>endClip(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A> 까지 그려지는 모든 것이 그 안에 그려진다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>owner</CODE> - the box that clips / 자르는 상자<DD><CODE>x</CODE> - left / 왼쪽<DD><CODE>y</CODE> - top / 위쪽<DD><CODE>w</CODE> - width / 너비<DD><CODE>h</CODE> - height / 높이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="endClip(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><!-- --></A><H3>
+endClip</H3>
+<PRE>
+void <B>endClip</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;owner)</PRE>
+<DL>
+<DD>Ends the clip started by the matching <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginClip(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double, double, double, double)"><CODE>beginClip(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double, double, double, double)</CODE></A>.
+ <p>
+ 짝이 되는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginClip(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double, double, double, double)"><CODE>beginClip(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double, double, double, double)</CODE></A> 이 시작한 자르기를 끝낸다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>owner</CODE> - the box that clips / 자르는 상자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="beginOpacity(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double)"><!-- --></A><H3>
+beginOpacity</H3>
+<PRE>
+void <B>beginOpacity</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box,
+                  double&nbsp;opacity)</PRE>
+<DL>
+<DD>Starts a group that is painted with an opacity below 1.
+ <p>
+ 1 보다 작은 불투명도로 그리는 그룹을 시작한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>box</CODE> - the stacking context box / 쌓임 맥락 상자<DD><CODE>opacity</CODE> - the opacity between 0 and 1 / 0~1 의 불투명도</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="endOpacity(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><!-- --></A><H3>
+endOpacity</H3>
+<PRE>
+void <B>endOpacity</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</PRE>
+<DL>
+<DD>Ends the group started by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginOpacity(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double)"><CODE>beginOpacity(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double)</CODE></A>.
+ <p>
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginOpacity(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double)"><CODE>beginOpacity(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, double)</CODE></A> 가 시작한 그룹을 끝낸다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>box</CODE> - the stacking context box / 쌓임 맥락 상자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="beginFixed(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><!-- --></A><H3>
+beginFixed</H3>
+<PRE>
+void <B>beginFixed</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</PRE>
+<DL>
+<DD>Starts a group of a fixed box: its coordinates are those at scroll offset 0 and stay on the same place of the viewport.
+ <p>
+ fixed 상자의 그룹을 시작한다. 좌표는 스크롤 오프셋 0 일 때의 것이며 뷰포트의 같은 자리에 머문다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>box</CODE> - the fixed box / fixed 상자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="endFixed(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><!-- --></A><H3>
+endFixed</H3>
+<PRE>
+void <B>endFixed</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</PRE>
+<DL>
+<DD>Ends the group started by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginFixed(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>beginFixed(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A>.
+ <p>
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginFixed(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>beginFixed(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A> 가 시작한 그룹을 끝낸다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>box</CODE> - the fixed box / fixed 상자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="beginSticky(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, org.duckdns.hjow.swingwebpanel.layout.StickyConstraint)"><!-- --></A><H3>
+beginSticky</H3>
+<PRE>
+void <B>beginSticky</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box,
+                 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StickyConstraint.html" title="class in org.duckdns.hjow.swingwebpanel.layout">StickyConstraint</A>&nbsp;constraint)</PRE>
+<DL>
+<DD>Starts the group of a sticky box (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StickyConstraint.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>StickyConstraint</CODE></A>): everything until the matching <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#endSticky(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>endSticky(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A> is painted, and
+ hit, shifted by the amount that the constraint gives for the viewport while the page is scrolled.
+ <p>
+ sticky 상자의 그룹을 시작한다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/StickyConstraint.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>StickyConstraint</CODE></A> 참조): 짝이 되는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#endSticky(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>endSticky(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A> 까지의 모든 것은 페이지가 스크롤되는 동안 제약이 뷰포트에 대해 정하는
+ 만큼 옮겨져 그려지고 히트된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>box</CODE> - the sticky box / sticky 상자<DD><CODE>constraint</CODE> - its constraint / 제약</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="endSticky(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><!-- --></A><H3>
+endSticky</H3>
+<PRE>
+void <B>endSticky</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</PRE>
+<DL>
+<DD>Ends the group started by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginSticky(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, org.duckdns.hjow.swingwebpanel.layout.StickyConstraint)"><CODE>beginSticky(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, org.duckdns.hjow.swingwebpanel.layout.StickyConstraint)</CODE></A>.
+ <p>
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginSticky(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, org.duckdns.hjow.swingwebpanel.layout.StickyConstraint)"><CODE>beginSticky(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, org.duckdns.hjow.swingwebpanel.layout.StickyConstraint)</CODE></A> 가 시작한 그룹을 끝낸다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>box</CODE> - the sticky box / sticky 상자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="beginTransform(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, java.awt.geom.AffineTransform)"><!-- --></A><H3>
+beginTransform</H3>
+<PRE>
+void <B>beginTransform</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box,
+                    java.awt.geom.AffineTransform&nbsp;transform)</PRE>
+<DL>
+<DD>Starts a group that is painted with the 2D transform of a box (P10-06): everything until the matching <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#endTransform(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>endTransform(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A> is
+ painted in the local (laid-out) coordinates of the box and mapped by the transform.
+ <p>
+ 상자의 2D 변환을 적용해 그리는 그룹을 시작한다(P10-06): 짝이 되는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#endTransform(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>endTransform(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A> 까지의 모든 것은 상자의 지역(배치된) 좌표로 그려지고 변환으로 옮겨진다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>box</CODE> - the transformed stacking context box / 변환된 쌓임 맥락 상자<DD><CODE>transform</CODE> - the transform of the box in the coordinates of its parent / 부모 좌표로 나타낸 상자의 변환</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="endTransform(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><!-- --></A><H3>
+endTransform</H3>
+<PRE>
+void <B>endTransform</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</PRE>
+<DL>
+<DD>Ends the group started by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginTransform(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, java.awt.geom.AffineTransform)"><CODE>beginTransform(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, java.awt.geom.AffineTransform)</CODE></A>.
+ <p>
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginTransform(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, java.awt.geom.AffineTransform)"><CODE>beginTransform(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, java.awt.geom.AffineTransform)</CODE></A> 이 시작한 그룹을 끝낸다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>box</CODE> - the transformed stacking context box / 변환된 쌓임 맥락 상자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="beginClipPath(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, java.awt.Shape)"><!-- --></A><H3>
+beginClipPath</H3>
+<PRE>
+void <B>beginClipPath</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box,
+                   java.awt.Shape&nbsp;shape)</PRE>
+<DL>
+<DD>Starts a group that is clipped to the shape of <code>clip-path</code> (P10-08): everything until the matching
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#endClipPath(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>endClipPath(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A> is painted and hit only inside the shape.
+ <p>
+ <code>clip-path</code> 의 모양으로 자르는 그룹을 시작한다(P10-08): 짝이 되는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#endClipPath(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>endClipPath(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A> 까지의 모든 것은 모양 안에서만 그려지고 히트된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>box</CODE> - the box with the clip path / clip-path 를 가진 상자<DD><CODE>shape</CODE> - the shape in the coordinates of the box (document coordinates before the transform of the box) / 상자의 좌표로 나타낸 모양(상자의 변환 전 문서 좌표)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="endClipPath(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><!-- --></A><H3>
+endClipPath</H3>
+<PRE>
+void <B>endClipPath</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</PRE>
+<DL>
+<DD>Ends the group started by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginClipPath(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, java.awt.Shape)"><CODE>beginClipPath(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, java.awt.Shape)</CODE></A>.
+ <p>
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginClipPath(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, java.awt.Shape)"><CODE>beginClipPath(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, java.awt.Shape)</CODE></A> 가 시작한 그룹을 끝낸다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>box</CODE> - the box with the clip path / clip-path 를 가진 상자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="beginEffects(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><!-- --></A><H3>
+beginEffects</H3>
+<PRE>
+void <B>beginEffects</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</PRE>
+<DL>
+<DD>Starts a group whose content is painted into a buffer that gets the effects of the box applied before it is drawn: the filter
+ functions of <code>filter</code> and then the mask of <code>mask-image</code> (CSS Filter Effects 1 and CSS Masking 1; the
+ order of the compositing model is filter, clip, mask, opacity). Everything until the matching <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#endEffects(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>endEffects(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A> belongs to the
+ group.
+ <p>
+ 상자의 효과를 입히는 버퍼에 내용을 그리는 그룹을 시작한다: <code>filter</code> 의 필터 함수, 그다음 <code>mask-image</code> 의 마스크(CSS Filter Effects 1,
+ CSS Masking 1. 합성 모델의 순서는 필터, 자르기, 마스크, 불투명도이다). 짝이 되는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#endEffects(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>endEffects(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A> 까지의 모든 것이 그룹에 속한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>box</CODE> - the box with a filter or a mask / 필터나 마스크가 있는 상자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="endEffects(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><!-- --></A><H3>
+endEffects</H3>
+<PRE>
+void <B>endEffects</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</PRE>
+<DL>
+<DD>Ends the group started by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginEffects(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>beginEffects(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A>.
+ <p>
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html#beginEffects(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><CODE>beginEffects(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)</CODE></A> 가 시작한 그룹을 끝낸다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>box</CODE> - the box with a filter or a mask / 필터나 마스크가 있는 상자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="resizer(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><!-- --></A><H3>
+resizer</H3>
+<PRE>
+void <B>resizer</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box)</PRE>
+<DL>
+<DD>Reports the resize handle of a box with <code>resize</code> (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>Resizing</CODE></A>); it is painted above the content of the box, in
+ the corner of its padding box, after the clip of the padding box ended.
+ <p>
+ <code>resize</code> 가 있는 상자의 크기 조절 핸들을 알린다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/Resizing.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>Resizing</CODE></A> 참조). 상자 내용 위의 padding box 모서리에, padding box 자르기가 끝난 뒤에 그린다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>box</CODE> - the resizable box / 크기를 바꿀 수 있는 상자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="tableBorders(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><!-- --></A><H3>
+tableBorders</H3>
+<PRE>
+void <B>tableBorders</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;table)</PRE>
+<DL>
+<DD>Reports the collapsed borders of a table (<code>border-collapse:collapse</code>), painted after the backgrounds of the
+ cells and above them (CSS 2.1 17.6.2); see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getCollapsedBorders()"><CODE>LayoutBox.getCollapsedBorders()</CODE></A>.
+ <p>
+ 표의 합쳐진 border(<code>border-collapse:collapse</code>)를 알린다. 셀 배경 뒤에 그 위로 그린다(CSS 2.1 17.6.2).
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getCollapsedBorders()"><CODE>LayoutBox.getCollapsedBorders()</CODE></A> 참조.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>table</CODE> - the table box / 표 상자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="columnRules(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><!-- --></A><H3>
+columnRules</H3>
+<PRE>
+void <B>columnRules</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;container)</PRE>
+<DL>
+<DD>Reports the column rules of a multi-column container (see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getColumnRules()"><CODE>LayoutBox.getColumnRules()</CODE></A>), painted right after the
+ background and the border of the container and below its content.
+ <p>
+ 다단 컨테이너의 열 구분선을 알린다(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#getColumnRules()"><CODE>LayoutBox.getColumnRules()</CODE></A> 참조). 컨테이너의 배경과 border 바로 뒤에, 내용 아래에 그린다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>container</CODE> - the multi-column container / 다단 컨테이너</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PositionTrySource.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PaintWalker.Visitor.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,355 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+JsNodeFilter
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="JsNodeFilter";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/JsListener.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/MatrixBindings.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/dom/JsNodeFilter.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="JsNodeFilter.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.dom</FONT>
+<BR>
+Class JsNodeFilter</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.dom.JsNodeFilter</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">NodeFilter</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public final class <B>JsNodeFilter</B><DT>extends java.lang.Object<DT>implements <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">NodeFilter</A></DL>
+</PRE>
+
+<P>
+Adapts the <code>NodeFilter</code> callback of a script to the Java <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><CODE>NodeFilter</CODE></A>: a function is called with the node as its only
+ argument, any other object must have an <code>acceptNode</code> method that is called with the object as <code>this</code> (the rules of a
+ WebIDL callback interface). The result is converted to an unsigned short, like WebIDL does. An exception of the script goes through to the
+ traversal call of the caller.
+ <p>
+ 스크립트의 <code>NodeFilter</code> 콜백을 Java <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><CODE>NodeFilter</CODE></A> 에 맞춘다: 함수는 노드를 유일한 인수로 호출하고, 그 밖의 객체는
+ <code>acceptNode</code> 메서드가 있어야 하며 그 객체를 <code>this</code> 로 호출한다(WebIDL 콜백 인터페이스의 규칙). 결과는 WebIDL 처럼 unsigned
+ short 로 바꾼다. 스크립트의 예외는 호출자의 탐색 호출까지 전달된다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.NodeFilter"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from interface org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">NodeFilter</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#FILTER_ACCEPT">FILTER_ACCEPT</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#FILTER_REJECT">FILTER_REJECT</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#FILTER_SKIP">FILTER_SKIP</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_ALL">SHOW_ALL</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_ATTRIBUTE">SHOW_ATTRIBUTE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_CDATA_SECTION">SHOW_CDATA_SECTION</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_COMMENT">SHOW_COMMENT</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_DOCUMENT">SHOW_DOCUMENT</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_DOCUMENT_FRAGMENT">SHOW_DOCUMENT_FRAGMENT</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_DOCUMENT_TYPE">SHOW_DOCUMENT_TYPE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_ELEMENT">SHOW_ELEMENT</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_ENTITY">SHOW_ENTITY</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_ENTITY_REFERENCE">SHOW_ENTITY_REFERENCE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_NOTATION">SHOW_NOTATION</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_PROCESSING_INSTRUCTION">SHOW_PROCESSING_INSTRUCTION</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#SHOW_TEXT">SHOW_TEXT</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/JsNodeFilter.html#JsNodeFilter(org.duckdns.hjow.swingwebpanel.js.dom.DomBridge, org.duckdns.hjow.swingwebpanel.js.JsObject)">JsNodeFilter</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/DomBridge.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom">DomBridge</A>&nbsp;bridge,
+             org.duckdns.hjow.swingwebpanel.js.JsObject&nbsp;callback)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the adapter.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/JsNodeFilter.html#acceptNode(org.duckdns.hjow.swingwebpanel.dom.Node)">acceptNode</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calls the script.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;org.duckdns.hjow.swingwebpanel.js.JsObject</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/JsNodeFilter.html#getCallback()">getCallback</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the function or object of the script (what <code>filter</code> returns to the script).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">NodeFilter</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/JsNodeFilter.html#of(org.duckdns.hjow.swingwebpanel.js.dom.DomBridge, org.duckdns.hjow.swingwebpanel.js.JsValue)">of</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/DomBridge.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom">DomBridge</A>&nbsp;bridge,
+   org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Converts the argument of <code>createNodeIterator</code> or <code>createTreeWalker</code>: undefined and null mean no filter, an
+ object becomes an adapter, anything else is a TypeError.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="JsNodeFilter(org.duckdns.hjow.swingwebpanel.js.dom.DomBridge, org.duckdns.hjow.swingwebpanel.js.JsObject)"><!-- --></A><H3>
+JsNodeFilter</H3>
+<PRE>
+public <B>JsNodeFilter</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/DomBridge.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom">DomBridge</A>&nbsp;bridge,
+                    org.duckdns.hjow.swingwebpanel.js.JsObject&nbsp;callback)</PRE>
+<DL>
+<DD>Creates the adapter.
+ <p>
+ 어댑터를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>bridge</CODE> - the bridge / 브리지<DD><CODE>callback</CODE> - the function or object with <code>acceptNode</code> / 함수 또는 <code>acceptNode</code> 를 가진 객체</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getCallback()"><!-- --></A><H3>
+getCallback</H3>
+<PRE>
+public org.duckdns.hjow.swingwebpanel.js.JsObject <B>getCallback</B>()</PRE>
+<DL>
+<DD>Returns the function or object of the script (what <code>filter</code> returns to the script).
+ <p>
+ 스크립트의 함수 또는 객체를 반환한다(<code>filter</code> 가 스크립트에 돌려주는 것).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the callback / 콜백</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="acceptNode(org.duckdns.hjow.swingwebpanel.dom.Node)"><!-- --></A><H3>
+acceptNode</H3>
+<PRE>
+public short <B>acceptNode</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;node)</PRE>
+<DL>
+<DD>Calls the script.
+ <p>
+ 스크립트를 호출한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html#acceptNode(org.duckdns.hjow.swingwebpanel.dom.Node)">acceptNode</A></CODE> in interface <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">NodeFilter</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>node</CODE> - the node / 노드
+<DT><B>Returns:</B><DD>the result as an unsigned short / unsigned short 로 바꾼 결과</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="of(org.duckdns.hjow.swingwebpanel.js.dom.DomBridge, org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+of</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/NodeFilter.html" title="interface in org.duckdns.hjow.swingwebpanel.dom">NodeFilter</A> <B>of</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/DomBridge.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom">DomBridge</A>&nbsp;bridge,
+                            org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;v)</PRE>
+<DL>
+<DD>Converts the argument of <code>createNodeIterator</code> or <code>createTreeWalker</code>: undefined and null mean no filter, an
+ object becomes an adapter, anything else is a TypeError.
+ <p>
+ <code>createNodeIterator</code>, <code>createTreeWalker</code> 의 인수를 바꾼다: undefined 와 null 은 필터 없음, 객체는 어댑터, 그 밖은 TypeError.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>bridge</CODE> - the bridge / 브리지<DD><CODE>v</CODE> - the argument / 인수
+<DT><B>Returns:</B><DD>the filter or null / 필터 또는 null</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/JsListener.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/MatrixBindings.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/dom/JsNodeFilter.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="JsNodeFilter.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,619 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+VttCue
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="VttCue";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCueText.html" title="class in org.duckdns.hjow.swingwebpanel.media.vtt"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="VttCue.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.vtt</FONT>
+<BR>
+Class VttCue</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.vtt.VttCue</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>VttCue</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+A WebVTT cue (WebVTT 3.2/3.3 and the <code>VTTCue</code> interface of 9.1, with the text track cue of HTML 4.8.11.11.1): the identifier,
+ the times, the pause-on-exit flag, the cue settings and the raw cue text. The fields are public because the class is a plain record that the
+ file parser fills and the script interface checks; the defaults are those of the file parser and of the constructor of <code>VTTCue</code>.
+ The values that can be <code>auto</code> (<code>line</code>, <code>position</code>) are <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#AUTO"><CODE>AUTO</CODE></A> (not-a-number, which a real value never
+ is) in that case.
+ <p>
+ WebVTT cue(WebVTT 3.2/3.3 과 9.1 의 <code>VTTCue</code> 인터페이스, HTML 4.8.11.11.1 의 텍스트 트랙 cue 포함): 식별자, 시각, pause-on-exit 표시,
+ cue 설정, 원문 cue 텍스트. 클래스는 파일 파서가 채우고 스크립트 인터페이스가 검사하는 단순한 기록이므로 필드는 public 이다. 기본값은 파일 파서와
+ <code>VTTCue</code> 생성자의 값이다. <code>auto</code> 가 될 수 있는 값(<code>line</code>, <code>position</code>)은 그때 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#AUTO"><CODE>AUTO</CODE></A>(실제 값이
+ 될 수 없는 NaN)이다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#align">align</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The text alignment: <code>start</code>, <code>center</code>, <code>end</code>, <code>left</code> or <code>right</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#AUTO">AUTO</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The value of <code>line</code> and <code>position</code> that stands for the keyword <code>auto</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#endTime">endTime</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The end time in seconds, positive infinity for an unbounded cue.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#id">id</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The identifier of the cue (empty if it has none).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#line">line</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The line, or <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#AUTO"><CODE>AUTO</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#lineAlign">lineAlign</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The line alignment: <code>start</code>, <code>center</code> or <code>end</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#pauseOnExit">pauseOnExit</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The pause-on-exit flag: playback pauses when the end of the cue is reached.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#position">position</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The position as a percentage, or <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#AUTO"><CODE>AUTO</CODE></A>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#positionAlign">positionAlign</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The position alignment: <code>line-left</code>, <code>center</code>, <code>line-right</code> or <code>auto</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttRegion.html" title="class in org.duckdns.hjow.swingwebpanel.media.vtt">VttRegion</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#region">region</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The region of the cue, or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#size">size</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The size as a percentage of the video, 0 to 100.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#snapToLines">snapToLines</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The snap-to-lines flag: true if <code>line</code> is a line number, false if it is a percentage.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#startTime">startTime</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The start time in seconds.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#text">text</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The raw cue text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#vertical">vertical</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The writing direction: the empty string for horizontal, <code>rl</code> (vertical growing left) or <code>lr</code> (vertical growing right).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#VttCue()">VttCue</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a cue with the defaults of the file parser.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#isAuto(double)">isAuto</A></B>(double&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a value of <code>line</code> or <code>position</code> is the keyword <code>auto</code>.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="AUTO"><!-- --></A><H3>
+AUTO</H3>
+<PRE>
+public static final double <B>AUTO</B></PRE>
+<DL>
+<DD>The value of <code>line</code> and <code>position</code> that stands for the keyword <code>auto</code>.
+ <p>
+ 키워드 <code>auto</code> 를 나타내는 <code>line</code>, <code>position</code> 의 값.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.vtt.VttCue.AUTO">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="id"><!-- --></A><H3>
+id</H3>
+<PRE>
+public java.lang.String <B>id</B></PRE>
+<DL>
+<DD>The identifier of the cue (empty if it has none).
+ <p>
+ cue 의 식별자(없으면 빈 문자열).
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="startTime"><!-- --></A><H3>
+startTime</H3>
+<PRE>
+public double <B>startTime</B></PRE>
+<DL>
+<DD>The start time in seconds.
+ <p>
+ 시작 시각(초).
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="endTime"><!-- --></A><H3>
+endTime</H3>
+<PRE>
+public double <B>endTime</B></PRE>
+<DL>
+<DD>The end time in seconds, positive infinity for an unbounded cue.
+ <p>
+ 끝 시각(초). 끝이 없는 cue 는 양의 무한대.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="pauseOnExit"><!-- --></A><H3>
+pauseOnExit</H3>
+<PRE>
+public boolean <B>pauseOnExit</B></PRE>
+<DL>
+<DD>The pause-on-exit flag: playback pauses when the end of the cue is reached.
+ <p>
+ pause-on-exit 표시: cue 의 끝에 닿으면 재생이 멈춘다.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="region"><!-- --></A><H3>
+region</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttRegion.html" title="class in org.duckdns.hjow.swingwebpanel.media.vtt">VttRegion</A> <B>region</B></PRE>
+<DL>
+<DD>The region of the cue, or null.
+ <p>
+ cue 의 region. 없으면 null.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="vertical"><!-- --></A><H3>
+vertical</H3>
+<PRE>
+public java.lang.String <B>vertical</B></PRE>
+<DL>
+<DD>The writing direction: the empty string for horizontal, <code>rl</code> (vertical growing left) or <code>lr</code> (vertical growing right).
+ <p>
+ 쓰기 방향: 가로는 빈 문자열, 아니면 <code>rl</code>(세로, 왼쪽으로 자람) 또는 <code>lr</code>(세로, 오른쪽으로 자람).
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="snapToLines"><!-- --></A><H3>
+snapToLines</H3>
+<PRE>
+public boolean <B>snapToLines</B></PRE>
+<DL>
+<DD>The snap-to-lines flag: true if <code>line</code> is a line number, false if it is a percentage.
+ <p>
+ snap-to-lines 표시: <code>line</code> 이 줄 번호이면 true, 백분율이면 false.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="line"><!-- --></A><H3>
+line</H3>
+<PRE>
+public double <B>line</B></PRE>
+<DL>
+<DD>The line, or <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#AUTO"><CODE>AUTO</CODE></A>.
+ <p>
+ 줄. 또는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#AUTO"><CODE>AUTO</CODE></A>.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="lineAlign"><!-- --></A><H3>
+lineAlign</H3>
+<PRE>
+public java.lang.String <B>lineAlign</B></PRE>
+<DL>
+<DD>The line alignment: <code>start</code>, <code>center</code> or <code>end</code>.
+ <p>
+ 줄 정렬: <code>start</code>, <code>center</code>, <code>end</code>.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="position"><!-- --></A><H3>
+position</H3>
+<PRE>
+public double <B>position</B></PRE>
+<DL>
+<DD>The position as a percentage, or <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#AUTO"><CODE>AUTO</CODE></A>.
+ <p>
+ 백분율의 위치. 또는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html#AUTO"><CODE>AUTO</CODE></A>.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="positionAlign"><!-- --></A><H3>
+positionAlign</H3>
+<PRE>
+public java.lang.String <B>positionAlign</B></PRE>
+<DL>
+<DD>The position alignment: <code>line-left</code>, <code>center</code>, <code>line-right</code> or <code>auto</code>.
+ <p>
+ 위치 정렬: <code>line-left</code>, <code>center</code>, <code>line-right</code>, <code>auto</code>.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="size"><!-- --></A><H3>
+size</H3>
+<PRE>
+public double <B>size</B></PRE>
+<DL>
+<DD>The size as a percentage of the video, 0 to 100.
+ <p>
+ 비디오에 대한 백분율의 크기(0에서 100).
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="align"><!-- --></A><H3>
+align</H3>
+<PRE>
+public java.lang.String <B>align</B></PRE>
+<DL>
+<DD>The text alignment: <code>start</code>, <code>center</code>, <code>end</code>, <code>left</code> or <code>right</code>.
+ <p>
+ 텍스트 정렬: <code>start</code>, <code>center</code>, <code>end</code>, <code>left</code>, <code>right</code>.
+<P>
+<DL>
+</DL>
+</DL>
+<HR>
+
+<A NAME="text"><!-- --></A><H3>
+text</H3>
+<PRE>
+public java.lang.String <B>text</B></PRE>
+<DL>
+<DD>The raw cue text.
+ <p>
+ 원문 cue 텍스트.
+<P>
+<DL>
+</DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="VttCue()"><!-- --></A><H3>
+VttCue</H3>
+<PRE>
+public <B>VttCue</B>()</PRE>
+<DL>
+<DD>Creates a cue with the defaults of the file parser.
+ <p>
+ 파일 파서의 기본값으로 cue 를 만든다.
+<P>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="isAuto(double)"><!-- --></A><H3>
+isAuto</H3>
+<PRE>
+public static boolean <B>isAuto</B>(double&nbsp;value)</PRE>
+<DL>
+<DD>Tells whether a value of <code>line</code> or <code>position</code> is the keyword <code>auto</code>.
+ <p>
+ <code>line</code>, <code>position</code> 의 값이 키워드 <code>auto</code> 인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - the value / 값
+<DT><B>Returns:</B><DD>true for auto / auto 이면 true</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/vtt/VttCueText.html" title="class in org.duckdns.hjow.swingwebpanel.media.vtt"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/vtt/VttCue.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="VttCue.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,639 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ChannelMixer
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ChannelMixer";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSourceException.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FileByteSource.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ChannelMixer.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.audio</FONT>
+<BR>
+Class ChannelMixer</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.audio.ChannelMixer</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ChannelMixer</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Mixes the channels of a multi-channel layout down to stereo (plan item P18-07). Every input channel has a role; front left/right keep
+ their side, front/back centre go to both sides at -3 dB, left/right surround and back channels go to their side at -3 dB, and the low
+ frequency channel is dropped. The weights of each side are then scaled by one common factor so that full-scale input can never exceed
+ full scale at the output. Layouts with one or two channels are not mixed (mono stays mono).
+ <p>
+ 다채널 배치를 스테레오로 다운믹스한다(계획 P18-07). 입력 채널마다 역할이 있다: 앞 왼쪽/오른쪽은 자기 쪽을 유지하고, 앞/뒤 중앙은 -3 dB 로 양쪽에
+ 들어가며, 왼쪽/오른쪽 서라운드와 뒤 채널은 -3 dB 로 자기 쪽에 들어가고, 저주파 채널은 버린다. 각 쪽의 가중치는 공통 계수로 나누어 풀 스케일 입력이
+ 출력에서 풀 스케일을 넘지 않게 한다. 채널이 하나나 둘인 배치는 섞지 않는다(모노는 모노로 남는다).
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html#BC">BC</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Role: back centre.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html#BL">BL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Role: back left.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html#BR">BR</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Role: back right.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html#FC">FC</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Role: front centre.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html#FL">FL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Role: front left.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html#FR">FR</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Role: front right.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html#LFE">LFE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Role: low frequency effects (dropped by the mix).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html#NONE">NONE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Role: not used in the mix.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html#SL">SL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Role: side left.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html#SR">SR</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Role: side right.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html#canonicalOrder()">canonicalOrder</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the order in which the input channels have to be taken to get the canonical order of the wide decoding path (plan item P25-05):
+ front left, front right, front centre, LFE, back left, back right, back centre, side left, side right (the order of the
+ <code>WAVEFORMATEXTENSIBLE</code> mask, FFmpeg and the speaker layouts of Web Audio).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">ChannelMixer</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html#forChannels(int)">forChannels</A></B>(int&nbsp;channels)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the default mixer for a number of channels: the usual speaker order of WAV, FLAC and Vorbis (3: L R C; 4: L R BL BR;
+ 5: L R C BL BR; 6: L R C LFE BL BR; 7: L R C LFE BC SL SR; 8: L R C LFE BL BR SL SR), and alternating left/right for more channels.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">ChannelMixer</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html#forRoles(int[])">forRoles</A></B>(int[]&nbsp;roles)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a mixer for explicit roles.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">ChannelMixer</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html#forVorbisOrder(int)">forVorbisOrder</A></B>(int&nbsp;channels)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a mixer for the channel order of Vorbis I (section 4.3.9 of the specification), which Opus uses for its channel mapping family 1: it
+ differs from the order of WAV and FLAC for three channels and more (centre before right: 3 = L C R, 5 = L C R BL BR, 6 = L C R BL BR LFE,
+ 7 = L C R SL SR BC LFE, 8 = L C R SL SR BL BR LFE).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">ChannelMixer</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html#forWavMask(int, long)">forWavMask</A></B>(int&nbsp;channels,
+           long&nbsp;mask)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a mixer for the speaker mask of a WAVE_FORMAT_EXTENSIBLE header: the set bits, from the lowest, name the roles in channel
+ order (bit 0 front left, 1 front right, 2 front centre, 3 LFE, 4 back left, 5 back right, 8 back centre, 9 side left, 10 side right;
+ other speakers are not mixed).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html#getInputChannels()">getInputChannels</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of input channels.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html#mix(float[], float[])">mix</A></B>(float[]&nbsp;frame,
+    float[]&nbsp;out)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mixes one frame.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="FL"><!-- --></A><H3>
+FL</H3>
+<PRE>
+public static final int <B>FL</B></PRE>
+<DL>
+<DD>Role: front left.
+ <p>
+ 역할: 앞 왼쪽.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.audio.ChannelMixer.FL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FR"><!-- --></A><H3>
+FR</H3>
+<PRE>
+public static final int <B>FR</B></PRE>
+<DL>
+<DD>Role: front right.
+ <p>
+ 역할: 앞 오른쪽.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.audio.ChannelMixer.FR">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FC"><!-- --></A><H3>
+FC</H3>
+<PRE>
+public static final int <B>FC</B></PRE>
+<DL>
+<DD>Role: front centre.
+ <p>
+ 역할: 앞 중앙.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.audio.ChannelMixer.FC">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LFE"><!-- --></A><H3>
+LFE</H3>
+<PRE>
+public static final int <B>LFE</B></PRE>
+<DL>
+<DD>Role: low frequency effects (dropped by the mix).
+ <p>
+ 역할: 저주파 효과(믹스에서 버린다).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.audio.ChannelMixer.LFE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BL"><!-- --></A><H3>
+BL</H3>
+<PRE>
+public static final int <B>BL</B></PRE>
+<DL>
+<DD>Role: back left.
+ <p>
+ 역할: 뒤 왼쪽.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.audio.ChannelMixer.BL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BR"><!-- --></A><H3>
+BR</H3>
+<PRE>
+public static final int <B>BR</B></PRE>
+<DL>
+<DD>Role: back right.
+ <p>
+ 역할: 뒤 오른쪽.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.audio.ChannelMixer.BR">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BC"><!-- --></A><H3>
+BC</H3>
+<PRE>
+public static final int <B>BC</B></PRE>
+<DL>
+<DD>Role: back centre.
+ <p>
+ 역할: 뒤 중앙.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.audio.ChannelMixer.BC">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SL"><!-- --></A><H3>
+SL</H3>
+<PRE>
+public static final int <B>SL</B></PRE>
+<DL>
+<DD>Role: side left.
+ <p>
+ 역할: 옆 왼쪽.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.audio.ChannelMixer.SL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SR"><!-- --></A><H3>
+SR</H3>
+<PRE>
+public static final int <B>SR</B></PRE>
+<DL>
+<DD>Role: side right.
+ <p>
+ 역할: 옆 오른쪽.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.audio.ChannelMixer.SR">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="NONE"><!-- --></A><H3>
+NONE</H3>
+<PRE>
+public static final int <B>NONE</B></PRE>
+<DL>
+<DD>Role: not used in the mix.
+ <p>
+ 역할: 믹스에 쓰지 않음.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.audio.ChannelMixer.NONE">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="forChannels(int)"><!-- --></A><H3>
+forChannels</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">ChannelMixer</A> <B>forChannels</B>(int&nbsp;channels)</PRE>
+<DL>
+<DD>Returns the default mixer for a number of channels: the usual speaker order of WAV, FLAC and Vorbis (3: L R C; 4: L R BL BR;
+ 5: L R C BL BR; 6: L R C LFE BL BR; 7: L R C LFE BC SL SR; 8: L R C LFE BL BR SL SR), and alternating left/right for more channels.
+ <p>
+ 채널 수의 기본 믹서를 반환한다: WAV, FLAC, Vorbis 의 일반적인 스피커 순서(3: L R C, 4: L R BL BR, 5: L R C BL BR, 6: L R C LFE BL BR,
+ 7: L R C LFE BC SL SR, 8: L R C LFE BL BR SL SR)이며 채널이 더 많으면 왼쪽/오른쪽을 번갈아 배정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>channels</CODE> - number of input channels (at least 1) / 입력 채널 수(1 이상)
+<DT><B>Returns:</B><DD>mixer / 믹서</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="forWavMask(int, long)"><!-- --></A><H3>
+forWavMask</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">ChannelMixer</A> <B>forWavMask</B>(int&nbsp;channels,
+                                      long&nbsp;mask)</PRE>
+<DL>
+<DD>Returns a mixer for the speaker mask of a WAVE_FORMAT_EXTENSIBLE header: the set bits, from the lowest, name the roles in channel
+ order (bit 0 front left, 1 front right, 2 front centre, 3 LFE, 4 back left, 5 back right, 8 back centre, 9 side left, 10 side right;
+ other speakers are not mixed). If the number of set bits differs from the channel count the default layout is used.
+ <p>
+ WAVE_FORMAT_EXTENSIBLE 헤더의 스피커 마스크용 믹서를 반환한다: 설정된 비트가 낮은 쪽부터 채널 순서대로 역할을 나타낸다(비트 0 앞 왼쪽, 1 앞 오른쪽,
+ 2 앞 중앙, 3 LFE, 4 뒤 왼쪽, 5 뒤 오른쪽, 8 뒤 중앙, 9 옆 왼쪽, 10 옆 오른쪽, 다른 스피커는 섞지 않음). 설정된 비트 수가 채널 수와 다르면 기본
+ 배치를 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>channels</CODE> - number of input channels / 입력 채널 수<DD><CODE>mask</CODE> - channel mask / 채널 마스크
+<DT><B>Returns:</B><DD>mixer / 믹서</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="forVorbisOrder(int)"><!-- --></A><H3>
+forVorbisOrder</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">ChannelMixer</A> <B>forVorbisOrder</B>(int&nbsp;channels)</PRE>
+<DL>
+<DD>Returns a mixer for the channel order of Vorbis I (section 4.3.9 of the specification), which Opus uses for its channel mapping family 1: it
+ differs from the order of WAV and FLAC for three channels and more (centre before right: 3 = L C R, 5 = L C R BL BR, 6 = L C R BL BR LFE,
+ 7 = L C R SL SR BC LFE, 8 = L C R SL SR BL BR LFE). Up to two channels and four channels are the same as in <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html#forChannels(int)"><CODE>forChannels(int)</CODE></A>.
+ <p>
+ Vorbis I 의 채널 순서(규격 4.3.9절)로 믹서를 만든다. Opus 의 채널 매핑 계열 1 이 이 순서를 쓴다. 채널이 셋 이상일 때 WAV 와 FLAC 의 순서와
+ 다르다(오른쪽보다 중앙이 먼저: 3 = L C R, 5 = L C R BL BR, 6 = L C R BL BR LFE, 7 = L C R SL SR BC LFE, 8 = L C R SL SR BL BR LFE).
+ 채널이 둘 이하이거나 넷이면 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html#forChannels(int)"><CODE>forChannels(int)</CODE></A> 와 같다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>channels</CODE> - number of channels / 채널 수
+<DT><B>Returns:</B><DD>mixer / 믹서</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="forRoles(int[])"><!-- --></A><H3>
+forRoles</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">ChannelMixer</A> <B>forRoles</B>(int[]&nbsp;roles)</PRE>
+<DL>
+<DD>Returns a mixer for explicit roles.
+ <p>
+ 명시한 역할로 믹서를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>roles</CODE> - role of every input channel / 입력 채널마다의 역할
+<DT><B>Returns:</B><DD>mixer / 믹서</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="canonicalOrder()"><!-- --></A><H3>
+canonicalOrder</H3>
+<PRE>
+public int[] <B>canonicalOrder</B>()</PRE>
+<DL>
+<DD>Returns the order in which the input channels have to be taken to get the canonical order of the wide decoding path (plan item P25-05):
+ front left, front right, front centre, LFE, back left, back right, back centre, side left, side right (the order of the
+ <code>WAVEFORMATEXTENSIBLE</code> mask, FFmpeg and the speaker layouts of Web Audio). The role constants are numbered in this order, so the
+ channels are sorted by role (stable). If a role is unknown or occurs twice the layout is not trusted and the order of the file is kept.
+ <p>
+ 입력 채널을 넓은 디코딩 경로의 표준 순서로 얻으려면 어떤 순서로 가져와야 하는지 반환한다(계획 P25-05): 앞 왼쪽, 앞 오른쪽, 앞 중앙, LFE, 뒤 왼쪽, 뒤 오른쪽,
+ 뒤 중앙, 옆 왼쪽, 옆 오른쪽(<code>WAVEFORMATEXTENSIBLE</code> 마스크, FFmpeg, Web Audio 스피커 배치의 순서). 역할 상수가 이 순서로 번호가 매겨져 있으므로
+ 채널을 역할로 정렬한다(안정 정렬). 역할을 모르거나 같은 역할이 두 번 나오면 배치를 믿지 않고 파일의 순서를 유지한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>for every output channel the index of the input channel / 출력 채널마다 입력 채널의 인덱스</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getInputChannels()"><!-- --></A><H3>
+getInputChannels</H3>
+<PRE>
+public int <B>getInputChannels</B>()</PRE>
+<DL>
+<DD>Returns the number of input channels.
+ <p>
+ 입력 채널 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>channels / 채널 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="mix(float[], float[])"><!-- --></A><H3>
+mix</H3>
+<PRE>
+public void <B>mix</B>(float[]&nbsp;frame,
+                float[]&nbsp;out)</PRE>
+<DL>
+<DD>Mixes one frame.
+ <p>
+ 프레임 하나를 섞는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>frame</CODE> - the samples of one frame, one per input channel (full scale 1.0) / 입력 채널마다 하나인 프레임의 샘플(풀 스케일 1.0)<DD><CODE>out</CODE> - two floats that receive left and right / 왼쪽과 오른쪽을 받는 float 두 개</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSourceException.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FileByteSource.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/audio/ChannelMixer.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ChannelMixer.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

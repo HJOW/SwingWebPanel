@@ -1,0 +1,398 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+LogicalProps
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="LogicalProps";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/props/Prop.html" title="class in org.duckdns.hjow.swingwebpanel.css.props"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/props/LogicalProps.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="LogicalProps.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.props</FONT>
+<BR>
+Class LogicalProps</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.props.LogicalProps</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>LogicalProps</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The mapping of the logical properties to the physical ones (CSS Logical Properties and Values Level 1, https://www.w3.org/TR/css-logical-1/,
+ retrieved 2026-11-17): <code>margin-block-start</code>, <code>padding-inline-end</code>, <code>inset-block-start</code>,
+ <code>border-inline-start-width</code> (and the style and the color), <code>border-start-end-radius</code>, <code>inline-size</code>,
+ <code>min-block-size</code> and the rest of the logical longhands (the ids <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/props/Prop.html#MARGIN_BLOCK_START"><CODE>Prop.MARGIN_BLOCK_START</CODE></A> to <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/props/Prop.html#MAX_BLOCK_SIZE"><CODE>Prop.MAX_BLOCK_SIZE</CODE></A>).
+ A logical property is a different name for a physical property that depends on the <code>writing-mode</code> and the
+ <code>direction</code> of the element: the block axis is vertical in <code>horizontal-tb</code> and horizontal in the vertical modes (block-start is the
+ top, or the right in <code>vertical-rl</code> and <code>sideways-rl</code>, the left in <code>vertical-lr</code> and <code>sideways-lr</code>), the
+ inline axis is the other one and its start is the left (right in <code>rtl</code>) in <code>horizontal-tb</code>, the top (bottom in
+ <code>rtl</code>) in <code>vertical-rl</code>, <code>vertical-lr</code> and <code>sideways-rl</code> and the bottom (top in <code>rtl</code>) in
+ <code>sideways-lr</code>. The cascade writes the value of a logical declaration to the physical longhand that this class names, so a logical and a physical declaration
+ of the same side compete in the order of the cascade (the later one wins) and the layout code only knows the physical properties.
+ <p>
+ 논리 속성을 물리 속성으로 옮기는 규칙(CSS Logical Properties and Values Level 1, https://www.w3.org/TR/css-logical-1/, 조회 2026-11-17): <code>margin-block-start</code>,
+ <code>padding-inline-end</code>, <code>inset-block-start</code>, <code>border-inline-start-width</code>(와 스타일, 색), <code>border-start-end-radius</code>, <code>inline-size</code>,
+ <code>min-block-size</code> 등 논리 개별 속성(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/props/Prop.html#MARGIN_BLOCK_START"><CODE>Prop.MARGIN_BLOCK_START</CODE></A> 부터 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/props/Prop.html#MAX_BLOCK_SIZE"><CODE>Prop.MAX_BLOCK_SIZE</CODE></A> 까지의 id). 논리 속성은 요소의 <code>writing-mode</code> 와
+ <code>direction</code> 에 따라 정해지는 물리 속성의 다른 이름이다: 블록 축은 <code>horizontal-tb</code> 에서 세로이고 세로쓰기에서 가로이다(block-start 는 위쪽이며
+ <code>vertical-rl</code>, <code>sideways-rl</code> 에서는 오른쪽, <code>vertical-lr</code>, <code>sideways-lr</code> 에서는 왼쪽). 인라인 축은 다른 축이며 그 시작은
+ <code>horizontal-tb</code> 에서 왼쪽(<code>rtl</code> 이면 오른쪽), <code>vertical-rl</code>, <code>vertical-lr</code>, <code>sideways-rl</code> 에서 위쪽(<code>rtl</code> 이면 아래쪽),
+ <code>sideways-lr</code> 에서 아래쪽(<code>rtl</code> 이면 위쪽)이다. 계단식은 논리 선언의 값을 이 클래스가 알려 주는 물리 개별 속성에 쓰므로 같은 변의 논리 선언과 물리 선언은 계단식
+ 순서(나중 것이 이김)로 겨루고, 레이아웃 코드는 물리 속성만 안다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/props/LogicalProps.html#FIRST">FIRST</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The first id of the logical longhands.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/props/LogicalProps.html#LAST">LAST</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The last id of the logical longhands.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/props/LogicalProps.html#SCROLL_FIRST">SCROLL_FIRST</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The first id of the logical scroll margins and scroll paddings (CSS Scroll Snap Level 1): a second range, ids 296 to 303.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/props/LogicalProps.html#SCROLL_LAST">SCROLL_LAST</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The last id of the logical scroll margins and scroll paddings.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/props/LogicalProps.html#isLogical(int)">isLogical</A></B>(int&nbsp;id)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a property id is one of the logical longhands.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/props/LogicalProps.html#physical(int, java.lang.String, java.lang.String)">physical</A></B>(int&nbsp;id,
+         java.lang.String&nbsp;mode,
+         java.lang.String&nbsp;direction)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the physical longhand that a logical longhand stands for under a writing mode and a direction.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/props/LogicalProps.html#side(int, java.lang.String, boolean)">side</A></B>(int&nbsp;k,
+     java.lang.String&nbsp;mode,
+     boolean&nbsp;rtl)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the physical side (0 top, 1 right, 2 bottom, 3 left) that a logical side stands for.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="FIRST"><!-- --></A><H3>
+FIRST</H3>
+<PRE>
+public static final int <B>FIRST</B></PRE>
+<DL>
+<DD>The first id of the logical longhands. 논리 개별 속성의 첫 id.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.props.LogicalProps.FIRST">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LAST"><!-- --></A><H3>
+LAST</H3>
+<PRE>
+public static final int <B>LAST</B></PRE>
+<DL>
+<DD>The last id of the logical longhands. 논리 개별 속성의 마지막 id.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.props.LogicalProps.LAST">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SCROLL_FIRST"><!-- --></A><H3>
+SCROLL_FIRST</H3>
+<PRE>
+public static final int <B>SCROLL_FIRST</B></PRE>
+<DL>
+<DD>The first id of the logical scroll margins and scroll paddings (CSS Scroll Snap Level 1): a second range, ids 296 to 303. 논리 scroll-margin/scroll-padding 의 첫 id(CSS Scroll Snap Level 1): 둘째 범위, id 296~303.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.props.LogicalProps.SCROLL_FIRST">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SCROLL_LAST"><!-- --></A><H3>
+SCROLL_LAST</H3>
+<PRE>
+public static final int <B>SCROLL_LAST</B></PRE>
+<DL>
+<DD>The last id of the logical scroll margins and scroll paddings. 논리 scroll-margin/scroll-padding 의 마지막 id.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.css.props.LogicalProps.SCROLL_LAST">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="isLogical(int)"><!-- --></A><H3>
+isLogical</H3>
+<PRE>
+public static boolean <B>isLogical</B>(int&nbsp;id)</PRE>
+<DL>
+<DD>Tells whether a property id is one of the logical longhands.
+ <p>
+ 속성 id 가 논리 개별 속성인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - the property id / 속성 id
+<DT><B>Returns:</B><DD>true for a logical longhand / 논리 개별 속성이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="side(int, java.lang.String, boolean)"><!-- --></A><H3>
+side</H3>
+<PRE>
+public static int <B>side</B>(int&nbsp;k,
+                       java.lang.String&nbsp;mode,
+                       boolean&nbsp;rtl)</PRE>
+<DL>
+<DD>Returns the physical side (0 top, 1 right, 2 bottom, 3 left) that a logical side stands for.
+ <p>
+ 논리적 변이 가리키는 물리적 변(0 위, 1 오른쪽, 2 아래, 3 왼쪽)을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>k</CODE> - the logical side: 0 block-start, 1 block-end, 2 inline-start, 3 inline-end / 논리적 변: 0 block-start, 1 block-end, 2 inline-start, 3 inline-end<DD><CODE>mode</CODE> - the <code>writing-mode</code> keyword / <code>writing-mode</code> 키워드<DD><CODE>rtl</CODE> - true for <code>direction: rtl</code> / <code>direction: rtl</code> 이면 true
+<DT><B>Returns:</B><DD>the physical side / 물리적 변</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="physical(int, java.lang.String, java.lang.String)"><!-- --></A><H3>
+physical</H3>
+<PRE>
+public static int <B>physical</B>(int&nbsp;id,
+                           java.lang.String&nbsp;mode,
+                           java.lang.String&nbsp;direction)</PRE>
+<DL>
+<DD>Returns the physical longhand that a logical longhand stands for under a writing mode and a direction.
+ <p>
+ 쓰기 모드와 방향에서 논리 개별 속성이 가리키는 물리 개별 속성을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - the id of a logical longhand / 논리 개별 속성의 id<DD><CODE>mode</CODE> - the <code>writing-mode</code> keyword / <code>writing-mode</code> 키워드<DD><CODE>direction</CODE> - the <code>direction</code> keyword / <code>direction</code> 키워드
+<DT><B>Returns:</B><DD>the id of the physical longhand, or the id itself if it is not logical / 물리 개별 속성의 id. 논리 속성이 아니면 id 자신</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/props/Prop.html" title="class in org.duckdns.hjow.swingwebpanel.css.props"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/props/LogicalProps.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="LogicalProps.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

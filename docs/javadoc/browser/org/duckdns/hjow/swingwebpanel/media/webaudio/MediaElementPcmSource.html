@@ -1,0 +1,311 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+MediaElementPcmSource
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="MediaElementPcmSource";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementAudioSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementTap.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="MediaElementPcmSource.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.webaudio</FONT>
+<BR>
+Interface MediaElementPcmSource</H2>
+<DL>
+<DT><B>All Known Implementing Classes:</B> <DD><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementTap.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio">MediaElementTap</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public interface <B>MediaElementPcmSource</B></DL>
+</PRE>
+
+<P>
+The supplier of the audio of a media element (an <code>&lt;audio&gt;</code> element of the page) for a
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementAudioSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>MediaElementAudioSourceNode</CODE></A>. The pure Java audio engine knows nothing about HTML elements and players: the host (the binding
+ of the page, stage C of the plan) implements this interface on top of the player of the element, and the node pulls the decoded
+ samples of the playing media from it, one render quantum at a time, on the rendering thread.
+ <p>
+ Contract: the methods are called from the rendering thread and must return quickly without blocking (no waiting for the network, the
+ decoder or a lock that a slow thread may hold). The media keeps playing with the same timing as without the node; only its output is
+ taken from the speakers to the graph. A video element is not a supported origin (the factory of the host refuses it).
+ <p>
+ 미디어 요소(페이지의 <code>&lt;audio&gt;</code> 요소)의 오디오를 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementAudioSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><CODE>MediaElementAudioSourceNode</CODE></A> 에 공급하는 쪽. 순수 Java 오디오 엔진은 HTML 요소와
+ 재생기를 모른다. 호스트(페이지 바인딩, 계획의 C 단계)가 요소의 재생기 위에서 이 인터페이스를 구현하고, 노드가 렌더링 스레드에서 render quantum 하나씩
+ 재생 중인 미디어의 디코딩된 샘플을 가져간다.
+ <p>
+ 계약: 메서드는 렌더링 스레드에서 불리며 막히지 않고 빠르게 반환해야 한다(네트워크, 디코더, 느린 스레드가 쥘 수 있는 잠금을 기다리지 않는다). 미디어는 노드가
+ 없을 때와 같은 타이밍으로 계속 재생되며 출력만 스피커에서 그래프로 옮겨진다. 비디오 요소는 지원하는 원천이 아니다(호스트의 팩터리가 거부한다).
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html#getChannelCount()">getChannelCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of channels of the media (1 to 32), or 0 if the media has no audio (the node then outputs one silent channel).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;float</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html#getSampleRate()">getSampleRate</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the sample rate of the samples that <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html#pull(float[][], int)"><CODE>pull(float[][], int)</CODE></A> delivers, in Hz.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html#isOutputAllowed()">isOutputAllowed</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the audio may be heard through the graph.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html#pull(float[][], int)">pull</A></B>(float[][]&nbsp;dest,
+     int&nbsp;frames)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pulls the next samples of the playing media.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getChannelCount()"><!-- --></A><H3>
+getChannelCount</H3>
+<PRE>
+int <B>getChannelCount</B>()</PRE>
+<DL>
+<DD>Returns the number of channels of the media (1 to 32), or 0 if the media has no audio (the node then outputs one silent channel).
+ <p>
+ 미디어의 채널 수(1 ~ 32)를 반환한다. 미디어에 오디오가 없으면 0 이며 그때 노드는 무음 채널 하나를 출력한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of channels / 채널 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSampleRate()"><!-- --></A><H3>
+getSampleRate</H3>
+<PRE>
+float <B>getSampleRate</B>()</PRE>
+<DL>
+<DD>Returns the sample rate of the samples that <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html#pull(float[][], int)"><CODE>pull(float[][], int)</CODE></A> delivers, in Hz. If it differs from the sample rate of the context the
+ node resamples (with a linear interpolation).
+ <p>
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html#pull(float[][], int)"><CODE>pull(float[][], int)</CODE></A> 이 주는 샘플의 샘플링 주파수(Hz)를 반환한다. 컨텍스트의 샘플링 주파수와 다르면 노드가 (선형 보간으로) 리샘플링한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the sample rate / 샘플링 주파수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isOutputAllowed()"><!-- --></A><H3>
+isOutputAllowed</H3>
+<PRE>
+boolean <B>isOutputAllowed</B>()</PRE>
+<DL>
+<DD>Tells whether the audio may be heard through the graph. It is false for media from another origin that was not fetched with
+ the permission of the server (CORS): the specification makes the node output silence then.
+ <p>
+ 오디오를 그래프로 들려줘도 되는지 알려 준다. 서버의 허가(CORS) 없이 가져온 다른 오리진의 미디어이면 false 이며, 그러면 규격에 따라 노드가 무음을
+ 출력한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if the audio may pass / 오디오가 지나가도 되면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="pull(float[][], int)"><!-- --></A><H3>
+pull</H3>
+<PRE>
+int <B>pull</B>(float[][]&nbsp;dest,
+         int&nbsp;frames)</PRE>
+<DL>
+<DD>Pulls the next samples of the playing media. The method fills the first frames of <code>dest[c]</code> for every channel
+ <code>c</code> below <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html#getChannelCount()"><CODE>getChannelCount()</CODE></A> and returns how many frames it delivered: fewer than requested (down to 0) while
+ the media is paused, has ended, is buffering or has no data yet. The node fills the rest with silence.
+ <p>
+ 재생 중인 미디어의 다음 샘플을 가져온다. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html#getChannelCount()"><CODE>getChannelCount()</CODE></A> 보다 작은 모든 채널 <code>c</code> 에 대해 <code>dest[c]</code> 의 앞쪽 프레임을
+ 채우고 몇 프레임을 주었는지 반환한다. 미디어가 일시 정지, 종료, 버퍼링 중이거나 아직 데이터가 없으면 요청보다 적게(0 까지) 준다. 나머지는 노드가 무음으로
+ 채운다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>dest</CODE> - the destination arrays, one per channel, each with room for at least <code>frames</code> frames / 대상 배열. 채널마다 하나이고 각각
+               <code>frames</code> 프레임 이상이 들어간다<DD><CODE>frames</CODE> - the number of frames that are wanted / 원하는 프레임 수
+<DT><B>Returns:</B><DD>the number of frames delivered, from 0 to <code>frames</code> / 준 프레임 수(0 ~ <code>frames</code>)</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementAudioSourceNode.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementTap.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/MediaElementPcmSource.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="MediaElementPcmSource.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,452 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+Transforms
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Transforms";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.Keyframe.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimation.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/anim/Transforms.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Transforms.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.anim</FONT>
+<BR>
+Class Transforms</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.anim.Transforms</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>Transforms</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The 2D transform of an element (plan item P10-06, CSS Transforms Level 1, https://www.w3.org/TR/css-transforms-1/ section 8 and 13):
+ turns the computed value of <code>transform</code> and <code>transform-origin</code> into an <CODE>AffineTransform</CODE>. The list of
+ functions is multiplied left to right (<code>matrix = F1 * F2 * ... * Fn</code>, so the last function is applied to the points
+ first); <code>translate</code> percentages refer to the width and height of the reference box (the border box of the element, the
+ <code>view-box</code> of an HTML element); the transform is applied around the transform origin (default <code>50% 50%</code>):
+ <code>translate(origin) * T * translate(-origin)</code>. 3D (CSS Transforms Level 2, explicit exception EXC-03 of the feature table):
+ the property grammar accepts only the 3D function names whose arguments make them exactly 2D (<code>translate3d(x, y, 0)</code>,
+ <code>translateZ(0)</code>, <code>scale3d(x, y, 1)</code>, <code>scaleZ(1)</code>, <code>rotateZ(a)</code>,
+ <code>rotate3d(0, 0, 1, a)</code> and a <code>matrix3d()</code> whose 3D entries are those of the identity); they are projected to the
+ 2D function. Any other 3D value (<code>rotateX()</code>, <code>perspective()</code>, a real <code>translateZ()</code> ...) makes the
+ declaration invalid, as for any unknown function, so it is ignored; <code>perspective</code>, <code>transform-style</code> and
+ <code>backface-visibility</code> have no effect. This class is stateless. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Transforms.html#interpolate(org.duckdns.hjow.swingwebpanel.css.values.CssValue, org.duckdns.hjow.swingwebpanel.css.values.CssValue, double, double, double)"><CODE>interpolate(org.duckdns.hjow.swingwebpanel.css.values.CssValue, org.duckdns.hjow.swingwebpanel.css.values.CssValue, double, double, double)</CODE></A> blends two transform lists for
+ transitions and animations (CSS Transforms 1 section 15: a pair of lists with the same function names is interpolated function by
+ function, otherwise the matrices are interpolated through their decomposition).
+ <p>
+ 요소의 2D 변환(계획 P10-06, CSS Transforms Level 1, https://www.w3.org/TR/css-transforms-1/ 8, 13 절): <code>transform</code> 과 <code>transform-origin</code> 의
+ 계산 값을 <CODE>AffineTransform</CODE> 으로 바꾼다. 함수 목록은 왼쪽에서 오른쪽으로 곱한다(<code>행렬 = F1 * F2 * ... * Fn</code>, 곧 마지막 함수가 점에 가장 먼저 적용됨).
+ <code>translate</code> 의 백분율은 기준 상자(요소의 border box, HTML 요소의 <code>view-box</code>)의 너비와 높이를 참조한다. 변환은 변환 원점 둘레에 적용한다(기본
+ <code>50% 50%</code>): <code>translate(원점) * T * translate(-원점)</code>. 3D(CSS Transforms Level 2, 기능 표의 명시적 예외 EXC-03): 속성 문법은 인수가 정확히 2D 가 되는
+ 3D 함수 이름만 받는다(<code>translate3d(x, y, 0)</code>, <code>translateZ(0)</code>, <code>scale3d(x, y, 1)</code>, <code>scaleZ(1)</code>, <code>rotateZ(a)</code>,
+ <code>rotate3d(0, 0, 1, a)</code>, 3D 항목이 단위 행렬의 것인 <code>matrix3d()</code>). 이들은 2D 함수로 투영한다. 그 밖의 3D 값(<code>rotateX()</code>, <code>perspective()</code>,
+ 0 이 아닌 <code>translateZ()</code> 등)은 모르는 함수처럼 선언을 무효로 만들어 무시된다. <code>perspective</code>, <code>transform-style</code>,
+ <code>backface-visibility</code> 는 효과가 없다. 이 클래스는 상태가 없다. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Transforms.html#interpolate(org.duckdns.hjow.swingwebpanel.css.values.CssValue, org.duckdns.hjow.swingwebpanel.css.values.CssValue, double, double, double)"><CODE>interpolate(org.duckdns.hjow.swingwebpanel.css.values.CssValue, org.duckdns.hjow.swingwebpanel.css.values.CssValue, double, double, double)</CODE></A> 는 전환과 애니메이션을 위해 두 변환 목록을 섞는다(CSS Transforms 1 15 절:
+ 함수 이름이 같은 목록 쌍은 함수별로 보간하고, 아니면 행렬을 분해해서 보간한다).
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.awt.geom.AffineTransform</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Transforms.html#boxTransform(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, double, double, double, double)">boxTransform</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s,
+             double&nbsp;x,
+             double&nbsp;y,
+             double&nbsp;w,
+             double&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the transform of a box in the coordinates of its parent: the transform of the style around the transform origin, or null if
+ the style has no transform.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.awt.geom.AffineTransform</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Transforms.html#boxTransform(org.duckdns.hjow.swingwebpanel.css.values.CssValue, org.duckdns.hjow.swingwebpanel.css.values.CssValue, double, double, double, double)">boxTransform</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&nbsp;transform,
+             <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&nbsp;origin,
+             double&nbsp;x,
+             double&nbsp;y,
+             double&nbsp;w,
+             double&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the transform of a box for given values of <code>transform</code> and <code>transform-origin</code> (animations compute
+ the values at a moment and call this).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.awt.geom.AffineTransform</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Transforms.html#individual(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, double, double)">individual</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s,
+           double&nbsp;w,
+           double&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the matrix of the individual properties <code>translate</code>, <code>rotate</code> and <code>scale</code> (CSS Transforms
+ Level 2 section 3, https://www.w3.org/TR/css-transforms-2/): <code>translate * rotate * scale</code> in this order.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Transforms.html#interpolate(org.duckdns.hjow.swingwebpanel.css.values.CssValue, org.duckdns.hjow.swingwebpanel.css.values.CssValue, double, double, double)">interpolate</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&nbsp;from,
+            <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&nbsp;to,
+            double&nbsp;p,
+            double&nbsp;w,
+            double&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Interpolates two computed <code>transform</code> values (CSS Transforms 1 section 15): two lists with the same number of
+ functions with the same names are interpolated function by function (numbers, lengths and angles linearly; a missing length
+ is 0 and a missing scale is 1); other pairs (and <code>none</code> against a list) are interpolated as matrices through the
+ decomposition into translation, rotation, skew and scale.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Transforms.html#isNone(org.duckdns.hjow.swingwebpanel.css.values.CssValue)">isNone</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a computed <code>transform</code> value is <code>none</code> (or empty).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.awt.geom.AffineTransform</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Transforms.html#matrix(org.duckdns.hjow.swingwebpanel.css.values.CssValue, double, double)">matrix</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&nbsp;v,
+       double&nbsp;w,
+       double&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the matrix of a computed <code>transform</code> value: the functions multiplied from the left to the right.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/Transforms.html#origin(org.duckdns.hjow.swingwebpanel.css.values.CssValue, double, double)">origin</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&nbsp;v,
+       double&nbsp;w,
+       double&nbsp;h)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the transform origin relative to the border box: a keyword list is read like <code>background-position</code> (a
+ vertical keyword first, or a horizontal keyword second, swaps the two), a single value is the horizontal position, the vertical
+ position is the center; the third (z) value of the grammar is ignored.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="isNone(org.duckdns.hjow.swingwebpanel.css.values.CssValue)"><!-- --></A><H3>
+isNone</H3>
+<PRE>
+public static boolean <B>isNone</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&nbsp;v)</PRE>
+<DL>
+<DD>Tells whether a computed <code>transform</code> value is <code>none</code> (or empty).
+ <p>
+ 계산된 <code>transform</code> 값이 <code>none</code>(또는 빈 목록)인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the value, may be null / 값. null 가능
+<DT><B>Returns:</B><DD>true for none / none 이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="boxTransform(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, double, double, double, double)"><!-- --></A><H3>
+boxTransform</H3>
+<PRE>
+public static java.awt.geom.AffineTransform <B>boxTransform</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s,
+                                                         double&nbsp;x,
+                                                         double&nbsp;y,
+                                                         double&nbsp;w,
+                                                         double&nbsp;h)</PRE>
+<DL>
+<DD>Returns the transform of a box in the coordinates of its parent: the transform of the style around the transform origin, or null if
+ the style has no transform.
+ <p>
+ 상자의 변환을 부모 좌표로 반환한다: 스타일의 변환을 변환 원점 둘레에 적용한 것. 스타일에 변환이 없으면 null.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - the computed style / 계산 스타일<DD><CODE>x</CODE> - left of the border box in document coordinates / 문서 좌표의 border box 왼쪽<DD><CODE>y</CODE> - top of the border box / border box 위쪽<DD><CODE>w</CODE> - width of the border box / border box 너비<DD><CODE>h</CODE> - height of the border box / border box 높이
+<DT><B>Returns:</B><DD>the transform or null / 변환 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="individual(org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle, double, double)"><!-- --></A><H3>
+individual</H3>
+<PRE>
+public static java.awt.geom.AffineTransform <B>individual</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;s,
+                                                       double&nbsp;w,
+                                                       double&nbsp;h)</PRE>
+<DL>
+<DD>Returns the matrix of the individual properties <code>translate</code>, <code>rotate</code> and <code>scale</code> (CSS Transforms
+ Level 2 section 3, https://www.w3.org/TR/css-transforms-2/): <code>translate * rotate * scale</code> in this order. Only the 2D forms
+ exist in the property grammar (<code>rotate: z 30deg</code> is the same as <code>rotate: 30deg</code>; a rotation around another axis
+ and the three-value forms are invalid).
+ <p>
+ 개별 속성 <code>translate</code>, <code>rotate</code>, <code>scale</code> 의 행렬을 반환한다(CSS Transforms Level 2 3 절, https://www.w3.org/TR/css-transforms-2/):
+ 이 순서의 <code>translate * rotate * scale</code>. 속성 문법에는 2D 형태만 있다(<code>rotate: z 30deg</code> 는 <code>rotate: 30deg</code> 와 같고, 다른 축의 회전과
+ 값 세 개 형태는 무효이다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - the computed style / 계산 스타일<DD><CODE>w</CODE> - width of the reference box / 기준 상자 너비<DD><CODE>h</CODE> - height of the reference box / 기준 상자 높이
+<DT><B>Returns:</B><DD>the matrix, null if all three are <code>none</code> / 행렬. 셋 다 <code>none</code> 이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="boxTransform(org.duckdns.hjow.swingwebpanel.css.values.CssValue, org.duckdns.hjow.swingwebpanel.css.values.CssValue, double, double, double, double)"><!-- --></A><H3>
+boxTransform</H3>
+<PRE>
+public static java.awt.geom.AffineTransform <B>boxTransform</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&nbsp;transform,
+                                                         <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&nbsp;origin,
+                                                         double&nbsp;x,
+                                                         double&nbsp;y,
+                                                         double&nbsp;w,
+                                                         double&nbsp;h)</PRE>
+<DL>
+<DD>Returns the transform of a box for given values of <code>transform</code> and <code>transform-origin</code> (animations compute
+ the values at a moment and call this).
+ <p>
+ 주어진 <code>transform</code> 과 <code>transform-origin</code> 값으로 상자의 변환을 반환한다(애니메이션은 어느 시각의 값을 계산해 이것을 부른다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>transform</CODE> - the value of <code>transform</code> / <code>transform</code> 값<DD><CODE>origin</CODE> - the value of <code>transform-origin</code> / <code>transform-origin</code> 값<DD><CODE>x</CODE> - left of the border box / border box 왼쪽<DD><CODE>y</CODE> - top of the border box / border box 위쪽<DD><CODE>w</CODE> - width of the border box / border box 너비<DD><CODE>h</CODE> - height of the border box / border box 높이
+<DT><B>Returns:</B><DD>the transform or null / 변환 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="matrix(org.duckdns.hjow.swingwebpanel.css.values.CssValue, double, double)"><!-- --></A><H3>
+matrix</H3>
+<PRE>
+public static java.awt.geom.AffineTransform <B>matrix</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&nbsp;v,
+                                                   double&nbsp;w,
+                                                   double&nbsp;h)</PRE>
+<DL>
+<DD>Returns the matrix of a computed <code>transform</code> value: the functions multiplied from the left to the right.
+ <p>
+ 계산된 <code>transform</code> 값의 행렬을 반환한다: 함수를 왼쪽에서 오른쪽으로 곱한 것.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the value / 값<DD><CODE>w</CODE> - width of the reference box (base of percentages of the horizontal translation) / 기준 상자 너비(가로 이동 백분율의 기준)<DD><CODE>h</CODE> - height of the reference box / 기준 상자 높이
+<DT><B>Returns:</B><DD>the matrix, or null for none or a value that cannot be read / 행렬. none 이거나 읽을 수 없는 값이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="origin(org.duckdns.hjow.swingwebpanel.css.values.CssValue, double, double)"><!-- --></A><H3>
+origin</H3>
+<PRE>
+public static double[] <B>origin</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&nbsp;v,
+                              double&nbsp;w,
+                              double&nbsp;h)</PRE>
+<DL>
+<DD>Returns the transform origin relative to the border box: a keyword list is read like <code>background-position</code> (a
+ vertical keyword first, or a horizontal keyword second, swaps the two), a single value is the horizontal position, the vertical
+ position is the center; the third (z) value of the grammar is ignored.
+ <p>
+ 변환 원점을 border box 기준으로 반환한다: 키워드 목록은 <code>background-position</code> 처럼 읽고(세로 키워드가 먼저이거나 가로 키워드가 둘째이면 둘을 맞바꾼다),
+ 값 하나는 가로 위치이며 세로 위치는 가운데이다. 문법의 셋째(z) 값은 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the computed value of <code>transform-origin</code>, may be null / <code>transform-origin</code> 의 계산 값. null 가능<DD><CODE>w</CODE> - width of the border box / border box 너비<DD><CODE>h</CODE> - height of the border box / border box 높이
+<DT><B>Returns:</B><DD>{x, y} / {x, y}</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="interpolate(org.duckdns.hjow.swingwebpanel.css.values.CssValue, org.duckdns.hjow.swingwebpanel.css.values.CssValue, double, double, double)"><!-- --></A><H3>
+interpolate</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A> <B>interpolate</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&nbsp;from,
+                                   <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&nbsp;to,
+                                   double&nbsp;p,
+                                   double&nbsp;w,
+                                   double&nbsp;h)</PRE>
+<DL>
+<DD>Interpolates two computed <code>transform</code> values (CSS Transforms 1 section 15): two lists with the same number of
+ functions with the same names are interpolated function by function (numbers, lengths and angles linearly; a missing length
+ is 0 and a missing scale is 1); other pairs (and <code>none</code> against a list) are interpolated as matrices through the
+ decomposition into translation, rotation, skew and scale. The result of the second kind is a <code>matrix()</code> function.
+ <p>
+ 계산된 <code>transform</code> 값 둘을 보간한다(CSS Transforms 1 15 절): 같은 이름의 함수가 같은 수만큼 있는 목록 쌍은 함수별로 보간하고(숫자, 길이, 각도는 선형. 없는
+ 길이는 0, 없는 배율은 1), 그 밖의 쌍(과 목록 대 <code>none</code>)은 이동, 회전, 기울임, 배율로 분해한 행렬로 보간한다. 둘째 경우의 결과는 <code>matrix()</code> 함수이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>from</CODE> - the start value / 시작 값<DD><CODE>to</CODE> - the end value / 끝 값<DD><CODE>p</CODE> - the progress, may lie outside 0..1 for cubic-bezier overshoot / 진행도. cubic-bezier 의 넘침으로 0..1 밖일 수 있다<DD><CODE>w</CODE> - width of the reference box (for percentages in the matrix fallback) / 기준 상자 너비(행렬 대체의 백분율용)<DD><CODE>h</CODE> - height of the reference box / 기준 상자 높이
+<DT><B>Returns:</B><DD>the interpolated value / 보간한 값</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/KeyframeEffectModel.Keyframe.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/anim/WebAnimation.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/anim/Transforms.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Transforms.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

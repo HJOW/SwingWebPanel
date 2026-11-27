@@ -1,0 +1,773 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+Resampler
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Resampler";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeWarningCallback.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Resampler.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.webaudio.decode</FONT>
+<BR>
+Class Resampler</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.webaudio.decode.Resampler</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>Resampler</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+A streaming sample rate converter for one channel of floating point audio (plan item P25-05: the resampling of
+ <code>decodeAudioData</code> to the sample rate of the context). It is a windowed sinc interpolator in the polyphase form: every output
+ sample is the sum of the input samples around its position, weighted by a Kaiser windowed sinc low-pass kernel whose cut-off sits at the
+ Nyquist frequency of the <em>lower</em> of the two rates (so an up-conversion removes the images and a down-conversion removes what
+ would alias).
+ <p>
+ <b>Design and quality.</b> The kernel is designed for <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#STOPBAND_ATTENUATION_DB"><CODE>STOPBAND_ATTENUATION_DB</CODE></A> (100 dB, better than the 16 bit
+ resolution of the decoders that feed it) with a transition band of <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#TRANSITION_FRACTION"><CODE>TRANSITION_FRACTION</CODE></A> of the lower Nyquist frequency: the pass
+ band is flat (the Kaiser ripple is about 10<sup>-5</sup>, 0.0001 dB) up to 90 % of that Nyquist frequency and everything at or above it is
+ attenuated by the stop band attenuation. The Kaiser window gives the specified attenuation with the fewest taps of the common window
+ families (the formula of Kaiser: <code>N = (A - 7.95) / (14.36 * df)</code> with <code>df</code> the transition width in cycles per
+ input sample); that is about 130 taps per output sample at the same rate and proportionally more when the output rate is lower
+ (the kernel is stretched by the ratio). Each phase of the kernel is normalised to a gain of exactly 1 at DC.
+ <p>
+ <b>Phases.</b> When both rates are whole numbers the ratio is reduced to <code>up / down</code> and, if <code>up</code> is at most
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#MAX_EXACT_PHASES"><CODE>MAX_EXACT_PHASES</CODE></A> and the table is small enough, every output sample uses one of <code>up</code> exact precomputed phases
+ (no interpolation error at all, e.g. 44100 to 48000 uses 160 phases). Otherwise (large <code>up</code>, non-integer rates) the table has
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#INTERPOLATED_PHASES"><CODE>INTERPOLATED_PHASES</CODE></A> rows (fewer for a very wide kernel) and the two nearest rows are interpolated linearly; the error of that
+ is about -120 dB for the 1024 rows (measured: at most 8.3e-7 for full scale noise against the exact phases; it shrinks with the square of the ratio of the sample rates, so fewer rows suffice for a wide kernel).
+ <p>
+ <b>Position and length.</b> Output sample <code>n</code> is at the time <code>n / outputRate</code>, i.e. at the input position
+ <code>n * inputRate / outputRate</code>; the filter is symmetric around that position, so there is no delay. The input before the first
+ sample and after the last one is taken as zero. The output has <code>ceil(inputFrames * outputRate / inputRate)</code> samples (see
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#outputLength(long)"><CODE>outputLength(long)</CODE></A>): every output sample whose time lies inside the duration of the input is produced, so the duration is
+ preserved to less than one output sample and no tail of the input is cut off. The result near the two ends is the response of the filter
+ to the zero extension, as with any finite signal.
+ <p>
+ <b>Streaming.</b> Samples are given in chunks of any size with <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#process(float[], int, int, float[], int)"><CODE>process(float[], int, int, float[], int)</CODE></A>, then the tail is
+ flushed with <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#finish(float[], int)"><CODE>finish(float[], int)</CODE></A>; the result does not depend on how the input is split (it is bit for bit the same). Only a
+ window of the input of the kernel length is kept, so memory does not grow with the length of the signal. One instance converts one
+ channel; use one instance per channel. An instance is not thread-safe (no sharing between threads without a lock), but instances share
+ nothing, so different instances may run in different threads.
+ <p>
+ 부동 소수점 오디오 한 채널용 스트리밍 표본율 변환기(계획 P25-05: <code>decodeAudioData</code> 를 컨텍스트의 표본율로 바꾸기). 다상(polyphase)
+ 형태의 창 함수를 씌운 sinc 보간기이다. 출력 표본마다 자기 위치 둘레의 입력 표본을 Kaiser 창을 씌운 sinc 저역 통과 커널로 가중해 더한다. 커널의 차단
+ 주파수는 두 표본율 중 <em>낮은 쪽</em>의 나이퀴스트 주파수이다(그래서 올릴 때는 이미지를 없애고 내릴 때는 앨리어싱될 성분을 없앤다).
+ <p>
+ <b>설계와 품질.</b> 커널은 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#STOPBAND_ATTENUATION_DB"><CODE>STOPBAND_ATTENUATION_DB</CODE></A>(100 dB, 입력을 만드는 디코더의 16비트 해상도보다 좋다)에 낮은 쪽 나이퀴스트 주파수의
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#TRANSITION_FRACTION"><CODE>TRANSITION_FRACTION</CODE></A> 만큼의 전이 대역으로 설계한다. 통과 대역은 그 나이퀴스트 주파수의 90 % 까지 평탄하고(Kaiser 리플은 약 10<sup>-5</sup>,
+ 0.0001 dB) 그 이상은 정지 대역 감쇠만큼 줄어든다. Kaiser 창은 흔한 창 함수 중 정해진 감쇠를 가장 적은 탭으로 얻는다(Kaiser 의 식
+ <code>N = (A - 7.95) / (14.36 * df)</code>, <code>df</code> 는 입력 표본당 주기로 잰 전이 폭). 같은 표본율에서는 출력 표본당 약 130 탭이고
+ 출력 표본율이 낮으면 그 비율만큼 늘어난다(커널을 비율만큼 늘린다). 커널의 각 위상은 DC 이득이 정확히 1 이 되도록 정규화한다.
+ <p>
+ <b>위상.</b> 두 표본율이 모두 정수이면 비율을 <code>up / down</code> 으로 약분하고, <code>up</code> 이 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#MAX_EXACT_PHASES"><CODE>MAX_EXACT_PHASES</CODE></A> 이하이며 표가 충분히
+ 작으면 출력 표본마다 미리 계산한 <code>up</code> 개의 정확한 위상 중 하나를 쓴다(보간 오차가 전혀 없다. 예: 44100 에서 48000 은 160 위상). 그렇지
+ 않으면(큰 <code>up</code>, 정수가 아닌 표본율) 표는 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#INTERPOLATED_PHASES"><CODE>INTERPOLATED_PHASES</CODE></A> 행(아주 넓은 커널이면 더 적게)이고 가장 가까운 두 행을 선형 보간한다.
+ 그 오차는 1024 행에서 약 -120 dB 이다(실측: 정확한 위상과 비교해 풀 스케일 잡음에서 최대 8.3e-7. 표본율 비율의 제곱에 비례해 줄어들기 때문에 넓은 커널에는 더 적은 행으로 충분하다).
+ <p>
+ <b>위치와 길이.</b> 출력 표본 <code>n</code> 은 시간 <code>n / outputRate</code>, 곧 입력 위치 <code>n * inputRate / outputRate</code> 에 있다. 필터는
+ 그 위치에 대칭이므로 지연이 없다. 첫 표본 앞과 마지막 표본 뒤의 입력은 0 으로 본다. 출력은
+ <code>ceil(inputFrames * outputRate / inputRate)</code> 개이다(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#outputLength(long)"><CODE>outputLength(long)</CODE></A> 참조). 입력의 재생 시간 안에 시간이 드는 출력 표본을 모두
+ 만들므로 재생 시간이 출력 표본 하나보다 작은 오차로 보존되고 입력의 끝이 잘리지 않는다. 양 끝 근처의 결과는 유한한 신호가 늘 그렇듯 0 으로 연장한
+ 신호에 대한 필터의 응답이다.
+ <p>
+ <b>스트리밍.</b> 표본은 어떤 크기의 덩어리로든 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#process(float[], int, int, float[], int)"><CODE>process(float[], int, int, float[], int)</CODE></A> 에 주고 마지막에 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#finish(float[], int)"><CODE>finish(float[], int)</CODE></A> 로
+ 꼬리를 비운다. 결과는 입력을 어떻게 나누었는지와 무관하다(비트 단위로 같다). 커널 길이만큼의 입력 창만 보관하므로 신호가 길어도 메모리가 늘지 않는다.
+ 인스턴스 하나가 채널 하나를 변환한다. 채널마다 인스턴스를 쓴다. 인스턴스는 스레드 안전하지 않지만(잠금 없이 스레드 사이에 공유하지 말 것) 인스턴스끼리는
+ 아무것도 공유하지 않으므로 서로 다른 인스턴스는 서로 다른 스레드에서 돌려도 된다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#INTERPOLATED_PHASES">INTERPOLATED_PHASES</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The number of table rows that are interpolated when the ratio has no small exact form.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#MAX_EXACT_PHASES">MAX_EXACT_PHASES</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The largest number of exact phases of the reduced ratio that is tabulated without interpolation.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#MAX_RATIO">MAX_RATIO</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The largest ratio between the two rates (in either direction) that the converter accepts.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#STOPBAND_ATTENUATION_DB">STOPBAND_ATTENUATION_DB</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The stop band attenuation the kernel is designed for, in dB.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#TRANSITION_FRACTION">TRANSITION_FRACTION</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The width of the transition band as a fraction of the Nyquist frequency of the lower rate: the pass band ends at
+ <code>1 - TRANSITION_FRACTION</code> and the stop band begins at 1 of that Nyquist frequency.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#Resampler(double, double)">Resampler</A></B>(double&nbsp;inputRate,
+          double&nbsp;outputRate)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a converter for one channel.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#finish(float[], int)">finish</A></B>(float[]&nbsp;out,
+       int&nbsp;outOffset)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ends the signal: the input after the last sample is taken as zero and the remaining output samples (up to
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#outputLength(long)"><CODE>outputLength(total input)</CODE></A>) are written.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#getInputRate()">getInputRate</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the input sample rate.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#getOutputRate()">getOutputRate</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the output sample rate.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#getPhases()">getPhases</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of phases of the kernel table (0 if the rates are equal).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#getTaps()">getTaps</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of taps that every output sample sums (0 if the rates are equal).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#isExact()">isExact</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the table has exact phases (no interpolation between rows).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#isIdentity()">isIdentity</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the two rates are equal, so that samples pass through unchanged.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#maxFinishFrames()">maxFinishFrames</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the largest number of output samples that <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#finish(float[], int)"><CODE>finish(float[], int)</CODE></A> can produce.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#maxOutputFrames(int)">maxOutputFrames</A></B>(int&nbsp;inputLength)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the largest number of output samples that one call of <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#process(float[], int, int, float[], int)"><CODE>process(float[], int, int, float[], int)</CODE></A> with this many input samples can produce.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#outputLength(long)">outputLength</A></B>(long&nbsp;inputFrames)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of output samples for a number of input samples: <code>ceil(inputFrames * outputRate / inputRate)</code> (computed
+ exactly in integers when both rates are whole numbers).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#process(float[], int, int, float[], int)">process</A></B>(float[]&nbsp;in,
+        int&nbsp;inOffset,
+        int&nbsp;inLength,
+        float[]&nbsp;out,
+        int&nbsp;outOffset)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Feeds input samples and writes the output samples that can be computed now.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;float[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#resample(float[], double, double)">resample</A></B>(float[]&nbsp;in,
+         double&nbsp;inputRate,
+         double&nbsp;outputRate)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Converts a whole signal of one channel in one call (a convenience over the streaming interface).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#reset()">reset</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts again from the beginning of a signal: forgets the input received so far.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="STOPBAND_ATTENUATION_DB"><!-- --></A><H3>
+STOPBAND_ATTENUATION_DB</H3>
+<PRE>
+public static final double <B>STOPBAND_ATTENUATION_DB</B></PRE>
+<DL>
+<DD>The stop band attenuation the kernel is designed for, in dB.
+ <p>
+ 커널을 설계하는 정지 대역 감쇠(dB).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.decode.Resampler.STOPBAND_ATTENUATION_DB">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="TRANSITION_FRACTION"><!-- --></A><H3>
+TRANSITION_FRACTION</H3>
+<PRE>
+public static final double <B>TRANSITION_FRACTION</B></PRE>
+<DL>
+<DD>The width of the transition band as a fraction of the Nyquist frequency of the lower rate: the pass band ends at
+ <code>1 - TRANSITION_FRACTION</code> and the stop band begins at 1 of that Nyquist frequency.
+ <p>
+ 전이 대역의 폭을 낮은 표본율의 나이퀴스트 주파수에 대한 비율로 나타낸 값: 통과 대역은 <code>1 - TRANSITION_FRACTION</code> 에서 끝나고 정지 대역은
+ 그 나이퀴스트 주파수의 1 에서 시작한다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.decode.Resampler.TRANSITION_FRACTION">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAX_RATIO"><!-- --></A><H3>
+MAX_RATIO</H3>
+<PRE>
+public static final double <B>MAX_RATIO</B></PRE>
+<DL>
+<DD>The largest ratio between the two rates (in either direction) that the converter accepts.
+ <p>
+ 변환기가 받는 두 표본율 비율의 최댓값(어느 방향이든).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.decode.Resampler.MAX_RATIO">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAX_EXACT_PHASES"><!-- --></A><H3>
+MAX_EXACT_PHASES</H3>
+<PRE>
+public static final int <B>MAX_EXACT_PHASES</B></PRE>
+<DL>
+<DD>The largest number of exact phases of the reduced ratio that is tabulated without interpolation.
+ <p>
+ 보간 없이 표로 만드는 약분한 비율의 정확한 위상 수의 최댓값.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.decode.Resampler.MAX_EXACT_PHASES">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="INTERPOLATED_PHASES"><!-- --></A><H3>
+INTERPOLATED_PHASES</H3>
+<PRE>
+public static final int <B>INTERPOLATED_PHASES</B></PRE>
+<DL>
+<DD>The number of table rows that are interpolated when the ratio has no small exact form.
+ <p>
+ 비율에 작은 정확한 형태가 없을 때 보간하는 표의 행 수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.media.webaudio.decode.Resampler.INTERPOLATED_PHASES">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="Resampler(double, double)"><!-- --></A><H3>
+Resampler</H3>
+<PRE>
+public <B>Resampler</B>(double&nbsp;inputRate,
+                 double&nbsp;outputRate)</PRE>
+<DL>
+<DD>Creates a converter for one channel.
+ <p>
+ 채널 하나를 위한 변환기를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>inputRate</CODE> - the input sample rate in Hz, positive and finite / 입력 표본율(Hz). 양수이고 유한해야 한다<DD><CODE>outputRate</CODE> - the output sample rate in Hz, positive and finite / 출력 표본율(Hz). 양수이고 유한해야 한다
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if a rate is not positive and finite, or the ratio is above <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#MAX_RATIO"><CODE>MAX_RATIO</CODE></A> in either direction /
+                                  표본율이 양의 유한한 값이 아니거나 비율이 어느 방향이든 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#MAX_RATIO"><CODE>MAX_RATIO</CODE></A> 를 넘으면</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="reset()"><!-- --></A><H3>
+reset</H3>
+<PRE>
+public void <B>reset</B>()</PRE>
+<DL>
+<DD>Starts again from the beginning of a signal: forgets the input received so far.
+ <p>
+ 신호의 처음부터 다시 시작한다: 지금까지 받은 입력을 잊는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isIdentity()"><!-- --></A><H3>
+isIdentity</H3>
+<PRE>
+public boolean <B>isIdentity</B>()</PRE>
+<DL>
+<DD>Tells whether the two rates are equal, so that samples pass through unchanged.
+ <p>
+ 두 표본율이 같아서 표본이 그대로 통과하는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if the rates are equal / 표본율이 같으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getInputRate()"><!-- --></A><H3>
+getInputRate</H3>
+<PRE>
+public double <B>getInputRate</B>()</PRE>
+<DL>
+<DD>Returns the input sample rate.
+ <p>
+ 입력 표본율을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the rate in Hz / 표본율(Hz)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOutputRate()"><!-- --></A><H3>
+getOutputRate</H3>
+<PRE>
+public double <B>getOutputRate</B>()</PRE>
+<DL>
+<DD>Returns the output sample rate.
+ <p>
+ 출력 표본율을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the rate in Hz / 표본율(Hz)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTaps()"><!-- --></A><H3>
+getTaps</H3>
+<PRE>
+public int <B>getTaps</B>()</PRE>
+<DL>
+<DD>Returns the number of taps that every output sample sums (0 if the rates are equal).
+ <p>
+ 출력 표본마다 더하는 탭 수를 반환한다(표본율이 같으면 0).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of taps / 탭 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPhases()"><!-- --></A><H3>
+getPhases</H3>
+<PRE>
+public int <B>getPhases</B>()</PRE>
+<DL>
+<DD>Returns the number of phases of the kernel table (0 if the rates are equal).
+ <p>
+ 커널 표의 위상 수를 반환한다(표본율이 같으면 0).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the number of phases / 위상 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isExact()"><!-- --></A><H3>
+isExact</H3>
+<PRE>
+public boolean <B>isExact</B>()</PRE>
+<DL>
+<DD>Tells whether the table has exact phases (no interpolation between rows).
+ <p>
+ 표가 정확한 위상을 가졌는지(행 사이의 보간이 없는지) 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if every phase is exact / 모든 위상이 정확하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="outputLength(long)"><!-- --></A><H3>
+outputLength</H3>
+<PRE>
+public long <B>outputLength</B>(long&nbsp;inputFrames)</PRE>
+<DL>
+<DD>Returns the number of output samples for a number of input samples: <code>ceil(inputFrames * outputRate / inputRate)</code> (computed
+ exactly in integers when both rates are whole numbers).
+ <p>
+ 입력 표본 수에 대한 출력 표본 수를 반환한다: <code>ceil(inputFrames * outputRate / inputRate)</code>(두 표본율이 모두 정수이면 정수로 정확히
+ 계산한다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>inputFrames</CODE> - the number of input samples, 0 or more / 입력 표본 수(0 이상)
+<DT><B>Returns:</B><DD>the number of output samples / 출력 표본 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="maxOutputFrames(int)"><!-- --></A><H3>
+maxOutputFrames</H3>
+<PRE>
+public int <B>maxOutputFrames</B>(int&nbsp;inputLength)</PRE>
+<DL>
+<DD>Returns the largest number of output samples that one call of <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#process(float[], int, int, float[], int)"><CODE>process(float[], int, int, float[], int)</CODE></A> with this many input samples can produce.
+ <p>
+ 입력 표본이 이만큼인 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#process(float[], int, int, float[], int)"><CODE>process(float[], int, int, float[], int)</CODE></A> 호출 한 번이 만들 수 있는 출력 표본 수의 최댓값을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>inputLength</CODE> - the number of input samples of the call / 호출의 입력 표본 수
+<DT><B>Returns:</B><DD>the capacity that an output array needs / 출력 배열에 필요한 용량</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="maxFinishFrames()"><!-- --></A><H3>
+maxFinishFrames</H3>
+<PRE>
+public int <B>maxFinishFrames</B>()</PRE>
+<DL>
+<DD>Returns the largest number of output samples that <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#finish(float[], int)"><CODE>finish(float[], int)</CODE></A> can produce.
+ <p>
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#finish(float[], int)"><CODE>finish(float[], int)</CODE></A> 가 만들 수 있는 출력 표본 수의 최댓값을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the capacity that an output array needs / 출력 배열에 필요한 용량</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="process(float[], int, int, float[], int)"><!-- --></A><H3>
+process</H3>
+<PRE>
+public int <B>process</B>(float[]&nbsp;in,
+                   int&nbsp;inOffset,
+                   int&nbsp;inLength,
+                   float[]&nbsp;out,
+                   int&nbsp;outOffset)</PRE>
+<DL>
+<DD>Feeds input samples and writes the output samples that can be computed now. Output samples that need input that has not arrived
+ yet are produced by a later call. If the output array has no room for all of them, the rest are kept and written by the next call.
+ <p>
+ 입력 표본을 주고 지금 계산할 수 있는 출력 표본을 쓴다. 아직 오지 않은 입력이 필요한 출력 표본은 이후의 호출이 만든다. 출력 배열에 모두 쓸 자리가
+ 없으면 나머지는 남겨 두었다가 다음 호출이 쓴다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>in</CODE> - the input samples / 입력 표본<DD><CODE>inOffset</CODE> - the index of the first input sample / 첫 입력 표본의 인덱스<DD><CODE>inLength</CODE> - the number of input samples (the array must hold <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#maxOutputFrames(int)"><CODE>maxOutputFrames(int)</CODE></A> for this length to be certain that
+                  nothing is kept) / 입력 표본 수(아무것도 남지 않는다고 확신하려면 출력 배열이 이 길이에 대한 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#maxOutputFrames(int)"><CODE>maxOutputFrames(int)</CODE></A> 를 담아야 한다)<DD><CODE>out</CODE> - the array that receives the output samples / 출력 표본을 받는 배열<DD><CODE>outOffset</CODE> - the index of the first output sample / 첫 출력 표본의 인덱스
+<DT><B>Returns:</B><DD>the number of output samples written / 쓴 출력 표본 수
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalStateException</CODE> - if <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#finish(float[], int)"><CODE>finish(float[], int)</CODE></A> has been called (call <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#reset()"><CODE>reset()</CODE></A> first) / <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#finish(float[], int)"><CODE>finish(float[], int)</CODE></A> 를 이미 불렀으면(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#reset()"><CODE>reset()</CODE></A> 을 먼저 부를 것)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="finish(float[], int)"><!-- --></A><H3>
+finish</H3>
+<PRE>
+public int <B>finish</B>(float[]&nbsp;out,
+                  int&nbsp;outOffset)</PRE>
+<DL>
+<DD>Ends the signal: the input after the last sample is taken as zero and the remaining output samples (up to
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#outputLength(long)"><CODE>outputLength(total input)</CODE></A>) are written. If the output array has no room for all of them, the rest is
+ written by the next call of this method, which can be repeated until it returns 0.
+ <p>
+ 신호를 끝낸다: 마지막 표본 뒤의 입력은 0 으로 보고 남은 출력 표본(<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html#outputLength(long)"><CODE>outputLength(전체 입력)</CODE></A> 까지)을 쓴다. 출력 배열에
+ 모두 쓸 자리가 없으면 나머지는 이 메서드의 다음 호출이 쓴다. 0 을 반환할 때까지 되풀이할 수 있다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>out</CODE> - the array that receives the output samples / 출력 표본을 받는 배열<DD><CODE>outOffset</CODE> - the index of the first output sample / 첫 출력 표본의 인덱스
+<DT><B>Returns:</B><DD>the number of output samples written / 쓴 출력 표본 수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="resample(float[], double, double)"><!-- --></A><H3>
+resample</H3>
+<PRE>
+public static float[] <B>resample</B>(float[]&nbsp;in,
+                               double&nbsp;inputRate,
+                               double&nbsp;outputRate)</PRE>
+<DL>
+<DD>Converts a whole signal of one channel in one call (a convenience over the streaming interface).
+ <p>
+ 한 채널의 신호 전체를 한 번에 변환한다(스트리밍 인터페이스 위의 편의 메서드).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>in</CODE> - the input samples / 입력 표본<DD><CODE>inputRate</CODE> - the input sample rate in Hz / 입력 표본율(Hz)<DD><CODE>outputRate</CODE> - the output sample rate in Hz / 출력 표본율(Hz)
+<DT><B>Returns:</B><DD>the converted samples, <code>ceil(length * outputRate / inputRate)</code> of them / 변환한 표본.
+         <code>ceil(length * outputRate / inputRate)</code> 개
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - for rates that the constructor rejects / 생성자가 거부하는 표본율이면</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/decode/DecodeWarningCallback.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.decode"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/decode/Resampler.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Resampler.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

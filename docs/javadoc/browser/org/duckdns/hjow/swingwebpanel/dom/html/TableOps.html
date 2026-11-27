@@ -1,0 +1,899 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+TableOps
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="TableOps";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/SubmitEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom.html"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ValidityState.html" title="class in org.duckdns.hjow.swingwebpanel.dom.html"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="TableOps.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom.html</FONT>
+<BR>
+Class TableOps</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.dom.html.TableOps</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>TableOps</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The table object model of the HTML specification (HTML5 2014 REC section 4.9, interfaces <code>HTMLTableElement</code>,
+ <code>HTMLTableSectionElement</code>, <code>HTMLTableRowElement</code> and <code>HTMLTableCellElement</code>): the parts of a table
+ (<code>caption</code>, <code>tHead</code>, <code>tFoot</code>, <code>tBodies</code>), the live collections of rows and cells, and the
+ operations that create, insert and delete them with the index rules of the specification (an index of -1 means the end, an index outside
+ the range is an <code>IndexSizeError</code>). The functions work on the DOM tree directly, so the result is the same for the parser, the
+ scripts and the layout; the script bindings are in <code>js.dom.TableBindings</code>. The live row list is in tree order (thead rows,
+ body rows and foot rows as they stand in the markup), which equals the order of the specification for the usual order thead, tbody,
+ tfoot.
+ <p>
+ HTML 규격의 표 객체 모델(HTML5 2014 REC 4.9절, 인터페이스 <code>HTMLTableElement</code>, <code>HTMLTableSectionElement</code>,
+ <code>HTMLTableRowElement</code>, <code>HTMLTableCellElement</code>): 표의 부분(<code>caption</code>, <code>tHead</code>, <code>tFoot</code>,
+ <code>tBodies</code>), 행과 셀의 라이브 컬렉션, 규격의 인덱스 규칙(-1 은 끝, 범위 밖은 <code>IndexSizeError</code>)으로 그것들을 만들고 넣고 지우는
+ 연산. 함수는 DOM 트리를 직접 다루므로 파서, 스크립트, 배치에서 결과가 같으며 스크립트 연결은 <code>js.dom.TableBindings</code> 에 있다. 라이브 행
+ 목록은 트리 순서(마크업에 놓인 thead 행, 본문 행, tfoot 행)이며, 흔한 순서 thead, tbody, tfoot 에서는 규격의 순서와 같다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#caption(org.duckdns.hjow.swingwebpanel.dom.Element)">caption</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <code>caption</code> of a table, or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#cellIndex(org.duckdns.hjow.swingwebpanel.dom.Element)">cellIndex</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;cell)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the position of a cell in the cells of its row (<code>HTMLTableCellElement.cellIndex</code>), or -1 if the parent is no row.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#cells(org.duckdns.hjow.swingwebpanel.dom.Element)">cells</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;row)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the live collection of the cells (<code>td</code> and <code>th</code>) that are children of a row.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#createCaption(org.duckdns.hjow.swingwebpanel.dom.Element)">createCaption</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <code>caption</code> of a table and creates it as the first child if there is none.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#createTBody(org.duckdns.hjow.swingwebpanel.dom.Element)">createTBody</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a <code>tbody</code> after the last <code>tbody</code> (or at the end if there is none) and returns it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#createTFoot(org.duckdns.hjow.swingwebpanel.dom.Element)">createTFoot</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <code>tfoot</code> and creates it as the last child if there is none.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#createTHead(org.duckdns.hjow.swingwebpanel.dom.Element)">createTHead</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <code>thead</code> and creates it if there is none: it goes before the first child that is neither a <code>caption</code>
+ nor a <code>colgroup</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#deleteCaption(org.duckdns.hjow.swingwebpanel.dom.Element)">deleteCaption</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes the <code>caption</code> of a table.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#deleteCell(org.duckdns.hjow.swingwebpanel.dom.Element, int)">deleteCell</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;row,
+           int&nbsp;index)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Deletes a cell of a row: -1 is the last cell.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#deleteRow(org.duckdns.hjow.swingwebpanel.dom.Element, int)">deleteRow</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table,
+          int&nbsp;index)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Deletes a row of a table: -1 is the last row.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#deleteSectionRow(org.duckdns.hjow.swingwebpanel.dom.Element, int)">deleteSectionRow</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;section,
+                 int&nbsp;index)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Deletes a row of a table section: -1 is the last row.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#deleteTFoot(org.duckdns.hjow.swingwebpanel.dom.Element)">deleteTFoot</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes the <code>tfoot</code> of a table.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#deleteTHead(org.duckdns.hjow.swingwebpanel.dom.Element)">deleteTHead</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes the <code>thead</code> of a table.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#insertCell(org.duckdns.hjow.swingwebpanel.dom.Element, int)">insertCell</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;row,
+           int&nbsp;index)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inserts a cell (<code>td</code>) into a row.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#insertRow(org.duckdns.hjow.swingwebpanel.dom.Element, int)">insertRow</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table,
+          int&nbsp;index)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inserts a row into a table: with an index of -1 or the number of rows the row goes to the end (into the last body, a new body if the
+ table has none), else before the row with that index.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#insertSectionRow(org.duckdns.hjow.swingwebpanel.dom.Element, int)">insertSectionRow</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;section,
+                 int&nbsp;index)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inserts a row into a table section.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#is(org.duckdns.hjow.swingwebpanel.dom.Node, java.lang.String)">is</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;n,
+   java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a node is an HTML element with a local name.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#rowIndex(org.duckdns.hjow.swingwebpanel.dom.Element)">rowIndex</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;row)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the position of a row in the rows of its table (<code>HTMLTableRowElement.rowIndex</code>), or -1 if it is in no table.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#rows(org.duckdns.hjow.swingwebpanel.dom.Element)">rows</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the live collection of all rows of a table (the rows of the head, the bodies and the foot, and the rows that are children of
+ the table).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#sectionRowIndex(org.duckdns.hjow.swingwebpanel.dom.Element)">sectionRowIndex</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;row)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the position of a row in the rows of its parent (<code>HTMLTableRowElement.sectionRowIndex</code>), or -1 if it has none of
+ the valid parents.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#sectionRows(org.duckdns.hjow.swingwebpanel.dom.Element)">sectionRows</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;section)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the live collection of the rows that are children of a table section.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#setCaption(org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.dom.Element)">setCaption</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table,
+           <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the <code>caption</code> of a table: the old one is removed and the new one becomes the first child.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#setTFoot(org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.dom.Element)">setTFoot</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table,
+         <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the <code>tfoot</code> of a table: the old one is removed and the new one becomes the last child.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#setTHead(org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.dom.Element)">setTHead</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table,
+         <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the <code>thead</code> of a table: the old one is removed and the new one goes to the place of a created head.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#tBodies(org.duckdns.hjow.swingwebpanel.dom.Element)">tBodies</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the live collection of the <code>tbody</code> children of a table.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#tFoot(org.duckdns.hjow.swingwebpanel.dom.Element)">tFoot</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <code>tfoot</code> of a table, or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html#tHead(org.duckdns.hjow.swingwebpanel.dom.Element)">tHead</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <code>thead</code> of a table, or null.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="is(org.duckdns.hjow.swingwebpanel.dom.Node, java.lang.String)"><!-- --></A><H3>
+is</H3>
+<PRE>
+public static boolean <B>is</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Node.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Node</A>&nbsp;n,
+                         java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Tells whether a node is an HTML element with a local name.
+ <p>
+ 노드가 어떤 로컬 이름의 HTML 요소인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>n</CODE> - the node / 노드<DD><CODE>name</CODE> - the local name / 로컬 이름
+<DT><B>Returns:</B><DD>true if it is such an element / 그런 요소이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="caption(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+caption</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>caption</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</PRE>
+<DL>
+<DD>Returns the <code>caption</code> of a table, or null.
+ <p>
+ 표의 <code>caption</code> 을 반환한다. 없으면 null.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>table</CODE> - the table / 표
+<DT><B>Returns:</B><DD>the caption or null / caption 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="tHead(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+tHead</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>tHead</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</PRE>
+<DL>
+<DD>Returns the <code>thead</code> of a table, or null.
+ <p>
+ 표의 <code>thead</code> 를 반환한다. 없으면 null.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>table</CODE> - the table / 표
+<DT><B>Returns:</B><DD>the thead or null / thead 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="tFoot(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+tFoot</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>tFoot</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</PRE>
+<DL>
+<DD>Returns the <code>tfoot</code> of a table, or null.
+ <p>
+ 표의 <code>tfoot</code> 를 반환한다. 없으면 null.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>table</CODE> - the table / 표
+<DT><B>Returns:</B><DD>the tfoot or null / tfoot 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="tBodies(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+tBodies</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A> <B>tBodies</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</PRE>
+<DL>
+<DD>Returns the live collection of the <code>tbody</code> children of a table.
+ <p>
+ 표의 <code>tbody</code> 자식의 라이브 컬렉션을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>table</CODE> - the table / 표
+<DT><B>Returns:</B><DD>the collection / 컬렉션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="rows(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+rows</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A> <B>rows</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</PRE>
+<DL>
+<DD>Returns the live collection of all rows of a table (the rows of the head, the bodies and the foot, and the rows that are children of
+ the table).
+ <p>
+ 표의 모든 행(머리, 본문, 바닥의 행과 표의 자식인 행)의 라이브 컬렉션을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>table</CODE> - the table / 표
+<DT><B>Returns:</B><DD>the collection / 컬렉션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="sectionRows(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+sectionRows</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A> <B>sectionRows</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;section)</PRE>
+<DL>
+<DD>Returns the live collection of the rows that are children of a table section.
+ <p>
+ 표 구역의 자식인 행의 라이브 컬렉션을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>section</CODE> - the section (<code>thead</code>, <code>tbody</code> or <code>tfoot</code>) / 구역
+<DT><B>Returns:</B><DD>the collection / 컬렉션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="cells(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+cells</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/ElementCollection.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ElementCollection</A> <B>cells</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;row)</PRE>
+<DL>
+<DD>Returns the live collection of the cells (<code>td</code> and <code>th</code>) that are children of a row.
+ <p>
+ 행의 자식인 셀(<code>td</code> 와 <code>th</code>)의 라이브 컬렉션을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>row</CODE> - the row / 행
+<DT><B>Returns:</B><DD>the collection / 컬렉션</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createCaption(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+createCaption</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>createCaption</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</PRE>
+<DL>
+<DD>Returns the <code>caption</code> of a table and creates it as the first child if there is none.
+ <p>
+ 표의 <code>caption</code> 을 반환하며 없으면 첫 자식으로 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>table</CODE> - the table / 표
+<DT><B>Returns:</B><DD>the caption / caption</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="deleteCaption(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+deleteCaption</H3>
+<PRE>
+public static void <B>deleteCaption</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</PRE>
+<DL>
+<DD>Removes the <code>caption</code> of a table.
+ <p>
+ 표의 <code>caption</code> 을 지운다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>table</CODE> - the table / 표</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createTHead(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+createTHead</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>createTHead</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</PRE>
+<DL>
+<DD>Returns the <code>thead</code> and creates it if there is none: it goes before the first child that is neither a <code>caption</code>
+ nor a <code>colgroup</code>.
+ <p>
+ <code>thead</code> 를 반환하며 없으면 만든다. <code>caption</code> 이나 <code>colgroup</code> 이 아닌 첫 자식 앞에 들어간다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>table</CODE> - the table / 표
+<DT><B>Returns:</B><DD>the thead / thead</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="deleteTHead(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+deleteTHead</H3>
+<PRE>
+public static void <B>deleteTHead</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</PRE>
+<DL>
+<DD>Removes the <code>thead</code> of a table.
+ <p>
+ 표의 <code>thead</code> 를 지운다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>table</CODE> - the table / 표</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createTFoot(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+createTFoot</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>createTFoot</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</PRE>
+<DL>
+<DD>Returns the <code>tfoot</code> and creates it as the last child if there is none.
+ <p>
+ <code>tfoot</code> 를 반환하며 없으면 마지막 자식으로 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>table</CODE> - the table / 표
+<DT><B>Returns:</B><DD>the tfoot / tfoot</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="deleteTFoot(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+deleteTFoot</H3>
+<PRE>
+public static void <B>deleteTFoot</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</PRE>
+<DL>
+<DD>Removes the <code>tfoot</code> of a table.
+ <p>
+ 표의 <code>tfoot</code> 를 지운다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>table</CODE> - the table / 표</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createTBody(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+createTBody</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>createTBody</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table)</PRE>
+<DL>
+<DD>Creates a <code>tbody</code> after the last <code>tbody</code> (or at the end if there is none) and returns it.
+ <p>
+ 마지막 <code>tbody</code> 뒤(없으면 끝)에 <code>tbody</code> 를 만들어 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>table</CODE> - the table / 표
+<DT><B>Returns:</B><DD>the new tbody / 새 tbody</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setCaption(org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+setCaption</H3>
+<PRE>
+public static void <B>setCaption</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table,
+                              <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;value)</PRE>
+<DL>
+<DD>Sets the <code>caption</code> of a table: the old one is removed and the new one becomes the first child.
+ <p>
+ 표의 <code>caption</code> 을 지정한다. 이전 것은 지우고 새 것이 첫 자식이 된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>table</CODE> - the table / 표<DD><CODE>value</CODE> - the new caption or null / 새 caption 또는 null
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - <code>HierarchyRequestError</code> if the value is not a caption / 값이 caption 이 아니면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setTHead(org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+setTHead</H3>
+<PRE>
+public static void <B>setTHead</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table,
+                            <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;value)</PRE>
+<DL>
+<DD>Sets the <code>thead</code> of a table: the old one is removed and the new one goes to the place of a created head.
+ <p>
+ 표의 <code>thead</code> 를 지정한다. 이전 것은 지우고 새 것이 만들어진 머리의 자리에 들어간다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>table</CODE> - the table / 표<DD><CODE>value</CODE> - the new head or null / 새 머리 또는 null
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - <code>HierarchyRequestError</code> if the value is not a thead / 값이 thead 가 아니면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setTFoot(org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+setTFoot</H3>
+<PRE>
+public static void <B>setTFoot</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table,
+                            <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;value)</PRE>
+<DL>
+<DD>Sets the <code>tfoot</code> of a table: the old one is removed and the new one becomes the last child.
+ <p>
+ 표의 <code>tfoot</code> 를 지정한다. 이전 것은 지우고 새 것이 마지막 자식이 된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>table</CODE> - the table / 표<DD><CODE>value</CODE> - the new foot or null / 새 바닥 또는 null
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - <code>HierarchyRequestError</code> if the value is not a tfoot / 값이 tfoot 이 아니면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="insertRow(org.duckdns.hjow.swingwebpanel.dom.Element, int)"><!-- --></A><H3>
+insertRow</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>insertRow</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table,
+                                int&nbsp;index)</PRE>
+<DL>
+<DD>Inserts a row into a table: with an index of -1 or the number of rows the row goes to the end (into the last body, a new body if the
+ table has none), else before the row with that index.
+ <p>
+ 표에 행을 넣는다. 인덱스가 -1 이거나 행 수이면 끝(마지막 본문 안, 표에 본문이 없으면 새 본문)에, 아니면 그 인덱스의 행 앞에 넣는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>table</CODE> - the table / 표<DD><CODE>index</CODE> - the index, -1 for the end / 인덱스. -1 은 끝
+<DT><B>Returns:</B><DD>the new row / 새 행
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - <code>IndexSizeError</code> if the index is less than -1 or more than the number of rows / 인덱스가 -1 보다 작거나 행 수보다 크면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="deleteRow(org.duckdns.hjow.swingwebpanel.dom.Element, int)"><!-- --></A><H3>
+deleteRow</H3>
+<PRE>
+public static void <B>deleteRow</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;table,
+                             int&nbsp;index)</PRE>
+<DL>
+<DD>Deletes a row of a table: -1 is the last row.
+ <p>
+ 표의 행을 지운다. -1 은 마지막 행이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>table</CODE> - the table / 표<DD><CODE>index</CODE> - the index / 인덱스
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - <code>IndexSizeError</code> if the index is out of range / 인덱스가 범위를 벗어나면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="insertSectionRow(org.duckdns.hjow.swingwebpanel.dom.Element, int)"><!-- --></A><H3>
+insertSectionRow</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>insertSectionRow</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;section,
+                                       int&nbsp;index)</PRE>
+<DL>
+<DD>Inserts a row into a table section.
+ <p>
+ 표 구역에 행을 넣는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>section</CODE> - the section / 구역<DD><CODE>index</CODE> - the index, -1 for the end / 인덱스. -1 은 끝
+<DT><B>Returns:</B><DD>the new row / 새 행
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - <code>IndexSizeError</code> if the index is out of range / 인덱스가 범위를 벗어나면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="deleteSectionRow(org.duckdns.hjow.swingwebpanel.dom.Element, int)"><!-- --></A><H3>
+deleteSectionRow</H3>
+<PRE>
+public static void <B>deleteSectionRow</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;section,
+                                    int&nbsp;index)</PRE>
+<DL>
+<DD>Deletes a row of a table section: -1 is the last row.
+ <p>
+ 표 구역의 행을 지운다. -1 은 마지막 행이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>section</CODE> - the section / 구역<DD><CODE>index</CODE> - the index / 인덱스
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - <code>IndexSizeError</code> if the index is out of range / 인덱스가 범위를 벗어나면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="insertCell(org.duckdns.hjow.swingwebpanel.dom.Element, int)"><!-- --></A><H3>
+insertCell</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>insertCell</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;row,
+                                 int&nbsp;index)</PRE>
+<DL>
+<DD>Inserts a cell (<code>td</code>) into a row.
+ <p>
+ 행에 셀(<code>td</code>)을 넣는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>row</CODE> - the row / 행<DD><CODE>index</CODE> - the index, -1 for the end / 인덱스. -1 은 끝
+<DT><B>Returns:</B><DD>the new cell / 새 셀
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - <code>IndexSizeError</code> if the index is out of range / 인덱스가 범위를 벗어나면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="deleteCell(org.duckdns.hjow.swingwebpanel.dom.Element, int)"><!-- --></A><H3>
+deleteCell</H3>
+<PRE>
+public static void <B>deleteCell</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;row,
+                              int&nbsp;index)</PRE>
+<DL>
+<DD>Deletes a cell of a row: -1 is the last cell.
+ <p>
+ 행의 셀을 지운다. -1 은 마지막 셀이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>row</CODE> - the row / 행<DD><CODE>index</CODE> - the index / 인덱스
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/DomException.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DomException</A></CODE> - <code>IndexSizeError</code> if the index is out of range / 인덱스가 범위를 벗어나면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="rowIndex(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+rowIndex</H3>
+<PRE>
+public static int <B>rowIndex</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;row)</PRE>
+<DL>
+<DD>Returns the position of a row in the rows of its table (<code>HTMLTableRowElement.rowIndex</code>), or -1 if it is in no table.
+ <p>
+ 행이 속한 표의 행 목록에서의 위치를 반환한다(<code>HTMLTableRowElement.rowIndex</code>). 표에 없으면 -1.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>row</CODE> - the row / 행
+<DT><B>Returns:</B><DD>the index or -1 / 인덱스 또는 -1</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="sectionRowIndex(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+sectionRowIndex</H3>
+<PRE>
+public static int <B>sectionRowIndex</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;row)</PRE>
+<DL>
+<DD>Returns the position of a row in the rows of its parent (<code>HTMLTableRowElement.sectionRowIndex</code>), or -1 if it has none of
+ the valid parents.
+ <p>
+ 행이 부모의 행 목록에서 차지하는 위치를 반환한다(<code>HTMLTableRowElement.sectionRowIndex</code>). 유효한 부모가 없으면 -1.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>row</CODE> - the row / 행
+<DT><B>Returns:</B><DD>the index or -1 / 인덱스 또는 -1</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="cellIndex(org.duckdns.hjow.swingwebpanel.dom.Element)"><!-- --></A><H3>
+cellIndex</H3>
+<PRE>
+public static int <B>cellIndex</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;cell)</PRE>
+<DL>
+<DD>Returns the position of a cell in the cells of its row (<code>HTMLTableCellElement.cellIndex</code>), or -1 if the parent is no row.
+ <p>
+ 셀이 행의 셀 목록에서 차지하는 위치를 반환한다(<code>HTMLTableCellElement.cellIndex</code>). 부모가 행이 아니면 -1.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>cell</CODE> - the cell / 셀
+<DT><B>Returns:</B><DD>the index or -1 / 인덱스 또는 -1</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/SubmitEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom.html"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/html/ValidityState.html" title="class in org.duckdns.hjow.swingwebpanel.dom.html"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/html/TableOps.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="TableOps.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,683 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+JsScriptEngine
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="JsScriptEngine";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsGlobalBindings.html" title="class in org.duckdns.hjow.swingwebpanel.js.script"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html" title="class in org.duckdns.hjow.swingwebpanel.js.script"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="JsScriptEngine.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.script</FONT>
+<BR>
+Class JsScriptEngine</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by ">javax.script.AbstractScriptEngine
+      <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.script.JsScriptEngine</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD>javax.script.Compilable, javax.script.Invocable, javax.script.ScriptEngine</DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public final class <B>JsScriptEngine</B><DT>extends javax.script.AbstractScriptEngine<DT>implements javax.script.Compilable, javax.script.Invocable</DL>
+</PRE>
+
+<P>
+The Java Scripting API (JSR 223) engine of this project, built on <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsEngine</CODE></A>: it implements <code>ScriptEngine</code> (through
+ <code>AbstractScriptEngine</code>), <code>Compilable</code> and <code>Invocable</code>. Obtain it with
+ <code>new ScriptEngineManager().getEngineByName("swingwebpanel-js")</code> or from <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#getScriptEngine()"><CODE>JsScriptEngineFactory.getScriptEngine()</CODE></A>.
+ <h3>Variables and contexts</h3>
+ The <code>ENGINE_SCOPE</code> bindings of the default context are a live view of the global object (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsGlobalBindings.html" title="class in org.duckdns.hjow.swingwebpanel.js.script"><CODE>JsGlobalBindings</CODE></A>):
+ <code>engine.put("x", 1)</code> makes <code>x</code> a global variable, and the <code>var</code>s and functions that a script declares are visible through
+ <code>engine.get("x")</code>. When <code>eval</code> gets other <code>ENGINE_SCOPE</code> bindings (a <code>Bindings</code> argument, or a context that was given
+ other bindings), those bindings get a global scope of their own: this script engine keeps one complete, independent global object (realm) for every
+ <code>Bindings</code> object it has seen, copies the entries of the bindings into it before the script runs, and copies the globals that the script
+ created or changed back afterwards; the same <code>Bindings</code> object therefore keeps its variables from one <code>eval</code> to the next, and different
+ bindings never see each other's variables. The <code>GLOBAL_SCOPE</code> bindings (shared by the engines of a <code>ScriptEngineManager</code>) are consulted for
+ a name that the script scope does not have; they are read only (an assignment goes to the engine scope). Values follow the conversion rules of
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsEngine</CODE></A>, except that undefined becomes <code>null</code>; a Java object that is not convertible is refused (<code>ScriptException</code> for an
+ <code>eval</code>), because scripts never get Java objects. To let scripts call Java code put a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsHostFunction.html" title="interface in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsHostFunction</CODE></A>
+ into the bindings. <code>let</code>, <code>const</code> and <code>class</code> declarations at the top level of a script are not entries of the bindings (they live
+ in the declarative scope of the realm), but later scripts of the same scope see them; declaring the same name twice is a SyntaxError, as in a browser.
+ <h3>Output</h3>
+ <code>print</code> and <code>console.log/info/debug</code> write a line to <code>ScriptContext.getWriter()</code>, <code>console.warn/error</code> to
+ <code>getErrorWriter()</code> of the context that runs the script.
+ <h3>Errors</h3>
+ An error of the script is a <code>ScriptException</code> with the message <code>Name: message</code>, the script name (the attribute
+ <code>ScriptEngine.FILENAME</code> of the context, or <code>&lt;eval&gt;</code>), the line and the column (-1 when unknown) and the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsScriptError.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsScriptError</CODE></A> as its cause.
+ A script that the engine stopped (see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html#getJsEngine()"><CODE>getJsEngine()</CODE></A> for the limits) is a <code>ScriptException</code> whose cause is the
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ScriptAbortedException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>ScriptAbortedException</CODE></A>.
+ <h3>Results</h3>
+ The result of <code>eval</code> is the completion value converted by the rules of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsEngine</CODE></A>: a number is always a <code>Double</code>, an object is a live
+ <code>Map</code>, an array a live <code>List</code>, a function a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsCallable.html" title="interface in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsCallable</CODE></A>; <code>undefined</code> and a script without a
+ value give <code>null</code>. Promise jobs run before <code>eval</code> returns; there are no timers.
+ <h3>Threads</h3>
+ The engine may be used from several threads (<code>THREADING</code> is <code>MULTITHREADED</code>); the operations on one global scope are serialized.
+ <p>
+ 이 프로젝트의 Java Scripting API(JSR 223) 엔진. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsEngine</CODE></A> 위에 만들었으며 <code>ScriptEngine</code>(<code>AbstractScriptEngine</code> 로),
+ <code>Compilable</code>, <code>Invocable</code> 을 구현한다. <code>new ScriptEngineManager().getEngineByName("swingwebpanel-js")</code> 나
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html#getScriptEngine()"><CODE>JsScriptEngineFactory.getScriptEngine()</CODE></A> 으로 얻는다.
+ <h3>변수와 컨텍스트</h3>
+ 기본 컨텍스트의 <code>ENGINE_SCOPE</code> 바인딩은 전역 객체의 살아 있는 보기(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsGlobalBindings.html" title="class in org.duckdns.hjow.swingwebpanel.js.script"><CODE>JsGlobalBindings</CODE></A>)이다. <code>engine.put("x", 1)</code> 은 <code>x</code> 를 전역
+ 변수로 만들고, 스크립트가 선언한 <code>var</code> 와 함수는 <code>engine.get("x")</code> 로 보인다. <code>eval</code> 이 다른 <code>ENGINE_SCOPE</code> 바인딩(<code>Bindings</code>
+ 인수, 또는 다른 바인딩을 준 컨텍스트)을 받으면 그 바인딩은 자신만의 전역 스코프를 가진다. 이 스크립트 엔진은 본 <code>Bindings</code> 객체마다 완전하고 독립된
+ 전역 객체(realm)를 하나씩 두고, 스크립트를 실행하기 전에 바인딩의 항목을 그 안으로 복사하고, 실행한 뒤 스크립트가 만들거나 바꾼 전역을 다시 복사해 온다. 그래서
+ 같은 <code>Bindings</code> 객체는 <code>eval</code> 사이에 변수를 유지하고 다른 바인딩은 서로의 변수를 보지 못한다. <code>GLOBAL_SCOPE</code> 바인딩
+ (<code>ScriptEngineManager</code> 의 엔진들이 공유)은 스크립트 스코프에 없는 이름을 찾을 때 참조하며 읽기 전용이다(대입은 엔진 스코프로 간다). 값은 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsEngine</CODE></A>
+ 의 변환 규칙을 따르되 undefined 는 <code>null</code> 이 된다. 변환할 수 없는 Java 객체는 거부한다(<code>eval</code> 에서는 <code>ScriptException</code>). 스크립트는
+ Java 객체를 받지 않기 때문이다. 스크립트가 Java 코드를 호출하게 하려면 바인딩에 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsHostFunction.html" title="interface in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsHostFunction</CODE></A> 을 넣는다. 스크립트 최상위의
+ <code>let</code>, <code>const</code>, <code>class</code> 선언은 바인딩의 항목이 아니지만(realm 의 선언적 스코프에 있다) 같은 스코프의 이후 스크립트는 그것을 본다. 같은 이름을
+ 두 번 선언하면 브라우저처럼 SyntaxError 이다.
+ <h3>출력</h3>
+ <code>print</code> 와 <code>console.log/info/debug</code> 는 스크립트를 실행하는 컨텍스트의 <code>ScriptContext.getWriter()</code> 에, <code>console.warn/error</code> 는
+ <code>getErrorWriter()</code> 에 한 줄씩 쓴다.
+ <h3>오류</h3>
+ 스크립트의 오류는 <code>Name: message</code> 형태의 메시지, 스크립트 이름(컨텍스트의 <code>ScriptEngine.FILENAME</code> 속성, 없으면 <code>&lt;eval&gt;</code>), 줄과 열(모르면 -1),
+ 원인 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsScriptError.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsScriptError</CODE></A> 를 가진 <code>ScriptException</code> 이다. 엔진이 멈춘 스크립트(제한은 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html#getJsEngine()"><CODE>getJsEngine()</CODE></A> 참조)는 원인이 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/ScriptAbortedException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>ScriptAbortedException</CODE></A> 인
+ <code>ScriptException</code> 이다.
+ <h3>결과</h3>
+ <code>eval</code> 의 결과는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsEngine</CODE></A> 의 규칙으로 바꾼 완료 값이다: 숫자는 항상 <code>Double</code>, 객체는 살아 있는 <code>Map</code>, 배열은 살아 있는
+ <code>List</code>, 함수는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsCallable.html" title="interface in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsCallable</CODE></A>. <code>undefined</code> 와 값이 없는 스크립트는 <code>null</code> 이다. promise 작업은
+ <code>eval</code> 이 반환하기 전에 실행되며 타이머는 없다.
+ <h3>스레드</h3>
+ 엔진은 여러 스레드에서 쓸 수 있다(<code>THREADING</code> 은 <code>MULTITHREADED</code>). 같은 전역 스코프의 연산은 직렬화된다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html#DEFAULT_FILE_NAME">DEFAULT_FILE_NAME</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The name that the Java Scripting API reports for a script without a file name.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_javax.script.AbstractScriptEngine"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class javax.script.AbstractScriptEngine</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>context</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_javax.script.ScriptEngine"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from interface javax.script.ScriptEngine</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>ARGV, ENGINE, ENGINE_VERSION, FILENAME, LANGUAGE, LANGUAGE_VERSION, NAME</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;javax.script.CompiledScript</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html#compile(java.io.Reader)">compile</A></B>(java.io.Reader&nbsp;script)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a script that is read from a reader in advance.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;javax.script.CompiledScript</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html#compile(java.lang.String)">compile</A></B>(java.lang.String&nbsp;script)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a script in advance.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;javax.script.Bindings</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html#createBindings()">createBindings</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates empty bindings (<code>SimpleBindings</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html#eval(java.io.Reader, javax.script.ScriptContext)">eval</A></B>(java.io.Reader&nbsp;reader,
+     javax.script.ScriptContext&nbsp;context)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Runs a script that is read from a reader, in a context.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html#eval(java.lang.String, javax.script.ScriptContext)">eval</A></B>(java.lang.String&nbsp;script,
+     javax.script.ScriptContext&nbsp;context)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Runs a script in a context.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;javax.script.ScriptEngineFactory</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html#getFactory()">getFactory</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the factory that created this engine.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;T&gt; T</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html#getInterface(java.lang.Class)">getInterface</A></B>(java.lang.Class&lt;T&gt;&nbsp;clasz)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns an implementation of a Java interface by the global functions of the default context.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0" SUMMARY="">
+<TR ALIGN="right" VALIGN="">
+<TD NOWRAP><FONT SIZE="-1">
+<CODE>&lt;T&gt; T</CODE></FONT></TD>
+</TR>
+</TABLE>
+</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html#getInterface(java.lang.Object, java.lang.Class)">getInterface</A></B>(java.lang.Object&nbsp;thiz,
+             java.lang.Class&lt;T&gt;&nbsp;clasz)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns an implementation of a Java interface by the functions of a script object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed">JsEngine</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html#getJsEngine()">getJsEngine</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsEngine</CODE></A> of the default global scope: the place to set execution limits (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html#getLimits()"><CODE>JsEngine.getLimits()</CODE></A>), a time limit before
+ running code that is not trusted, the module loader, or to cancel a script from another thread (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html#cancel()"><CODE>JsEngine.cancel()</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html#invokeFunction(java.lang.String, java.lang.Object...)">invokeFunction</A></B>(java.lang.String&nbsp;name,
+               java.lang.Object...&nbsp;args)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calls a function of the global scope of the default context.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html#invokeMethod(java.lang.Object, java.lang.String, java.lang.Object...)">invokeMethod</A></B>(java.lang.Object&nbsp;thiz,
+             java.lang.String&nbsp;name,
+             java.lang.Object...&nbsp;args)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calls a method of a script object that an earlier <code>eval</code> or call returned.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_javax.script.AbstractScriptEngine"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class javax.script.AbstractScriptEngine</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>eval, eval, eval, eval, get, getBindings, getContext, getScriptContext, put, setBindings, setContext</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="DEFAULT_FILE_NAME"><!-- --></A><H3>
+DEFAULT_FILE_NAME</H3>
+<PRE>
+public static final java.lang.String <B>DEFAULT_FILE_NAME</B></PRE>
+<DL>
+<DD>The name that the Java Scripting API reports for a script without a file name.
+ <p>
+ 파일 이름이 없는 스크립트에 대해 Java Scripting API 가 보고하는 이름.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.js.script.JsScriptEngine.DEFAULT_FILE_NAME">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getJsEngine()"><!-- --></A><H3>
+getJsEngine</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed">JsEngine</A> <B>getJsEngine</B>()</PRE>
+<DL>
+<DD>Returns the <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsEngine</CODE></A> of the default global scope: the place to set execution limits (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html#getLimits()"><CODE>JsEngine.getLimits()</CODE></A>), a time limit before
+ running code that is not trusted, the module loader, or to cancel a script from another thread (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html#cancel()"><CODE>JsEngine.cancel()</CODE></A>).
+ <p>
+ 기본 전역 스코프의 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsEngine</CODE></A> 을 반환한다. 실행 제한(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html#getLimits()"><CODE>JsEngine.getLimits()</CODE></A>), 믿을 수 없는 코드를 실행하기 전의 시간 제한, 모듈 로더를 지정하거나 다른
+ 스레드에서 스크립트를 취소(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html#cancel()"><CODE>JsEngine.cancel()</CODE></A>)하는 곳이다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the engine / 엔진</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createBindings()"><!-- --></A><H3>
+createBindings</H3>
+<PRE>
+public javax.script.Bindings <B>createBindings</B>()</PRE>
+<DL>
+<DD>Creates empty bindings (<code>SimpleBindings</code>). Bindings that you give to <code>eval</code> get a global scope of their own (see the class description).
+ <p>
+ 빈 바인딩(<code>SimpleBindings</code>)을 만든다. <code>eval</code> 에 주는 바인딩은 자신만의 전역 스코프를 가진다(클래스 설명 참조).
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>createBindings</CODE> in interface <CODE>javax.script.ScriptEngine</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>new bindings / 새 바인딩</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFactory()"><!-- --></A><H3>
+getFactory</H3>
+<PRE>
+public javax.script.ScriptEngineFactory <B>getFactory</B>()</PRE>
+<DL>
+<DD>Returns the factory that created this engine.
+ <p>
+ 이 엔진을 만든 팩터리를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getFactory</CODE> in interface <CODE>javax.script.ScriptEngine</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the factory / 팩터리</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="eval(java.lang.String, javax.script.ScriptContext)"><!-- --></A><H3>
+eval</H3>
+<PRE>
+public java.lang.Object <B>eval</B>(java.lang.String&nbsp;script,
+                             javax.script.ScriptContext&nbsp;context)
+                      throws javax.script.ScriptException</PRE>
+<DL>
+<DD>Runs a script in a context.
+ <p>
+ 스크립트를 컨텍스트에서 실행한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>eval</CODE> in interface <CODE>javax.script.ScriptEngine</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>script</CODE> - the script text / 스크립트 텍스트<DD><CODE>context</CODE> - the context / 컨텍스트
+<DT><B>Returns:</B><DD>the result (null for undefined) / 결과(undefined 이면 null)
+<DT><B>Throws:</B>
+<DD><CODE>javax.script.ScriptException</CODE> - for an error of the script / 스크립트 오류일 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="eval(java.io.Reader, javax.script.ScriptContext)"><!-- --></A><H3>
+eval</H3>
+<PRE>
+public java.lang.Object <B>eval</B>(java.io.Reader&nbsp;reader,
+                             javax.script.ScriptContext&nbsp;context)
+                      throws javax.script.ScriptException</PRE>
+<DL>
+<DD>Runs a script that is read from a reader, in a context.
+ <p>
+ 리더에서 읽은 스크립트를 컨텍스트에서 실행한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>eval</CODE> in interface <CODE>javax.script.ScriptEngine</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>reader</CODE> - the reader / 리더<DD><CODE>context</CODE> - the context / 컨텍스트
+<DT><B>Returns:</B><DD>the result (null for undefined) / 결과(undefined 이면 null)
+<DT><B>Throws:</B>
+<DD><CODE>javax.script.ScriptException</CODE> - for an error of the script or of the reader / 스크립트나 리더의 오류일 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="compile(java.lang.String)"><!-- --></A><H3>
+compile</H3>
+<PRE>
+public javax.script.CompiledScript <B>compile</B>(java.lang.String&nbsp;script)
+                                    throws javax.script.ScriptException</PRE>
+<DL>
+<DD>Parses a script in advance.
+ <p>
+ 스크립트를 미리 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>compile</CODE> in interface <CODE>javax.script.Compilable</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>script</CODE> - the script text / 스크립트 텍스트
+<DT><B>Returns:</B><DD>the compiled script / 컴파일된 스크립트
+<DT><B>Throws:</B>
+<DD><CODE>javax.script.ScriptException</CODE> - for a syntax error (with the position) / 구문 오류(위치 포함)일 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="compile(java.io.Reader)"><!-- --></A><H3>
+compile</H3>
+<PRE>
+public javax.script.CompiledScript <B>compile</B>(java.io.Reader&nbsp;script)
+                                    throws javax.script.ScriptException</PRE>
+<DL>
+<DD>Parses a script that is read from a reader in advance.
+ <p>
+ 리더에서 읽은 스크립트를 미리 파싱한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>compile</CODE> in interface <CODE>javax.script.Compilable</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>script</CODE> - the reader / 리더
+<DT><B>Returns:</B><DD>the compiled script / 컴파일된 스크립트
+<DT><B>Throws:</B>
+<DD><CODE>javax.script.ScriptException</CODE> - for a syntax error or a failure of the reader / 구문 오류나 리더의 실패일 때</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="invokeFunction(java.lang.String, java.lang.Object...)"><!-- --></A><H3>
+invokeFunction</H3>
+<PRE>
+public java.lang.Object <B>invokeFunction</B>(java.lang.String&nbsp;name,
+                                       java.lang.Object...&nbsp;args)
+                                throws javax.script.ScriptException,
+                                       java.lang.NoSuchMethodException</PRE>
+<DL>
+<DD>Calls a function of the global scope of the default context.
+ <p>
+ 기본 컨텍스트의 전역 스코프에 있는 함수를 호출한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>invokeFunction</CODE> in interface <CODE>javax.script.Invocable</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the name of the function / 함수 이름<DD><CODE>args</CODE> - the arguments / 인수
+<DT><B>Returns:</B><DD>the result (null for undefined) / 결과(undefined 이면 null)
+<DT><B>Throws:</B>
+<DD><CODE>javax.script.ScriptException</CODE> - for an error of the function / 함수의 오류일 때
+<DD><CODE>java.lang.NoSuchMethodException</CODE> - if there is no such function / 그런 함수가 없으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="invokeMethod(java.lang.Object, java.lang.String, java.lang.Object...)"><!-- --></A><H3>
+invokeMethod</H3>
+<PRE>
+public java.lang.Object <B>invokeMethod</B>(java.lang.Object&nbsp;thiz,
+                                     java.lang.String&nbsp;name,
+                                     java.lang.Object...&nbsp;args)
+                              throws javax.script.ScriptException,
+                                     java.lang.NoSuchMethodException</PRE>
+<DL>
+<DD>Calls a method of a script object that an earlier <code>eval</code> or call returned.
+ <p>
+ 이전의 <code>eval</code> 이나 호출이 돌려준 스크립트 객체의 메서드를 호출한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>invokeMethod</CODE> in interface <CODE>javax.script.Invocable</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>thiz</CODE> - the object (a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsHandle.html" title="interface in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsHandle</CODE></A>) / 객체(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsHandle.html" title="interface in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsHandle</CODE></A>)<DD><CODE>name</CODE> - the name of the method / 메서드 이름<DD><CODE>args</CODE> - the arguments / 인수
+<DT><B>Returns:</B><DD>the result (null for undefined) / 결과(undefined 이면 null)
+<DT><B>Throws:</B>
+<DD><CODE>javax.script.ScriptException</CODE> - for an error of the method / 메서드의 오류일 때
+<DD><CODE>java.lang.NoSuchMethodException</CODE> - if the object has no such method / 객체에 그런 메서드가 없으면
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if <code>thiz</code> is null or not a script object / <code>thiz</code> 가 null 이거나 스크립트 객체가 아니면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getInterface(java.lang.Class)"><!-- --></A><H3>
+getInterface</H3>
+<PRE>
+public &lt;T&gt; T <B>getInterface</B>(java.lang.Class&lt;T&gt;&nbsp;clasz)</PRE>
+<DL>
+<DD>Returns an implementation of a Java interface by the global functions of the default context.
+ <p>
+ 기본 컨텍스트의 전역 함수로 구현한 Java 인터페이스 구현을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getInterface</CODE> in interface <CODE>javax.script.Invocable</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Type Parameters:</B><DD><CODE>T</CODE> - the type / 타입<DT><B>Parameters:</B><DD><CODE>clasz</CODE> - the interface / 인터페이스
+<DT><B>Returns:</B><DD>an implementation, or null if a function for a method of the interface is missing / 구현. 인터페이스의 메서드에 해당하는 함수가 없으면 null
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the class is null or not an interface / 클래스가 null 이거나 인터페이스가 아니면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getInterface(java.lang.Object, java.lang.Class)"><!-- --></A><H3>
+getInterface</H3>
+<PRE>
+public &lt;T&gt; T <B>getInterface</B>(java.lang.Object&nbsp;thiz,
+                          java.lang.Class&lt;T&gt;&nbsp;clasz)</PRE>
+<DL>
+<DD>Returns an implementation of a Java interface by the functions of a script object.
+ <p>
+ 스크립트 객체의 함수로 구현한 Java 인터페이스 구현을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE>getInterface</CODE> in interface <CODE>javax.script.Invocable</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Type Parameters:</B><DD><CODE>T</CODE> - the type / 타입<DT><B>Parameters:</B><DD><CODE>thiz</CODE> - the object (a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsHandle.html" title="interface in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsHandle</CODE></A>) / 객체(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsHandle.html" title="interface in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsHandle</CODE></A>)<DD><CODE>clasz</CODE> - the interface / 인터페이스
+<DT><B>Returns:</B><DD>an implementation, or null if a function for a method of the interface is missing / 구현. 인터페이스의 메서드에 해당하는 함수가 없으면 null
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.IllegalArgumentException</CODE> - if the class is null or not an interface, or <code>thiz</code> is null or not a script object / 클래스가 null 이거나 인터페이스가 아니거나,
+                                  <code>thiz</code> 가 null 이거나 스크립트 객체가 아니면</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsGlobalBindings.html" title="class in org.duckdns.hjow.swingwebpanel.js.script"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngineFactory.html" title="class in org.duckdns.hjow.swingwebpanel.js.script"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/script/JsScriptEngine.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="JsScriptEngine.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

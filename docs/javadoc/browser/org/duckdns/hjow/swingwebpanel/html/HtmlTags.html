@@ -1,0 +1,3100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+HtmlTags
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="HtmlTags";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlToken.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/html/HtmlTags.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="HtmlTags.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.html</FONT>
+<BR>
+Class HtmlTags</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.html.HtmlTags</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>HtmlTags</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Numeric ids of the element names that the tree builder treats specially, plus the name categories of the HTML Standard (special,
+ formatting, scope boundaries). The tree builder compares small integers in <code>switch</code> statements instead of strings, which
+ Java 6 cannot switch on. Id 0 stands for every other name. The names are lower case; the SVG element <code>foreignObject</code> is
+ known as <code>foreignobject</code> because lookups use the lower-cased local name.
+ <p>
+ 트리 생성기가 특별히 다루는 요소 이름의 숫자 번호와 HTML 표준의 이름 범주(special, formatting, 범위 경계). 트리 생성기는 Java 6 에서 switch 할
+ 수 없는 문자열 대신 작은 정수를 <code>switch</code> 로 비교한다. 번호 0 은 그 밖의 모든 이름이다. 이름은 소문자이며, SVG 요소
+ <code>foreignObject</code> 는 소문자로 바꾼 로컬 이름으로 찾으므로 <code>foreignobject</code> 로 알려져 있다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#A">A</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>a</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#ADDRESS">ADDRESS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>address</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#ANNOTATION_XML">ANNOTATION_XML</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>annotation-xml</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#APPLET">APPLET</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>applet</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#AREA">AREA</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>area</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#ARTICLE">ARTICLE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>article</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#ASIDE">ASIDE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>aside</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#B">B</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>b</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#BASE">BASE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>base</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#BASEFONT">BASEFONT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>basefont</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#BGSOUND">BGSOUND</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>bgsound</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#BIG">BIG</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>big</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#BLOCKQUOTE">BLOCKQUOTE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>blockquote</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#BODY">BODY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>body</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#BR">BR</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>br</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#BUTTON">BUTTON</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>button</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#CAPTION">CAPTION</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>caption</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#CENTER">CENTER</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>center</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#CODE">CODE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>code</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#COL">COL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>col</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#COLGROUP">COLGROUP</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>colgroup</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#COUNT">COUNT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of ids (the largest id plus one).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#DD">DD</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>dd</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#DESC">DESC</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>desc</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#DETAILS">DETAILS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>details</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#DIALOG">DIALOG</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>dialog</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#DIR">DIR</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>dir</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#DIV">DIV</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>div</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#DL">DL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>dl</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#DT">DT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>dt</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#EM">EM</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>em</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#EMBED">EMBED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>embed</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#FIELDSET">FIELDSET</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>fieldset</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#FIGCAPTION">FIGCAPTION</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>figcaption</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#FIGURE">FIGURE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>figure</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#FONT">FONT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>font</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#FOOTER">FOOTER</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>footer</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#FOREIGNOBJECT">FOREIGNOBJECT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>foreignobject</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#FORM">FORM</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>form</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#FRAME">FRAME</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>frame</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#FRAMESET">FRAMESET</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>frameset</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#H1">H1</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>h1</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#H2">H2</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>h2</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#H3">H3</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>h3</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#H4">H4</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>h4</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#H5">H5</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>h5</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#H6">H6</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>h6</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#HEAD">HEAD</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>head</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#HEADER">HEADER</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>header</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#HGROUP">HGROUP</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>hgroup</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#HR">HR</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>hr</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#HTML">HTML</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>html</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#I">I</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>i</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#IFRAME">IFRAME</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>iframe</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#IMAGE">IMAGE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>image</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#IMG">IMG</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>img</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#INPUT">INPUT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>input</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#KEYGEN">KEYGEN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>keygen</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#LI">LI</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>li</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#LINK">LINK</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>link</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#LISTING">LISTING</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>listing</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#MAIN">MAIN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>main</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#MALIGNMARK">MALIGNMARK</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>malignmark</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#MARQUEE">MARQUEE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>marquee</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#MATH">MATH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>math</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#MENU">MENU</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>menu</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#META">META</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>meta</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#MGLYPH">MGLYPH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>mglyph</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#MI">MI</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>mi</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#MN">MN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>mn</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#MO">MO</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>mo</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#MS">MS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>ms</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#MTEXT">MTEXT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>mtext</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#NAV">NAV</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>nav</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#NOBR">NOBR</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>nobr</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#NOEMBED">NOEMBED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>noembed</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#NOFRAMES">NOFRAMES</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>noframes</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#NOSCRIPT">NOSCRIPT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>noscript</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#OBJECT">OBJECT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>object</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#OL">OL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>ol</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#OPTGROUP">OPTGROUP</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>optgroup</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#OPTION">OPTION</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>option</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#P">P</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>p</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#PARAM">PARAM</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>param</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#PLAINTEXT">PLAINTEXT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>plaintext</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#PRE">PRE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>pre</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#RB">RB</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>rb</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#RP">RP</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>rp</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#RT">RT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>rt</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#RTC">RTC</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>rtc</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#RUBY">RUBY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>ruby</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#S">S</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>s</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#SCRIPT">SCRIPT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>script</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#SEARCH">SEARCH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>search</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#SECTION">SECTION</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>section</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#SELECT">SELECT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>select</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#SMALL">SMALL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>small</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#SOURCE">SOURCE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>source</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#SPAN">SPAN</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>span</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#STRIKE">STRIKE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>strike</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#STRONG">STRONG</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>strong</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#STYLE">STYLE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>style</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#SUB">SUB</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>sub</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#SUMMARY">SUMMARY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>summary</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#SUP">SUP</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>sup</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#SVG">SVG</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>svg</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#TABLE">TABLE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>table</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#TBODY">TBODY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>tbody</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#TD">TD</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>td</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#TEMPLATE">TEMPLATE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>template</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#TEXTAREA">TEXTAREA</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>textarea</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#TFOOT">TFOOT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>tfoot</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#TH">TH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>th</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#THEAD">THEAD</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>thead</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#TITLE">TITLE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>title</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#TR">TR</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>tr</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#TRACK">TRACK</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>track</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#TT">TT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>tt</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#U">U</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>u</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#UL">UL</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>ul</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#VAR">VAR</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>var</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#WBR">WBR</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>wbr</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#XMP">XMP</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tag id of <code>xmp</code>.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#id(java.lang.String)">id</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the id of a lower case name.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#isFormatting(int)">isFormatting</A></B>(int&nbsp;id)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether an HTML element with this id is in the formatting category.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#isImpliedEnd(int)">isImpliedEnd</A></B>(int&nbsp;id)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether an HTML element with this id gets its end tag generated by "generate implied end tags".</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#isOpenAllowedAtEnd(int)">isOpenAllowedAtEnd</A></B>(int&nbsp;id)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether an HTML element with this id may be open when the body or the document ends without a parse error.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#isScopeBoundary(int)">isScopeBoundary</A></B>(int&nbsp;id)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether an HTML element with this id ends the default scope search.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#isSpecial(int)">isSpecial</A></B>(int&nbsp;id)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether an HTML element with this id is in the special category.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlTags.html#name(int)">name</A></B>(int&nbsp;id)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the name of an id.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="A"><!-- --></A><H3>
+A</H3>
+<PRE>
+public static final int <B>A</B></PRE>
+<DL>
+<DD>Tag id of <code>a</code>.
+ <p>
+ <code>a</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.A">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ADDRESS"><!-- --></A><H3>
+ADDRESS</H3>
+<PRE>
+public static final int <B>ADDRESS</B></PRE>
+<DL>
+<DD>Tag id of <code>address</code>.
+ <p>
+ <code>address</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.ADDRESS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ANNOTATION_XML"><!-- --></A><H3>
+ANNOTATION_XML</H3>
+<PRE>
+public static final int <B>ANNOTATION_XML</B></PRE>
+<DL>
+<DD>Tag id of <code>annotation-xml</code>.
+ <p>
+ <code>annotation-xml</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.ANNOTATION_XML">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="APPLET"><!-- --></A><H3>
+APPLET</H3>
+<PRE>
+public static final int <B>APPLET</B></PRE>
+<DL>
+<DD>Tag id of <code>applet</code>.
+ <p>
+ <code>applet</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.APPLET">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="AREA"><!-- --></A><H3>
+AREA</H3>
+<PRE>
+public static final int <B>AREA</B></PRE>
+<DL>
+<DD>Tag id of <code>area</code>.
+ <p>
+ <code>area</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.AREA">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ARTICLE"><!-- --></A><H3>
+ARTICLE</H3>
+<PRE>
+public static final int <B>ARTICLE</B></PRE>
+<DL>
+<DD>Tag id of <code>article</code>.
+ <p>
+ <code>article</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.ARTICLE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="ASIDE"><!-- --></A><H3>
+ASIDE</H3>
+<PRE>
+public static final int <B>ASIDE</B></PRE>
+<DL>
+<DD>Tag id of <code>aside</code>.
+ <p>
+ <code>aside</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.ASIDE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="B"><!-- --></A><H3>
+B</H3>
+<PRE>
+public static final int <B>B</B></PRE>
+<DL>
+<DD>Tag id of <code>b</code>.
+ <p>
+ <code>b</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.B">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BASE"><!-- --></A><H3>
+BASE</H3>
+<PRE>
+public static final int <B>BASE</B></PRE>
+<DL>
+<DD>Tag id of <code>base</code>.
+ <p>
+ <code>base</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.BASE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BASEFONT"><!-- --></A><H3>
+BASEFONT</H3>
+<PRE>
+public static final int <B>BASEFONT</B></PRE>
+<DL>
+<DD>Tag id of <code>basefont</code>.
+ <p>
+ <code>basefont</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.BASEFONT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BGSOUND"><!-- --></A><H3>
+BGSOUND</H3>
+<PRE>
+public static final int <B>BGSOUND</B></PRE>
+<DL>
+<DD>Tag id of <code>bgsound</code>.
+ <p>
+ <code>bgsound</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.BGSOUND">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BIG"><!-- --></A><H3>
+BIG</H3>
+<PRE>
+public static final int <B>BIG</B></PRE>
+<DL>
+<DD>Tag id of <code>big</code>.
+ <p>
+ <code>big</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.BIG">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BLOCKQUOTE"><!-- --></A><H3>
+BLOCKQUOTE</H3>
+<PRE>
+public static final int <B>BLOCKQUOTE</B></PRE>
+<DL>
+<DD>Tag id of <code>blockquote</code>.
+ <p>
+ <code>blockquote</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.BLOCKQUOTE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BODY"><!-- --></A><H3>
+BODY</H3>
+<PRE>
+public static final int <B>BODY</B></PRE>
+<DL>
+<DD>Tag id of <code>body</code>.
+ <p>
+ <code>body</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.BODY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BR"><!-- --></A><H3>
+BR</H3>
+<PRE>
+public static final int <B>BR</B></PRE>
+<DL>
+<DD>Tag id of <code>br</code>.
+ <p>
+ <code>br</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.BR">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BUTTON"><!-- --></A><H3>
+BUTTON</H3>
+<PRE>
+public static final int <B>BUTTON</B></PRE>
+<DL>
+<DD>Tag id of <code>button</code>.
+ <p>
+ <code>button</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.BUTTON">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="CAPTION"><!-- --></A><H3>
+CAPTION</H3>
+<PRE>
+public static final int <B>CAPTION</B></PRE>
+<DL>
+<DD>Tag id of <code>caption</code>.
+ <p>
+ <code>caption</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.CAPTION">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="CENTER"><!-- --></A><H3>
+CENTER</H3>
+<PRE>
+public static final int <B>CENTER</B></PRE>
+<DL>
+<DD>Tag id of <code>center</code>.
+ <p>
+ <code>center</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.CENTER">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="CODE"><!-- --></A><H3>
+CODE</H3>
+<PRE>
+public static final int <B>CODE</B></PRE>
+<DL>
+<DD>Tag id of <code>code</code>.
+ <p>
+ <code>code</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.CODE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="COL"><!-- --></A><H3>
+COL</H3>
+<PRE>
+public static final int <B>COL</B></PRE>
+<DL>
+<DD>Tag id of <code>col</code>.
+ <p>
+ <code>col</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.COL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="COLGROUP"><!-- --></A><H3>
+COLGROUP</H3>
+<PRE>
+public static final int <B>COLGROUP</B></PRE>
+<DL>
+<DD>Tag id of <code>colgroup</code>.
+ <p>
+ <code>colgroup</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.COLGROUP">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DD"><!-- --></A><H3>
+DD</H3>
+<PRE>
+public static final int <B>DD</B></PRE>
+<DL>
+<DD>Tag id of <code>dd</code>.
+ <p>
+ <code>dd</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.DD">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DESC"><!-- --></A><H3>
+DESC</H3>
+<PRE>
+public static final int <B>DESC</B></PRE>
+<DL>
+<DD>Tag id of <code>desc</code>.
+ <p>
+ <code>desc</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.DESC">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DETAILS"><!-- --></A><H3>
+DETAILS</H3>
+<PRE>
+public static final int <B>DETAILS</B></PRE>
+<DL>
+<DD>Tag id of <code>details</code>.
+ <p>
+ <code>details</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.DETAILS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DIALOG"><!-- --></A><H3>
+DIALOG</H3>
+<PRE>
+public static final int <B>DIALOG</B></PRE>
+<DL>
+<DD>Tag id of <code>dialog</code>.
+ <p>
+ <code>dialog</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.DIALOG">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DIR"><!-- --></A><H3>
+DIR</H3>
+<PRE>
+public static final int <B>DIR</B></PRE>
+<DL>
+<DD>Tag id of <code>dir</code>.
+ <p>
+ <code>dir</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.DIR">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DIV"><!-- --></A><H3>
+DIV</H3>
+<PRE>
+public static final int <B>DIV</B></PRE>
+<DL>
+<DD>Tag id of <code>div</code>.
+ <p>
+ <code>div</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.DIV">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DL"><!-- --></A><H3>
+DL</H3>
+<PRE>
+public static final int <B>DL</B></PRE>
+<DL>
+<DD>Tag id of <code>dl</code>.
+ <p>
+ <code>dl</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.DL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DT"><!-- --></A><H3>
+DT</H3>
+<PRE>
+public static final int <B>DT</B></PRE>
+<DL>
+<DD>Tag id of <code>dt</code>.
+ <p>
+ <code>dt</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.DT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="EM"><!-- --></A><H3>
+EM</H3>
+<PRE>
+public static final int <B>EM</B></PRE>
+<DL>
+<DD>Tag id of <code>em</code>.
+ <p>
+ <code>em</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.EM">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="EMBED"><!-- --></A><H3>
+EMBED</H3>
+<PRE>
+public static final int <B>EMBED</B></PRE>
+<DL>
+<DD>Tag id of <code>embed</code>.
+ <p>
+ <code>embed</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.EMBED">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FIELDSET"><!-- --></A><H3>
+FIELDSET</H3>
+<PRE>
+public static final int <B>FIELDSET</B></PRE>
+<DL>
+<DD>Tag id of <code>fieldset</code>.
+ <p>
+ <code>fieldset</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.FIELDSET">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FIGCAPTION"><!-- --></A><H3>
+FIGCAPTION</H3>
+<PRE>
+public static final int <B>FIGCAPTION</B></PRE>
+<DL>
+<DD>Tag id of <code>figcaption</code>.
+ <p>
+ <code>figcaption</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.FIGCAPTION">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FIGURE"><!-- --></A><H3>
+FIGURE</H3>
+<PRE>
+public static final int <B>FIGURE</B></PRE>
+<DL>
+<DD>Tag id of <code>figure</code>.
+ <p>
+ <code>figure</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.FIGURE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FONT"><!-- --></A><H3>
+FONT</H3>
+<PRE>
+public static final int <B>FONT</B></PRE>
+<DL>
+<DD>Tag id of <code>font</code>.
+ <p>
+ <code>font</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.FONT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FOOTER"><!-- --></A><H3>
+FOOTER</H3>
+<PRE>
+public static final int <B>FOOTER</B></PRE>
+<DL>
+<DD>Tag id of <code>footer</code>.
+ <p>
+ <code>footer</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.FOOTER">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FOREIGNOBJECT"><!-- --></A><H3>
+FOREIGNOBJECT</H3>
+<PRE>
+public static final int <B>FOREIGNOBJECT</B></PRE>
+<DL>
+<DD>Tag id of <code>foreignobject</code>.
+ <p>
+ <code>foreignobject</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.FOREIGNOBJECT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FORM"><!-- --></A><H3>
+FORM</H3>
+<PRE>
+public static final int <B>FORM</B></PRE>
+<DL>
+<DD>Tag id of <code>form</code>.
+ <p>
+ <code>form</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.FORM">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FRAME"><!-- --></A><H3>
+FRAME</H3>
+<PRE>
+public static final int <B>FRAME</B></PRE>
+<DL>
+<DD>Tag id of <code>frame</code>.
+ <p>
+ <code>frame</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.FRAME">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="FRAMESET"><!-- --></A><H3>
+FRAMESET</H3>
+<PRE>
+public static final int <B>FRAMESET</B></PRE>
+<DL>
+<DD>Tag id of <code>frameset</code>.
+ <p>
+ <code>frameset</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.FRAMESET">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="H1"><!-- --></A><H3>
+H1</H3>
+<PRE>
+public static final int <B>H1</B></PRE>
+<DL>
+<DD>Tag id of <code>h1</code>.
+ <p>
+ <code>h1</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.H1">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="H2"><!-- --></A><H3>
+H2</H3>
+<PRE>
+public static final int <B>H2</B></PRE>
+<DL>
+<DD>Tag id of <code>h2</code>.
+ <p>
+ <code>h2</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.H2">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="H3"><!-- --></A><H3>
+H3</H3>
+<PRE>
+public static final int <B>H3</B></PRE>
+<DL>
+<DD>Tag id of <code>h3</code>.
+ <p>
+ <code>h3</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.H3">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="H4"><!-- --></A><H3>
+H4</H3>
+<PRE>
+public static final int <B>H4</B></PRE>
+<DL>
+<DD>Tag id of <code>h4</code>.
+ <p>
+ <code>h4</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.H4">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="H5"><!-- --></A><H3>
+H5</H3>
+<PRE>
+public static final int <B>H5</B></PRE>
+<DL>
+<DD>Tag id of <code>h5</code>.
+ <p>
+ <code>h5</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.H5">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="H6"><!-- --></A><H3>
+H6</H3>
+<PRE>
+public static final int <B>H6</B></PRE>
+<DL>
+<DD>Tag id of <code>h6</code>.
+ <p>
+ <code>h6</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.H6">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="HEAD"><!-- --></A><H3>
+HEAD</H3>
+<PRE>
+public static final int <B>HEAD</B></PRE>
+<DL>
+<DD>Tag id of <code>head</code>.
+ <p>
+ <code>head</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.HEAD">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="HEADER"><!-- --></A><H3>
+HEADER</H3>
+<PRE>
+public static final int <B>HEADER</B></PRE>
+<DL>
+<DD>Tag id of <code>header</code>.
+ <p>
+ <code>header</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.HEADER">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="HGROUP"><!-- --></A><H3>
+HGROUP</H3>
+<PRE>
+public static final int <B>HGROUP</B></PRE>
+<DL>
+<DD>Tag id of <code>hgroup</code>.
+ <p>
+ <code>hgroup</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.HGROUP">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="HR"><!-- --></A><H3>
+HR</H3>
+<PRE>
+public static final int <B>HR</B></PRE>
+<DL>
+<DD>Tag id of <code>hr</code>.
+ <p>
+ <code>hr</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.HR">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="HTML"><!-- --></A><H3>
+HTML</H3>
+<PRE>
+public static final int <B>HTML</B></PRE>
+<DL>
+<DD>Tag id of <code>html</code>.
+ <p>
+ <code>html</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.HTML">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="I"><!-- --></A><H3>
+I</H3>
+<PRE>
+public static final int <B>I</B></PRE>
+<DL>
+<DD>Tag id of <code>i</code>.
+ <p>
+ <code>i</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.I">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="IFRAME"><!-- --></A><H3>
+IFRAME</H3>
+<PRE>
+public static final int <B>IFRAME</B></PRE>
+<DL>
+<DD>Tag id of <code>iframe</code>.
+ <p>
+ <code>iframe</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.IFRAME">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="IMAGE"><!-- --></A><H3>
+IMAGE</H3>
+<PRE>
+public static final int <B>IMAGE</B></PRE>
+<DL>
+<DD>Tag id of <code>image</code>.
+ <p>
+ <code>image</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.IMAGE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="IMG"><!-- --></A><H3>
+IMG</H3>
+<PRE>
+public static final int <B>IMG</B></PRE>
+<DL>
+<DD>Tag id of <code>img</code>.
+ <p>
+ <code>img</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.IMG">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="INPUT"><!-- --></A><H3>
+INPUT</H3>
+<PRE>
+public static final int <B>INPUT</B></PRE>
+<DL>
+<DD>Tag id of <code>input</code>.
+ <p>
+ <code>input</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.INPUT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="KEYGEN"><!-- --></A><H3>
+KEYGEN</H3>
+<PRE>
+public static final int <B>KEYGEN</B></PRE>
+<DL>
+<DD>Tag id of <code>keygen</code>.
+ <p>
+ <code>keygen</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.KEYGEN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LI"><!-- --></A><H3>
+LI</H3>
+<PRE>
+public static final int <B>LI</B></PRE>
+<DL>
+<DD>Tag id of <code>li</code>.
+ <p>
+ <code>li</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.LI">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LINK"><!-- --></A><H3>
+LINK</H3>
+<PRE>
+public static final int <B>LINK</B></PRE>
+<DL>
+<DD>Tag id of <code>link</code>.
+ <p>
+ <code>link</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.LINK">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="LISTING"><!-- --></A><H3>
+LISTING</H3>
+<PRE>
+public static final int <B>LISTING</B></PRE>
+<DL>
+<DD>Tag id of <code>listing</code>.
+ <p>
+ <code>listing</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.LISTING">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAIN"><!-- --></A><H3>
+MAIN</H3>
+<PRE>
+public static final int <B>MAIN</B></PRE>
+<DL>
+<DD>Tag id of <code>main</code>.
+ <p>
+ <code>main</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.MAIN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MALIGNMARK"><!-- --></A><H3>
+MALIGNMARK</H3>
+<PRE>
+public static final int <B>MALIGNMARK</B></PRE>
+<DL>
+<DD>Tag id of <code>malignmark</code>.
+ <p>
+ <code>malignmark</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.MALIGNMARK">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MARQUEE"><!-- --></A><H3>
+MARQUEE</H3>
+<PRE>
+public static final int <B>MARQUEE</B></PRE>
+<DL>
+<DD>Tag id of <code>marquee</code>.
+ <p>
+ <code>marquee</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.MARQUEE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MATH"><!-- --></A><H3>
+MATH</H3>
+<PRE>
+public static final int <B>MATH</B></PRE>
+<DL>
+<DD>Tag id of <code>math</code>.
+ <p>
+ <code>math</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.MATH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MENU"><!-- --></A><H3>
+MENU</H3>
+<PRE>
+public static final int <B>MENU</B></PRE>
+<DL>
+<DD>Tag id of <code>menu</code>.
+ <p>
+ <code>menu</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.MENU">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="META"><!-- --></A><H3>
+META</H3>
+<PRE>
+public static final int <B>META</B></PRE>
+<DL>
+<DD>Tag id of <code>meta</code>.
+ <p>
+ <code>meta</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.META">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MGLYPH"><!-- --></A><H3>
+MGLYPH</H3>
+<PRE>
+public static final int <B>MGLYPH</B></PRE>
+<DL>
+<DD>Tag id of <code>mglyph</code>.
+ <p>
+ <code>mglyph</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.MGLYPH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MI"><!-- --></A><H3>
+MI</H3>
+<PRE>
+public static final int <B>MI</B></PRE>
+<DL>
+<DD>Tag id of <code>mi</code>.
+ <p>
+ <code>mi</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.MI">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MN"><!-- --></A><H3>
+MN</H3>
+<PRE>
+public static final int <B>MN</B></PRE>
+<DL>
+<DD>Tag id of <code>mn</code>.
+ <p>
+ <code>mn</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.MN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MO"><!-- --></A><H3>
+MO</H3>
+<PRE>
+public static final int <B>MO</B></PRE>
+<DL>
+<DD>Tag id of <code>mo</code>.
+ <p>
+ <code>mo</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.MO">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MS"><!-- --></A><H3>
+MS</H3>
+<PRE>
+public static final int <B>MS</B></PRE>
+<DL>
+<DD>Tag id of <code>ms</code>.
+ <p>
+ <code>ms</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.MS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MTEXT"><!-- --></A><H3>
+MTEXT</H3>
+<PRE>
+public static final int <B>MTEXT</B></PRE>
+<DL>
+<DD>Tag id of <code>mtext</code>.
+ <p>
+ <code>mtext</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.MTEXT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="NAV"><!-- --></A><H3>
+NAV</H3>
+<PRE>
+public static final int <B>NAV</B></PRE>
+<DL>
+<DD>Tag id of <code>nav</code>.
+ <p>
+ <code>nav</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.NAV">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="NOBR"><!-- --></A><H3>
+NOBR</H3>
+<PRE>
+public static final int <B>NOBR</B></PRE>
+<DL>
+<DD>Tag id of <code>nobr</code>.
+ <p>
+ <code>nobr</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.NOBR">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="NOEMBED"><!-- --></A><H3>
+NOEMBED</H3>
+<PRE>
+public static final int <B>NOEMBED</B></PRE>
+<DL>
+<DD>Tag id of <code>noembed</code>.
+ <p>
+ <code>noembed</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.NOEMBED">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="NOFRAMES"><!-- --></A><H3>
+NOFRAMES</H3>
+<PRE>
+public static final int <B>NOFRAMES</B></PRE>
+<DL>
+<DD>Tag id of <code>noframes</code>.
+ <p>
+ <code>noframes</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.NOFRAMES">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="NOSCRIPT"><!-- --></A><H3>
+NOSCRIPT</H3>
+<PRE>
+public static final int <B>NOSCRIPT</B></PRE>
+<DL>
+<DD>Tag id of <code>noscript</code>.
+ <p>
+ <code>noscript</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.NOSCRIPT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="OBJECT"><!-- --></A><H3>
+OBJECT</H3>
+<PRE>
+public static final int <B>OBJECT</B></PRE>
+<DL>
+<DD>Tag id of <code>object</code>.
+ <p>
+ <code>object</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.OBJECT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="OL"><!-- --></A><H3>
+OL</H3>
+<PRE>
+public static final int <B>OL</B></PRE>
+<DL>
+<DD>Tag id of <code>ol</code>.
+ <p>
+ <code>ol</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.OL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="OPTGROUP"><!-- --></A><H3>
+OPTGROUP</H3>
+<PRE>
+public static final int <B>OPTGROUP</B></PRE>
+<DL>
+<DD>Tag id of <code>optgroup</code>.
+ <p>
+ <code>optgroup</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.OPTGROUP">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="OPTION"><!-- --></A><H3>
+OPTION</H3>
+<PRE>
+public static final int <B>OPTION</B></PRE>
+<DL>
+<DD>Tag id of <code>option</code>.
+ <p>
+ <code>option</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.OPTION">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="P"><!-- --></A><H3>
+P</H3>
+<PRE>
+public static final int <B>P</B></PRE>
+<DL>
+<DD>Tag id of <code>p</code>.
+ <p>
+ <code>p</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.P">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PARAM"><!-- --></A><H3>
+PARAM</H3>
+<PRE>
+public static final int <B>PARAM</B></PRE>
+<DL>
+<DD>Tag id of <code>param</code>.
+ <p>
+ <code>param</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.PARAM">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PLAINTEXT"><!-- --></A><H3>
+PLAINTEXT</H3>
+<PRE>
+public static final int <B>PLAINTEXT</B></PRE>
+<DL>
+<DD>Tag id of <code>plaintext</code>.
+ <p>
+ <code>plaintext</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.PLAINTEXT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PRE"><!-- --></A><H3>
+PRE</H3>
+<PRE>
+public static final int <B>PRE</B></PRE>
+<DL>
+<DD>Tag id of <code>pre</code>.
+ <p>
+ <code>pre</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.PRE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="RB"><!-- --></A><H3>
+RB</H3>
+<PRE>
+public static final int <B>RB</B></PRE>
+<DL>
+<DD>Tag id of <code>rb</code>.
+ <p>
+ <code>rb</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.RB">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="RP"><!-- --></A><H3>
+RP</H3>
+<PRE>
+public static final int <B>RP</B></PRE>
+<DL>
+<DD>Tag id of <code>rp</code>.
+ <p>
+ <code>rp</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.RP">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="RT"><!-- --></A><H3>
+RT</H3>
+<PRE>
+public static final int <B>RT</B></PRE>
+<DL>
+<DD>Tag id of <code>rt</code>.
+ <p>
+ <code>rt</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.RT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="RTC"><!-- --></A><H3>
+RTC</H3>
+<PRE>
+public static final int <B>RTC</B></PRE>
+<DL>
+<DD>Tag id of <code>rtc</code>.
+ <p>
+ <code>rtc</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.RTC">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="RUBY"><!-- --></A><H3>
+RUBY</H3>
+<PRE>
+public static final int <B>RUBY</B></PRE>
+<DL>
+<DD>Tag id of <code>ruby</code>.
+ <p>
+ <code>ruby</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.RUBY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="S"><!-- --></A><H3>
+S</H3>
+<PRE>
+public static final int <B>S</B></PRE>
+<DL>
+<DD>Tag id of <code>s</code>.
+ <p>
+ <code>s</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.S">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SCRIPT"><!-- --></A><H3>
+SCRIPT</H3>
+<PRE>
+public static final int <B>SCRIPT</B></PRE>
+<DL>
+<DD>Tag id of <code>script</code>.
+ <p>
+ <code>script</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.SCRIPT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SEARCH"><!-- --></A><H3>
+SEARCH</H3>
+<PRE>
+public static final int <B>SEARCH</B></PRE>
+<DL>
+<DD>Tag id of <code>search</code>.
+ <p>
+ <code>search</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.SEARCH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SECTION"><!-- --></A><H3>
+SECTION</H3>
+<PRE>
+public static final int <B>SECTION</B></PRE>
+<DL>
+<DD>Tag id of <code>section</code>.
+ <p>
+ <code>section</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.SECTION">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SELECT"><!-- --></A><H3>
+SELECT</H3>
+<PRE>
+public static final int <B>SELECT</B></PRE>
+<DL>
+<DD>Tag id of <code>select</code>.
+ <p>
+ <code>select</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.SELECT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SMALL"><!-- --></A><H3>
+SMALL</H3>
+<PRE>
+public static final int <B>SMALL</B></PRE>
+<DL>
+<DD>Tag id of <code>small</code>.
+ <p>
+ <code>small</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.SMALL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SOURCE"><!-- --></A><H3>
+SOURCE</H3>
+<PRE>
+public static final int <B>SOURCE</B></PRE>
+<DL>
+<DD>Tag id of <code>source</code>.
+ <p>
+ <code>source</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.SOURCE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SPAN"><!-- --></A><H3>
+SPAN</H3>
+<PRE>
+public static final int <B>SPAN</B></PRE>
+<DL>
+<DD>Tag id of <code>span</code>.
+ <p>
+ <code>span</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.SPAN">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="STRIKE"><!-- --></A><H3>
+STRIKE</H3>
+<PRE>
+public static final int <B>STRIKE</B></PRE>
+<DL>
+<DD>Tag id of <code>strike</code>.
+ <p>
+ <code>strike</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.STRIKE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="STRONG"><!-- --></A><H3>
+STRONG</H3>
+<PRE>
+public static final int <B>STRONG</B></PRE>
+<DL>
+<DD>Tag id of <code>strong</code>.
+ <p>
+ <code>strong</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.STRONG">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="STYLE"><!-- --></A><H3>
+STYLE</H3>
+<PRE>
+public static final int <B>STYLE</B></PRE>
+<DL>
+<DD>Tag id of <code>style</code>.
+ <p>
+ <code>style</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.STYLE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SUB"><!-- --></A><H3>
+SUB</H3>
+<PRE>
+public static final int <B>SUB</B></PRE>
+<DL>
+<DD>Tag id of <code>sub</code>.
+ <p>
+ <code>sub</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.SUB">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SUMMARY"><!-- --></A><H3>
+SUMMARY</H3>
+<PRE>
+public static final int <B>SUMMARY</B></PRE>
+<DL>
+<DD>Tag id of <code>summary</code>.
+ <p>
+ <code>summary</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.SUMMARY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SUP"><!-- --></A><H3>
+SUP</H3>
+<PRE>
+public static final int <B>SUP</B></PRE>
+<DL>
+<DD>Tag id of <code>sup</code>.
+ <p>
+ <code>sup</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.SUP">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="SVG"><!-- --></A><H3>
+SVG</H3>
+<PRE>
+public static final int <B>SVG</B></PRE>
+<DL>
+<DD>Tag id of <code>svg</code>.
+ <p>
+ <code>svg</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.SVG">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="TABLE"><!-- --></A><H3>
+TABLE</H3>
+<PRE>
+public static final int <B>TABLE</B></PRE>
+<DL>
+<DD>Tag id of <code>table</code>.
+ <p>
+ <code>table</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.TABLE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="TBODY"><!-- --></A><H3>
+TBODY</H3>
+<PRE>
+public static final int <B>TBODY</B></PRE>
+<DL>
+<DD>Tag id of <code>tbody</code>.
+ <p>
+ <code>tbody</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.TBODY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="TD"><!-- --></A><H3>
+TD</H3>
+<PRE>
+public static final int <B>TD</B></PRE>
+<DL>
+<DD>Tag id of <code>td</code>.
+ <p>
+ <code>td</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.TD">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="TEMPLATE"><!-- --></A><H3>
+TEMPLATE</H3>
+<PRE>
+public static final int <B>TEMPLATE</B></PRE>
+<DL>
+<DD>Tag id of <code>template</code>.
+ <p>
+ <code>template</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.TEMPLATE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="TEXTAREA"><!-- --></A><H3>
+TEXTAREA</H3>
+<PRE>
+public static final int <B>TEXTAREA</B></PRE>
+<DL>
+<DD>Tag id of <code>textarea</code>.
+ <p>
+ <code>textarea</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.TEXTAREA">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="TFOOT"><!-- --></A><H3>
+TFOOT</H3>
+<PRE>
+public static final int <B>TFOOT</B></PRE>
+<DL>
+<DD>Tag id of <code>tfoot</code>.
+ <p>
+ <code>tfoot</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.TFOOT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="TH"><!-- --></A><H3>
+TH</H3>
+<PRE>
+public static final int <B>TH</B></PRE>
+<DL>
+<DD>Tag id of <code>th</code>.
+ <p>
+ <code>th</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.TH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="THEAD"><!-- --></A><H3>
+THEAD</H3>
+<PRE>
+public static final int <B>THEAD</B></PRE>
+<DL>
+<DD>Tag id of <code>thead</code>.
+ <p>
+ <code>thead</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.THEAD">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="TITLE"><!-- --></A><H3>
+TITLE</H3>
+<PRE>
+public static final int <B>TITLE</B></PRE>
+<DL>
+<DD>Tag id of <code>title</code>.
+ <p>
+ <code>title</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.TITLE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="TR"><!-- --></A><H3>
+TR</H3>
+<PRE>
+public static final int <B>TR</B></PRE>
+<DL>
+<DD>Tag id of <code>tr</code>.
+ <p>
+ <code>tr</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.TR">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="TRACK"><!-- --></A><H3>
+TRACK</H3>
+<PRE>
+public static final int <B>TRACK</B></PRE>
+<DL>
+<DD>Tag id of <code>track</code>.
+ <p>
+ <code>track</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.TRACK">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="TT"><!-- --></A><H3>
+TT</H3>
+<PRE>
+public static final int <B>TT</B></PRE>
+<DL>
+<DD>Tag id of <code>tt</code>.
+ <p>
+ <code>tt</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.TT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="U"><!-- --></A><H3>
+U</H3>
+<PRE>
+public static final int <B>U</B></PRE>
+<DL>
+<DD>Tag id of <code>u</code>.
+ <p>
+ <code>u</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.U">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="UL"><!-- --></A><H3>
+UL</H3>
+<PRE>
+public static final int <B>UL</B></PRE>
+<DL>
+<DD>Tag id of <code>ul</code>.
+ <p>
+ <code>ul</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.UL">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="VAR"><!-- --></A><H3>
+VAR</H3>
+<PRE>
+public static final int <B>VAR</B></PRE>
+<DL>
+<DD>Tag id of <code>var</code>.
+ <p>
+ <code>var</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.VAR">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="WBR"><!-- --></A><H3>
+WBR</H3>
+<PRE>
+public static final int <B>WBR</B></PRE>
+<DL>
+<DD>Tag id of <code>wbr</code>.
+ <p>
+ <code>wbr</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.WBR">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="XMP"><!-- --></A><H3>
+XMP</H3>
+<PRE>
+public static final int <B>XMP</B></PRE>
+<DL>
+<DD>Tag id of <code>xmp</code>.
+ <p>
+ <code>xmp</code> 의 태그 번호.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.XMP">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="COUNT"><!-- --></A><H3>
+COUNT</H3>
+<PRE>
+public static final int <B>COUNT</B></PRE>
+<DL>
+<DD>Number of ids (the largest id plus one).
+ <p>
+ 번호의 수(가장 큰 번호 더하기 하나).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.html.HtmlTags.COUNT">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="id(java.lang.String)"><!-- --></A><H3>
+id</H3>
+<PRE>
+public static int <B>id</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns the id of a lower case name.
+ <p>
+ 소문자 이름의 번호를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - lower case name / 소문자 이름
+<DT><B>Returns:</B><DD>id, or 0 if the name has none / 번호. 없으면 0</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="name(int)"><!-- --></A><H3>
+name</H3>
+<PRE>
+public static java.lang.String <B>name</B>(int&nbsp;id)</PRE>
+<DL>
+<DD>Returns the name of an id.
+ <p>
+ 번호의 이름을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - id / 번호
+<DT><B>Returns:</B><DD>name / 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isSpecial(int)"><!-- --></A><H3>
+isSpecial</H3>
+<PRE>
+public static boolean <B>isSpecial</B>(int&nbsp;id)</PRE>
+<DL>
+<DD>Tells whether an HTML element with this id is in the special category.
+ <p>
+ 이 번호의 HTML 요소가 special 범주인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - id / 번호
+<DT><B>Returns:</B><DD>true if special / special 이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isFormatting(int)"><!-- --></A><H3>
+isFormatting</H3>
+<PRE>
+public static boolean <B>isFormatting</B>(int&nbsp;id)</PRE>
+<DL>
+<DD>Tells whether an HTML element with this id is in the formatting category.
+ <p>
+ 이 번호의 HTML 요소가 formatting 범주인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - id / 번호
+<DT><B>Returns:</B><DD>true if formatting / formatting 이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isScopeBoundary(int)"><!-- --></A><H3>
+isScopeBoundary</H3>
+<PRE>
+public static boolean <B>isScopeBoundary</B>(int&nbsp;id)</PRE>
+<DL>
+<DD>Tells whether an HTML element with this id ends the default scope search.
+ <p>
+ 이 번호의 HTML 요소가 기본 범위 검색을 끝내는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - id / 번호
+<DT><B>Returns:</B><DD>true if it is a scope boundary / 범위 경계이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isImpliedEnd(int)"><!-- --></A><H3>
+isImpliedEnd</H3>
+<PRE>
+public static boolean <B>isImpliedEnd</B>(int&nbsp;id)</PRE>
+<DL>
+<DD>Tells whether an HTML element with this id gets its end tag generated by "generate implied end tags".
+ <p>
+ 이 번호의 HTML 요소가 "generate implied end tags" 로 종료 태그가 만들어지는 요소인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - id / 번호
+<DT><B>Returns:</B><DD>true if implied / 암시적 종료 대상이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isOpenAllowedAtEnd(int)"><!-- --></A><H3>
+isOpenAllowedAtEnd</H3>
+<PRE>
+public static boolean <B>isOpenAllowedAtEnd</B>(int&nbsp;id)</PRE>
+<DL>
+<DD>Tells whether an HTML element with this id may be open when the body or the document ends without a parse error.
+ <p>
+ 이 번호의 HTML 요소가 body 나 문서가 끝날 때 열려 있어도 파싱 오류가 아닌지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - id / 번호
+<DT><B>Returns:</B><DD>true if allowed / 허용되면 true</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlParser.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/html/HtmlToken.html" title="class in org.duckdns.hjow.swingwebpanel.html"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/html/HtmlTags.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="HtmlTags.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,423 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ScopeSpec
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ScopeSpec";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/PropertyRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cssom/ScopeSpec.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ScopeSpec.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.cssom</FONT>
+<BR>
+Class ScopeSpec</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.cssom.ScopeSpec</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/MatchContext.ScopeRoot.html" title="interface in org.duckdns.hjow.swingwebpanel.css.selector">MatchContext.ScopeRoot</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ScopeSpec</B><DT>extends java.lang.Object<DT>implements <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/MatchContext.ScopeRoot.html" title="interface in org.duckdns.hjow.swingwebpanel.css.selector">MatchContext.ScopeRoot</A></DL>
+</PRE>
+
+<P>
+The prelude of an <code>@scope</code> rule (CSS Cascading and Inheritance Level 6, section 2, "Scoping Styles"): <code>@scope (&lt;scope-start&gt;)
+ to (&lt;scope-end&gt;)</code>. The scoping roots are the elements that match the start selector (the root element if there is none); the scope of a
+ root is its descendants except the elements that match the end selector (<code>:scope</code> in the end selector is the root) and their
+ descendants. The rules inside the block only apply to the elements in a scope, and among rules of equal specificity the one whose scoping root is
+ nearer to the element wins (scoping proximity).
+ <p>
+ <code>@scope</code> 규칙의 전문(CSS Cascading and Inheritance Level 6, 2 절 "Scoping Styles"): <code>@scope (&lt;scope-start&gt;) to (&lt;scope-end&gt;)</code>.
+ 범위 루트는 시작 선택자와 일치하는 요소이고(없으면 루트 요소), 루트의 범위는 그 자손에서 끝 선택자와 일치하는 요소(끝 선택자의 <code>:scope</code> 는 루트이다)와 그 자손을
+ 뺀 것이다. 블록 안의 규칙은 범위 안의 요소에만 적용되며, 구체성이 같으면 범위 루트가 요소에 더 가까운 규칙이 이긴다(범위 근접도).
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ScopeSpec.html#distance(org.duckdns.hjow.swingwebpanel.dom.Element, boolean, org.duckdns.hjow.swingwebpanel.css.selector.MatchContext)">distance</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+         boolean&nbsp;allowSelf,
+         <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/MatchContext.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">MatchContext</A>&nbsp;ctx)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of generations between an element and the nearest scoping root whose scope contains the element (the scoping proximity
+ of CSS Cascade 6, section 2.4), or -1 if the element is in no scope.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ScopeSpec.html#findRoot(org.duckdns.hjow.swingwebpanel.dom.Element, boolean, org.duckdns.hjow.swingwebpanel.css.selector.MatchContext)">findRoot</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+         boolean&nbsp;allowSelf,
+         <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/MatchContext.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">MatchContext</A>&nbsp;ctx)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the nearest scoping root whose scope contains an element: an ancestor (or the element itself if <code>allowSelf</code>) that matches
+ the start selector, with no element that matches the end selector between it and the element.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ScopeSpec.html#getEndText()">getEndText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text of the end selector list (the CSSOM <code>end</code> of <code>CSSScopeRule</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ScopeSpec.html#getStartText()">getStartText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the text of the start selector list (the CSSOM <code>start</code> of <code>CSSScopeRule</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ScopeSpec.html#isScope(org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.css.selector.MatchContext)">isScope</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+        <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/MatchContext.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">MatchContext</A>&nbsp;ctx)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether an element is a scoping root: it matches the start selector, or it is the root element if the scope has none.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ScopeSpec.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">ScopeSpec</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ScopeSpec.html#parse(java.util.List, org.duckdns.hjow.swingwebpanel.css.selector.NamespaceMap)">parse</A></B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&nbsp;prelude,
+      <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/NamespaceMap.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">NamespaceMap</A>&nbsp;ns)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses the prelude of an <code>@scope</code> rule: an optional parenthesised start selector list and an optional <code>to</code> with a
+ parenthesised end selector list.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ScopeSpec.html#toCssText()">toCssText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the prelude text.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="parse(java.util.List, org.duckdns.hjow.swingwebpanel.css.selector.NamespaceMap)"><!-- --></A><H3>
+parse</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ScopeSpec.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">ScopeSpec</A> <B>parse</B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&nbsp;prelude,
+                              <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/NamespaceMap.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">NamespaceMap</A>&nbsp;ns)
+                       throws <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">SelectorSyntaxException</A></PRE>
+<DL>
+<DD>Parses the prelude of an <code>@scope</code> rule: an optional parenthesised start selector list and an optional <code>to</code> with a
+ parenthesised end selector list.
+ <p>
+ <code>@scope</code> 규칙의 전문을 파싱한다: 괄호 안의 선택적 시작 선택자 목록과, <code>to</code> 와 괄호 안의 선택적 끝 선택자 목록.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>prelude</CODE> - the prelude values / 전문 값<DD><CODE>ns</CODE> - the namespace declarations or null / 네임스페이스 선언 또는 null
+<DT><B>Returns:</B><DD>the scope / 범위
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/SelectorSyntaxException.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">SelectorSyntaxException</A></CODE> - if the prelude is invalid / 전문이 올바르지 않으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isScope(org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.css.selector.MatchContext)"><!-- --></A><H3>
+isScope</H3>
+<PRE>
+public boolean <B>isScope</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                       <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/MatchContext.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">MatchContext</A>&nbsp;ctx)</PRE>
+<DL>
+<DD>Tells whether an element is a scoping root: it matches the start selector, or it is the root element if the scope has none.
+ <p>
+ 요소가 범위 루트인지 알려 준다: 시작 선택자와 일치하거나, 시작 선택자가 없으면 루트 요소이다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/MatchContext.ScopeRoot.html#isScope(org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.css.selector.MatchContext)">isScope</A></CODE> in interface <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/MatchContext.ScopeRoot.html" title="interface in org.duckdns.hjow.swingwebpanel.css.selector">MatchContext.ScopeRoot</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소<DD><CODE>ctx</CODE> - the matching context (its element state is used) / 매칭 컨텍스트(요소 상태를 쓴다)
+<DT><B>Returns:</B><DD>true for a root / 루트이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="distance(org.duckdns.hjow.swingwebpanel.dom.Element, boolean, org.duckdns.hjow.swingwebpanel.css.selector.MatchContext)"><!-- --></A><H3>
+distance</H3>
+<PRE>
+public int <B>distance</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                    boolean&nbsp;allowSelf,
+                    <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/MatchContext.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">MatchContext</A>&nbsp;ctx)</PRE>
+<DL>
+<DD>Returns the number of generations between an element and the nearest scoping root whose scope contains the element (the scoping proximity
+ of CSS Cascade 6, section 2.4), or -1 if the element is in no scope.
+ <p>
+ 요소와, 그 요소를 범위에 포함하는 가장 가까운 범위 루트 사이의 세대 수(CSS Cascade 6, 2.4 절의 범위 근접도)를 반환한다. 요소가 어떤 범위에도 없으면 -1.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소<DD><CODE>allowSelf</CODE> - true if the root itself counts as inside the scope (a selector that names <code>:scope</code>) / 루트 자신도 범위 안으로 보면 true(<code>:scope</code> 를 쓴 선택자)<DD><CODE>ctx</CODE> - the matching context / 매칭 컨텍스트
+<DT><B>Returns:</B><DD>the distance, or -1 / 거리. 범위 밖이면 -1</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="findRoot(org.duckdns.hjow.swingwebpanel.dom.Element, boolean, org.duckdns.hjow.swingwebpanel.css.selector.MatchContext)"><!-- --></A><H3>
+findRoot</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>findRoot</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;e,
+                        boolean&nbsp;allowSelf,
+                        <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/selector/MatchContext.html" title="class in org.duckdns.hjow.swingwebpanel.css.selector">MatchContext</A>&nbsp;ctx)</PRE>
+<DL>
+<DD>Returns the nearest scoping root whose scope contains an element: an ancestor (or the element itself if <code>allowSelf</code>) that matches
+ the start selector, with no element that matches the end selector between it and the element.
+ <p>
+ 요소를 범위에 포함하는 가장 가까운 범위 루트를 반환한다: 시작 선택자와 일치하는 조상(<code>allowSelf</code> 이면 요소 자신도)이며, 그것과 요소 사이에 끝 선택자와
+ 일치하는 요소가 없다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - the element / 요소<DD><CODE>allowSelf</CODE> - true if the element itself can be the root / 요소 자신이 루트일 수 있으면 true<DD><CODE>ctx</CODE> - the matching context / 매칭 컨텍스트
+<DT><B>Returns:</B><DD>the root or null if the element is in no scope / 루트. 범위 밖이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toCssText()"><!-- --></A><H3>
+toCssText</H3>
+<PRE>
+public java.lang.String <B>toCssText</B>()</PRE>
+<DL>
+<DD>Returns the prelude text.
+ <p>
+ 전문 문자열을 반환한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the text / 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStartText()"><!-- --></A><H3>
+getStartText</H3>
+<PRE>
+public java.lang.String <B>getStartText</B>()</PRE>
+<DL>
+<DD>Returns the text of the start selector list (the CSSOM <code>start</code> of <code>CSSScopeRule</code>).
+ <p>
+ 시작 선택자 목록의 문자열을 반환한다(<code>CSSScopeRule</code> 의 CSSOM <code>start</code>).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the selector text, or null if the scope has no start selector / 선택자 문자열. 시작 선택자가 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEndText()"><!-- --></A><H3>
+getEndText</H3>
+<PRE>
+public java.lang.String <B>getEndText</B>()</PRE>
+<DL>
+<DD>Returns the text of the end selector list (the CSSOM <code>end</code> of <code>CSSScopeRule</code>).
+ <p>
+ 끝 선택자 목록의 문자열을 반환한다(<code>CSSScopeRule</code> 의 CSSOM <code>end</code>).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the selector text, or null if the scope has no end selector / 선택자 문자열. 끝 선택자가 없으면 null</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/PropertyRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cssom/ScopeSpec.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ScopeSpec.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

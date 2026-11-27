@@ -1,0 +1,239 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+JsHostFunction
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="JsHostFunction";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsHandle.html" title="interface in org.duckdns.hjow.swingwebpanel.js.embed"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsObjectHandle.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/embed/JsHostFunction.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="JsHostFunction.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.embed</FONT>
+<BR>
+Interface JsHostFunction</H2>
+<HR>
+<DL>
+<DT><PRE>public interface <B>JsHostFunction</B></DL>
+</PRE>
+
+<P>
+A function that the host application (Java code) gives to scripts. This is the only way for scripts to reach Java code: the engine never
+ exposes Java classes, packages, reflection, files or processes by itself. Register a function with
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html#putFunction(java.lang.String, org.duckdns.hjow.swingwebpanel.js.embed.JsHostFunction)"><CODE>JsEngine.putFunction(String, JsHostFunction)</CODE></A>, or put it as a value into a map or an object that you give to the engine; the engine
+ turns it into a script function. The arguments and the result follow the conversion rules of <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsEngine</CODE></A>.
+ <pre>
+ engine.putFunction("add", new JsHostFunction() {
+     public Object call(Object thisValue, Object[] args) {
+         return Double.valueOf(((Number) args[0]).doubleValue() + ((Number) args[1]).doubleValue());
+     }
+ });
+ engine.eval("add(1, 2)");  // 3.0
+ </pre>
+ <p>
+ 호스트 응용(Java 코드)이 스크립트에 주는 함수. 스크립트가 Java 코드에 닿는 유일한 방법이다. 엔진은 Java 클래스, 패키지, 리플렉션, 파일, 프로세스를
+ 스스로 노출하지 않는다. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html#putFunction(java.lang.String, org.duckdns.hjow.swingwebpanel.js.embed.JsHostFunction)"><CODE>JsEngine.putFunction(String, JsHostFunction)</CODE></A> 로 함수를 등록하거나, 엔진에 주는 맵이나 객체에 값으로 넣으면
+ 엔진이 스크립트 함수로 바꾼다. 인수와 결과는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsEngine.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsEngine</CODE></A> 의 변환 규칙을 따른다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsHostFunction.html#call(java.lang.Object, java.lang.Object[])">call</A></B>(java.lang.Object&nbsp;thisValue,
+     java.lang.Object[]&nbsp;args)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Runs the function.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="call(java.lang.Object, java.lang.Object[])"><!-- --></A><H3>
+call</H3>
+<PRE>
+java.lang.Object <B>call</B>(java.lang.Object&nbsp;thisValue,
+                      java.lang.Object[]&nbsp;args)
+                      throws java.lang.Exception</PRE>
+<DL>
+<DD>Runs the function. It is called on the thread that runs the script, while the engine is locked, so it may call back into the engine of
+ the calling script but must not wait for another thread that uses the same engine.
+ <p>
+ 함수를 실행한다. 스크립트를 실행하는 스레드에서 엔진이 잠긴 채로 호출되므로, 호출한 스크립트의 엔진을 다시 호출해도 되지만 같은 엔진을 쓰는 다른
+ 스레드를 기다려서는 안 된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>thisValue</CODE> - the <code>this</code> value of the call, <code>JsEngine.UNDEFINED</code> for a plain call / 호출의 <code>this</code> 값.
+                  일반 호출이면 <code>JsEngine.UNDEFINED</code><DD><CODE>args</CODE> - the arguments converted to Java values / Java 값으로 바꾼 인수
+<DT><B>Returns:</B><DD>the result (null for JavaScript <code>null</code>, <code>JsEngine.UNDEFINED</code> for undefined) / 결과(JavaScript
+         <code>null</code> 은 null, undefined 는 <code>JsEngine.UNDEFINED</code>)
+<DT><B>Throws:</B>
+<DD><CODE>java.lang.Exception</CODE> - any failure; a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsScriptError.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsScriptError</CODE></A> is passed on to the script as the JavaScript error that it reports, every other
+                   exception is thrown into the script as an <code>Error</code> with its text as message / 어떤 실패든 던질 수 있다.
+                   <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsScriptError.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><CODE>JsScriptError</CODE></A> 는 그것이 알리는 JavaScript 오류로 스크립트에 전달되고, 다른 예외는 그 문자열을 메시지로 한
+                   <code>Error</code> 로 스크립트에 던져진다</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsHandle.html" title="interface in org.duckdns.hjow.swingwebpanel.js.embed"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/embed/JsObjectHandle.html" title="class in org.duckdns.hjow.swingwebpanel.js.embed"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/embed/JsHostFunction.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="JsHostFunction.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

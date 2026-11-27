@@ -1,0 +1,414 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+HttpFetcher
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="HttpFetcher";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/HttpCache.Clock.html" title="interface in org.duckdns.hjow.swingwebpanel.net"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/MimeTypes.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/net/HttpFetcher.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="HttpFetcher.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.net</FONT>
+<BR>
+Class HttpFetcher</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.net.HttpFetcher</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public class <B>HttpFetcher</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+HTTP and HTTPS client built on <code>HttpURLConnection</code> with everything the browser needs done by hand:
+ <ul>
+ <li><b>Request layer</b>: the same code path adds the User-Agent, the component's extra headers, cookies, referrer,
+ <code>Origin</code> and cache headers for main documents and for every sub-resource (images, audio, CSS, scripts).</li>
+ <li><b>Redirects</b> are followed manually (relative <code>Location</code>, loops, a maximum count, POST turns into GET on
+ 301/302/303, 307/308 keep method and body, http&lt;-&gt;https switches allowed, only http(s) targets are allowed from http).
+ The effective final URL is reported. <code>Authorization</code> and <code>Proxy-Authorization</code> extra headers are
+ <b>not</b> forwarded when the origin changes or after an https-to-http downgrade; other extra headers are.</li>
+ <li><b>Bodies</b> are decompressed (gzip, deflate; only these are advertised), limited in memory
+ (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html#getMaxMemoryBytes()"><CODE>FetchLimits.getMaxMemoryBytes()</CODE></A>) and checked against Content-Length (a short body is <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#TRUNCATED"><CODE>FailureKind.TRUNCATED</CODE></A>);
+ error statuses keep their body. A <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResponseHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.net"><CODE>ResponseHandler</CODE></A> can redirect the body to a stream without a size limit.</li>
+ <li><b>SSL</b>: <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/SslConfigurer.html#configureSsl(javax.net.ssl.HttpsURLConnection)"><CODE>SslConfigurer.configureSsl(HttpsURLConnection)</CODE></A> runs for every https connection. If an https
+ attempt fails at connect or TLS level (never for an HTTP error status), one retry is made over http to the same host
+ (default port 443 becomes 80, an explicit other port is kept). The result reports the real http URL and
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceResponse.html#isHttpFallbackUsed()"><CODE>ResourceResponse.isHttpFallbackUsed()</CODE></A>. Secure cookies are naturally not sent on the plain request and the sensitive
+ extra headers above are dropped. Certificate and host name errors also count as TLS failures, as the project requires.</li>
+ <li><b>CORS</b>: a request that carries <code>Origin</code> (a cross-origin request of a CORS purpose, every POST/PUT/PATCH/DELETE with an
+ initiating origin) is sent through the socket based <CODE>SocketHttpURLConnection</CODE>/<CODE>SocketHttpsURLConnection</CODE> because the JRE
+ drops that restricted header (not when a JVM proxy applies). A cross-origin request with a method or a page header that is not
+ safelisted first gets a preflight (<code>OPTIONS</code>, see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#checkPreflight(org.duckdns.hjow.swingwebpanel.net.Origin, int, org.duckdns.hjow.swingwebpanel.net.ResourceResponse, boolean)"><CODE>OriginPolicy.checkPreflight(org.duckdns.hjow.swingwebpanel.net.Origin, int, org.duckdns.hjow.swingwebpanel.net.ResourceResponse, boolean)</CODE></A>); a denial is <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#CORS"><CODE>FailureKind.CORS</CODE></A>
+ and the request is not sent.</li>
+ <li><b>Cancellation</b>: the request's <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CancelToken.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>CancelToken</CODE></A> disconnects the connection; streams and connections are closed on
+ every path.</li>
+ </ul>
+ No JVM-wide state is changed (no default cookie handler, authenticator, SSL context or host name verifier). A fetch never
+ throws for network problems; it returns a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceResponse.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>ResourceResponse</CODE></A> with a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net"><CODE>FailureKind</CODE></A>. Instances are thread safe;
+ one fetch runs in the calling thread.
+ <p>
+ <code>HttpURLConnection</code> 위에 만든 HTTP/HTTPS 클라이언트로, 브라우저가 필요로 하는 것을 직접 처리한다.
+ <ul>
+ <li><b>요청 계층</b>: 주 문서와 모든 하위 리소스(이미지, 오디오, CSS, 스크립트)에 같은 코드 경로로 User-Agent, 컴포넌트의 추가
+ 헤더, 쿠키, 참조 페이지, <code>Origin</code>, 캐시 헤더를 붙인다.</li>
+ <li><b>리디렉션</b>은 직접 따라간다(상대 <code>Location</code>, 순환, 최대 횟수, 301/302/303 에서 POST 는 GET 으로, 307/308 은
+ 메서드와 본문 유지, http&lt;-&gt;https 전환 허용, http 에서는 http(s) 대상만 허용). 최종 유효 URL 을 보고한다. 오리진이 바뀌거나
+ https 에서 http 로 내려가면 <code>Authorization</code>, <code>Proxy-Authorization</code> 추가 헤더는 전달하지 <b>않으며</b>
+ 다른 추가 헤더는 전달한다.</li>
+ <li><b>본문</b>은 압축을 풀고(gzip, deflate 만 광고), 메모리 크기를 제한(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html#getMaxMemoryBytes()"><CODE>FetchLimits.getMaxMemoryBytes()</CODE></A>)하며
+ Content-Length 와 대조한다(짧으면 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#TRUNCATED"><CODE>FailureKind.TRUNCATED</CODE></A>). 오류 상태도 본문을 유지한다. <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResponseHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.net"><CODE>ResponseHandler</CODE></A> 로 본문을
+ 크기 제한 없는 스트림으로 보낼 수 있다.</li>
+ <li><b>SSL</b>: 모든 https 연결에 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/SslConfigurer.html#configureSsl(javax.net.ssl.HttpsURLConnection)"><CODE>SslConfigurer.configureSsl(HttpsURLConnection)</CODE></A> 를 호출한다. https 시도가 연결 또는 TLS
+ 수준에서 실패하면(HTTP 오류 상태는 해당 없음) 같은 호스트로 http 재시도를 한 번 한다(기본 443 포트는 80 으로, 명시한 다른 포트는
+ 유지). 결과에는 실제 http URL 과 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceResponse.html#isHttpFallbackUsed()"><CODE>ResourceResponse.isHttpFallbackUsed()</CODE></A> 가 보고된다. 평문 요청에는 Secure 쿠키가 자연히
+ 가지 않고 위의 민감한 추가 헤더도 빠진다. 프로젝트 요구대로 인증서/호스트 이름 오류도 TLS 실패로 본다.</li>
+ <li><b>CORS</b>: <code>Origin</code> 을 싣는 요청(CORS 목적의 교차 오리진 요청, 시작한 오리진이 있는 모든 POST/PUT/PATCH/DELETE)과 JRE 가 거부하는 PATCH 는 JRE 가 그 제한 헤더를
+ 버리므로 소켓 기반 <CODE>SocketHttpURLConnection</CODE>/<CODE>SocketHttpsURLConnection</CODE> 으로 보낸다(JVM 프록시가 적용되면 제외). 안전 목록에 없는 메서드나
+ 페이지 헤더를 가진 교차 오리진 요청은 먼저 사전 요청(<code>OPTIONS</code>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/OriginPolicy.html#checkPreflight(org.duckdns.hjow.swingwebpanel.net.Origin, int, org.duckdns.hjow.swingwebpanel.net.ResourceResponse, boolean)"><CODE>OriginPolicy.checkPreflight(org.duckdns.hjow.swingwebpanel.net.Origin, int, org.duckdns.hjow.swingwebpanel.net.ResourceResponse, boolean)</CODE></A> 참조)을 받으며, 거부되면
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#CORS"><CODE>FailureKind.CORS</CODE></A> 이고 요청은 보내지 않는다.</li>
+ <li><b>취소</b>: 요청의 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CancelToken.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>CancelToken</CODE></A> 이 연결을 끊는다. 스트림과 연결은 모든 경로에서 닫는다.</li>
+ </ul>
+ JVM 전역 상태(기본 쿠키 처리기, 인증기, SSL 컨텍스트, 호스트 이름 검증기)는 바꾸지 않는다. 가져오기는 네트워크 문제로 예외를
+ 던지지 않고 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net"><CODE>FailureKind</CODE></A> 가 있는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceResponse.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>ResourceResponse</CODE></A> 를 돌려준다. 인스턴스는 스레드 안전하며 가져오기 한 번은
+ 호출한 스레드에서 실행한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/HttpFetcher.html#HttpFetcher(org.duckdns.hjow.swingwebpanel.net.SslConfigurer, org.duckdns.hjow.swingwebpanel.net.FetchLimits)">HttpFetcher</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/SslConfigurer.html" title="interface in org.duckdns.hjow.swingwebpanel.net">SslConfigurer</A>&nbsp;ssl,
+            <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html" title="class in org.duckdns.hjow.swingwebpanel.net">FetchLimits</A>&nbsp;limits)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a fetcher.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceResponse.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceResponse</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/HttpFetcher.html#fetch(org.duckdns.hjow.swingwebpanel.net.ResourceRequest)">fetch</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A>&nbsp;req)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Convenience: fetches into memory.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceResponse.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceResponse</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/HttpFetcher.html#fetch(org.duckdns.hjow.swingwebpanel.net.ResourceRequest, org.duckdns.hjow.swingwebpanel.net.ResponseHandler)">fetch</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A>&nbsp;req,
+      <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResponseHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.net">ResponseHandler</A>&nbsp;handler)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fetches an http or https URL.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html" title="class in org.duckdns.hjow.swingwebpanel.net">FetchLimits</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/HttpFetcher.html#getLimits()">getLimits</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the limits in use.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/HttpFetcher.html#isHttpFallbackEnabled()">isHttpFallbackEnabled</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the http retry is enabled.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/HttpFetcher.html#setHttpFallbackEnabled(boolean)">setHttpFallbackEnabled</A></B>(boolean&nbsp;enabled)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enables or disables the http retry after a failed https attempt (enabled by default as the project requires).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="HttpFetcher(org.duckdns.hjow.swingwebpanel.net.SslConfigurer, org.duckdns.hjow.swingwebpanel.net.FetchLimits)"><!-- --></A><H3>
+HttpFetcher</H3>
+<PRE>
+public <B>HttpFetcher</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/SslConfigurer.html" title="interface in org.duckdns.hjow.swingwebpanel.net">SslConfigurer</A>&nbsp;ssl,
+                   <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html" title="class in org.duckdns.hjow.swingwebpanel.net">FetchLimits</A>&nbsp;limits)</PRE>
+<DL>
+<DD>Creates a fetcher.
+ <p>
+ 가져오기 객체를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>ssl</CODE> - SSL hook, null for <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/DefaultSslConfigurer.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>DefaultSslConfigurer</CODE></A> / SSL 훅. null 이면 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/DefaultSslConfigurer.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>DefaultSslConfigurer</CODE></A><DD><CODE>limits</CODE> - limits, null for <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html#DEFAULT"><CODE>FetchLimits.DEFAULT</CODE></A> / 제한. null 이면 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html#DEFAULT"><CODE>FetchLimits.DEFAULT</CODE></A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getLimits()"><!-- --></A><H3>
+getLimits</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html" title="class in org.duckdns.hjow.swingwebpanel.net">FetchLimits</A> <B>getLimits</B>()</PRE>
+<DL>
+<DD>Returns the limits in use.
+ <p>
+ 사용 중인 제한을 돌려준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>limits / 제한</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setHttpFallbackEnabled(boolean)"><!-- --></A><H3>
+setHttpFallbackEnabled</H3>
+<PRE>
+public void <B>setHttpFallbackEnabled</B>(boolean&nbsp;enabled)</PRE>
+<DL>
+<DD>Enables or disables the http retry after a failed https attempt (enabled by default as the project requires).
+ <p>
+ https 실패 뒤의 http 재시도를 켜거나 끈다(프로젝트 요구에 따라 기본은 켜짐).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>enabled</CODE> - true to retry over http / http 로 재시도하려면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isHttpFallbackEnabled()"><!-- --></A><H3>
+isHttpFallbackEnabled</H3>
+<PRE>
+public boolean <B>isHttpFallbackEnabled</B>()</PRE>
+<DL>
+<DD>Tells whether the http retry is enabled.
+ <p>
+ http 재시도가 켜져 있는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if enabled / 켜져 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fetch(org.duckdns.hjow.swingwebpanel.net.ResourceRequest, org.duckdns.hjow.swingwebpanel.net.ResponseHandler)"><!-- --></A><H3>
+fetch</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceResponse.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceResponse</A> <B>fetch</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A>&nbsp;req,
+                              <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResponseHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.net">ResponseHandler</A>&nbsp;handler)</PRE>
+<DL>
+<DD>Fetches an http or https URL. Never throws for network problems.
+ <p>
+ http 또는 https URL 을 가져온다. 네트워크 문제로 예외를 던지지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>req</CODE> - the request / 요청<DD><CODE>handler</CODE> - decides where bodies go, may be null (everything in memory) / 본문의 목적지를 정한다. null 이면 모두 메모리
+<DT><B>Returns:</B><DD>the response / 응답</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="fetch(org.duckdns.hjow.swingwebpanel.net.ResourceRequest)"><!-- --></A><H3>
+fetch</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceResponse.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceResponse</A> <B>fetch</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceRequest.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceRequest</A>&nbsp;req)</PRE>
+<DL>
+<DD>Convenience: fetches into memory.
+ <p>
+ 편의 메서드: 메모리로 가져온다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>req</CODE> - the request / 요청
+<DT><B>Returns:</B><DD>the response / 응답</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/HttpCache.Clock.html" title="interface in org.duckdns.hjow.swingwebpanel.net"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/MimeTypes.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/net/HttpFetcher.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="HttpFetcher.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

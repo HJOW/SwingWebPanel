@@ -1,0 +1,572 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ImportRule
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ImportRule";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/GroupRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/KeyframesRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cssom/ImportRule.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ImportRule.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.css.cssom.CssRule">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.cssom</FONT>
+<BR>
+Class ImportRule</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">org.duckdns.hjow.swingwebpanel.css.cssom.CssRule</A>
+      <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.cssom.ImportRule</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ImportRule</B><DT>extends <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></DL>
+</PRE>
+
+<P>
+An <code>@import</code> rule: the URL, the media queries and the style sheet that was loaded for it (null if the sheet could not be loaded, was
+ part of an import cycle or exceeded the import depth limit, or has not arrived yet). The imported sheet applies in the position of the rule, before the
+ rules that follow. The imported sheet knows this rule and the sheet that contains it (the CSSOM <code>ownerRule</code> and
+ <code>parentStyleSheet</code>).
+ <p>
+ <code>@import</code> 규칙: URL, 미디어 질의, 그에 대해 읽은 스타일 시트(읽지 못했거나 가져오기 순환이거나 가져오기 깊이 제한을 넘었거나 아직 도착하지 않았으면 null). 가져온 시트는
+ 규칙의 위치에서 뒤따르는 규칙보다 먼저 적용된다. 가져온 시트는 이 규칙과 이 규칙을 담은 시트를 안다(CSSOM <code>ownerRule</code>, <code>parentStyleSheet</code>).
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.css.cssom.CssRule"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class org.duckdns.hjow.swingwebpanel.css.cssom.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#CONTAINER_RULE">CONTAINER_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#COUNTER_STYLE_RULE">COUNTER_STYLE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#FONT_FACE_RULE">FONT_FACE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#FONT_FEATURE_VALUES_RULE">FONT_FEATURE_VALUES_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#IMPORT_RULE">IMPORT_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#KEYFRAME_RULE">KEYFRAME_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#KEYFRAMES_RULE">KEYFRAMES_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#LAYER_RULE">LAYER_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#MARGIN_RULE">MARGIN_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#MEDIA_RULE">MEDIA_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#NAMESPACE_RULE">NAMESPACE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#PAGE_RULE">PAGE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#POSITION_TRY_RULE">POSITION_TRY_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#PROPERTY_RULE">PROPERTY_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#SCOPE_RULE">SCOPE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#STARTING_STYLE_RULE">STARTING_STYLE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#STYLE_RULE">STYLE_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#SUPPORTS_RULE">SUPPORTS_RULE</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#UNKNOWN_RULE">UNKNOWN_RULE</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ImportRule.html#ImportRule(java.lang.String, java.lang.String, org.duckdns.hjow.swingwebpanel.css.media.MediaQueryList, org.duckdns.hjow.swingwebpanel.css.cssom.StyleSheet)">ImportRule</A></B>(java.lang.String&nbsp;href,
+           java.lang.String&nbsp;resolvedUrl,
+           <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaQueryList.html" title="class in org.duckdns.hjow.swingwebpanel.css.media">MediaQueryList</A>&nbsp;media,
+           <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheet.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">StyleSheet</A>&nbsp;sheet)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an import rule.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ImportRule.html#getCssText()">getCssText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serializes the rule.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ImportRule.html#getHref()">getHref</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the URL as written.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ImportRule.html#getLayer()">getLayer</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the layer that the imported sheet is put into.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ImportRule.html#getLayerName()">getLayerName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the CSSOM <code>layerName</code>: null if the import is not in a layer, the empty string for an anonymous layer.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaQueryList.html" title="class in org.duckdns.hjow.swingwebpanel.css.media">MediaQueryList</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ImportRule.html#getMedia()">getMedia</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the media queries.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/MediaList.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">MediaList</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ImportRule.html#getMediaList()">getMediaList</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the media list object of the CSSOM (<code>media</code>), the same object every time.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ImportRule.html#getResolvedHref()">getResolvedHref</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the URL that the CSSOM <code>href</code> reports: the absolute URL if the address could be resolved, otherwise the URL as written.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ImportRule.html#getResolvedUrl()">getResolvedUrl</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the absolute URL.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheet.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">StyleSheet</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ImportRule.html#getStyleSheet()">getStyleSheet</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the imported sheet.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ImportRule.html#getType()">getType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the rule type.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ImportRule.html#setLayer(java.lang.String)">setLayer</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the layer that the imported sheet is put into (<code>@import url(a.css) layer(name)</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/ImportRule.html#setMedia(org.duckdns.hjow.swingwebpanel.css.media.MediaQueryList)">setMedia</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaQueryList.html" title="class in org.duckdns.hjow.swingwebpanel.css.media">MediaQueryList</A>&nbsp;m)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Replaces the media queries of the import (and of the imported sheet) and tells the sheet.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.css.cssom.CssRule"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.css.cssom.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#getCssomType()">getCssomType</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#getParentRule()">getParentRule</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#getParentStyleSheet()">getParentStyleSheet</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#setCssText(java.lang.String)">setCssText</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#toString()">toString</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="ImportRule(java.lang.String, java.lang.String, org.duckdns.hjow.swingwebpanel.css.media.MediaQueryList, org.duckdns.hjow.swingwebpanel.css.cssom.StyleSheet)"><!-- --></A><H3>
+ImportRule</H3>
+<PRE>
+public <B>ImportRule</B>(java.lang.String&nbsp;href,
+                  java.lang.String&nbsp;resolvedUrl,
+                  <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaQueryList.html" title="class in org.duckdns.hjow.swingwebpanel.css.media">MediaQueryList</A>&nbsp;media,
+                  <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheet.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">StyleSheet</A>&nbsp;sheet)</PRE>
+<DL>
+<DD>Creates an import rule.
+ <p>
+ 가져오기 규칙을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>href</CODE> - the URL as written / 쓰인 그대로의 URL<DD><CODE>resolvedUrl</CODE> - the absolute URL or null / 절대 URL 또는 null<DD><CODE>media</CODE> - media queries / 미디어 질의<DD><CODE>sheet</CODE> - imported sheet or null / 가져온 시트 또는 null</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getHref()"><!-- --></A><H3>
+getHref</H3>
+<PRE>
+public java.lang.String <B>getHref</B>()</PRE>
+<DL>
+<DD>Returns the URL as written.
+ <p>
+ 쓰인 그대로의 URL 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the URL / URL</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getResolvedUrl()"><!-- --></A><H3>
+getResolvedUrl</H3>
+<PRE>
+public java.lang.String <B>getResolvedUrl</B>()</PRE>
+<DL>
+<DD>Returns the absolute URL.
+ <p>
+ 절대 URL 을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the URL or null / URL 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getResolvedHref()"><!-- --></A><H3>
+getResolvedHref</H3>
+<PRE>
+public java.lang.String <B>getResolvedHref</B>()</PRE>
+<DL>
+<DD>Returns the URL that the CSSOM <code>href</code> reports: the absolute URL if the address could be resolved, otherwise the URL as written.
+ <p>
+ CSSOM <code>href</code> 가 알려 주는 URL 을 반환한다: 주소를 해석할 수 있으면 절대 URL, 아니면 쓰인 그대로의 URL.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the URL / URL</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMedia()"><!-- --></A><H3>
+getMedia</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaQueryList.html" title="class in org.duckdns.hjow.swingwebpanel.css.media">MediaQueryList</A> <B>getMedia</B>()</PRE>
+<DL>
+<DD>Returns the media queries.
+ <p>
+ 미디어 질의를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the list / 목록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMedia(org.duckdns.hjow.swingwebpanel.css.media.MediaQueryList)"><!-- --></A><H3>
+setMedia</H3>
+<PRE>
+public void <B>setMedia</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/media/MediaQueryList.html" title="class in org.duckdns.hjow.swingwebpanel.css.media">MediaQueryList</A>&nbsp;m)</PRE>
+<DL>
+<DD>Replaces the media queries of the import (and of the imported sheet) and tells the sheet.
+ <p>
+ 가져오기(와 가져온 시트)의 미디어 질의를 바꾸고 시트에 알린다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>m</CODE> - the list / 목록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMediaList()"><!-- --></A><H3>
+getMediaList</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/MediaList.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">MediaList</A> <B>getMediaList</B>()</PRE>
+<DL>
+<DD>Returns the media list object of the CSSOM (<code>media</code>), the same object every time.
+ <p>
+ CSSOM 미디어 목록 객체(<code>media</code>)를 반환한다. 매번 같은 객체.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the media list / 미디어 목록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getStyleSheet()"><!-- --></A><H3>
+getStyleSheet</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/StyleSheet.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">StyleSheet</A> <B>getStyleSheet</B>()</PRE>
+<DL>
+<DD>Returns the imported sheet.
+ <p>
+ 가져온 시트를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the sheet or null / 시트 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getType()"><!-- --></A><H3>
+getType</H3>
+<PRE>
+public int <B>getType</B>()</PRE>
+<DL>
+<DD>Returns the rule type.
+ <p>
+ 규칙 종류를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#getType()">getType</A></CODE> in class <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#IMPORT_RULE"><CODE>CssRule.IMPORT_RULE</CODE></A> / IMPORT_RULE</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCssText()"><!-- --></A><H3>
+getCssText</H3>
+<PRE>
+public java.lang.String <B>getCssText</B>()</PRE>
+<DL>
+<DD>Serializes the rule.
+ <p>
+ 규칙을 직렬화한다.
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html#getCssText()">getCssText</A></CODE> in class <CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>CSS text / CSS 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setLayer(java.lang.String)"><!-- --></A><H3>
+setLayer</H3>
+<PRE>
+public void <B>setLayer</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Sets the layer that the imported sheet is put into (<code>@import url(a.css) layer(name)</code>).
+ <p>
+ 가져온 시트를 넣을 레이어를 정한다(<code>@import url(a.css) layer(name)</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the layer name, "" for the anonymous layer of <code>layer</code> without a name, or null for no layer / 레이어 이름. 이름 없는 <code>layer</code> 의 익명 레이어이면 "". 레이어가 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLayer()"><!-- --></A><H3>
+getLayer</H3>
+<PRE>
+public java.lang.String <B>getLayer</B>()</PRE>
+<DL>
+<DD>Returns the layer that the imported sheet is put into.
+ <p>
+ 가져온 시트를 넣는 레이어를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the layer name, "" for an anonymous layer, or null for no layer / 레이어 이름. 익명 레이어이면 "". 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLayerName()"><!-- --></A><H3>
+getLayerName</H3>
+<PRE>
+public java.lang.String <B>getLayerName</B>()</PRE>
+<DL>
+<DD>Returns the CSSOM <code>layerName</code>: null if the import is not in a layer, the empty string for an anonymous layer.
+ <p>
+ CSSOM <code>layerName</code> 을 반환한다: 레이어에 넣지 않으면 null, 이름 없는 레이어이면 빈 문자열.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the layer name or null / 레이어 이름 또는 null</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/GroupRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/KeyframesRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cssom/ImportRule.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ImportRule.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.css.cssom.CssRule">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

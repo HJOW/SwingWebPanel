@@ -1,0 +1,412 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+MediaData
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="MediaData";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FloatPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaSpool.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="MediaData.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.media.audio</FONT>
+<BR>
+Class MediaData</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.media.audio.MediaData</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>MediaData</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The encoded bytes of one fetched media resource (plan item P18-08), either in memory (a short resource) or in a temporary file that this
+ object owns (a long one, see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaSpool.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>MediaSpool</CODE></A>). Readers get a <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>ByteSource</CODE></A> from <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html#open()"><CODE>open()</CODE></A>; nothing reads the whole file into
+ memory. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html#release()"><CODE>release()</CODE></A> closes every source that is still open and deletes the temporary file; it is idempotent and safe from any thread.
+ The fetch worker gives the finished resource to a page task, which transfers it to the player. Cancelled requests, discarded tasks and closed
+ players release the resources they own. A derived stream such as WebM audio remuxed to Ogg can tie its lifetime to a single reader using
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html#openOwned()"><CODE>openOwned()</CODE></A>. No JVM-wide state is used (no <code>deleteOnExit</code>): a file that a crashed process left behind stays for the
+ temporary-file cleaning of the operating system, like the localStorage files.
+ <p>
+ 가져온 미디어 리소스 하나의 인코딩된 바이트(계획 P18-08). 메모리(짧은 리소스)나 이 객체가 소유한 임시 파일(긴 리소스, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaSpool.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>MediaSpool</CODE></A> 참고)에 있다.
+ 읽는 쪽은 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html#open()"><CODE>open()</CODE></A> 으로 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>ByteSource</CODE></A> 를 받으며 파일 전체를 메모리로 읽는 곳은 없다. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html#release()"><CODE>release()</CODE></A> 는 아직 열린 원천을 모두 닫고
+ 임시 파일을 지운다. 여러 번 불러도 되고 어느 스레드에서나 안전하다. 스풀을 완성한 요청 작업자가 페이지 작업에 넘기고 페이지 작업은 재생기에 넘긴다.
+ 요청의 취소, 페이지 작업의 폐기, 재생기의 닫힘 때 해당 소유자가 리소스를 해제한다. WebM을 Ogg로 재포장한 파생 리소스는
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html#openOwned()"><CODE>openOwned()</CODE></A>로 단일 판독기와 수명을 맞출 수 있다. JVM 전역 상태
+ (<code>deleteOnExit</code>)는 쓰지 않는다. 비정상 종료한 프로세스가 남긴 파일은 localStorage 파일처럼 운영체제의 임시 파일 정리에 맡긴다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.io.File</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html#getFile()">getFile</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the temporary file, or null when the bytes are in memory (for diagnostics and tests).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html#isReleased()">isReleased</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html#release()"><CODE>release()</CODE></A> was called.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html#length()">length</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of bytes.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">MediaData</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html#of(byte[])">of</A></B>(byte[]&nbsp;bytes)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wraps bytes that are in memory (not copied).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">MediaData</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html#ofTemporaryFile(java.io.File)">ofTemporaryFile</A></B>(java.io.File&nbsp;file)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Takes ownership of a complete temporary file: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html#release()"><CODE>release()</CODE></A> deletes it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio">ByteSource</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html#open()">open</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opens a reader of the bytes; close it when done (closing does not delete the file).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio">ByteSource</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html#openOwned()">openOwned</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opens a reader that will release this data on close.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html#release()">release</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Closes the open sources and deletes the temporary file (idempotent).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="of(byte[])"><!-- --></A><H3>
+of</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">MediaData</A> <B>of</B>(byte[]&nbsp;bytes)</PRE>
+<DL>
+<DD>Wraps bytes that are in memory (not copied).
+ <p>
+ 메모리의 바이트를 감싼다(복사하지 않는다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>bytes</CODE> - the bytes / 바이트
+<DT><B>Returns:</B><DD>the data / 데이터</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="ofTemporaryFile(java.io.File)"><!-- --></A><H3>
+ofTemporaryFile</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio">MediaData</A> <B>ofTemporaryFile</B>(java.io.File&nbsp;file)</PRE>
+<DL>
+<DD>Takes ownership of a complete temporary file: <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html#release()"><CODE>release()</CODE></A> deletes it.
+ <p>
+ 완성된 임시 파일의 소유권을 가져온다. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html#release()"><CODE>release()</CODE></A> 가 지운다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>file</CODE> - the file / 파일
+<DT><B>Returns:</B><DD>the data / 데이터</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="length()"><!-- --></A><H3>
+length</H3>
+<PRE>
+public long <B>length</B>()</PRE>
+<DL>
+<DD>Returns the number of bytes.
+ <p>
+ 바이트 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the length / 길이</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFile()"><!-- --></A><H3>
+getFile</H3>
+<PRE>
+public java.io.File <B>getFile</B>()</PRE>
+<DL>
+<DD>Returns the temporary file, or null when the bytes are in memory (for diagnostics and tests).
+ <p>
+ 임시 파일을 반환한다. 바이트가 메모리에 있으면 null(진단과 시험용).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the file or null / 파일 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isReleased()"><!-- --></A><H3>
+isReleased</H3>
+<PRE>
+public boolean <B>isReleased</B>()</PRE>
+<DL>
+<DD>Tells whether <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html#release()"><CODE>release()</CODE></A> was called.
+ <p>
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html#release()"><CODE>release()</CODE></A> 가 불렸는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if released / 놓았으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="open()"><!-- --></A><H3>
+open</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio">ByteSource</A> <B>open</B>()
+                throws java.io.IOException</PRE>
+<DL>
+<DD>Opens a reader of the bytes; close it when done (closing does not delete the file).
+ <p>
+ 바이트를 읽는 원천을 연다. 다 쓰면 닫는다(닫아도 파일은 지워지지 않는다).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the source / 원천
+<DT><B>Throws:</B>
+<DD><CODE>java.io.IOException</CODE> - if the data was released or the file cannot be opened / 데이터를 놓았거나 파일을 열 수 없으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="openOwned()"><!-- --></A><H3>
+openOwned</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio">ByteSource</A> <B>openOwned</B>()
+                     throws java.io.IOException</PRE>
+<DL>
+<DD>Opens a reader that will release this data on close. Use for a temporary resource with one owner.
+ <p>
+ 닫힐 때 이 데이터를 해제할 원천을 연다. 소유자가 하나인 임시 리소스에 사용한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the owning source / 데이터를 소유하는 원천
+<DT><B>Throws:</B>
+<DD><CODE>java.io.IOException</CODE> - if the data cannot be opened / 데이터를 열 수 없으면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="release()"><!-- --></A><H3>
+release</H3>
+<PRE>
+public void <B>release</B>()</PRE>
+<DL>
+<DD>Closes the open sources and deletes the temporary file (idempotent). Reads of a source that is still in use fail afterwards with a
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSourceException.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>ByteSourceException</CODE></A>.
+ <p>
+ 열린 원천을 닫고 임시 파일을 지운다(여러 번 불러도 된다). 아직 쓰는 원천의 읽기는 그 뒤 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/ByteSourceException.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><CODE>ByteSourceException</CODE></A> 으로 실패한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/FloatPcmSource.html" title="interface in org.duckdns.hjow.swingwebpanel.media.audio"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/media/audio/MediaSpool.html" title="class in org.duckdns.hjow.swingwebpanel.media.audio"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/audio/MediaData.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="MediaData.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

@@ -1,0 +1,316 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+CanvasFilters
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="CanvasFilters";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/CanvasFilters.Parsed.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/render/CanvasFilters.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CanvasFilters.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.render</FONT>
+<BR>
+Class CanvasFilters</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.render.CanvasFilters</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>CanvasFilters</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The filter functions of the 2D canvas (<code>context.filter</code>, HTML Living Standard 4.12.5.1.20): the public door to the pixel code of
+ <CODE>FilterRenderer</CODE> that the page layout uses for the CSS <code>filter</code> property, with a parser for a string that is a
+ <code>&lt;filter-value-list&gt;</code>. A value is valid when the grammar of the <code>filter</code> property accepts it (CSS-wide keywords
+ such as <code>inherit</code> and <code>var()</code> are refused as the canvas specification demands); only the functions
+ (<code>blur()</code>, <code>brightness()</code>, <code>contrast()</code>, <code>drop-shadow()</code>, <code>grayscale()</code>,
+ <code>hue-rotate()</code>, <code>invert()</code>, <code>opacity()</code>, <code>saturate()</code>, <code>sepia()</code>) have an effect, a
+ <code>url()</code> reference to an SVG filter is valid but filters nothing (the filter of the canvas is applied "with no filtering" as for a
+ document that is not loaded). Relative lengths (<code>em</code>) are resolved against the font size that is given at the time the value is
+ parsed. The lengths are pixels of the bitmap and are not affected by the transformation of the context.
+ <p>
+ 2D 캔버스의 필터 함수(<code>context.filter</code>, HTML Living Standard 4.12.5.1.20): 페이지 레이아웃이 CSS <code>filter</code> 속성에 쓰는
+ <CODE>FilterRenderer</CODE> 의 화소 코드로 가는 공개 문이며 <code>&lt;filter-value-list&gt;</code> 인 문자열의 해석기가 딸려 있다. 값은 <code>filter</code> 속성의 문법이
+ 받아들이면 올바르다(<code>inherit</code> 같은 CSS 전역 키워드와 <code>var()</code> 는 캔버스 규격이 요구하는 대로 거부한다). 함수(<code>blur()</code>,
+ <code>brightness()</code>, <code>contrast()</code>, <code>drop-shadow()</code>, <code>grayscale()</code>, <code>hue-rotate()</code>, <code>invert()</code>,
+ <code>opacity()</code>, <code>saturate()</code>, <code>sepia()</code>)만 효과가 있고 SVG 필터를 가리키는 <code>url()</code> 은 올바르지만 아무것도 거르지 않는다
+ (문서가 로드되지 않은 것처럼 "필터 없이" 그린다). 상대 길이(<code>em</code>)는 값을 해석할 때 주어진 글꼴 크기를 기준으로 환산한다. 길이는 비트맵의 화소이며 컨텍스트의
+ 변환의 영향을 받지 않는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/CanvasFilters.Parsed.html" title="class in org.duckdns.hjow.swingwebpanel.render">CanvasFilters.Parsed</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The result of parsing a filter string.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/CanvasFilters.html#apply(int[], int, int, org.duckdns.hjow.swingwebpanel.layout.FilterSpec)">apply</A></B>(int[]&nbsp;argb,
+      int&nbsp;width,
+      int&nbsp;height,
+      <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html" title="class in org.duckdns.hjow.swingwebpanel.layout">FilterSpec</A>&nbsp;spec)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Applies the filter functions to a layer in place: image A of the drawing model becomes image B.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int[]</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/CanvasFilters.html#margin(org.duckdns.hjow.swingwebpanel.layout.FilterSpec)">margin</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html" title="class in org.duckdns.hjow.swingwebpanel.layout">FilterSpec</A>&nbsp;spec)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns how far the filter functions grow the painted area beyond what was drawn: blurs and shadows reach outwards.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/CanvasFilters.Parsed.html" title="class in org.duckdns.hjow.swingwebpanel.render">CanvasFilters.Parsed</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/CanvasFilters.html#parse(java.lang.String, double, int)">parse</A></B>(java.lang.String&nbsp;text,
+      double&nbsp;fontSizePx,
+      int&nbsp;currentColor)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses a string as a <code>&lt;filter-value-list&gt;</code>.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="parse(java.lang.String, double, int)"><!-- --></A><H3>
+parse</H3>
+<PRE>
+public static <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/CanvasFilters.Parsed.html" title="class in org.duckdns.hjow.swingwebpanel.render">CanvasFilters.Parsed</A> <B>parse</B>(java.lang.String&nbsp;text,
+                                         double&nbsp;fontSizePx,
+                                         int&nbsp;currentColor)</PRE>
+<DL>
+<DD>Parses a string as a <code>&lt;filter-value-list&gt;</code>.
+ <p>
+ 문자열을 <code>&lt;filter-value-list&gt;</code> 로 해석한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the string / 문자열<DD><CODE>fontSizePx</CODE> - the font size in pixels that <code>em</code> refers to / <code>em</code> 이 기준으로 삼는 글꼴 크기(화소)<DD><CODE>currentColor</CODE> - the ARGB color that <code>currentcolor</code> and the default color of <code>drop-shadow()</code> mean / <code>currentcolor</code> 와
+                     <code>drop-shadow()</code> 의 기본 색이 뜻하는 ARGB 색
+<DT><B>Returns:</B><DD>the result, or null if the string is not a valid filter list / 결과. 올바른 필터 목록이 아니면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="margin(org.duckdns.hjow.swingwebpanel.layout.FilterSpec)"><!-- --></A><H3>
+margin</H3>
+<PRE>
+public static int[] <B>margin</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html" title="class in org.duckdns.hjow.swingwebpanel.layout">FilterSpec</A>&nbsp;spec)</PRE>
+<DL>
+<DD>Returns how far the filter functions grow the painted area beyond what was drawn: blurs and shadows reach outwards.
+ <p>
+ 필터 함수가 그린 영역을 얼마나 넓히는지 반환한다: 흐림과 그림자는 바깥으로 번진다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>spec</CODE> - the functions / 함수
+<DT><B>Returns:</B><DD>{left, top, right, bottom} in whole pixels / 정수 화소의 {왼쪽, 위쪽, 오른쪽, 아래쪽}</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="apply(int[], int, int, org.duckdns.hjow.swingwebpanel.layout.FilterSpec)"><!-- --></A><H3>
+apply</H3>
+<PRE>
+public static void <B>apply</B>(int[]&nbsp;argb,
+                         int&nbsp;width,
+                         int&nbsp;height,
+                         <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/FilterSpec.html" title="class in org.duckdns.hjow.swingwebpanel.layout">FilterSpec</A>&nbsp;spec)</PRE>
+<DL>
+<DD>Applies the filter functions to a layer in place: image A of the drawing model becomes image B.
+ <p>
+ 레이어에 필터 함수를 제자리에서 적용한다: 그리기 모델의 이미지 A 가 이미지 B 가 된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>argb</CODE> - the pixels (ARGB, not premultiplied) / 화소(ARGB, 미리 곱하지 않음)<DD><CODE>width</CODE> - the width of the layer / 레이어 너비<DD><CODE>height</CODE> - the height of the layer / 레이어 높이<DD><CODE>spec</CODE> - the functions / 함수</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/BlendModes.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/render/CanvasFilters.Parsed.html" title="class in org.duckdns.hjow.swingwebpanel.render"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/render/CanvasFilters.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CanvasFilters.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

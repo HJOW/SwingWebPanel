@@ -1,0 +1,557 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+FetchLimits
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="FetchLimits";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpClient.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/net/FetchLimits.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="FetchLimits.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.net</FONT>
+<BR>
+Class FetchLimits</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.net.FetchLimits</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>FetchLimits</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Timeouts and size limits of the fetch layer (documented defaults of API_CONTRACT section 9). Instances are immutable;
+ use the <code>with...</code> methods to derive a changed copy (tests use small values).
+ <table border="1">
+ <tr><th>Limit / 제한</th><th>Default / 기본값</th><th>On exceed / 초과 시</th></tr>
+ <tr><td>connect timeout</td><td>15 s</td><td><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#TIMEOUT"><CODE>FailureKind.TIMEOUT</CODE></A></td></tr>
+ <tr><td>read timeout</td><td>30 s</td><td><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#TIMEOUT"><CODE>FailureKind.TIMEOUT</CODE></A></td></tr>
+ <tr><td>redirects</td><td>20</td><td><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#TOO_MANY_REDIRECTS"><CODE>FailureKind.TOO_MANY_REDIRECTS</CODE></A></td></tr>
+ <tr><td>in-memory response body</td><td>16 MiB (after decompression)</td><td><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html#TOO_LARGE"><CODE>FailureKind.TOO_LARGE</CODE></A></td></tr>
+ <tr><td>streamed download</td><td>unlimited</td><td>-</td></tr>
+ </table>
+ <p>
+ 가져오기 계층의 제한 시간과 크기 제한(API_CONTRACT 9절의 기본값). 인스턴스는 불변이며 <code>with...</code> 메서드로 바꾼
+ 복사본을 만든다(시험은 작은 값을 쓴다). 위 표 참조: 연결 15초, 읽기 30초, 리디렉션 20회, 메모리 응답 본문 16 MiB(압축 해제 후),
+ 스트리밍 다운로드는 제한 없음.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html" title="class in org.duckdns.hjow.swingwebpanel.net">FetchLimits</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html#DEFAULT">DEFAULT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The default limits.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html#DEFAULT_CONNECT_TIMEOUT_MS">DEFAULT_CONNECT_TIMEOUT_MS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default connect timeout in milliseconds.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html#DEFAULT_MAX_MEMORY_BYTES">DEFAULT_MAX_MEMORY_BYTES</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default maximum size of an in-memory response body (16 MiB).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html#DEFAULT_MAX_REDIRECTS">DEFAULT_MAX_REDIRECTS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default maximum number of redirects.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html#DEFAULT_READ_TIMEOUT_MS">DEFAULT_READ_TIMEOUT_MS</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default read timeout in milliseconds.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html#FetchLimits(int, int, int, long)">FetchLimits</A></B>(int&nbsp;connectTimeoutMs,
+            int&nbsp;readTimeoutMs,
+            int&nbsp;maxRedirects,
+            long&nbsp;maxMemoryBytes)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates limits.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html#getConnectTimeoutMs()">getConnectTimeoutMs</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the connect timeout.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html#getMaxMemoryBytes()">getMaxMemoryBytes</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the maximum in-memory body size.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html#getMaxRedirects()">getMaxRedirects</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the maximum redirects.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html#getReadTimeoutMs()">getReadTimeoutMs</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the read timeout.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html" title="class in org.duckdns.hjow.swingwebpanel.net">FetchLimits</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html#withMaxMemoryBytes(long)">withMaxMemoryBytes</A></B>(long&nbsp;bytes)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy with another in-memory body limit.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html" title="class in org.duckdns.hjow.swingwebpanel.net">FetchLimits</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html#withMaxRedirects(int)">withMaxRedirects</A></B>(int&nbsp;redirects)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy with another redirect limit.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html" title="class in org.duckdns.hjow.swingwebpanel.net">FetchLimits</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html#withTimeouts(int, int)">withTimeouts</A></B>(int&nbsp;connectMs,
+             int&nbsp;readMs)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a copy with other timeouts.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="DEFAULT_CONNECT_TIMEOUT_MS"><!-- --></A><H3>
+DEFAULT_CONNECT_TIMEOUT_MS</H3>
+<PRE>
+public static final int <B>DEFAULT_CONNECT_TIMEOUT_MS</B></PRE>
+<DL>
+<DD>Default connect timeout in milliseconds.
+ <p>
+ 기본 연결 제한 시간(밀리초).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.net.FetchLimits.DEFAULT_CONNECT_TIMEOUT_MS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_READ_TIMEOUT_MS"><!-- --></A><H3>
+DEFAULT_READ_TIMEOUT_MS</H3>
+<PRE>
+public static final int <B>DEFAULT_READ_TIMEOUT_MS</B></PRE>
+<DL>
+<DD>Default read timeout in milliseconds.
+ <p>
+ 기본 읽기 제한 시간(밀리초).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.net.FetchLimits.DEFAULT_READ_TIMEOUT_MS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_MAX_REDIRECTS"><!-- --></A><H3>
+DEFAULT_MAX_REDIRECTS</H3>
+<PRE>
+public static final int <B>DEFAULT_MAX_REDIRECTS</B></PRE>
+<DL>
+<DD>Default maximum number of redirects.
+ <p>
+ 기본 최대 리디렉션 횟수.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.net.FetchLimits.DEFAULT_MAX_REDIRECTS">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT_MAX_MEMORY_BYTES"><!-- --></A><H3>
+DEFAULT_MAX_MEMORY_BYTES</H3>
+<PRE>
+public static final long <B>DEFAULT_MAX_MEMORY_BYTES</B></PRE>
+<DL>
+<DD>Default maximum size of an in-memory response body (16 MiB).
+ <p>
+ 메모리 응답 본문의 기본 최대 크기(16 MiB).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.net.FetchLimits.DEFAULT_MAX_MEMORY_BYTES">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DEFAULT"><!-- --></A><H3>
+DEFAULT</H3>
+<PRE>
+public static final <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html" title="class in org.duckdns.hjow.swingwebpanel.net">FetchLimits</A> <B>DEFAULT</B></PRE>
+<DL>
+<DD>The default limits.
+ <p>
+ 기본 제한.
+<P>
+<DL>
+</DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="FetchLimits(int, int, int, long)"><!-- --></A><H3>
+FetchLimits</H3>
+<PRE>
+public <B>FetchLimits</B>(int&nbsp;connectTimeoutMs,
+                   int&nbsp;readTimeoutMs,
+                   int&nbsp;maxRedirects,
+                   long&nbsp;maxMemoryBytes)</PRE>
+<DL>
+<DD>Creates limits.
+ <p>
+ 제한을 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>connectTimeoutMs</CODE> - connect timeout / 연결 제한 시간<DD><CODE>readTimeoutMs</CODE> - read timeout / 읽기 제한 시간<DD><CODE>maxRedirects</CODE> - maximum redirects / 최대 리디렉션<DD><CODE>maxMemoryBytes</CODE> - maximum in-memory body / 메모리 본문 최대</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getConnectTimeoutMs()"><!-- --></A><H3>
+getConnectTimeoutMs</H3>
+<PRE>
+public int <B>getConnectTimeoutMs</B>()</PRE>
+<DL>
+<DD>Returns the connect timeout.
+ <p>
+ 연결 제한 시간을 돌려준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>milliseconds / 밀리초</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getReadTimeoutMs()"><!-- --></A><H3>
+getReadTimeoutMs</H3>
+<PRE>
+public int <B>getReadTimeoutMs</B>()</PRE>
+<DL>
+<DD>Returns the read timeout.
+ <p>
+ 읽기 제한 시간을 돌려준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>milliseconds / 밀리초</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMaxRedirects()"><!-- --></A><H3>
+getMaxRedirects</H3>
+<PRE>
+public int <B>getMaxRedirects</B>()</PRE>
+<DL>
+<DD>Returns the maximum redirects.
+ <p>
+ 최대 리디렉션 횟수를 돌려준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>count / 횟수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMaxMemoryBytes()"><!-- --></A><H3>
+getMaxMemoryBytes</H3>
+<PRE>
+public long <B>getMaxMemoryBytes</B>()</PRE>
+<DL>
+<DD>Returns the maximum in-memory body size.
+ <p>
+ 메모리 본문 최대 크기를 돌려준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>bytes / 바이트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="withTimeouts(int, int)"><!-- --></A><H3>
+withTimeouts</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html" title="class in org.duckdns.hjow.swingwebpanel.net">FetchLimits</A> <B>withTimeouts</B>(int&nbsp;connectMs,
+                                int&nbsp;readMs)</PRE>
+<DL>
+<DD>Returns a copy with other timeouts.
+ <p>
+ 제한 시간을 바꾼 복사본을 돌려준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>connectMs</CODE> - connect timeout / 연결 제한 시간<DD><CODE>readMs</CODE> - read timeout / 읽기 제한 시간
+<DT><B>Returns:</B><DD>copy / 복사본</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="withMaxRedirects(int)"><!-- --></A><H3>
+withMaxRedirects</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html" title="class in org.duckdns.hjow.swingwebpanel.net">FetchLimits</A> <B>withMaxRedirects</B>(int&nbsp;redirects)</PRE>
+<DL>
+<DD>Returns a copy with another redirect limit.
+ <p>
+ 리디렉션 한도를 바꾼 복사본을 돌려준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>redirects</CODE> - maximum redirects / 최대 리디렉션
+<DT><B>Returns:</B><DD>copy / 복사본</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="withMaxMemoryBytes(long)"><!-- --></A><H3>
+withMaxMemoryBytes</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FetchLimits.html" title="class in org.duckdns.hjow.swingwebpanel.net">FetchLimits</A> <B>withMaxMemoryBytes</B>(long&nbsp;bytes)</PRE>
+<DL>
+<DD>Returns a copy with another in-memory body limit.
+ <p>
+ 메모리 본문 한도를 바꾼 복사본을 돌려준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>bytes</CODE> - maximum bytes / 최대 바이트
+<DT><B>Returns:</B><DD>copy / 복사본</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/FtpClient.html" title="class in org.duckdns.hjow.swingwebpanel.net"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/net/FetchLimits.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="FetchLimits.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

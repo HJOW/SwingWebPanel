@@ -1,0 +1,786 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+Event
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Event";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ErrorEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/Event.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Event.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom</FONT>
+<BR>
+Class Event</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.dom.Event</B>
+</PRE>
+<DL>
+<DT><B>Direct Known Subclasses:</B> <DD><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/anim/AnimationPlaybackEvent.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">AnimationPlaybackEvent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/BeforeUnloadEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">BeforeUnloadEvent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ClipboardEvent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/CloseEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">CloseEvent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/css/anim/CssAnimationEvent.html" title="class in org.duckdns.hjow.swingwebpanel.css.anim">CssAnimationEvent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/CustomEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">CustomEvent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ErrorEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ErrorEvent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/HashChangeEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">HashChangeEvent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MediaQueryListEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">MediaQueryListEvent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/MessageEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">MessageEvent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PageTransitionEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">PageTransitionEvent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/PopStateEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">PopStateEvent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/js/host/web/ProgressEvent.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.web">ProgressEvent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/storage/StorageEvent.html" title="class in org.duckdns.hjow.swingwebpanel.storage">StorageEvent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/html/SubmitEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom.html">SubmitEvent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/TrackEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">TrackEvent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">UiEvent</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public class <B>Event</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+A DOM event (DOM Standard section 2). It carries the event type, the flags that control propagation and cancellation, and, during
+ dispatch, the target, current target and phase. Subclasses add event specific data (mouse position, key, ...). An event can be
+ dispatched with <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#dispatchEvent(org.duckdns.hjow.swingwebpanel.dom.Event)"><CODE>EventTarget.dispatchEvent(Event)</CODE></A>; after the dispatch, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isDefaultPrevented()"><CODE>isDefaultPrevented()</CODE></A> tells the caller whether the
+ default action must be skipped.
+ <p>
+ DOM 이벤트(DOM 표준 2절). 이벤트 종류, 전파와 취소를 제어하는 플래그, 그리고 전달 중의 대상, 현재 대상, 단계를 가진다. 하위 클래스가 이벤트별
+ 데이터(마우스 위치, 키 등)를 더한다. 이벤트는 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html#dispatchEvent(org.duckdns.hjow.swingwebpanel.dom.Event)"><CODE>EventTarget.dispatchEvent(Event)</CODE></A> 로 전달하며, 전달 후 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isDefaultPrevented()"><CODE>isDefaultPrevented()</CODE></A> 가
+ 호출자에게 기본 동작을 건너뛰어야 하는지 알려 준다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#AT_TARGET">AT_TARGET</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Phase value: at the target.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#BUBBLING_PHASE">BUBBLING_PHASE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Phase value: bubbling, from the target's parent to the root.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#CAPTURING_PHASE">CAPTURING_PHASE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Phase value: capturing, from the root to the target's parent.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#NONE">NONE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Phase value: the event is not being dispatched.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#Event(java.lang.String)">Event</A></B>(java.lang.String&nbsp;type)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an event of a type that does not bubble and cannot be cancelled.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#Event(java.lang.String, boolean, boolean)">Event</A></B>(java.lang.String&nbsp;type,
+      boolean&nbsp;bubbles,
+      boolean&nbsp;cancelable)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an event.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#composedPath()">composedPath</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the targets of the current dispatch, the target first and the outermost ancestor last; empty when not dispatching.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#getCurrentTarget()">getCurrentTarget</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the target whose listener is running now.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;short</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#getEventPhase()">getEventPhase</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the current phase (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#NONE"><CODE>NONE</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#CAPTURING_PHASE"><CODE>CAPTURING_PHASE</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#AT_TARGET"><CODE>AT_TARGET</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#BUBBLING_PHASE"><CODE>BUBBLING_PHASE</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#getTarget()">getTarget</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the target the event was dispatched to.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;long</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#getTimeStamp()">getTimeStamp</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the creation time in milliseconds since the epoch.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#getType()">getType</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the event type.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#initEvent(java.lang.String, boolean, boolean)">initEvent</A></B>(java.lang.String&nbsp;newType,
+          boolean&nbsp;newBubbles,
+          boolean&nbsp;newCancelable)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Re-initializes the event (the legacy <code>initEvent</code>); ignored while the event is dispatched.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isBubbles()">isBubbles</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the event bubbles.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isCancelable()">isCancelable</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the event can be cancelled.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isComposed()">isComposed</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the event is composed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isDefaultPrevented()">isDefaultPrevented</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the event was cancelled.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isTrusted()">isTrusted</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the event was created by the user agent.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#preventDefault()">preventDefault</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cancels the event if it is cancelable and the running listener is not passive.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#setComposed(boolean)">setComposed</A></B>(boolean&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the composed flag (before dispatch).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#setTrusted(boolean)">setTrusted</A></B>(boolean&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Marks the event as created by the user agent (used by the library for real user input and load events).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#stopImmediatePropagation()">stopImmediatePropagation</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stops the propagation and also skips the remaining listeners of the current target.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#stopPropagation()">stopPropagation</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stops the propagation to further targets; the remaining listeners of the current target still run.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="NONE"><!-- --></A><H3>
+NONE</H3>
+<PRE>
+public static final short <B>NONE</B></PRE>
+<DL>
+<DD>Phase value: the event is not being dispatched.
+ <p>
+ 단계 값: 이벤트가 전달 중이 아님.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.Event.NONE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="CAPTURING_PHASE"><!-- --></A><H3>
+CAPTURING_PHASE</H3>
+<PRE>
+public static final short <B>CAPTURING_PHASE</B></PRE>
+<DL>
+<DD>Phase value: capturing, from the root to the target's parent.
+ <p>
+ 단계 값: 캡처. 루트에서 대상의 부모까지.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.Event.CAPTURING_PHASE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="AT_TARGET"><!-- --></A><H3>
+AT_TARGET</H3>
+<PRE>
+public static final short <B>AT_TARGET</B></PRE>
+<DL>
+<DD>Phase value: at the target.
+ <p>
+ 단계 값: 대상에서.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.Event.AT_TARGET">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="BUBBLING_PHASE"><!-- --></A><H3>
+BUBBLING_PHASE</H3>
+<PRE>
+public static final short <B>BUBBLING_PHASE</B></PRE>
+<DL>
+<DD>Phase value: bubbling, from the target's parent to the root.
+ <p>
+ 단계 값: 버블. 대상의 부모에서 루트까지.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.Event.BUBBLING_PHASE">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="Event(java.lang.String)"><!-- --></A><H3>
+Event</H3>
+<PRE>
+public <B>Event</B>(java.lang.String&nbsp;type)</PRE>
+<DL>
+<DD>Creates an event of a type that does not bubble and cannot be cancelled.
+ <p>
+ 버블하지 않고 취소할 수 없는 종류의 이벤트를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - event type, not null / 이벤트 종류(null 불가)</DL>
+</DL>
+<HR>
+
+<A NAME="Event(java.lang.String, boolean, boolean)"><!-- --></A><H3>
+Event</H3>
+<PRE>
+public <B>Event</B>(java.lang.String&nbsp;type,
+             boolean&nbsp;bubbles,
+             boolean&nbsp;cancelable)</PRE>
+<DL>
+<DD>Creates an event.
+ <p>
+ 이벤트를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - event type, not null / 이벤트 종류(null 불가)<DD><CODE>bubbles</CODE> - whether it bubbles / 버블 여부<DD><CODE>cancelable</CODE> - whether it can be cancelled / 취소 가능 여부</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="initEvent(java.lang.String, boolean, boolean)"><!-- --></A><H3>
+initEvent</H3>
+<PRE>
+public void <B>initEvent</B>(java.lang.String&nbsp;newType,
+                      boolean&nbsp;newBubbles,
+                      boolean&nbsp;newCancelable)</PRE>
+<DL>
+<DD>Re-initializes the event (the legacy <code>initEvent</code>); ignored while the event is dispatched.
+ <p>
+ 이벤트를 다시 초기화한다(옛 <code>initEvent</code>). 전달 중에는 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>newType</CODE> - event type / 이벤트 종류<DD><CODE>newBubbles</CODE> - whether it bubbles / 버블 여부<DD><CODE>newCancelable</CODE> - whether it can be cancelled / 취소 가능 여부</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getType()"><!-- --></A><H3>
+getType</H3>
+<PRE>
+public java.lang.String <B>getType</B>()</PRE>
+<DL>
+<DD>Returns the event type.
+ <p>
+ 이벤트 종류를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>type / 종류</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTarget()"><!-- --></A><H3>
+getTarget</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A> <B>getTarget</B>()</PRE>
+<DL>
+<DD>Returns the target the event was dispatched to.
+ <p>
+ 이벤트를 전달한 대상을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>target or null before dispatch / 대상. 전달 전에는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCurrentTarget()"><!-- --></A><H3>
+getCurrentTarget</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A> <B>getCurrentTarget</B>()</PRE>
+<DL>
+<DD>Returns the target whose listener is running now.
+ <p>
+ 지금 리스너가 실행 중인 대상을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>current target or null / 현재 대상 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEventPhase()"><!-- --></A><H3>
+getEventPhase</H3>
+<PRE>
+public short <B>getEventPhase</B>()</PRE>
+<DL>
+<DD>Returns the current phase (<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#NONE"><CODE>NONE</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#CAPTURING_PHASE"><CODE>CAPTURING_PHASE</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#AT_TARGET"><CODE>AT_TARGET</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#BUBBLING_PHASE"><CODE>BUBBLING_PHASE</CODE></A>).
+ <p>
+ 현재 단계(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#NONE"><CODE>NONE</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#CAPTURING_PHASE"><CODE>CAPTURING_PHASE</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#AT_TARGET"><CODE>AT_TARGET</CODE></A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#BUBBLING_PHASE"><CODE>BUBBLING_PHASE</CODE></A>)를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>phase / 단계</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isBubbles()"><!-- --></A><H3>
+isBubbles</H3>
+<PRE>
+public boolean <B>isBubbles</B>()</PRE>
+<DL>
+<DD>Tells whether the event bubbles.
+ <p>
+ 이벤트가 버블하는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if it bubbles / 버블하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isCancelable()"><!-- --></A><H3>
+isCancelable</H3>
+<PRE>
+public boolean <B>isCancelable</B>()</PRE>
+<DL>
+<DD>Tells whether the event can be cancelled.
+ <p>
+ 이벤트를 취소할 수 있는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if cancelable / 취소 가능하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isComposed()"><!-- --></A><H3>
+isComposed</H3>
+<PRE>
+public boolean <B>isComposed</B>()</PRE>
+<DL>
+<DD>Tells whether the event is composed.
+ <p>
+ 이벤트가 composed 인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if composed / composed 이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setComposed(boolean)"><!-- --></A><H3>
+setComposed</H3>
+<PRE>
+public void <B>setComposed</B>(boolean&nbsp;value)</PRE>
+<DL>
+<DD>Sets the composed flag (before dispatch).
+ <p>
+ composed 플래그를 지정한다(전달 전).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - new value / 새 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isTrusted()"><!-- --></A><H3>
+isTrusted</H3>
+<PRE>
+public boolean <B>isTrusted</B>()</PRE>
+<DL>
+<DD>Tells whether the event was created by the user agent.
+ <p>
+ 사용자 에이전트가 만든 이벤트인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if trusted / 신뢰된 이벤트이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setTrusted(boolean)"><!-- --></A><H3>
+setTrusted</H3>
+<PRE>
+public void <B>setTrusted</B>(boolean&nbsp;value)</PRE>
+<DL>
+<DD>Marks the event as created by the user agent (used by the library for real user input and load events).
+ <p>
+ 사용자 에이전트가 만든 이벤트로 표시한다(라이브러리가 실제 사용자 입력과 load 이벤트에 쓴다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - new value / 새 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTimeStamp()"><!-- --></A><H3>
+getTimeStamp</H3>
+<PRE>
+public long <B>getTimeStamp</B>()</PRE>
+<DL>
+<DD>Returns the creation time in milliseconds since the epoch.
+ <p>
+ 에포크 이후 밀리초 단위의 생성 시각을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>time stamp / 시각</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="stopPropagation()"><!-- --></A><H3>
+stopPropagation</H3>
+<PRE>
+public void <B>stopPropagation</B>()</PRE>
+<DL>
+<DD>Stops the propagation to further targets; the remaining listeners of the current target still run.
+ <p>
+ 이후 대상으로의 전파를 멈춘다. 현재 대상의 나머지 리스너는 계속 실행된다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="stopImmediatePropagation()"><!-- --></A><H3>
+stopImmediatePropagation</H3>
+<PRE>
+public void <B>stopImmediatePropagation</B>()</PRE>
+<DL>
+<DD>Stops the propagation and also skips the remaining listeners of the current target.
+ <p>
+ 전파를 멈추고 현재 대상의 나머지 리스너도 건너뛴다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="preventDefault()"><!-- --></A><H3>
+preventDefault</H3>
+<PRE>
+public void <B>preventDefault</B>()</PRE>
+<DL>
+<DD>Cancels the event if it is cancelable and the running listener is not passive.
+ <p>
+ 이벤트가 취소 가능하고 실행 중인 리스너가 passive 가 아니면 취소한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isDefaultPrevented()"><!-- --></A><H3>
+isDefaultPrevented</H3>
+<PRE>
+public boolean <B>isDefaultPrevented</B>()</PRE>
+<DL>
+<DD>Tells whether the event was cancelled.
+ <p>
+ 이벤트가 취소되었는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if the default action must be skipped / 기본 동작을 건너뛰어야 하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="composedPath()"><!-- --></A><H3>
+composedPath</H3>
+<PRE>
+public java.util.List&lt;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventTarget.html" title="class in org.duckdns.hjow.swingwebpanel.dom">EventTarget</A>&gt; <B>composedPath</B>()</PRE>
+<DL>
+<DD>Returns the targets of the current dispatch, the target first and the outermost ancestor last; empty when not dispatching.
+ <p>
+ 현재 전달의 대상 목록을 반환한다. 대상이 맨 앞이고 가장 바깥 조상이 맨 뒤이며, 전달 중이 아니면 비어 있다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>path copy / 경로 복사본</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ErrorEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/EventListener.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/Event.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Event.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

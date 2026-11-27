@@ -1,0 +1,573 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ErrorPageBuilder
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ErrorPageBuilder";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPage.html" title="class in org.duckdns.hjow.swingwebpanel.content.error"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/content/error/ErrorPageBuilder.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ErrorPageBuilder.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.content.error</FONT>
+<BR>
+Class ErrorPageBuilder</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.content.error.ErrorPageBuilder</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ErrorPageBuilder</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The generator of the error pages (plan item P17-06): HTTP error statuses without a body, DNS, connection, timeout and TLS failures,
+ redirect problems, blocked schemes, missing <code>classpath://</code> resources, FTP failures (shown as 404, a project requirement),
+ invalid addresses and XML parsing errors of XHTML documents. Every method returns an <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPage.html" title="class in org.duckdns.hjow.swingwebpanel.content.error"><CODE>ErrorPage</CODE></A>: the HTML source plus the
+ plain facts. This class replaces the small <code>core.ErrorPages</code>, whose titles and explanations it keeps word for word.
+ <p>
+ The pages are deterministic and safe:
+ <ul>
+ <li>Everything that comes from outside (the address, the reason phrase of the server, the messages of the network layer and of the XML
+ parser, a line of the broken document) is HTML-escaped by <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPageBuilder.html#escape(java.lang.String)"><CODE>escape(String)</CODE></A>: the five markup characters, control characters and
+ the bidirectional override characters (which could disguise an address) are neutralized. An address can never become markup.</li>
+ <li>The page has a stable <code>&lt;title&gt;</code> that equals the heading (<code>404 Not Found</code>), the explanation, the
+ address, and, if the address can be loaded again, a link to it (<code>&lt;a href&gt;</code>) as the retry link. An address with a
+ scheme that the component does not load (<code>javascript:</code>, <code>data:</code>, <code>file:</code> and so on) or with white space or control
+ characters is shown as text without a link; so is an address longer than <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPageBuilder.html#MAX_LINK_LENGTH">8192</A> characters. An address that is
+ displayed is cut to <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPageBuilder.html#MAX_DISPLAY_LENGTH">2000</A> characters.</li>
+ <li>The page uses only plain HTML and a few simple CSS rules, and the CSS classes <code>swp-error</code> and
+ <code>swp-error-&lt;kind&gt;</code> on the <code>body</code>.</li>
+ </ul>
+ <p>
+ 오류 페이지 생성기(계획 P17-06): 본문 없는 HTTP 오류 상태, DNS, 연결, 시간 초과, TLS 실패, 리디렉션 문제, 차단된 스킴, 없는 <code>classpath://</code>
+ 리소스, FTP 실패(404 로 표시. 프로젝트 요구사항), 잘못된 주소, XHTML 문서의 XML 해석 오류. 모든 메서드는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPage.html" title="class in org.duckdns.hjow.swingwebpanel.content.error"><CODE>ErrorPage</CODE></A>(HTML 원문과 이스케이프하지
+ 않은 사실들)를 반환한다. 이 클래스는 작은 <code>core.ErrorPages</code> 를 대체하며 그 제목과 설명을 그대로 유지한다.
+ <p>
+ 페이지는 결정적이고 안전하다:
+ <ul>
+ <li>바깥에서 온 모든 것(주소, 서버의 이유 문구, 네트워크 계층과 XML 파서의 메시지, 깨진 문서의 한 줄)은 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPageBuilder.html#escape(java.lang.String)"><CODE>escape(String)</CODE></A> 로 HTML 이스케이프한다:
+ 마크업 문자 다섯 개, 제어 문자, 주소를 위장할 수 있는 양방향 덮어쓰기 문자를 무력화한다. 주소는 마크업이 될 수 없다.</li>
+ <li>페이지에는 제목줄과 같은 안정적인 <code>&lt;title&gt;</code>(<code>404 Not Found</code>), 설명, 주소, 그리고 주소를 다시 읽을 수 있으면 다시 시도 링크로서
+ 그 주소로 가는 <code>&lt;a href&gt;</code> 가 있다. 컴포넌트가 읽지 않는 스킴(<code>javascript:</code>, <code>data:</code>, <code>file:</code> 등)이나 공백/제어 문자가
+ 든 주소, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPageBuilder.html#MAX_LINK_LENGTH">8192</A> 자보다 긴 주소는 링크 없이 텍스트로만 보인다. 표시하는 주소는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPageBuilder.html#MAX_DISPLAY_LENGTH">2000</A> 자에서 자른다.</li>
+ <li>페이지는 일반 HTML 과 단순한 CSS 몇 줄만 쓰며 <code>body</code> 에 CSS 클래스 <code>swp-error</code> 와 <code>swp-error-&lt;종류&gt;</code> 를 단다.</li>
+ </ul>
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPageBuilder.html#MAX_DISPLAY_LENGTH">MAX_DISPLAY_LENGTH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The longest address text that is displayed (longer text is cut and ends with three dots).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPageBuilder.html#MAX_LINK_LENGTH">MAX_LINK_LENGTH</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The longest address that gets a link.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPage.html" title="class in org.duckdns.hjow.swingwebpanel.content.error">ErrorPage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPageBuilder.html#blockedScheme(java.lang.String)">blockedScheme</A></B>(java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Builds the page for an address whose scheme is not supported (status 400, no retry link).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPage.html" title="class in org.duckdns.hjow.swingwebpanel.content.error">ErrorPage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPageBuilder.html#build(org.duckdns.hjow.swingwebpanel.content.error.ErrorKind, java.lang.String, int, java.lang.String, java.lang.String, java.lang.String)">build</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorKind.html" title="enum in org.duckdns.hjow.swingwebpanel.content.error">ErrorKind</A>&nbsp;kind,
+      java.lang.String&nbsp;url,
+      int&nbsp;status,
+      java.lang.String&nbsp;title,
+      java.lang.String&nbsp;message,
+      java.lang.String&nbsp;detail)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Builds a page from its parts (the common part of all other methods).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPage.html" title="class in org.duckdns.hjow.swingwebpanel.content.error">ErrorPage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPageBuilder.html#classpathMissing(java.lang.String)">classpathMissing</A></B>(java.lang.String&nbsp;url)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Builds the page for a <code>classpath://</code> resource that does not exist (status 404).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPageBuilder.html#escape(java.lang.String)">escape</A></B>(java.lang.String&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Escapes a text for HTML text and attribute values.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPage.html" title="class in org.duckdns.hjow.swingwebpanel.content.error">ErrorPage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPageBuilder.html#failure(org.duckdns.hjow.swingwebpanel.content.error.ErrorKind, java.lang.String, java.lang.String)">failure</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorKind.html" title="enum in org.duckdns.hjow.swingwebpanel.content.error">ErrorKind</A>&nbsp;kind,
+        java.lang.String&nbsp;url,
+        java.lang.String&nbsp;detail)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Builds the page for a failure of one of the kinds, with the standard title and explanation.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPage.html" title="class in org.duckdns.hjow.swingwebpanel.content.error">ErrorPage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPageBuilder.html#forFailure(org.duckdns.hjow.swingwebpanel.net.FailureKind, java.lang.String, java.lang.String)">forFailure</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A>&nbsp;kind,
+           java.lang.String&nbsp;url,
+           java.lang.String&nbsp;detail)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Builds the page for a failure that the network layer reported (see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net"><CODE>FailureKind</CODE></A>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPage.html" title="class in org.duckdns.hjow.swingwebpanel.content.error">ErrorPage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPageBuilder.html#ftpFailure(java.lang.String, java.lang.String)">ftpFailure</A></B>(java.lang.String&nbsp;url,
+           java.lang.String&nbsp;detail)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Builds the page for a failed FTP access (status 404, as the project requires).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPage.html" title="class in org.duckdns.hjow.swingwebpanel.content.error">ErrorPage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPageBuilder.html#http(java.lang.String, int, java.lang.String)">http</A></B>(java.lang.String&nbsp;url,
+     int&nbsp;status,
+     java.lang.String&nbsp;reason)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Builds the page for an HTTP error status that came without a body.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPageBuilder.html#reasonPhrase(int)">reasonPhrase</A></B>(int&nbsp;status)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the standard reason phrase of an HTTP status code.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPage.html" title="class in org.duckdns.hjow.swingwebpanel.content.error">ErrorPage</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPageBuilder.html#xmlParseError(java.lang.String, org.duckdns.hjow.swingwebpanel.content.xhtml.XmlParseError)">xmlParseError</A></B>(java.lang.String&nbsp;url,
+              <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlParseError.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XmlParseError</A>&nbsp;error)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Builds the page for an XML parsing error of an XHTML document: the message of the parser, then the position and the offending line
+ with a marker under the column.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="MAX_LINK_LENGTH"><!-- --></A><H3>
+MAX_LINK_LENGTH</H3>
+<PRE>
+public static final int <B>MAX_LINK_LENGTH</B></PRE>
+<DL>
+<DD>The longest address that gets a link.
+ <p>
+ 링크를 만드는 주소의 최대 길이.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.content.error.ErrorPageBuilder.MAX_LINK_LENGTH">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="MAX_DISPLAY_LENGTH"><!-- --></A><H3>
+MAX_DISPLAY_LENGTH</H3>
+<PRE>
+public static final int <B>MAX_DISPLAY_LENGTH</B></PRE>
+<DL>
+<DD>The longest address text that is displayed (longer text is cut and ends with three dots).
+ <p>
+ 표시하는 주소 텍스트의 최대 길이(더 길면 잘리고 점 세 개로 끝난다).
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.content.error.ErrorPageBuilder.MAX_DISPLAY_LENGTH">Constant Field Values</A></DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="http(java.lang.String, int, java.lang.String)"><!-- --></A><H3>
+http</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPage.html" title="class in org.duckdns.hjow.swingwebpanel.content.error">ErrorPage</A> <B>http</B>(java.lang.String&nbsp;url,
+                             int&nbsp;status,
+                             java.lang.String&nbsp;reason)</PRE>
+<DL>
+<DD>Builds the page for an HTTP error status that came without a body.
+ <p>
+ 본문 없이 온 HTTP 오류 상태의 페이지를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - the address that was requested / 요청한 주소<DD><CODE>status</CODE> - the HTTP status (a value below 100 shows no status) / HTTP 상태(100 미만이면 상태를 표시하지 않는다)<DD><CODE>reason</CODE> - the reason phrase of the server, or null or "" for the standard phrase / 서버의 이유 문구. null 이나 ""이면 표준 문구
+<DT><B>Returns:</B><DD>the page / 페이지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="failure(org.duckdns.hjow.swingwebpanel.content.error.ErrorKind, java.lang.String, java.lang.String)"><!-- --></A><H3>
+failure</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPage.html" title="class in org.duckdns.hjow.swingwebpanel.content.error">ErrorPage</A> <B>failure</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorKind.html" title="enum in org.duckdns.hjow.swingwebpanel.content.error">ErrorKind</A>&nbsp;kind,
+                                java.lang.String&nbsp;url,
+                                java.lang.String&nbsp;detail)</PRE>
+<DL>
+<DD>Builds the page for a failure of one of the kinds, with the standard title and explanation.
+ <p>
+ 종류에 맞는 표준 제목과 설명으로 실패 페이지를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>kind</CODE> - the kind, other than <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorKind.html#HTTP_STATUS"><CODE>ErrorKind.HTTP_STATUS</CODE></A> and <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorKind.html#XML_PARSE_ERROR"><CODE>ErrorKind.XML_PARSE_ERROR</CODE></A> (these are treated as
+               <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorKind.html#LOAD_FAILED"><CODE>ErrorKind.LOAD_FAILED</CODE></A>) / 종류. <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorKind.html#HTTP_STATUS"><CODE>ErrorKind.HTTP_STATUS</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorKind.html#XML_PARSE_ERROR"><CODE>ErrorKind.XML_PARSE_ERROR</CODE></A> 는
+               <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorKind.html#LOAD_FAILED"><CODE>ErrorKind.LOAD_FAILED</CODE></A> 로 다룬다<DD><CODE>url</CODE> - the address that was requested / 요청한 주소<DD><CODE>detail</CODE> - the message of the layer that failed, or null / 실패한 계층의 메시지. 없으면 null
+<DT><B>Returns:</B><DD>the page / 페이지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="forFailure(org.duckdns.hjow.swingwebpanel.net.FailureKind, java.lang.String, java.lang.String)"><!-- --></A><H3>
+forFailure</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPage.html" title="class in org.duckdns.hjow.swingwebpanel.content.error">ErrorPage</A> <B>forFailure</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net">FailureKind</A>&nbsp;kind,
+                                   java.lang.String&nbsp;url,
+                                   java.lang.String&nbsp;detail)</PRE>
+<DL>
+<DD>Builds the page for a failure that the network layer reported (see <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net"><CODE>FailureKind</CODE></A>). A cancelled load, which has no page of
+ its own, and every kind without a special page become <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorKind.html#LOAD_FAILED"><CODE>ErrorKind.LOAD_FAILED</CODE></A>. Missing resources and FTP failures are
+ shown with status 404 and a blocked scheme with status 400.
+ <p>
+ 네트워크 계층이 보고한 실패(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/net/FailureKind.html" title="enum in org.duckdns.hjow.swingwebpanel.net"><CODE>FailureKind</CODE></A> 참조)의 페이지를 만든다. 자기 페이지가 없는 취소된 로드와 특별한 페이지가 없는 모든 종류는
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorKind.html#LOAD_FAILED"><CODE>ErrorKind.LOAD_FAILED</CODE></A> 가 된다. 없는 리소스와 FTP 실패는 상태 404, 차단된 스킴은 상태 400 으로 표시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>kind</CODE> - the failure kind / 실패 종류<DD><CODE>url</CODE> - the address that was requested / 요청한 주소<DD><CODE>detail</CODE> - the message of the network layer or null / 네트워크 계층의 메시지. 없으면 null
+<DT><B>Returns:</B><DD>the page / 페이지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="blockedScheme(java.lang.String)"><!-- --></A><H3>
+blockedScheme</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPage.html" title="class in org.duckdns.hjow.swingwebpanel.content.error">ErrorPage</A> <B>blockedScheme</B>(java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Builds the page for an address whose scheme is not supported (status 400, no retry link).
+ <p>
+ 지원하지 않는 스킴의 주소에 대한 페이지를 만든다(상태 400, 다시 시도 링크 없음).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - the address / 주소
+<DT><B>Returns:</B><DD>the page / 페이지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="classpathMissing(java.lang.String)"><!-- --></A><H3>
+classpathMissing</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPage.html" title="class in org.duckdns.hjow.swingwebpanel.content.error">ErrorPage</A> <B>classpathMissing</B>(java.lang.String&nbsp;url)</PRE>
+<DL>
+<DD>Builds the page for a <code>classpath://</code> resource that does not exist (status 404).
+ <p>
+ 존재하지 않는 <code>classpath://</code> 리소스의 페이지를 만든다(상태 404).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - the address (<code>classpath://...</code>) / 주소(<code>classpath://...</code>)
+<DT><B>Returns:</B><DD>the page / 페이지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="ftpFailure(java.lang.String, java.lang.String)"><!-- --></A><H3>
+ftpFailure</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPage.html" title="class in org.duckdns.hjow.swingwebpanel.content.error">ErrorPage</A> <B>ftpFailure</B>(java.lang.String&nbsp;url,
+                                   java.lang.String&nbsp;detail)</PRE>
+<DL>
+<DD>Builds the page for a failed FTP access (status 404, as the project requires).
+ <p>
+ 실패한 FTP 접근의 페이지를 만든다(프로젝트 요구사항대로 상태 404).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - the FTP address / FTP 주소<DD><CODE>detail</CODE> - the message of the FTP layer or null / FTP 계층의 메시지. 없으면 null
+<DT><B>Returns:</B><DD>the page / 페이지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="xmlParseError(java.lang.String, org.duckdns.hjow.swingwebpanel.content.xhtml.XmlParseError)"><!-- --></A><H3>
+xmlParseError</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPage.html" title="class in org.duckdns.hjow.swingwebpanel.content.error">ErrorPage</A> <B>xmlParseError</B>(java.lang.String&nbsp;url,
+                                      <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/xhtml/XmlParseError.html" title="class in org.duckdns.hjow.swingwebpanel.content.xhtml">XmlParseError</A>&nbsp;error)</PRE>
+<DL>
+<DD>Builds the page for an XML parsing error of an XHTML document: the message of the parser, then the position and the offending line
+ with a marker under the column.
+ <p>
+ XHTML 문서의 XML 해석 오류 페이지를 만든다: 파서의 메시지, 그 뒤에 위치와 문제의 줄(열 아래에 표시를 붙인다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>url</CODE> - the address of the document / 문서의 주소<DD><CODE>error</CODE> - the error from the XHTML parser / XHTML 파서의 오류
+<DT><B>Returns:</B><DD>the page / 페이지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="build(org.duckdns.hjow.swingwebpanel.content.error.ErrorKind, java.lang.String, int, java.lang.String, java.lang.String, java.lang.String)"><!-- --></A><H3>
+build</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPage.html" title="class in org.duckdns.hjow.swingwebpanel.content.error">ErrorPage</A> <B>build</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorKind.html" title="enum in org.duckdns.hjow.swingwebpanel.content.error">ErrorKind</A>&nbsp;kind,
+                              java.lang.String&nbsp;url,
+                              int&nbsp;status,
+                              java.lang.String&nbsp;title,
+                              java.lang.String&nbsp;message,
+                              java.lang.String&nbsp;detail)</PRE>
+<DL>
+<DD>Builds a page from its parts (the common part of all other methods).
+ <p>
+ 부분들로 페이지를 만든다(다른 모든 메서드의 공통 부분).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>kind</CODE> - kind / 종류<DD><CODE>url</CODE> - the address (may be null) / 주소(null 가능)<DD><CODE>status</CODE> - status or 0 / 상태 또는 0<DD><CODE>title</CODE> - short title / 짧은 제목<DD><CODE>message</CODE> - explanation / 설명<DD><CODE>detail</CODE> - extra text or "" / 덧붙이는 텍스트 또는 ""
+<DT><B>Returns:</B><DD>the page / 페이지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="escape(java.lang.String)"><!-- --></A><H3>
+escape</H3>
+<PRE>
+public static java.lang.String <B>escape</B>(java.lang.String&nbsp;s)</PRE>
+<DL>
+<DD>Escapes a text for HTML text and attribute values. The characters <code>&amp; &lt; &gt; " '</code> become character references,
+ control characters (except tab and line feed), the C1 controls and the bidirectional formatting characters
+ (U+200E, U+200F, U+061C, U+202A to U+202E, U+2066 to U+2069) become U+FFFD so that they cannot hide or reorder the text of an
+ address. null is treated as empty.
+ <p>
+ 텍스트를 HTML 본문과 속성 값용으로 이스케이프한다. <code>&amp; &lt; &gt; " '</code> 는 문자 참조가 되고, 제어 문자(탭과 줄 바꿈 제외), C1 제어 문자,
+ 양방향 서식 문자(U+200E, U+200F, U+061C, U+202A~U+202E, U+2066~U+2069)는 주소의 텍스트를 숨기거나 순서를 바꾸지 못하도록 U+FFFD 가 된다.
+ null 은 빈 문자열로 본다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - the text or null / 텍스트 또는 null
+<DT><B>Returns:</B><DD>the escaped text / 이스케이프한 텍스트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="reasonPhrase(int)"><!-- --></A><H3>
+reasonPhrase</H3>
+<PRE>
+public static java.lang.String <B>reasonPhrase</B>(int&nbsp;status)</PRE>
+<DL>
+<DD>Returns the standard reason phrase of an HTTP status code.
+ <p>
+ HTTP 상태 코드의 표준 이유 문구를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>status</CODE> - the status code / 상태 코드
+<DT><B>Returns:</B><DD>the phrase; <code>Server Error</code> for other 5xx and <code>Error</code> for everything else / 문구. 그 밖의 5xx 는
+         <code>Server Error</code>, 나머지는 <code>Error</code></DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/content/error/ErrorPage.html" title="class in org.duckdns.hjow.swingwebpanel.content.error"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/content/error/ErrorPageBuilder.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ErrorPageBuilder.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

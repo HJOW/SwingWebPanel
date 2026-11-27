@@ -1,0 +1,322 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+PaintWalker
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="PaintWalker";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/OrientedContent.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/PaintWalker.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PaintWalker.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.layout</FONT>
+<BR>
+Class PaintWalker</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.layout.PaintWalker</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>PaintWalker</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Walks the box tree in the painting order of CSS 2.1 Appendix E (plan item P10-01) and reports what is to be painted to a
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><CODE>PaintWalker.Visitor</CODE></A>. The renderer builds its display list from this walk and the hit test uses the same walk in reverse, so what is on top
+ on the screen is also what a click finds.
+ <p>
+ A <b>stacking context</b> (the root, a positioned box with an integer <code>z-index</code>, a fixed box, a box with
+ <code>opacity</code> below 1, a box with a transform; see <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#isStackingContext()"><CODE>LayoutBox.isStackingContext()</CODE></A>) paints in this order: its own
+ background and border, the stacking contexts of its descendants with a negative <code>z-index</code> (in order of <code>z-index</code>,
+ then tree order), the backgrounds and borders of the in-flow block-level descendants (in tree order), the floats (each as a whole, in
+ tree order), the inline content of the in-flow descendants (lines, text, list markers, replaced content, inline blocks as a whole), the
+ positioned descendants with <code>z-index</code> auto or 0 and the contexts with 0 (in tree order) and last the contexts with a
+ positive <code>z-index</code>. A float, an inline block and a positioned box with <code>z-index:auto</code> is painted <i>as a whole</i>
+ as if it formed a stacking context, except that its positioned descendants and the contexts inside it belong to the enclosing
+ stacking context, which paints them in its own order. <code>overflow</code> other than visible clips the descendants whose containing
+ block chain contains the box (an absolutely positioned box is not clipped by an ancestor that is not its containing block);
+ <code>clip: rect()</code> clips an absolutely positioned box itself; <code>position:fixed</code> boxes are reported inside a fixed group
+ so that the renderer can keep them in place when the page scrolls.
+ <p>
+ 상자 트리를 CSS 2.1 부록 E 의 그리기 순서로 훑으며 그릴 것을 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><CODE>PaintWalker.Visitor</CODE></A> 에 알린다(계획 P10-01). 렌더러는 이 순회로 디스플레이 리스트를 만들고
+ 히트 테스트는 같은 순회를 거꾸로 쓰므로 화면에서 맨 위에 있는 것을 클릭도 찾는다.
+ <p>
+ <b>쌓임 맥락</b>(루트, 정수 <code>z-index</code> 를 가진 위치 지정 상자, fixed 상자, <code>opacity</code> 가 1 보다 작은 상자, transform 이 있는 상자.
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html#isStackingContext()"><CODE>LayoutBox.isStackingContext()</CODE></A> 참조)은 이 순서로 그린다: 자신의 배경과 border, <code>z-index</code> 가 음수인 자손 맥락(<code>z-index</code>, 그다음 트리
+ 순서), 정상 흐름 블록 수준 자손의 배경과 border(트리 순서), float(각각 통째로, 트리 순서), 정상 흐름 자손의 인라인 콘텐츠(줄, 텍스트, 목록 표식, 치환 콘텐츠,
+ inline-block 은 통째로), <code>z-index</code> 가 auto 이거나 0 인 위치 지정 자손과 0 인 맥락(트리 순서), 마지막으로 <code>z-index</code> 가 양수인 맥락.
+ float, inline-block, <code>z-index:auto</code> 인 위치 지정 상자는 쌓임 맥락을 만드는 것처럼 <i>통째로</i> 그리되 그 안의 위치 지정 자손과 맥락은 둘러싼 쌓임
+ 맥락에 속하며 그 맥락이 자기 순서로 그린다. <code>overflow</code> 가 visible 이 아니면 포함 블록 사슬에 그 상자가 있는 자손을 자른다(절대 배치 상자는 자신의
+ 포함 블록이 아닌 조상에게는 잘리지 않는다). <code>clip: rect()</code> 는 절대 배치 상자 자신을 자른다. <code>position:fixed</code> 상자는 fixed 그룹 안에서
+ 알려 주므로 렌더러가 페이지가 스크롤되어도 제자리에 둘 수 있다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;interface</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">PaintWalker.Visitor</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Receives the painting events of <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.html" title="class in org.duckdns.hjow.swingwebpanel.layout"><CODE>PaintWalker</CODE></A>.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;double</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.html#opacityOf(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)">opacityOf</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;b)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the opacity of a box.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.html#walk(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, org.duckdns.hjow.swingwebpanel.layout.PaintWalker.Visitor)">walk</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;root,
+     <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">PaintWalker.Visitor</A>&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Walks a box tree in painting order.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.html#walkAsImage(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, org.duckdns.hjow.swingwebpanel.layout.PaintWalker.Visitor)">walkAsImage</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box,
+            <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">PaintWalker.Visitor</A>&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Walks a box and its descendants in painting order as the image of <code>element()</code> (CSS Images 4 section 2.7): the box is painted as a stacking
+ context, and its own transform, fixed positioning and sticky offset are ignored (the transforms of its ancestors are not walked at all).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="walk(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, org.duckdns.hjow.swingwebpanel.layout.PaintWalker.Visitor)"><!-- --></A><H3>
+walk</H3>
+<PRE>
+public static void <B>walk</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;root,
+                        <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">PaintWalker.Visitor</A>&nbsp;v)</PRE>
+<DL>
+<DD>Walks a box tree in painting order.
+ <p>
+ 상자 트리를 그리기 순서로 훑는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>root</CODE> - the root box / 루트 상자<DD><CODE>v</CODE> - the visitor / 방문자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="walkAsImage(org.duckdns.hjow.swingwebpanel.layout.LayoutBox, org.duckdns.hjow.swingwebpanel.layout.PaintWalker.Visitor)"><!-- --></A><H3>
+walkAsImage</H3>
+<PRE>
+public static void <B>walkAsImage</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;box,
+                               <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html" title="interface in org.duckdns.hjow.swingwebpanel.layout">PaintWalker.Visitor</A>&nbsp;v)</PRE>
+<DL>
+<DD>Walks a box and its descendants in painting order as the image of <code>element()</code> (CSS Images 4 section 2.7): the box is painted as a stacking
+ context, and its own transform, fixed positioning and sticky offset are ignored (the transforms of its ancestors are not walked at all).
+ <p>
+ 상자와 자손을 <code>element()</code> 의 이미지로서 그리기 순서로 훑는다(CSS Images 4 2.7 절): 상자를 쌓임 맥락으로 그리며, 상자 자신의 변환, 고정 배치, sticky 오프셋은
+ 무시한다(조상의 변환은 아예 훑지 않는다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>box</CODE> - the box / 상자<DD><CODE>v</CODE> - the visitor / 방문자</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="opacityOf(org.duckdns.hjow.swingwebpanel.layout.LayoutBox)"><!-- --></A><H3>
+opacityOf</H3>
+<PRE>
+public static double <B>opacityOf</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/LayoutBox.html" title="class in org.duckdns.hjow.swingwebpanel.layout">LayoutBox</A>&nbsp;b)</PRE>
+<DL>
+<DD>Returns the opacity of a box.
+ <p>
+ 상자의 불투명도를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>b</CODE> - the box / 상자
+<DT><B>Returns:</B><DD>opacity between 0 and 1 / 0~1 의 불투명도</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/OrientedContent.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/layout/PaintWalker.Visitor.html" title="interface in org.duckdns.hjow.swingwebpanel.layout"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/layout/PaintWalker.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PaintWalker.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

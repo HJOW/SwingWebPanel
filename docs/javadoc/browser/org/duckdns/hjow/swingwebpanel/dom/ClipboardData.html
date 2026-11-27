@@ -1,0 +1,959 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+ClipboardData
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="ClipboardData";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClassList.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ClipboardData.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom</FONT>
+<BR>
+Class ClipboardData</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.dom.ClipboardData</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>ClipboardData</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The data of a clipboard operation or of a drag and drop (HTML <code>DataTransfer</code>): the clipboard part of it
+ (<code>ClipboardEvent.clipboardData</code>, <code>InputEvent.dataTransfer</code>) and the drag-and-drop part (<code>DragEvent.dataTransfer</code>,
+ <code>effectAllowed</code>, <code>dropEffect</code>, <code>items</code>). It holds the drag data store: a list of text items, one per type string
+ (lower case, <code>text</code> means <code>text/plain</code> and <code>url</code> means <code>text/uri-list</code>, the legacy names of the
+ specification). For a <code>copy</code> event it starts with what the user selected (<code>text/plain</code> and <code>text/html</code>); a script that
+ calls <code>setData</code> and cancels the event puts its own data on the clipboard instead. This component has text items only, no files.
+ <p>
+ The <em>mode</em> says what a script may do (HTML Standard, drag data store mode): read/write (the clipboard data of <code>copy</code> and
+ <code>cut</code>, and <code>dragstart</code>: data can be read and added), read-only (<code>paste</code> and <code>drop</code>: data can be read, nothing can be
+ added) and protected (the other drag events: the types can be listed, the data cannot be read). In the disabled mode (the data transfer is
+ no longer tied to a drag operation) nothing is visible. The component itself fills and reads the data through <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#put(java.lang.String, java.lang.String)"><CODE>put(java.lang.String, java.lang.String)</CODE></A> and
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#peek(java.lang.String)"><CODE>peek(java.lang.String)</CODE></A>, which ignore the mode.
+ <p>
+ 클립보드 작업이나 끌어다 놓기의 데이터(HTML <code>DataTransfer</code>): 클립보드 부분(<code>ClipboardEvent.clipboardData</code>, <code>InputEvent.dataTransfer</code>)과 끌어다 놓기
+ 부분(<code>DragEvent.dataTransfer</code>, <code>effectAllowed</code>, <code>dropEffect</code>, <code>items</code>). 드래그 데이터 저장소를 가진다: 타입 문자열(소문자.
+ <code>text</code> 는 <code>text/plain</code>, <code>url</code> 은 <code>text/uri-list</code> 를 뜻하며 규격의 옛 이름이다)마다 하나인 텍스트 항목의 목록. <code>copy</code>
+ 이벤트에서는 사용자가 선택한 것(<code>text/plain</code> 과 <code>text/html</code>)으로 시작하며, <code>setData</code> 를 부르고 이벤트를 취소한 스크립트는 대신 자기
+ 데이터를 클립보드에 넣는다. 이 컴포넌트는 텍스트 항목만 가지며 파일은 없다.
+ <p>
+ <em>모드</em>는 스크립트가 할 수 있는 일을 정한다(HTML 표준의 드래그 데이터 저장소 모드): 읽기/쓰기(<code>copy</code>, <code>cut</code> 의 클립보드 데이터와
+ <code>dragstart</code>: 데이터를 읽고 더할 수 있다), 읽기 전용(<code>paste</code>, <code>drop</code>: 읽을 수 있고 더할 수 없다), 보호(나머지 끌기 이벤트: 종류는 나열할 수
+ 있고 데이터는 읽을 수 없다). 무효화 모드(데이터 전달 객체가 더는 끌기 작업에 묶여 있지 않다)에서는 아무것도 보이지 않는다. 컴포넌트 자신은 모드를 무시하는
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#put(java.lang.String, java.lang.String)"><CODE>put(java.lang.String, java.lang.String)</CODE></A> 과 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#peek(java.lang.String)"><CODE>peek(java.lang.String)</CODE></A> 로 데이터를 채우고 읽는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#DISABLED">DISABLED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The disabled mode: the data transfer is no longer tied to an operation, nothing is visible.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#PROTECTED">PROTECTED</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The protected mode: the types can be listed, the data cannot be read.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#READ_ONLY">READ_ONLY</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The read-only mode: data can be read, nothing can be added or removed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#READ_WRITE">READ_WRITE</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The read/write mode: data can be read and added.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#ClipboardData()">ClipboardData</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates empty data in the read/write mode (<code>new DataTransfer()</code>: both effects are <code>none</code>).</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#canonicalType(java.lang.String)">canonicalType</A></B>(java.lang.String&nbsp;format)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the canonical type of a format name: lower case, with the legacy names mapped.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#clearData(java.lang.String)">clearData</A></B>(java.lang.String&nbsp;format)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes the data of a type (<code>clearData(format)</code>), or all data if the format is null; nothing happens outside the
+ read/write mode.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#disable()">disable</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ends the association with the drag operation (the disabled mode): after the event the data transfer shows nothing any more.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ClipboardData</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#duplicate()">duplicate</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a new data transfer with the same items (copies of them), effects and drag image, in the read/write mode and unchanged: the
+ component makes one for every drag event, on top of the drag data store of the operation.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#forceEffectAllowed(java.lang.String)">forceEffectAllowed</A></B>(java.lang.String&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets <code>effectAllowed</code> without the checks of a script (for the component).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#getData(java.lang.String)">getData</A></B>(java.lang.String&nbsp;format)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the data of a type (<code>getData</code>): an empty string if there is none or if the data may not be read (the protected and
+ disabled modes).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#getDragImage()">getDragImage</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the element that <code>setDragImage</code> chose as the picture of the drag, or null.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#getDragImageX()">getDragImageX</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the x of the hot spot of the drag picture.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#getDragImageY()">getDragImageY</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the y of the hot spot of the drag picture.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#getDropEffect()">getDropEffect</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the value of <code>dropEffect</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#getEffectAllowed()">getEffectAllowed</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the value of <code>effectAllowed</code>.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FileList.html" title="class in org.duckdns.hjow.swingwebpanel.dom.html">FileList</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#getFiles()">getFiles</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the files of the data transfer (<code>files</code>): this component has text items only, so the list is always empty; it is
+ always the same object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DataTransferItemList.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DataTransferItemList</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#getItems()">getItems</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the view of the items for scripts (<code>items</code>); it is always the same object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#getMode()">getMode</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns what a script may do with the data (one of the mode constants).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.String&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#getTypes()">getTypes</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the types that have data (<code>types</code>), in the order they were added (empty in the disabled mode).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#hasData(java.lang.String)">hasData</A></B>(java.lang.String&nbsp;format)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a type has data.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#isChanged()">isChanged</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a script changed the data after the component filled it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#peek(java.lang.String)">peek</A></B>(java.lang.String&nbsp;type)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the data of a type whatever the mode is (for the component itself); an empty string if there is none.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#put(java.lang.String, java.lang.String)">put</A></B>(java.lang.String&nbsp;type,
+    java.lang.String&nbsp;data)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Puts the data of a type (replacing earlier data of that type) without counting it as a change by a script and whatever the mode is;
+ the component fills the data of an event with it before the event is dispatched.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#setData(java.lang.String, java.lang.String)">setData</A></B>(java.lang.String&nbsp;format,
+        java.lang.String&nbsp;data)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the data of a type as a script does (<code>setData</code>), which counts as a change; nothing happens outside the read/write mode.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#setDragImage(org.duckdns.hjow.swingwebpanel.dom.Element, int, int)">setDragImage</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;image,
+             int&nbsp;x,
+             int&nbsp;y)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the picture of the drag (<code>setDragImage</code>): nothing happens outside the read/write mode.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#setDropEffect(java.lang.String)">setDropEffect</A></B>(java.lang.String&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets <code>dropEffect</code> as a script does: only to <code>none</code>, <code>copy</code>, <code>link</code> or <code>move</code>; other values
+ are ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#setEffectAllowed(java.lang.String)">setEffectAllowed</A></B>(java.lang.String&nbsp;value)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets <code>effectAllowed</code> as a script does: only in the read/write mode and only to one of its values (<code>none</code>,
+ <code>copy</code>, <code>copyLink</code>, <code>copyMove</code>, <code>link</code>, <code>linkMove</code>, <code>move</code>, <code>all</code>,
+ <code>uninitialized</code>); anything else is ignored.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html#setMode(int)">setMode</A></B>(int&nbsp;newMode)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets what a script may do with the data (the component sets the mode of a drag data store for every event).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="READ_WRITE"><!-- --></A><H3>
+READ_WRITE</H3>
+<PRE>
+public static final int <B>READ_WRITE</B></PRE>
+<DL>
+<DD>The read/write mode: data can be read and added.
+ <p>
+ 읽기/쓰기 모드: 데이터를 읽고 더할 수 있다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.ClipboardData.READ_WRITE">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="READ_ONLY"><!-- --></A><H3>
+READ_ONLY</H3>
+<PRE>
+public static final int <B>READ_ONLY</B></PRE>
+<DL>
+<DD>The read-only mode: data can be read, nothing can be added or removed.
+ <p>
+ 읽기 전용 모드: 데이터를 읽을 수 있고 더하거나 지울 수 없다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.ClipboardData.READ_ONLY">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="PROTECTED"><!-- --></A><H3>
+PROTECTED</H3>
+<PRE>
+public static final int <B>PROTECTED</B></PRE>
+<DL>
+<DD>The protected mode: the types can be listed, the data cannot be read.
+ <p>
+ 보호 모드: 종류는 나열할 수 있고 데이터는 읽을 수 없다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.ClipboardData.PROTECTED">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DISABLED"><!-- --></A><H3>
+DISABLED</H3>
+<PRE>
+public static final int <B>DISABLED</B></PRE>
+<DL>
+<DD>The disabled mode: the data transfer is no longer tied to an operation, nothing is visible.
+ <p>
+ 무효화 모드: 데이터 전달 객체가 더는 작업에 묶여 있지 않으며 아무것도 보이지 않는다.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.ClipboardData.DISABLED">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="ClipboardData()"><!-- --></A><H3>
+ClipboardData</H3>
+<PRE>
+public <B>ClipboardData</B>()</PRE>
+<DL>
+<DD>Creates empty data in the read/write mode (<code>new DataTransfer()</code>: both effects are <code>none</code>).
+ <p>
+ 읽기/쓰기 모드의 빈 데이터를 만든다(<code>new DataTransfer()</code>: 두 효과는 <code>none</code>).
+<P>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="canonicalType(java.lang.String)"><!-- --></A><H3>
+canonicalType</H3>
+<PRE>
+public static java.lang.String <B>canonicalType</B>(java.lang.String&nbsp;format)</PRE>
+<DL>
+<DD>Returns the canonical type of a format name: lower case, with the legacy names mapped.
+ <p>
+ 형식 이름의 정규 종류를 반환한다: 소문자이며 옛 이름은 바꾼다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>format</CODE> - the format name / 형식 이름
+<DT><B>Returns:</B><DD>the type / 종류</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="put(java.lang.String, java.lang.String)"><!-- --></A><H3>
+put</H3>
+<PRE>
+public void <B>put</B>(java.lang.String&nbsp;type,
+                java.lang.String&nbsp;data)</PRE>
+<DL>
+<DD>Puts the data of a type (replacing earlier data of that type) without counting it as a change by a script and whatever the mode is;
+ the component fills the data of an event with it before the event is dispatched.
+ <p>
+ 한 종류의 데이터를 넣는다(그 종류의 이전 데이터를 대체). 스크립트의 변경으로 치지 않으며 모드와 무관하다. 컴포넌트가 이벤트를 전달하기 전에 이것으로 데이터를 채운다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - the type / 종류<DD><CODE>data</CODE> - the string / 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="peek(java.lang.String)"><!-- --></A><H3>
+peek</H3>
+<PRE>
+public java.lang.String <B>peek</B>(java.lang.String&nbsp;type)</PRE>
+<DL>
+<DD>Returns the data of a type whatever the mode is (for the component itself); an empty string if there is none.
+ <p>
+ 모드와 무관하게 한 종류의 데이터를 반환한다(컴포넌트 자신용). 없으면 빈 문자열.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - the type / 종류
+<DT><B>Returns:</B><DD>the string / 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setData(java.lang.String, java.lang.String)"><!-- --></A><H3>
+setData</H3>
+<PRE>
+public void <B>setData</B>(java.lang.String&nbsp;format,
+                    java.lang.String&nbsp;data)</PRE>
+<DL>
+<DD>Sets the data of a type as a script does (<code>setData</code>), which counts as a change; nothing happens outside the read/write mode.
+ <p>
+ 스크립트가 하듯 한 종류의 데이터를 지정한다(<code>setData</code>). 변경으로 친다. 읽기/쓰기 모드가 아니면 아무 일도 없다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>format</CODE> - the format name / 형식 이름<DD><CODE>data</CODE> - the string / 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getData(java.lang.String)"><!-- --></A><H3>
+getData</H3>
+<PRE>
+public java.lang.String <B>getData</B>(java.lang.String&nbsp;format)</PRE>
+<DL>
+<DD>Returns the data of a type (<code>getData</code>): an empty string if there is none or if the data may not be read (the protected and
+ disabled modes). <code>url</code> gives the first address of the <code>text/uri-list</code> data.
+ <p>
+ 한 종류의 데이터를 반환한다(<code>getData</code>). 없거나 읽을 수 없으면(보호, 무효화 모드) 빈 문자열. <code>url</code> 은 <code>text/uri-list</code> 데이터의 첫 주소이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>format</CODE> - the format name / 형식 이름
+<DT><B>Returns:</B><DD>the string, empty if there is none / 문자열. 없으면 빈 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="hasData(java.lang.String)"><!-- --></A><H3>
+hasData</H3>
+<PRE>
+public boolean <B>hasData</B>(java.lang.String&nbsp;format)</PRE>
+<DL>
+<DD>Tells whether a type has data.
+ <p>
+ 한 종류에 데이터가 있는지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>format</CODE> - the format name / 형식 이름
+<DT><B>Returns:</B><DD>true if there is data / 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="clearData(java.lang.String)"><!-- --></A><H3>
+clearData</H3>
+<PRE>
+public void <B>clearData</B>(java.lang.String&nbsp;format)</PRE>
+<DL>
+<DD>Removes the data of a type (<code>clearData(format)</code>), or all data if the format is null; nothing happens outside the
+ read/write mode.
+ <p>
+ 한 종류의 데이터를 지운다(<code>clearData(format)</code>). 형식이 null 이면 모든 데이터를 지운다. 읽기/쓰기 모드가 아니면 아무 일도 없다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>format</CODE> - the format name or null / 형식 이름. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getTypes()"><!-- --></A><H3>
+getTypes</H3>
+<PRE>
+public java.util.List&lt;java.lang.String&gt; <B>getTypes</B>()</PRE>
+<DL>
+<DD>Returns the types that have data (<code>types</code>), in the order they were added (empty in the disabled mode).
+ <p>
+ 데이터가 있는 종류를 반환한다(<code>types</code>). 더한 순서이다(무효화 모드에서는 비어 있다).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a new list of the types / 종류의 새 목록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isChanged()"><!-- --></A><H3>
+isChanged</H3>
+<PRE>
+public boolean <B>isChanged</B>()</PRE>
+<DL>
+<DD>Tells whether a script changed the data after the component filled it.
+ <p>
+ 컴포넌트가 채운 뒤에 스크립트가 데이터를 바꾸었는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if changed / 바뀌었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getMode()"><!-- --></A><H3>
+getMode</H3>
+<PRE>
+public int <B>getMode</B>()</PRE>
+<DL>
+<DD>Returns what a script may do with the data (one of the mode constants).
+ <p>
+ 스크립트가 데이터로 할 수 있는 일을 반환한다(모드 상수 중 하나).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the mode / 모드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setMode(int)"><!-- --></A><H3>
+setMode</H3>
+<PRE>
+public void <B>setMode</B>(int&nbsp;newMode)</PRE>
+<DL>
+<DD>Sets what a script may do with the data (the component sets the mode of a drag data store for every event).
+ <p>
+ 스크립트가 데이터로 할 수 있는 일을 정한다(컴포넌트가 이벤트마다 드래그 데이터 저장소의 모드를 정한다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>newMode</CODE> - one of the mode constants / 모드 상수 중 하나</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getEffectAllowed()"><!-- --></A><H3>
+getEffectAllowed</H3>
+<PRE>
+public java.lang.String <B>getEffectAllowed</B>()</PRE>
+<DL>
+<DD>Returns the value of <code>effectAllowed</code>.
+ <p>
+ <code>effectAllowed</code> 의 값을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the value / 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setEffectAllowed(java.lang.String)"><!-- --></A><H3>
+setEffectAllowed</H3>
+<PRE>
+public void <B>setEffectAllowed</B>(java.lang.String&nbsp;value)</PRE>
+<DL>
+<DD>Sets <code>effectAllowed</code> as a script does: only in the read/write mode and only to one of its values (<code>none</code>,
+ <code>copy</code>, <code>copyLink</code>, <code>copyMove</code>, <code>link</code>, <code>linkMove</code>, <code>move</code>, <code>all</code>,
+ <code>uninitialized</code>); anything else is ignored.
+ <p>
+ 스크립트가 하듯 <code>effectAllowed</code> 를 정한다: 읽기/쓰기 모드에서 값(<code>none</code>, <code>copy</code>, <code>copyLink</code>, <code>copyMove</code>,
+ <code>link</code>, <code>linkMove</code>, <code>move</code>, <code>all</code>, <code>uninitialized</code>) 중 하나일 때만. 나머지는 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - the new value / 새 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="forceEffectAllowed(java.lang.String)"><!-- --></A><H3>
+forceEffectAllowed</H3>
+<PRE>
+public void <B>forceEffectAllowed</B>(java.lang.String&nbsp;value)</PRE>
+<DL>
+<DD>Sets <code>effectAllowed</code> without the checks of a script (for the component).
+ <p>
+ 스크립트의 검사 없이 <code>effectAllowed</code> 를 정한다(컴포넌트용).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - the value / 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDropEffect()"><!-- --></A><H3>
+getDropEffect</H3>
+<PRE>
+public java.lang.String <B>getDropEffect</B>()</PRE>
+<DL>
+<DD>Returns the value of <code>dropEffect</code>.
+ <p>
+ <code>dropEffect</code> 의 값을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the value / 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setDropEffect(java.lang.String)"><!-- --></A><H3>
+setDropEffect</H3>
+<PRE>
+public void <B>setDropEffect</B>(java.lang.String&nbsp;value)</PRE>
+<DL>
+<DD>Sets <code>dropEffect</code> as a script does: only to <code>none</code>, <code>copy</code>, <code>link</code> or <code>move</code>; other values
+ are ignored.
+ <p>
+ 스크립트가 하듯 <code>dropEffect</code> 를 정한다: <code>none</code>, <code>copy</code>, <code>link</code>, <code>move</code> 중 하나로만. 나머지는 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>value</CODE> - the new value / 새 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getFiles()"><!-- --></A><H3>
+getFiles</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/html/FileList.html" title="class in org.duckdns.hjow.swingwebpanel.dom.html">FileList</A> <B>getFiles</B>()</PRE>
+<DL>
+<DD>Returns the files of the data transfer (<code>files</code>): this component has text items only, so the list is always empty; it is
+ always the same object.
+ <p>
+ 데이터 전달 객체의 파일을 반환한다(<code>files</code>): 이 컴포넌트는 텍스트 항목만 가지므로 목록은 항상 비어 있다. 항상 같은 객체이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the empty list / 빈 목록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="duplicate()"><!-- --></A><H3>
+duplicate</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html" title="class in org.duckdns.hjow.swingwebpanel.dom">ClipboardData</A> <B>duplicate</B>()</PRE>
+<DL>
+<DD>Returns a new data transfer with the same items (copies of them), effects and drag image, in the read/write mode and unchanged: the
+ component makes one for every drag event, on top of the drag data store of the operation.
+ <p>
+ 같은 항목(의 복사본), 효과, 끌기 그림을 가진 새 데이터 전달 객체를 반환한다. 읽기/쓰기 모드이고 바뀌지 않은 상태이다. 컴포넌트가 끌기 이벤트마다
+ 작업의 드래그 데이터 저장소 위에 하나씩 만든다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the copy / 복사본</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getItems()"><!-- --></A><H3>
+getItems</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/DataTransferItemList.html" title="class in org.duckdns.hjow.swingwebpanel.dom">DataTransferItemList</A> <B>getItems</B>()</PRE>
+<DL>
+<DD>Returns the view of the items for scripts (<code>items</code>); it is always the same object.
+ <p>
+ 스크립트가 쓰는 항목의 뷰를 반환한다(<code>items</code>). 항상 같은 객체이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the item list / 항목 목록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setDragImage(org.duckdns.hjow.swingwebpanel.dom.Element, int, int)"><!-- --></A><H3>
+setDragImage</H3>
+<PRE>
+public void <B>setDragImage</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;image,
+                         int&nbsp;x,
+                         int&nbsp;y)</PRE>
+<DL>
+<DD>Sets the picture of the drag (<code>setDragImage</code>): nothing happens outside the read/write mode.
+ <p>
+ 끌기의 그림을 정한다(<code>setDragImage</code>). 읽기/쓰기 모드가 아니면 아무 일도 없다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>image</CODE> - the element that gives the picture / 그림을 주는 요소<DD><CODE>x</CODE> - the x of the hot spot / 핫 스팟의 x<DD><CODE>y</CODE> - the y of the hot spot / 핫 스팟의 y</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDragImage()"><!-- --></A><H3>
+getDragImage</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A> <B>getDragImage</B>()</PRE>
+<DL>
+<DD>Returns the element that <code>setDragImage</code> chose as the picture of the drag, or null.
+ <p>
+ <code>setDragImage</code> 가 끌기의 그림으로 고른 요소를 반환한다. 없으면 null.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the element or null / 요소. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDragImageX()"><!-- --></A><H3>
+getDragImageX</H3>
+<PRE>
+public int <B>getDragImageX</B>()</PRE>
+<DL>
+<DD>Returns the x of the hot spot of the drag picture.
+ <p>
+ 끌기 그림의 핫 스팟 x 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>x / x</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDragImageY()"><!-- --></A><H3>
+getDragImageY</H3>
+<PRE>
+public int <B>getDragImageY</B>()</PRE>
+<DL>
+<DD>Returns the y of the hot spot of the drag picture.
+ <p>
+ 끌기 그림의 핫 스팟 y 를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>y / y</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="disable()"><!-- --></A><H3>
+disable</H3>
+<PRE>
+public void <B>disable</B>()</PRE>
+<DL>
+<DD>Ends the association with the drag operation (the disabled mode): after the event the data transfer shows nothing any more.
+ <p>
+ 끌기 작업과의 연결을 끊는다(무효화 모드): 이벤트가 끝나면 데이터 전달 객체는 더는 아무것도 보이지 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClassList.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ClipboardEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/ClipboardData.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="ClipboardData.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

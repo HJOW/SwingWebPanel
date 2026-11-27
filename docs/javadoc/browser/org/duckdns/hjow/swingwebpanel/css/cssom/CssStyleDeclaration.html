@@ -1,0 +1,853 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+CssStyleDeclaration
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="CssStyleDeclaration";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRuleList.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/DocumentStyleSheets.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CssStyleDeclaration.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.css.cssom</FONT>
+<BR>
+Class CssStyleDeclaration</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.css.cssom.CssStyleDeclaration</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>CssStyleDeclaration</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+A declaration block: the declarations of a style rule, of a <code>style</code> attribute or of a keyframe, parsed into longhand values. Shorthands are
+ expanded when they are stored; the normal and the <code>!important</code> declarations are kept apart because the cascade treats them as different
+ layers (within a block a later declaration replaces an earlier one of the same importance only). Custom properties are kept as component values.
+ The object also offers the CSSOM view of a declaration block (<code>getPropertyValue</code>, <code>setProperty</code>, <code>removeProperty</code>,
+ <code>cssText</code>) for the <code>style</code> object of an element.
+ <p>
+ 선언 블록: 스타일 규칙, <code>style</code> 속성, 키프레임의 선언을 개별 속성 값으로 파싱한 것. 단축 속성은 저장할 때 전개한다. 일반 선언과 <code>!important</code> 선언은
+ 캐스케이드가 서로 다른 층으로 다루므로 따로 보관한다(한 블록 안에서는 중요도가 같은 앞 선언만 뒤 선언으로 대체된다). 사용자 정의 속성은 컴포넌트 값으로 보관한다.
+ 요소의 <code>style</code> 객체를 위한 CSSOM 관점(<code>getPropertyValue</code>, <code>setProperty</code>, <code>removeProperty</code>, <code>cssText</code>)도 제공한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#CssStyleDeclaration()">CssStyleDeclaration</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates an empty declaration block.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#add(org.duckdns.hjow.swingwebpanel.css.syntax.SyntaxDeclaration, org.duckdns.hjow.swingwebpanel.css.values.ParseEnv, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)">add</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/SyntaxDeclaration.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">SyntaxDeclaration</A>&nbsp;d,
+    <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/ParseEnv.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">ParseEnv</A>&nbsp;env,
+    <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A>&nbsp;diag)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stores one declaration; invalid, unknown and unsupported declarations are dropped and reported.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#addAll(java.util.List, org.duckdns.hjow.swingwebpanel.css.values.ParseEnv, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)">addAll</A></B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/SyntaxDeclaration.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">SyntaxDeclaration</A>&gt;&nbsp;decls,
+       <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/ParseEnv.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">ParseEnv</A>&nbsp;env,
+       <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A>&nbsp;diag)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stores parsed declarations (the specified values, after shorthand expansion).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Map&lt;java.lang.String,java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#customImportant()">customImportant</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the important custom property declarations.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Map&lt;java.lang.String,java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#customNormal()">customNormal</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the normal custom property declarations.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#get(int)">get</A></B>(int&nbsp;id)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the longhand value stored for an id, important declarations first.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#getCssText()">getCssText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serializes the block (CSSOM <code>cssText</code>): <code>name: value;</code> for each property, with shorthands collapsed when all their
+ longhands are present with the same priority and the shorthand knows how to serialize them.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#getLength()">getLength</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of properties (longhands and custom properties) in the block.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#getParentRule()">getParentRule</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the rule that owns this block (the CSSOM <code>parentRule</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#getPropertyPriority(java.lang.String)">getPropertyPriority</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns <code>important</code> if the property was declared important, else the empty string.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#getPropertyValue(java.lang.String)">getPropertyValue</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the value of a property as text (CSSOM <code>getPropertyValue</code>); a shorthand is built from its longhands.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Map&lt;java.lang.Integer,<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#important()">important</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the important longhand declarations.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#isEmpty()">isEmpty</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the block has no declaration.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#isQuirks()">isQuirks</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether text that is written through <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setProperty(java.lang.String, java.lang.String, java.lang.String)"><CODE>setProperty(java.lang.String, java.lang.String, java.lang.String)</CODE></A> and <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setCssText(java.lang.String)"><CODE>setCssText(java.lang.String)</CODE></A> is parsed in quirks mode.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#item(int)">item</A></B>(int&nbsp;i)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the name of the property at an index (CSSOM <code>item()</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.Map&lt;java.lang.Integer,<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#normal()">normal</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the normal longhand declarations.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssStyleDeclaration</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#parse(java.lang.String, java.lang.String, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)">parse</A></B>(java.lang.String&nbsp;text,
+      java.lang.String&nbsp;base,
+      <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A>&nbsp;diag)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses declaration text (the content of a <code>style</code> attribute) into a new block.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssStyleDeclaration</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#parse(java.lang.String, java.lang.String, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics, boolean)">parse</A></B>(java.lang.String&nbsp;text,
+      java.lang.String&nbsp;base,
+      <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A>&nbsp;diag,
+      boolean&nbsp;quirks)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Parses declaration text into a new block, optionally in quirks mode (unitless lengths and hashless hex colors are accepted by the
+ properties that the Quirks Mode Standard names).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#removeProperty(java.lang.String)">removeProperty</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes a property or all longhands of a shorthand (CSSOM <code>removeProperty</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setBaseUrl(java.lang.String)">setBaseUrl</A></B>(java.lang.String&nbsp;base)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the base URL that relative urls written through <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setProperty(java.lang.String, java.lang.String, java.lang.String)"><CODE>setProperty(java.lang.String, java.lang.String, java.lang.String)</CODE></A> and <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setCssText(java.lang.String)"><CODE>setCssText(java.lang.String)</CODE></A> resolve against (the URL of the style sheet
+ of a rule).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setChangeListener(java.lang.Runnable)">setChangeListener</A></B>(java.lang.Runnable&nbsp;r)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Registers a listener that is called after each change.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setCssText(java.lang.String)">setCssText</A></B>(java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Replaces the whole block with parsed declaration text (CSSOM <code>cssText</code> setter).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setProperty(java.lang.String, java.lang.String, java.lang.String)">setProperty</A></B>(java.lang.String&nbsp;name,
+            java.lang.String&nbsp;value,
+            java.lang.String&nbsp;priority)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets a property from text (CSSOM <code>setProperty</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setQuirks(boolean)">setQuirks</A></B>(boolean&nbsp;quirks)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets whether text that is written later through <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setProperty(java.lang.String, java.lang.String, java.lang.String)"><CODE>setProperty(java.lang.String, java.lang.String, java.lang.String)</CODE></A> and <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setCssText(java.lang.String)"><CODE>setCssText(java.lang.String)</CODE></A> (the <code>style</code> of an element or a rule,
+ changed by script) is parsed in quirks mode, as the document or style sheet that owns the block is (CSS Values 4 appendix C: the
+ quirky lengths and the quirky hex colors are accepted when CSS is parsed in quirks mode).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#toString()">toString</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a debugging text.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="CssStyleDeclaration()"><!-- --></A><H3>
+CssStyleDeclaration</H3>
+<PRE>
+public <B>CssStyleDeclaration</B>()</PRE>
+<DL>
+<DD>Creates an empty declaration block.
+ <p>
+ 빈 선언 블록을 만든다.
+<P>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="parse(java.lang.String, java.lang.String, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)"><!-- --></A><H3>
+parse</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssStyleDeclaration</A> <B>parse</B>(java.lang.String&nbsp;text,
+                                        java.lang.String&nbsp;base,
+                                        <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A>&nbsp;diag)</PRE>
+<DL>
+<DD>Parses declaration text (the content of a <code>style</code> attribute) into a new block.
+ <p>
+ 선언 문자열(<code>style</code> 속성의 내용)을 파싱해 새 블록을 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - declarations / 선언<DD><CODE>base</CODE> - base URL for relative urls or null / 상대 url 의 기준 URL 또는 null<DD><CODE>diag</CODE> - collector or null / 수집기 또는 null
+<DT><B>Returns:</B><DD>the block / 블록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="parse(java.lang.String, java.lang.String, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics, boolean)"><!-- --></A><H3>
+parse</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssStyleDeclaration</A> <B>parse</B>(java.lang.String&nbsp;text,
+                                        java.lang.String&nbsp;base,
+                                        <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A>&nbsp;diag,
+                                        boolean&nbsp;quirks)</PRE>
+<DL>
+<DD>Parses declaration text into a new block, optionally in quirks mode (unitless lengths and hashless hex colors are accepted by the
+ properties that the Quirks Mode Standard names).
+ <p>
+ 선언 문자열을 새 블록으로 파싱한다. 호환 모드로 파싱할 수 있다(호환 모드 표준이 정한 속성에서 단위 없는 길이와 # 없는 16진수 색을 받는다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - declarations / 선언<DD><CODE>base</CODE> - base URL for relative urls or null / 상대 url 의 기준 URL 또는 null<DD><CODE>diag</CODE> - collector or null / 수집기 또는 null<DD><CODE>quirks</CODE> - true to parse in quirks mode / 호환 모드로 파싱하면 true
+<DT><B>Returns:</B><DD>the block / 블록</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setQuirks(boolean)"><!-- --></A><H3>
+setQuirks</H3>
+<PRE>
+public void <B>setQuirks</B>(boolean&nbsp;quirks)</PRE>
+<DL>
+<DD>Sets whether text that is written later through <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setProperty(java.lang.String, java.lang.String, java.lang.String)"><CODE>setProperty(java.lang.String, java.lang.String, java.lang.String)</CODE></A> and <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setCssText(java.lang.String)"><CODE>setCssText(java.lang.String)</CODE></A> (the <code>style</code> of an element or a rule,
+ changed by script) is parsed in quirks mode, as the document or style sheet that owns the block is (CSS Values 4 appendix C: the
+ quirky lengths and the quirky hex colors are accepted when CSS is parsed in quirks mode).
+ <p>
+ 나중에 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setProperty(java.lang.String, java.lang.String, java.lang.String)"><CODE>setProperty(java.lang.String, java.lang.String, java.lang.String)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setCssText(java.lang.String)"><CODE>setCssText(java.lang.String)</CODE></A> 로 쓰는 문자열(스크립트가 바꾸는 요소나 규칙의 <code>style</code>)을 블록을 가진 문서나 스타일 시트처럼 호환
+ 모드로 파싱할지 정한다(CSS Values 4 부록 C: 호환 모드로 CSS 를 파싱할 때 quirky length 와 quirky hex color 를 받는다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>quirks</CODE> - true to parse in quirks mode / 호환 모드로 파싱하면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isQuirks()"><!-- --></A><H3>
+isQuirks</H3>
+<PRE>
+public boolean <B>isQuirks</B>()</PRE>
+<DL>
+<DD>Tells whether text that is written through <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setProperty(java.lang.String, java.lang.String, java.lang.String)"><CODE>setProperty(java.lang.String, java.lang.String, java.lang.String)</CODE></A> and <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setCssText(java.lang.String)"><CODE>setCssText(java.lang.String)</CODE></A> is parsed in quirks mode.
+ <p>
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setProperty(java.lang.String, java.lang.String, java.lang.String)"><CODE>setProperty(java.lang.String, java.lang.String, java.lang.String)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setCssText(java.lang.String)"><CODE>setCssText(java.lang.String)</CODE></A> 로 쓰는 문자열을 호환 모드로 파싱하는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for quirks mode / 호환 모드이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setChangeListener(java.lang.Runnable)"><!-- --></A><H3>
+setChangeListener</H3>
+<PRE>
+public void <B>setChangeListener</B>(java.lang.Runnable&nbsp;r)</PRE>
+<DL>
+<DD>Registers a listener that is called after each change.
+ <p>
+ 변경마다 호출되는 리스너를 등록한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>r</CODE> - listener or null / 리스너 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setBaseUrl(java.lang.String)"><!-- --></A><H3>
+setBaseUrl</H3>
+<PRE>
+public void <B>setBaseUrl</B>(java.lang.String&nbsp;base)</PRE>
+<DL>
+<DD>Sets the base URL that relative urls written through <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setProperty(java.lang.String, java.lang.String, java.lang.String)"><CODE>setProperty(java.lang.String, java.lang.String, java.lang.String)</CODE></A> and <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setCssText(java.lang.String)"><CODE>setCssText(java.lang.String)</CODE></A> resolve against (the URL of the style sheet
+ of a rule).
+ <p>
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setProperty(java.lang.String, java.lang.String, java.lang.String)"><CODE>setProperty(java.lang.String, java.lang.String, java.lang.String)</CODE></A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html#setCssText(java.lang.String)"><CODE>setCssText(java.lang.String)</CODE></A> 로 쓰는 상대 url 을 해석하는 기준 URL 을 설정한다(규칙이 속한 스타일 시트의 URL).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>base</CODE> - the base URL or null / 기준 URL 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getParentRule()"><!-- --></A><H3>
+getParentRule</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A> <B>getParentRule</B>()</PRE>
+<DL>
+<DD>Returns the rule that owns this block (the CSSOM <code>parentRule</code>).
+ <p>
+ 이 블록을 가진 규칙을 반환한다(CSSOM <code>parentRule</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the rule, or null for the block of an element or a computed style / 규칙. 요소나 계산 스타일의 블록이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="addAll(java.util.List, org.duckdns.hjow.swingwebpanel.css.values.ParseEnv, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)"><!-- --></A><H3>
+addAll</H3>
+<PRE>
+public void <B>addAll</B>(java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/SyntaxDeclaration.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">SyntaxDeclaration</A>&gt;&nbsp;decls,
+                   <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/ParseEnv.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">ParseEnv</A>&nbsp;env,
+                   <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A>&nbsp;diag)</PRE>
+<DL>
+<DD>Stores parsed declarations (the specified values, after shorthand expansion).
+ <p>
+ 파싱한 선언(단축 속성 전개 뒤의 지정 값)을 저장한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>decls</CODE> - the declarations / 선언<DD><CODE>env</CODE> - parse environment / 파싱 환경<DD><CODE>diag</CODE> - collector or null / 수집기 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="add(org.duckdns.hjow.swingwebpanel.css.syntax.SyntaxDeclaration, org.duckdns.hjow.swingwebpanel.css.values.ParseEnv, org.duckdns.hjow.swingwebpanel.css.CssDiagnostics)"><!-- --></A><H3>
+add</H3>
+<PRE>
+public boolean <B>add</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/SyntaxDeclaration.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">SyntaxDeclaration</A>&nbsp;d,
+                   <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/ParseEnv.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">ParseEnv</A>&nbsp;env,
+                   <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/CssDiagnostics.html" title="class in org.duckdns.hjow.swingwebpanel.css">CssDiagnostics</A>&nbsp;diag)</PRE>
+<DL>
+<DD>Stores one declaration; invalid, unknown and unsupported declarations are dropped and reported.
+ <p>
+ 선언 하나를 저장한다. 올바르지 않거나 알 수 없거나 지원하지 않는 선언은 버리고 보고한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>d</CODE> - the declaration / 선언<DD><CODE>env</CODE> - parse environment / 파싱 환경<DD><CODE>diag</CODE> - collector or null / 수집기 또는 null
+<DT><B>Returns:</B><DD>true if the declaration was stored / 저장했으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="normal()"><!-- --></A><H3>
+normal</H3>
+<PRE>
+public java.util.Map&lt;java.lang.Integer,<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&gt; <B>normal</B>()</PRE>
+<DL>
+<DD>Returns the normal longhand declarations.
+ <p>
+ 일반 개별 속성 선언을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>map by property id in source order (do not modify) / 소스 순서의 속성 id 별 맵(수정하지 말 것)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="important()"><!-- --></A><H3>
+important</H3>
+<PRE>
+public java.util.Map&lt;java.lang.Integer,<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A>&gt; <B>important</B>()</PRE>
+<DL>
+<DD>Returns the important longhand declarations.
+ <p>
+ 중요한 개별 속성 선언을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>map by property id (do not modify) / 속성 id 별 맵(수정하지 말 것)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="customNormal()"><!-- --></A><H3>
+customNormal</H3>
+<PRE>
+public java.util.Map&lt;java.lang.String,java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&gt; <B>customNormal</B>()</PRE>
+<DL>
+<DD>Returns the normal custom property declarations.
+ <p>
+ 일반 사용자 정의 속성 선언을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>map by name (do not modify) / 이름별 맵(수정하지 말 것)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="customImportant()"><!-- --></A><H3>
+customImportant</H3>
+<PRE>
+public java.util.Map&lt;java.lang.String,java.util.List&lt;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/syntax/ComponentValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.syntax">ComponentValue</A>&gt;&gt; <B>customImportant</B>()</PRE>
+<DL>
+<DD>Returns the important custom property declarations.
+ <p>
+ 중요한 사용자 정의 속성 선언을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>map by name (do not modify) / 이름별 맵(수정하지 말 것)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isEmpty()"><!-- --></A><H3>
+isEmpty</H3>
+<PRE>
+public boolean <B>isEmpty</B>()</PRE>
+<DL>
+<DD>Tells whether the block has no declaration.
+ <p>
+ 블록에 선언이 없는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if empty / 비어 있으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLength()"><!-- --></A><H3>
+getLength</H3>
+<PRE>
+public int <B>getLength</B>()</PRE>
+<DL>
+<DD>Returns the number of properties (longhands and custom properties) in the block.
+ <p>
+ 블록에 든 속성(개별 속성과 사용자 정의 속성)의 수를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>count / 개수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="item(int)"><!-- --></A><H3>
+item</H3>
+<PRE>
+public java.lang.String <B>item</B>(int&nbsp;i)</PRE>
+<DL>
+<DD>Returns the name of the property at an index (CSSOM <code>item()</code>).
+ <p>
+ 위치의 속성 이름을 반환한다(CSSOM <code>item()</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>i</CODE> - index / 위치
+<DT><B>Returns:</B><DD>the name, or the empty string if out of range / 이름. 범위를 벗어나면 빈 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPropertyValue(java.lang.String)"><!-- --></A><H3>
+getPropertyValue</H3>
+<PRE>
+public java.lang.String <B>getPropertyValue</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns the value of a property as text (CSSOM <code>getPropertyValue</code>); a shorthand is built from its longhands.
+ <p>
+ 속성의 값을 문자열로 반환한다(CSSOM <code>getPropertyValue</code>). 단축 속성은 개별 속성으로 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the property name / 속성 이름
+<DT><B>Returns:</B><DD>the value, or the empty string if it is not set / 값. 설정되지 않았으면 빈 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPropertyPriority(java.lang.String)"><!-- --></A><H3>
+getPropertyPriority</H3>
+<PRE>
+public java.lang.String <B>getPropertyPriority</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns <code>important</code> if the property was declared important, else the empty string.
+ <p>
+ 속성이 important 로 선언되었으면 <code>important</code>, 아니면 빈 문자열을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the property name / 속성 이름
+<DT><B>Returns:</B><DD>the priority / 우선순위</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setProperty(java.lang.String, java.lang.String, java.lang.String)"><!-- --></A><H3>
+setProperty</H3>
+<PRE>
+public boolean <B>setProperty</B>(java.lang.String&nbsp;name,
+                           java.lang.String&nbsp;value,
+                           java.lang.String&nbsp;priority)</PRE>
+<DL>
+<DD>Sets a property from text (CSSOM <code>setProperty</code>). An invalid value leaves the block unchanged.
+ <p>
+ 문자열로 속성을 설정한다(CSSOM <code>setProperty</code>). 올바르지 않은 값은 블록을 바꾸지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the property name / 속성 이름<DD><CODE>value</CODE> - the value text; an empty value removes the property / 값 문자열. 빈 값은 속성을 지운다<DD><CODE>priority</CODE> - empty or <code>important</code> / 빈 문자열 또는 <code>important</code>
+<DT><B>Returns:</B><DD>true if the block changed / 블록이 바뀌었으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeProperty(java.lang.String)"><!-- --></A><H3>
+removeProperty</H3>
+<PRE>
+public java.lang.String <B>removeProperty</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Removes a property or all longhands of a shorthand (CSSOM <code>removeProperty</code>).
+ <p>
+ 속성이나 단축 속성의 모든 개별 속성을 지운다(CSSOM <code>removeProperty</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the property name / 속성 이름
+<DT><B>Returns:</B><DD>the previous value text (empty if it was not set) / 이전 값 문자열(설정되지 않았으면 빈 문자열)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setCssText(java.lang.String)"><!-- --></A><H3>
+setCssText</H3>
+<PRE>
+public void <B>setCssText</B>(java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Replaces the whole block with parsed declaration text (CSSOM <code>cssText</code> setter).
+ <p>
+ 블록 전체를 파싱한 선언 문자열로 바꾼다(CSSOM <code>cssText</code> 설정).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - declarations / 선언</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCssText()"><!-- --></A><H3>
+getCssText</H3>
+<PRE>
+public java.lang.String <B>getCssText</B>()</PRE>
+<DL>
+<DD>Serializes the block (CSSOM <code>cssText</code>): <code>name: value;</code> for each property, with shorthands collapsed when all their
+ longhands are present with the same priority and the shorthand knows how to serialize them.
+ <p>
+ 블록을 직렬화한다(CSSOM <code>cssText</code>): 속성마다 <code>name: value;</code>. 단축 속성의 모든 개별 속성이 같은 우선순위로 있고 단축 속성이 직렬화할 수 있으면 합친다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the text / 문자열</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="get(int)"><!-- --></A><H3>
+get</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/values/CssValue.html" title="class in org.duckdns.hjow.swingwebpanel.css.values">CssValue</A> <B>get</B>(int&nbsp;id)</PRE>
+<DL>
+<DD>Returns the longhand value stored for an id, important declarations first.
+ <p>
+ id 에 저장된 개별 속성 값을 반환한다. 중요한 선언이 우선이다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>id</CODE> - the property id / 속성 id
+<DT><B>Returns:</B><DD>the value or null / 값 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="toString()"><!-- --></A><H3>
+toString</H3>
+<PRE>
+public java.lang.String <B>toString</B>()</PRE>
+<DL>
+<DD>Returns a debugging text.
+ <p>
+ 디버깅용 문자열을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>toString</CODE> in class <CODE>java.lang.Object</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the CSS text / CSS 문자열</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRuleList.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/DocumentStyleSheets.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="CssStyleDeclaration.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

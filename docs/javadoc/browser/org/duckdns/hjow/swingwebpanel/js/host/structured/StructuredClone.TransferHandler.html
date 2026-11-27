@@ -1,0 +1,275 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+StructuredClone.TransferHandler
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="StructuredClone.TransferHandler";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredCloneException.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="StructuredClone.TransferHandler.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.host.structured</FONT>
+<BR>
+Interface StructuredClone.TransferHandler</H2>
+<DL>
+<DT><B>Enclosing class:</B><DD><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">StructuredClone</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public static interface <B>StructuredClone.TransferHandler</B></DL>
+</PRE>
+
+<P>
+The hook through which objects other than ArrayBuffers (for example a <code>MessagePort</code>) are put in a transfer list. The
+ serializer calls <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html#prepare(org.duckdns.hjow.swingwebpanel.js.JsObject)"><CODE>prepare(JsObject)</CODE></A> for every such entry without changing anything, then <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html#commit(org.duckdns.hjow.swingwebpanel.js.JsObject, java.lang.Object)"><CODE>commit(JsObject, Object)</CODE></A> once
+ the whole serialization succeeded (that is where the source gives up the object), and a receiver turns the payload into an object of its
+ own realm with <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html#receive(org.duckdns.hjow.swingwebpanel.js.JsRealm, java.lang.Object)"><CODE>receive(JsRealm, Object)</CODE></A>. A payload is moved, so it can be received once.
+ <p>
+ ArrayBuffer 가 아닌 객체(예: <code>MessagePort</code>)를 전달 목록에 넣기 위한 훅. 직렬화기는 그런 항목마다 아무것도 바꾸지 않고
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html#prepare(org.duckdns.hjow.swingwebpanel.js.JsObject)"><CODE>prepare(JsObject)</CODE></A> 를 부르고, 직렬화 전체가 성공하면 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html#commit(org.duckdns.hjow.swingwebpanel.js.JsObject, java.lang.Object)"><CODE>commit(JsObject, Object)</CODE></A> 를 한 번씩 부르며(여기서 원본이 객체를 내놓는다),
+ 받는 쪽은 <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html#receive(org.duckdns.hjow.swingwebpanel.js.JsRealm, java.lang.Object)"><CODE>receive(JsRealm, Object)</CODE></A> 로 내용물을 자기 realm 의 객체로 바꾼다. 내용물은 옮겨지므로 한 번만 받을 수 있다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html#commit(org.duckdns.hjow.swingwebpanel.js.JsObject, java.lang.Object)">commit</A></B>(org.duckdns.hjow.swingwebpanel.js.JsObject&nbsp;object,
+       java.lang.Object&nbsp;payload)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Called once for every prepared object after the whole serialization succeeded: the source object is given up.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.Object</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html#prepare(org.duckdns.hjow.swingwebpanel.js.JsObject)">prepare</A></B>(org.duckdns.hjow.swingwebpanel.js.JsObject&nbsp;object)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Checks an object of the transfer list and returns its payload; nothing may change here.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;org.duckdns.hjow.swingwebpanel.js.JsObject</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html#receive(org.duckdns.hjow.swingwebpanel.js.JsRealm, java.lang.Object)">receive</A></B>(org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;realm,
+        java.lang.Object&nbsp;payload)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the object of a payload in the realm of the receiver.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="prepare(org.duckdns.hjow.swingwebpanel.js.JsObject)"><!-- --></A><H3>
+prepare</H3>
+<PRE>
+java.lang.Object <B>prepare</B>(org.duckdns.hjow.swingwebpanel.js.JsObject&nbsp;object)</PRE>
+<DL>
+<DD>Checks an object of the transfer list and returns its payload; nothing may change here.
+ <p>
+ 전달 목록의 객체를 검사하고 내용물을 반환한다. 여기서는 아무것도 바꾸면 안 된다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>object</CODE> - the object of the transfer list / 전달 목록의 객체
+<DT><B>Returns:</B><DD>the payload, or null if the object cannot be transferred / 내용물. 전달할 수 없는 객체이면 null
+<DT><B>Throws:</B>
+<DD><CODE><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredCloneException.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">StructuredCloneException</A></CODE> - if the object is in a state that cannot be transferred / 전달할 수 없는 상태이면</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="commit(org.duckdns.hjow.swingwebpanel.js.JsObject, java.lang.Object)"><!-- --></A><H3>
+commit</H3>
+<PRE>
+void <B>commit</B>(org.duckdns.hjow.swingwebpanel.js.JsObject&nbsp;object,
+            java.lang.Object&nbsp;payload)</PRE>
+<DL>
+<DD>Called once for every prepared object after the whole serialization succeeded: the source object is given up.
+ <p>
+ 직렬화 전체가 성공한 뒤 준비된 객체마다 한 번 불린다: 원본 객체를 내놓는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>object</CODE> - the source object / 원본 객체<DD><CODE>payload</CODE> - the payload that <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html#prepare(org.duckdns.hjow.swingwebpanel.js.JsObject)"><CODE>prepare(JsObject)</CODE></A> returned / <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html#prepare(org.duckdns.hjow.swingwebpanel.js.JsObject)"><CODE>prepare(JsObject)</CODE></A> 가 반환한 내용물</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="receive(org.duckdns.hjow.swingwebpanel.js.JsRealm, java.lang.Object)"><!-- --></A><H3>
+receive</H3>
+<PRE>
+org.duckdns.hjow.swingwebpanel.js.JsObject <B>receive</B>(org.duckdns.hjow.swingwebpanel.js.JsRealm&nbsp;realm,
+                                                   java.lang.Object&nbsp;payload)</PRE>
+<DL>
+<DD>Creates the object of a payload in the realm of the receiver.
+ <p>
+ 내용물로 받는 쪽 realm 의 객체를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>realm</CODE> - the realm of the receiver / 받는 쪽 realm<DD><CODE>payload</CODE> - the payload / 내용물
+<DT><B>Returns:</B><DD>the new object / 새 객체</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredCloneException.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/host/structured/StructuredClone.TransferHandler.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="StructuredClone.TransferHandler.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

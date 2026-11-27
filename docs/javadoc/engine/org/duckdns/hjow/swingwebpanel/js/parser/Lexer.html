@@ -1,0 +1,549 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+Lexer
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="Lexer";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.State.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Lexer.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.parser</FONT>
+<BR>
+Class Lexer</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.parser.Lexer</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>Lexer</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+The lexical analyzer (ECMA-262 6th edition clause 11). It converts source text into <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser"><CODE>Token</CODE></A>s on demand:
+ Unicode identifiers with escapes, numeric literals (decimal, <code>0x</code>, <code>0o</code>, <code>0b</code>, legacy octal),
+ string literals with all escapes, template literal parts, comments, line terminators (LF, CR, CRLF, LS, PS) and punctuators.
+ <p>
+ Two things depend on the syntactic context and are therefore requested by the parser: a regular expression literal
+ (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#rescanRegExp(org.duckdns.hjow.swingwebpanel.js.parser.Token)"><CODE>rescanRegExp(Token)</CODE></A> re-reads a <code>/</code> or <code>/=</code> token as a regex) and the continuation of a template
+ after <code>}</code> (<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#rescanTemplateContinuation(org.duckdns.hjow.swingwebpanel.js.parser.Token)"><CODE>rescanTemplateContinuation(Token)</CODE></A>). <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#saveState()"><CODE>saveState()</CODE></A> and <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#restoreState(org.duckdns.hjow.swingwebpanel.js.parser.Lexer.State)"><CODE>restoreState(State)</CODE></A> support
+ the parser's speculation and lookahead. Lexical errors are thrown as SyntaxError <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>JsException</CODE></A>s carrying line and column.
+ <p>
+ ECMAScript 2016-2022 additions recognized by the grammar include the exponentiation punctuators, optional chaining,
+ nullish operators, numeric separators and BigInt literals.
+ <p>
+ 어휘 분석기(ECMA-262 6판 11장). 소스 텍스트를 필요할 때마다 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser"><CODE>Token</CODE></A> 으로 바꾼다: 이스케이프가 있는 유니코드 식별자,
+ 숫자 리터럴(10진, <code>0x</code>, <code>0o</code>, <code>0b</code>, 레거시 8진), 모든 이스케이프가 있는 문자열 리터럴,
+ 템플릿 리터럴 조각, 주석, 줄 끝(LF, CR, CRLF, LS, PS), 구두점.
+ <p>
+ 구문 문맥에 따라 달라지는 두 가지는 파서가 요청한다: 정규식 리터럴(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#rescanRegExp(org.duckdns.hjow.swingwebpanel.js.parser.Token)"><CODE>rescanRegExp(Token)</CODE></A> 이 <code>/</code> 또는 <code>/=</code> 토큰을
+ 정규식으로 다시 읽음)과 <code>}</code> 뒤의 템플릿 이어짐(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#rescanTemplateContinuation(org.duckdns.hjow.swingwebpanel.js.parser.Token)"><CODE>rescanTemplateContinuation(Token)</CODE></A>). <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#saveState()"><CODE>saveState()</CODE></A>,
+ <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#restoreState(org.duckdns.hjow.swingwebpanel.js.parser.Lexer.State)"><CODE>restoreState(State)</CODE></A> 는 파서의 추측 파싱과 미리 보기에 쓴다. 어휘 오류는 줄/열을 가진 SyntaxError <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js"><CODE>JsException</CODE></A> 으로 던진다.
+ <p>
+ 문법이 인식하는 ECMAScript 2016~2022 추가 요소에는 거듭제곱 구두점, optional chaining, nullish 연산자,
+ 숫자 구분자와 BigInt 리터럴이 포함된다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+
+<A NAME="nested_class_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Nested Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;class</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.State.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Lexer.State</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A snapshot of the lexer position used for backtracking.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#Lexer(java.lang.String, java.lang.String)">Lexer</A></B>(java.lang.String&nbsp;source,
+      java.lang.String&nbsp;sourceName)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a lexer for a source text.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#error(java.lang.String)">error</A></B>(java.lang.String&nbsp;message)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a SyntaxError for the current position.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#error(java.lang.String, int, int)">error</A></B>(java.lang.String&nbsp;message,
+      int&nbsp;atLine,
+      int&nbsp;atCol)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a SyntaxError for a given position.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#getSource()">getSource</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the source text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#getSourceName()">getSourceName</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the source name.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#next()">next</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reads the next token.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#rescanRegExp(org.duckdns.hjow.swingwebpanel.js.parser.Token)">rescanRegExp</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;slash)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Re-reads a <code>/</code> or <code>/=</code> token as a regular expression literal (called by the parser where an
+ expression may start).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#rescanTemplateContinuation(org.duckdns.hjow.swingwebpanel.js.parser.Token)">rescanTemplateContinuation</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;rbrace)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Re-reads the continuation of a template after the closing brace of a substitution.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#resetAfter(org.duckdns.hjow.swingwebpanel.js.parser.Token)">resetAfter</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Positions the lexer right after a token so that the next token is read from there.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#restoreState(org.duckdns.hjow.swingwebpanel.js.parser.Lexer.State)">restoreState</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.State.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Lexer.State</A>&nbsp;s)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns to a saved position.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.State.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Lexer.State</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#saveState()">saveState</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Captures the current position.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#setModule(boolean)">setModule</A></B>(boolean&nbsp;module)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Selects the Module goal: HTML-like comments are then not recognized.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="Lexer(java.lang.String, java.lang.String)"><!-- --></A><H3>
+Lexer</H3>
+<PRE>
+public <B>Lexer</B>(java.lang.String&nbsp;source,
+             java.lang.String&nbsp;sourceName)</PRE>
+<DL>
+<DD>Creates a lexer for a source text.
+ <p>
+ 소스 텍스트용 렉서를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>source</CODE> - the source text / 소스 텍스트<DD><CODE>sourceName</CODE> - name used in errors (file name or URL) / 오류에 쓰는 이름(파일 이름이나 URL)</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="setModule(boolean)"><!-- --></A><H3>
+setModule</H3>
+<PRE>
+public void <B>setModule</B>(boolean&nbsp;module)</PRE>
+<DL>
+<DD>Selects the Module goal: HTML-like comments are then not recognized.
+ <p>
+ Module 목표를 선택한다. 이때 HTML 유사 주석은 인식하지 않는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>module</CODE> - true for modules / 모듈이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSource()"><!-- --></A><H3>
+getSource</H3>
+<PRE>
+public java.lang.String <B>getSource</B>()</PRE>
+<DL>
+<DD>Returns the source text.
+ <p>
+ 소스 텍스트를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the source / 소스</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getSourceName()"><!-- --></A><H3>
+getSourceName</H3>
+<PRE>
+public java.lang.String <B>getSourceName</B>()</PRE>
+<DL>
+<DD>Returns the source name.
+ <p>
+ 소스 이름을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the name / 이름</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="saveState()"><!-- --></A><H3>
+saveState</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.State.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Lexer.State</A> <B>saveState</B>()</PRE>
+<DL>
+<DD>Captures the current position.
+ <p>
+ 현재 위치를 저장한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>a snapshot / 스냅샷</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="restoreState(org.duckdns.hjow.swingwebpanel.js.parser.Lexer.State)"><!-- --></A><H3>
+restoreState</H3>
+<PRE>
+public void <B>restoreState</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.State.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Lexer.State</A>&nbsp;s)</PRE>
+<DL>
+<DD>Returns to a saved position.
+ <p>
+ 저장한 위치로 돌아간다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>s</CODE> - a snapshot from <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#saveState()"><CODE>saveState()</CODE></A> / <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#saveState()"><CODE>saveState()</CODE></A> 의 스냅샷</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="resetAfter(org.duckdns.hjow.swingwebpanel.js.parser.Token)"><!-- --></A><H3>
+resetAfter</H3>
+<PRE>
+public void <B>resetAfter</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;t)</PRE>
+<DL>
+<DD>Positions the lexer right after a token so that the next token is read from there.
+ <p>
+ 렉서를 토큰 바로 뒤에 놓아 다음 토큰을 거기서부터 읽게 한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>t</CODE> - the token / 토큰</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="error(java.lang.String)"><!-- --></A><H3>
+error</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A> <B>error</B>(java.lang.String&nbsp;message)</PRE>
+<DL>
+<DD>Creates a SyntaxError for the current position.
+ <p>
+ 현재 위치의 SyntaxError 를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>message</CODE> - the message / 메시지
+<DT><B>Returns:</B><DD>the exception to throw / 던질 예외</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="error(java.lang.String, int, int)"><!-- --></A><H3>
+error</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/JsException.html" title="class in org.duckdns.hjow.swingwebpanel.js">JsException</A> <B>error</B>(java.lang.String&nbsp;message,
+                         int&nbsp;atLine,
+                         int&nbsp;atCol)</PRE>
+<DL>
+<DD>Creates a SyntaxError for a given position.
+ <p>
+ 지정한 위치의 SyntaxError 를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>message</CODE> - the message / 메시지<DD><CODE>atLine</CODE> - 1-based line / 줄(1부터)<DD><CODE>atCol</CODE> - 1-based column / 열(1부터)
+<DT><B>Returns:</B><DD>the exception to throw / 던질 예외</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="next()"><!-- --></A><H3>
+next</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A> <B>next</B>()</PRE>
+<DL>
+<DD>Reads the next token. A slash is always returned as a division punctuator; use <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#rescanRegExp(org.duckdns.hjow.swingwebpanel.js.parser.Token)"><CODE>rescanRegExp(Token)</CODE></A> where a
+ regular expression is allowed.
+ <p>
+ 다음 토큰을 읽는다. 슬래시는 항상 나눗셈 구두점으로 반환하며, 정규식이 올 수 있는 자리에서는 <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html#rescanRegExp(org.duckdns.hjow.swingwebpanel.js.parser.Token)"><CODE>rescanRegExp(Token)</CODE></A> 를 쓴다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the token (type EOF at the end) / 토큰(끝이면 EOF)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="rescanTemplateContinuation(org.duckdns.hjow.swingwebpanel.js.parser.Token)"><!-- --></A><H3>
+rescanTemplateContinuation</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A> <B>rescanTemplateContinuation</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;rbrace)</PRE>
+<DL>
+<DD>Re-reads the continuation of a template after the closing brace of a substitution.
+ <p>
+ 치환의 닫는 중괄호 뒤에서 템플릿의 이어지는 부분을 다시 읽는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>rbrace</CODE> - the <code>}</code> token that ended the substitution / 치환을 끝낸 <code>}</code> 토큰
+<DT><B>Returns:</B><DD>the TEMPLATE token (middle or tail) / TEMPLATE 토큰(중간 또는 꼬리)</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="rescanRegExp(org.duckdns.hjow.swingwebpanel.js.parser.Token)"><!-- --></A><H3>
+rescanRegExp</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A> <B>rescanRegExp</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Token.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser">Token</A>&nbsp;slash)</PRE>
+<DL>
+<DD>Re-reads a <code>/</code> or <code>/=</code> token as a regular expression literal (called by the parser where an
+ expression may start). The pattern is not validated here; flags are checked.
+ <p>
+ <code>/</code> 또는 <code>/=</code> 토큰을 정규식 리터럴로 다시 읽는다(표현식이 시작될 수 있는 자리에서 파서가 호출).
+ 패턴은 여기서 검증하지 않고 플래그만 검사한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>slash</CODE> - the slash token / 슬래시 토큰
+<DT><B>Returns:</B><DD>the REGEXP token / REGEXP 토큰</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;PREV CLASS&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/parser/Lexer.State.html" title="class in org.duckdns.hjow.swingwebpanel.js.parser"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/parser/Lexer.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="Lexer.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;<A HREF="#nested_class_summary">NESTED</A>&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

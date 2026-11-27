@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+org.duckdns.hjow.swingwebpanel.media.webaudio.output
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="org.duckdns.hjow.swingwebpanel.media.webaudio.output";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/net/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/output/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<H2>
+Package org.duckdns.hjow.swingwebpanel.media.webaudio.output
+</H2>
+The sound output of a real-time Web Audio context (plan item P25-07): the <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/AudioOutput.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>AudioOutput</CODE></A>
+ that the rendering thread writes float audio to, the <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>OutputFactory</CODE></A> that opens
+ it, and two implementations: <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/JavaSoundOutput.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>JavaSoundOutput</CODE></A> (a Java Sound line, public API
+ <code>javax.sound.sampled</code> only) and <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/NullOutput.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>NullOutput</CODE></A> (no device: the sound
+ is discarded but the writes are paced to wall-clock time, so the context clock runs at real speed).
+<P>
+<B>See:</B>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="#package_description"><B>Description</B></A>
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Interface Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/AudioOutput.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output">AudioOutput</A></B></TD>
+<TD>One open sound output of a real-time Web Audio context (plan item P25-07): a queue of float audio of a fixed sample rate and channel
+ count that a device (or a stand-in for it) plays at real speed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/JavaSoundOutput.Lines.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output">JavaSoundOutput.Lines</A></B></TD>
+<TD>The access to the lines of the sound system; a test replaces it with a fake device, and <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/JavaSoundOutput.html#system()"><CODE>JavaSoundOutput.system()</CODE></A> gives the real one.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output">OutputFactory</A></B></TD>
+<TD>Opens the sound output of a real-time Web Audio context (plan item P25-07).</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Class Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/JavaSoundOutput.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.output">JavaSoundOutput</A></B></TD>
+<TD>The output on a Java Sound <CODE>SourceDataLine</CODE> of the default mixer (public API <code>javax.sound.sampled</code> only), playing 16-bit
+ signed little-endian PCM.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/NullOutput.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.output">NullOutput</A></B></TD>
+<TD>The output for a machine without a sound device (plan item P25-07): it discards the audio, but it behaves like a device of a fixed
+ buffer that plays at real speed.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/SystemOutputFactory.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.output">SystemOutputFactory</A></B></TD>
+<TD>The default <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>OutputFactory</CODE></A>: it opens a <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/JavaSoundOutput.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>JavaSoundOutput</CODE></A> on the default mixer of Java Sound.</TD>
+</TR>
+</TABLE>
+&nbsp;
+
+<P>
+<A NAME="package_description"><!-- --></A><H2>
+Package org.duckdns.hjow.swingwebpanel.media.webaudio.output Description
+</H2>
+
+<P>
+The sound output of a real-time Web Audio context (plan item P25-07): the <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/AudioOutput.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>AudioOutput</CODE></A>
+ that the rendering thread writes float audio to, the <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>OutputFactory</CODE></A> that opens
+ it, and two implementations: <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/JavaSoundOutput.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>JavaSoundOutput</CODE></A> (a Java Sound line, public API
+ <code>javax.sound.sampled</code> only) and <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/NullOutput.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>NullOutput</CODE></A> (no device: the sound
+ is discarded but the writes are paced to wall-clock time, so the context clock runs at real speed). The package is pure Java and knows
+ nothing about the graph; the OutputRenderDriver in the parent package owns the rendering thread.
+ <p>
+ 실시간 Web Audio 컨텍스트의 소리 출력(계획 P25-07): 렌더링 스레드가 float 오디오를 쓰는
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/AudioOutput.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>AudioOutput</CODE></A>, 그것을 여는
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/OutputFactory.html" title="interface in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>OutputFactory</CODE></A>, 그리고 구현 둘:
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/JavaSoundOutput.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>JavaSoundOutput</CODE></A>(Java Sound 라인, 공개 API <code>javax.sound.sampled</code> 만 사용)과
+ <A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/output/NullOutput.html" title="class in org.duckdns.hjow.swingwebpanel.media.webaudio.output"><CODE>NullOutput</CODE></A>(장치 없음: 소리는 버리지만 쓰기를 벽시계 속도로 늦추므로 컨텍스트 시계가
+ 실제 속도로 진행한다). 이 패키지는 순수 Java 이며 그래프를 모른다. 렌더링 스레드는 상위 패키지의 OutputRenderDriver 가 가진다.
+<P>
+
+<P>
+<DL>
+</DL>
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/media/webaudio/dsp/package-summary.html"><B>PREV PACKAGE</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../../org/duckdns/hjow/swingwebpanel/net/package-summary.html"><B>NEXT PACKAGE</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../../index.html?org/duckdns/hjow/swingwebpanel/media/webaudio/output/package-summary.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="package-summary.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

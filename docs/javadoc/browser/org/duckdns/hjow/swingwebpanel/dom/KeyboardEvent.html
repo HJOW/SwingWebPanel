@@ -1,0 +1,631 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+KeyboardEvent
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="KeyboardEvent";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/InputEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ListenerErrorHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/KeyboardEvent.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="KeyboardEvent.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.dom</FONT>
+<BR>
+Class KeyboardEvent</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html" title="class in org.duckdns.hjow.swingwebpanel.dom">org.duckdns.hjow.swingwebpanel.dom.Event</A>
+      <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">org.duckdns.hjow.swingwebpanel.dom.UiEvent</A>
+          <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.dom.KeyboardEvent</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public class <B>KeyboardEvent</B><DT>extends <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">UiEvent</A></DL>
+</PRE>
+
+<P>
+A keyboard event (UI Events): the value of the key (<code>key</code>), the physical key (<code>code</code>), where on the keyboard it
+ is, whether it repeats, and the legacy <code>keyCode</code>, <code>charCode</code> and <code>which</code> that old scripts read.
+ <p>
+ 키보드 이벤트(UI Events): 키의 값(<code>key</code>), 물리적 키(<code>code</code>), 키보드의 위치, 반복 여부, 오래된 스크립트가 읽는 예전
+ <code>keyCode</code>, <code>charCode</code>, <code>which</code>.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/KeyboardEvent.html#DOM_KEY_LOCATION_LEFT">DOM_KEY_LOCATION_LEFT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Location: the left key of a pair (Shift, Control ...).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/KeyboardEvent.html#DOM_KEY_LOCATION_NUMPAD">DOM_KEY_LOCATION_NUMPAD</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Location: the numeric keypad.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/KeyboardEvent.html#DOM_KEY_LOCATION_RIGHT">DOM_KEY_LOCATION_RIGHT</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Location: the right key of a pair.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/KeyboardEvent.html#DOM_KEY_LOCATION_STANDARD">DOM_KEY_LOCATION_STANDARD</A></B></CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Location: the standard part of the keyboard.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.Event"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Event</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#AT_TARGET">AT_TARGET</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#BUBBLING_PHASE">BUBBLING_PHASE</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#CAPTURING_PHASE">CAPTURING_PHASE</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#NONE">NONE</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/KeyboardEvent.html#KeyboardEvent(java.lang.String, boolean, boolean)">KeyboardEvent</A></B>(java.lang.String&nbsp;type,
+              boolean&nbsp;bubbles,
+              boolean&nbsp;cancelable)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a keyboard event.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/KeyboardEvent.html#getCharCode()">getCharCode</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the legacy character code.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/KeyboardEvent.html#getCode()">getCode</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the physical key.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/KeyboardEvent.html#getKey()">getKey</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the key value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/KeyboardEvent.html#getKeyCode()">getKeyCode</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the legacy key code.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/KeyboardEvent.html#getLocation()">getLocation</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the location of the key.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/KeyboardEvent.html#getWhich()">getWhich</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the legacy <code>which</code>: the character code for <code>keypress</code>, the key code otherwise.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/KeyboardEvent.html#isComposing()">isComposing</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether an input method composes text.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/KeyboardEvent.html#isRepeat()">isRepeat</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the key repeats.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/KeyboardEvent.html#setKey(java.lang.String, java.lang.String, int, int, int)">setKey</A></B>(java.lang.String&nbsp;keyValue,
+       java.lang.String&nbsp;codeValue,
+       int&nbsp;keyLocation,
+       int&nbsp;legacyKey,
+       int&nbsp;legacyChar)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets what identifies the key.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/KeyboardEvent.html#setStates(boolean, boolean)">setStates</A></B>(boolean&nbsp;repeating,
+          boolean&nbsp;isComposing)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets the repeat and composing flags.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.UiEvent"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">UiEvent</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#getDetail()">getDetail</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#getModifierState(java.lang.String)">getModifierState</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#isAltKey()">isAltKey</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#isCtrlKey()">isCtrlKey</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#isMetaKey()">isMetaKey</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#isShiftKey()">isShiftKey</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#setDetail(int)">setDetail</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/UiEvent.html#setModifiers(boolean, boolean, boolean, boolean)">setModifiers</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.dom.Event"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.dom.<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Event</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#composedPath()">composedPath</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#getCurrentTarget()">getCurrentTarget</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#getEventPhase()">getEventPhase</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#getTarget()">getTarget</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#getTimeStamp()">getTimeStamp</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#getType()">getType</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#initEvent(java.lang.String, boolean, boolean)">initEvent</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isBubbles()">isBubbles</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isCancelable()">isCancelable</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isComposed()">isComposed</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isDefaultPrevented()">isDefaultPrevented</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#isTrusted()">isTrusted</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#preventDefault()">preventDefault</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#setComposed(boolean)">setComposed</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#setTrusted(boolean)">setTrusted</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#stopImmediatePropagation()">stopImmediatePropagation</A>, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/Event.html#stopPropagation()">stopPropagation</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ FIELD DETAIL =========== -->
+
+<A NAME="field_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Field Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="DOM_KEY_LOCATION_STANDARD"><!-- --></A><H3>
+DOM_KEY_LOCATION_STANDARD</H3>
+<PRE>
+public static final int <B>DOM_KEY_LOCATION_STANDARD</B></PRE>
+<DL>
+<DD>Location: the standard part of the keyboard.
+ <p>
+ 위치: 키보드의 표준 부분.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.KeyboardEvent.DOM_KEY_LOCATION_STANDARD">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DOM_KEY_LOCATION_LEFT"><!-- --></A><H3>
+DOM_KEY_LOCATION_LEFT</H3>
+<PRE>
+public static final int <B>DOM_KEY_LOCATION_LEFT</B></PRE>
+<DL>
+<DD>Location: the left key of a pair (Shift, Control ...).
+ <p>
+ 위치: 쌍을 이루는 키(Shift, Control 등)의 왼쪽.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.KeyboardEvent.DOM_KEY_LOCATION_LEFT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DOM_KEY_LOCATION_RIGHT"><!-- --></A><H3>
+DOM_KEY_LOCATION_RIGHT</H3>
+<PRE>
+public static final int <B>DOM_KEY_LOCATION_RIGHT</B></PRE>
+<DL>
+<DD>Location: the right key of a pair.
+ <p>
+ 위치: 쌍을 이루는 키의 오른쪽.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.KeyboardEvent.DOM_KEY_LOCATION_RIGHT">Constant Field Values</A></DL>
+</DL>
+<HR>
+
+<A NAME="DOM_KEY_LOCATION_NUMPAD"><!-- --></A><H3>
+DOM_KEY_LOCATION_NUMPAD</H3>
+<PRE>
+public static final int <B>DOM_KEY_LOCATION_NUMPAD</B></PRE>
+<DL>
+<DD>Location: the numeric keypad.
+ <p>
+ 위치: 숫자 키패드.
+<P>
+<DL>
+<DT><B>See Also:</B><DD><A HREF="../../../../../constant-values.html#org.duckdns.hjow.swingwebpanel.dom.KeyboardEvent.DOM_KEY_LOCATION_NUMPAD">Constant Field Values</A></DL>
+</DL>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="KeyboardEvent(java.lang.String, boolean, boolean)"><!-- --></A><H3>
+KeyboardEvent</H3>
+<PRE>
+public <B>KeyboardEvent</B>(java.lang.String&nbsp;type,
+                     boolean&nbsp;bubbles,
+                     boolean&nbsp;cancelable)</PRE>
+<DL>
+<DD>Creates a keyboard event.
+ <p>
+ 키보드 이벤트를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>type</CODE> - the event type / 이벤트 종류<DD><CODE>bubbles</CODE> - whether it bubbles / 버블링 여부<DD><CODE>cancelable</CODE> - whether it can be cancelled / 취소 가능 여부</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="setKey(java.lang.String, java.lang.String, int, int, int)"><!-- --></A><H3>
+setKey</H3>
+<PRE>
+public void <B>setKey</B>(java.lang.String&nbsp;keyValue,
+                   java.lang.String&nbsp;codeValue,
+                   int&nbsp;keyLocation,
+                   int&nbsp;legacyKey,
+                   int&nbsp;legacyChar)</PRE>
+<DL>
+<DD>Sets what identifies the key.
+ <p>
+ 키를 식별하는 값을 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>keyValue</CODE> - the key value / 키 값<DD><CODE>codeValue</CODE> - the physical key / 물리적 키<DD><CODE>keyLocation</CODE> - the location / 위치<DD><CODE>legacyKey</CODE> - the legacy key code / 예전 키 코드<DD><CODE>legacyChar</CODE> - the legacy character code / 예전 문자 코드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setStates(boolean, boolean)"><!-- --></A><H3>
+setStates</H3>
+<PRE>
+public void <B>setStates</B>(boolean&nbsp;repeating,
+                      boolean&nbsp;isComposing)</PRE>
+<DL>
+<DD>Sets the repeat and composing flags.
+ <p>
+ 반복과 조합 표시를 지정한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>repeating</CODE> - whether the key repeats / 키가 반복되는지<DD><CODE>isComposing</CODE> - whether an input method composes / 입력기가 조합 중인지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getKey()"><!-- --></A><H3>
+getKey</H3>
+<PRE>
+public java.lang.String <B>getKey</B>()</PRE>
+<DL>
+<DD>Returns the key value.
+ <p>
+ 키 값을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the key / 키</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCode()"><!-- --></A><H3>
+getCode</H3>
+<PRE>
+public java.lang.String <B>getCode</B>()</PRE>
+<DL>
+<DD>Returns the physical key.
+ <p>
+ 물리적 키를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the code / 코드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLocation()"><!-- --></A><H3>
+getLocation</H3>
+<PRE>
+public int <B>getLocation</B>()</PRE>
+<DL>
+<DD>Returns the location of the key.
+ <p>
+ 키의 위치를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the location / 위치</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isRepeat()"><!-- --></A><H3>
+isRepeat</H3>
+<PRE>
+public boolean <B>isRepeat</B>()</PRE>
+<DL>
+<DD>Tells whether the key repeats.
+ <p>
+ 키가 반복되는지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if repeating / 반복이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isComposing()"><!-- --></A><H3>
+isComposing</H3>
+<PRE>
+public boolean <B>isComposing</B>()</PRE>
+<DL>
+<DD>Tells whether an input method composes text.
+ <p>
+ 입력기가 텍스트를 조합 중인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if composing / 조합 중이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getKeyCode()"><!-- --></A><H3>
+getKeyCode</H3>
+<PRE>
+public int <B>getKeyCode</B>()</PRE>
+<DL>
+<DD>Returns the legacy key code.
+ <p>
+ 예전 키 코드를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the code / 코드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCharCode()"><!-- --></A><H3>
+getCharCode</H3>
+<PRE>
+public int <B>getCharCode</B>()</PRE>
+<DL>
+<DD>Returns the legacy character code.
+ <p>
+ 예전 문자 코드를 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the code / 코드</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getWhich()"><!-- --></A><H3>
+getWhich</H3>
+<PRE>
+public int <B>getWhich</B>()</PRE>
+<DL>
+<DD>Returns the legacy <code>which</code>: the character code for <code>keypress</code>, the key code otherwise.
+ <p>
+ 예전 <code>which</code> 를 반환한다. <code>keypress</code> 는 문자 코드, 그 밖에는 키 코드이다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the value / 값</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/InputEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/dom/ListenerErrorHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.dom"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/dom/KeyboardEvent.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="KeyboardEvent.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#field_summary">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;<A HREF="#field_detail">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

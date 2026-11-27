@@ -1,0 +1,371 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+PortApi
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="PortApi";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/ChannelTarget.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/PortTarget.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/worker/PortApi.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PortApi.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.worker</FONT>
+<BR>
+Class PortApi</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.worker.PortApi</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>PortApi</B><DT>extends java.lang.Object</DL>
+</PRE>
+
+<P>
+Channel messaging of a script context (HTML Standard "Channel messaging", plan item P20-09-b): installs <code>MessageChannel</code> and
+ <code>MessagePort</code> (<code>postMessage</code>, <code>start</code>, <code>close</code>, <code>onmessage</code>,
+ <code>onmessageerror</code>, the <code>message</code> event) into the realm of a page or of a worker, and offers the steps that
+ <code>window.postMessage</code> and <code>structuredClone</code> of the page need to send ports along with a message. A port is the end of a
+ channel (<CODE>PortCore</CODE>) that any context can own: a port in the transfer list of <code>postMessage</code> (of a window, a port, a
+ <code>Worker</code> or the global scope of a worker) is given to the receiver with its queue and its entanglement, so a page and a worker
+ (or two workers, or a shared worker and its clients) can talk through a channel whose ends were created in other places. A port starts to
+ deliver when <code>start()</code> is called or <code>onmessage</code> is set for the first time; what arrives earlier waits in its queue (at
+ most <CODE>PortCore.MAX_QUEUED</CODE> messages). Messages are delivered as tasks of the owner of the receiving port, never while the sender
+ runs.
+ <p>
+ 스크립트 문맥의 채널 메시징(HTML 표준 "Channel messaging", 계획 P20-09-b): 페이지나 worker 의 realm 에 <code>MessageChannel</code> 과
+ <code>MessagePort</code>(<code>postMessage</code>, <code>start</code>, <code>close</code>, <code>onmessage</code>, <code>onmessageerror</code>,
+ <code>message</code> 이벤트)를 설치하고, 페이지의 <code>window.postMessage</code> 와 <code>structuredClone</code> 이 메시지와 함께 포트를 보내는 데 필요한
+ 단계를 제공한다. 포트는 어느 문맥이나 소유할 수 있는 채널의 끝(<CODE>PortCore</CODE>)이다: (window, 포트, <code>Worker</code>, worker 전역 범위의)
+ <code>postMessage</code> 전달 목록에 든 포트는 큐와 얽힘을 가진 채 받는 쪽에 주어지므로, 페이지와 worker(또는 worker 둘, 공유 worker 와 그 클라이언트)가 다른
+ 곳에서 만든 끝을 가진 채널로 대화할 수 있다. 포트는 <code>start()</code> 를 부르거나 <code>onmessage</code> 를 처음 지정할 때 전달을 시작하며 그전에 도착한
+ 것은 큐에서 기다린다(최대 <CODE>PortCore.MAX_QUEUED</CODE> 개). 메시지는 받는 포트의 소유자의 작업으로 전달되며 보내는 쪽이 실행되는 동안에는 절대 전달되지 않는다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;org.duckdns.hjow.swingwebpanel.js.JsValue</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/PortApi.html#deserialize(org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue)">deserialize</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A>&nbsp;data)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the value of a serialized message in the realm of the page (the ports that it carries become ports of the page).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/PortApi.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker">PortApi</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/PortApi.html#installInPage(org.duckdns.hjow.swingwebpanel.js.host.PageScripts)">installInPage</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageScripts.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">PageScripts</A>&nbsp;page)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Installs <code>MessageChannel</code> and <code>MessagePort</code> into the realm of a page and returns the steps that the messaging of
+ the window needs.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/PortApi.html#isPort(org.duckdns.hjow.swingwebpanel.js.JsValue)">isPort</A></B>(org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;v)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether a value is a <code>MessagePort</code> object.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/MessageEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">MessageEvent</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/PortApi.html#receiveEvent(org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue, java.lang.String, java.lang.Object)">receiveEvent</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A>&nbsp;data,
+             java.lang.String&nbsp;origin,
+             java.lang.Object&nbsp;source)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the message or messageerror event that a window receives after deserialization.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/PortApi.html#serialize(org.duckdns.hjow.swingwebpanel.js.JsValue, java.util.List)">serialize</A></B>(org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;message,
+          java.util.List&lt;org.duckdns.hjow.swingwebpanel.js.JsObject&gt;&nbsp;transfer)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serializes a message of the page; a failure is a <code>DataCloneError</code>, the transferred objects are given up on success.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;org.duckdns.hjow.swingwebpanel.js.JsObject&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/PortApi.html#transferList(org.duckdns.hjow.swingwebpanel.js.JsValue)">transferList</A></B>(org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;arg)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reads the transfer list of a <code>postMessage</code> call of the window (ArrayBuffers and ports).</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="installInPage(org.duckdns.hjow.swingwebpanel.js.host.PageScripts)"><!-- --></A><H3>
+installInPage</H3>
+<PRE>
+public static <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/PortApi.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker">PortApi</A> <B>installInPage</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/PageScripts.html" title="class in org.duckdns.hjow.swingwebpanel.js.host">PageScripts</A>&nbsp;page)</PRE>
+<DL>
+<DD>Installs <code>MessageChannel</code> and <code>MessagePort</code> into the realm of a page and returns the steps that the messaging of
+ the window needs. Call it once, on the thread that creates the page, after the event interfaces and <code>MessageEvent</code> exist.
+ <p>
+ 페이지의 realm 에 <code>MessageChannel</code> 과 <code>MessagePort</code> 를 설치하고, window 메시징에 필요한 단계를 반환한다. 이벤트 인터페이스와
+ <code>MessageEvent</code> 가 생긴 뒤 페이지를 만드는 스레드에서 한 번 부른다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>page</CODE> - the page / 페이지
+<DT><B>Returns:</B><DD>the facade of the page / 페이지의 정면 객체</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="transferList(org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+transferList</H3>
+<PRE>
+public java.util.List&lt;org.duckdns.hjow.swingwebpanel.js.JsObject&gt; <B>transferList</B>(org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;arg)</PRE>
+<DL>
+<DD>Reads the transfer list of a <code>postMessage</code> call of the window (ArrayBuffers and ports).
+ <p>
+ window 의 <code>postMessage</code> 호출의 전달 목록(ArrayBuffer 와 포트)을 읽는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>arg</CODE> - the argument, an array or <code>{transfer}</code> (may be undefined) / 인수. 배열 또는 <code>{transfer}</code>(undefined 일 수 있다)
+<DT><B>Returns:</B><DD>the objects to transfer, null for none / 전달할 객체. 없으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="serialize(org.duckdns.hjow.swingwebpanel.js.JsValue, java.util.List)"><!-- --></A><H3>
+serialize</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A> <B>serialize</B>(org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;message,
+                             java.util.List&lt;org.duckdns.hjow.swingwebpanel.js.JsObject&gt;&nbsp;transfer)</PRE>
+<DL>
+<DD>Serializes a message of the page; a failure is a <code>DataCloneError</code>, the transferred objects are given up on success.
+ <p>
+ 페이지의 메시지를 직렬화한다. 실패는 <code>DataCloneError</code> 이며 성공하면 전달한 객체를 내놓는다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>message</CODE> - the message / 메시지<DD><CODE>transfer</CODE> - the transfer list or null / 전달 목록. 없으면 null
+<DT><B>Returns:</B><DD>the serialized message / 직렬화된 메시지</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="deserialize(org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue)"><!-- --></A><H3>
+deserialize</H3>
+<PRE>
+public org.duckdns.hjow.swingwebpanel.js.JsValue <B>deserialize</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A>&nbsp;data)</PRE>
+<DL>
+<DD>Creates the value of a serialized message in the realm of the page (the ports that it carries become ports of the page).
+ <p>
+ 직렬화된 메시지의 값을 페이지의 realm 에 만든다(함께 온 포트는 페이지의 포트가 된다).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - the serialized message / 직렬화된 메시지
+<DT><B>Returns:</B><DD>the value / 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="receiveEvent(org.duckdns.hjow.swingwebpanel.js.host.structured.ClonedValue, java.lang.String, java.lang.Object)"><!-- --></A><H3>
+receiveEvent</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/MessageEvent.html" title="class in org.duckdns.hjow.swingwebpanel.dom">MessageEvent</A> <B>receiveEvent</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/host/structured/ClonedValue.html" title="class in org.duckdns.hjow.swingwebpanel.js.host.structured">ClonedValue</A>&nbsp;data,
+                                 java.lang.String&nbsp;origin,
+                                 java.lang.Object&nbsp;source)</PRE>
+<DL>
+<DD>Creates the message or messageerror event that a window receives after deserialization.
+ <p>
+ 역직렬화 뒤 window가 받는 message 또는 messageerror 이벤트를 만든다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>data</CODE> - the serialized message / 직렬화된 메시지<DD><CODE>origin</CODE> - the origin of the sender / 보낸 쪽의 오리진<DD><CODE>source</CODE> - the source object of the event / 이벤트의 소스 객체
+<DT><B>Returns:</B><DD>the event to dispatch / 전달할 이벤트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isPort(org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+isPort</H3>
+<PRE>
+public static boolean <B>isPort</B>(org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;v)</PRE>
+<DL>
+<DD>Tells whether a value is a <code>MessagePort</code> object.
+ <p>
+ 값이 <code>MessagePort</code> 객체인지 알려 준다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>v</CODE> - the value / 값
+<DT><B>Returns:</B><DD>true for a port / 포트이면 true</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/ChannelTarget.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/worker/PortTarget.html" title="class in org.duckdns.hjow.swingwebpanel.js.worker"><B>NEXT CLASS</B></A></FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/worker/PortApi.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="PortApi.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;CONSTR&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

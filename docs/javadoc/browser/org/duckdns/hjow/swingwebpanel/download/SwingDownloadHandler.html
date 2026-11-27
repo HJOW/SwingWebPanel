@@ -1,0 +1,527 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+SwingDownloadHandler
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="SwingDownloadHandler";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadDialog.html" title="class in org.duckdns.hjow.swingwebpanel.download"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SwingDownloadHandler.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.download</FONT>
+<BR>
+Class SwingDownloadHandler</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.download.SwingDownloadHandler</B>
+</PRE>
+<DL>
+<DT><B>All Implemented Interfaces:</B> <DD><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DownloadHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.core">DownloadHandler</A></DD>
+</DL>
+<HR>
+<DL>
+<DT><PRE>public class <B>SwingDownloadHandler</B><DT>extends java.lang.Object<DT>implements <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DownloadHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.core">DownloadHandler</A></DL>
+</PRE>
+
+<P>
+The download manager of a browser component (plan item P11-09, API contract section 7): it receives the navigations that must be
+ downloaded, shows one non-modal popup per download, transfers the data on a background thread through the component's request layer
+ (user agent, extra headers, cookies, the SSL extension point and the scheme restrictions of the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceFetcher.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>ResourceFetcher</CODE></A>) and saves it
+ as a file. Several downloads can run at the same time.
+ <p>
+ How a transfer goes: the data is written to a partial file <code>name.part-xxxxxxxx</code> in the directory of the target (by default
+ the Downloads folder of the user, or the home directory) and renamed when it is complete; an existing target is replaced only after the
+ user confirmed it in the popup, and replacing never loses either file. A cancelled or failed download deletes its partial file; a
+ completed file is never deleted, not even by <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#cancelAll()"><CODE>cancelAll()</CODE></A> or <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#dispose()"><CODE>dispose()</CODE></A>.
+ <p>
+ Hosts and tests replace the popup by overriding <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#createDownloadPopup(org.duckdns.hjow.swingwebpanel.download.DownloadRequest, org.duckdns.hjow.swingwebpanel.download.DownloadControl)"><CODE>createDownloadPopup(org.duckdns.hjow.swingwebpanel.download.DownloadRequest, org.duckdns.hjow.swingwebpanel.download.DownloadControl)</CODE></A>. In a headless environment (no screen) a download is
+ cancelled at once and the reason is reported through the <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadStatusSink.html" title="interface in org.duckdns.hjow.swingwebpanel.download"><CODE>DownloadStatusSink</CODE></A>.
+ <p>
+ Usage (inside the component): <code>new SwingDownloadHandler(this, fetcher, cookies, sink)</code> and install it with the session's
+ <code>setDownloadHandler</code>; call <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#dispose()"><CODE>dispose()</CODE></A> when the component is disposed and <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#cancelAll()"><CODE>cancelAll()</CODE></A> on <code>clean()</code>.
+ <p>
+ 브라우저 컴포넌트의 다운로드 관리자(계획 P11-09, API 계약 7절): 내려받아야 하는 이동을 받아 다운로드마다 모달이 아닌 팝업을 하나씩 보여 주고,
+ 컴포넌트의 요청 계층(User-Agent, 추가 헤더, 쿠키, SSL 확장 지점, <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceFetcher.html" title="class in org.duckdns.hjow.swingwebpanel.net"><CODE>ResourceFetcher</CODE></A> 의 스킴 제한)으로 백그라운드 스레드에서 데이터를
+ 전송하여 파일로 저장한다. 여러 다운로드를 동시에 처리할 수 있다.
+ <p>
+ 전송 방식: 데이터는 대상이 있는 디렉터리(기본은 사용자의 Downloads 폴더, 없으면 홈 디렉터리)의 부분 파일 <code>name.part-xxxxxxxx</code> 에
+ 쓰고 끝나면 이름을 바꾼다. 기존 대상은 팝업에서 사용자가 확인한 뒤에만 교체하며 교체 중에도 어느 쪽 파일도 잃지 않는다. 취소되거나 실패한
+ 다운로드는 부분 파일을 지우고, 완료된 파일은 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#cancelAll()"><CODE>cancelAll()</CODE></A> 이나 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#dispose()"><CODE>dispose()</CODE></A> 로도 지우지 않는다.
+ <p>
+ 호스트와 시험은 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#createDownloadPopup(org.duckdns.hjow.swingwebpanel.download.DownloadRequest, org.duckdns.hjow.swingwebpanel.download.DownloadControl)"><CODE>createDownloadPopup(org.duckdns.hjow.swingwebpanel.download.DownloadRequest, org.duckdns.hjow.swingwebpanel.download.DownloadControl)</CODE></A> 을 재정의하여 팝업을 바꾼다. 헤드리스 환경(화면 없음)에서는 다운로드를 즉시 취소하고 이유를
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadStatusSink.html" title="interface in org.duckdns.hjow.swingwebpanel.download"><CODE>DownloadStatusSink</CODE></A> 로 알린다.
+ <p>
+ 사용법(컴포넌트 안에서): <code>new SwingDownloadHandler(this, fetcher, cookies, sink)</code> 를 만들어 세션의 <code>setDownloadHandler</code> 로
+ 설치하고, 컴포넌트가 폐기될 때 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#dispose()"><CODE>dispose()</CODE></A>, <code>clean()</code> 때 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#cancelAll()"><CODE>cancelAll()</CODE></A> 을 호출한다.
+<P>
+
+<P>
+<HR>
+
+<P>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#SwingDownloadHandler(java.awt.Component, org.duckdns.hjow.swingwebpanel.net.ResourceFetcher, org.duckdns.hjow.swingwebpanel.net.CookieStore, org.duckdns.hjow.swingwebpanel.download.DownloadStatusSink)">SwingDownloadHandler</A></B>(java.awt.Component&nbsp;owner,
+                     <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceFetcher.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceFetcher</A>&nbsp;fetcher,
+                     <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CookieStore.html" title="class in org.duckdns.hjow.swingwebpanel.net">CookieStore</A>&nbsp;cookies,
+                     <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadStatusSink.html" title="interface in org.duckdns.hjow.swingwebpanel.download">DownloadStatusSink</A>&nbsp;sink)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates a download manager.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#awaitIdle(long)">awaitIdle</A></B>(long&nbsp;timeoutMillis)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Waits until all downloads have ended (their partial files are then deleted or renamed).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#cancelAll()">cancelAll</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cancels every running download and closes its popup.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadHandle.html" title="interface in org.duckdns.hjow.swingwebpanel.download">DownloadHandle</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#createDownloadPopup(org.duckdns.hjow.swingwebpanel.download.DownloadRequest, org.duckdns.hjow.swingwebpanel.download.DownloadControl)">createDownloadPopup</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html" title="class in org.duckdns.hjow.swingwebpanel.download">DownloadRequest</A>&nbsp;request,
+                    <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadControl.html" title="interface in org.duckdns.hjow.swingwebpanel.download">DownloadControl</A>&nbsp;control)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the popup of a download.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#dispose()">dispose</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cancels everything like <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#cancelAll()"><CODE>cancelAll()</CODE></A> and refuses new downloads from now on.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#downloadRequired(org.duckdns.hjow.swingwebpanel.core.NavigationRequest, org.duckdns.hjow.swingwebpanel.core.DownloadRequiredException)">downloadRequired</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/NavigationRequest.html" title="class in org.duckdns.hjow.swingwebpanel.core">NavigationRequest</A>&nbsp;request,
+                 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DownloadRequiredException.html" title="class in org.duckdns.hjow.swingwebpanel.core">DownloadRequiredException</A>&nbsp;download)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts the download of a navigation that turned out to be a file (called on a background thread by the session).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#getActiveCount()">getActiveCount</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of downloads that have not finished (including those that are still cancelling).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;java.io.File</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#getDefaultDirectory()">getDefaultDirectory</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the directory in which downloads are saved by default: the Downloads folder of the user if it exists, else the home
+ directory.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>protected &nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#isHeadless()">isHeadless</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether the environment has no screen (downloads are then cancelled).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadControl.html" title="interface in org.duckdns.hjow.swingwebpanel.download">DownloadControl</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#start(org.duckdns.hjow.swingwebpanel.download.DownloadRequest)">start</A></B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html" title="class in org.duckdns.hjow.swingwebpanel.download">DownloadRequest</A>&nbsp;request)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Starts a download.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="SwingDownloadHandler(java.awt.Component, org.duckdns.hjow.swingwebpanel.net.ResourceFetcher, org.duckdns.hjow.swingwebpanel.net.CookieStore, org.duckdns.hjow.swingwebpanel.download.DownloadStatusSink)"><!-- --></A><H3>
+SwingDownloadHandler</H3>
+<PRE>
+public <B>SwingDownloadHandler</B>(java.awt.Component&nbsp;owner,
+                            <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/ResourceFetcher.html" title="class in org.duckdns.hjow.swingwebpanel.net">ResourceFetcher</A>&nbsp;fetcher,
+                            <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/net/CookieStore.html" title="class in org.duckdns.hjow.swingwebpanel.net">CookieStore</A>&nbsp;cookies,
+                            <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadStatusSink.html" title="interface in org.duckdns.hjow.swingwebpanel.download">DownloadStatusSink</A>&nbsp;sink)</PRE>
+<DL>
+<DD>Creates a download manager.
+ <p>
+ 다운로드 관리자를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>owner</CODE> - the browser component; its window becomes the parent of the popups (may be null) / 브라우저 컴포넌트. 그 창이 팝업의 부모가 된다(null 가능)<DD><CODE>fetcher</CODE> - the request layer of the component (SSL hook, limits, scheme policy), not null / 컴포넌트의 요청 계층(SSL 훅, 제한, 스킴 정책). null 불가<DD><CODE>cookies</CODE> - the cookie store of the component, not null / 컴포넌트의 쿠키 저장소. null 불가<DD><CODE>sink</CODE> - receiver of short status messages, may be null / 짧은 상태 메시지를 받는 곳. null 가능</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="downloadRequired(org.duckdns.hjow.swingwebpanel.core.NavigationRequest, org.duckdns.hjow.swingwebpanel.core.DownloadRequiredException)"><!-- --></A><H3>
+downloadRequired</H3>
+<PRE>
+public void <B>downloadRequired</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/NavigationRequest.html" title="class in org.duckdns.hjow.swingwebpanel.core">NavigationRequest</A>&nbsp;request,
+                             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DownloadRequiredException.html" title="class in org.duckdns.hjow.swingwebpanel.core">DownloadRequiredException</A>&nbsp;download)</PRE>
+<DL>
+<DD>Starts the download of a navigation that turned out to be a file (called on a background thread by the session).
+ <p>
+ 파일로 판명된 이동의 다운로드를 시작한다(세션이 백그라운드 스레드에서 호출한다).
+<P>
+<DD><DL>
+<DT><B>Specified by:</B><DD><CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DownloadHandler.html#downloadRequired(org.duckdns.hjow.swingwebpanel.core.NavigationRequest, org.duckdns.hjow.swingwebpanel.core.DownloadRequiredException)">downloadRequired</A></CODE> in interface <CODE><A HREF="../../../../../org/duckdns/hjow/swingwebpanel/core/DownloadHandler.html" title="interface in org.duckdns.hjow.swingwebpanel.core">DownloadHandler</A></CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>request</CODE> - the navigation request that found the download / 다운로드를 발견한 이동 요청<DD><CODE>download</CODE> - description of the response / 응답의 설명</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="start(org.duckdns.hjow.swingwebpanel.download.DownloadRequest)"><!-- --></A><H3>
+start</H3>
+<PRE>
+public <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadControl.html" title="interface in org.duckdns.hjow.swingwebpanel.download">DownloadControl</A> <B>start</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html" title="class in org.duckdns.hjow.swingwebpanel.download">DownloadRequest</A>&nbsp;request)</PRE>
+<DL>
+<DD>Starts a download. In a headless environment or after <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#dispose()"><CODE>dispose()</CODE></A> nothing is transferred.
+ <p>
+ 다운로드를 시작한다. 헤드리스 환경이거나 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#dispose()"><CODE>dispose()</CODE></A> 뒤에는 아무것도 전송하지 않는다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>request</CODE> - the download / 다운로드
+<DT><B>Returns:</B><DD>the control of the started download, or null if it was refused / 시작한 다운로드의 제어 객체. 거부했으면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="cancelAll()"><!-- --></A><H3>
+cancelAll</H3>
+<PRE>
+public void <B>cancelAll</B>()</PRE>
+<DL>
+<DD>Cancels every running download and closes its popup. Finished downloads and their files are not touched. The partial files are
+ deleted by the transfer threads; use <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#awaitIdle(long)"><CODE>awaitIdle(long)</CODE></A> to wait for that.
+ <p>
+ 실행 중인 모든 다운로드를 취소하고 팝업을 닫는다. 끝난 다운로드와 그 파일은 건드리지 않는다. 부분 파일은 전송 스레드가 지우며,
+ 기다리려면 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#awaitIdle(long)"><CODE>awaitIdle(long)</CODE></A> 을 쓴다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="dispose()"><!-- --></A><H3>
+dispose</H3>
+<PRE>
+public void <B>dispose</B>()</PRE>
+<DL>
+<DD>Cancels everything like <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#cancelAll()"><CODE>cancelAll()</CODE></A> and refuses new downloads from now on.
+ <p>
+ <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html#cancelAll()"><CODE>cancelAll()</CODE></A> 처럼 모두 취소하고 이후의 새 다운로드를 거부한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getActiveCount()"><!-- --></A><H3>
+getActiveCount</H3>
+<PRE>
+public int <B>getActiveCount</B>()</PRE>
+<DL>
+<DD>Returns the number of downloads that have not finished (including those that are still cancelling).
+ <p>
+ 아직 끝나지 않은 다운로드의 수를 반환한다(취소를 마무리하는 중인 것 포함).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>count / 개수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="awaitIdle(long)"><!-- --></A><H3>
+awaitIdle</H3>
+<PRE>
+public boolean <B>awaitIdle</B>(long&nbsp;timeoutMillis)</PRE>
+<DL>
+<DD>Waits until all downloads have ended (their partial files are then deleted or renamed).
+ <p>
+ 모든 다운로드가 끝날 때까지 기다린다(그때 부분 파일은 지워지거나 이름이 바뀌어 있다).
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>timeoutMillis</CODE> - longest time to wait / 최대 대기 시간
+<DT><B>Returns:</B><DD>true if no download is active any more / 더 이상 활성 다운로드가 없으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="createDownloadPopup(org.duckdns.hjow.swingwebpanel.download.DownloadRequest, org.duckdns.hjow.swingwebpanel.download.DownloadControl)"><!-- --></A><H3>
+createDownloadPopup</H3>
+<PRE>
+protected <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadHandle.html" title="interface in org.duckdns.hjow.swingwebpanel.download">DownloadHandle</A> <B>createDownloadPopup</B>(<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadRequest.html" title="class in org.duckdns.hjow.swingwebpanel.download">DownloadRequest</A>&nbsp;request,
+                                             <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/DownloadControl.html" title="interface in org.duckdns.hjow.swingwebpanel.download">DownloadControl</A>&nbsp;control)</PRE>
+<DL>
+<DD>Creates the popup of a download. Called on the event dispatch thread. Hosts and tests override it to show their own popup or to
+ observe the download; the default creates a <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadDialog.html" title="class in org.duckdns.hjow.swingwebpanel.download"><CODE>SwingDownloadDialog</CODE></A> whose parent is the window of the owner component.
+ <p>
+ 다운로드의 팝업을 만든다. 이벤트 디스패치 스레드에서 호출된다. 호스트와 시험은 이것을 재정의하여 자신의 팝업을 보여 주거나 다운로드를
+ 관찰한다. 기본 구현은 부모가 소유 컴포넌트의 창인 <A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadDialog.html" title="class in org.duckdns.hjow.swingwebpanel.download"><CODE>SwingDownloadDialog</CODE></A> 를 만든다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>request</CODE> - what is downloaded / 내려받는 대상<DD><CODE>control</CODE> - how the popup can cancel the download or change its target / 팝업이 다운로드를 취소하거나 대상을 바꾸는 방법
+<DT><B>Returns:</B><DD>the popup / 팝업</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isHeadless()"><!-- --></A><H3>
+isHeadless</H3>
+<PRE>
+protected boolean <B>isHeadless</B>()</PRE>
+<DL>
+<DD>Tells whether the environment has no screen (downloads are then cancelled). Tests override it.
+ <p>
+ 환경에 화면이 없는지 알려 준다(이때 다운로드는 취소된다). 시험이 재정의한다.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true if headless / 헤드리스이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getDefaultDirectory()"><!-- --></A><H3>
+getDefaultDirectory</H3>
+<PRE>
+protected java.io.File <B>getDefaultDirectory</B>()</PRE>
+<DL>
+<DD>Returns the directory in which downloads are saved by default: the Downloads folder of the user if it exists, else the home
+ directory.
+ <p>
+ 다운로드를 기본으로 저장하는 디렉터리를 반환한다: 사용자의 Downloads 폴더가 있으면 그것, 없으면 홈 디렉터리.
+<P>
+<DD><DL>
+</DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>directory / 디렉터리</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../org/duckdns/hjow/swingwebpanel/download/SwingDownloadDialog.html" title="class in org.duckdns.hjow.swingwebpanel.download"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../index.html?org/duckdns/hjow/swingwebpanel/download/SwingDownloadHandler.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="SwingDownloadHandler.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>

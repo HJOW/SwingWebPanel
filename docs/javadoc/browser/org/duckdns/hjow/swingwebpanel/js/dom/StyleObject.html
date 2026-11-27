@@ -1,0 +1,688 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--NewPage-->
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>
+StyleObject
+</TITLE>
+
+
+<LINK REL ="stylesheet" TYPE="text/css" HREF="../../../../../../stylesheet.css" TITLE="Style">
+
+<SCRIPT type="text/javascript">
+function windowTitle()
+{
+    if (location.href.indexOf('is-external=true') == -1) {
+        parent.document.title="StyleObject";
+    }
+}
+</SCRIPT>
+<NOSCRIPT>
+</NOSCRIPT>
+
+</HEAD>
+
+<BODY BGCOLOR="white" onload="windowTitle();">
+<HR>
+
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<A NAME="navbar_top"><!-- --></A>
+<A HREF="#skip-navbar_top" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_top_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/StorageObject.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/dom/StyleObject.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="StyleObject.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsObject">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_top"></A>
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<HR>
+<!-- ======== START OF CLASS DATA ======== -->
+<H2>
+<FONT SIZE="-1">
+org.duckdns.hjow.swingwebpanel.js.dom</FONT>
+<BR>
+Class StyleObject</H2>
+<PRE>
+java.lang.Object
+  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by ">org.duckdns.hjow.swingwebpanel.js.JsValue
+      <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by ">org.duckdns.hjow.swingwebpanel.js.JsWeakKey
+          <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by ">org.duckdns.hjow.swingwebpanel.js.JsObject
+              <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/HostObject.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom">org.duckdns.hjow.swingwebpanel.js.dom.HostObject</A>
+                  <IMG SRC="../../../../../../resources/inherit.gif" ALT="extended by "><B>org.duckdns.hjow.swingwebpanel.js.dom.StyleObject</B>
+</PRE>
+<HR>
+<DL>
+<DT><PRE>public final class <B>StyleObject</B><DT>extends <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/HostObject.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom">HostObject</A></DL>
+</PRE>
+
+<P>
+The script object of a <code>CSSStyleDeclaration</code>: either the <em>inline style</em> of an element (<code>element.style</code>,
+ readable and writable; every write parses the <code>style</code> attribute, changes one declaration and writes the attribute back, so the
+ style resolver and the serialization always agree) or a <em>computed style</em> snapshot (<code>getComputedStyle</code>, read-only).
+ CSS properties are reachable by their dashed names and by their camel-case names (<code>style.backgroundColor</code>,
+ <code>style['background-color']</code>, <code>style.cssFloat</code>); other names are ordinary properties.
+ <p>
+ <code>CSSStyleDeclaration</code> 의 스크립트 객체: 요소의 <em>인라인 스타일</em>(<code>element.style</code>, 읽기/쓰기. 쓸 때마다
+ <code>style</code> 속성을 해석해 선언 하나를 바꾸고 속성에 다시 써서 스타일 리졸버와 직렬화가 항상 일치한다) 또는 <em>계산 스타일</em> 스냅샷
+ (<code>getComputedStyle</code>, 읽기 전용). CSS 프로퍼티는 대시 이름과 카멜 케이스 이름(<code>style.backgroundColor</code>,
+ <code>style['background-color']</code>, <code>style.cssFloat</code>)으로 접근하며 그 밖의 이름은 일반 프로퍼티이다.
+<P>
+
+<P>
+<HR>
+
+<P>
+<!-- =========== FIELD SUMMARY =========== -->
+
+<A NAME="field_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Field Summary</B></FONT></TH>
+</TR>
+</TABLE>
+&nbsp;<A NAME="fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsObject"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Fields inherited from class org.duckdns.hjow.swingwebpanel.js.JsObject</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>extensible, properties, prototype</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+
+<A NAME="constructor_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Constructor Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/StyleObject.html#StyleObject(org.duckdns.hjow.swingwebpanel.js.dom.DomBridge, org.duckdns.hjow.swingwebpanel.js.JsObject, org.duckdns.hjow.swingwebpanel.css.cssom.CssStyleDeclaration)">StyleObject</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/DomBridge.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom">DomBridge</A>&nbsp;bridge,
+            org.duckdns.hjow.swingwebpanel.js.JsObject&nbsp;proto,
+            <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssStyleDeclaration</A>&nbsp;block)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the object of the declaration block of a rule (<code>rule.style</code>), which is read and written directly.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/StyleObject.html#StyleObject(org.duckdns.hjow.swingwebpanel.js.dom.DomBridge, org.duckdns.hjow.swingwebpanel.js.JsObject, org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)">StyleObject</A></B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/DomBridge.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom">DomBridge</A>&nbsp;bridge,
+            org.duckdns.hjow.swingwebpanel.js.JsObject&nbsp;proto,
+            <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element,
+            <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;computed)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates the object.</TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ========== METHOD SUMMARY =========== -->
+
+<A NAME="method_summary"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="2"><FONT SIZE="+2">
+<B>Method Summary</B></FONT></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>static&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/StyleObject.html#cssName(java.lang.Object)">cssName</A></B>(java.lang.Object&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Converts a script property name to a dashed CSS property name, or returns null if the name is not a CSS property.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/StyleObject.html#getCssText()">getCssText</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the serialized declarations (<code>cssText</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;int</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/StyleObject.html#getLength()">getLength</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the number of declarations (inline style only).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;org.duckdns.hjow.swingwebpanel.js.Property</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/StyleObject.html#getOwnPropertySlot(java.lang.Object)">getOwnPropertySlot</A></B>(java.lang.Object&nbsp;key)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns a CSS property as a data property when the key names one (and is not a member of the interface).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A></CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/StyleObject.html#getParentRule()">getParentRule</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the rule that owns the declaration block (the CSSOM <code>parentRule</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/StyleObject.html#getPropertyPriority(java.lang.String)">getPropertyPriority</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the priority (<code>important</code> or "") of an inline declaration.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/StyleObject.html#getPropertyValue(java.lang.String)">getPropertyValue</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the value of a property as the standard serializes it.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/StyleObject.html#isComputed()">isComputed</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tells whether this is a read-only computed style.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/StyleObject.html#item(int)">item</A></B>(int&nbsp;i)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the name of the declaration at an index.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.util.List&lt;java.lang.Object&gt;</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/StyleObject.html#ownKeys()">ownKeys</A></B>()</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns the declaration names (indices) followed by the ordinary own keys.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;java.lang.String</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/StyleObject.html#removeProperty(java.lang.String)">removeProperty</A></B>(java.lang.String&nbsp;name)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Removes a property of the inline style and returns its old value.</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;boolean</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/StyleObject.html#set(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue, org.duckdns.hjow.swingwebpanel.js.JsValue)">set</A></B>(java.lang.Object&nbsp;key,
+    org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;value,
+    org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;receiver)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Assigns a CSS property of the inline style (<code>style.color = 'red'</code>).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/StyleObject.html#setCssText(java.lang.String)">setCssText</A></B>(java.lang.String&nbsp;text)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Replaces all declarations (<code>cssText = ...</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
+<CODE>&nbsp;void</CODE></FONT></TD>
+<TD><CODE><B><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/StyleObject.html#setProperty(java.lang.String, java.lang.String, java.lang.String)">setProperty</A></B>(java.lang.String&nbsp;name,
+            java.lang.String&nbsp;value,
+            java.lang.String&nbsp;priority)</CODE>
+
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sets or removes a property of the inline style (an empty value removes it); ignored for computed styles.</TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.dom.HostObject"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.js.dom.<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/HostObject.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom">HostObject</A></B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE><A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/HostObject.html#className()">className</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/HostObject.html#getBridge()">getBridge</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/HostObject.html#getTarget()">getTarget</A>, <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/HostObject.html#storeProperty(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.Property)">storeProperty</A></CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsObject"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.js.JsObject</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>call, construct, createDataProperty, createDataPropertyOrThrow, defineAccessor, defineBuiltin, defineData, defineOwnProperty, definePropertyOrThrow, delete, ensureCanAddPrivateElement, get, get, getOwnProperty, getPrototypeOf, getString, hasOwnProperty, hasProperty, isArray, isCallable, isConstructor, isExtensible, preventExtensions, removeProperty, set, setPrototypeOf, setStrict, toString, type, validateAndApply</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsWeakKey"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.js.JsWeakKey</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>getWeakAssociation, putWeakAssociation, removeWeakAssociation</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsValue"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class org.duckdns.hjow.swingwebpanel.js.JsValue</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>hasIsHtmlDda, isNull, isNullOrUndefined, isObject, isUndefined, typeOf</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#EEEEFF" CLASS="TableSubHeadingColor">
+<TH ALIGN="left"><B>Methods inherited from class java.lang.Object</B></TH>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD><CODE>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</CODE></TD>
+</TR>
+</TABLE>
+&nbsp;
+<P>
+
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+
+<A NAME="constructor_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Constructor Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="StyleObject(org.duckdns.hjow.swingwebpanel.js.dom.DomBridge, org.duckdns.hjow.swingwebpanel.js.JsObject, org.duckdns.hjow.swingwebpanel.dom.Element, org.duckdns.hjow.swingwebpanel.css.cascade.ComputedStyle)"><!-- --></A><H3>
+StyleObject</H3>
+<PRE>
+public <B>StyleObject</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/DomBridge.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom">DomBridge</A>&nbsp;bridge,
+                   org.duckdns.hjow.swingwebpanel.js.JsObject&nbsp;proto,
+                   <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/dom/Element.html" title="class in org.duckdns.hjow.swingwebpanel.dom">Element</A>&nbsp;element,
+                   <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cascade/ComputedStyle.html" title="class in org.duckdns.hjow.swingwebpanel.css.cascade">ComputedStyle</A>&nbsp;computed)</PRE>
+<DL>
+<DD>Creates the object.
+ <p>
+ 객체를 만든다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>bridge</CODE> - the bridge / 브리지<DD><CODE>proto</CODE> - the CSSStyleDeclaration prototype / CSSStyleDeclaration 프로토타입<DD><CODE>element</CODE> - the element for an inline style, or null / 인라인 스타일이면 요소, 아니면 null<DD><CODE>computed</CODE> - the computed style, or null / 계산 스타일 또는 null</DL>
+</DL>
+<HR>
+
+<A NAME="StyleObject(org.duckdns.hjow.swingwebpanel.js.dom.DomBridge, org.duckdns.hjow.swingwebpanel.js.JsObject, org.duckdns.hjow.swingwebpanel.css.cssom.CssStyleDeclaration)"><!-- --></A><H3>
+StyleObject</H3>
+<PRE>
+public <B>StyleObject</B>(<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/DomBridge.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom">DomBridge</A>&nbsp;bridge,
+                   org.duckdns.hjow.swingwebpanel.js.JsObject&nbsp;proto,
+                   <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssStyleDeclaration.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssStyleDeclaration</A>&nbsp;block)</PRE>
+<DL>
+<DD>Creates the object of the declaration block of a rule (<code>rule.style</code>), which is read and written directly.
+ <p>
+ 규칙의 선언 블록(<code>rule.style</code>)의 객체를 만든다. 블록을 직접 읽고 쓴다.
+<P>
+<DL>
+<DT><B>Parameters:</B><DD><CODE>bridge</CODE> - the bridge / 브리지<DD><CODE>proto</CODE> - the CSSStyleDeclaration prototype / CSSStyleDeclaration 프로토타입<DD><CODE>block</CODE> - the declaration block of the rule / 규칙의 선언 블록</DL>
+</DL>
+
+<!-- ============ METHOD DETAIL ========== -->
+
+<A NAME="method_detail"><!-- --></A>
+<TABLE BORDER="1" WIDTH="100%" CELLPADDING="3" CELLSPACING="0" SUMMARY="">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+<TH ALIGN="left" COLSPAN="1"><FONT SIZE="+2">
+<B>Method Detail</B></FONT></TH>
+</TR>
+</TABLE>
+
+<A NAME="getParentRule()"><!-- --></A><H3>
+getParentRule</H3>
+<PRE>
+public <A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/css/cssom/CssRule.html" title="class in org.duckdns.hjow.swingwebpanel.css.cssom">CssRule</A> <B>getParentRule</B>()</PRE>
+<DL>
+<DD>Returns the rule that owns the declaration block (the CSSOM <code>parentRule</code>).
+ <p>
+ 선언 블록을 가진 규칙을 반환한다(CSSOM <code>parentRule</code>).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the rule, or null for the style of an element and for a computed style / 규칙. 요소의 스타일이나 계산 스타일이면 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="isComputed()"><!-- --></A><H3>
+isComputed</H3>
+<PRE>
+public boolean <B>isComputed</B>()</PRE>
+<DL>
+<DD>Tells whether this is a read-only computed style.
+ <p>
+ 읽기 전용 계산 스타일인지 알려 준다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>true for computed styles / 계산 스타일이면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPropertyValue(java.lang.String)"><!-- --></A><H3>
+getPropertyValue</H3>
+<PRE>
+public java.lang.String <B>getPropertyValue</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns the value of a property as the standard serializes it.
+ <p>
+ 표준이 직렬화하는 대로 프로퍼티의 값을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the dashed property name / 대시 프로퍼티 이름
+<DT><B>Returns:</B><DD>the value or "" / 값 또는 ""</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getPropertyPriority(java.lang.String)"><!-- --></A><H3>
+getPropertyPriority</H3>
+<PRE>
+public java.lang.String <B>getPropertyPriority</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Returns the priority (<code>important</code> or "") of an inline declaration.
+ <p>
+ 인라인 선언의 우선순위(<code>important</code> 또는 "")를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the dashed property name / 대시 프로퍼티 이름
+<DT><B>Returns:</B><DD>the priority / 우선순위</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setProperty(java.lang.String, java.lang.String, java.lang.String)"><!-- --></A><H3>
+setProperty</H3>
+<PRE>
+public void <B>setProperty</B>(java.lang.String&nbsp;name,
+                        java.lang.String&nbsp;value,
+                        java.lang.String&nbsp;priority)</PRE>
+<DL>
+<DD>Sets or removes a property of the inline style (an empty value removes it); ignored for computed styles.
+ <p>
+ 인라인 스타일의 프로퍼티를 지정하거나 제거한다(빈 값은 제거). 계산 스타일에서는 무시한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the dashed name / 대시 이름<DD><CODE>value</CODE> - the value / 값<DD><CODE>priority</CODE> - the priority / 우선순위</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="removeProperty(java.lang.String)"><!-- --></A><H3>
+removeProperty</H3>
+<PRE>
+public java.lang.String <B>removeProperty</B>(java.lang.String&nbsp;name)</PRE>
+<DL>
+<DD>Removes a property of the inline style and returns its old value.
+ <p>
+ 인라인 스타일의 프로퍼티를 제거하고 이전 값을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>name</CODE> - the dashed name / 대시 이름
+<DT><B>Returns:</B><DD>the old value / 이전 값</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getCssText()"><!-- --></A><H3>
+getCssText</H3>
+<PRE>
+public java.lang.String <B>getCssText</B>()</PRE>
+<DL>
+<DD>Returns the serialized declarations (<code>cssText</code>).
+ <p>
+ 직렬화한 선언(<code>cssText</code>)을 반환한다.
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the text / 텍스트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="setCssText(java.lang.String)"><!-- --></A><H3>
+setCssText</H3>
+<PRE>
+public void <B>setCssText</B>(java.lang.String&nbsp;text)</PRE>
+<DL>
+<DD>Replaces all declarations (<code>cssText = ...</code>).
+ <p>
+ 모든 선언을 바꾼다(<code>cssText = ...</code>).
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>text</CODE> - the new text / 새 텍스트</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getLength()"><!-- --></A><H3>
+getLength</H3>
+<PRE>
+public int <B>getLength</B>()</PRE>
+<DL>
+<DD>Returns the number of declarations (inline style only).
+ <p>
+ 선언 수를 반환한다(인라인 스타일만).
+<P>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the count / 개수</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="item(int)"><!-- --></A><H3>
+item</H3>
+<PRE>
+public java.lang.String <B>item</B>(int&nbsp;i)</PRE>
+<DL>
+<DD>Returns the name of the declaration at an index.
+ <p>
+ 위치의 선언 이름을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>i</CODE> - the index / 위치
+<DT><B>Returns:</B><DD>the name or "" / 이름 또는 ""</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="cssName(java.lang.Object)"><!-- --></A><H3>
+cssName</H3>
+<PRE>
+public static java.lang.String <B>cssName</B>(java.lang.Object&nbsp;key)</PRE>
+<DL>
+<DD>Converts a script property name to a dashed CSS property name, or returns null if the name is not a CSS property.
+ <p>
+ 스크립트 프로퍼티 이름을 대시 CSS 프로퍼티 이름으로 바꾼다. CSS 프로퍼티가 아니면 null 을 반환한다.
+<P>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the property key / 프로퍼티 키
+<DT><B>Returns:</B><DD>the dashed name or null / 대시 이름 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="getOwnPropertySlot(java.lang.Object)"><!-- --></A><H3>
+getOwnPropertySlot</H3>
+<PRE>
+public org.duckdns.hjow.swingwebpanel.js.Property <B>getOwnPropertySlot</B>(java.lang.Object&nbsp;key)</PRE>
+<DL>
+<DD>Returns a CSS property as a data property when the key names one (and is not a member of the interface).
+ <p>
+ 키가 CSS 프로퍼티를 가리키고 인터페이스 멤버가 아니면 CSS 프로퍼티를 데이터 프로퍼티로 반환한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>getOwnPropertySlot</CODE> in class <CODE>org.duckdns.hjow.swingwebpanel.js.JsObject</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key / 키
+<DT><B>Returns:</B><DD>the property slot or null / 프로퍼티 칸 또는 null</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="set(java.lang.Object, org.duckdns.hjow.swingwebpanel.js.JsValue, org.duckdns.hjow.swingwebpanel.js.JsValue)"><!-- --></A><H3>
+set</H3>
+<PRE>
+public boolean <B>set</B>(java.lang.Object&nbsp;key,
+                   org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;value,
+                   org.duckdns.hjow.swingwebpanel.js.JsValue&nbsp;receiver)</PRE>
+<DL>
+<DD>Assigns a CSS property of the inline style (<code>style.color = 'red'</code>).
+ <p>
+ 인라인 스타일의 CSS 프로퍼티를 지정한다(<code>style.color = 'red'</code>).
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>set</CODE> in class <CODE>org.duckdns.hjow.swingwebpanel.js.JsObject</CODE></DL>
+</DD>
+<DD><DL>
+<DT><B>Parameters:</B><DD><CODE>key</CODE> - the key / 키<DD><CODE>value</CODE> - the value / 값<DD><CODE>receiver</CODE> - the receiver / 수신자
+<DT><B>Returns:</B><DD>true if handled / 처리했으면 true</DL>
+</DD>
+</DL>
+<HR>
+
+<A NAME="ownKeys()"><!-- --></A><H3>
+ownKeys</H3>
+<PRE>
+public java.util.List&lt;java.lang.Object&gt; <B>ownKeys</B>()</PRE>
+<DL>
+<DD>Returns the declaration names (indices) followed by the ordinary own keys.
+ <p>
+ 선언 이름(위치)에 이어 일반 자체 키를 반환한다.
+<P>
+<DD><DL>
+<DT><B>Overrides:</B><DD><CODE>ownKeys</CODE> in class <CODE>org.duckdns.hjow.swingwebpanel.js.JsObject</CODE></DL>
+</DD>
+<DD><DL>
+
+<DT><B>Returns:</B><DD>the keys / 키 목록</DL>
+</DD>
+</DL>
+<!-- ========= END OF CLASS DATA ========= -->
+<HR>
+
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<A NAME="navbar_bottom"><!-- --></A>
+<A HREF="#skip-navbar_bottom" title="Skip navigation links"></A>
+<TABLE BORDER="0" WIDTH="100%" CELLPADDING="1" CELLSPACING="0" SUMMARY="">
+<TR>
+<TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
+<A NAME="navbar_bottom_firstrow"><!-- --></A>
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="3" SUMMARY="">
+  <TR ALIGN="center" VALIGN="top">
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../overview-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-summary.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="package-tree.html"><FONT CLASS="NavBarFont1"><B>Tree</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../deprecated-list.html"><FONT CLASS="NavBarFont1"><B>Deprecated</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../index-all.html"><FONT CLASS="NavBarFont1"><B>Index</B></FONT></A>&nbsp;</TD>
+  <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1">    <A HREF="../../../../../../help-doc.html"><FONT CLASS="NavBarFont1"><B>Help</B></FONT></A>&nbsp;</TD>
+  </TR>
+</TABLE>
+</TD>
+<TD ALIGN="right" VALIGN="top" ROWSPAN=3><EM>
+</EM>
+</TD>
+</TR>
+
+<TR>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+&nbsp;<A HREF="../../../../../../org/duckdns/hjow/swingwebpanel/js/dom/StorageObject.html" title="class in org.duckdns.hjow.swingwebpanel.js.dom"><B>PREV CLASS</B></A>&nbsp;
+&nbsp;NEXT CLASS</FONT></TD>
+<TD BGCOLOR="white" CLASS="NavBarCell2"><FONT SIZE="-2">
+  <A HREF="../../../../../../index.html?org/duckdns/hjow/swingwebpanel/js/dom/StyleObject.html" target="_top"><B>FRAMES</B></A>  &nbsp;
+&nbsp;<A HREF="StyleObject.html" target="_top"><B>NO FRAMES</B></A>  &nbsp;
+&nbsp;<SCRIPT type="text/javascript">
+  <!--
+  if(window==top) {
+    document.writeln('<A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>');
+  }
+  //-->
+</SCRIPT>
+<NOSCRIPT>
+  <A HREF="../../../../../../allclasses-noframe.html"><B>All Classes</B></A>
+</NOSCRIPT>
+
+
+</FONT></TD>
+</TR>
+<TR>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+  SUMMARY:&nbsp;NESTED&nbsp;|&nbsp;<A HREF="#fields_inherited_from_class_org.duckdns.hjow.swingwebpanel.js.JsObject">FIELD</A>&nbsp;|&nbsp;<A HREF="#constructor_summary">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_summary">METHOD</A></FONT></TD>
+<TD VALIGN="top" CLASS="NavBarCell3"><FONT SIZE="-2">
+DETAIL:&nbsp;FIELD&nbsp;|&nbsp;<A HREF="#constructor_detail">CONSTR</A>&nbsp;|&nbsp;<A HREF="#method_detail">METHOD</A></FONT></TD>
+</TR>
+</TABLE>
+<A NAME="skip-navbar_bottom"></A>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+<HR>
+
+</BODY>
+</HTML>
