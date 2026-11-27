@@ -65,7 +65,7 @@ JavaScript는 이전 판본과 ES2026 기능을 함께 검증합니다. 프로�
 ## 요구 사항
 
 - Java 6 이상. 제품 코드는 Java 6 문법/API 만 쓰며 JRE 6 에서 검증합니다(`C:\Program Files\Java\jdk1.6.0_45`, 다른 경로는 환경 변수 `JAVA6_HOME`).
-- JRE 6u45 의 JSSE 는 TLS 1.2 와 클라이언트 SNI 를 지원하지 않아 현대 HTTPS 사이트에 연결하지 못할 수 있습니다. 그 경우 HTTPS 의 연결/TLS 실패에 한해 같은 주소로 HTTP 접근을 한 번 시도합니다
+- JRE 6u45의 JSSE는 TLS 1.0까지 지원하며 클라이언트 SNI가 없습니다. 선택 모듈로 Java 6·7에서 TLS 1.3과 1.2를 사용할 수 있습니다.
   (더 새로운 JRE 에서는 그 JRE 가 지원하는 프로토콜을 씁니다).
 
 ## 빌드와 시험
@@ -203,7 +203,7 @@ Java에서 로컬 파일을 열 때는 `panel.setPage(new File(path).toURI().toA
 
 ### HTTPS와 SSL 재정의
 
-HTTPS 는 JRE 의 기본 신뢰 저장소와 호스트 이름 검증을 씁니다(JVM 전역 SSL 설정은 바꾸지 않습니다). 연결마다 호출되는 아래 메서드를 **재정의**하면 그 연결에만 신뢰 저장소나 호스트 검증을 바꿀 수 있습니다.
+HTTPS는 기본으로 JRE의 신뢰 저장소와 호스트 이름 검증을 씁니다. `configureSsl`을 재정의하면 해당 연결의 신뢰 저장소나 호스트 이름 검증을 정할 수 있습니다.
 
 ```java
 SwingWebPanel panel = new SwingWebPanel() {
@@ -214,7 +214,19 @@ SwingWebPanel panel = new SwingWebPanel() {
 };
 ```
 
-HTTPS 의 연결/TLS 처리 실패일 때만 같은 주소의 HTTP 접근을 한 번 시도합니다(HTTP 404/500 응답은 실패로 보지 않습니다). 이때 Secure 쿠키는 보내지 않습니다.
+Java 6·7에서 선택 모듈을 쓰려면 클래스패스에 `tls13/target/swingwebpanel-tls13.jar`를 넣고 페이지를 열기 전에 켭니다. 데스크톱 앱은 모듈을 포함하며 Java 6·7에서 자동으로 켭니다.
+
+```java
+SwingWebPanel panel = new SwingWebPanel();
+if (SwingWebPanel.isTls13ModuleAvailable()) {
+    panel.setTls13ModuleEnabled(true);
+}
+panel.setPage("https://example.com/");
+```
+
+모듈이 협상 실패를 보고하면 같은 HTTPS 주소를 JRE JSSE로 한 번 더 시도합니다. 최종 연결/TLS 실패 뒤에는 기존 조건에 따라 HTTP로 한 번 접근합니다. 이때 Secure 쿠키는 보내지 않습니다. HTTP 404/500으로 응답이 끝났으면 TLS 재시도가 없습니다.
+
+선택 TLS 모듈은 외부 보안 감사를 받지 않았습니다. P-256·P-384 키 교환은 연산 시간이 일정하지 않으며 인증서 폐기를 확인하지 않습니다. 내장 Mozilla 루트는 2026-11-28에 고정한 CCADB 자료입니다. 보안이 중요한 환경에서는 유지보수되는 JRE를 사용하세요. [모듈 사용법과 한계](tls13/README.md)
 
 페이지의 `XMLHttpRequest`/`fetch` 는 컴포넌트와 같은 요청 계층(User-Agent, 추가 헤더, 쿠키, SSL 재정의, 스킴 제한)을 지나며 교차 오리진 요청은 CORS 를 따릅니다: 단순하지 않은 요청은 `OPTIONS` 사전 요청으로 서버의 허락을 먼저 받습니다. JRE 의 `HttpURLConnection` 은 `Origin` 같은 제한 헤더를 버리므로 그 헤더를 실어야 하는 요청(교차 오리진 요청, 사전 요청, 오리진이 있는 POST/PUT/PATCH/DELETE)은 소켓 기반 연결로 보내며 위의 `configureSsl` 재정의가 그 연결에도 똑같이 적용됩니다. 단 JVM 프록시(`http.proxyHost` 등)가 적용되는 환경에서는 소켓 연결이 프록시를 쓰지 못하므로 JRE 연결을 쓰고 그 헤더는 사라집니다.
 
@@ -372,6 +384,8 @@ Invocable inv = (Invocable) engine;                  // Compilable 도 구현
 - **Public Suffix List**와 **Unicode 데이터**의 라이선스는 각 자료와 함께 배포합니다. [Public Suffix List 고지](browser/src/main/resources/org/duckdns/hjow/swingwebpanel/net/public_suffix_list.dat), [Unicode 라이선스](engine/src/main/resources/META-INF/LICENSE-unicode.txt)
 
 ## License
+
+TLS 모듈과 데스크톱 앱은 CCADB에서 받은 Mozilla 루트 인증서 자료를 CDLA-Permissive-2.0으로 함께 배포합니다. [CCADB 출처 고지와 라이선스](tls13/src/main/resources/META-INF/LICENSE-ccadb.txt)
 
 The bundled Public Suffix List is distributed under the Mozilla Public License 2.0. Its original notice and revision are preserved in the data file. [Public Suffix List](https://publicsuffix.org/list/)
 

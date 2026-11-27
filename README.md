@@ -62,7 +62,7 @@ The JavaScript target is ECMA-262, 17th edition (ECMAScript 2026), with earlier 
 ## Requirements
 
 - Run applications on Java 6 or later. The library uses Java 6 language features and APIs and is tested on JRE 6u45.
-- JRE 6u45 JSSE lacks TLS 1.2 and client SNI. Modern HTTPS sites may require a newer JRE. On a connection or TLS failure, the component tries the corresponding HTTP URL once.
+- JRE 6u45 JSSE supports TLS 1.0 and lacks client SNI. An optional module adds TLS 1.3 and 1.2 to Java 6 and 7.
 
 ## Build and test
 
@@ -175,7 +175,7 @@ Pages and workers register objects with `URL.createObjectURL`. Their `blob:` URL
 
 ### HTTPS and SSL
 
-HTTPS uses the JRE trust store and hostname verification. Override `configureSsl` to customize the individual connection.
+By default HTTPS uses the JRE trust store and hostname verification. Override `configureSsl` to customize the individual connection.
 
 ```java
 SwingWebPanel panel = new SwingWebPanel() {
@@ -186,7 +186,19 @@ SwingWebPanel panel = new SwingWebPanel() {
 };
 ```
 
-The HTTP fallback runs once for an HTTPS connection or TLS failure. HTTP error responses such as 404 and 500 do not trigger a retry. Secure cookies are withheld during fallback.
+For Java 6 or 7, add `tls13/target/swingwebpanel-tls13.jar` to the class path and opt in before opening the page. The desktop app bundles this module and enables it automatically on Java 6 and 7.
+
+```java
+SwingWebPanel panel = new SwingWebPanel();
+if (SwingWebPanel.isTls13ModuleAvailable()) {
+    panel.setTls13ModuleEnabled(true);
+}
+panel.setPage("https://example.com/");
+```
+
+The component retries the same HTTPS address with the JRE JSSE only if the module reports a negotiation failure. The existing HTTP fallback applies to the final connection or TLS failure. Secure cookies are withheld during HTTP fallback. An HTTP response such as 404 or 500 ends the request without a TLS retry.
+
+The optional TLS implementation has no external security audit. P-256 and P-384 key exchange uses variable-time arithmetic, and the module performs no revocation checks. The built-in Mozilla roots are a static CCADB snapshot from 2026-11-28. Use a maintained JRE for security-sensitive deployments. [Module limits and usage](tls13/README.md)
 
 Fetch and XHR share the component's request layer and honor CORS and preflight. The component uses its socket client for requests that must send restricted headers such as `Origin`. If the JVM proxy applies, the JRE connection handles the request and may omit those headers. [Network and CORS coverage](docs/FEATURE_MATRIX.md)
 
@@ -317,6 +329,8 @@ The provider also registers `swingwebpanel-javascript`, the `swjs` extension and
 - The packaged Public Suffix List and Unicode data ship with their respective licenses. [Public Suffix List notice](browser/src/main/resources/org/duckdns/hjow/swingwebpanel/net/public_suffix_list.dat) · [Unicode license](engine/src/main/resources/META-INF/LICENSE-unicode.txt)
 
 ## License
+
+The TLS module and desktop app include Mozilla root certificate data obtained from CCADB under CDLA-Permissive-2.0. [CCADB notice and license](tls13/src/main/resources/META-INF/LICENSE-ccadb.txt)
 
 Copyright 2026 HJOW
 

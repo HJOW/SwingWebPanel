@@ -207,7 +207,7 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 
 - 진행 중 작업(요청, 스크립트, 타이머, 미디어, 다운로드 팝업과 다운로드)을 취소하고 `about:blank` 로 전환, **이력을 `about:blank` 하나로 초기화**한다.
 - 이 컴포넌트의 모든 **캐시**와 **sessionStorage**, 그리고 **프로세스 공용 localStorage 전체**를 비운다.
-- **유지**: User-Agent, 추가 헤더, **쿠키**, JavaScript 설정, 본 창 닫기 허용 설정(5.23), 기본 글꼴(5.27), 팝업 차단 설정(5.28), 사용자 리스너(하이퍼링크·콘솔·웹 메시지 포함). 대기 중인 웹 메시지는 비운다. 예약된 창 닫기(5.23)는 취소한다.
+- **유지**: User-Agent, 추가 헤더, **쿠키**, JavaScript 설정, 본 창 닫기 허용 설정(5.23), 기본 글꼴(5.27), 팝업 차단 설정(5.28), 선택 TLS 설정(5.31), 사용자 리스너(하이퍼링크·콘솔·웹 메시지 포함). 대기 중인 웹 메시지는 비운다. 예약된 창 닫기(5.23)는 취소한다.
 - 공유 localStorage 삭제는 같은 JVM 의 **다른 컴포넌트에도 영향**을 준다(그 컴포넌트의 이후 조회가 빈 값을 반환하고, 같은 오리진의 문서에는 storage 이벤트가 전달된다). 이 영향은 사용자 문서에 명시한다.
 - 완료된 다운로드 파일은 지우지 않는다. 이미 폐기된 컴포넌트에서의 호출은 `IllegalStateException`.
 
@@ -215,7 +215,7 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 
 - 한 번만 자원을 해제한다. **반복 호출은 안전**하게 끝난다(예외 없음).
 - `clean()` 과 같은 정리 후, 이 객체에 등록된 모든 사용자 리스너와 자체 생성 이벤트 연결, 타이머, 작업, 미디어, 하위 프레임을 제거한다.
-- 폐기 후 **변경 메서드**(`setPage`, `setContent`, `back`, `forward`, `refresh`, `setUserAgent`, `addHeaders`, `setJavascriptEnabled`, `setRootWindowClosingEnabled`, 기본 글꼴 설정(5.27), `setPopupBlockingEnabled`(5.28), `clean`, `postMessage`, 리스너 등록)는 `IllegalStateException`.
+- 폐기 후 **변경 메서드**(`setPage`, `setContent`, `back`, `forward`, `refresh`, `setUserAgent`, `addHeaders`, `setJavascriptEnabled`, `setRootWindowClosingEnabled`, 기본 글꼴 설정(5.27), `setPopupBlockingEnabled`(5.28), `setTls13ModuleEnabled`(5.31), `clean`, `postMessage`, 리스너 등록)는 `IllegalStateException`.
   **조회 메서드**는 마지막 빈 상태를 반환한다: `getPage()`=`about:blank`, `getContent()`=`""`, `getHistories()`=`[about:blank]`, `getStatusText()`=`""`, `getProgress()`=100,
   `getHeaders()`=빈 맵, `getCookies()`=`""`, 저장소 조회=빈 컬렉션, `getUserAgent()`=마지막으로 설정한 값, `isRootWindowClosingEnabled()`=마지막으로 설정한 값.
 - `disposeKeepingStorage()`(5.28)는 프로세스 공용 localStorage 를 남기는 것만 다르다. 이 컴포넌트가 연 팝업 창은 폐기하지 않는다(기본 팝업 대화 상자는 소유자 창과 함께 닫힌다).

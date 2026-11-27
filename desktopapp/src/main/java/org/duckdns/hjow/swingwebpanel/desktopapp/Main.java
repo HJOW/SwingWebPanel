@@ -8,10 +8,11 @@ import org.duckdns.hjow.swingwebpanel.desktopapp.ui.BrowserWindow;
 /**
  * The entry point of the browser application. <code>java -jar swingwebpanel-desktopapp.jar [address]</code> opens a browser window that
  * shows the address (the empty page without one). The option <code>--smoke</code> runs a check without showing a window: it loads a page,
- * prints one line and ends with exit code 0 on success and 1 on failure; the build uses it to run the packaged JAR on JRE 6.
+ * prints the TLS path and the result and ends with exit code 0 on success and 1 on failure. The build uses it to run the packaged
+ * JAR on JRE 6.
  * <p>
  * 브라우저 응용 프로그램의 진입점. <code>java -jar swingwebpanel-desktopapp.jar [주소]</code> 는 그 주소를 보여 주는 브라우저 창을 연다(주소가 없으면
- * 빈 페이지). <code>--smoke</code> 옵션은 창을 보이지 않고 점검을 실행한다: 페이지를 읽고 한 줄을 출력하며 성공하면 종료 코드 0, 실패하면 1 로 끝난다.
+ * 빈 페이지). <code>--smoke</code> 옵션은 창을 보이지 않고 페이지를 읽은 뒤 TLS 경로와 결과를 출력한다. 성공하면 종료 코드 0, 실패하면 1로 끝난다.
  * 빌드가 패키징한 JAR 을 JRE 6 에서 실행해 보는 데 쓴다.
  */
 public final class Main {

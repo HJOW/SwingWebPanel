@@ -127,3 +127,4 @@ JDK 6u45로 컴파일한 `tools/uicheck`를 Windows 실제 화면의 JRE 6u45, 7
 
 실제 창 캡처 네 장을 확인했다. TLS 1.2 전용 페이지의 초록 본문과 탭 제목은 두 JVM에서 표시됐다. Java 6에서는 큰 본문 글자가 일부만 그려졌다. 800 ms 더 기다린 재촬영에서도 같은 표시였다.
 캡처는 작업 PC의 `build/p32-ui-1.6.0_45/`와 `build/p32-ui-1.7.0_80/`에 있다. 공개 서버와 협상한 TLS 버전은 `LiveProbe`에서 확인했다. [TLS 검증 기록](tls13.md)
+두 JRE에서 최종 조립한 `swingwebpanel-desktopapp.jar`를 클래스패스에 놓고도 같은 두 HTTPS 주소와 제목의 확인을 반복했다.

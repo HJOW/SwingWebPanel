@@ -50,7 +50,7 @@ browser/src/main/resources/   브라우저 제품 리소스
 browser/src/test/             브라우저 시험 java/와 resources/
 examples/src/main/            예제 java/와 resources/
 tls13/                        Java 6·7용 TLS 1.3·1.2 클라이언트 선택 모듈(P32, 순수 Java). 엔진·브라우저와 컴파일 의존성 없음, 제품 JAR 에 넣지 않음. 설계는 docs/progress/tls13.md
-desktopapp/                   SwingWebPanel 로 만든 Swing 웹 브라우저 앱(P31: 탭, 북마크, 설정, 찾기, 인쇄). src/main/java(model, ui), src/test/java, 실행 스크립트
+desktopapp/                   SwingWebPanel로 만든 Swing 웹 브라우저 앱. 선택 TLS 모듈을 실행 JAR에 합치고 Java 6·7에서 활성화한다.
 tools/<도구>/                 개발 보조 도구(제품 reactor와 분리, Java 6)
 <모듈>/target/                Maven 생성물
 build/                        도구 작업 자료
@@ -140,6 +140,8 @@ setPage(url) ─▶ NavigationController(요청 번호 N) ─▶ net.ResourceFet
 | `javadoc.sh` / `javadoc.bat` | JDK 6의 `javadoc`으로 `engine`, `tls13`, `browser`, `examples`, `desktopapp`의 `src/main/java`를 각각 `docs/javadoc/<모듈>/`에 문서화한다. 의존 모듈의 소스 경로를 전달해 Maven 빌드 없이 타입을 해석한다. |
 | `tools/<도구>/build.*`, `run.*` | 각 도구의 빌드/실행 |
 
+독립 TLS 상호 운용 및 브라우저 연동 시험은 `SWP_TLS_SERVER_JAVA_HOME`에 지정한 Java 11 이상으로 루프백 서버를 실행한다. 시험 서버와 키 생성 코드는 시험 범위에서만 사용한다.
+
 Maven 실행 JDK는 8 이상이다. Maven이 컴파일과 시험에 쓰는 JDK 6은 `JAVA6_HOME`으로 지정한다.
 기본 경로는 Windows의 `C:\Program Files\Java\jdk1.6.0_45`와 Linux의 `/usr/lib/jvm/java-6-openjdk`다.
 JAR 내용을 읽는 회귀 시험을 위해 제품 JAR는 `test` 전에 만든다. 합본에는 엔진·브라우저 JAR의 제품 항목을 담는다.
@@ -159,7 +161,7 @@ bat 는 MS949(현재는 ASCII 만 사용), sh/java/md 는 UTF-8 이다.
 | `tools/hrtfgen` | MIT KEMAR compact 자료(`tools/webfetch` 로 받은 `compact.zip`)를 귀마다 최소 위상 커널 + 지연으로 바꿔 제품 자원 `media/webaudio/dsp/kemar-compact.hrtf` 를 생성(P25 A2). 저자 표기 조건과 원본 URL·조회일은 도구 문서와 README 에 있음 | `tools/hrtfgen/AGENTS.md`, `README.md` |
 | `tools/netstormparse` | 외부 NetstormReborn 경로의 webpack 번들, `debug.html` inline module, `dist` 밖 모든 ES 모듈과 상대 static import를 JDK 6의 자체 JavaScript 파서로 검사한다(P28-02-f). 자산은 저장소에 복사하지 않는다 | `tools/netstormparse/AGENTS.md`, `README.md` |
 | `tools/cabundle` | CCADB 의 "Mozilla Included CA Certificate Report"(CSV, CDLA-Permissive-2.0)를 TLS 모듈의 루트 목록 자료 `tls13/src/main/resources/.../x509/mozilla-roots.txt` 로 바꾼다(P32-04-c). 웹 사이트 신뢰 비트가 있는 루트만 고르고 불신 날짜와 적용 제약을 옮긴다. 자동 갱신은 없으며 사람이 다시 실행한다 | `tools/cabundle/AGENTS.md`, `README.md` |
-| `tools/tlsvectors` | TLS 모듈(`tls13`, P32-03)의 암호 기본 요소를 독립 구현과 대조하기 위한 벡터(AES-GCM, ChaCha20-Poly1305, X25519, ECDH, ECDSA, RSA 서명)를 더 새 JRE 의 표준 공급자로 만들어 `tls13/src/test/resources/jca-vectors.txt` 에 쓴다. `ChainCapture` 는 실제 HTTPS 서버의 인증서 사슬을 `real-chains.txt` 에 기록한다(P32-04). 실행 JRE 는 `TLSVECTORS_JAVA_HOME`(Java 11 이상) | `tools/tlsvectors/AGENTS.md`, `README.md` |
+| `tools/tlsvectors` | 새 JRE의 표준 공급자로 TLS 모듈의 암호 대조 벡터를 만든다(P32-03). `ChainCapture`는 실제 인증서 사슬을 기록한다(P32-04). `LiveProbe`는 Java 6·7과 선택 모듈로 HTTPS의 TLS 버전·HTTP 상태·인증서 실패를 확인한다(P32-06). | `tools/tlsvectors/AGENTS.md`, `README.md` |
 | `tools/unicodegen` | Unicode 18.0.0 UCD의 속성 구간, 정확한 별칭과 대소문자 매핑을 `js.text.UnicodePropertyData` 소스로 생성한다(P29-02-g). 렉서와 정규식이 `UnicodeProperties`를 공유하며 문자열 대소문자 변환과 정규식이 `UnicodeCase`를 사용한다. 이모지 전용 속성에는 EXC-15가 적용된다. | `tools/unicodegen/AGENTS.md`, `README.md` |
 
 (도구가 추가되면 이 표에 갱신한다.)
@@ -406,6 +408,16 @@ P15-04의 기존 async 목록 구현은 준비 시 실행과 병렬 가져오기
 ## 소켓 기반 HTTP 연결과 CORS 사전 요청 (P20-08-c, 2026-11-17)
 
 JRE 의 `HttpURLConnection` 은 `Origin`, `Access-Control-Request-*` 같은 제한 요청 헤더를 버리고 `PATCH` 를 거부한다. `net.SocketHttpClient`(요청 하나를 `Socket`/`SSLSocket` 으로 보내고 응답 머리와 본문 경계를 읽는 HTTP/1.1 클라이언트)와 이를 `HttpURLConnection`/`HttpsURLConnection` API 로 감싼 `SocketHttpURLConnection`/`SocketHttpsURLConnection` 이 그 일을 한다. `HttpFetcher.open` 이 `Origin` 을 싣는 요청에만, 그리고 JVM 프록시가 적용되지 않을 때만 이 연결을 고르므로 쿠키·리디렉션·압축·제한·취소·SSL 확장 지점(`configureSsl`)은 하나의 코드 경로에 남는다. `net.HostnameMatcher` 는 인증서의 호스트 이름 확인(RFC 2818)을 맡는다. CORS 사전 요청은 `HttpFetcher.preflightDenial`(요청 구성)과 `OriginPolicy.checkPreflight`/`PreflightGrant`(응답 판정과 허락)로 나뉘고, 허락 캐시는 `HttpFetcher` 인스턴스 안에 있다(컴포넌트별, 상한 256).
+
+## Java 6·7 선택 TLS 모듈 (P32)
+
+`tls13`은 표준 `SSLSocketFactory`·`SSLSocket`·`SSLSession`을 구현한다. 엔진과 브라우저에 대한 컴파일 의존성이 없다.
+`net.OptionalTlsModule`은 컨텍스트 클래스 로더와 브라우저 클래스 로더에서 모듈을 찾아 팩터리를 얻는다. 팩터리 설치는 `SwingWebPanel.configureSsl`에서 연결별로 한다.
+주 문서, 프레임, 하위 리소스, Fetch/XHR, EventSource와 파일 다운로드는 같은 `ResourceFetcher`를 지난다. 팝업에는 여는 컴포넌트의 훅을 위임한다.
+
+`HttpFetcher`는 본 요청과 CORS 사전 요청 모두에 실제 팩터리를 기록한다. 모듈이 협상 실패로 분류한 경우에만 그 구간을 기본 JRE JSSE로 한 번 다시 시도한다.
+기존 HTTP 재시도는 마지막 연결 또는 TLS 실패에 적용한다. 이 흐름과 SSL 설정은 JVM 전역 상태를 변경하지 않는다.
+앱에서만 `DesktopTls`가 Java 규격 버전을 확인하며 실행 JAR에 모듈과 CCADB 고지를 함께 넣는다. 설계와 현장 확인은 `docs/progress/tls13.md`에 있다.
 
 ## 웹 글꼴과 CSS 애니메이션의 소유(P10-05, P10-07, 2026-11-17)
 

@@ -744,10 +744,10 @@ public final class BrowserApp {
     }
 
     /**
-     * Returns the text of the about dialog: the names and versions of the application, of the component and of Java. The versions come
+     * Returns the about dialog text with the application, component and Java versions and the active TLS path. The versions come
      * from the manifest of the JAR (<code>Implementation-Version</code>); classes that were not loaded from a JAR have none.
      * <p>
-     * 정보 대화 상자의 글을 반환한다: 응용 프로그램, 컴포넌트, Java 의 이름과 판. 판은 JAR 의 매니페스트(<code>Implementation-Version</code>)에서
+     * 정보 대화 상자에 표시할 응용 프로그램, 컴포넌트와 Java의 판 및 사용 중인 TLS 경로를 반환한다. 판은 JAR의 매니페스트(<code>Implementation-Version</code>)에서
      * 온다. JAR 에서 읽지 않은 클래스에는 판이 없다.
      *
      * @param tlsModule whether the active panel uses the optional TLS path / 활성 패널의 선택 TLS 경로 사용 여부

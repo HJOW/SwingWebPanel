@@ -285,3 +285,44 @@ JRE 6u45에서 모듈 없는 브라우저 자체 시험 1건과 `OptionalTlsBrow
 Zulu 25 루프백 서버와 HTTPS 탐색, 두 오리진 간 TLS CORS 사전 요청·본 요청 및 팝업을 시험했다.
 CBC 전용 서버에는 HTTPS 모듈·HTTPS JSSE·HTTP 순으로 연결했다. 시험 루트를 내장 Mozilla 목록에서 찾을 수 없는 TLS 1.3 서버에는 HTTPS 모듈·HTTP 순으로 연결했다.
 속성 알림 순서, 값이 같은 요청의 알림 억제와 EDT 실행, 기본 꺼짐, `clean()` 후 값 유지, 폐기 후 변경 거부와 GC를 확인했다.
+
+## 8. 데스크톱 앱 (P32-08)
+
+`DesktopTls`가 `java.specification.version`의 정확한 값 1.6과 1.7에서만 모듈을 활성화한다.
+`TabPanel`의 일반 창·탭 생성과 팝업 생성이 같은 정책을 쓴다. 초기화에 실패하면 콘솔에 한 번 알린다.
+도움말의 정보 창은 활성 패널의 TLS 설정을 표시한다. Java 8u202를 포함한 Java 8 이상은 JRE의 TLS를 사용한다.
+Java 6·7의 실제 창에서 같은 HTTPS 페이지 두 곳을 열었다. [실제 창 검증](uicheck.md)
+
+최종 `swingwebpanel-desktopapp.jar`로 `java -jar ... --smoke`를 실행했다.
+
+| JRE | 보고된 TLS | 종료 코드 |
+| --- | --- | ---: |
+| 6u45 | module | 0 |
+| 7u80 | module | 0 |
+| 8u202 | JRE | 0 |
+| Zulu 25 | JRE | 0 |
+
+## 9. 전체 회귀와 배포 점검 (P32-09)
+
+Zulu 25로 Maven을 실행하고 JDK 6u45로 빌드·시험한 `mvn -B -o verify`의 결과다. 엔진 892건과 TLS 97건을 통과했다.
+브라우저는 3,872건 통과, 3건 실패, 12건 건너뜀이었다. 12건은 별도 Opus 전체 벡터가 없어서 건너뛰었다.
+브라우저 단계에서 Maven이 중단되어 `mvn -B -o -pl desktopapp -am "-Dtest.filter=desktopapp" verify`로 앱 전체를 별도 실행했다. JRE 6u45에서 64건을 통과했고 실패나 건너뜀이 없었다.
+
+다음 세 실패는 P22-16-c4에 기록된 Web Audio 재생 시각 문제다. 변경 전 커밋 `7377b35`의 `SwingWebPanel`과 `HttpFetcher`를 JDK 6으로 다시 컴파일해 동일한 브라우저 시험에 적용했을 때 각 실패를 재현했다.
+
+- `WebAudioComponentTest.testNavigationEndsTheContexts`
+- `WebAudioOutputComponentTest.testDefaultOutputLetsAContextRunWithoutAScriptError`
+- `OutputRenderDriverTest.testNoDeviceIsSilentButTheTimeRunsAtRealSpeed`
+
+최종 브라우저 JAR에 대해 Java 6u45로 HTTPS·소켓·CORS·프로토콜·모듈 부재 시험 47건을 다시 실행해 모두 통과했다. 다운로드 팝업 시험은 실제 화면을 사용할 수 있는 JVM에서 실행했다.
+JRE 7u80·8u202에서 독립 JSSE 서버를 사용한 최종 TLS 모듈 전체 시험도 각각 97건을 통과했다. `tools/sourcecheck/run.bat`는 4,793개 파일에서 위반 0건을 보고했다.
+
+선택 TLS JAR과 데스크톱 실행 JAR은 각각 TLS 구현 클래스 52개, 내장 루트, `META-INF/LICENSE-ccadb.txt`를 담았다. 두 JAR의 루트와 고지를 저장소 원본과 SHA-256으로 대조했다.
+
+| 리소스 | SHA-256 |
+| --- | --- |
+| `mozilla-roots.txt` | `8a44ce3c3b61a5ae7fd88b84be171f14ba248527f9fd90d59e008ceffa315649` |
+| `META-INF/LICENSE-ccadb.txt` | `f7a3e83c2646e7966544df58d488d7d23cd05e5049b82f5a30692830443c3ddb` |
+
+고지 파일에 CCADB 출처와 CDLA-Permissive-2.0 전문이 들어 있다. 엔진, 브라우저, 합본 제품 JAR은 TLS 클래스와 두 자료를 포함하지 않는다. 배포 JAR에 NSS `certdata.txt`나 시험 서버 클래스가 들어 있지 않음을 확인했다.
+내장 자료의 원본 리비전(2026-11-28 조회일과 CSV SHA-256)은 4.2절에 기록돼 있다. 자동 갱신, OCSP·CRL·OneCRL, 세션 재개와 P-256/P-384 상수 시간의 한계는 1절과 모듈 README를 따른다.

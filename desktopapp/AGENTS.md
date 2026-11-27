@@ -74,5 +74,6 @@ SwingWebPanel 로 만든 Swing 웹 브라우저 응용 프로그램이다(저장
 ## 실제로 실행해 본 JRE
 
 - JDK 6u45(`1.6.0_45`, Windows 10 과 Windows 11): 시험과 `java -jar ... --smoke`, 실제 창 확인(`tools/uicheck`).
-- JDK 8u202(Windows 11): `java -jar ... --smoke`.
+- JDK 7u80: `java -jar ... --smoke`(선택 모듈), `tools/uicheck` 실제 HTTPS 창.
+- JDK 8u202과 Zulu 25: `java -jar ... --smoke`(JRE TLS).
 - JDK 8u202 와 JDK 21.0.3(Windows 11): 설치된 룩앤필 다섯 개를 차례로 적용해 창과 설정 화면을 화면 밖에서 그리는 일회성 점검(2026-11-27).
