@@ -1397,7 +1397,7 @@ P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "�
     - AES는 JRE 6·7의 기본 JCE 정책이 128비트로 제한하므로 순수 Java로 구현하는 것을 기본안으로 한다. 난수는 `SecureRandom`을 쓴다.
     - JRE 7에 있는 EC 구현(SunEC)은 쓰지 않고, 6과 7에서 같은 코드가 동작하게 한다.
   - 성능 목표: 핸드셰이크 시간과 처리량의 목표를 정한다. 예: JRE 6u45에서 첫 핸드셰이크 1초 이내, 대용량 응답이 JRE 기본 경로보다 크게 느리지 않을 것.
-- [ ] P32-02. 모듈 골격을 만든다.
+- [x] P32-02. 모듈 골격을 만든다. 완료(2026-11-27): `tls13/`(POM, `crypto.Bytes`, 시험 `ModuleBoundaryTest`, `README.md`/`AGENTS.md`)를 만들고 부모 POM에 `engine` 뒤로 등록했다. `mvn -B -o -pl tls13 -am "-Dtest.filter=tls13" verify`에서 모듈 시험 2건이 JDK 6u45로 통과했고 `tls13/target/swingwebpanel-tls13.jar`가 만들어졌다. 브라우저·엔진 POM은 이 모듈에 의존하지 않는다. `tools/sourcecheck` 기본 경로, `docs/ARCHITECTURE.md`, 루트 README, `javadoc.sh`/`javadoc.bat`에 모듈을 추가했고 sourcecheck 위반은 0건이다.
   - `tls13/` POM: 부모 POM의 JDK 6 `javac` 설정과 라이선스(Apache 2.0)를 이어받고 `dependencies`를 비운다.
   - 시험 실행: 기존 자체 시험 실행기를 JDK 6 `java`로 실행한다. 산출 JAR을 패키징한다.
   - 문서: `tls13/README.md`(한국어), `tls13/AGENTS.md`를 만든다. `tools/sourcecheck` 기본 경로, `docs/ARCHITECTURE.md` 모듈 표, 루트 README 모듈 안내에도 추가한다.

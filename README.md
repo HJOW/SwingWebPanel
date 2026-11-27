@@ -83,7 +83,7 @@ The root and engine `build` and `test` scripts invoke Maven. The test scripts al
 
 Run `javadoc.bat` in Windows Command Prompt or `sh javadoc.sh` in a POSIX shell. Use `JAVA6_HOME` if JDK 6 is installed outside the default locations. Maven does not need to run first.
 
-Open `index.html` in `docs/javadoc/engine/`, `docs/javadoc/browser/`, `docs/javadoc/examples/`, or `docs/javadoc/desktopapp/`.
+Open `index.html` in `docs/javadoc/engine/`, `docs/javadoc/tls13/`, `docs/javadoc/browser/`, `docs/javadoc/examples/`, or `docs/javadoc/desktopapp/`.
 
 ### JARs
 

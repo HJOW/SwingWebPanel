@@ -19,6 +19,7 @@ if not exist "build\javadoc\." mkdir "build\javadoc" || exit /b 1
 set "ENGINE_SOURCES=engine/src/main/java"
 set "BROWSER_SOURCES=browser/src/main/java"
 call :generateDocs engine || exit /b 1
+call :generateDocs tls13 || exit /b 1
 call :generateDocs browser "%ENGINE_SOURCES%" || exit /b 1
 call :generateDocs examples "%BROWSER_SOURCES%;%ENGINE_SOURCES%" || exit /b 1
 call :generateDocs desktopapp "%BROWSER_SOURCES%;%ENGINE_SOURCES%" || exit /b 1

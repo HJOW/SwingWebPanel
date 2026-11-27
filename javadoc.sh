@@ -33,6 +33,7 @@ generate_docs() {
 }
 
 generate_docs engine
+generate_docs tls13
 generate_docs browser "$engine_sources"
 generate_docs examples "$browser_sources$PATHSEP$engine_sources"
 generate_docs desktopapp "$browser_sources$PATHSEP$engine_sources"

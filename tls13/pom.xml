@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.duckdns.hjow</groupId>
+    <artifactId>swingwebpanel-parent</artifactId>
+    <version>0.2.0</version>
+  </parent>
+  <artifactId>swingwebpanel-tls13</artifactId>
+  <name>SwingWebPanel TLS</name>
+  <description>Pure java TLS 1.3 and TLS 1.2 client for Java 6 and 7 (optional module)</description>
+  <properties>
+    <swp.jdk6.checkPhase>none</swp.jdk6.checkPhase>
+    <swp.test.jvmArgs>-XX:MaxPermSize=256m -Djava.awt.headless=true</swp.test.jvmArgs>
+    <swp.createdBy>tls13 (JDK 6)</swp.createdBy>
+  </properties>
+  <!-- 실행·컴파일 의존성은 없다(JRE 표준 API 만 쓴다). 시험 실행기만 엔진 모듈의 시험 지원 JAR 에서 가져온다(아래 프로필). -->
+  <build>
+    <finalName>swingwebpanel-tls13</finalName>
+    <plugins>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>run-regression</id>
+            <phase>test</phase>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <profiles>
+    <profile>
+      <id>compile-regression-tests</id>
+      <activation><property><name>maven.test.skip</name><value>!true</value></property></activation>
+      <dependencies>
+        <dependency>
+          <groupId>${project.groupId}</groupId>
+          <artifactId>swingwebpanel-js</artifactId>
+          <version>${project.version}</version>
+          <type>test-jar</type>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
+</project>

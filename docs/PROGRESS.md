@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P32-02 tls13 모듈 골격 (2026-11-27) ===
+현재 작업 번호: P32-02 완료. P32-03 진행 중.
+완료한 내용: Maven 하위 모듈 tls13/(swingwebpanel-tls13, 산출물 tls13/target/swingwebpanel-tls13.jar)을 만들어 부모 POM 의 engine 뒤에 등록했다. 실행·컴파일 의존성은 없고 시험 범위에서만 엔진의 시험 지원 JAR 을 쓴다. 첫 클래스 crypto.Bytes(분기 없는 비교, 지우기, 엔디언 도우미), 시험 도우미 Hex, 경계 시험 ModuleBoundaryTest(컴파일된 클래스의 상수 풀에 엔진·브라우저·AWT/Swing·sun.*·프로세스·네이티브·java.security.Security 참조가 없음). tls13/README.md, tls13/AGENTS.md. tools/sourcecheck 기본 경로와 시험 자료 예외에 tls13 추가, docs/ARCHITECTURE.md, 루트 README 두 개, javadoc.sh/javadoc.bat 에 모듈 추가.
+변경 파일: pom.xml, tls13/(신규), tools/sourcecheck/src/sourcecheck/SourceCheck.java, tools/sourcecheck/AGENTS.md, docs/ARCHITECTURE.md, README.md, README.ko.md, javadoc.sh, javadoc.bat, AGENTS.md, 이 문서.
+검증 결과: mvn -B -o -pl tls13 -am "-Dtest.filter=tls13" verify(Maven 3.8.9 를 Zulu 25 로 실행, 컴파일·시험은 JDK 6u45, Windows 10): BUILD SUCCESS, 모듈 시험 2건 통과/0 실패/0 건너뜀. sourcecheck --selftest 통과, sourcecheck(tls13, tools/sourcecheck, 바꾼 문서와 스크립트) 위반 0건/25 파일. javadoc 스크립트는 실행해 보지 않았다.
+미해결 사항: 없음.
+다음 작업 번호: P32-03-a
+-----------------------------------------------------------------------------------------------
 === P32-01 tls13 모듈의 범위·구조 확정 (2026-11-27) ===
 현재 작업 번호: P32-01 완료. P32-02 진행 중.
 완료한 내용: docs/progress/tls13.md 를 만들어 모듈(디렉터리 tls13/, swingwebpanel-tls13, 패키지 org.duckdns.hjow.swingwebpanel.tls13 과 하위 crypto·x509·proto), 공개 진입점(Tls13SocketFactory, Tls13Config, Tls13Failures), TLS 1.3·1.2 범위, 남은 세부 결정(Ed25519 미구현, P-521 은 인증서 서명 검증만, OCSP 스테이플링 미요청, SHA-1 서명·2048비트 미만 RSA 거부, 잘린 연결은 EOF), 암호 구현 방침(AES 비트슬라이스, 표 없는 GHASH, X25519 16림, P-256/P-384 는 BigInteger 라 상수 시간 아님), 성능 목표, 검증 자료 출처를 기록했다.

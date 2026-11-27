@@ -19,14 +19,14 @@
 | loops | `loop-comment` | 모든 `for/while/do` 반복문의 같은 줄/앞 2줄/본문 첫 줄 근처에 한글이 든 일반 주석(Javadoc 제외) |
 
 예외: 줄에 `sourcecheck:allow` 가 있으면 그 줄의 금지 API/문자셋 규칙은 건너뛴다(정당한 사유를 주석으로 남길 것).
-브라우저와 엔진의 `src/test/resources/` 아래 파일에는 네이티브 산출물 검사만 적용한다. 인코딩이 다른 시험 입력을 담을 수 있다.
+브라우저, 엔진, TLS 모듈(`tls13`)의 `src/test/resources/` 아래 파일에는 네이티브 산출물 검사만 적용한다. 인코딩이 다른 시험 입력을 담을 수 있다.
 
 ## 빌드와 실행
 
 - 빌드: `tools/sourcecheck/build.sh` 또는 `tools\sourcecheck\build.bat` (JDK 6, `JAVA6_HOME`, 못 찾으면 종료 코드 1)
 - 실행: `tools/sourcecheck/run.sh [옵션] [경로...]` 또는 `tools\sourcecheck\run.bat ...` — 항상 **저장소 루트를 기준**으로 실행한다.
 - 옵션: `--root DIR`, `--only encoding,forbidden,javadoc,loops`, `--max N`(출력 줄 수, 기본 200), `--selftest`
-- 기본 경로: `browser engine examples desktopapp tools scripts docs AGENTS.md build.sh build.bat test.sh test.bat`
+- 기본 경로: `browser engine tls13 examples desktopapp tools scripts docs AGENTS.md build.sh build.bat test.sh test.bat`
 - 출력: `경로:줄: [규칙] 메시지` 와 마지막 요약 줄 `N violation(s) in M file(s) checked`
 - 종료 코드: 0 위반 없음 / 1 위반 있음 / 2 사용법·입출력 오류. `--selftest` 는 불량 샘플이 종료 코드 1, 양호 샘플이 0 인지 검증해 0/1 반환.
 
