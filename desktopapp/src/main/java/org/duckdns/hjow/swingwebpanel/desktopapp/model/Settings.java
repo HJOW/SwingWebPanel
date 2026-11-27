@@ -49,6 +49,90 @@ public final class Settings {
     /** Key of the zoom of new tabs and of the "actual size" command, as a percentage. / 새 탭과 "원래 크기" 명령의 확대 비율(백분율)의 키. */
     public static final String DEFAULT_ZOOM = "zoom.default";
 
+    /** Key of what the program opens at start: {@link #START_HOME}, {@link #START_BLANK} or {@link #START_RESTORE}. / 프로그램이 시작할 때 여는 것의 키: {@link #START_HOME}, {@link #START_BLANK}, {@link #START_RESTORE} 중 하나. */
+    public static final String START_PAGE = "startup.page";
+
+    /** Value of {@link #START_PAGE}: the home page. / {@link #START_PAGE} 의 값: 홈 페이지. */
+    public static final String START_HOME = "home";
+
+    /** Value of {@link #START_PAGE}: the empty page. / {@link #START_PAGE} 의 값: 빈 페이지. */
+    public static final String START_BLANK = "blank";
+
+    /** Value of {@link #START_PAGE}: the windows and tabs of the last run. / {@link #START_PAGE} 의 값: 지난번의 창과 탭. */
+    public static final String START_RESTORE = "restore";
+
+    /** Key of whether a link opened in a new tab becomes the active tab at once (<code>true</code> or <code>false</code>). / 새 탭에서 연 링크가 바로 활성 탭이 되는지의 키(<code>true</code> 또는 <code>false</code>). */
+    public static final String SELECT_NEW_TABS = "tabs.selectNew";
+
+    /** Key of whether backgrounds are printed (<code>true</code> or <code>false</code>). / 배경을 인쇄하는지의 키(<code>true</code> 또는 <code>false</code>). */
+    public static final String PRINT_BACKGROUNDS = "print.backgrounds";
+
+    /** Key of whether headers and footers are printed (<code>true</code> or <code>false</code>). / 머리글과 바닥글을 인쇄하는지의 키(<code>true</code> 또는 <code>false</code>). */
+    public static final String PRINT_HEADERS = "print.headers";
+
+    /** Key of the font family for content without an author font; empty for the built-in font. / 작성자 글꼴이 없는 내용의 글꼴 패밀리의 키. 내장 글꼴이면 빈 값. */
+    public static final String FONT_STANDARD = "font.standard";
+
+    /** Key of the font family behind <code>serif</code>; empty for the built-in font. / <code>serif</code> 뒤의 글꼴 패밀리의 키. 내장 글꼴이면 빈 값. */
+    public static final String FONT_SERIF = "font.serif";
+
+    /** Key of the font family behind <code>sans-serif</code>; empty for the built-in font. / <code>sans-serif</code> 뒤의 글꼴 패밀리의 키. 내장 글꼴이면 빈 값. */
+    public static final String FONT_SANS_SERIF = "font.sansSerif";
+
+    /** Key of the font family behind <code>monospace</code>; empty for the built-in font. / <code>monospace</code> 뒤의 글꼴 패밀리의 키. 내장 글꼴이면 빈 값. */
+    public static final String FONT_MONOSPACE = "font.monospace";
+
+    /** Key of the default font size in pixels. / 기본 글꼴 크기(픽셀)의 키. */
+    public static final String FONT_SIZE = "font.size";
+
+    /** Key of the font size of monospace elements in pixels. / 고정폭 요소의 글꼴 크기(픽셀)의 키. */
+    public static final String FONT_MONOSPACE_SIZE = "font.monospaceSize";
+
+    /** Key of whether pages may run scripts (<code>true</code> or <code>false</code>). / 페이지가 스크립트를 실행해도 되는지의 키(<code>true</code> 또는 <code>false</code>). */
+    public static final String JAVASCRIPT = "javascript.enabled";
+
+    /** Key of whether a script may close a tab that the user opened (<code>true</code> or <code>false</code>). / 사용자가 연 탭을 스크립트가 닫아도 되는지의 키(<code>true</code> 또는 <code>false</code>). */
+    public static final String SCRIPTS_CLOSE_WINDOWS = "scripts.closeWindows";
+
+    /** Key of the User-Agent text; empty for the default of the component. / User-Agent 글의 키. 컴포넌트의 기본값이면 빈 값. */
+    public static final String USER_AGENT = "userAgent";
+
+    /** Key of the folder for downloads; empty for the default of the component. / 다운로드 폴더의 키. 컴포넌트의 기본값이면 빈 값. */
+    public static final String DOWNLOAD_DIRECTORY = "download.directory";
+
+    /** Key of whether popups that were not asked for by the user are blocked (<code>true</code> or <code>false</code>). / 사용자가 요청하지 않은 팝업을 차단하는지의 키(<code>true</code> 또는 <code>false</code>). */
+    public static final String BLOCK_POPUPS = "popups.block";
+
+    /** Key of where a window that a script opens is shown: {@link #PLACE_POPUP}, {@link #PLACE_WINDOW} or {@link #PLACE_TAB}. / 스크립트가 연 창을 보이는 곳의 키: {@link #PLACE_POPUP}, {@link #PLACE_WINDOW}, {@link #PLACE_TAB} 중 하나. */
+    public static final String POPUP_PLACE = "popups.place";
+
+    /** Key of where a link or form that asks for a new window is shown: {@link #PLACE_TAB} or {@link #PLACE_WINDOW}. / 새 창을 요청하는 링크나 폼을 보이는 곳의 키: {@link #PLACE_TAB} 또는 {@link #PLACE_WINDOW}. */
+    public static final String LINK_PLACE = "links.place";
+
+    /** Value of a place: a small popup window. / 장소의 값: 작은 팝업 창. */
+    public static final String PLACE_POPUP = "popup";
+
+    /** Value of a place: a new browser window. / 장소의 값: 새 브라우저 창. */
+    public static final String PLACE_WINDOW = "window";
+
+    /** Value of a place: a new tab. / 장소의 값: 새 탭. */
+    public static final String PLACE_TAB = "tab";
+
+    /** Key of the left edge of the browser window on the screen; empty for the choice of the platform. / 화면에서 브라우저 창의 왼쪽 가장자리의 키. 플랫폼이 정하면 빈 값. */
+    public static final String WINDOW_X = "window.x";
+
+    /** Key of the top edge of the browser window on the screen; empty for the choice of the platform. / 화면에서 브라우저 창의 위쪽 가장자리의 키. 플랫폼이 정하면 빈 값. */
+    public static final String WINDOW_Y = "window.y";
+
+    /** Key of the width of the browser window. / 브라우저 창의 폭의 키. */
+    public static final String WINDOW_WIDTH = "window.width";
+
+    /** Key of the height of the browser window. / 브라우저 창의 높이의 키. */
+    public static final String WINDOW_HEIGHT = "window.height";
+
+    /** Key of whether the browser window is maximized (<code>true</code> or <code>false</code>). / 브라우저 창이 최대화되어 있는지의 키(<code>true</code> 또는 <code>false</code>). */
+    public static final String WINDOW_MAXIMIZED = "window.maximized";
+
     /**
      * Receives the changes of the settings.
      * <p>
@@ -77,6 +161,28 @@ public final class Settings {
         DEFAULTS.put(SHOW_TOOLBAR, "true");
         DEFAULTS.put(SHOW_STATUS_BAR, "true");
         DEFAULTS.put(DEFAULT_ZOOM, "100");
+        DEFAULTS.put(START_PAGE, START_HOME);
+        DEFAULTS.put(SELECT_NEW_TABS, "false");
+        DEFAULTS.put(PRINT_BACKGROUNDS, "false");
+        DEFAULTS.put(PRINT_HEADERS, "true");
+        DEFAULTS.put(FONT_STANDARD, "");
+        DEFAULTS.put(FONT_SERIF, "");
+        DEFAULTS.put(FONT_SANS_SERIF, "");
+        DEFAULTS.put(FONT_MONOSPACE, "");
+        DEFAULTS.put(FONT_SIZE, "16");
+        DEFAULTS.put(FONT_MONOSPACE_SIZE, "13");
+        DEFAULTS.put(JAVASCRIPT, "true");
+        DEFAULTS.put(SCRIPTS_CLOSE_WINDOWS, "false");
+        DEFAULTS.put(USER_AGENT, "");
+        DEFAULTS.put(DOWNLOAD_DIRECTORY, "");
+        DEFAULTS.put(BLOCK_POPUPS, "true");
+        DEFAULTS.put(POPUP_PLACE, PLACE_POPUP);
+        DEFAULTS.put(LINK_PLACE, PLACE_TAB);
+        DEFAULTS.put(WINDOW_X, "");
+        DEFAULTS.put(WINDOW_Y, "");
+        DEFAULTS.put(WINDOW_WIDTH, "1000");
+        DEFAULTS.put(WINDOW_HEIGHT, "700");
+        DEFAULTS.put(WINDOW_MAXIMIZED, "false");
     }
 
     /** The values that differ from nothing: every key that was set. / 설정한 값들. */
@@ -145,6 +251,52 @@ public final class Settings {
             v = defaultOf(key);
         }
         return "true".equalsIgnoreCase(v);
+    }
+
+    /**
+     * Returns the value of a key as a whole number inside a range; text that is not a number, or a number outside the range, gives the
+     * default of the key.
+     * <p>
+     * 키의 값을 범위 안의 정수로 반환한다. 수가 아닌 글이나 범위 밖의 수이면 키의 기본값을 준다.
+     *
+     * @param key the key / 키
+     * @param min the smallest value / 가장 작은 값
+     * @param max the largest value / 가장 큰 값
+     * @return the number / 수
+     */
+    public int getInt(String key, int min, int max) {
+        int fallback;
+        try {
+            fallback = Integer.parseInt(defaultOf(key).trim());
+        } catch (NumberFormatException e) {
+            fallback = min;
+        }
+        try {
+            int v = Integer.parseInt(get(key).trim());
+            return v < min || v > max ? fallback : v;
+        } catch (NumberFormatException e) {
+            return fallback;
+        }
+    }
+
+    /**
+     * Returns the value of a key if it is one of the allowed values, otherwise the default of the key.
+     * <p>
+     * 키의 값이 허용된 값 가운데 하나이면 그 값을, 아니면 키의 기본값을 반환한다.
+     *
+     * @param key     the key / 키
+     * @param allowed the allowed values / 허용된 값
+     * @return one of the allowed values, or the default / 허용된 값 가운데 하나, 또는 기본값
+     */
+    public String getChoice(String key, String[] allowed) {
+        String v = get(key).trim();
+        // 허용된 값 가운데 같은 것이 있으면 그것을 쓴다.
+        for (int i = 0; i < allowed.length; i++) {
+            if (allowed[i].equals(v)) {
+                return v;
+            }
+        }
+        return defaultOf(key);
     }
 
     /**

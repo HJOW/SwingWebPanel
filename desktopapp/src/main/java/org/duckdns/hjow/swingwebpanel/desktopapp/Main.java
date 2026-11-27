@@ -46,7 +46,10 @@ public final class Main {
         SwingUtilities.invokeLater(new Runnable() {
             /** Opens the first window on the event dispatch thread. / 이벤트 디스패치 스레드에서 첫 창을 연다. */
             public void run() {
-                new BrowserApp(null).openWindow(url).setVisible(true);
+                // 창을 모두 만든 뒤 차례로 보인다.
+                for (BrowserWindow w : new BrowserApp(null).start(url)) {
+                    w.setVisible(true);
+                }
             }
         });
     }

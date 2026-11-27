@@ -140,10 +140,12 @@ final class StyleComputer {
                 spec[id] = raw;
             }
         }
-        double parentFs = parent != null ? parent.fontSizePx() : LengthContext.DEFAULT_FONT_SIZE;
-        double rootFs = parent != null ? parent.rootFontSizePx() : LengthContext.DEFAULT_FONT_SIZE;
+        // 기본 컨텍스트의 글꼴 크기가 사용자의 기본 글꼴 크기(medium)이다. 부모가 없는 요소는 거기서 시작한다.
+        double defaultFs = base.getFontSize();
+        double parentFs = parent != null ? parent.fontSizePx() : defaultFs;
+        double rootFs = parent != null ? parent.rootFontSizePx() : defaultFs;
         if (computed[Prop.FONT_SIZE] == null) {
-            computed[Prop.FONT_SIZE] = computeFontSize(spec[Prop.FONT_SIZE], parentFs, root ? LengthContext.DEFAULT_FONT_SIZE : rootFs, base);
+            computed[Prop.FONT_SIZE] = computeFontSize(spec[Prop.FONT_SIZE], parentFs, root ? defaultFs : rootFs, base);
         }
         double fs = ((CssLength) computed[Prop.FONT_SIZE]).getValue();
         if (root) {
@@ -274,10 +276,10 @@ final class StyleComputer {
             String k = ((CssKeyword) v).getName();
             String[] names = {"xx-small", "x-small", "small", "medium", "large", "x-large", "xx-large", "xxx-large"};
             double[] sizes = {9, 10, 13, 16, 18, 24, 32, 48};
-            // 절대 크기 키워드를 표에서 찾는다.
+            // 절대 크기 키워드를 표에서 찾는다. 표는 기본 크기 16 기준이므로 사용자의 기본 글꼴 크기에 비례시킨다.
             for (int i = 0; i < names.length; i++) {
                 if (names[i].equals(k)) {
-                    return CssLength.px(sizes[i]);
+                    return CssLength.px(sizes[i] * base.getFontSize() / LengthContext.DEFAULT_FONT_SIZE);
                 }
             }
             if (k.equals("larger")) {

@@ -145,6 +145,45 @@ public final class WebFontSet implements WebFontSource {
 
     /** The loader of the bytes. 바이트를 읽는 로더. */
     private final Loader loader;
+    /** The families that the host chose for the generic names, by generic name in lower case; empty if none (API contract 5.27). 호스트가 일반 이름에 고른 패밀리(소문자 일반 이름별). 없으면 비어 있다(API 계약 5.27). */
+    private volatile java.util.Map<String, String> generics = java.util.Collections.<String, String>emptyMap();
+
+    /**
+     * Sets the families that the generic names <code>serif</code>, <code>sans-serif</code> and <code>monospace</code> stand for in the layouts that
+     * use this set (the default fonts of the component, API contract 5.27). An empty name keeps the built-in font of that generic name.
+     * <p>
+     * 이 집합을 쓰는 레이아웃에서 일반 이름 <code>serif</code>, <code>sans-serif</code>, <code>monospace</code> 가 가리킬 패밀리를 정한다(컴포넌트의 기본 글꼴, API 계약
+     * 5.27). 빈 이름이면 그 일반 이름의 내장 글꼴을 그대로 쓴다.
+     *
+     * @param serif     the family for <code>serif</code>, or null or empty / <code>serif</code> 의 패밀리. 없으면 null 이나 빈 문자열
+     * @param sansSerif the family for <code>sans-serif</code>, or null or empty / <code>sans-serif</code> 의 패밀리. 없으면 null 이나 빈 문자열
+     * @param monospace the family for <code>monospace</code>, or null or empty / <code>monospace</code> 의 패밀리. 없으면 null 이나 빈 문자열
+     */
+    public void setGenericFamilies(String serif, String sansSerif, String monospace) {
+        java.util.Map<String, String> next = new java.util.HashMap<String, String>();
+        if (serif != null && serif.length() > 0) {
+            next.put("serif", serif);
+        }
+        if (sansSerif != null && sansSerif.length() > 0) {
+            next.put("sans-serif", sansSerif);
+        }
+        if (monospace != null && monospace.length() > 0) {
+            next.put("monospace", monospace);
+        }
+        generics = next;
+    }
+
+    /**
+     * Returns the family that the host chose for a generic name.
+     * <p>
+     * 호스트가 일반 이름에 고른 패밀리를 반환한다.
+     *
+     * @param generic the generic name in lower case / 소문자 일반 이름
+     * @return the family, or null if the host chose none / 패밀리. 호스트가 고르지 않았으면 null
+     */
+    String genericFamily(String generic) {
+        return generics.get(generic);
+    }
     /** The faces in the order of the rules. 규칙 순서의 면. */
     private List<Face> faces = new ArrayList<Face>();
     /** The earliest end of a block period that {@link #blockedUntil} reported since the last {@link #takeBlockDeadline()}, 0 if none. 마지막 {@link #takeBlockDeadline()} 뒤 {@link #blockedUntil} 이 알린 가장 이른 block 기간의 끝. 없으면 0. */

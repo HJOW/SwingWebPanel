@@ -48,6 +48,7 @@ import org.duckdns.hjow.swingwebpanel.core.ConsoleDispatcher;
 import org.duckdns.hjow.swingwebpanel.core.WebMessageDispatcher;
 import org.duckdns.hjow.swingwebpanel.core.ClipboardSink;
 import org.duckdns.hjow.swingwebpanel.core.ControlOverlays;
+import org.duckdns.hjow.swingwebpanel.core.FontDefaults;
 import org.duckdns.hjow.swingwebpanel.core.FormSubmitSink;
 import org.duckdns.hjow.swingwebpanel.core.UploadChooser;
 import org.duckdns.hjow.swingwebpanel.dom.html.FormSubmission;
@@ -168,6 +169,27 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      * {@link #setRootWindowClosingEnabled(boolean)} 의 변경을 알리는 속성 이름. 값은 <code>Boolean</code> 이다.
      */
     public static final String PROPERTY_ROOT_WINDOW_CLOSING_ENABLED = "rootWindowClosingEnabled";
+
+    /**
+     * Name of the property that announces a change of the default fonts ({@link #setDefaultFontFamily(String, String)},
+     * {@link #setDefaultFontSize(int)}, {@link #setDefaultMonospaceFontSize(int)}); the values are one-line descriptions (<code>String</code>).
+     * <p>
+     * 기본 글꼴({@link #setDefaultFontFamily(String, String)}, {@link #setDefaultFontSize(int)}, {@link #setDefaultMonospaceFontSize(int)})의
+     * 변경을 알리는 속성 이름. 값은 한 줄 설명(<code>String</code>)이다.
+     */
+    public static final String PROPERTY_DEFAULT_FONTS = "defaultFonts";
+
+    /** Kind of default font: the font of content whose author named none. / 기본 글꼴의 종류: 작성자가 글꼴을 지정하지 않은 내용의 글꼴. */
+    public static final String FONT_STANDARD = "standard";
+
+    /** Kind of default font: the font behind the generic name <code>serif</code>. / 기본 글꼴의 종류: 일반 이름 <code>serif</code> 뒤의 글꼴. */
+    public static final String FONT_SERIF = "serif";
+
+    /** Kind of default font: the font behind the generic name <code>sans-serif</code>. / 기본 글꼴의 종류: 일반 이름 <code>sans-serif</code> 뒤의 글꼴. */
+    public static final String FONT_SANS_SERIF = "sans-serif";
+
+    /** Kind of default font: the font behind the generic name <code>monospace</code>. / 기본 글꼴의 종류: 일반 이름 <code>monospace</code> 뒤의 글꼴. */
+    public static final String FONT_MONOSPACE = "monospace";
 
     /**
      * Preferred width of an empty page in pixels.
@@ -1747,6 +1769,179 @@ public class SwingWebPanel extends JPanel implements Scrollable {
         scrollViewportTo((int) Math.round(keep[0] * zoom - keep[2]), (int) Math.round(keep[1] * zoom - keep[3]));
         if (last) {
             zoomKeep = null;
+        }
+    }
+
+    /**
+     * Sets one of the default font families of this component (extension method, API contract 5.27). The kind
+     * {@link #FONT_STANDARD} is the font of content whose author named no font; {@link #FONT_SERIF}, {@link #FONT_SANS_SERIF} and
+     * {@link #FONT_MONOSPACE} are the fonts behind the generic names of CSS. A family that is not installed is ignored when text is
+     * laid out (the built-in font of the kind is used). Fonts that the author names, and web fonts, are not affected. The pages that
+     * are shown (frames included) are laid out again; the setting stays for later pages and through {@link #clean()}, and it does not
+     * reach other components.
+     * <p>
+     * 이 컴포넌트의 기본 글꼴 패밀리 가운데 하나를 정한다(확장 메서드, API 계약 5.27). 종류 {@link #FONT_STANDARD} 는 작성자가 글꼴을 지정하지
+     * 않은 내용의 글꼴이고, {@link #FONT_SERIF}, {@link #FONT_SANS_SERIF}, {@link #FONT_MONOSPACE} 는 CSS 일반 이름 뒤의 글꼴이다. 설치되지
+     * 않은 패밀리는 텍스트를 배치할 때 무시한다(그 종류의 내장 글꼴을 쓴다). 작성자가 지정한 글꼴과 웹 글꼴에는 영향이 없다. 보이는
+     * 페이지(프레임 포함)를 다시 배치한다. 설정은 이후의 페이지와 {@link #clean()} 뒤에도 유지되며 다른 컴포넌트에는 닿지 않는다.
+     * <p>
+     * 사용 예 / Example:
+     * <pre>
+     * panel.setDefaultFontFamily(SwingWebPanel.FONT_STANDARD, "Malgun Gothic");
+     * panel.setDefaultFontSize(18);
+     * </pre>
+     *
+     * @param kind   {@link #FONT_STANDARD}, {@link #FONT_SERIF}, {@link #FONT_SANS_SERIF} or {@link #FONT_MONOSPACE} /
+     *               {@link #FONT_STANDARD}, {@link #FONT_SERIF}, {@link #FONT_SANS_SERIF}, {@link #FONT_MONOSPACE} 중 하나
+     * @param family the font family name; null or empty for the built-in font / 글꼴 패밀리 이름. 내장 글꼴이면 null 이나 빈 문자열
+     * @throws IllegalArgumentException for an unknown kind, or a name with control characters / 모르는 종류이거나 이름에 제어 문자가 있을 때
+     * @throws IllegalStateException    if the component was disposed / 컴포넌트가 폐기되었을 때
+     */
+    public void setDefaultFontFamily(String kind, String family) {
+        checkAlive();
+        String name = family == null ? "" : family.trim();
+        // 제어 문자가 든 이름은 글꼴 이름이 아니다.
+        for (int i = 0; i < name.length(); i++) {
+            if (name.charAt(i) < ' ' || name.charAt(i) == 0x7F) {
+                throw new IllegalArgumentException("a font family name must not contain control characters");
+            }
+        }
+        FontDefaults old;
+        FontDefaults next;
+        synchronized (fontLock) {
+            old = view.getFontDefaults();
+            next = old.withFamily(kind, name);
+            if (next == null) {
+                throw new IllegalArgumentException("unknown kind of default font: " + kind);
+            }
+            view.setFontDefaults(next);
+        }
+        announceFonts(old, next);
+    }
+
+    /**
+     * Returns one of the default font families of this component (extension method, API contract 5.27).
+     * <p>
+     * 이 컴포넌트의 기본 글꼴 패밀리 가운데 하나를 반환한다(확장 메서드, API 계약 5.27).
+     *
+     * @param kind {@link #FONT_STANDARD}, {@link #FONT_SERIF}, {@link #FONT_SANS_SERIF} or {@link #FONT_MONOSPACE} /
+     *             {@link #FONT_STANDARD}, {@link #FONT_SERIF}, {@link #FONT_SANS_SERIF}, {@link #FONT_MONOSPACE} 중 하나
+     * @return the family that the host set, or the empty string for the built-in font / 호스트가 정한 패밀리. 내장 글꼴이면 빈 문자열
+     * @throws IllegalArgumentException for an unknown kind / 모르는 종류일 때
+     */
+    public String getDefaultFontFamily(String kind) {
+        String family = view.getFontDefaults().getFamily(kind);
+        if (family == null) {
+            throw new IllegalArgumentException("unknown kind of default font: " + kind);
+        }
+        return family;
+    }
+
+    /**
+     * Sets the default font size of this component (extension method, API contract 5.27): the size of <code>font-size: medium</code>, in
+     * CSS pixels. The other size keywords scale with it, and content without an author font size is shown in this size. The built-in
+     * value is 16.
+     * <p>
+     * 이 컴포넌트의 기본 글꼴 크기를 정한다(확장 메서드, API 계약 5.27): <code>font-size: medium</code> 의 크기(CSS 픽셀)이다. 다른 크기 키워드는
+     * 이것에 비례하고, 작성자가 글꼴 크기를 지정하지 않은 내용은 이 크기로 보인다. 내장 값은 16 이다.
+     *
+     * @param px the size, from 6 to 72 / 크기. 6 부터 72 까지
+     * @throws IllegalArgumentException for a size outside the range / 범위 밖의 크기일 때
+     * @throws IllegalStateException    if the component was disposed / 컴포넌트가 폐기되었을 때
+     */
+    public void setDefaultFontSize(int px) {
+        checkAlive();
+        if (px < FontDefaults.MIN_SIZE || px > FontDefaults.MAX_SIZE) {
+            throw new IllegalArgumentException("the default font size must be from " + FontDefaults.MIN_SIZE + " to " + FontDefaults.MAX_SIZE + ": " + px);
+        }
+        FontDefaults old;
+        FontDefaults next;
+        synchronized (fontLock) {
+            old = view.getFontDefaults();
+            next = old.withSizes(px, old.getMonospaceSize());
+            view.setFontDefaults(next);
+        }
+        announceFonts(old, next);
+    }
+
+    /**
+     * Returns the default font size of this component (extension method, API contract 5.27).
+     * <p>
+     * 이 컴포넌트의 기본 글꼴 크기를 반환한다(확장 메서드, API 계약 5.27).
+     *
+     * @return the size of <code>font-size: medium</code> in CSS pixels; 16 unless the host set another / <code>font-size: medium</code> 의
+     *         크기(CSS 픽셀). 호스트가 바꾸지 않았으면 16
+     */
+    public int getDefaultFontSize() {
+        return view.getFontDefaults().getSize();
+    }
+
+    /**
+     * Sets the font size of the monospace elements (<code>code</code>, <code>kbd</code>, <code>samp</code>, <code>tt</code>,
+     * <code>pre</code> and the old <code>listing</code>, <code>xmp</code>, <code>plaintext</code>) of this component (extension method,
+     * API contract 5.27), as browsers have a separate default size for fixed-width text. The size is given for text of the default
+     * font size and scales with the surrounding text (inside a heading it grows with the heading). 0, the built-in value, shows these
+     * elements in the size of the surrounding text. Author rules for the font size of these elements win.
+     * <p>
+     * 이 컴포넌트에서 고정폭 요소(<code>code</code>, <code>kbd</code>, <code>samp</code>, <code>tt</code>, <code>pre</code>, 그리고 옛
+     * <code>listing</code>, <code>xmp</code>, <code>plaintext</code>)의 글꼴 크기를 정한다(확장 메서드, API 계약 5.27). 브라우저가 고정폭 글에
+     * 따로 기본 크기를 두는 것과 같다. 크기는 기본 글꼴 크기의 글을 기준으로 주며 주변 글에 비례한다(제목 안에서는 제목과 함께 커진다). 내장 값인
+     * 0 이면 이 요소들을 주변 글의 크기로 보인다. 이 요소들의 글꼴 크기를 정한 작성자 규칙이 우선한다.
+     *
+     * @param px the size from 6 to 72, or 0 for the size of the surrounding text / 6 부터 72 까지의 크기. 주변 글의 크기를 쓰면 0
+     * @throws IllegalArgumentException for a size outside the range / 범위 밖의 크기일 때
+     * @throws IllegalStateException    if the component was disposed / 컴포넌트가 폐기되었을 때
+     */
+    public void setDefaultMonospaceFontSize(int px) {
+        checkAlive();
+        if (px != 0 && (px < FontDefaults.MIN_SIZE || px > FontDefaults.MAX_SIZE)) {
+            throw new IllegalArgumentException("the monospace font size must be 0 or from " + FontDefaults.MIN_SIZE + " to " + FontDefaults.MAX_SIZE + ": " + px);
+        }
+        FontDefaults old;
+        FontDefaults next;
+        synchronized (fontLock) {
+            old = view.getFontDefaults();
+            next = old.withSizes(old.getSize(), px);
+            view.setFontDefaults(next);
+        }
+        announceFonts(old, next);
+    }
+
+    /**
+     * Returns the font size of the monospace elements of this component (extension method, API contract 5.27).
+     * <p>
+     * 이 컴포넌트에서 고정폭 요소의 글꼴 크기를 반환한다(확장 메서드, API 계약 5.27).
+     *
+     * @return the size in CSS pixels, or 0 for the size of the surrounding text / 크기(CSS 픽셀). 주변 글의 크기를 쓰면 0
+     */
+    public int getDefaultMonospaceFontSize() {
+        return view.getFontDefaults().getMonospaceSize();
+    }
+
+    /** Guards the read-change-write of the default fonts against calls from several threads. / 여러 스레드의 호출로부터 기본 글꼴의 읽고-바꾸고-쓰기를 보호한다. */
+    private final transient Object fontLock = new Object();
+
+    /**
+     * Announces a change of the default fonts as the {@link #PROPERTY_DEFAULT_FONTS} property change on the event dispatch thread.
+     * <p>
+     * 기본 글꼴의 변경을 {@link #PROPERTY_DEFAULT_FONTS} 속성 변경으로 이벤트 디스패치 스레드에서 알린다.
+     *
+     * @param old  the defaults before / 이전 기본값
+     * @param next the defaults now / 지금의 기본값
+     */
+    private void announceFonts(final FontDefaults old, final FontDefaults next) {
+        if (old.equals(next)) {
+            return;
+        }
+        if (SwingUtilities.isEventDispatchThread()) {
+            firePropertyChange(PROPERTY_DEFAULT_FONTS, old.toString(), next.toString());
+        } else {
+            SwingUtilities.invokeLater(new Runnable() {
+                /** Announces the change on the EDT. / EDT 에서 변경을 알린다. */
+                public void run() {
+                    firePropertyChange(PROPERTY_DEFAULT_FONTS, old.toString(), next.toString());
+                }
+            });
         }
     }
 

@@ -665,6 +665,11 @@ final class ElementExtras {
                     return new StyleObject(bridge, styleProto, new org.duckdns.hjow.swingwebpanel.css.cssom.CssStyleDeclaration());
                 }
                 StyleResolver sr = env.getStyleResolver();
+                // 다른 문서(프레임이나 다른 창의 문서)의 요소는 이 창의 스타일 엔진이 알지 못한다. 예외를 내지 않고 초기값을 돌려준다.
+                // 그 요소의 계산 스타일은 그 문서의 창에서 getComputedStyle 을 불러야 얻는다.
+                if (sr != null && e.getOwnerDocument() != page.getDocument()) {
+                    sr = null;
+                }
                 ComputedStyle cs = sr == null ? ComputedStyle.initial()
                         : pseudo == null || pseudo.length() == 0 ? sr.getComputedStyle(e) : sr.getPseudoComputedStyle(e, pseudo);
                 return new StyleObject(bridge, styleProto, null, cs);

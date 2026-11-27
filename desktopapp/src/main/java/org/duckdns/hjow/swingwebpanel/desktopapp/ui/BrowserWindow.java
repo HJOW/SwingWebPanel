@@ -109,8 +109,7 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
         getContentPane().add(navigation, BorderLayout.NORTH);
         getContentPane().add(tabPane, BorderLayout.CENTER);
         getContentPane().add(status, BorderLayout.SOUTH);
-        setSize(1000, 700);
-        setLocationByPlatform(true);
+        placeFromSettings();
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             /**
@@ -155,6 +154,153 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
         app.getSettings().addListener(this);
         newTab(null, true);
         settingsChanged(app.getSettings());
+    }
+
+    /** The bounds of the window while it was not maximized, remembered for the next start. / 최대화되지 않았을 때의 창 경계. 다음 시작을 위해 기억한다. */
+    private java.awt.Rectangle normalBounds;
+
+    /**
+     * Gives the window the size and the place of the settings (the window of the last run); a place that is not on a screen any more is
+     * left to the platform, and a further window is put a little beside the windows that are already open.
+     * <p>
+     * 창에 설정의 크기와 위치(지난번의 창)를 준다. 더 이상 화면에 없는 위치는 플랫폼에 맡기고, 추가로 여는 창은 이미 열린 창 옆에 조금 비켜 둔다.
+     */
+    private void placeFromSettings() {
+        Settings s = app.getSettings();
+        int w = s.getInt(Settings.WINDOW_WIDTH, 300, 10000);
+        int h = s.getInt(Settings.WINDOW_HEIGHT, 200, 10000);
+        setSize(w, h);
+        int others = app.getWindows().size();
+        boolean placed = false;
+        try {
+            int x = Integer.parseInt(s.get(Settings.WINDOW_X).trim()) + others * 30;
+            int y = Integer.parseInt(s.get(Settings.WINDOW_Y).trim()) + others * 30;
+            java.awt.Rectangle wanted = new java.awt.Rectangle(x, y, w, h);
+            java.awt.GraphicsDevice[] screens = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+            // 창의 제목 줄이 어느 화면에든 걸쳐 있어야 그 위치를 쓴다.
+            for (int i = 0; i < screens.length && !placed; i++) {
+                java.awt.Rectangle screen = screens[i].getDefaultConfiguration().getBounds();
+                placed = screen.intersects(new java.awt.Rectangle(wanted.x, wanted.y, wanted.width, 40));
+            }
+            if (placed) {
+                setLocation(x, y);
+            }
+        } catch (NumberFormatException e) {
+            placed = false;
+        } catch (java.awt.HeadlessException e) {
+            placed = false;
+        }
+        if (!placed) {
+            setLocationByPlatform(true);
+        }
+        normalBounds = getBounds();
+        if (s.getBoolean(Settings.WINDOW_MAXIMIZED)) {
+            setExtendedState(getExtendedState() | MAXIMIZED_BOTH);
+        }
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            /**
+             * Remembers the bounds while the window is not maximized.
+             * <p>
+             * 창이 최대화되지 않은 동안의 경계를 기억한다.
+             *
+             * @param e the event / 이벤트
+             */
+            public void componentResized(java.awt.event.ComponentEvent e) {
+                rememberBounds();
+            }
+
+            /**
+             * Remembers the bounds while the window is not maximized.
+             * <p>
+             * 창이 최대화되지 않은 동안의 경계를 기억한다.
+             *
+             * @param e the event / 이벤트
+             */
+            public void componentMoved(java.awt.event.ComponentEvent e) {
+                rememberBounds();
+            }
+        });
+    }
+
+    /**
+     * Remembers the bounds of the window if it is not maximized.
+     * <p>
+     * 창이 최대화되어 있지 않으면 그 경계를 기억한다.
+     */
+    private void rememberBounds() {
+        if (!closed && (getExtendedState() & MAXIMIZED_BOTH) == 0) {
+            normalBounds = getBounds();
+        }
+    }
+
+    /**
+     * Writes the place and the size of the window into the settings, for the next start.
+     * <p>
+     * 창의 위치와 크기를 다음 시작을 위해 설정에 적는다.
+     */
+    private void savePlace() {
+        java.awt.Rectangle b = normalBounds != null ? normalBounds : getBounds();
+        java.util.Map<String, String> values = new java.util.LinkedHashMap<String, String>();
+        values.put(Settings.WINDOW_X, String.valueOf(b.x));
+        values.put(Settings.WINDOW_Y, String.valueOf(b.y));
+        values.put(Settings.WINDOW_WIDTH, String.valueOf(b.width));
+        values.put(Settings.WINDOW_HEIGHT, String.valueOf(b.height));
+        values.put(Settings.WINDOW_MAXIMIZED, String.valueOf((getExtendedState() & MAXIMIZED_BOTH) != 0));
+        app.getSettings().setAll(values);
+    }
+
+    /**
+     * Returns the addresses of the tabs that show a page (not the empty page), for the session that is restored at the next start.
+     * <p>
+     * 페이지를 보이는 탭(빈 페이지 제외)의 주소를 반환한다. 다음에 시작할 때 복원하는 세션에 쓴다.
+     *
+     * @return the addresses in the order of the tab strip / 탭 줄 순서대로의 주소
+     */
+    public List<String> getTabUrls() {
+        List<String> urls = new ArrayList<String>();
+        // 탭마다 빈 페이지가 아니면 주소를 모은다.
+        for (int i = 0; i < tabs.size(); i++) {
+            String url = tabs.get(i).getUrl();
+            if (url != null && url.length() > 0 && !BrowserApp.BLANK.equals(url)) {
+                urls.add(url);
+            }
+        }
+        return urls;
+    }
+
+    /**
+     * Returns the position of the active tab among the tabs that {@link #getTabUrls()} lists.
+     * <p>
+     * {@link #getTabUrls()} 가 나열하는 탭 가운데 활성 탭의 위치를 반환한다.
+     *
+     * @return the position, 0 if the active tab shows the empty page / 위치. 활성 탭이 빈 페이지를 보이면 0
+     */
+    public int getActiveTabPosition() {
+        int position = 0;
+        BrowserTab active = getActiveTab();
+        // 활성 탭 앞에 있는, 주소가 있는 탭의 수가 그 위치이다.
+        for (int i = 0; i < tabs.size(); i++) {
+            String url = tabs.get(i).getUrl();
+            boolean listed = url != null && url.length() > 0 && !BrowserApp.BLANK.equals(url);
+            if (tabs.get(i) == active) {
+                return listed ? position : 0;
+            }
+            if (listed) {
+                position++;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * Closes a tab because a script of its page closed the window (the settings allowed it).
+     * <p>
+     * 페이지의 스크립트가 창을 닫았으므로(설정이 허용했다) 그 탭을 닫는다.
+     *
+     * @param tab the tab / 탭
+     */
+    public void tabCloseRequested(BrowserTab tab) {
+        closeTab(tab);
     }
 
     /**
@@ -317,6 +463,10 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
             showBookmarkManager();
             return true;
         }
+        if (Commands.SETTINGS.equals(command)) {
+            showSettings();
+            return true;
+        }
         tab.showNotice(Texts.of("This command is not available yet: ", "아직 쓸 수 없는 명령입니다: ") + command);
         return false;
     }
@@ -450,6 +600,10 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
             navigation.setVisible(toolbar);
             status.setVisible(statusBar);
             getContentPane().validate();
+        }
+        // 탭마다 페이지에 관한 설정(스크립트, 글꼴, 확대 비율 등)을 적용한다.
+        for (int i = 0; i < tabs.size(); i++) {
+            tabs.get(i).applySettings();
         }
     }
 
@@ -667,6 +821,23 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
     private void showStorageResult(BrowserTab tab, String success) {
         String problem = app.takeStorageProblem();
         tab.showNotice(problem != null ? problem : success);
+    }
+
+    /**
+     * Creates the settings dialog of this window and shows it if the window is shown. The dialog is modal: with a visible window this
+     * method returns after the user closed it.
+     * <p>
+     * 이 창의 설정 대화 상자를 만들고, 창이 보이면 대화 상자도 보인다. 대화 상자는 모달이다: 창이 보이면 사용자가 대화 상자를 닫은 뒤에 이 메서드가
+     * 돌아온다.
+     *
+     * @return the dialog / 대화 상자
+     */
+    SettingsDialog showSettings() {
+        SettingsDialog dialog = new SettingsDialog(this, app);
+        if (isVisible()) {
+            dialog.setVisible(true);
+        }
+        return dialog;
     }
 
     /**
@@ -1071,12 +1242,17 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
         if (closed) {
             return true;
         }
+        // 마지막 창을 닫는 것은 프로그램을 끝내는 것이므로, 다음 시작을 위해 지금의 탭들을 기억해 둔다.
+        boolean last = app.getWindows().size() == 1;
         // 탭이 여럿이면 설정에 따라 닫기 전에 확인한다.
         if (tabs.size() > 1 && app.getSettings().getBoolean(Settings.CONFIRM_CLOSE_TABS)) {
             String question = Texts.of("Close this window with its " + tabs.size() + " tabs?", "탭 " + tabs.size() + "개가 있는 이 창을 닫을까요?");
             if (!app.getPrompts().confirm(this, question)) {
                 return false;
             }
+        }
+        if (last) {
+            app.lastWindowClosing();
         }
         closeWindow();
         return true;
@@ -1092,6 +1268,7 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
         if (closed) {
             return;
         }
+        savePlace();
         closed = true;
         app.getSettings().removeListener(this);
         if (bookmarkDialog != null) {

@@ -310,8 +310,10 @@ final class PagePresentation implements DomMutationListener, PageResources.Liste
             });
             // CSS 전환과 애니메이션은 JavaScript 설정과 무관하게 동작한다(P10-07): 엔진은 스타일 리졸버에 설치된다.
             animations = new AnimationEngine(css, AnimationClock.SYSTEM);
+            applyFontDefaults();
             css.loadStyleSheets();
         } else {
+            applyFontDefaults();
             environment.setViewport(width, height);
             environment.setScripting(document.isScriptingEnabled());
             css.getResolver().setMediaEnvironment(environment);
@@ -811,6 +813,52 @@ final class PagePresentation implements DomMutationListener, PageResources.Liste
         if (!closed.get() && load != null) {
             load.run();
         }
+    }
+
+    /** The default fonts of the component that shows this page (API contract 5.27). / 이 페이지를 보이는 컴포넌트의 기본 글꼴(API 계약 5.27). */
+    private volatile FontDefaults fontDefaults = FontDefaults.NONE;
+
+    /** The default fonts that the style engine and the font set were given last. / 스타일 엔진과 글꼴 집합에 마지막으로 준 기본 글꼴. */
+    private FontDefaults appliedFontDefaults = FontDefaults.NONE;
+
+    /**
+     * Sets the default fonts of the component; the page is styled and laid out again if they changed.
+     * <p>
+     * 컴포넌트의 기본 글꼴을 정한다. 바뀌었으면 페이지의 스타일과 배치를 다시 계산한다.
+     *
+     * @param defaults the defaults, null for the built-in ones / 기본값. 내장 기본값이면 null
+     */
+    void setFontDefaults(FontDefaults defaults) {
+        FontDefaults next = defaults == null ? FontDefaults.NONE : defaults;
+        boolean changed = !next.equals(fontDefaults);
+        fontDefaults = next;
+        if (changed) {
+            invalidate();
+        }
+    }
+
+    /**
+     * Gives the default fonts to the style engine (the default size and the user style sheet) and to the font set (the families of the
+     * generic names), if they changed since the last time. Call it with the lock of this object, after the style engine was created.
+     * <p>
+     * 기본 글꼴이 지난번과 달라졌으면 스타일 엔진(기본 크기와 사용자 스타일 시트)과 글꼴 집합(일반 이름의 패밀리)에 준다. 스타일 엔진을 만든 뒤, 이
+     * 객체의 잠금을 쥐고 부른다.
+     */
+    private void applyFontDefaults() {
+        FontDefaults d = fontDefaults;
+        if (d.equals(appliedFontDefaults)) {
+            return;
+        }
+        appliedFontDefaults = d;
+        StyleResolver resolver = css.getResolver();
+        resolver.setDefaultFontSize(d.getSize());
+        List<StyleSheet> user = new java.util.ArrayList<StyleSheet>();
+        String text = d.userStyleSheet();
+        if (text.length() > 0) {
+            user.add(StyleSheet.parse(text, null, StyleSheet.ORIGIN_USER, null, new org.duckdns.hjow.swingwebpanel.css.CssDiagnostics()));
+        }
+        resolver.setUserStyleSheets(user);
+        fonts.setGenericFamilies(d.getSerif(), d.getSansSerif(), d.getMonospace());
     }
 
     /** Coalesces layout invalidation and notifies only an installed view. / 배치 무효화를 합치고 설치된 뷰에만 알린다. */

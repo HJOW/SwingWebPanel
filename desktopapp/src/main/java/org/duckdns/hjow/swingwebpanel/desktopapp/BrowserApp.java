@@ -9,7 +9,9 @@ import javax.swing.JOptionPane;
 import org.duckdns.hjow.swingwebpanel.CookieJar;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkModel;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkStore;
+import org.duckdns.hjow.swingwebpanel.desktopapp.model.SessionStore;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings;
+import org.duckdns.hjow.swingwebpanel.desktopapp.model.SettingsStore;
 import org.duckdns.hjow.swingwebpanel.desktopapp.ui.BrowserWindow;
 
 /**
@@ -86,6 +88,17 @@ public final class BrowserApp {
         File chooseFile(Component parent, boolean save, String suggestedName);
 
         /**
+         * Asks for a directory.
+         * <p>
+         * 디렉터리를 묻는다.
+         *
+         * @param parent  the component that the question belongs to / 질문이 속한 컴포넌트
+         * @param current the directory to start in, or null / 시작할 디렉터리. 없으면 null
+         * @return the chosen directory, or null if the user cancelled / 고른 디렉터리. 사용자가 취소했으면 null
+         */
+        File chooseDirectory(Component parent, File current);
+
+        /**
          * Tells the user something.
          * <p>
          * 사용자에게 무언가를 알린다.
@@ -119,6 +132,12 @@ public final class BrowserApp {
 
     /** The file of the bookmarks. / 북마크의 파일. */
     private final BookmarkStore bookmarkStore;
+
+    /** The file of the settings. / 설정의 파일. */
+    private final SettingsStore settingsStore;
+
+    /** The file of the last session. / 지난 세션의 파일. */
+    private final SessionStore sessionStore;
 
     /** What went wrong when the user data was read or written last, or null. / 사용자 데이터를 마지막으로 읽거나 쓸 때 잘못된 것. 없으면 null. */
     private String storageProblem;
@@ -173,6 +192,24 @@ public final class BrowserApp {
         }
 
         /**
+         * Shows a file chooser that only lets the user pick a directory.
+         * <p>
+         * 디렉터리만 고를 수 있는 파일 선택기를 보인다.
+         *
+         * @param parent  the component that the question belongs to / 질문이 속한 컴포넌트
+         * @param current the directory to start in, or null / 시작할 디렉터리. 없으면 null
+         * @return the chosen directory, or null if the user cancelled / 고른 디렉터리. 사용자가 취소했으면 null
+         */
+        public File chooseDirectory(Component parent, File current) {
+            JFileChooser chooser = new JFileChooser(current != null ? current : lastDirectory);
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            if (chooser.showOpenDialog(parent) != JFileChooser.APPROVE_OPTION) {
+                return null;
+            }
+            return chooser.getSelectedFile();
+        }
+
+        /**
          * Shows a message dialog.
          * <p>
          * 메시지 대화 상자를 보인다.
@@ -220,6 +257,29 @@ public final class BrowserApp {
             }
         };
         File home = homeDirectory();
+        settingsStore = new SettingsStore(home);
+        sessionStore = new SessionStore(home);
+        // 읽을 수 없는 설정 파일은 저장소가 다른 이름으로 보존하고, 응용 프로그램은 기본값으로 시작한다.
+        if (!settingsStore.load(settings)) {
+            storageProblem = Texts.of("The settings file could not be read and was kept as ", "설정 파일을 읽을 수 없어 다음 이름으로 보존했습니다: ")
+                    + SettingsStore.FILE_NAME + ".broken";
+        }
+        settings.addListener(new Settings.Listener() {
+            /**
+             * Saves the settings after every change.
+             * <p>
+             * 변경이 있을 때마다 설정을 저장한다.
+             *
+             * @param changed the settings / 설정
+             */
+            public void settingsChanged(Settings changed) {
+                try {
+                    settingsStore.save(changed);
+                } catch (java.io.IOException e) {
+                    storageProblem = Texts.of("The settings could not be saved: ", "설정을 저장할 수 없습니다: ") + e.getMessage();
+                }
+            }
+        });
         bookmarkStore = new BookmarkStore(home);
         // 읽을 수 없는 파일은 저장소가 다른 이름으로 보존한다. 그 사실을 사용자에게 알릴 수 있게 기억한다.
         if (!bookmarkStore.load(bookmarks)) {
@@ -345,6 +405,68 @@ public final class BrowserApp {
     }
 
     /**
+     * Opens the windows that the program starts with. An address given by the caller (the command line) is opened in one window.
+     * Otherwise the setting for the start decides: the home page, the empty page, or the windows and tabs of the last run (the home
+     * page if there is nothing to restore). The windows are created but not shown.
+     * <p>
+     * 프로그램이 시작할 때의 창을 연다. 호출자(명령행)가 준 주소가 있으면 창 하나에 그 주소를 연다. 없으면 시작에 관한 설정이 정한다: 홈 페이지,
+     * 빈 페이지, 또는 지난번의 창과 탭(복원할 것이 없으면 홈 페이지). 창은 만들기만 하고 보이지는 않는다.
+     *
+     * @param url the address from the command line, or null / 명령행의 주소. 없으면 null
+     * @return the windows, at least one / 창들. 하나 이상이다
+     */
+    public List<BrowserWindow> start(String url) {
+        List<BrowserWindow> opened = new ArrayList<BrowserWindow>();
+        String[] choices = { Settings.START_HOME, Settings.START_BLANK, Settings.START_RESTORE };
+        String mode = settings.getChoice(Settings.START_PAGE, choices);
+        if (url != null && url.trim().length() > 0) {
+            opened.add(openWindow(url));
+            return opened;
+        }
+        if (Settings.START_RESTORE.equals(mode)) {
+            List<SessionStore.Window> last = sessionStore.load();
+            // 지난 세션의 창마다 창을 만들고 그 탭들을 연다.
+            for (int w = 0; w < last.size(); w++) {
+                List<String> urls = last.get(w).getUrls();
+                BrowserWindow window = openWindow(urls.get(0));
+                // 첫 탭 뒤의 탭들을 차례로 연다.
+                for (int t = 1; t < urls.size(); t++) {
+                    window.newTab(urls.get(t), false);
+                }
+                window.selectTab(last.get(w).getActive());
+                opened.add(window);
+            }
+        }
+        if (opened.isEmpty()) {
+            opened.add(openWindow(Settings.START_BLANK.equals(mode) ? null : settings.get(Settings.HOME_PAGE)));
+        }
+        return opened;
+    }
+
+    /**
+     * Remembers the open windows and their tabs as the last session, for the setting that restores them at the next start. It is
+     * called before the windows are closed at the end of the program.
+     * <p>
+     * 열린 창과 그 탭을 지난 세션으로 기억한다. 다음에 시작할 때 복원하는 설정이 쓴다. 프로그램이 끝날 때 창을 닫기 전에 호출된다.
+     */
+    public void saveSession() {
+        List<SessionStore.Window> session = new ArrayList<SessionStore.Window>();
+        // 창마다 빈 페이지가 아닌 탭의 주소를 모은다.
+        for (int w = 0; w < windows.size(); w++) {
+            BrowserWindow window = windows.get(w);
+            List<String> urls = window.getTabUrls();
+            if (!urls.isEmpty()) {
+                session.add(new SessionStore.Window(urls, window.getActiveTabPosition()));
+            }
+        }
+        try {
+            sessionStore.save(session);
+        } catch (java.io.IOException e) {
+            storageProblem = Texts.of("The session could not be saved: ", "세션을 저장할 수 없습니다: ") + e.getMessage();
+        }
+    }
+
+    /**
      * Closes all windows as the user asks for it, the newest first; each window may ask before it closes, and a refusal stops the exit.
      * Closing the last window ends the program.
      * <p>
@@ -355,13 +477,36 @@ public final class BrowserApp {
      */
     public boolean exit() {
         List<BrowserWindow> open = getWindows();
-        // 최근 창부터 닫고, 한 창이라도 거절하면 멈춘다.
-        for (int i = open.size() - 1; i >= 0; i--) {
-            if (!open.get(i).requestClose()) {
-                return false;
+        saveSession();
+        // 창을 하나씩 닫는 동안에는 세션을 다시 쓰지 않는다(모든 창이 열려 있던 지금의 것이 세션이다).
+        exiting = true;
+        try {
+            // 최근 창부터 닫고, 한 창이라도 거절하면 멈춘다.
+            for (int i = open.size() - 1; i >= 0; i--) {
+                if (!open.get(i).requestClose()) {
+                    return false;
+                }
             }
+            return true;
+        } finally {
+            exiting = false;
         }
-        return true;
+    }
+
+    /** True while {@link #exit()} closes the windows. / {@link #exit()} 가 창을 닫는 동안 true. */
+    private boolean exiting;
+
+    /**
+     * Called by the last open window before it closes as the user asked: its tabs become the last session, unless the program is
+     * already ending through {@link #exit()}, which remembered all windows.
+     * <p>
+     * 마지막으로 열린 창이 사용자의 요청으로 닫히기 전에 부른다: 그 창의 탭이 지난 세션이 된다. 단, 모든 창을 기억해 둔 {@link #exit()} 로
+     * 프로그램이 이미 끝나는 중이면 그대로 둔다.
+     */
+    public void lastWindowClosing() {
+        if (!exiting) {
+            saveSession();
+        }
     }
 
     /**

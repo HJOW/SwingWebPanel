@@ -43,6 +43,7 @@ public class SwingWebPanel extends javax.swing.JPanel implements javax.swing.Scr
 | `setRootWindowClosingEnabled(boolean)`/`isRootWindowClosingEnabled()` | 허용 여부 | void / boolean | ISE(폐기, 변경만) | 본 창의 `window.close()` 허용(확장, 5.23). 허용하면 기본 동작은 `System.exit(0)` |
 | `new SwingWebPanel(CookieJar)`, `getCookieJar()`, `clearCookies()`, `CookieJar` | 공유 쿠키 저장소 | - / `CookieJar` / void | IAE(null 저장소), ISE(폐기, `clearCookies`) | 컴포넌트 사이의 쿠키 공유와 쿠키 삭제(확장, 5.24) |
 | `copy()`, `cut()`, `paste()`, `selectAll()` | - | void | ISE(폐기) | 호스트의 편집 명령(확장, 5.26) |
+| `setDefaultFontFamily(String,String)`/`getDefaultFontFamily(String)`, `setDefaultFontSize(int)`/`getDefaultFontSize()`, `setDefaultMonospaceFontSize(int)`/`getDefaultMonospaceFontSize()` | 종류와 패밀리, 크기 | void / String / int | IAE, ISE(폐기, 변경만) | 컴포넌트별 기본 글꼴(확장, 5.27) |
 | `clean()` | - | void | ISE | 빈 페이지 + 캐시/저장소 삭제 |
 | `dispose()` | - | void | - | 반복 호출 안전 |
 | `addHeaders(Map<String,String>)` | 헤더 | void | IAE | 덮어쓰기 |
@@ -66,13 +67,14 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 | `getCookies()` | `""` |
 | JavaScript | **활성**(`true`). 사용자 문서에도 기록한다 |
 | `isRootWindowClosingEnabled()` | `false`(본 창의 `window.close()` 는 무시한다, 5.23) |
+| 기본 글꼴(5.27) | 패밀리 네 종류 모두 `""`(내장 글꼴), `getDefaultFontSize()` = 16, `getDefaultMonospaceFontSize()` = 0 |
 | `getProgress()` | 100 |
 | `getStatusText()` | `""` |
 | `getLocalStorage()`/`getSessionStorage()` | 빈 컬렉션(저장된 것이 없을 때) |
 
 ## 4. 속성 변경 통지 (P03-06)
 
-`PropertyChangeListener` 로 `"page"`(String), `"statusText"`(String), `"progress"`(Integer), `"title"`(String), `"rootWindowClosingEnabled"`(Boolean, 5.23)를 EDT 에서 통지한다.
+`PropertyChangeListener` 로 `"page"`(String), `"statusText"`(String), `"progress"`(Integer), `"title"`(String), `"rootWindowClosingEnabled"`(Boolean, 5.23), `"defaultFonts"`(String, 5.27)를 EDT 에서 통지한다.
 값이 실제로 달라졌을 때만 통지한다. `"title"` 은 새 페이지가 확정될 때와, 스크립트가 문서의 제목을 바꿀 때 통지한다(5.25).
 
 ## 5. 메서드별 상세
@@ -197,7 +199,7 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 
 - 진행 중 작업(요청, 스크립트, 타이머, 미디어, 다운로드 팝업과 다운로드)을 취소하고 `about:blank` 로 전환, **이력을 `about:blank` 하나로 초기화**한다.
 - 이 컴포넌트의 모든 **캐시**와 **sessionStorage**, 그리고 **프로세스 공용 localStorage 전체**를 비운다.
-- **유지**: User-Agent, 추가 헤더, **쿠키**, JavaScript 설정, 본 창 닫기 허용 설정(5.23), 사용자 리스너(하이퍼링크·콘솔·웹 메시지 포함). 대기 중인 웹 메시지는 비운다. 예약된 창 닫기(5.23)는 취소한다.
+- **유지**: User-Agent, 추가 헤더, **쿠키**, JavaScript 설정, 본 창 닫기 허용 설정(5.23), 기본 글꼴(5.27), 사용자 리스너(하이퍼링크·콘솔·웹 메시지 포함). 대기 중인 웹 메시지는 비운다. 예약된 창 닫기(5.23)는 취소한다.
 - 공유 localStorage 삭제는 같은 JVM 의 **다른 컴포넌트에도 영향**을 준다(그 컴포넌트의 이후 조회가 빈 값을 반환하고, 같은 오리진의 문서에는 storage 이벤트가 전달된다). 이 영향은 사용자 문서에 명시한다.
 - 완료된 다운로드 파일은 지우지 않는다. 이미 폐기된 컴포넌트에서의 호출은 `IllegalStateException`.
 
@@ -205,7 +207,7 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 
 - 한 번만 자원을 해제한다. **반복 호출은 안전**하게 끝난다(예외 없음).
 - `clean()` 과 같은 정리 후, 이 객체에 등록된 모든 사용자 리스너와 자체 생성 이벤트 연결, 타이머, 작업, 미디어, 하위 프레임을 제거한다.
-- 폐기 후 **변경 메서드**(`setPage`, `setContent`, `back`, `forward`, `refresh`, `setUserAgent`, `addHeaders`, `setJavascriptEnabled`, `setRootWindowClosingEnabled`, `clean`, `postMessage`, 리스너 등록)는 `IllegalStateException`.
+- 폐기 후 **변경 메서드**(`setPage`, `setContent`, `back`, `forward`, `refresh`, `setUserAgent`, `addHeaders`, `setJavascriptEnabled`, `setRootWindowClosingEnabled`, 기본 글꼴 설정(5.27), `clean`, `postMessage`, 리스너 등록)는 `IllegalStateException`.
   **조회 메서드**는 마지막 빈 상태를 반환한다: `getPage()`=`about:blank`, `getContent()`=`""`, `getHistories()`=`[about:blank]`, `getStatusText()`=`""`, `getProgress()`=100,
   `getHeaders()`=빈 맵, `getCookies()`=`""`, 저장소 조회=빈 컬렉션, `getUserAgent()`=마지막으로 설정한 값, `isRootWindowClosingEnabled()`=마지막으로 설정한 값.
 - 제거 대상 표:
@@ -502,6 +504,28 @@ JavaScript 를 실행하지 않는 페이지(`setJavascriptEnabled(false)`, `tex
   폼의 텍스트 컨트롤 편집기에서 온 키는 확대 키만 소비한다(나머지는 편집기 자신의 키 바인딩이 처리한다). 그 밖의 키(Ctrl+T, F5, Alt+화살표 등)는 소비하지 않아 호스트가 쓸 수 있다.
   이전에는 편집 호스트의 캐럿 키만 소비했다.
 
+### 5.27 확장: 컴포넌트별 기본 글꼴 (P31-07, 확장이며 AGENTS.md 의 공개 메서드 목록에는 없다)
+
+`public void setDefaultFontFamily(String kind, String family)`, `public String getDefaultFontFamily(String kind)`,
+`public void setDefaultFontSize(int px)`, `public int getDefaultFontSize()`,
+`public void setDefaultMonospaceFontSize(int px)`, `public int getDefaultMonospaceFontSize()`.
+종류 상수: `FONT_STANDARD`(`"standard"`), `FONT_SERIF`(`"serif"`), `FONT_SANS_SERIF`(`"sans-serif"`), `FONT_MONOSPACE`(`"monospace"`). 속성 이름 `PROPERTY_DEFAULT_FONTS`(`"defaultFonts"`).
+
+| 항목 | 계약 |
+| --- | --- |
+| 표준 글꼴(`standard`) | 작성자가 글꼴을 지정하지 않은 내용의 글꼴이다. 루트 요소의 `font-family` 를 정하는 **사용자 출처** 규칙(`:root { font-family: "패밀리", serif }`)으로 적용하므로 작성자 규칙이 이긴다. `getComputedStyle` 의 `fontFamily` 는 그 패밀리 이름으로 시작한다. `font-family: initial` 은 지금처럼 `serif` 이다(한계) |
+| 일반 이름(`serif`, `sans-serif`, `monospace`) | 스타일의 글꼴 목록에 그 일반 이름이 나오는 모든 곳(작성자 목록의 마지막 이름 포함, 초기값 `serif` 포함)에서 그 패밀리를 쓴다. `cursive`, `fantasy`, `system-ui` 등 다른 일반 이름은 바뀌지 않는다 |
+| 설치되지 않은 패밀리 | 값으로는 보관하지만 배치할 때 무시한다(그 종류의 내장 글꼴을 쓴다). 표준 글꼴이 설치되어 있지 않으면 규칙의 다음 이름인 `serif` 로 넘어간다 |
+| 기본 크기 | `font-size: medium` 의 크기(CSS 픽셀)이다. 내장 값 16, 범위 6~72. 다른 절대 크기 키워드(`small`, `x-large` 등)는 16 기준 표에 비례한다. 루트 요소가 이 크기에서 시작하므로 루트의 백분율·`em` 과 그에 따른 `rem` 이 따라간다. 픽셀 등 절대 길이는 바뀌지 않는다 |
+| 고정폭 크기 | `code`, `kbd`, `samp`, `tt`, `pre`, `listing`, `xmp`, `plaintext` 요소의 글꼴 크기이다. 기본 크기의 글을 기준으로 준 값을 **비율**(`고정폭 크기 ÷ 기본 크기` em)의 사용자 출처 규칙으로 적용하므로 제목 안에서는 함께 커지고, 이 요소들이 중첩되어도 한 번만 적용된다. 0(내장 값)이면 주변 글의 크기이다. 범위 0 또는 6~72. 작성자 규칙이 이긴다. `textarea` 등 폼 컨트롤에는 적용하지 않는다 |
+| 적용 범위 | 그 컴포넌트가 보이는 모든 문서: 최상위 문서, 프레임, 오류 화면, `text/plain`·Markdown 표시(같은 HTML 경로로 그린다). 보이는 페이지는 스타일과 배치를 다시 계산한다. 웹 글꼴(`@font-face`)과 작성자가 지정한 패밀리에는 영향이 없다. **캔버스 2D 의 `font`** 는 자체 대응을 쓰므로 바뀌지 않는다(한계). 미디어 질의의 `em` 은 16px 기준 그대로이다(한계) |
+| 컴포넌트별 | 값은 컴포넌트마다 따로이며 정적 공유 상태가 없다. 다른 컴포넌트에 영향이 없다 |
+| 인수 | 모르는 종류, 제어 문자가 든 패밀리 이름, 범위 밖의 크기는 `IllegalArgumentException`. 패밀리 이름은 앞뒤 공백을 떼고 보관한다. `null` 과 빈 문자열은 내장 글꼴로 되돌린다 |
+| 스레드와 통지 | 어느 스레드에서나 부를 수 있다. 값이 실제로 달라지면 `"defaultFonts"` 속성 변경을 EDT 에서 통지한다(값은 한 줄 설명 문자열) |
+| 수명 | `clean()` 과 페이지 이동 뒤에도 유지한다. 폐기된 컴포넌트에서 변경은 `IllegalStateException`, 조회는 마지막 값을 반환한다 |
+
+같이 고친 것: 다른 문서(프레임 등)의 요소를 `window.getComputedStyle` 에 넘기면 Java 예외가 스크립트 작업 밖으로 새던 것을 고쳐, 초기값의 선언 객체를 돌려준다. 그 요소의 계산 스타일은 그 문서의 창에서 얻는다.
+
 ## 6. 허용 스킴 정책 (P01-12)
 
 | 스킴 | 정책 |
@@ -578,5 +602,7 @@ HTTPS 의 연결/TLS 실패 시에만 같은 주소의 HTTP 를 한 번 시도�
 | C-COOKIEJAR-1~4 | 쿠키 저장소 공유와 삭제(5.24, P31-04) | `CookieJarTest`: 1 같은 저장소의 컴포넌트가 요청과 `document.cookie` 에서 쿠키를 공유하고 다른 저장소·자기 저장소에는 보이지 않음, 2 폐기해도 공유 저장소는 남고 폐기된 컴포넌트는 빈 상태, 3 `clean()` 은 유지·`clearCookies()` 와 `CookieJar.clear()` 는 삭제, 4 null 저장소와 폐기 뒤 호출의 예외 |
 | C-TITLE-1~3 | 살아 있는 문서의 제목(5.25, P31-04) | `LiveTitleTest`: 1 읽은 뒤 `document.title`·텍스트 노드·요소 제거와 재생성이 `getTitle()` 과 EDT 의 `title` 속성에 순서대로 반영, 2 파싱 중에 바꾼 제목이 확정 뒤 반영, 3 프레임 문서의 제목은 영향 없고 프레임이 바꾼 부모 제목은 반영 |
 | C-EDITCMD-1~5 | 호스트의 편집 명령과 명령 키 소비(5.26, P31-05-a) | `core.EditCommandsTest`: 1 편집 호스트에서 모두 선택·복사·잘라내기·붙여넣기와 이벤트 순서, 키 이벤트 없음, 2 폼 텍스트 컨트롤, 3 편집할 수 없는 페이지와 다른 스레드의 호출, 4 폐기 뒤 예외, 5 소비하는 키와 소비하지 않는 키 |
+
+| C-FONT-1~5 | 컴포넌트별 기본 글꼴(5.27, P31-07) | `DefaultFontsTest`: 1 기본 크기와 크기 키워드·루트 백분율·rem, 살아 있는 페이지의 재계산, 2 표준 글꼴과 작성자 규칙, 3 일반 이름의 패밀리와 설치되지 않은 패밀리, 4 고정폭 크기(제목 안, 중첩, 작성자 규칙), 5 인수·통지·`clean()`·프레임·다른 컴포넌트·폐기 |
 
 사례 ID는 구현 시 `browser/src/test/java`의 메서드 이름에 포함하고 `FEATURE_MATRIX.md`의 검증 사례 열과 일치시킨다.

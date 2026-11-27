@@ -244,6 +244,39 @@ public final class StyleResolver implements DomMutationListener {
         invalidate();
     }
 
+    /** The size of <code>font-size: medium</code> in CSS pixels: the default font size of the user (API contract 5.27). / <code>font-size: medium</code> 의 크기(CSS 픽셀): 사용자의 기본 글꼴 크기(API 계약 5.27). */
+    private double defaultFontSize = LengthContext.DEFAULT_FONT_SIZE;
+
+    /**
+     * Sets the default font size: the size of <code>font-size: medium</code>, to which the other size keywords are scaled, and the size
+     * that the root element starts from. The built-in value is 16.
+     * <p>
+     * 기본 글꼴 크기를 정한다: <code>font-size: medium</code> 의 크기이며, 다른 크기 키워드는 이것에 비례하고, 루트 요소가 여기서 시작한다. 내장
+     * 값은 16 이다.
+     *
+     * @param px the size in CSS pixels, a positive finite number / 크기(CSS 픽셀). 유한한 양수
+     */
+    public void setDefaultFontSize(double px) {
+        if (Double.isNaN(px) || Double.isInfinite(px) || px <= 0) {
+            throw new IllegalArgumentException("the default font size must be a positive finite number: " + px);
+        }
+        if (px != defaultFontSize) {
+            defaultFontSize = px;
+            invalidate();
+        }
+    }
+
+    /**
+     * Returns the default font size.
+     * <p>
+     * 기본 글꼴 크기를 반환한다.
+     *
+     * @return the size of <code>font-size: medium</code> in CSS pixels / <code>font-size: medium</code> 의 크기(CSS 픽셀)
+     */
+    public double getDefaultFontSize() {
+        return defaultFontSize;
+    }
+
     /**
      * Sets the provider of the dynamic element state (hover, focus, form state).
      * <p>
@@ -422,7 +455,7 @@ public final class StyleResolver implements DomMutationListener {
         }
         Element parentEl = e.getParentElement();
         ComputedStyle parent = parentEl == null ? null : getComputedStyle(parentEl);
-        LengthContext lc = new LengthContext(LengthContext.DEFAULT_FONT_SIZE, LengthContext.DEFAULT_FONT_SIZE, LengthContext.DEFAULT_FONT_SIZE * 1.2,
+        LengthContext lc = new LengthContext(defaultFontSize, defaultFontSize, defaultFontSize * 1.2,
                 env.getWidth(), env.getHeight()).withPrefersDark("dark".equals(env.getColorScheme()));
         return StyleComputer.compute(cascaded, new LinkedHashMap<String, List<org.duckdns.hjow.swingwebpanel.css.syntax.ComponentValue>>(), parent, lc,
                 e == doc.getDocumentElement());
@@ -730,7 +763,7 @@ public final class StyleResolver implements DomMutationListener {
         if (s != null) {
             return s;
         }
-        LengthContext lc = new LengthContext(LengthContext.DEFAULT_FONT_SIZE, LengthContext.DEFAULT_FONT_SIZE, LengthContext.DEFAULT_FONT_SIZE * 1.2,
+        LengthContext lc = new LengthContext(defaultFontSize, defaultFontSize, defaultFontSize * 1.2,
                 env.getWidth(), env.getHeight());
         return StyleComputer.compute(new CssValue[Prop.COUNT + 1], new LinkedHashMap<String, List<ComponentValue>>(), getComputedStyle(e), lc, false);
     }
@@ -1317,7 +1350,7 @@ public final class StyleResolver implements DomMutationListener {
                 cascaded[Prop.COLOR] = getComputedStyle(body).get(Prop.COLOR);
             }
         }
-        LengthContext lc = new LengthContext(LengthContext.DEFAULT_FONT_SIZE, LengthContext.DEFAULT_FONT_SIZE, LengthContext.DEFAULT_FONT_SIZE * 1.2,
+        LengthContext lc = new LengthContext(defaultFontSize, defaultFontSize, defaultFontSize * 1.2,
                 env.getWidth(), env.getHeight()).withPrefersDark("dark".equals(env.getColorScheme()));
         // 컨테이너 질의를 쓰는 문서에서는 cqw 같은 컨테이너 상대 길이를 위해 가장 가까운 컨테이너의 크기를 알려 준다.
         if (index.usesContainers) {

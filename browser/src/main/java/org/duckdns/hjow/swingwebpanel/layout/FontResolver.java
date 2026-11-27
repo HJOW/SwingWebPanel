@@ -129,6 +129,14 @@ final class FontResolver {
      */
     private static String javaName(String css) {
         String l = css.toLowerCase(Locale.ENGLISH);
+        // 호스트가 일반 이름에 패밀리를 정해 두었고(API 계약 5.27) 그 패밀리가 설치되어 있으면 그것을 쓴다.
+        WebFontSource web = WEB.get();
+        if (web instanceof WebFontSet) {
+            String chosen = ((WebFontSet) web).genericFamily(l);
+            if (chosen != null && installed().contains(chosen.toLowerCase(Locale.ENGLISH))) {
+                return chosen;
+            }
+        }
         if ("serif".equals(l) || "cursive".equals(l) || "fantasy".equals(l) || "ui-serif".equals(l)) {
             return Font.SERIF;
         }

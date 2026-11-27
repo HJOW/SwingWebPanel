@@ -70,6 +70,19 @@ public final class FakePrompts implements BrowserApp.Prompts {
     }
 
     /**
+     * Chooses the prepared file as the directory.
+     * <p>
+     * 준비한 파일을 디렉터리로 고른다.
+     *
+     * @param parent  the component that the question belongs to / 질문이 속한 컴포넌트
+     * @param current the directory to start in or null / 시작할 디렉터리 또는 null
+     * @return the prepared file / 준비한 파일
+     */
+    public File chooseDirectory(Component parent, File current) {
+        return file;
+    }
+
+    /**
      * Remembers the message.
      * <p>
      * 메시지를 기억한다.

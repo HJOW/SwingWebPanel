@@ -42,6 +42,15 @@ public final class BrowserTab {
          * @param tab the tab / 탭
          */
         void tabChanged(BrowserTab tab);
+
+        /**
+         * Called on the event dispatch thread when a script of the page of the tab closed its window and the settings allow it.
+         * <p>
+         * 탭의 페이지의 스크립트가 자기 창을 닫았고 설정이 그것을 허용하면 이벤트 디스패치 스레드에서 호출된다.
+         *
+         * @param tab the tab / 탭
+         */
+        void tabCloseRequested(BrowserTab tab);
     }
 
     /** The application. / 응용 프로그램. */
@@ -55,6 +64,61 @@ public final class BrowserTab {
 
     /** The receiver of the changes, or null. / 변경을 받는 쪽. 없으면 null. */
     private Listener listener;
+
+    /** The User-Agent of the component before the settings changed it. / 설정이 바꾸기 전의 컴포넌트 User-Agent. */
+    private final String builtInUserAgent;
+
+    /** The default zoom of the settings that this tab follows, as a factor. / 이 탭이 따르는 설정의 기본 확대 비율(배율). */
+    private double followedZoom = 1.0;
+
+    /**
+     * The component of a tab: a {@link SwingWebPanel} whose extension points ask the application.
+     * <p>
+     * 탭의 컴포넌트: 확장 지점이 응용 프로그램에 묻는 {@link SwingWebPanel}.
+     */
+    private final class TabPanel extends SwingWebPanel {
+
+        /** Serialization version. / 직렬화 버전. */
+        private static final long serialVersionUID = 1L;
+
+        /**
+         * Creates the component with the cookie jar of the application.
+         * <p>
+         * 응용 프로그램의 쿠키 저장소로 컴포넌트를 만든다.
+         */
+        TabPanel() {
+            super(app.getCookieJar());
+        }
+
+        /**
+         * Returns the download folder of the settings, if one is set and exists.
+         * <p>
+         * 설정의 다운로드 폴더가 정해져 있고 실제로 있으면 그것을 반환한다.
+         *
+         * @return the folder, or the default of the component / 폴더. 없으면 컴포넌트의 기본값
+         */
+        protected java.io.File getDownloadDirectory() {
+            String dir = app.getSettings().get(Settings.DOWNLOAD_DIRECTORY).trim();
+            if (dir.length() > 0) {
+                java.io.File f = new java.io.File(dir);
+                if (f.isDirectory()) {
+                    return f;
+                }
+            }
+            return super.getDownloadDirectory();
+        }
+
+        /**
+         * Closes only this tab when a script of its page closes the window; the program does not end unless it was the last tab.
+         * <p>
+         * 페이지의 스크립트가 창을 닫으면 이 탭만 닫는다. 마지막 탭이 아니면 프로그램은 끝나지 않는다.
+         */
+        protected void closeRootWindow() {
+            if (listener != null) {
+                listener.tabCloseRequested(BrowserTab.this);
+            }
+        }
+    }
 
     /** The address that the user opened and that is still loading (shown in the address bar before the page arrives), or null. / 사용자가 열었고 아직 읽는 중인 주소(페이지가 도착하기 전에 주소 표시줄에 보인다). 없으면 null. */
     private String pendingUrl;
@@ -72,17 +136,14 @@ public final class BrowserTab {
     public BrowserTab(BrowserApp app) {
         this.app = app;
         // 응용 프로그램의 모든 탭은 쿠키 저장소 하나를 함께 쓴다.
-        panel = new SwingWebPanel(app.getCookieJar());
+        panel = new TabPanel();
+        builtInUserAgent = panel.getUserAgent();
         scroll = new JScrollPane(panel);
         scroll.setBorder(null);
         // 스크롤 창의 Ctrl+PageUp/PageDown(가로 쪽 넘김)은 탭 전환에 쓰도록 끈다.
         unbind(scroll, KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, InputEvent.CTRL_MASK));
         unbind(scroll, KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, InputEvent.CTRL_MASK));
-        double zoom = ZoomSteps.parsePercent(app.getSettings().get(Settings.DEFAULT_ZOOM), 1.0);
-        // 새 탭은 설정의 기본 확대 비율로 시작한다.
-        if (zoom != 1.0) {
-            panel.setZoom(zoom);
-        }
+        applySettings();
         PropertyChangeListener changes = new PropertyChangeListener() {
             /**
              * Tells the window that the state of the page changed.
@@ -122,6 +183,73 @@ public final class BrowserTab {
      */
     static void unbind(JComponent component, KeyStroke key) {
         component.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(key, "none");
+    }
+
+    /**
+     * Applies the settings of the application to the component of this tab: scripts, closing by scripts, the User-Agent, the default
+     * fonts and the default zoom. Only what differs is changed, so a call with unchanged settings does nothing. A tab whose zoom the
+     * user changed keeps it when the default zoom changes.
+     * <p>
+     * 응용 프로그램의 설정을 이 탭의 컴포넌트에 적용한다: 스크립트, 스크립트의 닫기, User-Agent, 기본 글꼴, 기본 확대 비율. 다른 것만 바꾸므로 설정이
+     * 그대로이면 아무 일도 하지 않는다. 사용자가 확대 비율을 바꾼 탭은 기본 확대 비율이 바뀌어도 그대로 둔다.
+     */
+    void applySettings() {
+        if (panel.isDisposed()) {
+            return;
+        }
+        Settings s = app.getSettings();
+        boolean scripts = s.getBoolean(Settings.JAVASCRIPT);
+        if (panel.isJavascriptEnabled() != scripts) {
+            panel.setJavascriptEnabled(scripts);
+        }
+        boolean closing = s.getBoolean(Settings.SCRIPTS_CLOSE_WINDOWS);
+        if (panel.isRootWindowClosingEnabled() != closing) {
+            panel.setRootWindowClosingEnabled(closing);
+        }
+        String agent = s.get(Settings.USER_AGENT).trim();
+        String wanted = agent.length() == 0 ? builtInUserAgent : agent;
+        if (!wanted.equals(panel.getUserAgent())) {
+            try {
+                panel.setUserAgent(wanted);
+            } catch (IllegalArgumentException e) {
+                // 줄 바꿈이 든 값처럼 컴포넌트가 받지 않는 글은 건너뛰고 지금의 값을 둔다.
+                agent = "";
+            }
+        }
+        String[][] fonts = { { Settings.FONT_STANDARD, SwingWebPanel.FONT_STANDARD }, { Settings.FONT_SERIF, SwingWebPanel.FONT_SERIF },
+                { Settings.FONT_SANS_SERIF, SwingWebPanel.FONT_SANS_SERIF }, { Settings.FONT_MONOSPACE, SwingWebPanel.FONT_MONOSPACE } };
+        // 종류마다 달라진 글꼴 패밀리를 적용한다.
+        for (int i = 0; i < fonts.length; i++) {
+            String family = s.get(fonts[i][0]).trim();
+            if (!family.equals(panel.getDefaultFontFamily(fonts[i][1]))) {
+                try {
+                    panel.setDefaultFontFamily(fonts[i][1], family);
+                } catch (IllegalArgumentException e) {
+                    // 글꼴 이름이 아닌 글은 건너뛴다.
+                    family = "";
+                }
+            }
+        }
+        int size = s.getInt(Settings.FONT_SIZE, 6, 72);
+        if (size != panel.getDefaultFontSize()) {
+            panel.setDefaultFontSize(size);
+        }
+        int mono = s.getInt(Settings.FONT_MONOSPACE_SIZE, 0, 72);
+        // 0 은 "주변 글의 크기"이고 그 밖에는 6 이상이어야 한다.
+        if (mono != 0 && mono < 6) {
+            mono = 0;
+        }
+        if (mono != panel.getDefaultMonospaceFontSize()) {
+            panel.setDefaultMonospaceFontSize(mono);
+        }
+        double zoom = ZoomSteps.parsePercent(s.get(Settings.DEFAULT_ZOOM), 1.0);
+        // 기본 확대 비율이 바뀌었고 탭이 이전 기본값을 그대로 쓰고 있었으면 새 기본값을 따른다.
+        if (Math.abs(zoom - followedZoom) > 0.0005) {
+            if (Math.abs(panel.getZoom() - followedZoom) < 0.0005) {
+                panel.setZoom(zoom);
+            }
+            followedZoom = zoom;
+        }
     }
 
     /**

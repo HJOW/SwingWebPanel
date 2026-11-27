@@ -336,7 +336,51 @@ public final class PageView {
      * @param context copied resource settings / 복사한 리소스 설정
      * @return new presentation / 새 표현 상태 */
     PagePresentation createPresentation(Document document, PageRequestContext context) {
-        return new PagePresentation(document, context, fetcher, cookies, workers);
+        PagePresentation created = new PagePresentation(document, context, fetcher, cookies, workers);
+        created.setFontDefaults(fontDefaults);
+        presentations.put(created, Boolean.TRUE);
+        return created;
+    }
+
+    /** The default fonts of the component (API contract 5.27). / 컴포넌트의 기본 글꼴(API 계약 5.27). */
+    private volatile FontDefaults fontDefaults = FontDefaults.NONE;
+
+    /** The presentations that this view created and that are still in use (top-level pages and frames), held weakly. / 이 뷰가 만들었고 아직 쓰이는 표현(최상위 페이지와 프레임). 약하게 붙든다. */
+    private final java.util.Map<PagePresentation, Boolean> presentations = java.util.Collections
+            .synchronizedMap(new java.util.WeakHashMap<PagePresentation, Boolean>());
+
+    /**
+     * Returns the default fonts of the component.
+     * <p>
+     * 컴포넌트의 기본 글꼴을 반환한다.
+     *
+     * @return the defaults; never null / 기본값. null 이 아니다
+     */
+    public FontDefaults getFontDefaults() {
+        return fontDefaults;
+    }
+
+    /**
+     * Sets the default fonts of the component: the pages that are shown now (frames included) are styled and laid out again, and pages
+     * that are loaded later start with the new defaults.
+     * <p>
+     * 컴포넌트의 기본 글꼴을 정한다: 지금 보이는 페이지(프레임 포함)의 스타일과 배치를 다시 계산하고, 나중에 읽는 페이지는 새 기본값으로 시작한다.
+     *
+     * @param defaults the defaults, null for the built-in ones / 기본값. 내장 기본값이면 null
+     */
+    public void setFontDefaults(FontDefaults defaults) {
+        FontDefaults next = defaults == null ? FontDefaults.NONE : defaults;
+        fontDefaults = next;
+        PagePresentation[] live;
+        synchronized (presentations) {
+            live = presentations.keySet().toArray(new PagePresentation[0]);
+        }
+        // 살아 있는 표현마다 새 기본값을 알린다. 닫힌 표현은 스스로 무시한다.
+        for (int i = 0; i < live.length; i++) {
+            if (live[i] != null) {
+                live[i].setFontDefaults(next);
+            }
+        }
     }
 
     /** Returns a copy of the latest EDT scroll position. / 최신 EDT 스크롤 위치의 복사본을 반환한다.
