@@ -24,9 +24,10 @@ SwingWebPanel 로 만든 Swing 웹 브라우저 응용 프로그램이다(저장
 | 경로 | 내용 |
 | --- | --- |
 | `pom.xml` | 모듈 POM. 부모의 JDK 6 컴파일 설정을 쓴다. `package` 에서 실행 JAR 을 만들고 `verify` 에서 JDK 6 으로 `--smoke` 실행 |
-| `src/assembly/app.xml` | 앱 + `swingwebpanel` + `swingwebpanel-js` 클래스를 합친 실행 JAR 의 구성 |
+| `src/assembly/app.xml` | 앱 + `swingwebpanel` + `swingwebpanel-js` + `swingwebpanel-tls13` 및 라이선스 자료를 합친 실행 JAR |
 | `src/main/java/.../desktopapp/Main.java` | 진입점. `[주소]` 또는 `--smoke` |
 | `src/main/java/.../desktopapp/BrowserApp.java` | 프로세스 전체 상태(설정, 열린 창, 마지막 창이 닫힐 때의 종료) |
+| `src/main/java/.../desktopapp/DesktopTls.java` | Java 6·7에서 선택 TLS 모듈을 활성화한다. 탭과 팝업 생성 경로가 사용한다. |
 | `src/main/java/.../desktopapp/Texts.java` | UI 글의 언어 선택. 글은 쓰는 곳에 `Texts.of("English", "한국어")` 로 함께 적는다 |
 | `src/main/java/.../desktopapp/model/` | `AddressInput`(주소 입력 정규화), `Settings`·`SettingsStore`·`SessionStore`(설정과 세션), `BookmarkModel`·`BookmarkStore`·`BookmarkHtml`(북마크), `ConsoleLog`(탭의 콘솔 메시지), `PageFiles`, `ZoomSteps`, `TextFiles` |
 | `src/main/java/.../desktopapp/ui/BrowserMenu.java`, `Commands.java` | 메뉴 막대와 명령 이름. 모든 명령은 `BrowserWindow.perform(이름)` 으로 실행한다 |
@@ -57,6 +58,8 @@ SwingWebPanel 로 만든 Swing 웹 브라우저 응용 프로그램이다(저장
 
 - 산출물: `desktopapp/target/swingwebpanel-desktopapp.jar`(실행 JAR), `desktopapp/target/swingwebpanel-desktopapp-<판>.jar`(앱 클래스만).
 - 종료 코드(`--smoke`): 0 성공, 1 실패.
+- `--smoke` 출력의 TLS 경로를 확인한다. Java 규격 버전 1.6·1.7이면 `TLS=module`, 나머지는 `TLS=JRE`다.
+- `OptionalTlsBrowserTest`는 `SWP_TLS_SERVER_JAVA_HOME`을 지정하면 독립 JSSE 서버를 이용해 선택 TLS와 브라우저를 함께 검증한다.
 - 창 시험은 버튼을 `doClick()` 으로 누르고 창을 보이지 않게 만든다. 실제 마우스·키보드 확인은 `tools/uicheck` 로 따로 한다(P31-11, 기록 `docs/progress/uicheck.md` 2026-11-27 절).
 - 창에 텍스트 필드를 더하면 `BrowserTab.releaseCommandKeys(필드)` 를 부른다. Swing 텍스트 필드가 편집에 쓰는 Ctrl+H 가 브라우저의 방문 기록 명령을 가로채지 않게 한다(`PageToolsTest.testHistoryKeyInTextFields`).
 - 실제 창 확인에서 "인쇄..."와 "페이지 설정..."(운영 체제의 대화 상자)은 실행하지 않는다. 메뉴 항목은 방향키 횟수가 아니라 글이 일치하는 `--press` 로 누른다.

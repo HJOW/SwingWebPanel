@@ -74,6 +74,7 @@ public final class Main {
                 // 화면이 있으면 실제 창의 구성을 그대로 쓴다.
                 if (headless) {
                     panel[0] = new SwingWebPanel();
+                    DesktopTls.configure(panel[0]);
                 } else {
                     window[0] = new BrowserApp(new Runnable() {
                         /** Keeps the JVM alive so that the result can be printed. / 결과를 출력할 수 있게 JVM 을 끝내지 않는다. */
@@ -91,6 +92,8 @@ public final class Main {
             Thread.sleep(20);
         }
         final boolean shown = "smoke".equals(panel[0].getTitle());
+        final boolean module = panel[0].isTls13ModuleEnabled();
+        System.out.println("desktopapp TLS=" + (module ? "module" : "JRE"));
         SwingUtilities.invokeAndWait(new Runnable() {
             /** Closes what was created. / 만든 것을 닫는다. */
             public void run() {
@@ -101,6 +104,6 @@ public final class Main {
                 }
             }
         });
-        return shown && (window[0] == null || window[0].isClosed());
+        return shown && module == DesktopTls.isEligibleRuntime() && (window[0] == null || window[0].isClosed());
     }
 }

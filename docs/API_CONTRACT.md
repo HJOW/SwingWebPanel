@@ -47,6 +47,7 @@ public class SwingWebPanel extends javax.swing.JPanel implements javax.swing.Scr
 | `createPrintout(PageFormat, boolean, PrintoutListener)`, `PagePrintout`, `PrintoutListener`, 보호 메서드 `printRequested()` | 용지, 배경 인쇄 여부, 리스너 | void | IAE(null), ISE(폐기) | 인쇄용 쪽 만들기와 `window.print()` 확장 지점(확장, 5.30) |
 | `find(String, boolean, boolean)`, `clearFind()`, `getFindResult()`, `FindResult` | 검색어, 대소문자 구분, 방향 | void / `FindResult` | IAE(null 글), ISE(폐기, `find`·`clearFind`) | 페이지 안 찾기(확장, 5.29) |
 | `setPopupBlockingEnabled(boolean)`/`isPopupBlockingEnabled()`, `disposeKeepingStorage()`, `WindowRequest`, `PopupSeed`, 보호 메서드 `createPopupPanel`·`canOpenPopupWindows`·`openPopupWindow`·`openNewWindow`·`popupBlocked`·`closeOpenedWindow` | 차단 여부, 창 요청 | void / boolean | ISE(폐기, 변경만) | 페이지가 여는 창(팝업)과 팝업 차단(확장, 5.28) |
+| `isTls13ModuleAvailable()`, `setTls13ModuleEnabled(boolean)`, `isTls13ModuleEnabled()` | 사용 여부(설정 시) | boolean / void / boolean | ISE(모듈 초기화 실패, 폐기 후 변경) | 선택 TLS 1.3·1.2 모듈(확장, 5.31) |
 | `clean()` | - | void | ISE | 빈 페이지 + 캐시/저장소 삭제 |
 | `dispose()` | - | void | - | 반복 호출 안전 |
 | `addHeaders(Map<String,String>)` | 헤더 | void | IAE | 덮어쓰기 |
@@ -73,6 +74,7 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 | 기본 글꼴(5.27) | 패밀리 네 종류 모두 `""`(내장 글꼴), `getDefaultFontSize()` = 16, `getDefaultMonospaceFontSize()` = 0 |
 | `isPopupBlockingEnabled()` | `true`(사용자의 조작 없이 부른 `window.open` 은 차단한다, 5.28) |
 | `getFindResult()` | `FindResult.NONE`(찾는 글 없음, 5.29) |
+| `isTls13ModuleEnabled()` | `false`(기본 JRE TLS, 5.31) |
 | `getProgress()` | 100 |
 | `getStatusText()` | `""` |
 | `getLocalStorage()`/`getSessionStorage()` | 빈 컬렉션(저장된 것이 없을 때) |
@@ -81,6 +83,7 @@ IAE = `IllegalArgumentException`, ISE = `IllegalStateException`.
 
 `PropertyChangeListener` 로 `"page"`(String), `"statusText"`(String), `"progress"`(Integer), `"title"`(String), `"rootWindowClosingEnabled"`(Boolean, 5.23), `"defaultFonts"`(String, 5.27), `"popupBlockingEnabled"`(Boolean, 5.28), `"findResult"`(`FindResult`, 5.29)를 EDT 에서 통지한다.
 값이 실제로 달라졌을 때만 통지한다. `"title"` 은 새 페이지가 확정될 때와, 스크립트가 문서의 제목을 바꿀 때 통지한다(5.25).
+`"tls13ModuleEnabled"`(Boolean, `PROPERTY_TLS13_MODULE_ENABLED`)도 값이 바뀔 때 EDT에 게시한다(5.31).
 
 ## 5. 메서드별 상세
 
@@ -627,6 +630,19 @@ JavaScript 를 실행하지 않는 페이지(`setJavascriptEnabled(false)`, `tex
 
 검증: `PrintoutTest`(C-PRINT-1~6). 모든 시험은 쪽을 이미지에만 그린다.
 
+### 5.31 확장. 선택 TLS 1.3·1.2 모듈 (P32)
+
+| 메서드 | 계약 |
+| --- | --- |
+| `public static boolean isTls13ModuleAvailable()` | 컨텍스트 클래스 로더, 라이브러리 클래스 로더 순서로 선택 모듈의 진입점을 확인한다. |
+| `public void setTls13ModuleEnabled(boolean enabled)` | 어느 스레드에서나 호출할 수 있다. 새 HTTPS 연결부터 적용하고 값이 바뀌면 EDT에서 속성 알림을 보낸다. 모듈을 불러오거나 초기화할 수 없는 상태에서 켜거나, 폐기 뒤 변경하려 하면 `IllegalStateException`을 던진다. 모듈 초기화에 실패하면 이전 설정을 유지한다. |
+| `public boolean isTls13ModuleEnabled()` | 이 컴포넌트의 설정을 반환한다. `clean()`은 값을 유지한다. `dispose()`와 `disposeKeepingStorage()` 뒤에는 `false`다. |
+
+라이브러리 기본값은 JRE 경로다. 선택 모듈은 별도 `swingwebpanel-tls13.jar`를 클래스패스에 넣고 켠다.
+스크립트가 연 창은 연결할 때 여는 쪽의 `configureSsl` 정책을 따른다. 여는 쪽을 폐기해도 열린 채 남은 창에는 마지막 SSL 정책이 적용된다.
+모듈의 기본 신뢰는 2026-11-28에 고정한 Mozilla CCADB 루트 목록이다. 목록은 자동 갱신하지 않으며 OCSP, CRL, OneCRL을 조회하지 않는다.
+P-256/P-384 ECDH는 상수 시간 구현이 아니며 세션 재개를 지원하지 않는다. 신뢰 저장소를 교체하려면 호스트가 모듈 팩터리를 직접 구성한다.
+
 ## 6. 허용 스킴 정책 (P01-12)
 
 | 스킴 | 정책 |
@@ -658,11 +674,15 @@ JavaScript 를 실행하지 않는 페이지(`setJavascriptEnabled(false)`, `tex
 - 헤드리스 환경(`GraphicsEnvironment.isHeadless()`)에서는 다운로드를 취소하고 상태 메시지로 알린다.
 - `clean`/`dispose` 는 진행 중 다운로드를 취소하고 팝업을 닫는다. 완료된 파일은 지우지 않는다.
 
-## 8. SSL 확장 지점 (P04-07)
+## 8. SSL 확장 지점 (P04-07, P32-07)
 
-`protected void configureSsl(javax.net.ssl.HttpsURLConnection connection) throws java.io.IOException` 을 `SwingWebPanel` 에 두고
-모든 HTTPS 요청에서 호출한다. 기본 구현은 JRE 기본 신뢰 저장소와 호스트 이름 검증을 사용한다(전역 설정을 바꾸지 않고, 인증서 검증을 무조건 통과시키지 않음).
-HTTPS 의 연결/TLS 실패 시에만 같은 주소의 HTTP 를 한 번 시도한다(기본 443 포트는 80 으로, 명시한 다른 포트는 유지). HTTP 404/500 은 HTTPS 실패가 아니다.
+`protected void configureSsl(javax.net.ssl.HttpsURLConnection connection) throws java.io.IOException`을 최초 HTTPS 연결마다 호출한다.
+기본 구현은 전역 설정을 변경하지 않고 JRE의 신뢰 저장소와 호스트 이름 검증을 사용한다. 5.31의 모듈을 켜면 그 연결에 모듈 팩터리를 설치한다.
+호스트가 이 메서드를 재정의하면서 `super.configureSsl(connection)`을 호출하지 않으면 모듈은 자동 설치되지 않는다.
+
+별도 팩터리의 협상 실패로 판정된 경우에만 동일한 HTTPS 주소를 JRE 기본 JSSE로 한 번 다시 시도한다. 이 재시도에는 보호 훅을 다시 호출하지 않는다.
+인증서·호스트 이름·서명·Finished·다운그레이드 표식 검증 실패와 DNS·연결 거부·제한 시간에는 JRE 재시도가 없다.
+최종 연결/TLS 실패에는 P04-08의 HTTP 재시도 조건을 적용한다. 기본 443 포트는 80으로, 명시한 다른 포트는 그대로 쓴다. HTTP 404/500은 연결/TLS 실패에 해당하지 않는다.
 
 `Origin`/`Access-Control-Request-*` 헤더를 실어야 하는 요청(CORS 요청, 사전 요청, 시작한 오리진이 있는 POST/PUT/DELETE)은 JRE 가 그 헤더를 버리므로 소켓 기반 연결(`net.SocketHttpsURLConnection`)로 보낸다. 이 연결도 같은 `configureSsl` 을 부르며 `setSSLSocketFactory`/`setHostnameVerifier` 를 따른다. 인증서 사슬은 JRE 의 기본 신뢰 저장소(또는 재정의가 정한 소켓 팩터리)로, 호스트 이름은 RFC 2818 규칙으로 확인하며 JVM 전역 호스트 이름 검증기는 쓰지 않는다. JVM 프록시가 적용되면 JRE 연결을 쓰고 그 헤더는 사라진다.
 
@@ -697,6 +717,7 @@ HTTPS 의 연결/TLS 실패 시에만 같은 주소의 HTTP 를 한 번 시도�
 | C-STORAGE-1~6 | 저장소 | 복사본, 오리진 분리, session 분리/local 공유 |
 | C-DOWNLOAD-1~8 | 다운로드 | 7절 전체 |
 | C-SSL-1~3 | SSL | protected 재정의 호출, HTTPS 실패 후 HTTP 재시도, 404 비재시도 |
+| C-TLS-1~3 | 선택 TLS (5.31, P32) | `OptionalTlsModuleAbsentTest`와 `OptionalTlsBrowserTest`. 클래스 로더·토글·EDT·수명, HTTPS·CORS·팝업, 협상과 인증서 거부의 재시도 순서 |
 | C-CONSOLE-1~8 | 콘솔 리스너(5.20) | log/error 수준·문자열·인수·위치·EDT, 모든 콘솔 메서드의 수준, Swing 등록 규칙, 리스너 예외 격리, 브라우저 보고의 종류, 모든 스크립트 실행 위치, 프레임/Worker 표시, 대량 출력 상한, 이동·clean·dispose·JavaScript 설정 |
 | C-MESSAGE-1~8 | 호스트 메시지(5.22, P27) | `HostOutboundMessageTest`: 1 대상 오리진·신뢰 이벤트, 2 파싱 중 발신·이동 취소. `HostInboundMessageTest`: 3 준비 알림·EDT 응답, 4 값과 전달 오류, 5 프레임·Worker·교체 응답. `HostMessageQueueTest`: 6 마이크로태스크와 리스너 예외, 7 대기 건수·바이트. `HostMessageLifecycleTest`: 8 비활성·정리·폐기와 약한 수명. 클래스패스 왕복은 `MessageExample --smoke`. |
 | C-ROOTCLOSE-1~8 | 본 창 닫기 허용(5.23, P30) | `RootWindowClosingTest`: 1 기본값·속성 통지·`clean()` 유지·폐기 뒤 ISE, 2 기본값에서 무시와 콘솔 경고, 3 허용 시 EDT 한 번·작업과 마이크로태스크 뒤(파싱 중 스크립트 포함)·`closed`·반복 호출·타이머/프라미스/인라인 핸들러, 4 프레임(같은/다른 오리진, 샌드박스, 프레임 자신), 5 페이지 이동은 취소하지 않고 호스트 조작은 취소, 6 언로드 이벤트 한 번. `core.WebContentWindowClosingTest`: 7 웹 콘텐츠가 만든 창 경로. `RootWindowClosingExitMain`(Maven `run-root-close-exit`): 8 기본 구현의 `System.exit(0)`을 별도 JVM 에서 확인(허용 시 종료 코드 0, 대조로 미허용 시 3) |

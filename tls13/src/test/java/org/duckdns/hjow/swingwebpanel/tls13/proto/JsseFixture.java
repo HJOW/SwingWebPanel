@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 import org.duckdns.hjow.swingwebpanel.tls13.CertBuilder;
 import org.duckdns.hjow.swingwebpanel.tls13.TestKey;
@@ -38,8 +37,8 @@ public final class JsseFixture {
     /** Port announced by the server. / 서버가 알린 포트. */
     private final int port;
 
-    /** Connections accepted by the child. / 자식이 수락한 연결 수. */
-    private final AtomicInteger connections = new AtomicInteger();
+    /** Connection schemes in order of arrival. / 도착 순서대로 저장한 연결 스킴. */
+    private final List<String> connections = Collections.synchronizedList(new ArrayList<String>());
 
     /**
      * Starts the configured server or skips when the newer JRE is unavailable.
@@ -124,8 +123,8 @@ public final class JsseFixture {
                         String line;
                         // 프로세스 출력이 막히지 않도록 종료까지 읽는다.
                         while ((line = announcements.readLine()) != null) {
-                            if ("connection".equals(line)) {
-                                connections.incrementAndGet();
+                            if ("https".equals(line) || "http".equals(line)) {
+                                connections.add(line);
                             }
                         }
                     } catch (java.io.IOException closed) {
@@ -173,7 +172,16 @@ public final class JsseFixture {
      * @return number of connections / 연결 수
      */
     public int connections() {
-        return connections.get();
+        return connections.size();
+    }
+
+    /**
+     * Reports the connection schemes in order. / 연결 스킴을 순서대로 보고한다.
+     *
+     * @return ordered list snapshot / 순서가 있는 목록 사본
+     */
+    public String connectionOrder() {
+        return connections.toString();
     }
 
     /**

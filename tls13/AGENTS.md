@@ -43,6 +43,7 @@ Java 6·7 에서 쓰는 TLS 1.3·1.2 클라이언트를 순수 Java 로 구현�
 - 시험은 모듈 디렉터리(`tls13/`)를 작업 디렉터리로 실행된다.
 - `JsseInteropTest`는 `SWP_TLS_SERVER_JAVA_HOME`에 Java 11 이상(검증판 Zulu 25)을 지정하면 독립 루프백 JSSE 서버를 실행한다. 경로를 지정하지 않거나 실행 파일이 없으면 이유를 출력하고 해당 시험을 건너뛴다.
 - 실환경 확인에는 `tools/tlsvectors`의 `LiveProbe`를 쓴다. 자동 회귀 시험은 공개 사이트를 호출하지 않는다.
+- `swingwebpanel-tls13-tests.jar`는 desktopapp의 브라우저 연동 시험에 루프백 서버를 제공한다. 실행 JAR에는 제품 클래스와 루트 목록 및 라이선스만 포함한다.
 
 ## 실제로 실행해 본 JRE
 

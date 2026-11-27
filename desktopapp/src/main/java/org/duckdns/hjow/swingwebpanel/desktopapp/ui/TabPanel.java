@@ -4,6 +4,7 @@ import java.io.File;
 import org.duckdns.hjow.swingwebpanel.SwingWebPanel;
 import org.duckdns.hjow.swingwebpanel.WindowRequest;
 import org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp;
+import org.duckdns.hjow.swingwebpanel.desktopapp.DesktopTls;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings;
 
 /**
@@ -37,6 +38,7 @@ final class TabPanel extends SwingWebPanel {
     TabPanel(BrowserApp app) {
         super(app.getCookieJar());
         this.app = app;
+        DesktopTls.configure(this);
     }
 
     /**
@@ -50,6 +52,7 @@ final class TabPanel extends SwingWebPanel {
     private TabPanel(BrowserApp app, PopupSeed seed) {
         super(seed);
         this.app = app;
+        DesktopTls.configure(this);
     }
 
     /**

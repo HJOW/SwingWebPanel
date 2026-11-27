@@ -27,6 +27,12 @@
       <artifactId>swingwebpanel</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>swingwebpanel-tls13</artifactId>
+      <version>${project.version}</version>
+      <scope>runtime</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -98,6 +104,13 @@
       <id>compile-regression-tests</id>
       <activation><property><name>maven.test.skip</name><value>!true</value></property></activation>
       <dependencies>
+        <dependency>
+          <groupId>${project.groupId}</groupId>
+          <artifactId>swingwebpanel-tls13</artifactId>
+          <version>${project.version}</version>
+          <type>test-jar</type>
+          <scope>test</scope>
+        </dependency>
         <dependency>
           <groupId>${project.groupId}</groupId>
           <artifactId>swingwebpanel-js</artifactId>

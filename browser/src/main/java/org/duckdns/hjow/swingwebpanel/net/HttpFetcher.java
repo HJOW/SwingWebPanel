@@ -25,6 +25,7 @@ import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLSocketFactory;
 
 /**
  * HTTP and HTTPS client built on <code>HttpURLConnection</code> with everything the browser needs done by hand:
@@ -38,8 +39,9 @@ import javax.net.ssl.SSLException;
  * <li><b>Bodies</b> are decompressed (gzip, deflate; only these are advertised), limited in memory
  * ({@link FetchLimits#getMaxMemoryBytes()}) and checked against Content-Length (a short body is {@link FailureKind#TRUNCATED});
  * error statuses keep their body. A {@link ResponseHandler} can redirect the body to a stream without a size limit.</li>
- * <li><b>SSL</b>: {@link SslConfigurer#configureSsl(HttpsURLConnection)} runs for every https connection. If an https
- * attempt fails at connect or TLS level (never for an HTTP error status), one retry is made over http to the same host
+ * <li><b>SSL</b>: {@link SslConfigurer#configureSsl(HttpsURLConnection)} configures the first HTTPS attempt. A negotiation failure
+ * reported by the optional module permits one attempt with the JRE JSSE at the same HTTPS URL.
+ * A connection or TLS failure permits one retry over HTTP to the same host
  * (default port 443 becomes 80, an explicit other port is kept). The result reports the real http URL and
  * {@link ResourceResponse#isHttpFallbackUsed()}. Secure cookies are naturally not sent on the plain request and the sensitive
  * extra headers above are dropped. Certificate and host name errors also count as TLS failures, as the project requires.</li>
@@ -66,7 +68,8 @@ import javax.net.ssl.SSLException;
  * <li><b>본문</b>은 압축을 풀고(gzip, deflate 만 광고), 메모리 크기를 제한({@link FetchLimits#getMaxMemoryBytes()})하며
  * Content-Length 와 대조한다(짧으면 {@link FailureKind#TRUNCATED}). 오류 상태도 본문을 유지한다. {@link ResponseHandler} 로 본문을
  * 크기 제한 없는 스트림으로 보낼 수 있다.</li>
- * <li><b>SSL</b>: 모든 https 연결에 {@link SslConfigurer#configureSsl(HttpsURLConnection)} 를 호출한다. https 시도가 연결 또는 TLS
+ * <li><b>SSL</b>: 첫 HTTPS 시도에 {@link SslConfigurer#configureSsl(HttpsURLConnection)} 를 호출한다. 선택 모듈이 협상 실패를
+ * 보고하면 같은 HTTPS 주소를 JRE JSSE로 한 번 시도한다. HTTPS 시도가 연결 또는 TLS
  * 수준에서 실패하면(HTTP 오류 상태는 해당 없음) 같은 호스트로 http 재시도를 한 번 한다(기본 443 포트는 80 으로, 명시한 다른 포트는
  * 유지). 결과에는 실제 http URL 과 {@link ResourceResponse#isHttpFallbackUsed()} 가 보고된다. 평문 요청에는 Secure 쿠키가 자연히
  * 가지 않고 위의 민감한 추가 헤더도 빠진다. 프로젝트 요구대로 인증서/호스트 이름 오류도 TLS 실패로 본다.</li>
@@ -305,6 +308,12 @@ public class HttpFetcher {
          * 연쇄가 https 에서 http 로의 대체 접속을 거쳤는지 여부.
          */
         boolean downgraded;
+
+        /** Whether this hop is retrying with the JRE implementation. / 이 구간을 JRE 구현으로 다시 시도 중인지 여부. */
+        boolean retryWithJsse;
+
+        /** Factory of the pending HTTPS handshake, if any. / 진행 중인 HTTPS 핸드셰이크의 팩터리. 없으면 null. */
+        SSLSocketFactory handshakeFactory;
         /**
          * Whether the body is being read (failures then mean truncation).
          * <p>
@@ -444,13 +453,14 @@ public class HttpFetcher {
                 && (initiator == null || !initiator.isSameOrigin(Origin.of(st.current)))) {
             return fail(st, FailureKind.CORS, "worker module entry must be same-origin");
         }
-        if (!st.visited.add(st.method + " " + st.current)) {
+        if (!st.retryWithJsse && !st.visited.add(st.method + " " + st.current)) {
             return fail(st, FailureKind.REDIRECT_LOOP, "redirect loop at " + st.current);
         }
         HttpURLConnection conn = null;
         CancelToken.Hook hook = null;
         boolean keep = false;
         st.inBody = false;
+        st.handshakeFactory = null;
         try {
             // 교차 오리진의 단순하지 않은 요청이면 본 요청에 앞서 CORS 사전 요청으로 서버의 허락을 받는다.
             String denied = preflightDenial(st);
@@ -496,6 +506,7 @@ public class HttpFetcher {
                 }
             }
             int status = conn.getResponseCode();
+            st.handshakeFactory = null;
             if (status < 0) {
                 throw new IOException("invalid HTTP response");
             }
@@ -509,9 +520,16 @@ public class HttpFetcher {
             return DONE;
         } catch (IOException e) {
             FailureKind kind = kindFor(e, st.inBody, token);
+            // HTTP를 보내기 전의 모듈 협상 실패만 같은 URL에서 기본 JSSE로 한 번 다시 시도한다.
+            if (kind != FailureKind.CANCELLED && !st.retryWithJsse
+                    && OptionalTlsModule.isNegotiationFailure(st.handshakeFactory, e)) {
+                st.retryWithJsse = true;
+                return CONTINUE;
+            }
             if (st.current.startsWith("https:") && httpFallbackEnabled && !st.inBody
                     && (kind == FailureKind.TLS || kind == FailureKind.CONNECT)) {
                 st.current = toHttp(st.current);
+                st.retryWithJsse = false;
                 st.downgraded = true;
                 st.result.setHttpFallbackUsed();
                 return CONTINUE;
@@ -670,13 +688,7 @@ public class HttpFetcher {
             conn.setUseCaches(false);
             conn.setAllowUserInteraction(false);
             conn.setDoInput(true);
-            if (conn instanceof HttpsURLConnection) {
-                try {
-                    ssl.configureSsl((HttpsURLConnection) conn);
-                } catch (IOException e) {
-                    throw new SSLException("ssl configuration failed: " + e.getMessage());
-                }
-            }
+            configureSsl(st, conn);
             conn.setRequestProperty("User-Agent", req.getUserAgent());
             conn.setRequestProperty("Accept", "*/*");
             conn.setRequestProperty("Origin", originHeader(initiator));
@@ -697,6 +709,7 @@ public class HttpFetcher {
                 conn.setRequestProperty("Referer", referer);
             }
             int status = conn.getResponseCode();
+            st.handshakeFactory = null;
             ResourceResponse answer = new ResourceResponse(st.current);
             answer.setStatus(status, conn.getResponseMessage());
             // 응답 헤더를 판정에 쓸 응답 객체로 옮긴다.
@@ -761,6 +774,31 @@ public class HttpFetcher {
     }
 
     /**
+     * Configures TLS for the main request or its preflight and retains the actual handshake factory for failure classification.
+     * / 본 요청 또는 사전 요청의 TLS를 설정하고 실제 팩터리를 실패 판정에 쓰도록 보관한다.
+     *
+     * @param st current hop / 현재 구간
+     * @param conn request connection / 요청 연결
+     * @throws IOException if the SSL extension rejects setup / SSL 확장 지점이 설정을 거부할 때
+     */
+    private void configureSsl(State st, HttpURLConnection conn) throws IOException {
+        if (!(conn instanceof HttpsURLConnection)) {
+            return;
+        }
+        HttpsURLConnection https = (HttpsURLConnection) conn;
+        try {
+            if (st.retryWithJsse) {
+                DefaultSslConfigurer.INSTANCE.configureSsl(https);
+            } else {
+                ssl.configureSsl(https);
+            }
+        } catch (IOException e) {
+            throw new SSLException("ssl configuration failed: " + e.getMessage());
+        }
+        st.handshakeFactory = https.getSSLSocketFactory();
+    }
+
+    /**
      * Configures a connection: method, timeouts, SSL hook and all request headers.
      * <p>
      * 연결을 설정한다. 메서드, 제한 시간, SSL 훅, 모든 요청 헤더.
@@ -779,13 +817,7 @@ public class HttpFetcher {
         conn.setUseCaches(st.req.getCacheMode() != ResourceRequest.CacheMode.FORCE_RELOAD);
         conn.setAllowUserInteraction(false);
         conn.setDoInput(true);
-        if (conn instanceof HttpsURLConnection) {
-            try {
-                ssl.configureSsl((HttpsURLConnection) conn);
-            } catch (IOException e) {
-                throw new SSLException("ssl configuration failed: " + e.getMessage());
-            }
-        }
+        configureSsl(st, conn);
         conn.setRequestProperty("User-Agent", req.getUserAgent());
         conn.setRequestProperty("Accept", acceptFor(req.getPurpose()));
         conn.setRequestProperty("Accept-Encoding", "gzip, deflate");
@@ -992,6 +1024,7 @@ public class HttpFetcher {
             st.fragment = nextFragment;
         }
         st.current = UrlUtil.stripFragment(next);
+        st.retryWithJsse = false;
         // 301/302 의 POST 와 303 의 GET/HEAD 이외 메서드는 GET 으로 바꾸고 본문을 버린다. 307/308 은 그대로 둔다.
         boolean toGet = (status == 303 && !"GET".equals(st.method) && !"HEAD".equals(st.method))
                 || ((status == 301 || status == 302) && "POST".equals(st.method));

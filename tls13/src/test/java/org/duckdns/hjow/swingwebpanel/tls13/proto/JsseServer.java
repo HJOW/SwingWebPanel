@@ -1,8 +1,10 @@
 package org.duckdns.hjow.swingwebpanel.tls13.proto;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetAddress;
@@ -16,6 +18,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 
 /**
  * Independent JSSE server run by the tests in a newer JVM. It uses only JRE APIs.
@@ -68,9 +71,27 @@ public final class JsseServer {
             // 연결마다 같은 제약으로 새 TLS 핸드셰이크를 실행한다.
             while (true) {
                 Socket raw = server.accept();
-                System.out.println("connection");
+                raw.setSoTimeout(10000);
                 try {
-                    serve(context, raw, args[2], args[3], args[4]);
+                    int first = raw.getInputStream().read();
+                    // 평문 HTTP에도 응답해 네트워크 라이브러리의 재전송과 브라우저의 재시도를 구별한다.
+                    if (first == 'G' || first == 'O') {
+                        System.out.println("http");
+                        BufferedReader plain = new BufferedReader(new InputStreamReader(raw.getInputStream(), "US-ASCII"));
+                        String header;
+                        // 상태를 보내기 전에 요청 헤더를 소비한다.
+                        while ((header = plain.readLine()) != null && header.length() != 0) {
+                            // 헤더 값은 시험에 필요하지 않다.
+                        }
+                        raw.getOutputStream().write("HTTP/1.1 404 Not Found\r\nConnection: close\r\nContent-Length: 0\r\n\r\n".getBytes("US-ASCII"));
+                    } else if (first >= 0) {
+                        System.out.println("https");
+                        // 새 JSSE의 서버 계층화 API에 미리 읽은 한 바이트를 넘긴다(Java 6 소스 문법 유지).
+                        SSLSocket socket = (SSLSocket) SSLSocketFactory.class
+                                .getMethod("createSocket", Socket.class, InputStream.class, Boolean.TYPE)
+                                .invoke(context.getSocketFactory(), raw, new ByteArrayInputStream(new byte[] { (byte) first }), Boolean.FALSE);
+                        serve(socket, raw, args[2], args[3], args[4]);
+                    }
                 } catch (java.io.IOException expected) {
                     // 오류 응답 뒤에 연결을 닫는 클라이언트도 있으므로 개별 연결의 입출력 실패는 여기서 끝낸다.
                 } finally {
@@ -100,15 +121,14 @@ public final class JsseServer {
      * Serves one HTTP request after the JSSE handshake.
      * / JSSE 핸드셰이크 뒤 HTTP 요청 하나에 응답한다.
      *
-     * @param context server context / 서버 컨텍스트
+     * @param socket layered server socket / 계층화된 서버 소켓
      * @param raw loopback socket / 루프백 소켓
      * @param protocol enabled protocol / 활성 프로토콜
      * @param suite enabled suite / 활성 스위트
      * @param mode post-handshake behavior / 핸드셰이크 뒤의 동작
      * @throws Exception on failure / 실패 시
      */
-    private static void serve(SSLContext context, Socket raw, String protocol, String suite, String mode) throws Exception {
-        SSLSocket socket = (SSLSocket) context.getSocketFactory().createSocket(raw, "localhost", raw.getPort(), false);
+    private static void serve(SSLSocket socket, Socket raw, String protocol, String suite, String mode) throws Exception {
         socket.setUseClientMode(false);
         socket.setEnabledProtocols(new String[] { protocol });
         socket.setEnabledCipherSuites(new String[] { suite });
@@ -142,7 +162,7 @@ public final class JsseServer {
             }
             boolean bulk = line.startsWith("GET /bulk ");
             boolean preflight = line.startsWith("OPTIONS ");
-            byte[] page = ("<html><title>" + TITLE + "</title><body>" + TITLE + "</body></html>").getBytes("US-ASCII");
+            byte[] page = html(line).getBytes("US-ASCII");
             String headers = (preflight ? "HTTP/1.1 204 No Content" : "HTTP/1.1 200 OK") + "\r\nConnection: close\r\nContent-Type: "
                     + (bulk ? "application/octet-stream" : "text/html") + "\r\nContent-Length: " + (bulk ? BULK_SIZE : preflight ? 0 : page.length);
             if (origin != null) {
@@ -178,5 +198,23 @@ public final class JsseServer {
                 socket.close();
             }
         }
+    }
+
+    /**
+     * Builds the test page or the cross-origin request page given a second loopback port.
+     * / 시험 페이지를 만든다. 별도 루프백 포트를 넘기면 교차 오리진 요청 페이지를 만든다.
+     *
+     * @param request HTTP request line / HTTP 요청 줄
+     * @return test HTML / 시험 HTML
+     */
+    private static String html(String request) {
+        if (request.startsWith("GET /cors-page?")) {
+            int port = Integer.parseInt(request.substring(15, request.indexOf(' ', 15)));
+            return "<title>waiting</title><script>fetch('https://127.0.0.1:" + port
+                    + "/cors', {headers:{'X-Probe':'yes'}}).then(function(r){return r.text();}).then(function(t){"
+                    + "document.title=t.indexOf('Independent JSSE')>=0?'cors-ok':'cors-body';},"
+                    + "function(e){document.title='cors-error:'+e;});</script>";
+        }
+        return "<html><title>" + TITLE + "</title><body>" + TITLE + "</body></html>";
     }
 }

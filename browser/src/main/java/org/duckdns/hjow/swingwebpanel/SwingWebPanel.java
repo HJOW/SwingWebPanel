@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSocketFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JViewport;
@@ -83,6 +84,7 @@ import org.duckdns.hjow.swingwebpanel.net.CookieStore;
 import org.duckdns.hjow.swingwebpanel.net.DefaultSslConfigurer;
 import org.duckdns.hjow.swingwebpanel.net.FetchLimits;
 import org.duckdns.hjow.swingwebpanel.net.HttpCache;
+import org.duckdns.hjow.swingwebpanel.net.OptionalTlsModule;
 import org.duckdns.hjow.swingwebpanel.net.ResourceFetcher;
 import org.duckdns.hjow.swingwebpanel.net.SslConfigurer;
 import org.duckdns.hjow.swingwebpanel.storage.StorageEntry;
@@ -151,6 +153,9 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      * 진행률 변경을 알리는 속성 이름.
      */
     public static final String PROPERTY_PROGRESS = "progress";
+
+    /** Property for changes to the optional TLS setting (Boolean). / 선택 TLS 설정의 변경 속성(Boolean). */
+    public static final String PROPERTY_TLS13_MODULE_ENABLED = "tls13ModuleEnabled";
 
     /**
      * Name of the property that announces the document title.
@@ -285,6 +290,9 @@ public class SwingWebPanel extends JPanel implements Scrollable {
 
     /** The component whose page opened the window of this component, or null (plan item P31-08). / 페이지가 이 컴포넌트의 창을 연 컴포넌트. 없으면 null(계획 P31-08). */
     private final transient SwingWebPanel creator;
+
+    /** Optional TLS factory, also used by surviving popup windows. / 열린 채 남은 팝업도 사용하는 선택 TLS 팩터리. */
+    private transient volatile SSLSocketFactory tls13Factory;
 
     /** Closes the window that shows this component after a script closed it; set by the default popup window, or null. / 스크립트가 닫은 뒤 이 컴포넌트를 보이는 창을 닫는다. 기본 팝업 창이 정한다. 없으면 null. */
     private transient volatile Runnable windowCloser;
@@ -1348,6 +1356,60 @@ public class SwingWebPanel extends JPanel implements Scrollable {
      */
     public boolean isJavascriptEnabled() {
         return session.isJavascriptEnabled();
+    }
+
+    /**
+     * Checks for the optional TLS 1.3 and 1.2 module, first with the thread context loader and then the library loader.
+     * / 스레드 컨텍스트 로더와 라이브러리 로더 순서로 선택 TLS 1.3·1.2 모듈을 찾는다.
+     *
+     * @return true if the module entry point is loadable / 모듈 진입점을 불러올 수 있으면 true
+     */
+    public static boolean isTls13ModuleAvailable() {
+        return OptionalTlsModule.isAvailable();
+    }
+
+    /**
+     * Enables the optional module for new HTTPS connections. Changes are queued on the EDT, and clean preserves the setting.
+     * Pages in script-opened windows use their opener's SSL configuration. An override of configureSsl can choose its own factory.
+     * <p>
+     * 새 HTTPS 연결에 선택 모듈을 켠다. 변경은 EDT에서 알리고 clean은 이 값을 유지한다. 스크립트가 연 창은 여는 쪽의 SSL 설정을
+     * 따른다. configureSsl을 재정의한 호스트는 자신의 팩터리를 지정할 수 있다.
+     *
+     * @param enabled whether to use the module / 모듈을 사용할지 여부
+     * @throws IllegalStateException if disposed or the requested module cannot be initialized / 폐기됐거나 요청한 모듈을 초기화할 수 없을 때
+     */
+    public void setTls13ModuleEnabled(final boolean enabled) {
+        synchronized (internalListeners) {
+            checkAlive();
+            final boolean previous = tls13Factory != null;
+            if (enabled == previous) {
+                return;
+            }
+            // 활성화에 실패하면 설정과 기존 연결 경로를 유지한다.
+            SSLSocketFactory factory = enabled ? OptionalTlsModule.load() : null;
+            if (enabled && factory == null) {
+                throw new IllegalStateException("The optional swingwebpanel-tls13 module is unavailable or could not be initialized.");
+            }
+            tls13Factory = factory;
+            SwingUtilities.invokeLater(new Runnable() {
+                /** Delivers the change on the EDT. / EDT에서 변경을 알린다. */
+                public void run() {
+                    if (!disposed) {
+                        firePropertyChange(PROPERTY_TLS13_MODULE_ENABLED, previous, enabled);
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * Returns this component's setting. Script-opened windows use the SSL hook of their opener for connections.
+     * / 이 컴포넌트의 설정을 반환한다. 스크립트가 연 창은 연결할 때 여는 쪽의 SSL 훅을 사용한다.
+     *
+     * @return true if enabled here, false by default and after disposal / 여기서 켰으면 true. 생성 직후와 폐기 뒤에는 false
+     */
+    public boolean isTls13ModuleEnabled() {
+        return !disposed && tls13Factory != null;
     }
 
     /**
@@ -2882,14 +2944,15 @@ public class SwingWebPanel extends JPanel implements Scrollable {
     }
 
     /**
-     * Extension point for SSL (TLS) setup. It is called for every HTTPS connection before it connects. The default
-     * implementation does nothing, so the JRE's default trust store and host name verification apply. Override it to
+     * Extension point for SSL (TLS) setup. It is called before each initial HTTPS attempt. The default
+     * implementation uses the JRE's default trust store and host name verification, or installs the optional TLS factory
+     * when enabled. Override it without calling super to choose a different TLS path, or call super and then
      * install a custom <code>SSLSocketFactory</code> or <code>HostnameVerifier</code> for this connection only; never change
-     * JVM-wide settings here. If connecting over HTTPS fails, the browser tries plain HTTP once for the same address.
+     * JVM-wide settings here. The fetch layer applies its retry policy to a failed HTTPS attempt.
      * <p>
-     * SSL(TLS) 설정을 위한 확장 지점. 모든 HTTPS 연결이 연결하기 전에 호출한다. 기본 구현은 아무것도 하지 않으므로 JRE 의 기본 신뢰 저장소와
-     * 호스트 이름 검증이 적용된다. 이 연결에만 쓸 <code>SSLSocketFactory</code> 나 <code>HostnameVerifier</code> 를 지정하려면
-     * 재정의한다. 여기서 JVM 전역 설정을 바꾸지 않는다. HTTPS 연결이 실패하면 브라우저는 같은 주소로 평문 HTTP 를 한 번 시도한다.
+     * SSL(TLS) 설정을 위한 확장 지점. 각 최초 HTTPS 시도 전에 호출한다. 기본 구현은 JRE의 기본 신뢰 저장소와 호스트 이름 검증을 사용하며
+     * 선택 TLS 모듈을 켜면 그 팩터리를 설치한다. 다른 TLS 경로를 지정하려면 재정의하고 super를 생략한다. super 호출 뒤에는 이 연결의
+     * <code>SSLSocketFactory</code>나 <code>HostnameVerifier</code>를 바꿀 수 있다. HTTPS 실패 뒤에는 가져오기 계층의 재시도 정책을 따른다.
      *
      * @param connection the HTTPS connection about to be opened / 곧 여는 HTTPS 연결
      * @throws IOException to abort the connection / 연결을 중단하려면 던진다
@@ -2900,8 +2963,13 @@ public class SwingWebPanel extends JPanel implements Scrollable {
             creator.configureSsl(connection);
             return;
         }
-        // 기본 동작: JRE 기본 신뢰 저장소와 호스트 이름 검증을 쓰고, 연결별로 이 JRE 가 지원하는 프로토콜만 고른다(전역 설정은 바꾸지 않는다).
-        DefaultSslConfigurer.INSTANCE.configureSsl(connection);
+        // 선택 팩터리를 이 연결에만 설치한다. 꺼져 있으면 기존 JRE 경로를 쓴다.
+        SSLSocketFactory factory = tls13Factory;
+        if (factory == null) {
+            DefaultSslConfigurer.INSTANCE.configureSsl(connection);
+        } else {
+            connection.setSSLSocketFactory(factory);
+        }
     }
 
     /**

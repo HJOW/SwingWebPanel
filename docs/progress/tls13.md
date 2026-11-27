@@ -273,3 +273,15 @@ Zulu 25 루프백 서버의 X25519·RSA 2048·AES-128-GCM 구성에서 `TestRunn
 | JRE 7u80 | 300.0 ms | 15.9 ms | 6.80 MB/s |
 
 두 실행 환경 모두 1.7절의 목표(1초, 150 ms, 3 MB/s)를 충족했다.
+
+## 7. SwingWebPanel 연동 (P32-07, 2026-11-28)
+
+선택 API는 계약 5.31에 있다. 브라우저는 모듈 클래스를 리플렉션으로 찾아 표준 `SSLSocketFactory`만 연결에 설치한다.
+기본값은 JRE 경로다. 호스트가 보호 훅을 재정의하면 실제 설치한 팩터리가 연결을 처리한다.
+주 문서, 프레임, 하위 리소스, Fetch/XHR, EventSource와 다운로드의 호출점을 따라가서 같은 `ResourceFetcher`를 사용하는지 확인했다.
+팝업의 SSL 훅은 여는 패널에 위임되며 여는 패널을 폐기한 뒤에도 열린 팝업은 마지막 SSL 정책으로 탐색한다.
+
+JRE 6u45에서 모듈 없는 브라우저 자체 시험 1건과 `OptionalTlsBrowserTest` 5건을 검증했다.
+Zulu 25 루프백 서버와 HTTPS 탐색, 두 오리진 간 TLS CORS 사전 요청·본 요청 및 팝업을 시험했다.
+CBC 전용 서버에는 HTTPS 모듈·HTTPS JSSE·HTTP 순으로 연결했다. 시험 루트를 내장 Mozilla 목록에서 찾을 수 없는 TLS 1.3 서버에는 HTTPS 모듈·HTTP 순으로 연결했다.
+속성 알림 순서, 값이 같은 요청의 알림 억제와 EDT 실행, 기본 꺼짐, `clean()` 후 값 유지, 폐기 후 변경 거부와 GC를 확인했다.

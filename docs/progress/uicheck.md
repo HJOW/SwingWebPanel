@@ -113,3 +113,17 @@ JDK 6 의 `Robot.keyPress(KeyEvent.VK_KANA)`(한/영 키)는 `IllegalArgumentExc
 - 확인하지 않은 것: 운영 체제의 페이지 설정·인쇄 대화 상자 조작, 실제 종이 출력, 설정 대화 상자의 글꼴 목록 조작, 북마크 관리 창의 마우스 조작, 탭의 가운데 단추 클릭, 한글 입력기로 찾기 막대에 입력하기.
 
 스크린샷: `docs/progress/uicheck/2026-11-27-desk-*.png`.
+
+## 2026-11-28 데스크톱 앱 HTTPS (P32-08-b)
+
+JDK 6u45로 컴파일한 `tools/uicheck`를 Windows 실제 화면의 JRE 6u45, 7u80에서 실행했다.
+`--example org.duckdns.hjow.swingwebpanel.desktopapp.Main`으로 데스크톱 앱을 열고 두 주소를 각각 `--url`, `--expect-title`, `--shot`으로 확인했다.
+각 JVM의 사용자 데이터 위치는 `build/p32-uicheck-home-<JRE>`로 분리했다.
+
+| 실제 페이지 | JRE 6u45 | JRE 7u80 |
+| --- | --- | --- |
+| `https://example.com/` | `Example Domain`, HTTPS 주소 유지, Done 100% | 같음 |
+| `https://tls-v1-2.badssl.com:1012/` | 원문 제목 `tls-v1-2.badssl.com`, HTTPS 주소 유지, Done 100% | 같음 |
+
+실제 창 캡처 네 장을 확인했다. TLS 1.2 전용 페이지의 초록 본문과 탭 제목은 두 JVM에서 표시됐다. Java 6에서는 큰 본문 글자가 일부만 그려졌다. 800 ms 더 기다린 재촬영에서도 같은 표시였다.
+캡처는 작업 PC의 `build/p32-ui-1.6.0_45/`와 `build/p32-ui-1.7.0_80/`에 있다. 공개 서버와 협상한 TLS 버전은 `LiveProbe`에서 확인했다. [TLS 검증 기록](tls13.md)

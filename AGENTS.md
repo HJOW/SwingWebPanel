@@ -1435,9 +1435,9 @@ P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "�
     - 2026-11-27 조사와 같은 사이트 목록과 TLS 1.2만 받는 사이트가 열리는지, badssl.com 계열의 잘못된 인증서가 거부되는지 JRE 6u45와 7u80에서 확인한다.
     - 결과는 날짜와 함께 `docs/progress/tls13.md`에 자동 검증과 구분해 기록한다.
   - 성능: P32-01의 목표 대비 핸드셰이크 시간과 처리량을 JRE 6u45·7u80에서 측정해 기록한다.
-- [ ] P32-07. 브라우저 컴포넌트에 모듈을 선택적으로 불러오는 메서드를 추가한다.
-  - [ ] P32-07-a. 입력: 모듈이 있는/없는 클래스 로더, 변경 스레드, clean/dispose, 팝업. 기대: 아래 API 계약과 EDT 알림을 만족한다. 구현·검증: `SwingWebPanel`, 리플렉션 연결과 수명 시험.
-  - [ ] P32-07-b. 입력: HTTPS 성공·협상 실패·그 밖의 실패와 CORS 사전 요청. 기대: SSL 훅과 아래 재시도 순서를 지킨다. 구현·검증: `HttpFetcher`와 브라우저 연동 시험.
+- [x] P32-07. 브라우저 컴포넌트에 모듈을 선택적으로 불러오는 메서드를 추가한다. 구현과 검증은 `docs/progress/tls13.md` 7절에 기록했다.
+  - [x] P32-07-a. 모듈 가용 여부, EDT 알림, clean/dispose, 폐기 후 수거와 살아 있는 팝업의 SSL 상속을 시험했다.
+  - [x] P32-07-b. 독립 JSSE 서버로 HTTPS, CORS 사전 요청과 본 요청, 호스트 훅, 협상 실패와 인증서 실패의 재시도 순서를 확인했다.
   - 공개 API: 아래 이름은 기본안이며, 구현 중 조정하면 계약 문서와 기능 표를 함께 갱신한다. `docs/API_CONTRACT.md` 확장 메서드 절과 기능 표의 API 행에 추가한다.
     - `public static boolean isTls13ModuleAvailable()`: 모듈 클래스를 불러올 수 있으면 true이다. 컨텍스트 클래스 로더, 그다음 이 라이브러리의 클래스 로더에서 찾는다.
     - `public void setTls13ModuleEnabled(boolean enabled)` / `public boolean isTls13ModuleEnabled()`: 생성 직후 값은 false이다.
@@ -1461,7 +1461,7 @@ P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "�
   - 시험(JRE 6): P32-06의 로컬 TLS 1.3 서버로 다음을 확인한다. 켬과 끔, 모듈이 없는 클래스 로더, 재정의한 `configureSsl`, 재시도 순서, 팝업 상속, `clean()`·`dispose()`, 폐기 뒤 수거.
 - [ ] P32-08. desktopapp이 Java 6·7에서만 모듈을 쓰게 한다.
   - [ ] P32-08-a. 입력: Java 버전별 실행 JAR, 탭·창·팝업. 기대: 6·7에서만 모듈을 켜고 정보 창에 TLS 경로를 표시한다. 구현·검증: `desktopapp` 초기화·패키징과 smoke 시험.
-  - [ ] P32-08-b. 입력: JRE 6·7과 공개 HTTPS 주소. 기대: 실제 앱 창에 HTTPS 원문이 로드된다. 검증: `tools/uicheck` 실행과 화면 기록.
+  - [x] P32-08-b. JRE 6u45·7u80의 실제 앱 창에서 TLS 1.3·1.2 HTTPS 페이지를 각각 확인했다. `docs/progress/uicheck.md`에 화면 검증을 기록했다.
   - 탐지: `java.specification.version`이 `1.6` 또는 `1.7`이면 해당한다. 그 밖의 값과 읽을 수 없는 경우는 해당하지 않는다.
   - 사용: 해당하고 모듈을 불러올 수 있으면 모든 탭·창·팝업의 SwingWebPanel에 `setTls13ModuleEnabled(true)`를 적용한다. Java 8 이상에서는 켜지 않는다(사용자 결정). TLS 1.3이 없는 8u261 이전 JDK 8도 켜지 않는다는 점을 기록한다.
   - 패키징: desktopapp이 모듈에 의존하여 실행 JAR(`swingwebpanel-desktopapp.jar`)에 합친다.

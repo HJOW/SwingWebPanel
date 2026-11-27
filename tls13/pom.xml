@@ -21,6 +21,28 @@
     <finalName>swingwebpanel-tls13</finalName>
     <plugins>
       <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>test-fixtures</id>
+            <phase>process-test-classes</phase>
+            <goals><goal>test-jar</goal></goals>
+            <configuration>
+              <includes>
+                <include>**/proto/JsseFixture*.class</include>
+                <include>**/proto/JsseServer*.class</include>
+                <include>**/proto/TlsFixture*.class</include>
+                <include>**/proto/ScriptedServer*.class</include>
+                <include>**/CertBuilder*.class</include>
+                <include>**/DerWriter*.class</include>
+                <include>**/Hex*.class</include>
+                <include>**/TestKey*.class</include>
+              </includes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>

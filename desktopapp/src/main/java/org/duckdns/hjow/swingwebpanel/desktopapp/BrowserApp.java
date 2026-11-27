@@ -750,9 +750,10 @@ public final class BrowserApp {
      * 정보 대화 상자의 글을 반환한다: 응용 프로그램, 컴포넌트, Java 의 이름과 판. 판은 JAR 의 매니페스트(<code>Implementation-Version</code>)에서
      * 온다. JAR 에서 읽지 않은 클래스에는 판이 없다.
      *
+     * @param tlsModule whether the active panel uses the optional TLS path / 활성 패널의 선택 TLS 경로 사용 여부
      * @return the text / 글
      */
-    public static String aboutText() {
+    public static String aboutText(boolean tlsModule) {
         String unknown = Texts.of("(development build)", "(개발 빌드)");
         Package appPackage = BrowserApp.class.getPackage();
         Package panelPackage = org.duckdns.hjow.swingwebpanel.SwingWebPanel.class.getPackage();
@@ -761,6 +762,8 @@ public final class BrowserApp {
         return NAME + " " + (appVersion == null ? unknown : appVersion) + "\n"
                 + "SwingWebPanel " + (panelVersion == null ? unknown : panelVersion) + "\n"
                 + "Java " + System.getProperty("java.version") + " (" + System.getProperty("java.vendor") + ")\n"
+                + (tlsModule ? Texts.of("TLS: SwingWebPanel module", "TLS: SwingWebPanel 모듈")
+                        : Texts.of("TLS: Java runtime", "TLS: Java 실행 환경")) + "\n"
                 + System.getProperty("os.name") + " " + System.getProperty("os.version");
     }
 

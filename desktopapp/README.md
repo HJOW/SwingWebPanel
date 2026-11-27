@@ -28,6 +28,13 @@ java -jar desktopapp/target/swingwebpanel-desktopapp.jar [시작 주소]
 
 `swingwebpanel-desktopapp.jar` 는 앱과 SwingWebPanel 을 합친 단일 실행 JAR 입니다. 다른 JAR 없이 이 파일 하나로 실행됩니다.
 
+### HTTPS
+
+실행 JAR에 선택 TLS 모듈이 들어 있습니다. Java 6·7에서는 앱이 모든 탭과 창에서 모듈을 켜 TLS 1.3·1.2를 사용합니다.
+Java 8 이상에서는 JRE의 TLS를 사용합니다. TLS 1.3이 없는 8u261 이전 Java 8도 동일합니다.
+모듈 초기화에 실패하면 JRE 경로로 실행하고 콘솔에 한 번 알립니다. 도움말의 정보 창에서 현재 TLS 경로를 확인할 수 있습니다.
+내장 루트의 수동 갱신과 인증서 폐기 확인 범위는 모듈 문서를 참고하세요. [TLS 모듈의 한계](../tls13/README.md)
+
 ## 화면 구성
 
 - **제목 표시줄**: 페이지 제목(없으면 주소)과 프로그램 이름.
@@ -124,5 +131,5 @@ JVM 옵션 `-Dswingwebpanel.desktopapp.home=폴더` 로 위치를 바꿀 수 있
 
 ## 점검용 옵션
 
-`java -jar swingwebpanel-desktopapp.jar --smoke` 는 창을 보이지 않고 페이지 하나를 읽은 뒤 `desktopapp smoke ok` 를 출력하고 종료 코드 0 으로 끝납니다.
+`java -jar swingwebpanel-desktopapp.jar --smoke`는 창을 보이지 않고 페이지 하나를 읽습니다. Java 버전에 맞는 TLS 경로(`desktopapp TLS=module` 또는 `desktopapp TLS=JRE`)와 `desktopapp smoke ok`를 출력하고 종료 코드 0으로 끝납니다.
 빌드(`mvn verify`)가 패키징한 JAR 을 JDK 6 에서 이 옵션으로 실행해 봅니다.

@@ -819,7 +819,7 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
         } else if (command.startsWith(Commands.SELECT_TAB)) {
             return selectTabByNumber(command.substring(Commands.SELECT_TAB.length()));
         } else if (Commands.ABOUT.equals(command)) {
-            app.getPrompts().inform(this, BrowserApp.aboutText());
+            app.getPrompts().inform(this, BrowserApp.aboutText(getPanel().isTls13ModuleEnabled()));
         } else {
             return performMore(command, tab);
         }
