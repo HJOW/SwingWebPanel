@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P32 계획 갱신: TLS 1.2 포함, 루트 인증서 정책 확정 (2026-11-27) ===
+현재 작업 번호: 계획 문서 갱신(사용자 결정 반영). 구현은 하지 않았다.
+완료한 내용: 사용자 결정 두 가지를 AGENTS.md 의 P32 에 반영했다. (1) 모듈에 TLS 1.2 도 구현한다: ClientHello 는 1.3 과 1.2 를 제안하고, 1.2 를 고른 서버에는 다운그레이드 표식을 검사한다. TLS 1.2 는 RFC 9325 권고에 따라 ECDHE + AEAD 스위트 여섯 개만 제안하고(x25519/secp256r1/secp384r1, extended_master_secret 항상 제안, renegotiation_info 빈 값), 세션 재개·재협상·CBC·RC4·3DES·정적 RSA·DHE·TLS 1.0/1.1 은 구현하지 않는다. (2) 루트 인증서는 작업 시점(P32-04-c)의 최신 Mozilla CA 목록을 넣고 자동 갱신은 하지 않는다: 원본은 NSS certdata.txt(기본안), 실행 중·빌드 중에 내려받지 않고 생성한 리소스를 커밋하며, 바꿀 때는 개발자가 도구를 다시 실행해 새 판을 낸다. 함께 바꾼 것: P32-03-a 에 TLS 1.2 PRF, P32-05 를 a~e 로 다시 나눔(c: TLS 1.2 핸드셰이크, d: 오류와 협상 실패의 구분, e: JSSE 소켓), P32-06 에 TLS 1.2 상호 운용 사례, P32-07 의 JRE 재시도는 협상 실패일 때만 하고 인증서·서명·Finished 실패와 다운그레이드 표식에는 하지 않음(모듈이 거부한 인증서를 JRE 의 낡은 목록이 받아들이거나 공격자가 약한 경로로 내리는 것을 막기 위해), 단계 제목과 진행 순서·중간 실행 목표 표의 이름을 "TLS 1.3·1.2" 로 바꿈.
+변경 파일: AGENTS.md(P22-16, 진행 순서, P32 절, 중간 실행 목표 표), 이 문서.
+검증 결과: 문서만 바꿨다. NSS certdata.txt 가 https://hg.mozilla.org/projects/nss/raw-file/tip/lib/ckfw/builtins/certdata.txt 에서 HTTP 200(1,338,990 바이트)으로 받아지고 머리에 MPL 2.0 고지가 있음을 확인했다(2026-11-27, 파일은 저장하지 않음). CCADB 의 Mozilla 포함 루트 목록(웹 신뢰)도 HTTP 200 이었다. tools\sourcecheck\run.bat AGENTS.md docs\PROGRESS.md: 위반 0건/2 파일.
+미해결 사항: 모듈·메서드 이름은 "TLS 1.3 모듈" 을 따른 기본안(tls13, setTls13ModuleEnabled)이며 TLS 1.2 도 처리한다. 7u80 의 SNI 레이어링 동작은 P32-05-e 에서 확인한다.
+다음 작업 번호: P32-01
+-----------------------------------------------------------------------------------------------
 === P32 계획 추가: Java 6·7용 TLS 1.3 자체 구현 모듈 (2026-11-27) ===
 현재 작업 번호: 계획 문서 갱신(사용자 요청). 구현은 하지 않았다.
 완료한 내용: 사용자 요구를 P32(P32-01 ~ P32-09)로 AGENTS.md 개발 계획에 넣었다. TLS 1.3 을 순수 Java 로 자체 구현하되 engine·browser 에 내장하지 않고 별도 Maven 하위 모듈(기본안 tls13/, swingwebpanel-tls13)로 만들며, SwingWebPanel 에는 모듈을 선택적으로 불러오는 메서드(기본안 isTls13ModuleAvailable, setTls13ModuleEnabled/isTls13ModuleEnabled)를 더하고, desktopapp 은 java.specification.version 이 1.6·1.7 일 때만 모듈을 쓴다. 진행 순서는 6(P32, 다음 작업) → 7(P22 및 실환경 마무리)로 바꿨고, P22-16 의 전체 완료 조건과 중간 실행 목표 표에 P32 를 더했다. 상단 "SSL은 현재의 JRE 에서 지원하는 버전을 사용" 과의 관계(기본 동작 불변, 호스트가 켤 때만 사용)와 보안 원칙을 계획에 적었다.
