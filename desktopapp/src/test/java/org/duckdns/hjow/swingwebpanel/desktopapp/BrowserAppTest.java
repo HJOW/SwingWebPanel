@@ -22,6 +22,45 @@ public class BrowserAppTest {
     public BrowserAppTest() {
     }
 
+    /** The directory of the user data of the case. / 사례의 사용자 데이터 디렉터리. */
+    private java.io.File home;
+
+    /** The value of the user data property before the case. / 사례 전의 사용자 데이터 속성 값. */
+    private String oldHome;
+
+    /**
+     * Points the user data to a temporary directory, so that a case never touches the data of the real user.
+     * <p>
+     * 사용자 데이터를 임시 디렉터리로 돌려, 사례가 실제 사용자의 데이터를 건드리지 않게 한다.
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void setUp() throws Exception {
+        home = java.io.File.createTempFile("swp-desktopapp-home", "");
+        home.delete();
+        oldHome = System.getProperty(BrowserApp.HOME_PROPERTY);
+        System.setProperty(BrowserApp.HOME_PROPERTY, home.getPath());
+    }
+
+    /**
+     * Removes the temporary user data and restores the property.
+     * <p>
+     * 임시 사용자 데이터를 지우고 속성을 되돌린다.
+     */
+    public void tearDown() {
+        java.io.File[] files = home.listFiles();
+        // 사례가 쓴 파일을 지운다.
+        for (int i = 0; files != null && i < files.length; i++) {
+            files[i].delete();
+        }
+        home.delete();
+        if (oldHome == null) {
+            System.clearProperty(BrowserApp.HOME_PROPERTY);
+        } else {
+            System.setProperty(BrowserApp.HOME_PROPERTY, oldHome);
+        }
+    }
+
     /**
      * The check behind <code>--smoke</code> loads its page and closes what it opened.
      * <p>

@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P31-06 desktopapp 북마크 (2026-11-27) ===
+현재 작업 번호: P31-06 완료. P31-07 진행 중.
+완료한 내용: 북마크 모델(model.BookmarkNode, BookmarkModel: 추가, 삭제, 이름·주소 변경, 이동, 위·아래, 주소로 찾기, 리스너), 파일 저장(model.BookmarkStore: bookmarks.txt, 한 줄에 항목 하나, 탭 구분과 이스케이프, 손상 파일은 .broken 으로 보존; model.TextFiles: UTF-8 읽기, 임시 파일에 쓴 뒤 교체), Netscape 북마크 HTML 가져오기·내보내기(model.BookmarkHtml: 텍스트로만 읽고 H3/A/DL 만 처리). 응용 프로그램이 북마크 모델 하나를 모든 창과 공유하고 변경마다 저장한다(BrowserApp.getBookmarks, takeStorageProblem). 명령: 이 페이지를 북마크에 추가(Ctrl+D, 중복이면 묻는다), 모든 탭을 북마크에 추가(Ctrl+Shift+D), 북마크 관리(Ctrl+Shift+B). 북마크 메뉴는 열릴 때마다 채우고 현재 탭/새 탭(Ctrl)/새 창(Shift)에서 연다. 관리 창(ui.BookmarkDialog): 트리, 이름·주소 편집, 새 폴더, 삭제, 위·아래, 폴더로 옮기기, 열기, 가져오기, 내보내기.
+변경 파일: desktopapp 의 BrowserApp.java, pom.xml(시험의 사용자 데이터 위치), model/BookmarkNode.java·BookmarkModel.java·BookmarkStore.java·BookmarkHtml.java·TextFiles.java(신규), ui/BookmarkDialog.java(신규), ui/BrowserWindow.java, 시험 model/BookmarkModelTest.java·ui/BookmarksTest.java(신규), BrowserAppTest.java, ui/BrowserTabsTest.java·ui/BrowserWindowTest.java(WindowCase 상속으로 정리). AGENTS.md, docs/progress/desktopapp.md, 이 문서.
+검증 결과: mvn -B -o -pl desktopapp -am "-Dtest.filter=desktopapp" verify(Maven 3.8.8, JDK 6u45 javac·java) 성공. 앱 시험 27건 통과/0 실패/0 건너뜀(AddressInputTest 4, PageFilesTest 3, BookmarkModelTest 3, BrowserWindowTest 4, BrowserTabsTest 4, BrowserMenuTest 3, BookmarksTest 3, BrowserAppTest 2, AppBoundaryTest 1), run-app-smoke 통과. 로그 build/p31/p3106.log. sourcecheck desktopapp 위반 0건(42개 파일).
+미해결 사항: 북마크를 끌어다 놓아 옮기는 기능은 없다(위·아래와 "폴더로 옮기기"로 옮긴다). 관리 창의 실제 마우스 조작과 파일 선택기는 실제 창에서 확인해야 한다(P31-11). 저장 실패는 다음 북마크 명령의 상태 표시줄 알림으로만 보인다.
+다음 작업 번호: P31-07
+-----------------------------------------------------------------------------------------------
 === P31-05 desktopapp 메뉴와 단축키 (2026-11-27) ===
 현재 작업 번호: P31-05 완료(하위 a·b). P31-06 진행 중.
 완료한 내용: (a) 키 소비를 바꾼 뒤의 전체 회귀를 실행해 P31-05-a 를 닫았다. (b) 메뉴 막대(ui.BrowserMenu: 파일, 편집, 보기, 이동, 탭, 북마크, 도구, 도움말)와 명령(ui.Commands, BrowserWindow.perform). 메뉴 항목·키 바인딩·시험이 모두 perform(명령 이름)을 거친다. 가속 키와 메뉴 항목 없는 키(Ctrl+숫자패드 +/-/0, Ctrl+R, Ctrl+Shift+R, Ctrl+PageUp/PageDown, Ctrl+F4, F6, Alt+D, F3, Ctrl+1~9), Ctrl+Tab 을 포커스 이동 키에서 빼기, 탭 줄과 스크롤 창의 Ctrl+PageUp/PageDown 끄기. 새 창(newWindow), 끝내기(BrowserApp.exit), 파일 열기, 페이지 저장(model.PageFiles: 제안 이름, UTF-8, HTML/XHTML 은 바이트 순서 표시), 확대 단계(model.ZoomSteps), 도구 모음·상태 표시줄 보이기(설정 view.toolbar, view.statusBar), 기본 확대 비율(설정 zoom.default), 정보(BrowserApp.aboutText), 편집 명령의 대상 고르기(창 자체의 텍스트 필드 또는 페이지). BrowserApp.Prompts 에 chooseFile, inform, ask 를 더했고 사용자 데이터 디렉터리(BrowserApp.homeDirectory, 속성 swingwebpanel.desktopapp.home)를 정했다.

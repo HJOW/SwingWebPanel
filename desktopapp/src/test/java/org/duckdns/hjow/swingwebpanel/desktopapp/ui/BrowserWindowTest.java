@@ -1,11 +1,8 @@
 package org.duckdns.hjow.swingwebpanel.desktopapp.ui;
 
-import java.awt.GraphicsEnvironment;
 import java.util.List;
 import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
 import org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp;
-import org.duckdns.hjow.swingwebpanel.desktopapp.Texts;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
@@ -19,16 +16,7 @@ import org.duckdns.hjow.swingwebpanel.testing.Check;
  * 표시줄. 페이지는 로컬 파일과 작은 루프백 서버의 응답이다. 버튼은 <code>doClick()</code> 으로 누른다. 실제 마우스·키보드 입력은
  * <code>tools/uicheck</code> 로 따로 확인한다. 사례는 프레임이 필요하므로 headless JVM 에서는 건너뛴다.
  */
-public class BrowserWindowTest {
-
-    /** The pages of the case. / 사례의 페이지. */
-    private TestPages pages;
-
-    /** The application of the case. / 사례의 응용 프로그램. */
-    private BrowserApp app;
-
-    /** The window of the case. / 사례의 창. */
-    private BrowserWindow window;
+public class BrowserWindowTest extends WindowCase {
 
     /**
      * Creates the suite (required by the runner).
@@ -36,90 +24,6 @@ public class BrowserWindowTest {
      * 스위트를 만든다(실행기가 필요로 함).
      */
     public BrowserWindowTest() {
-    }
-
-    /**
-     * Creates the pages and, with a display, a window that is not shown.
-     * <p>
-     * 페이지를 만들고, 화면이 있으면 보이지 않는 창을 만든다.
-     *
-     * @throws Exception on failure / 실패 시
-     */
-    public void setUp() throws Exception {
-        System.setProperty(Texts.LANGUAGE_PROPERTY, "en");
-        pages = new TestPages();
-        if (GraphicsEnvironment.isHeadless()) {
-            return;
-        }
-        SwingUtilities.invokeAndWait(new Runnable() {
-            /** Creates the application and its window. / 응용 프로그램과 창을 만든다. */
-            public void run() {
-                app = new BrowserApp(new Runnable() {
-                    /** The test goes on after the last window. / 마지막 창 뒤에도 시험은 계속된다. */
-                    public void run() {
-                    }
-                });
-                window = app.openWindow(null);
-            }
-        });
-    }
-
-    /**
-     * Closes the window and removes the pages.
-     * <p>
-     * 창을 닫고 페이지를 지운다.
-     *
-     * @throws Exception on failure / 실패 시
-     */
-    public void tearDown() throws Exception {
-        if (window != null) {
-            SwingUtilities.invokeAndWait(new Runnable() {
-                /** Closes the window. / 창을 닫는다. */
-                public void run() {
-                    window.closeWindow();
-                }
-            });
-        }
-        pages.close();
-        System.clearProperty(Texts.LANGUAGE_PROPERTY);
-    }
-
-    /**
-     * Tells whether the case must be skipped because the JVM has no display.
-     * <p>
-     * JVM 에 화면이 없어 사례를 건너뛰어야 하는지 알려 준다.
-     *
-     * @return true if skipped / 건너뛰면 true
-     */
-    private boolean skipped() {
-        if (window == null) {
-            Check.skip("a browser window needs a display");
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Runs work on the event dispatch thread and waits for it.
-     * <p>
-     * 이벤트 디스패치 스레드에서 일을 실행하고 기다린다.
-     *
-     * @param work the work / 일
-     * @throws Exception on failure / 실패 시
-     */
-    private static void onEdt(Runnable work) throws Exception {
-        try {
-            SwingUtilities.invokeAndWait(work);
-        } catch (java.lang.reflect.InvocationTargetException e) {
-            // 이벤트 디스패치 스레드에서 실패한 확인은 그 실패 그대로 보고한다.
-            if (e.getCause() instanceof RuntimeException) {
-                throw (RuntimeException) e.getCause();
-            }
-            if (e.getCause() instanceof Error) {
-                throw (Error) e.getCause();
-            }
-            throw e;
-        }
     }
 
     /**

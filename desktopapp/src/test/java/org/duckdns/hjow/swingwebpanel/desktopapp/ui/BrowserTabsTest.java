@@ -1,10 +1,6 @@
 package org.duckdns.hjow.swingwebpanel.desktopapp.ui;
 
-import java.awt.GraphicsEnvironment;
-import javax.swing.SwingUtilities;
 import org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp;
-import org.duckdns.hjow.swingwebpanel.desktopapp.FakePrompts;
-import org.duckdns.hjow.swingwebpanel.desktopapp.Texts;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
@@ -18,22 +14,7 @@ import org.duckdns.hjow.swingwebpanel.testing.Check;
  * 쿠키와 공유하지 않는 sessionStorage, 배경 페이지가 보는 가시성, 탭이 여럿인 창을 닫기 전의 질문. 사례는 프레임이 필요하므로 headless JVM 에서는
  * 건너뛴다.
  */
-public class BrowserTabsTest {
-
-    /** The pages of the case. / 사례의 페이지. */
-    private TestPages pages;
-
-    /** The application of the case. / 사례의 응용 프로그램. */
-    private BrowserApp app;
-
-    /** The window of the case. / 사례의 창. */
-    private BrowserWindow window;
-
-    /** The number of times that the program ended. / 프로그램이 끝난 횟수. */
-    private int ended;
-
-    /** Answers the questions of the application. / 응용 프로그램의 질문에 답한다. */
-    private final FakePrompts prompts = new FakePrompts();
+public class BrowserTabsTest extends WindowCase {
 
     /**
      * Creates the suite (required by the runner).
@@ -41,119 +22,6 @@ public class BrowserTabsTest {
      * 스위트를 만든다(실행기가 필요로 함).
      */
     public BrowserTabsTest() {
-    }
-
-    /**
-     * Creates the pages and, with a display, a window that is not shown.
-     * <p>
-     * 페이지를 만들고, 화면이 있으면 보이지 않는 창을 만든다.
-     *
-     * @throws Exception on failure / 실패 시
-     */
-    public void setUp() throws Exception {
-        System.setProperty(Texts.LANGUAGE_PROPERTY, "en");
-        pages = new TestPages();
-        if (GraphicsEnvironment.isHeadless()) {
-            return;
-        }
-        SwingUtilities.invokeAndWait(new Runnable() {
-            /** Creates the application and its window. / 응용 프로그램과 창을 만든다. */
-            public void run() {
-                app = new BrowserApp(new Runnable() {
-                    /** Counts the end of the program. / 프로그램 종료를 센다. */
-                    public void run() {
-                        ended++;
-                    }
-                });
-                app.setPrompts(prompts);
-                window = app.openWindow(null);
-            }
-        });
-    }
-
-    /**
-     * Closes the window and removes the pages.
-     * <p>
-     * 창을 닫고 페이지를 지운다.
-     *
-     * @throws Exception on failure / 실패 시
-     */
-    public void tearDown() throws Exception {
-        if (window != null) {
-            SwingUtilities.invokeAndWait(new Runnable() {
-                /** Closes the window. / 창을 닫는다. */
-                public void run() {
-                    window.closeWindow();
-                }
-            });
-        }
-        pages.close();
-        System.clearProperty(Texts.LANGUAGE_PROPERTY);
-    }
-
-    /**
-     * Tells whether the case must be skipped because the JVM has no display.
-     * <p>
-     * JVM 에 화면이 없어 사례를 건너뛰어야 하는지 알려 준다.
-     *
-     * @return true if skipped / 건너뛰면 true
-     */
-    private boolean skipped() {
-        if (window == null) {
-            Check.skip("a browser window needs a display");
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Runs work on the event dispatch thread and reports a failed check of the work as it is.
-     * <p>
-     * 이벤트 디스패치 스레드에서 일을 실행하고, 그 일의 실패한 확인을 그대로 보고한다.
-     *
-     * @param work the work / 일
-     * @throws Exception on failure / 실패 시
-     */
-    private static void onEdt(Runnable work) throws Exception {
-        try {
-            SwingUtilities.invokeAndWait(work);
-        } catch (java.lang.reflect.InvocationTargetException e) {
-            // 이벤트 디스패치 스레드에서 실패한 확인은 그 실패 그대로 보고한다.
-            if (e.getCause() instanceof RuntimeException) {
-                throw (RuntimeException) e.getCause();
-            }
-            if (e.getCause() instanceof Error) {
-                throw (Error) e.getCause();
-            }
-            throw e;
-        }
-    }
-
-    /**
-     * Waits until a tab shows a page with the given title and is not loading any more.
-     * <p>
-     * 탭이 주어진 제목의 페이지를 보이고 더 이상 읽는 중이 아닐 때까지 기다린다.
-     *
-     * @param index the position of the tab / 탭의 위치
-     * @param title the title of the page / 페이지의 제목
-     * @throws Exception on failure / 실패 시
-     */
-    private void awaitTab(final int index, final String title) throws Exception {
-        boolean ok = TestPages.await(new TestPages.Condition() {
-            /** Looks at the title and the progress of the tab. / 탭의 제목과 진행률을 본다. */
-            public boolean holds() {
-                return index < window.getTabs().size() && title.equals(window.getTabs().get(index).getPanel().getTitle())
-                        && !window.getTabs().get(index).isLoading();
-            }
-        });
-        final String[] shown = new String[1];
-        onEdt(new Runnable() {
-            /** Reads the title for the failure message. / 실패 메시지에 쓸 제목을 읽는다. */
-            public void run() {
-                shown[0] = index < window.getTabs().size() ? window.getTabs().get(index).getPanel().getTitle() : "(no such tab)";
-            }
-        });
-        Check.isTrue(ok, "expected the page '" + title + "' in tab " + index + " but it shows '" + shown[0] + "'");
     }
 
     /**

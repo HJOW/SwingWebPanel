@@ -18,6 +18,8 @@
     <!-- 시험은 앱 클래스 디렉터리와 브라우저 제품으로 실행한다. -->
     <swp.test.runtimePath>${project.build.outputDirectory}</swp.test.runtimePath>
     <swp.desktopapp.jar>${project.build.directory}/swingwebpanel-desktopapp.jar</swp.desktopapp.jar>
+    <!-- 시험이 실제 사용자의 설정과 북마크를 건드리지 않도록 사용자 데이터 위치를 target 아래로 돌린다(시험은 모듈 디렉터리에서 실행된다). -->
+    <swp.test.jvmArgs>-XX:MaxPermSize=256m -Dswingwebpanel.desktopapp.home=target/test-home</swp.test.jvmArgs>
   </properties>
   <dependencies>
     <dependency>

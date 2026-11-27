@@ -1171,7 +1171,7 @@ P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "�
   - 메뉴 단축키와 페이지의 키 입력(입력란 편집, 한글 IME 조합, 페이지의 `keydown` 처리, 페이지 안의 Tab 포커스 이동)이 충돌하지 않는 규칙을 정하고 검증한다.
   - [x] P31-05-a. SwingWebPanel의 호스트 편집 명령 `copy()`/`cut()`/`paste()`/`selectAll()`(보완 후보 (e))과, 컴포넌트가 스스로 명령으로 처리하는 키(복사·모두 선택·붙여넣기·확대, 편집 가능한 곳의 편집 단축키)의 `KeyEvent` 소비. 계약 5.26, 기능 표 API-34. 진행(2026-11-27): 구현했고 `core.EditCommandsTest` 5건이 JRE 6u45에서 통과했다. 완료(2026-11-27): 키 소비를 바꾼 뒤의 전체 회귀(`mvn -B -o verify`, JDK 6u45)에서 엔진 892건 통과, 브라우저 3,845건 통과·1건 실패·12건 건너뜀. 실패 1건은 P22-16-c4에 기록된 기존 실패(`WebAudioOutputComponentTest.testDefaultOutputLetsAContextRunWithoutAScriptError`)이다.
   - [x] P31-05-b. 메뉴 막대와 명령(`ui.Commands`, `ui.BrowserMenu`, `BrowserWindow.perform`), 가속 키와 추가 키 바인딩, 페이지 저장(`model.PageFiles`), 확대 단계(`model.ZoomSteps`), 키 충돌 규칙의 검증. 초안은 `docs/progress/desktopapp.md` 7.4절에 적은 설계를 따른다. 북마크·설정·찾기·인쇄·원본·콘솔 항목은 각 기능의 계획 항목(P31-06~10)이 메뉴에 더한다. 완료(2026-11-27): `BrowserMenuTest` 3건(메뉴 항목, 페이지 저장·파일 열기·편집 명령, 키와 그 충돌)과 `PageFilesTest` 3건이 JRE 6u45에서 통과했다. 7.4절의 시험 방법은 실제와 달라 고쳤다(Swing은 포커스를 받을 수 없는 창에 창 전체 키 바인딩을 등록하지 않는다).
-- [ ] P31-06. 북마크를 구현한다.
+- [x] P31-06. 북마크를 구현한다. 완료(2026-11-27): `model.BookmarkNode`/`BookmarkModel`/`BookmarkStore`/`BookmarkHtml`/`TextFiles`, `ui.BookmarkDialog`, 북마크 메뉴. `BookmarkModelTest` 3건과 `BookmarksTest` 3건이 JRE 6u45에서 통과했다. 아래 기본안과 다른 점: 가져온 북마크는 파일 이름을 딴 새 폴더에 넣는다. 폴더로 옮기기는 목록에서 폴더를 고르는 방식이다(끌어다 놓기는 없다). 북마크 메뉴에서는 그냥 누르면 현재 탭, Ctrl 을 누르고 누르면 새 탭, Shift 를 누르고 누르면 새 창에서 연다.
   - 현재 페이지 추가(Ctrl+D, 제목·주소, 중복 확인), 열린 모든 탭을 한 폴더에 추가, 북마크 메뉴에서 현재 탭·새 탭·새 창으로 열기.
   - 관리 창: 이름·주소 편집, 삭제, 순서 변경, 폴더.
   - 같은 프로세스의 모든 창이 하나의 북마크 모델을 공유하여 변경을 즉시 반영한다.

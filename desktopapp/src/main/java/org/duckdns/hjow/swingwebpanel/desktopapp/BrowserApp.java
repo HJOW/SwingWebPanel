@@ -7,6 +7,8 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.duckdns.hjow.swingwebpanel.CookieJar;
+import org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkModel;
+import org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkStore;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings;
 import org.duckdns.hjow.swingwebpanel.desktopapp.ui.BrowserWindow;
 
@@ -112,6 +114,15 @@ public final class BrowserApp {
     /** The cookies shared by all tabs and windows, so that a login in one tab holds in the others. / 모든 탭과 창이 공유하는 쿠키. 한 탭의 로그인이 다른 탭에서도 유효하다. */
     private final CookieJar cookieJar = new CookieJar();
 
+    /** The bookmarks shared by all windows. / 모든 창이 공유하는 북마크. */
+    private final BookmarkModel bookmarks = new BookmarkModel();
+
+    /** The file of the bookmarks. / 북마크의 파일. */
+    private final BookmarkStore bookmarkStore;
+
+    /** What went wrong when the user data was read or written last, or null. / 사용자 데이터를 마지막으로 읽거나 쓸 때 잘못된 것. 없으면 null. */
+    private String storageProblem;
+
     /** The open windows in the order they were opened. / 열린 순서대로의 창. */
     private final List<BrowserWindow> windows = new ArrayList<BrowserWindow>();
 
@@ -208,6 +219,53 @@ public final class BrowserApp {
                 System.exit(0);
             }
         };
+        File home = homeDirectory();
+        bookmarkStore = new BookmarkStore(home);
+        // 읽을 수 없는 파일은 저장소가 다른 이름으로 보존한다. 그 사실을 사용자에게 알릴 수 있게 기억한다.
+        if (!bookmarkStore.load(bookmarks)) {
+            storageProblem = Texts.of("The bookmark file could not be read and was kept as ", "북마크 파일을 읽을 수 없어 다음 이름으로 보존했습니다: ")
+                    + BookmarkStore.FILE_NAME + ".broken";
+        }
+        bookmarks.addListener(new BookmarkModel.Listener() {
+            /**
+             * Saves the bookmarks after every change.
+             * <p>
+             * 변경이 있을 때마다 북마크를 저장한다.
+             *
+             * @param model the bookmarks / 북마크
+             */
+            public void bookmarksChanged(BookmarkModel model) {
+                try {
+                    bookmarkStore.save(model);
+                } catch (java.io.IOException e) {
+                    storageProblem = Texts.of("The bookmarks could not be saved: ", "북마크를 저장할 수 없습니다: ") + e.getMessage();
+                }
+            }
+        });
+    }
+
+    /**
+     * Returns the bookmarks of the application.
+     * <p>
+     * 응용 프로그램의 북마크를 반환한다.
+     *
+     * @return the bookmarks shared by all windows / 모든 창이 공유하는 북마크
+     */
+    public BookmarkModel getBookmarks() {
+        return bookmarks;
+    }
+
+    /**
+     * Returns what went wrong when the user data was read or written last, and forgets it.
+     * <p>
+     * 사용자 데이터를 마지막으로 읽거나 쓸 때 잘못된 것을 반환하고 잊는다.
+     *
+     * @return the message, or null if nothing went wrong since the last call / 메시지. 지난 호출 뒤로 잘못된 것이 없으면 null
+     */
+    public String takeStorageProblem() {
+        String p = storageProblem;
+        storageProblem = null;
+        return p;
     }
 
     /**

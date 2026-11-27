@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -13,7 +14,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,6 +24,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
@@ -31,6 +35,8 @@ import javax.swing.event.ChangeListener;
 import org.duckdns.hjow.swingwebpanel.SwingWebPanel;
 import org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp;
 import org.duckdns.hjow.swingwebpanel.desktopapp.Texts;
+import org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkModel;
+import org.duckdns.hjow.swingwebpanel.desktopapp.model.BookmarkNode;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.PageFiles;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.ZoomSteps;
@@ -79,6 +85,12 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
 
     /** True once the window was closed. / 창이 닫힌 뒤 true. */
     private boolean closed;
+
+    /** The bookmark manager of this window while it is open, or null. / 열려 있는 동안 이 창의 북마크 관리 창. 없으면 null. */
+    private transient BookmarkDialog bookmarkDialog;
+
+    /** The largest number of bookmarks that a folder opens in tabs without asking. / 묻지 않고 폴더가 탭으로 여는 북마크의 최대 개수. */
+    private static final int OPEN_ALL_WITHOUT_ASKING = 10;
 
     /**
      * Creates a window with one tab that shows the empty page.
@@ -293,6 +305,18 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
      * @return true if the command is known and was run / 아는 명령이고 실행했으면 true
      */
     private boolean performMore(String command, BrowserTab tab) {
+        if (Commands.ADD_BOOKMARK.equals(command)) {
+            addBookmark(tab);
+            return true;
+        }
+        if (Commands.BOOKMARK_ALL_TABS.equals(command)) {
+            bookmarkAllTabs();
+            return true;
+        }
+        if (Commands.MANAGE_BOOKMARKS.equals(command)) {
+            showBookmarkManager();
+            return true;
+        }
         tab.showNotice(Texts.of("This command is not available yet: ", "아직 쓸 수 없는 명령입니다: ") + command);
         return false;
     }
@@ -470,6 +494,198 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
      * @param target the menu to add the items to / 항목을 더할 메뉴
      */
     void fillBookmarkMenu(JMenu target) {
+        BookmarkNode root = app.getBookmarks().getRoot();
+        if (root.getChildCount() > 0) {
+            target.addSeparator();
+        }
+        fillBookmarkItems(target, root);
+    }
+
+    /**
+     * Adds the entries of a bookmark folder to a menu: a bookmark becomes an item, a folder a submenu.
+     * <p>
+     * 북마크 폴더의 항목을 메뉴에 더한다: 북마크는 항목이, 폴더는 하위 메뉴가 된다.
+     *
+     * @param target the menu / 메뉴
+     * @param folder the bookmark folder / 북마크 폴더
+     */
+    private void fillBookmarkItems(JMenu target, final BookmarkNode folder) {
+        // 항목마다 메뉴 항목이나 하위 메뉴를 만든다.
+        for (int i = 0; i < folder.getChildCount(); i++) {
+            final BookmarkNode n = folder.getChild(i);
+            if (n.isFolder()) {
+                JMenu sub = new JMenu(menuText(n.getName()));
+                JMenuItem all = new JMenuItem(Texts.of("Open All in Tabs", "모두 탭으로 열기"));
+                all.setEnabled(n.getChildCount() > 0);
+                all.addActionListener(new ActionListener() {
+                    /** Opens every bookmark of the folder in a tab. / 폴더의 모든 북마크를 탭으로 연다. */
+                    public void actionPerformed(ActionEvent e) {
+                        openBookmarkFolder(n);
+                    }
+                });
+                sub.add(all);
+                if (n.getChildCount() > 0) {
+                    sub.addSeparator();
+                }
+                fillBookmarkItems(sub, n);
+                target.add(sub);
+            } else {
+                JMenuItem item = new JMenuItem(menuText(n.toString()));
+                item.setToolTipText(n.getUrl());
+                item.addActionListener(new ActionListener() {
+                    /** Opens the bookmark: with Ctrl in a new tab, with Shift in a new window. / 북마크를 연다: Ctrl 이면 새 탭, Shift 이면 새 창. */
+                    public void actionPerformed(ActionEvent e) {
+                        int where = (e.getModifiers() & ActionEvent.CTRL_MASK) != 0 ? BookmarkDialog.NEW_TAB
+                                : (e.getModifiers() & ActionEvent.SHIFT_MASK) != 0 ? BookmarkDialog.NEW_WINDOW : BookmarkDialog.HERE;
+                        openBookmark(n.getUrl(), where);
+                    }
+                });
+                target.add(item);
+            }
+        }
+    }
+
+    /**
+     * Shortens a long name for a menu item; an empty name gets a placeholder.
+     * <p>
+     * 메뉴 항목에 쓸 긴 이름을 줄인다. 빈 이름은 대신할 글을 쓴다.
+     *
+     * @param name the name / 이름
+     * @return the text of the menu item / 메뉴 항목의 글
+     */
+    private static String menuText(String name) {
+        if (name.length() == 0) {
+            return Texts.of("(no name)", "(이름 없음)");
+        }
+        return name.length() <= 60 ? name : name.substring(0, 57) + "...";
+    }
+
+    /**
+     * Opens the address of a bookmark in the active tab, in a new tab or in a new window.
+     * <p>
+     * 북마크의 주소를 활성 탭, 새 탭, 또는 새 창에서 연다.
+     *
+     * @param url   the address / 주소
+     * @param where {@link BookmarkDialog#HERE}, {@link BookmarkDialog#NEW_TAB} or {@link BookmarkDialog#NEW_WINDOW} /
+     *              {@link BookmarkDialog#HERE}, {@link BookmarkDialog#NEW_TAB}, {@link BookmarkDialog#NEW_WINDOW} 중 하나
+     */
+    void openBookmark(String url, int where) {
+        if (closed || url == null || url.trim().length() == 0) {
+            return;
+        }
+        if (where == BookmarkDialog.NEW_TAB) {
+            newTab(url, true);
+        } else if (where == BookmarkDialog.NEW_WINDOW) {
+            newWindow(url);
+        } else {
+            getActiveTab().open(url);
+        }
+    }
+
+    /**
+     * Opens every bookmark that lies directly in a folder in a new tab; many bookmarks are opened only after the user agreed.
+     * <p>
+     * 폴더 바로 안의 모든 북마크를 새 탭으로 연다. 북마크가 많으면 사용자가 동의한 뒤에만 연다.
+     *
+     * @param folder the bookmark folder / 북마크 폴더
+     */
+    void openBookmarkFolder(BookmarkNode folder) {
+        List<String> urls = new ArrayList<String>();
+        // 폴더 바로 안의 북마크만 모은다(하위 폴더는 열지 않는다).
+        for (int i = 0; i < folder.getChildCount(); i++) {
+            BookmarkNode n = folder.getChild(i);
+            if (!n.isFolder() && n.getUrl().trim().length() > 0) {
+                urls.add(n.getUrl());
+            }
+        }
+        if (urls.size() > OPEN_ALL_WITHOUT_ASKING
+                && !app.getPrompts().confirm(this, Texts.of("Open " + urls.size() + " tabs?", "탭 " + urls.size() + "개를 열까요?"))) {
+            return;
+        }
+        // 주소마다 새 탭을 연다. 첫 탭만 앞에 보인다.
+        for (int i = 0; i < urls.size(); i++) {
+            newTab(urls.get(i), i == 0);
+        }
+    }
+
+    /**
+     * Adds the page of a tab to the bookmarks; a page that is already bookmarked is added again only after the user agreed.
+     * <p>
+     * 탭의 페이지를 북마크에 더한다. 이미 북마크된 페이지는 사용자가 동의한 뒤에만 다시 더한다.
+     *
+     * @param tab the tab / 탭
+     */
+    private void addBookmark(BrowserTab tab) {
+        String url = tab.getUrl();
+        if (url == null || url.length() == 0 || BrowserApp.BLANK.equals(url)) {
+            tab.showNotice(Texts.of("The empty page cannot be bookmarked.", "빈 페이지는 북마크에 추가할 수 없습니다."));
+            return;
+        }
+        BookmarkModel bookmarks = app.getBookmarks();
+        if (bookmarks.contains(url)
+                && !app.getPrompts().confirm(this, Texts.of("This page is already bookmarked. Add it again?", "이미 북마크된 페이지입니다. 다시 추가할까요?"))) {
+            return;
+        }
+        bookmarks.add(bookmarks.getRoot(), BookmarkNode.bookmark(tab.getTitleText(), url));
+        showStorageResult(tab, Texts.of("Bookmarked: ", "북마크에 추가했습니다: ") + tab.getTitleText());
+    }
+
+    /**
+     * Asks for a folder name and adds the pages of all tabs of the window to a new bookmark folder with that name.
+     * <p>
+     * 폴더 이름을 물어 창의 모든 탭의 페이지를 그 이름의 새 북마크 폴더에 더한다.
+     */
+    private void bookmarkAllTabs() {
+        String suggested = Texts.of("Tabs ", "탭 ") + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date());
+        String name = app.getPrompts().ask(this, Texts.of("Name of the bookmark folder for all tabs:", "모든 탭을 담을 북마크 폴더의 이름:"), suggested);
+        if (name == null || name.trim().length() == 0) {
+            return;
+        }
+        BookmarkModel bookmarks = app.getBookmarks();
+        BookmarkNode folder = BookmarkNode.folder(name.trim());
+        bookmarks.add(bookmarks.getRoot(), folder);
+        int added = 0;
+        // 탭마다 빈 페이지가 아니면 북마크를 더한다.
+        for (int i = 0; i < tabs.size(); i++) {
+            String url = tabs.get(i).getUrl();
+            if (url != null && url.length() > 0 && !BrowserApp.BLANK.equals(url)) {
+                bookmarks.add(folder, BookmarkNode.bookmark(tabs.get(i).getTitleText(), url));
+                added++;
+            }
+        }
+        showStorageResult(getActiveTab(), Texts.of("Bookmarked " + added + " tabs in: ", "탭 " + added + "개를 북마크에 추가했습니다: ") + name.trim());
+    }
+
+    /**
+     * Shows the result of a change of the user data in the status bar: the message of success, or what went wrong when it was saved.
+     * <p>
+     * 사용자 데이터 변경의 결과를 상태 표시줄에 보인다: 성공 메시지, 또는 저장할 때 잘못된 것.
+     *
+     * @param tab     the tab whose status bar shows the message / 메시지를 보일 탭
+     * @param success the message of success / 성공 메시지
+     */
+    private void showStorageResult(BrowserTab tab, String success) {
+        String problem = app.takeStorageProblem();
+        tab.showNotice(problem != null ? problem : success);
+    }
+
+    /**
+     * Shows the bookmark manager of this window, creating it if it is not open.
+     * <p>
+     * 이 창의 북마크 관리 창을 보인다. 열려 있지 않으면 만든다.
+     *
+     * @return the manager / 관리 창
+     */
+    BookmarkDialog showBookmarkManager() {
+        // 닫은 관리 창은 버리고 새로 만든다.
+        if (bookmarkDialog == null || !bookmarkDialog.isDisplayable()) {
+            bookmarkDialog = new BookmarkDialog(this, app);
+        }
+        if (isVisible()) {
+            bookmarkDialog.setVisible(true);
+            bookmarkDialog.toFront();
+        }
+        return bookmarkDialog;
     }
 
     /**
@@ -878,6 +1094,10 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
         }
         closed = true;
         app.getSettings().removeListener(this);
+        if (bookmarkDialog != null) {
+            bookmarkDialog.dispose();
+            bookmarkDialog = null;
+        }
         // 탭마다 페이지를 폐기한다.
         for (int i = 0; i < tabs.size(); i++) {
             tabs.get(i).close();
