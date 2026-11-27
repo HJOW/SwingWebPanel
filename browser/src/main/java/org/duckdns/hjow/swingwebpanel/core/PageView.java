@@ -566,6 +566,88 @@ public final class PageView {
     }
 
     /**
+     * Receives the print layout of a page.
+     * <p>
+     * 페이지의 인쇄 레이아웃을 받는다.
+     */
+    public interface PrintCallback {
+
+        /**
+         * Called on the event dispatch thread when the layout is ready.
+         * <p>
+         * 레이아웃이 준비되면 이벤트 디스패치 스레드에서 호출된다.
+         *
+         * @param layout the layout, or null if the page was replaced or the component disposed meanwhile / 레이아웃. 그 사이 페이지가
+         *               교체되었거나 컴포넌트가 폐기되었으면 null
+         */
+        void printReady(PrintLayout layout);
+    }
+
+    /**
+     * Lays the page that is shown out for printing (plan item P31-10) and hands the result to a callback on the event dispatch thread.
+     * On the document queue the page first hears <code>beforeprint</code>, then the layout for the print medium is made from the
+     * document as it is then, then the page hears <code>afterprint</code>. The rendering for the screen is not touched. A page without
+     * a document (the blank page) gives one empty page. It may be called from any thread.
+     * <p>
+     * 보이는 페이지를 인쇄용으로 배치하고(계획 P31-10) 결과를 이벤트 디스패치 스레드에서 콜백에 넘긴다. 문서 큐에서 페이지가 먼저
+     * <code>beforeprint</code> 를 듣고, 그때의 문서로 인쇄 매체용 레이아웃을 만들고, 이어서 페이지가 <code>afterprint</code> 를 듣는다. 화면용
+     * 렌더링은 건드리지 않는다. 문서가 없는 페이지(빈 페이지)는 빈 쪽 하나를 준다. 어느 스레드에서나 부를 수 있다.
+     *
+     * @param paper       the paper of the host (it is copied) / 호스트의 용지(복사한다)
+     * @param backgrounds false to leave out backgrounds / 배경을 빼려면 false
+     * @param callback    the receiver of the layout / 레이아웃을 받는 쪽
+     */
+    public void print(java.awt.print.PageFormat paper, final boolean backgrounds, final PrintCallback callback) {
+        final java.awt.print.PageFormat format = (java.awt.print.PageFormat) paper.clone();
+        final State state = active;
+        if (disposed) {
+            deliver(callback, null);
+            return;
+        }
+        if (state == null || !state.valid()) {
+            deliver(callback, PrintLayout.empty(format));
+            return;
+        }
+        if (!session.submitDocumentTask(new Runnable() {
+            /** Makes the print layout between the two events. / 두 이벤트 사이에서 인쇄 레이아웃을 만든다. */
+            public void run() {
+                PrintLayout made = null;
+                if (state.valid()) {
+                    state.holder.printing(true);
+                    try {
+                        made = state.presentation.renderForPrint(format, backgrounds);
+                    } catch (RuntimeException e) {
+                        // 배치에 실패한 인쇄는 결과 없이 끝난다(화면의 페이지는 그대로이다).
+                        made = null;
+                    } finally {
+                        state.holder.printing(false);
+                    }
+                }
+                deliver(callback, made);
+            }
+        })) {
+            deliver(callback, null);
+        }
+    }
+
+    /**
+     * Calls a print callback on the event dispatch thread.
+     * <p>
+     * 인쇄 콜백을 이벤트 디스패치 스레드에서 부른다.
+     *
+     * @param callback the callback / 콜백
+     * @param layout   the layout or null / 레이아웃 또는 null
+     */
+    private static void deliver(final PrintCallback callback, final PrintLayout layout) {
+        SwingUtilities.invokeLater(new Runnable() {
+            /** Hands the result over. / 결과를 넘긴다. */
+            public void run() {
+                callback.printReady(layout);
+            }
+        });
+    }
+
+    /**
      * Invalidates the current drawing immediately and drops page observers on the document queue. It is safe from any thread.
      * <p>현재 그림을 즉시 무효화하고 문서 큐에서 페이지 관찰자를 해제한다. 어느 스레드에서나 안전하다.
      */

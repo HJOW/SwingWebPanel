@@ -523,6 +523,21 @@ public final class HtmlPageDocument implements PageDocument {
     }
 
     /**
+     * Fires <code>beforeprint</code> or <code>afterprint</code> at the window of this document (the host lays the page out for printing).
+     * Call it on the document queue. A document without scripts has nobody to tell.
+     * <p>
+     * 이 문서의 window 에 <code>beforeprint</code> 또는 <code>afterprint</code> 를 발생시킨다(호스트가 페이지를 인쇄용으로 배치한다). 문서 큐에서
+     * 부른다. 스크립트가 없는 문서에는 알릴 대상이 없다.
+     *
+     * @param before true for <code>beforeprint</code> / <code>beforeprint</code> 이면 true
+     */
+    void printing(boolean before) {
+        if (runtime != null) {
+            runtime.printing(before);
+        }
+    }
+
+    /**
      * Fires <code>focus</code> or <code>blur</code> at the window of this document (the window focus of the component changed).
      * <p>
      * 이 문서의 window 에 <code>focus</code> 또는 <code>blur</code> 를 발생시킨다(컴포넌트의 창 포커스가 바뀌었다).

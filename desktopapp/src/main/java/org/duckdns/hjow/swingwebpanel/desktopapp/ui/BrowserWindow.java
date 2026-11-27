@@ -881,8 +881,143 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
             clearPrivateData();
             return true;
         }
+        if (Commands.PAGE_SETUP.equals(command)) {
+            pageSetup();
+            return true;
+        }
+        if (Commands.PRINT_PREVIEW.equals(command)) {
+            printTab(tab, true);
+            return true;
+        }
+        if (Commands.PRINT.equals(command)) {
+            printTab(tab, false);
+            return true;
+        }
         tab.showNotice(Texts.of("This command is not available yet: ", "아직 쓸 수 없는 명령입니다: ") + command);
         return false;
+    }
+
+    /** The print preview that was opened last, kept for the tests. / 마지막으로 연 인쇄 미리 보기. 시험을 위해 보관한다. */
+    private transient PrintPreview lastPreview;
+
+    /**
+     * Lets the user change the paper of the page setup (plan item P31-10) and keeps the choice in the settings.
+     * <p>
+     * 사용자가 페이지 설정의 용지를 바꾸게 하고(계획 P31-10) 고른 것을 설정에 보관한다.
+     */
+    void pageSetup() {
+        java.awt.print.PageFormat chosen = app.getPrinting().pageSetup(this, app.getPaper());
+        if (chosen != null) {
+            app.setPaper(chosen);
+            getActiveTab().showNotice(Texts.of("Page setup: ", "페이지 설정: ")
+                    + org.duckdns.hjow.swingwebpanel.desktopapp.model.PaperFormat.describe(chosen));
+        }
+    }
+
+    /**
+     * Prints the page of a tab (plan item P31-10): the component lays the page out for the paper of the page setup, the settings
+     * decide whether backgrounds are printed and whether headers and footers are added, and then the preview is shown or the print
+     * system is asked to print. The layout is made in the background; the status bar tells while it is made.
+     * <p>
+     * 탭의 페이지를 인쇄한다(계획 P31-10): 컴포넌트가 페이지 설정의 용지에 맞춰 페이지를 배치하고, 설정이 배경을 인쇄할지와 머리글·바닥글을
+     * 더할지를 정하며, 그런 다음 미리 보기를 보이거나 인쇄 시스템에 인쇄를 요청한다. 배치는 배경에서 만들어지고, 그동안 상태 표시줄이 알린다.
+     *
+     * @param tab     the tab whose page is printed / 페이지를 인쇄할 탭
+     * @param preview true to show the preview instead of printing / 인쇄하는 대신 미리 보기를 보이려면 true
+     */
+    void printTab(final BrowserTab tab, final boolean preview) {
+        if (closed || tab.getPanel().isDisposed()) {
+            return;
+        }
+        final boolean headers = app.getSettings().getBoolean(Settings.PRINT_HEADERS);
+        boolean backgrounds = app.getSettings().getBoolean(Settings.PRINT_BACKGROUNDS);
+        final String date = java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.SHORT, java.text.DateFormat.SHORT).format(new Date());
+        tab.showNotice(Texts.of("Preparing the pages...", "쪽을 준비하는 중..."));
+        tab.getPanel().createPrintout(app.getPaper(), backgrounds, new org.duckdns.hjow.swingwebpanel.PrintoutListener() {
+            /**
+             * Shows the preview or starts printing when the pages are ready.
+             * <p>
+             * 쪽이 준비되면 미리 보기를 보이거나 인쇄를 시작한다.
+             *
+             * @param printout the pages, or null / 쪽들 또는 null
+             */
+            public void printoutReady(org.duckdns.hjow.swingwebpanel.PagePrintout printout) {
+                if (closed) {
+                    return;
+                }
+                if (printout == null) {
+                    tab.showNotice(Texts.of("The page could not be prepared for printing.", "페이지를 인쇄용으로 준비할 수 없습니다."));
+                    return;
+                }
+                String title = printout.getTitle().length() > 0 ? printout.getTitle() : printout.getUrl();
+                org.duckdns.hjow.swingwebpanel.desktopapp.model.PrintDocument doc = new org.duckdns.hjow.swingwebpanel.desktopapp.model.PrintDocument(
+                        printout, headers, title, printout.getUrl(), date);
+                tab.showNotice(Texts.of(doc.getNumberOfPages() + " page(s) ready to print", "인쇄할 쪽 " + doc.getNumberOfPages() + "개 준비됨"));
+                if (preview) {
+                    showPreview(doc, title);
+                } else {
+                    startPrint(doc, title);
+                }
+            }
+        });
+    }
+
+    /**
+     * Shows the print preview of a document; it is shown if this window is shown.
+     * <p>
+     * 문서의 인쇄 미리 보기를 보인다. 이 창이 보이면 미리 보기도 보인다.
+     *
+     * @param doc   the document / 문서
+     * @param title what names it / 그것을 부르는 글
+     * @return the preview / 미리 보기
+     */
+    PrintPreview showPreview(final java.awt.print.Pageable doc, final String title) {
+        PrintPreview p = new PrintPreview(this, doc, title, new Runnable() {
+            /** Prints the document that the preview shows. / 미리 보기가 보이는 문서를 인쇄한다. */
+            public void run() {
+                startPrint(doc, title);
+            }
+        });
+        lastPreview = p;
+        if (isVisible()) {
+            p.setVisible(true);
+        }
+        return p;
+    }
+
+    /**
+     * Hands a document to the print system, which asks for the printer and prints.
+     * <p>
+     * 문서를 인쇄 시스템에 넘긴다. 인쇄 시스템이 프린터를 묻고 인쇄한다.
+     *
+     * @param doc   the document / 문서
+     * @param title the name of the print job / 인쇄 작업의 이름
+     * @return true if printing started / 인쇄를 시작했으면 true
+     */
+    boolean startPrint(java.awt.print.Pageable doc, String title) {
+        return !closed && app.getPrinting().print(this, doc, title);
+    }
+
+    /**
+     * Prints the page of a tab because a script of the page asked for it (<code>window.print()</code>): the same as the print command.
+     * <p>
+     * 페이지의 스크립트가 요청했으므로(<code>window.print()</code>) 탭의 페이지를 인쇄한다: 인쇄 명령과 같다.
+     *
+     * @param tab the tab / 탭
+     */
+    public void printRequested(BrowserTab tab) {
+        printTab(tab, false);
+    }
+
+    /**
+     * Returns the print preview that was opened last; for tests.
+     * <p>
+     * 마지막으로 연 인쇄 미리 보기를 반환한다. 시험용이다.
+     *
+     * @return the preview, or null if none was opened / 미리 보기. 연 적이 없으면 null
+     */
+    PrintPreview getLastPreview() {
+        return lastPreview;
     }
 
     /**

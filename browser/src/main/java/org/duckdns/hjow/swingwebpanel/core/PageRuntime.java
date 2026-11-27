@@ -746,6 +746,26 @@ final class PageRuntime extends HostEnvironment implements ModuleScriptSource.Wi
         return r != null ? (int) Math.round(r[1]) : view.viewportPosition().y;
     }
 
+    /** Passes a print request of a script to the component (the hook of <code>window.print</code>); a frame asks for the page that holds it. / 스크립트의 인쇄 요청을 컴포넌트에 넘긴다(<code>window.print</code> 훅). 프레임은 자신을 담은 페이지의 인쇄를 요청한다. */
+    public void print() {
+        if (!closed.get()) {
+            session.printFromPage();
+        }
+    }
+
+    /**
+     * Fires <code>beforeprint</code> or <code>afterprint</code> at the window of this page; call it on the document queue.
+     * <p>
+     * 이 페이지의 window 에 <code>beforeprint</code> 또는 <code>afterprint</code> 를 발생시킨다. 문서 큐에서 부른다.
+     *
+     * @param before true for <code>beforeprint</code> / <code>beforeprint</code> 이면 true
+     */
+    void printing(boolean before) {
+        if (!closed.get() && scripts.isLoadComplete()) {
+            scripts.getLifecycle().printing(before);
+        }
+    }
+
     /** Asks the component to scroll (the hook of <code>window.scrollTo</code>). / 컴포넌트에 스크롤을 요청한다(<code>window.scrollTo</code> 훅).
      * @param x x in document pixels / 문서 픽셀의 x
      * @param y y in document pixels / 문서 픽셀의 y */

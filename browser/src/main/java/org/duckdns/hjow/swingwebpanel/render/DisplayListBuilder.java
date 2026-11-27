@@ -342,7 +342,39 @@ final class DisplayListBuilder implements PaintWalker.Visitor, GeneratedImages.E
      * @return the display list / 디스플레이 리스트
      */
     static DisplayList build(LayoutResult result, ImageSource images) {
+        return build(result, images, true);
+    }
+
+    /** False while a page is built for printing without backgrounds: background colors, background images and box shadows are left out. / 배경 없이 인쇄할 쪽을 만드는 동안 false: 배경색, 배경 이미지, 상자 그림자를 뺀다. */
+    private boolean backgrounds = true;
+
+    /**
+     * Tells whether the backgrounds and shadows of a box with a style are painted: always for the screen; for a printout without
+     * backgrounds only where the author asks for exact colors with <code>print-color-adjust: exact</code> (CSS Color Adjustment 1).
+     * <p>
+     * 스타일이 주어진 상자의 배경과 그림자를 그리는지 알려 준다: 화면에서는 항상. 배경 없는 인쇄에서는 작성자가
+     * <code>print-color-adjust: exact</code> 로 정확한 색을 요청한 곳에서만(CSS Color Adjustment 1).
+     *
+     * @param s the style of the box / 상자의 스타일
+     * @return true to paint them / 그리려면 true
+     */
+    private boolean paintsBackground(ComputedStyle s) {
+        return backgrounds || s != null && "exact".equals(s.keyword(Prop.PRINT_COLOR_ADJUST));
+    }
+
+    /**
+     * Builds the display list of a layout, with or without the backgrounds (see {@link PageRenderer#renderForPrint}).
+     * <p>
+     * 레이아웃의 디스플레이 리스트를 배경을 넣거나 빼고 만든다({@link PageRenderer#renderForPrint} 참고).
+     *
+     * @param result      the layout / 레이아웃
+     * @param images      the image source / 이미지 소스
+     * @param backgrounds false to leave out backgrounds and box shadows / 배경과 상자 그림자를 빼려면 false
+     * @return the display list / 디스플레이 리스트
+     */
+    static DisplayList build(LayoutResult result, ImageSource images, boolean backgrounds) {
         DisplayListBuilder b = new DisplayListBuilder(result, images);
+        b.backgrounds = backgrounds;
         b.run();
         double w = Math.max(result.getContentWidth(), result.getViewportWidth());
         double h = Math.max(result.getContentHeight(), result.getViewportHeight());
@@ -385,7 +417,7 @@ final class DisplayListBuilder implements PaintWalker.Visitor, GeneratedImages.E
         }
         if (source == null) {
             // 배경이 없어도 어두운 색 구성표의 루트이면 캔버스는 Canvas 시스템 색(어두운 값)으로 칠한다(CSS Color Adjustment 1).
-            if (root.getStyle() != null && root.getStyle().usesDarkScheme()) {
+            if (root.getStyle() != null && root.getStyle().usesDarkScheme() && backgrounds) {
                 emit(new DisplayCommands.FillRect(0, 0, Math.max(result.getContentWidth(), result.getViewportWidth()),
                         Math.max(result.getContentHeight(), result.getViewportHeight()), 0xFF000000 | org.duckdns.hjow.swingwebpanel.css.values.NamedColors.lookupSystemDark("canvas"),
                         root.getNode()));
@@ -396,6 +428,10 @@ final class DisplayListBuilder implements PaintWalker.Visitor, GeneratedImages.E
         double w = Math.max(result.getContentWidth(), result.getViewportWidth());
         double h = Math.max(result.getContentHeight(), result.getViewportHeight());
         ComputedStyle s = source.getStyle();
+        // 배경 없이 인쇄할 때는 캔버스의 배경도 그리지 않는다(그 상자 자신의 배경도 canvasSource 이므로 그려지지 않는다).
+        if (!paintsBackground(s)) {
+            return;
+        }
         int color = s.color(Prop.BACKGROUND_COLOR);
         if ((color >>> 24) != 0) {
             emit(new DisplayCommands.FillRect(0, 0, w, h, color, source.getNode()));
@@ -927,9 +963,12 @@ final class DisplayListBuilder implements PaintWalker.Visitor, GeneratedImages.E
         double[] borders = { b.getBorderTop(), b.getBorderRight(), b.getBorderBottom(), b.getBorderLeft() };
         double[] paddings = { b.getPaddingTop(), b.getPaddingRight(), b.getPaddingBottom(), b.getPaddingLeft() };
         List<DisplayCommand> cmds = new ArrayList<DisplayCommand>();
+        boolean paint = paintsBackground(s);
         // 1. 바깥 그림자(배경보다 먼저, 상자 바깥으로만 그린다).
-        BoxShadows.addOuter(cmds, s, outer, b.getNode());
-        if (b != canvasSource) {
+        if (paint) {
+            BoxShadows.addOuter(cmds, s, outer, b.getNode());
+        }
+        if (b != canvasSource && paint) {
             int count = BackgroundLayers.layers(s.get(Prop.BACKGROUND_IMAGE)).size();
             // 배경색은 마지막 레이어의 background-clip 으로 자른다(CSS Backgrounds and Borders 3.7).
             CssValue clipValue = BackgroundLayers.item(s, Prop.BACKGROUND_CLIP, Math.max(0, count - 1));
@@ -992,7 +1031,9 @@ final class DisplayListBuilder implements PaintWalker.Visitor, GeneratedImages.E
             }
         }
         // 3. 안쪽 그림자(배경 위, border 아래).
-        BoxShadows.addInset(cmds, s, outer.inset(borders[0], borders[1], borders[2], borders[3]), b.getNode());
+        if (paint) {
+            BoxShadows.addInset(cmds, s, outer.inset(borders[0], borders[1], borders[2], borders[3]), b.getNode());
+        }
         // 만든 명령을 차례로 더한다.
         for (int i = 0; i < cmds.size(); i++) {
             emit(cmds.get(i));

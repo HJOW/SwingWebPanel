@@ -25,10 +25,38 @@ public final class CssStyleSource implements StyleSource, ContainerSource, Count
      * @param engine the CSS engine, not null / CSS 엔진(null 불가)
      */
     public CssStyleSource(CssEngine engine) {
+        this(engine, null);
+    }
+
+    /** The resolver that answers instead of the resolver of the engine, or null. / 엔진의 리졸버 대신 답하는 리졸버. 없으면 null. */
+    private final org.duckdns.hjow.swingwebpanel.css.cascade.StyleResolver override;
+
+    /**
+     * Creates a source that reads the styles from another resolver over the same document and style sheets (for example one whose media
+     * environment is the print medium), while the engine stays what it is.
+     * <p>
+     * 같은 문서와 스타일 시트에 대한 다른 리졸버(예: 미디어 환경이 인쇄 매체인 것)에서 스타일을 읽는 소스를 만든다. 엔진은 그대로이다.
+     *
+     * @param engine   the engine of the document / 문서의 엔진
+     * @param resolver the resolver to read from, or null for the resolver of the engine / 읽을 리졸버. 엔진의 리졸버이면 null
+     */
+    public CssStyleSource(CssEngine engine, org.duckdns.hjow.swingwebpanel.css.cascade.StyleResolver resolver) {
         if (engine == null) {
             throw new IllegalArgumentException("engine must not be null");
         }
         this.engine = engine;
+        this.override = resolver;
+    }
+
+    /**
+     * Returns the resolver that answers the questions of the layout.
+     * <p>
+     * 레이아웃의 질문에 답하는 리졸버를 반환한다.
+     *
+     * @return the resolver / 리졸버
+     */
+    private org.duckdns.hjow.swingwebpanel.css.cascade.StyleResolver resolver() {
+        return override != null ? override : engine.getResolver();
     }
 
     /**
@@ -40,7 +68,7 @@ public final class CssStyleSource implements StyleSource, ContainerSource, Count
      * @return the style / 스타일
      */
     public ComputedStyle getStyle(Element element) {
-        return engine.getComputedStyle(element);
+        return resolver().getComputedStyle(element);
     }
 
     /**
@@ -53,7 +81,7 @@ public final class CssStyleSource implements StyleSource, ContainerSource, Count
      * @return the style or null / 스타일 또는 null
      */
     public ComputedStyle getPseudoStyle(Element element, String pseudo) {
-        return engine.getResolver().getPseudoStyle(element, pseudo);
+        return resolver().getPseudoStyle(element, pseudo);
     }
 
     /**
@@ -66,7 +94,7 @@ public final class CssStyleSource implements StyleSource, ContainerSource, Count
      * @return the style / 스타일
      */
     public ComputedStyle getHighlightStyle(Element element, String name) {
-        return engine.getResolver().getHighlightStyle(element, name);
+        return resolver().getHighlightStyle(element, name);
     }
 
     /**
@@ -79,7 +107,7 @@ public final class CssStyleSource implements StyleSource, ContainerSource, Count
      * @return the property ids / 속성 id
      */
     public java.util.BitSet getPseudoDeclared(Element element, String pseudo) {
-        return engine.getResolver().getPseudoDeclared(element, pseudo);
+        return resolver().getPseudoDeclared(element, pseudo);
     }
 
     /**
@@ -90,7 +118,7 @@ public final class CssStyleSource implements StyleSource, ContainerSource, Count
      * @return the rules / 규칙
      */
     public java.util.List<org.duckdns.hjow.swingwebpanel.css.cssom.FontFeatureValuesRule> getFontFeatureValues() {
-        return engine.getResolver().getFontFeatureValues();
+        return resolver().getFontFeatureValues();
     }
 
     /**
@@ -101,7 +129,7 @@ public final class CssStyleSource implements StyleSource, ContainerSource, Count
      * @return the definitions by name / 이름별 정의
      */
     public java.util.Map<String, org.duckdns.hjow.swingwebpanel.css.cssom.CounterStyleRule> getCounterStyleRules() {
-        return engine.getResolver().getCounterStyleRules();
+        return resolver().getCounterStyleRules();
     }
 
     /**
@@ -115,7 +143,7 @@ public final class CssStyleSource implements StyleSource, ContainerSource, Count
      * @return the computed values by property id, or null if there is no such rule / 속성 id 별 계산 값. 그런 규칙이 없으면 null
      */
     public java.util.Map<Integer, org.duckdns.hjow.swingwebpanel.css.values.CssValue> positionTryOption(String name, Element element, ComputedStyle own) {
-        org.duckdns.hjow.swingwebpanel.css.cssom.PositionTryRule rule = engine.getResolver().getPositionTryRule(name);
+        org.duckdns.hjow.swingwebpanel.css.cssom.PositionTryRule rule = resolver().getPositionTryRule(name);
         if (rule == null) {
             return null;
         }
@@ -124,7 +152,7 @@ public final class CssStyleSource implements StyleSource, ContainerSource, Count
         if (declared.isEmpty() || element == null) {
             return result;
         }
-        ComputedStyle c = engine.getResolver().computeDeclared(element, new java.util.LinkedHashMap<Integer, org.duckdns.hjow.swingwebpanel.css.values.CssValue>(declared), own);
+        ComputedStyle c = resolver().computeDeclared(element, new java.util.LinkedHashMap<Integer, org.duckdns.hjow.swingwebpanel.css.values.CssValue>(declared), own);
         String wm = own == null || own.keyword(Prop.WRITING_MODE) == null ? "horizontal-tb" : own.keyword(Prop.WRITING_MODE);
         String dr = own == null || own.keyword(Prop.DIRECTION) == null ? "ltr" : own.keyword(Prop.DIRECTION);
         // 선언한 속성마다 계산한 값을 모은다(논리 속성은 쓰기 모드가 가리키는 물리 속성에 있다).
@@ -143,7 +171,7 @@ public final class CssStyleSource implements StyleSource, ContainerSource, Count
      * @return true if container queries are in use / 컨테이너 질의를 쓰면 true
      */
     public boolean usesContainerQueries() {
-        return engine.getResolver().usesContainerQueries();
+        return resolver().usesContainerQueries();
     }
 
     /**
@@ -155,6 +183,6 @@ public final class CssStyleSource implements StyleSource, ContainerSource, Count
      * @return true if the styles changed and the layout must run again / 스타일이 바뀌어 레이아웃을 다시 해야 하면 true
      */
     public boolean updateContainerSizes(java.util.Map<Element, double[]> measured) {
-        return engine.getResolver().updateContainerSizes(measured);
+        return resolver().updateContainerSizes(measured);
     }
 }

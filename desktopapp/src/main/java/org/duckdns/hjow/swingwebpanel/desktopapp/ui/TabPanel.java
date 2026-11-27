@@ -150,6 +150,18 @@ final class TabPanel extends SwingWebPanel {
     }
 
     /**
+     * Passes the print request of a script of the page (<code>window.print()</code>) to the tab, which prints as the print command does.
+     * <p>
+     * 페이지 스크립트의 인쇄 요청(<code>window.print()</code>)을 탭에 넘긴다. 탭은 인쇄 명령과 같이 인쇄한다.
+     */
+    protected void printRequested() {
+        BrowserTab t = tab;
+        if (t != null) {
+            t.requestPrint();
+        }
+    }
+
+    /**
      * Closes only this tab when a script of its page closes the window (the settings allowed it); the program does not end unless it
      * was the last tab.
      * <p>

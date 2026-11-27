@@ -70,6 +70,9 @@ public final class Settings {
     /** Key of whether headers and footers are printed (<code>true</code> or <code>false</code>). / 머리글과 바닥글을 인쇄하는지의 키(<code>true</code> 또는 <code>false</code>). */
     public static final String PRINT_HEADERS = "print.headers";
 
+    /** Key of the paper of the page setup, as {@link PaperFormat} writes it; empty for the default paper. / 페이지 설정의 용지의 키. {@link PaperFormat} 이 적는 형식이며, 기본 용지이면 빈 값. */
+    public static final String PRINT_PAPER = "print.paper";
+
     /** Key of the font family for content without an author font; empty for the built-in font. / 작성자 글꼴이 없는 내용의 글꼴 패밀리의 키. 내장 글꼴이면 빈 값. */
     public static final String FONT_STANDARD = "font.standard";
 
@@ -165,6 +168,7 @@ public final class Settings {
         DEFAULTS.put(SELECT_NEW_TABS, "false");
         DEFAULTS.put(PRINT_BACKGROUNDS, "false");
         DEFAULTS.put(PRINT_HEADERS, "true");
+        DEFAULTS.put(PRINT_PAPER, "");
         DEFAULTS.put(FONT_STANDARD, "");
         DEFAULTS.put(FONT_SERIF, "");
         DEFAULTS.put(FONT_SANS_SERIF, "");

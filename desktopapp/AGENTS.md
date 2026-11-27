@@ -32,6 +32,8 @@ SwingWebPanel 로 만든 Swing 웹 브라우저 응용 프로그램이다(저장
 | `src/main/java/.../desktopapp/ui/PopupWindow.java` | 스크립트가 연 창을 보이는 팝업 창(브라우저 창이 소유한 비모달 `JDialog`) |
 | `src/main/java/.../desktopapp/ui/FindBar.java` | 찾기 막대(상태 표시줄 위). 입력하는 즉시 `BrowserWindow.find` 를 거쳐 활성 탭의 `SwingWebPanel.find` 를 부른다 |
 | `src/main/java/.../desktopapp/ui/SourceWindow.java`, `ConsoleWindow.java`, `HistoryDialog.java` | 페이지 원본(평문, 읽기 전용), 활성 탭의 콘솔 메시지(`model.ConsoleLog`), 활성 탭의 세션 이력을 보이는 보조 창. 모두 브라우저 창이 소유한 비모달 `JDialog` |
+| `src/main/java/.../desktopapp/model/PaperFormat.java`, `PrintDocument.java` | 페이지 설정의 용지를 설정 글로 읽고 쓰기, 인쇄물의 쪽 여백에 머리글·바닥글을 더하는 `Pageable` |
+| `src/main/java/.../desktopapp/ui/PrintPreview.java` | 인쇄 미리 보기(쪽 넘기기, 크기, 인쇄 단추). 쪽은 인쇄 작업이 받는 것과 같은 `Pageable` 이 그린다 |
 | `src/main/java/.../desktopapp/ui/NavigationBar.java`, `StatusBar.java`, `Icons.java` | 탐색 도구 모음(버튼, 주소 표시줄, 이력 메뉴), 상태 표시줄, Java2D 로 그린 아이콘 |
 | `src/test/java/.../desktopapp/ui/TestPages.java` | 창 시험 도우미: 임시 파일 페이지, 루프백 HTTP 서버, EDT 조건 대기 |
 | `src/test/java/...` | 자체 실행기(`testing.TestRunner`, 엔진 모듈의 시험 JAR)로 실행하는 시험 |
@@ -51,6 +53,8 @@ SwingWebPanel 로 만든 Swing 웹 브라우저 응용 프로그램이다(저장
 - 창 시험은 버튼을 `doClick()` 으로 누르고 창을 보이지 않게 만든다. 실제 마우스·키보드 확인은 `tools/uicheck` 로 따로 한다(P31-11).
 - 프레임이 필요한 시험은 headless JVM 에서 `Check.skip` 으로 건너뛴다. 건너뛴 경우 이유를 `docs/PROGRESS.md` 에 기록한다.
 - 사용자 데이터 위치는 시스템 속성 `swingwebpanel.desktopapp.home` 으로 바꾼다. 시험과 smoke 실행은 `target` 아래를 쓴다.
+- **인쇄 시험은 프린터에 닿지 않는다**: 프린터에 닿는 코드는 `BrowserApp.Printing` 의 기본 구현(`PrinterJob`) 하나뿐이고, 창 시험(`WindowCase`)은 그것을 `FakePrinting` 으로 바꾼다.
+  새 시험도 `PrinterJob` 을 직접 쓰지 말고 쪽을 `BufferedImage` 에 그려 확인한다. 실제 출력 확인이 꼭 필요하면 PDF 프린터로만 한다(`docs/progress/uicheck.md`).
 
 ## 실제로 실행해 본 JRE
 

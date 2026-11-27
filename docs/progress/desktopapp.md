@@ -109,6 +109,7 @@ P31-08-a(이벤트 루프 공유)와 P31-08-b(팝업의 동기 생성)는 이 �
 | 2026-11-27 | P31-07 | 설정: 항목(`model.Settings`), 파일(`SettingsStore`), 세션(`SessionStore`), 대화 상자(`ui.SettingsDialog`), 탭별 적용, 시작 페이지와 세션 복원, 창 위치 기억. 보완 후보 (a)를 컴포넌트별 기본 글꼴 API 로 추가(계약 5.27). 브라우저 시험 5건, 앱 시험 35건 통과 |
 | 2026-11-27 | P31-06 | 북마크: 모델(`BookmarkNode`, `BookmarkModel`), 파일(`BookmarkStore`, `TextFiles`), Netscape HTML 가져오기·내보내기(`BookmarkHtml`), 북마크 메뉴, 관리 창(`ui.BookmarkDialog`). 앱 시험 27건 통과 |
 | 2026-11-27 | P31-08, P31-04-b | 보완 후보 (b): 페이지가 여는 창과 팝업 차단(계약 5.28). 앱: `ui.TabPanel`, `ui.PopupWindow`, 팝업·링크의 열 위치, 차단 알림과 단추, 링크의 새 탭·새 창(Ctrl·Shift·가운데 단추·문맥 메뉴), 탭을 닫을 때 `disposeKeepingStorage()`. 브라우저 시험 12건, 앱 시험 39건 통과 |
+| 2026-11-27 | P31-10 | 보완 후보 (h): 인쇄 API(계약 5.30). 앱: 페이지 설정, 인쇄, 인쇄 미리 보기, 머리글·바닥글, `window.print()`. 브라우저 시험 6건, 앱 시험 51건 통과 |
 | 2026-11-27 | P31-09 | 보완 후보 (d): 페이지 안 찾기 API(계약 5.29). 앱: 찾기 막대, 원본 창, 콘솔 창, 방문 기록 창, 개인 정보 삭제. 브라우저 시험 5건, 앱 시험 46건 통과 |
 | 2026-11-27 | P31-05-b | 메뉴 막대(`ui.BrowserMenu`), 명령(`ui.Commands`, `BrowserWindow.perform`), 가속 키와 메뉴 항목 없는 키, 페이지 저장(`model.PageFiles`), 확대 단계(`model.ZoomSteps`), 새 창, 끝내기, 정보. 앱 시험 21건 통과 |
 
@@ -264,4 +265,29 @@ SwingWebPanel 쪽(계약 5.29):
   동의하면 `BrowserApp.clearPrivateData()` 가 창마다 `clearPages()`(탭·팝업의 `SwingWebPanel.clean()`, 콘솔 로그, 닫은 탭 목록)를 부르고 `CookieJar.clear()` 를 부르며 `session.txt` 를 비운다.
   탭은 닫지 않는다. 비워진 탭의 상태 표시줄은 다시 페이지를 열 때까지 "개인 정보를 지웠습니다"를 보인다.
 - 확대·축소(P31-05)와 다운로드 폴더(P31-07, `TabPanel.getDownloadDirectory`)는 이미 연결되어 있다.
+
+### 7.9 인쇄 (P31-10, 2026-11-27)
+
+SwingWebPanel 쪽(계약 5.30):
+
+- 인쇄용 스타일은 화면의 `CssEngine` 을 건드리지 않고, 같은 스타일 시트 목록을 받는 **두 번째 `StyleResolver`**(미디어 종류 `print`, 뷰포트 = 쪽 영역)로 계산한다.
+  엔진의 미디어 환경을 잠깐 바꾸는 방식은 화면의 스타일 캐시를 비우고 전환(transition)을 시작시킬 수 있어 쓰지 않았다. 리졸버는 배치가 끝나면 폐기한다(DOM 변경 구독 해제).
+- `layout.CssStyleSource` 가 엔진의 리졸버 대신 답할 리졸버를 받을 수 있게 했다. `css.cascade.PageStyles` 에는 호스트 용지를 기본 크기로 쓰는 `resolve` 와, 규칙이 여백을 정했는지(`isMarginSet`)를 더했다.
+- 쪽 나눔(`layout.PageBreaks`): 문서를 쪽 영역 폭의 긴 단 하나로 배치한 뒤 쪽의 끝이 될 세로 위치를 고른다. 강제 나눔 위치, 절대 가르지 않는 띠(줄 상자, 치환 요소, 표의 행, 변환 상자),
+  피할 수 있으면 가르지 않는 띠(`break-inside: avoid`, `orphans`/`widows`, `avoid` 로 묶인 이웃)를 모으고, 쪽 높이에서 위로 올리며 띠 밖의 자리를 찾는다. 들어가는 것이 없으면 피하라는 요청을 버리고, 그래도 없으면 쪽 높이에서 자른다.
+- 내용을 옮기는 진짜 조각내기(상자를 쪽마다 다시 배치)는 레이아웃 엔진 전체를 바꿔야 해서 하지 않았다. 대신 쪽은 배치의 띠를 보인다: 그리기는 디스플레이 리스트를 쪽의 위쪽만큼 옮기고 띠로 자른다.
+  `position: fixed` 그룹은 그리기 때 뷰포트 위치만큼 옮겨지므로, 뷰포트 위치를 쪽의 위쪽으로 주면 쪽마다 되풀이된다.
+- 배경 빼기: `render.DisplayListBuilder` 가 배경색·배경 레이어·그림자 명령을 만들지 않는다(`print-color-adjust: exact` 는 예외). 캔버스의 배경색은 내용의 띠 아래까지 쪽 영역을 채우도록 `PrintLayout` 이 따로 칠한다.
+- 인쇄 이벤트: `PageView.print` 가 문서 큐에서 `beforeprint` → 인쇄용 배치 → `afterprint` 순서로 실행한다. `window.print()` 는 `HostEnvironment.print()` → `BrowserSession.printFromPage()` → EDT 의 `SwingWebPanel.printRequested()`.
+
+앱 쪽:
+
+- 프린터에 닿는 코드는 `BrowserApp.Printing`(페이지 설정 대화 상자, 인쇄 대화 상자와 인쇄 작업)의 기본 구현 하나뿐이다. 시험은 `FakePrinting` 으로 바꾼다.
+- 페이지 설정(파일 메뉴): `PrinterJob.pageDialog` 의 결과를 설정 `print.paper`(`너비 높이 왼쪽 위 오른쪽 아래 방향`, 포인트)로 보관한다(`model.PaperFormat`). 값이 없거나 잘못되면 A4(북미는 Letter), 세로, 여백 반 인치.
+- 인쇄(Ctrl+P)와 인쇄 미리 보기: `createPrintout(용지, 설정 print.backgrounds)` 로 쪽을 만들고(그동안 상태 표시줄에 "쪽을 준비하는 중"), `model.PrintDocument` 로 감싼다.
+  인쇄는 인쇄 시스템에 넘기고(작업 이름은 페이지 제목), 미리 보기는 `ui.PrintPreview` 를 연다.
+- 머리글·바닥글(설정 `print.headers`): 머리글은 왼쪽에 제목·오른쪽에 날짜와 시각, 바닥글은 왼쪽에 주소·오른쪽에 `쪽 / 전체 쪽`. 8포인트 산세리프, 쪽 영역에서 6포인트 떨어진 여백에 그린다.
+  여백이 글자 높이보다 좁은 쪽에서는 그리지 않는다. 왼쪽 글은 오른쪽 글과 겹치지 않게 줄임표로 줄인다.
+- 미리 보기(`ui.PrintPreview`): 한 번에 한 쪽, 이전·다음, 크기(쪽 맞춤, 50~200%), 인쇄, 닫기. 쪽은 인쇄 작업이 받는 것과 같은 `Pageable` 이 이미지에 그린 것이다(쪽과 크기마다 캐시). 스냅샷이므로 페이지가 바뀌어도 미리 보기는 그대로이다.
+- `window.print()`: 탭의 컴포넌트(`TabPanel.printRequested`)가 탭 → 창으로 넘기고, 창은 인쇄 명령과 같은 일을 한다. 팝업 창의 페이지도 같다.
 

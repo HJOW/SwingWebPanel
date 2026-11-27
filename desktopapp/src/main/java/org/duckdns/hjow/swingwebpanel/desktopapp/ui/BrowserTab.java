@@ -95,6 +95,15 @@ public final class BrowserTab {
          * @param y    the vertical position in the component of the page / 페이지 컴포넌트 안의 세로 위치
          */
         void contextMenuRequested(BrowserTab tab, String link, int x, int y);
+
+        /**
+         * Called on the event dispatch thread when a script of the page of the tab asks to print the page (<code>window.print()</code>).
+         * <p>
+         * 탭의 페이지의 스크립트가 페이지를 인쇄해 달라고 하면(<code>window.print()</code>) 이벤트 디스패치 스레드에서 호출된다.
+         *
+         * @param tab the tab / 탭
+         */
+        void printRequested(BrowserTab tab);
     }
 
     /** The application. / 응용 프로그램. */
@@ -357,6 +366,17 @@ public final class BrowserTab {
         blockedPopup = null;
         notice = null;
         fireChanged();
+    }
+
+    /**
+     * Asks the window of the tab to print the page, as a script of the page asked.
+     * <p>
+     * 페이지의 스크립트가 요청한 대로, 탭의 창에 페이지를 인쇄해 달라고 요청한다.
+     */
+    void requestPrint() {
+        if (listener != null) {
+            listener.printRequested(this);
+        }
     }
 
     /**

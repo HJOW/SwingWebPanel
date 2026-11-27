@@ -753,4 +753,15 @@ public abstract class HostEnvironment {
      */
     public void scrollTo(double x, double y) {
     }
+
+    /**
+     * Asks the host to print the page (<code>window.print()</code>). The default does nothing; the page host passes the request to the
+     * component, which offers it to its host later on the event dispatch thread. The call returns at once: the script does not wait
+     * for a dialog.
+     * <p>
+     * 호스트에 페이지를 인쇄해 달라고 요청한다(<code>window.print()</code>). 기본 구현은 아무것도 하지 않는다. 페이지 호스트는 요청을 컴포넌트에
+     * 넘기고, 컴포넌트는 나중에 이벤트 디스패치 스레드에서 자기 호스트에 제안한다. 호출은 곧바로 돌아온다: 스크립트는 대화 상자를 기다리지 않는다.
+     */
+    public void print() {
+    }
 }

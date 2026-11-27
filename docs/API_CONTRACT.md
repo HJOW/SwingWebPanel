@@ -44,6 +44,7 @@ public class SwingWebPanel extends javax.swing.JPanel implements javax.swing.Scr
 | `new SwingWebPanel(CookieJar)`, `getCookieJar()`, `clearCookies()`, `CookieJar` | 공유 쿠키 저장소 | - / `CookieJar` / void | IAE(null 저장소), ISE(폐기, `clearCookies`) | 컴포넌트 사이의 쿠키 공유와 쿠키 삭제(확장, 5.24) |
 | `copy()`, `cut()`, `paste()`, `selectAll()` | - | void | ISE(폐기) | 호스트의 편집 명령(확장, 5.26) |
 | `setDefaultFontFamily(String,String)`/`getDefaultFontFamily(String)`, `setDefaultFontSize(int)`/`getDefaultFontSize()`, `setDefaultMonospaceFontSize(int)`/`getDefaultMonospaceFontSize()` | 종류와 패밀리, 크기 | void / String / int | IAE, ISE(폐기, 변경만) | 컴포넌트별 기본 글꼴(확장, 5.27) |
+| `createPrintout(PageFormat, boolean, PrintoutListener)`, `PagePrintout`, `PrintoutListener`, 보호 메서드 `printRequested()` | 용지, 배경 인쇄 여부, 리스너 | void | IAE(null), ISE(폐기) | 인쇄용 쪽 만들기와 `window.print()` 확장 지점(확장, 5.30) |
 | `find(String, boolean, boolean)`, `clearFind()`, `getFindResult()`, `FindResult` | 검색어, 대소문자 구분, 방향 | void / `FindResult` | IAE(null 글), ISE(폐기, `find`·`clearFind`) | 페이지 안 찾기(확장, 5.29) |
 | `setPopupBlockingEnabled(boolean)`/`isPopupBlockingEnabled()`, `disposeKeepingStorage()`, `WindowRequest`, `PopupSeed`, 보호 메서드 `createPopupPanel`·`canOpenPopupWindows`·`openPopupWindow`·`openNewWindow`·`popupBlocked`·`closeOpenedWindow` | 차단 여부, 창 요청 | void / boolean | ISE(폐기, 변경만) | 페이지가 여는 창(팝업)과 팝업 차단(확장, 5.28) |
 | `clean()` | - | void | ISE | 빈 페이지 + 캐시/저장소 삭제 |
@@ -597,6 +598,35 @@ JavaScript 를 실행하지 않는 페이지(`setJavascriptEnabled(false)`, `tex
 
 검증: `FindInPageTest`(C-FIND-1~5).
 
+### 5.30 확장: 인쇄 (P31-10, 확장이며 AGENTS.md 의 공개 메서드 목록에는 없다)
+
+데스크톱 브라우저(`desktopapp`)의 인쇄를 위해 추가했다. 컴포넌트는 프린터와 통신하지 않고 대화 상자도 보이지 않는다: 인쇄용 쪽을 만들어 주기만 하고,
+프린터 선택과 인쇄 작업(`java.awt.print.PrinterJob`)은 호스트가 한다. 기존 메서드와 기본 동작은 바뀌지 않는다.
+
+공개 메서드: `public void createPrintout(PageFormat paper, boolean printBackgrounds, PrintoutListener listener)`.
+보호 메서드(확장 지점): `protected void printRequested()`.
+공개 타입: `PagePrintout`(`java.awt.print.Pageable`·`Printable` 구현, 불변: `getNumberOfPages()`, `getPageFormat(int)`, `getPrintable(int)`, `print(Graphics, PageFormat, int)`,
+`getTitle()`, `getUrl()`, `isBackgroundPrinted()`, `getShrinkFactor()`, `getPageBreaks()`), `PrintoutListener`(`printoutReady(PagePrintout)`).
+
+| 항목 | 계약 |
+| --- | --- |
+| 스레드 | `createPrintout` 은 어느 스레드에서나 부를 수 있고 곧바로 돌아온다. 배치는 문서 큐에서 만들고 리스너는 EDT 에서 한 번 불린다. `PagePrintout` 은 불변이며 어느 스레드에서나 여러 번 그릴 수 있다 |
+| 결과 | 보이는 페이지의 스냅샷이다. 만든 뒤 페이지가 바뀌거나 컴포넌트가 폐기되어도 인쇄물은 그대로이다. 배치하는 동안 페이지가 교체되었거나 컴포넌트가 폐기되었거나 배치가 실패하면 리스너는 `null` 을 받는다. 문서가 없는 페이지(`about:blank`)는 빈 쪽 하나이다 |
+| 매체 | 인쇄용 스타일은 같은 스타일 시트를 `print` 매체로 다시 계산한다(`@media print` 적용, `@media screen` 제외, 미디어 질의의 뷰포트는 쪽 영역). 화면의 스타일, 레이아웃, 전환·애니메이션, 스크롤 위치, 확대 비율은 바뀌지 않고, 확대 비율은 인쇄물에 영향을 주지 않는다 |
+| 용지와 쪽 영역 | 호스트가 넘긴 `PageFormat` 의 용지 크기·방향과 인쇄 가능 영역(기본 여백)을 쓴다. 문서의 `@page` 규칙이 이를 바꾼다: `size`(길이, 용지 이름, `landscape`/`portrait`)는 쪽의 크기를, `margin` 은 그 변의 여백을 정한다(`:first`, `:left`, `:right` 선택자와 구체성 적용. 첫 쪽은 오른쪽 쪽이다). 여백은 쪽의 90% 를 넘지 않게 줄인다. 쪽마다 자기 `PageFormat` 을 가진다(`getPageFormat(i)`): 용지 크기와, 인쇄 가능 영역으로서의 쪽 영역. 가로가 더 긴 쪽은 `LANDSCAPE` 형식이다 |
+| 배치 | 문서를 첫 쪽의 쪽 영역 폭으로 한 번 배치한다(1 CSS 픽셀 = 0.75 포인트). 내용이 쪽 영역보다 넓으면 폭에 맞게 줄인다(`getShrinkFactor()`, 0.4 까지) |
+| 쪽 나눔 | 강제 나눔: `break-before`/`break-after` 의 `page`, `always`, `all`, `left`, `right`, `recto`, `verso`(별칭 `page-break-*: always` 포함)는 그 상자의 가장자리에서 쪽을 끝낸다. 그 밖에는 쪽 높이에서 끝내되 줄 상자, 치환 요소(이미지, 캔버스, 폼 컨트롤), 표의 행, 변환이 있는 상자 안에서는 끝내지 않는다. 쪽 높이가 허락하면 `break-inside: avoid`(`avoid-page`) 상자, 블록의 처음 `orphans` 줄과 마지막 `widows` 줄, `break-after`/`break-before: avoid` 로 묶인 이웃을 가르지 않는다. 쪽보다 큰 것은 쪽 높이에서 자른다. 마지막 쪽은 내용과 함께 끝난다(내용 없는 뒤쪽 여백만으로 쪽을 만들지 않는다) |
+| 내용의 이동 | 쪽을 나눠도 내용을 옮기지 않는다: 쪽은 배치의 한 띠를 보이고, 일찍 끝난 쪽의 나머지는 비운다. 상자의 테두리와 배경은 쪽 경계에서 잘린다(`box-decoration-break: slice`). 쪽 경계의 여백은 줄이지 않는다 |
+| 고정 배치 | `position: fixed` 상자는 쪽마다 그 쪽 영역의 위쪽을 기준으로 다시 그려진다 |
+| 배경 | `printBackgrounds` 가 false 이면 배경색, 배경 이미지, 상자 그림자를 그리지 않는다(글자, border, 이미지, 캔버스는 그린다). `print-color-adjust: exact` 인 상자는 그린다. true 이면 모두 그리고, 캔버스(루트나 body)의 배경색은 쪽마다 쪽 영역 전체를 채운다 |
+| 그리기 | `print(Graphics, PageFormat, int)` 은 그래픽스의 원점을 용지의 왼쪽 위, 단위를 포인트로 보고 그 쪽의 쪽 영역 안에만 그린다. 형식 인수는 쓰지 않는다. 없는 쪽은 `NO_SUCH_PAGE`. 글자는 글꼴 윤곽으로 그려진다(프린터나 PDF 에서 벡터) |
+| 이벤트 | 배치 전에 최상위 문서의 window 가 `beforeprint` 를, 배치 직후에 `afterprint` 를 받는다(문서 큐, 신뢰 이벤트, 버블링·취소 없음). `beforeprint` 리스너가 바꾼 문서가 인쇄된다. 스크립트가 꺼진 문서에는 이벤트가 없다 |
+| `window.print()` | 호출은 곧바로 `undefined` 를 돌려주고, 컴포넌트는 조금 뒤 EDT 에서 `printRequested()` 를 부른다. 기본 구현은 아무것도 하지 않는다(인쇄를 지원하기 전의 동작과 같다). 프레임의 `print()` 도 최상위 컴포넌트의 `printRequested()` 로 온다 |
+| 인수와 폐기 | 용지나 리스너가 null 이면 `IllegalArgumentException`. 폐기 뒤 `createPrintout` 은 `IllegalStateException` |
+| 한계 | 쪽 여백 상자(`@top-center` 등)의 내용, `page` 속성의 이름 있는 쪽, `marks`/`bleed`, 쪽 번호 카운터는 그리지 않는다. 표의 머리글 행을 쪽마다 되풀이하지 않는다. 프레임의 내용은 화면에 그려진 그대로 그 상자에 인쇄되며 프레임 안에서는 쪽을 나누지 않고, 프레임의 문서에는 인쇄 이벤트가 가지 않는다. 다단·flex·grid 안의 내용도 한 띠로 잘린다. `contain-intrinsic-size: auto` 가 기억하는 크기는 인쇄용 배치가 덮어쓸 수 있다. 쪽 수는 10,000 까지 |
+
+검증: `PrintoutTest`(C-PRINT-1~6). 모든 시험은 쪽을 이미지에만 그린다.
+
 ## 6. 허용 스킴 정책 (P01-12)
 
 | 스킴 | 정책 |
@@ -675,6 +705,7 @@ HTTPS 의 연결/TLS 실패 시에만 같은 주소의 HTTP 를 한 번 시도�
 | C-EDITCMD-1~5 | 호스트의 편집 명령과 명령 키 소비(5.26, P31-05-a) | `core.EditCommandsTest`: 1 편집 호스트에서 모두 선택·복사·잘라내기·붙여넣기와 이벤트 순서, 키 이벤트 없음, 2 폼 텍스트 컨트롤, 3 편집할 수 없는 페이지와 다른 스레드의 호출, 4 폐기 뒤 예외, 5 소비하는 키와 소비하지 않는 키 |
 
 | C-FONT-1~5 | 컴포넌트별 기본 글꼴(5.27, P31-07) | `DefaultFontsTest`: 1 기본 크기와 크기 키워드·루트 백분율·rem, 살아 있는 페이지의 재계산, 2 표준 글꼴과 작성자 규칙, 3 일반 이름의 패밀리와 설치되지 않은 패밀리, 4 고정폭 크기(제목 안, 중첩, 작성자 규칙), 5 인수·통지·`clean()`·프레임·다른 컴포넌트·폐기 |
+| C-PRINT-1~6 | 인쇄(5.30, P31-10) | `PrintoutTest`: 1 쪽 나눔(줄 사이, 강제 나눔과 별칭, `break-inside: avoid`, 잘리는 보통 상자, 치환 요소, `orphans`/`widows`), 2 인쇄 매체와 `@page`(크기, 여백, `:first`, `landscape`, 화면은 그대로), 3 배경 없는 인쇄·`print-color-adjust: exact`·배경 있는 인쇄와 캔버스 채우기, 4 `beforeprint`/`afterprint` 순서와 반영, `window.print()` 의 `printRequested()`, 5 폭에 맞게 줄이기·고정 배치 상자의 되풀이·확대 비율과 화면 상태 유지, 6 인수·빈 페이지·없는 쪽·평문 페이지·기본 `printRequested()`·폐기 |
 | C-FIND-1~5 | 페이지 안 찾기(5.29, P31-09) | `FindInPageTest`: 1 개수와 다음·이전·끝에서 돌기·대소문자 구분·없는 글·지우기, 2 표시되는 글(인라인 요소, 접힌 공백, 자동 줄 바꿈, 블록 경계, 숨겨진 글, 스크립트 글, 한글), 3 강조의 화소 색과 현재 일치로 스크롤·지운 뒤의 화소, 4 페이지 변경 따라가기·다른 페이지에서 끝남·EDT 통지, 5 인수·빈 페이지·평문 페이지·폐기 |
 | C-POPUP-1~10 | 페이지가 여는 창과 팝업 차단(5.28, P31-08) | `PopupWindowsTest`: 1 차단과 사용자 조작(한 번에 창 하나, 설정 끔, 속성 통지, 창 기능), 2 여는 창의 제어(동기 `about:blank`, `document.write`, DOM, `location`, `opener`, sessionStorage 복사, 이름 재사용), 3 닫기(여는 창·자신·읽는 중, 언로드 한 번, 본 창 정책 미사용), 4 `noopener` 와 다른 오리진(메시지 왕복, 접근 거부, 여는 창의 닫기), 5 새 창이 필요한 링크·폼(제안, 기존 동작, POST 본문, 스크립트 제출 차단), 6 사용자의 선택(Ctrl·Shift·가운데 단추, 취소된 클릭), 7 수명(거절, 여는 창 폐기, localStorage 유지, 폐기 뒤 예외, 스레드 종료), 8 한계(창을 보일 수 없음, 파싱 중 호출, 샌드박스), 9 COOP 로 관계 끊기, 10 기본 팝업 대화 상자(실제 창). `core.DocumentLoopTest`: 공유 문서 루프 |
 

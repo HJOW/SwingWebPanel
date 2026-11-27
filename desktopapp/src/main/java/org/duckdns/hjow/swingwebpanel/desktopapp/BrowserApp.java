@@ -351,6 +351,151 @@ public final class BrowserApp {
     }
 
     /**
+     * What the application uses to reach the print system (plan item P31-10): the page setup dialog and the print job. Tests replace
+     * it, so that no test ever sends anything to a printer.
+     * <p>
+     * 응용 프로그램이 인쇄 시스템에 닿는 수단(계획 P31-10): 페이지 설정 대화 상자와 인쇄 작업. 시험은 이것을 바꿔, 어떤 시험도 프린터로 아무것도
+     * 보내지 않게 한다.
+     */
+    public interface Printing {
+
+        /**
+         * Lets the user change the paper.
+         * <p>
+         * 사용자가 용지를 바꾸게 한다.
+         *
+         * @param parent  the window that asks / 묻는 창
+         * @param current the paper now / 지금의 용지
+         * @return the chosen paper, or null if the user cancelled / 고른 용지. 사용자가 취소했으면 null
+         */
+        java.awt.print.PageFormat pageSetup(Component parent, java.awt.print.PageFormat current);
+
+        /**
+         * Lets the user choose a printer and prints a document.
+         * <p>
+         * 사용자가 프린터를 고르게 하고 문서를 인쇄한다.
+         *
+         * @param parent   the window that asks / 묻는 창
+         * @param document the pages to print / 인쇄할 쪽들
+         * @param jobName  the name of the print job / 인쇄 작업의 이름
+         * @return true if printing started / 인쇄를 시작했으면 true
+         */
+        boolean print(Component parent, java.awt.print.Pageable document, String jobName);
+    }
+
+    /** The print system: the dialogs and the jobs of <code>java.awt.print.PrinterJob</code>. / 인쇄 시스템: <code>java.awt.print.PrinterJob</code> 의 대화 상자와 작업. */
+    private Printing printing = new Printing() {
+        /**
+         * Shows the page setup dialog of the platform.
+         * <p>
+         * 플랫폼의 페이지 설정 대화 상자를 보인다.
+         *
+         * @param parent  the window that asks / 묻는 창
+         * @param current the paper now / 지금의 용지
+         * @return the chosen paper, or null / 고른 용지 또는 null
+         */
+        public java.awt.print.PageFormat pageSetup(Component parent, java.awt.print.PageFormat current) {
+            try {
+                java.awt.print.PageFormat chosen = java.awt.print.PrinterJob.getPrinterJob().pageDialog(current);
+                // 취소하면 넘긴 객체가 그대로 돌아온다.
+                return chosen == current ? null : chosen;
+            } catch (RuntimeException e) {
+                prompts.inform(parent, Texts.of("The page setup cannot be shown: ", "페이지 설정을 보일 수 없습니다: ") + e);
+                return null;
+            }
+        }
+
+        /**
+         * Shows the print dialog of the platform and prints on a thread of its own.
+         * <p>
+         * 플랫폼의 인쇄 대화 상자를 보이고 별도 스레드에서 인쇄한다.
+         *
+         * @param parent   the window that asks / 묻는 창
+         * @param document the pages to print / 인쇄할 쪽들
+         * @param jobName  the name of the print job / 인쇄 작업의 이름
+         * @return true if printing started / 인쇄를 시작했으면 true
+         */
+        public boolean print(final Component parent, java.awt.print.Pageable document, String jobName) {
+            final java.awt.print.PrinterJob job;
+            try {
+                job = java.awt.print.PrinterJob.getPrinterJob();
+                job.setJobName(jobName == null || jobName.length() == 0 ? NAME : jobName);
+                job.setPageable(document);
+                if (!job.printDialog()) {
+                    return false;
+                }
+            } catch (RuntimeException e) {
+                prompts.inform(parent, Texts.of("Printing is not possible: ", "인쇄할 수 없습니다: ") + e);
+                return false;
+            }
+            Thread worker = new Thread(new Runnable() {
+                /** Sends the pages to the printer. / 쪽을 프린터로 보낸다. */
+                public void run() {
+                    try {
+                        job.print();
+                    } catch (final java.awt.print.PrinterException e) {
+                        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                            /** Tells the user what went wrong. / 무엇이 잘못됐는지 사용자에게 알린다. */
+                            public void run() {
+                                prompts.inform(parent, Texts.of("Printing failed: ", "인쇄에 실패했습니다: ") + e.getMessage());
+                            }
+                        });
+                    }
+                }
+            }, "desktopapp-print");
+            worker.start();
+            return true;
+        }
+    };
+
+    /**
+     * Returns what reaches the print system.
+     * <p>
+     * 인쇄 시스템에 닿는 수단을 반환한다.
+     *
+     * @return the print system / 인쇄 시스템
+     */
+    public Printing getPrinting() {
+        return printing;
+    }
+
+    /**
+     * Replaces what reaches the print system; tests use it so that nothing is sent to a printer.
+     * <p>
+     * 인쇄 시스템에 닿는 수단을 바꾼다. 시험이 프린터로 아무것도 보내지 않으려고 쓴다.
+     *
+     * @param printing the new print system / 새 인쇄 시스템
+     */
+    public void setPrinting(Printing printing) {
+        if (printing == null) {
+            throw new IllegalArgumentException("printing must not be null");
+        }
+        this.printing = printing;
+    }
+
+    /**
+     * Returns the paper of the page setup (plan item P31-10): what the settings keep, or the default paper.
+     * <p>
+     * 페이지 설정의 용지를 반환한다(계획 P31-10): 설정이 보관한 것, 없으면 기본 용지.
+     *
+     * @return a new format / 새 형식
+     */
+    public java.awt.print.PageFormat getPaper() {
+        return org.duckdns.hjow.swingwebpanel.desktopapp.model.PaperFormat.parse(settings.get(Settings.PRINT_PAPER), null);
+    }
+
+    /**
+     * Keeps the paper of the page setup in the settings.
+     * <p>
+     * 페이지 설정의 용지를 설정에 보관한다.
+     *
+     * @param paper the paper / 용지
+     */
+    public void setPaper(java.awt.print.PageFormat paper) {
+        settings.set(Settings.PRINT_PAPER, org.duckdns.hjow.swingwebpanel.desktopapp.model.PaperFormat.format(paper));
+    }
+
+    /**
      * Returns what asks the user questions.
      * <p>
      * 사용자에게 질문하는 것을 반환한다.

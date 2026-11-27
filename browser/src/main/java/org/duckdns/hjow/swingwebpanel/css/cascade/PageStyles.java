@@ -84,6 +84,9 @@ public final class PageStyles {
         /** True if <code>size</code> is not <code>auto</code> (the author fixed the size). / <code>size</code> 가 <code>auto</code> 가 아니면(저자가 크기를 정했으면) true. */
         private final boolean fixedSize;
 
+        /** For every side whether an <code>@page</code> rule set its margin. / 변마다 <code>@page</code> 규칙이 여백을 정했는지. */
+        private final boolean[] marginSet;
+
         /**
          * Creates a page box.
          * <p>
@@ -98,6 +101,25 @@ public final class PageStyles {
          * @param fixedSize   true if the size was not auto / size 가 auto 가 아니었으면 true
          */
         PageBox(double width, double height, double[] margin, String marks, double bleed, String orientation, boolean fixedSize) {
+            this(width, height, margin, marks, bleed, orientation, fixedSize, new boolean[4]);
+        }
+
+        /**
+         * Creates the descriptors of a page, with the knowledge which margins were set.
+         * <p>
+         * 어느 여백이 정해졌는지를 포함하여 쪽의 서술자를 만든다.
+         *
+         * @param width       page box width in px / 쪽 상자 너비(px)
+         * @param height      page box height in px / 쪽 상자 높이(px)
+         * @param margin      top, right, bottom, left margin in px / 위, 오른쪽, 아래, 왼쪽 여백(px)
+         * @param marks       the marks / 표시
+         * @param bleed       the bleed in px / 재단 여유(px)
+         * @param orientation the page orientation / 쪽 방향
+         * @param fixedSize   true if a rule set the size / 규칙이 크기를 정했으면 true
+         * @param marginSet   for top, right, bottom, left whether a rule set the margin / 위, 오른쪽, 아래, 왼쪽 여백을 규칙이 정했는지
+         */
+        PageBox(double width, double height, double[] margin, String marks, double bleed, String orientation, boolean fixedSize, boolean[] marginSet) {
+            this.marginSet = marginSet;
             this.width = width;
             this.height = height;
             this.margin = margin;
@@ -197,6 +219,20 @@ public final class PageStyles {
         }
 
         /**
+         * Tells whether an <code>@page</code> rule set the margin of a side; a margin that no rule set is 0 here and a printing host
+         * uses the margin of its own paper for it.
+         * <p>
+         * <code>@page</code> 규칙이 한 변의 여백을 정했는지 알려 준다. 어떤 규칙도 정하지 않은 여백은 여기서 0 이며, 인쇄하는 호스트는 그 변에
+         * 자기 용지의 여백을 쓴다.
+         *
+         * @param side 0 top, 1 right, 2 bottom, 3 left / 0 위, 1 오른쪽, 2 아래, 3 왼쪽
+         * @return true if a rule set it / 규칙이 정했으면 true
+         */
+        public boolean isMarginSet(int side) {
+            return marginSet[side];
+        }
+
+        /**
          * Tells whether the author fixed the size (<code>size</code> is not <code>auto</code>): then the page box has that size on whatever sheet
          * the page is printed.
          * <p>
@@ -235,6 +271,28 @@ public final class PageStyles {
      * @return the page box / 쪽 상자
      */
     public static PageBox resolve(List<PageRule> rules, String pageName, int number, boolean blank, boolean right) {
+        return resolve(rules, pageName, number, blank, right, 210 * PX_PER_MM, 297 * PX_PER_MM);
+    }
+
+    /**
+     * Works out the page box of a page for a host that prints on a paper of its own: where no <code>@page</code> rule sets the size, the
+     * page has the size of that paper (and <code>size: landscape</code> or <code>portrait</code> turns that paper), and percentage
+     * margins are relative to it.
+     * <p>
+     * 자기 용지에 인쇄하는 호스트를 위해 한 쪽의 쪽 상자를 구한다: <code>@page</code> 규칙이 크기를 정하지 않으면 쪽은 그 용지의 크기이고
+     * (<code>size: landscape</code> 나 <code>portrait</code> 는 그 용지를 돌린다) 백분율 여백은 그것을 기준으로 한다.
+     *
+     * @param rules      the <code>@page</code> rules in source order / 소스 순서의 <code>@page</code> 규칙
+     * @param pageName   the name of the page or null / 쪽 이름 또는 null
+     * @param number     the page number, starting at 1 / 쪽 번호(1 부터)
+     * @param blank      true for a blank page / 빈 쪽이면 true
+     * @param right      true for a right page / 오른쪽 쪽이면 true
+     * @param autoWidth  the width of the paper of the host in px / 호스트 용지의 너비(px)
+     * @param autoHeight the height of the paper of the host in px / 호스트 용지의 높이(px)
+     * @return the page box / 쪽 상자
+     */
+    public static PageBox resolve(List<PageRule> rules, String pageName, int number, boolean blank, boolean right, double autoWidth,
+            double autoHeight) {
         final List<PageRule> matching = new ArrayList<PageRule>();
         final List<Integer> specificity = new ArrayList<Integer>();
         // 쪽에 일치하는 규칙과 그 구체성을 모은다.
@@ -276,7 +334,7 @@ public final class PageStyles {
                 }
             }
         }
-        return build(values);
+        return build(values, autoWidth, autoHeight);
     }
 
     /**
@@ -284,23 +342,27 @@ public final class PageStyles {
      * <p>
      * 계단식으로 정해진 값으로 쪽 상자를 만든다.
      *
-     * @param v the values by property id (null means not set) / 속성 id 별 값(null 이면 정해지지 않음)
+     * @param v          the values by property id (null means not set) / 속성 id 별 값(null 이면 정해지지 않음)
+     * @param autoWidth  the page width while no rule sets the size, in px / 규칙이 크기를 정하지 않는 동안의 쪽 너비(px)
+     * @param autoHeight the page height while no rule sets the size, in px / 규칙이 크기를 정하지 않는 동안의 쪽 높이(px)
      * @return the page box / 쪽 상자
      */
-    private static PageBox build(CssValue[] v) {
+    private static PageBox build(CssValue[] v, double autoWidth, double autoHeight) {
         LengthContext lc = new LengthContext(PAGE_FONT_SIZE, PAGE_FONT_SIZE, PAGE_FONT_SIZE * 1.2, 0, 0);
-        double[] size = new double[2];
+        double[] size = { autoWidth, autoHeight };
         boolean fixed = sizeOf(v[Prop.SIZE], lc, size);
         double[] margin = new double[4];
+        boolean[] set = new boolean[4];
         int[] ids = {Prop.MARGIN_TOP, Prop.MARGIN_RIGHT, Prop.MARGIN_BOTTOM, Prop.MARGIN_LEFT};
         // 위, 오른쪽, 아래, 왼쪽 여백을 계산한다. 백분율은 쪽 크기 기준이다(위아래는 높이, 좌우는 너비).
         for (int i = 0; i < 4; i++) {
             margin[i] = lengthOf(v[ids[i]], lc, i % 2 == 0 ? size[1] : size[0], 0);
+            set[i] = v[ids[i]] != null && !v[ids[i]].isKeyword("auto");
         }
         String marks = marksOf(v[Prop.MARKS]);
         double bleed = lengthOf(v[Prop.BLEED], lc, 0, marks.indexOf("crop") >= 0 ? AUTO_BLEED_PX : 0);
         String orientation = v[Prop.PAGE_ORIENTATION] == null ? "upright" : v[Prop.PAGE_ORIENTATION].toCssText().toLowerCase();
-        return new PageBox(size[0], size[1], margin, marks, bleed, orientation, fixed);
+        return new PageBox(size[0], size[1], margin, marks, bleed, orientation, fixed, set);
     }
 
     /**
@@ -317,8 +379,6 @@ public final class PageStyles {
      * @return true if the size is fixed by the author / 저자가 크기를 정했으면 true
      */
     private static boolean sizeOf(CssValue value, LengthContext lc, double[] out) {
-        out[0] = 210 * PX_PER_MM;
-        out[1] = 297 * PX_PER_MM;
         if (value == null || value.isKeyword("auto")) {
             return false;
         }

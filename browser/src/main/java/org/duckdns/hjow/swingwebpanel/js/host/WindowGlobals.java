@@ -679,7 +679,23 @@ final class WindowGlobals {
                 return Js.UNDEFINED;
             }
         };
-        String[] noops = { "focus", "blur", "stop", "print" };
+        method(g, "print", 0, new NativeFunction.Call() {
+            /**
+             * <code>print()</code>: asks the host to print the page and returns at once.
+             * <p>
+             * <code>print()</code>: 호스트에 페이지 인쇄를 요청하고 곧바로 돌아온다.
+             *
+             * @param r    the realm / realm
+             * @param self this value / this 값
+             * @param args arguments / 인수
+             * @return undefined / undefined
+             */
+            public JsValue call(JsRealm r, JsValue self, JsValue[] args) {
+                env.print();
+                return Js.UNDEFINED;
+            }
+        });
+        String[] noops = { "focus", "blur", "stop" };
         // 화면 없는 동작은 빈 함수로 둔다. close 와 closed 는 창 관계를 아는 FrameApi 가 정의한다.
         for (int i = 0; i < noops.length; i++) {
             method(g, noops[i], 0, noop);

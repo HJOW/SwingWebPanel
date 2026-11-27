@@ -194,6 +194,23 @@ public final class PageLifecycle {
     }
 
     /**
+     * Fires <code>beforeprint</code> or <code>afterprint</code> at the window (HTML Standard "Printing"; the events do not bubble and cannot be
+     * cancelled). The host fires the first before it lays the page out for printing and the second right after, so a listener of the first can
+     * change the document for the printout and a listener of the second can change it back.
+     * <p>
+     * window 에 <code>beforeprint</code> 또는 <code>afterprint</code> 를 발생시킨다(HTML Standard "Printing". 버블링하지 않고 취소할 수 없다). 호스트는 페이지를
+     * 인쇄용으로 배치하기 전에 앞의 것을, 배치한 직후에 뒤의 것을 발생시킨다. 그래서 앞의 것의 리스너가 인쇄물을 위해 문서를 바꾸고 뒤의 것의 리스너가 되돌릴 수 있다.
+     *
+     * @param before true for <code>beforeprint</code>, false for <code>afterprint</code> / <code>beforeprint</code> 이면 true, <code>afterprint</code> 이면 false
+     */
+    public void printing(boolean before) {
+        if (unloaded || page.isDisposed() || !page.getEnvironment().isScriptingEnabled()) {
+            return;
+        }
+        page.dispatchTrustedEvent(page.getWindow(), new Event(before ? "beforeprint" : "afterprint", false, false));
+    }
+
+    /**
      * Fires <code>online</code> or <code>offline</code> at the window if the network state of the host differs from the one that the page heard about last.
      * <p>
      * 호스트의 네트워크 상태가 페이지가 마지막으로 들은 것과 다르면 window 에 <code>online</code> 또는 <code>offline</code> 을 발생시킨다.

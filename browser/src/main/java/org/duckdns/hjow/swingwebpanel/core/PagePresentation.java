@@ -354,6 +354,46 @@ final class PagePresentation implements DomMutationListener, PageResources.Liste
         return rendered;
     }
 
+    /**
+     * Lays the page out for printing and cuts it into pages (plan item P31-10): a second resolver computes the styles of the
+     * <code>print</code> medium from the same style sheets, so the styles, the layout and the animations of the screen are untouched.
+     * Call it on the thread that owns the document.
+     * <p>
+     * 페이지를 인쇄용으로 배치하고 쪽으로 자른다(계획 P31-10): 두 번째 리졸버가 같은 스타일 시트로 <code>print</code> 매체의 스타일을 계산하므로
+     * 화면의 스타일, 레이아웃, 애니메이션은 건드리지 않는다. 문서를 소유한 스레드에서 부른다.
+     *
+     * @param paper       the paper of the host / 호스트의 용지
+     * @param backgrounds false to leave out backgrounds / 배경을 빼려면 false
+     * @return the print layout, or null after retirement / 인쇄 레이아웃. 폐기 뒤에는 null
+     */
+    synchronized PrintLayout renderForPrint(java.awt.print.PageFormat paper, boolean backgrounds) {
+        if (closed.get()) {
+            return null;
+        }
+        // 스타일 엔진이 최신 스타일 시트를 갖게 한다(화면의 뷰포트 크기는 그대로 둔다).
+        updateStyles(layoutWidth > 0 ? layoutWidth : 800, layoutHeight > 0 ? layoutHeight : 600);
+        fonts.setRules(fontFaceRules());
+        return PrintLayout.build(document, css, resources, fonts, environment, elementState, appliedFontDefaults,
+                userSheets(appliedFontDefaults), paper, backgrounds);
+    }
+
+    /**
+     * Makes the user style sheets that the default fonts of the component stand for.
+     * <p>
+     * 컴포넌트의 기본 글꼴이 뜻하는 사용자 스타일 시트를 만든다.
+     *
+     * @param d the default fonts / 기본 글꼴
+     * @return the style sheets, empty for the built-in fonts / 스타일 시트. 내장 글꼴이면 빈 목록
+     */
+    private static List<StyleSheet> userSheets(FontDefaults d) {
+        List<StyleSheet> user = new java.util.ArrayList<StyleSheet>();
+        String text = d.userStyleSheet();
+        if (text.length() > 0) {
+            user.add(StyleSheet.parse(text, null, StyleSheet.ORIGIN_USER, null, new org.duckdns.hjow.swingwebpanel.css.CssDiagnostics()));
+        }
+        return user;
+    }
+
     /** True when only the picture of a canvas changed, so that the display list is rebuilt from the retained layout. / 캔버스 그림만 바뀌어 보관한 배치로 디스플레이 리스트만 다시 만들어야 하면 true. */
     private final AtomicBoolean paintDirty = new AtomicBoolean();
 
@@ -852,12 +892,7 @@ final class PagePresentation implements DomMutationListener, PageResources.Liste
         appliedFontDefaults = d;
         StyleResolver resolver = css.getResolver();
         resolver.setDefaultFontSize(d.getSize());
-        List<StyleSheet> user = new java.util.ArrayList<StyleSheet>();
-        String text = d.userStyleSheet();
-        if (text.length() > 0) {
-            user.add(StyleSheet.parse(text, null, StyleSheet.ORIGIN_USER, null, new org.duckdns.hjow.swingwebpanel.css.CssDiagnostics()));
-        }
-        resolver.setUserStyleSheets(user);
+        resolver.setUserStyleSheets(userSheets(d));
         fonts.setGenericFamilies(d.getSerif(), d.getSansSerif(), d.getMonospace());
     }
 

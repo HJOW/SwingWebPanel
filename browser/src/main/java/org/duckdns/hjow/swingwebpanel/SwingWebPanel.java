@@ -619,6 +619,14 @@ public class SwingWebPanel extends JPanel implements Scrollable {
         });
         session.setConsoleDispatcher(consoles);
         session.setWebMessageDispatcher(webMessages);
+        session.setPrintHandler(new Runnable() {
+            /** Offers a print request of a script to the host (event dispatch thread). / 스크립트의 인쇄 요청을 호스트에 제안한다(이벤트 디스패치 스레드). */
+            public void run() {
+                if (!disposed) {
+                    printRequested();
+                }
+            }
+        });
         session.setWindowCloseHandler(new org.duckdns.hjow.swingwebpanel.core.WindowCloseHandler() {
             /**
              * Closes the window of this component for a script, on the event dispatch thread.
@@ -2576,6 +2584,85 @@ public class SwingWebPanel extends JPanel implements Scrollable {
             return;
         }
         keyboard.editCommand(command);
+    }
+
+    /**
+     * Lays the page that is shown out for printing and hands the result, a {@link PagePrintout}, to a listener on the event dispatch
+     * thread (extension method, API contract 5.30). The printout implements <code>java.awt.print.Pageable</code> and
+     * <code>Printable</code>, so the host gives it to a <code>PrinterJob</code> or paints its pages into a preview. The component
+     * itself never talks to a printer and shows no dialog.
+     * <p>
+     * The layout is made for the <code>print</code> medium (<code>@media print</code> applies, <code>@media screen</code> does not) at
+     * the width of the page area: the paper that the host passes, with its imageable area as the default margins, changed by the
+     * <code>@page</code> rules of the document (<code>size</code>, <code>margin</code>, with <code>:first</code>, <code>:left</code>
+     * and <code>:right</code>). Pages are divided at forced breaks (<code>break-before</code>, <code>break-after</code> and the
+     * <code>page-break-*</code> aliases) and otherwise so that lines, images and table rows are not cut and
+     * <code>break-inside: avoid</code>, <code>orphans</code> and <code>widows</code> are respected where the page height allows it.
+     * Before the layout the page hears <code>beforeprint</code> and after it <code>afterprint</code>; what a listener of the first
+     * changes in the document is printed. What the component shows on the screen, its scroll position and its zoom are not changed,
+     * and the zoom does not affect the printout.
+     * <p>
+     * 보이는 페이지를 인쇄용으로 배치하고 결과인 {@link PagePrintout} 을 이벤트 디스패치 스레드에서 리스너에 넘긴다(확장 메서드, API 계약
+     * 5.30). 인쇄물은 <code>java.awt.print.Pageable</code> 과 <code>Printable</code> 을 구현하므로, 호스트는 그것을 <code>PrinterJob</code> 에
+     * 넘기거나 그 쪽들을 미리 보기에 그린다. 컴포넌트 자신은 프린터와 통신하지 않고 대화 상자도 보이지 않는다.
+     * <p>
+     * 배치는 <code>print</code> 매체용이며(<code>@media print</code> 는 적용되고 <code>@media screen</code> 은 적용되지 않는다) 쪽 영역의 폭으로
+     * 만든다: 호스트가 넘긴 용지와 그 인쇄 가능 영역(기본 여백)을 문서의 <code>@page</code> 규칙(<code>size</code>, <code>margin</code>,
+     * <code>:first</code>·<code>:left</code>·<code>:right</code>)으로 바꾼 것이다. 쪽은 강제 나눔(<code>break-before</code>,
+     * <code>break-after</code>, 별칭 <code>page-break-*</code>)에서 나누고, 그 밖에는 줄, 이미지, 표의 행을 가르지 않으며 쪽 높이가 허락하는 한
+     * <code>break-inside: avoid</code>, <code>orphans</code>, <code>widows</code> 를 지킨다. 배치 전에 페이지가 <code>beforeprint</code> 를,
+     * 뒤에 <code>afterprint</code> 를 듣는다. 앞의 것의 리스너가 문서에서 바꾼 것이 인쇄된다. 컴포넌트가 화면에 보이는 것, 스크롤 위치, 확대
+     * 비율은 바뀌지 않으며, 확대 비율은 인쇄물에 영향을 주지 않는다.
+     * <p>
+     * 사용 예 / Example:
+     * <pre>
+     * PageFormat paper = PrinterJob.getPrinterJob().defaultPage();
+     * panel.createPrintout(paper, false, new PrintoutListener() {
+     *     public void printoutReady(PagePrintout printout) {
+     *         // printout.getNumberOfPages(), printout.print(graphics, null, 0) ...
+     *     }
+     * });
+     * </pre>
+     *
+     * @param paper            the paper to print on: its size, orientation and imageable area (it is copied) / 인쇄할 용지: 크기, 방향,
+     *                         인쇄 가능 영역(복사한다)
+     * @param printBackgrounds true to print background colors, background images and box shadows; false leaves them out except where
+     *                         the page asks for them with <code>print-color-adjust: exact</code> / 배경색, 배경 이미지, 상자 그림자를
+     *                         인쇄하려면 true. false 이면 페이지가 <code>print-color-adjust: exact</code> 로 요청한 곳 말고는 뺀다
+     * @param listener         the receiver of the printout / 인쇄물을 받는 쪽
+     * @throws IllegalArgumentException if the paper or the listener is null / 용지나 리스너가 null 이면
+     * @throws IllegalStateException    if the component was disposed / 컴포넌트가 폐기되었을 때
+     */
+    public void createPrintout(java.awt.print.PageFormat paper, final boolean printBackgrounds, final PrintoutListener listener) {
+        checkAlive();
+        if (paper == null || listener == null) {
+            throw new IllegalArgumentException("paper and listener must not be null");
+        }
+        final String title = getTitle();
+        final String url = getPage();
+        view.print(paper, printBackgrounds, new PageView.PrintCallback() {
+            /** Wraps the layout for the host. / 호스트를 위해 레이아웃을 감싼다.
+             * @param layout the layout or null / 레이아웃 또는 null */
+            public void printReady(org.duckdns.hjow.swingwebpanel.core.PrintLayout layout) {
+                listener.printoutReady(layout == null ? null : new PagePrintout(layout, title, url, printBackgrounds));
+            }
+        });
+    }
+
+    /**
+     * Receives the request of a script of the page to print it: <code>window.print()</code> (extension point, API contract 5.30). It is
+     * called on the event dispatch thread shortly after the call of the script, which does not wait. The default does nothing, as
+     * before printing was supported: the component has no print dialog of its own. A host that prints overrides it, typically to do
+     * what its own print command does (ask for the printer, call
+     * {@link #createPrintout(java.awt.print.PageFormat, boolean, PrintoutListener)}, print).
+     * <p>
+     * 페이지의 스크립트가 인쇄해 달라고 한 요청을 받는다: <code>window.print()</code>(확장 지점, API 계약 5.30). 스크립트의 호출 직후에 이벤트
+     * 디스패치 스레드에서 불리며, 스크립트는 기다리지 않는다. 기본 구현은 인쇄를 지원하기 전과 같이 아무것도 하지 않는다: 컴포넌트에는 자체 인쇄
+     * 대화 상자가 없다. 인쇄하는 호스트는 이것을 재정의하여 보통 자기 인쇄 명령이 하는 일(프린터를 묻고
+     * {@link #createPrintout(java.awt.print.PageFormat, boolean, PrintoutListener)} 를 부르고 인쇄한다)을 한다.
+     */
+    protected void printRequested() {
+        return;
     }
 
     /** The result of the search that was announced last; event dispatch thread only. / 마지막으로 알린 찾기 결과. 이벤트 디스패치 스레드에서만 쓴다. */

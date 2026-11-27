@@ -101,6 +101,30 @@ public final class PageRenderer {
     }
 
     /**
+     * Lays a document out for printing and builds its drawing commands: the styles come from a style source of the print medium, the
+     * viewport is the page area, and the backgrounds can be left out. Nothing of the result is shared with the rendering for the screen.
+     * <p>
+     * 문서를 인쇄용으로 배치하고 그림 명령을 만든다: 스타일은 인쇄 매체의 스타일 소스에서 오고, 뷰포트는 쪽 영역이며, 배경을 뺄 수 있다. 결과의
+     * 어떤 것도 화면용 렌더링과 공유하지 않는다.
+     *
+     * @param doc         the document / 문서
+     * @param styles      the styles of the print medium / 인쇄 매체의 스타일
+     * @param images      the image source of the page / 페이지의 이미지 소스
+     * @param pageWidth   the width of the page area in CSS pixels / 쪽 영역의 너비(CSS 픽셀)
+     * @param pageHeight  the height of the page area in CSS pixels / 쪽 영역의 높이(CSS 픽셀)
+     * @param webFonts    the web fonts of the page, or null / 페이지의 웹 글꼴. 없으면 null
+     * @param backgrounds false to leave out background colors, background images and box shadows / 배경색, 배경 이미지, 상자 그림자를
+     *                    빼려면 false
+     * @return the rendering / 렌더링
+     */
+    public static RenderedPage renderForPrint(Document doc, StyleSource styles, ImageSource images, double pageWidth, double pageHeight,
+            WebFontSource webFonts, boolean backgrounds) {
+        LayoutResult layout = LayoutEngine.layout(doc, styles, new ImageReplacedResolver(images, pageWidth, pageHeight), pageWidth, pageHeight,
+                webFonts);
+        return new RenderedPage(layout, DisplayListBuilder.build(layout, images, backgrounds));
+    }
+
+    /**
      * Builds the page of an existing layout (for a host that runs the layout itself).
      * <p>
      * 이미 있는 레이아웃의 페이지를 만든다(레이아웃을 직접 실행하는 호스트용).

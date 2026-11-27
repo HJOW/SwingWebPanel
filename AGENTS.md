@@ -1277,7 +1277,7 @@ P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "�
   - 페이지 내 찾기: SwingWebPanel에 찾기 API를 추가한다. 대소문자 구분 선택, 일치 개수, 다음/이전 이동, 모든 일치 강조와 현재 일치로 스크롤, 찾기 막대를 닫으면 강조 제거를 제공한다. 기존 텍스트 선택·하이라이트 그리기(P11-08, P10-08-h)를 재사용한다.
   - 방문 기록 창(현재 창의 세션 이력), 다운로드(저장 폴더 설정 연결, 기존 Swing 다운로드 팝업 사용), 콘솔 창(`ConsoleListener`, 수준별 표시와 지우기).
   - 개인 정보 삭제: 열린 모든 탭에 `clean()`을 적용하고, 공유 쿠키 저장소의 쿠키 삭제(P31-01의 보완 후보 (f)·(g))를 사용한다. 다른 창과 공유되는 localStorage도 지워진다는 점(P01-15)을 확인 대화 상자에 적는다.
-- [ ] P31-10. 인쇄를 구현한다.
+- [x] P31-10. 인쇄를 구현한다. 완료(2026-11-27): SwingWebPanel에 인쇄 API(`createPrintout`, `PagePrintout`, `PrintoutListener`, 확장 지점 `printRequested()`; 계약 5.30, 기능 표 API-38)를 추가했다. 인쇄용 배치는 같은 스타일 시트를 `print` 매체의 두 번째 리졸버로 계산한 별도 결과(`core.PrintLayout`)이고, `layout.PageBreaks`가 쪽을 나눈다. 앱에는 페이지 설정(`model.PaperFormat`, 설정 `print.paper`), 머리글·바닥글(`model.PrintDocument`), 인쇄 미리 보기(`ui.PrintPreview`), 인쇄 시스템 경계(`BrowserApp.Printing`)를 만들었다. 브라우저 `PrintoutTest` 6건, 앱 `PrintModelTest` 2건·`PrintingTest` 3건이 JRE 6u45에서 통과했다(모든 시험은 쪽을 이미지에만 그리고 가짜 인쇄 시스템을 쓴다). 아래 기본안과 다른 점: 쪽을 나눌 때 내용을 옮기지 않고 배치의 띠를 쪽으로 보인다(상자 장식은 쪽 경계에서 잘린다). 내용이 쪽 영역보다 넓으면 폭에 맞게 줄인다. `window.print()`는 대화 상자를 기다리지 않고 곧바로 돌아온다. 프레임 안에서는 쪽을 나누지 않는다. 한계는 계약 5.30과 기능 표 API-38에 적었다.
   - SwingWebPanel 인쇄 API(보완 후보 (h)):
     - 현재 페이지를 인쇄용으로 다시 배치한다. 용지의 인쇄 가능 폭을 뷰포트 폭으로 쓰고, 매체 질의는 `print`로 판정하며(`@media print` 적용, `@media screen` 제외), `@page`의 크기·여백(P10-08-a의 CSSOM 해석)을 적용한다.
     - 쪽으로 나눈다. `break-before`/`break-after`/`break-inside`의 쪽 값과 `page-break-*` 별칭(P22-16-e에서 열 값과 구분한 쪽 전용 값)을 따르고, 줄과 치환 요소를 쪽 경계에서 가르지 않으며, `orphans`/`widows`의 적용 범위를 정한다.

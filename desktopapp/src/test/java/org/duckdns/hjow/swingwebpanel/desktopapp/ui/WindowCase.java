@@ -11,6 +11,7 @@ import javax.swing.JMenuBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp;
+import org.duckdns.hjow.swingwebpanel.desktopapp.FakePrinting;
 import org.duckdns.hjow.swingwebpanel.desktopapp.FakePrompts;
 import org.duckdns.hjow.swingwebpanel.desktopapp.Texts;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
@@ -36,6 +37,9 @@ public abstract class WindowCase {
 
     /** The number of times that the program ended. / 프로그램이 끝난 횟수. */
     protected int ended;
+
+    /** The print system of the application of the case: it never reaches a printer. / 사례의 응용 프로그램의 인쇄 시스템: 프린터에 닿지 않는다. */
+    protected final FakePrinting printing = new FakePrinting();
 
     /** Answers the questions of the application. / 응용 프로그램의 질문에 답한다. */
     protected final FakePrompts prompts = new FakePrompts();
@@ -80,6 +84,8 @@ public abstract class WindowCase {
                     }
                 });
                 app.setPrompts(prompts);
+                // 어떤 시험도 실제 프린터에 닿지 않도록 인쇄 시스템을 가짜로 바꾼다.
+                app.setPrinting(printing);
                 window = app.openWindow(null);
             }
         });

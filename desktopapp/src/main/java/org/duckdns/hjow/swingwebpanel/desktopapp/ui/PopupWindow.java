@@ -210,6 +210,17 @@ final class PopupWindow extends JDialog implements BrowserTab.Listener {
     }
 
     /**
+     * Passes the print request of a script of the popup to the browser window.
+     * <p>
+     * 팝업의 스크립트의 인쇄 요청을 브라우저 창에 넘긴다.
+     *
+     * @param source the tab of the popup / 팝업의 탭
+     */
+    public void printRequested(BrowserTab source) {
+        owner.printRequested(source);
+    }
+
+    /**
      * Passes the request for the context menu to the browser window.
      * <p>
      * 문맥 메뉴 요청을 브라우저 창에 넘긴다.

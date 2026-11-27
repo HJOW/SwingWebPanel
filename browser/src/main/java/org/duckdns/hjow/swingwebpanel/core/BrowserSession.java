@@ -2813,6 +2813,40 @@ public final class BrowserSession implements FormSubmitSink {
         return createdByWebContent;
     }
 
+    /** Receives the print requests of the scripts of the pages on the event dispatch thread, or null. / 페이지 스크립트의 인쇄 요청을 이벤트 디스패치 스레드에서 받는다. 없으면 null. */
+    private volatile Runnable printHandler;
+
+    /**
+     * Sets the receiver of the print requests of the scripts (<code>window.print()</code>). It is called on the event dispatch thread.
+     * <p>
+     * 스크립트의 인쇄 요청(<code>window.print()</code>)을 받을 처리기를 정한다. 이벤트 디스패치 스레드에서 호출된다.
+     *
+     * @param handler the receiver or null / 처리기 또는 null
+     */
+    public void setPrintHandler(Runnable handler) {
+        printHandler = handler;
+    }
+
+    /**
+     * Passes a print request of a script to the receiver, later on the event dispatch thread; without a receiver nothing happens.
+     * <p>
+     * 스크립트의 인쇄 요청을 나중에 이벤트 디스패치 스레드에서 처리기에 넘긴다. 처리기가 없으면 아무 일도 없다.
+     */
+    void printFromPage() {
+        final Runnable handler = printHandler;
+        if (handler == null || disposed) {
+            return;
+        }
+        SwingUtilities.invokeLater(new Runnable() {
+            /** Tells the receiver unless the session ended meanwhile. / 그 사이 세션이 끝나지 않았으면 처리기에 알린다. */
+            public void run() {
+                if (!disposed) {
+                    handler.run();
+                }
+            }
+        });
+    }
+
     /**
      * Sets the receiver of the accepted close requests of this window. It is called on the event dispatch thread after the unloading
      * events of the page ran.
