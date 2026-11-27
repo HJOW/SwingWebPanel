@@ -11,6 +11,15 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P32 계획 추가: Java 6·7용 TLS 1.3 자체 구현 모듈 (2026-11-27) ===
+현재 작업 번호: 계획 문서 갱신(사용자 요청). 구현은 하지 않았다.
+완료한 내용: 사용자 요구를 P32(P32-01 ~ P32-09)로 AGENTS.md 개발 계획에 넣었다. TLS 1.3 을 순수 Java 로 자체 구현하되 engine·browser 에 내장하지 않고 별도 Maven 하위 모듈(기본안 tls13/, swingwebpanel-tls13)로 만들며, SwingWebPanel 에는 모듈을 선택적으로 불러오는 메서드(기본안 isTls13ModuleAvailable, setTls13ModuleEnabled/isTls13ModuleEnabled)를 더하고, desktopapp 은 java.specification.version 이 1.6·1.7 일 때만 모듈을 쓴다. 진행 순서는 6(P32, 다음 작업) → 7(P22 및 실환경 마무리)로 바꿨고, P22-16 의 전체 완료 조건과 중간 실행 목표 표에 P32 를 더했다. 상단 "SSL은 현재의 JRE 에서 지원하는 버전을 사용" 과의 관계(기본 동작 불변, 호스트가 켤 때만 사용)와 보안 원칙을 계획에 적었다.
+계획의 근거(같은 날 조사, 저장소 밖 임시 실험, 커밋하지 않음): JRE 6u45 JSSE 는 SSLv2Hello/SSLv3/TLSv1 만 지원하고 SNI 가 없어 HTTPS 사이트 8곳 중 1곳만 연결됐다. TLS 1.3 에 필요한 AES-GCM, ChaCha20-Poly1305, X25519, RSASSA-PSS 는 6u45·7u80 모두에 없고 EC 는 6u45 에만 없다. 6u45·7u80 의 기본 JCE 정책은 AES 를 128비트로 제한한다(8u202 는 제한 없음). Bouncy Castle 1.87(jdk15to18) BCJSSE 를 configureSsl 재정의로 끼우면 6u45 에서 TLS 1.3 이 연결됐고, JRE 6 HttpsURLConnection 에 SNI 를 보내는 방법(연결되지 않은 createSocket() 이 원인 UnsupportedOperationException 의 SocketException 을 던지게 함)과 6u45 cacerts 로는 요즘 사이트의 사슬을 검증하지 못한다는 점을 확인했다. 외부 라이브러리 금지 때문에 BC 는 쓰지 않는다.
+변경 파일: AGENTS.md(P22-16, "P23~P32 목표의 공통 사항과 진행 순서", P32 절, 중간 실행 목표 표), 이 문서.
+검증 결과: 문서만 바꿨다. tools\sourcecheck\run.bat AGENTS.md docs\PROGRESS.md: 위반 0건/2 파일. 코드와 시험은 바꾸지 않았다.
+미해결 사항: P32-01 에서 사용자 확인이 필요한 결정 사항 두 가지: (1) TLS 1.3 을 지원하지 않는 서버를 위해 모듈에 TLS 1.2 도 구현할지(기본안: 구현하지 않고 JRE 기본 JSSE 로 한 번 다시 시도), (2) 모듈에 넣을 루트 인증서 목록의 출처와 갱신 정책(기본안: Mozilla CA 목록에서 tools/ 도구로 생성). 7u80 에서 SNI 레이어링 동작은 아직 확인하지 않았다.
+다음 작업 번호: P32-01
+-----------------------------------------------------------------------------------------------
 === P31-13 룩앤필 설정의 기본값을 Nimbus 로 지정 (2026-11-27) ===
 현재 작업 번호: P31-13 완료.
 완료한 내용: desktopapp 설정의 룩앤필 기본값(빈 값, 설정 화면의 "(default)/(기본값)")을 Nimbus 로 바꿨다. 클래스 이름이 Java 판마다 달라 설치 목록에서 이름으로 찾는다(LookAndFeels.defaultClassName(), 없으면 Java 의 처음 것). 이전 판이 적은 view.lookAndFeel= (빈 값)도 새 기본값을 따른다. 시작할 때 저장된 룩앤필을 쓸 수 없으면 설정을 보존한 채 기본값을 쓴다(실행 중에 거부되면 지금처럼 쓰던 것을 둔다).
