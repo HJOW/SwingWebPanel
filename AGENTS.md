@@ -1404,7 +1404,7 @@ P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "�
   - 경계 강제: 모듈이 `engine`·`browser`·AWT/Swing을 참조하지 않음을 빌드로 확인한다(JRE만으로 컴파일, 상수 풀 검사; P26의 `engine-boundary`와 같은 방식).
   - 완료 조건: `mvn -o verify` 통과, JDK 6 컴파일, 제품 JAR에 모듈 클래스 없음, sourcecheck 0 위반.
 - [ ] P32-03. 암호 기본 요소를 구현한다. 각 하위 항목은 JDK 6u45에서 시험 벡터 전체가 통과해야 끝난다.
-  - [ ] P32-03-a. 입력: RFC 5869 HKDF 벡터, RFC 8448의 키 스케줄 중간값, TLS 1.2 PRF(P_SHA256, P_SHA384) 대조 자료. 기대: HKDF-Extract/Expand, HKDF-Expand-Label, Derive-Secret, TLS 1.2 PRF의 바이트 일치. 구현: 해시·HMAC 래퍼, TLS 1.3 키 스케줄, TLS 1.2 PRF. TLS 1.2 PRF에는 RFC 시험 벡터가 없으므로 공개 대조 자료를 쓰면 출처를 기록하고, P32-06의 상호 운용으로도 확인한다.
+  - [x] P32-03-a. 입력: RFC 5869 HKDF 벡터, RFC 8448의 키 스케줄 중간값, TLS 1.2 PRF(P_SHA256, P_SHA384) 대조 자료. 기대: HKDF-Extract/Expand, HKDF-Expand-Label, Derive-Secret, TLS 1.2 PRF의 바이트 일치. 구현: 해시·HMAC 래퍼, TLS 1.3 키 스케줄, TLS 1.2 PRF. TLS 1.2 PRF에는 RFC 시험 벡터가 없으므로 공개 대조 자료를 쓰면 출처를 기록하고, P32-06의 상호 운용으로도 확인한다. 완료(2026-11-28): `crypto.HashAlg`(SHA-256/384/512와 직접 계산하는 HMAC), `Hkdf`, `KeySchedule13`, `Prf12`. 시험 `crypto.KdfTest` 6건이 JDK 6u45에서 통과했다(RFC 4231 HMAC, RFC 5869 사례 1~3, RFC 8448 3절의 early·handshake·traffic 비밀과 키·IV·서버 Finished, 공개 TLS 1.2 PRF 벡터). RFC 8448 원문을 시험 자료(`tls13/src/test/resources/rfc8448.txt`)로 두고 `Rfc8448` 도우미가 벡터를 원문에서 읽는다.
   - [ ] P32-03-b. 입력: FIPS 197 부록의 AES 벡터, NIST CAVP의 GCM 벡터(96비트 IV, 128비트 태그), 변조한 암호문·태그·AAD. 기대: 암복호 일치, 변조는 평문을 내놓기 전에 거부. 구현: AES와 GCM(GHASH).
   - [ ] P32-03-c. 입력: RFC 8439의 ChaCha20, Poly1305, AEAD 벡터와 변조 사례. 기대: 일치와 거부. 구현: ChaCha20-Poly1305.
   - [ ] P32-03-d. 입력: RFC 7748의 X25519 벡터(1회와 1,000회 반복), 작은 차수의 점. 기대: 일치, 결과가 모두 0인 공유 비밀은 거부. 구현: X25519(몽고메리 사다리, 조건부 교환).

@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P32-03-a 해시·HMAC·HKDF·TLS 1.3 키 스케줄·TLS 1.2 PRF (2026-11-28) ===
+현재 작업 번호: P32-03-a 완료. P32-03-b 진행 중.
+완료한 내용: crypto.HashAlg(JRE MessageDigest 위의 SHA-256/384/512 와 직접 계산하는 HMAC. javax.crypto 를 쓰지 않아 빈 키도 된다), Hkdf(extract, expand, HKDF-Expand-Label, Derive-Secret), KeySchedule13(early → handshake → master 단계와 트래픽 비밀, 키·IV, Finished MAC, KeyUpdate 비밀), Prf12(TLS 1.2 PRF). 시험 도우미 Rfc8448: RFC 8448 원문(시험 자료)을 해석해 단계별 옥텟 문자열을 준다.
+변경 파일: tls13/src/main/java/.../crypto/{HashAlg,Hkdf,KeySchedule13,Prf12}.java, tls13/src/test/java/.../{Rfc8448.java,crypto/KdfTest.java}, tls13/src/test/resources/rfc8448.txt(tools/webfetch 로 2026-11-27 에 https://www.rfc-editor.org/rfc/rfc8448.txt 에서 받음), AGENTS.md, 이 문서.
+검증 결과: JDK 6u45 javac 로 컴파일해 자체 실행기로 실행(Windows 10): KdfTest 6건 통과/0 실패. RFC 4231(HMAC 사례 1, 2, 6), RFC 5869 사례 1~3, RFC 8448 3절(early secret, c/s hs traffic, 서버 핸드셰이크 키·IV, 서버 Finished, c/s ap traffic, 클라이언트 응용 키·IV), TLS 1.2 PRF SHA-256 공개 벡터(100바이트). sourcecheck 위반 0건.
+미해결 사항: TLS 1.2 PRF 의 SHA-384 는 길이만 확인했다(P32-06 의 상호 운용으로 확인한다). KeyUpdate 비밀은 RFC 8448 에 벡터가 없어 길이만 확인했다(P32-06).
+다음 작업 번호: P32-03-b
+-----------------------------------------------------------------------------------------------
 === P32-02 tls13 모듈 골격 (2026-11-27) ===
 현재 작업 번호: P32-02 완료. P32-03 진행 중.
 완료한 내용: Maven 하위 모듈 tls13/(swingwebpanel-tls13, 산출물 tls13/target/swingwebpanel-tls13.jar)을 만들어 부모 POM 의 engine 뒤에 등록했다. 실행·컴파일 의존성은 없고 시험 범위에서만 엔진의 시험 지원 JAR 을 쓴다. 첫 클래스 crypto.Bytes(분기 없는 비교, 지우기, 엔디언 도우미), 시험 도우미 Hex, 경계 시험 ModuleBoundaryTest(컴파일된 클래스의 상수 풀에 엔진·브라우저·AWT/Swing·sun.*·프로세스·네이티브·java.security.Security 참조가 없음). tls13/README.md, tls13/AGENTS.md. tools/sourcecheck 기본 경로와 시험 자료 예외에 tls13 추가, docs/ARCHITECTURE.md, 루트 README 두 개, javadoc.sh/javadoc.bat 에 모듈 추가.
