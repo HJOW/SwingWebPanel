@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P31-13 룩앤필 설정의 기본값을 Nimbus 로 지정 (2026-11-27) ===
+현재 작업 번호: P31-13 완료.
+완료한 내용: desktopapp 설정의 룩앤필 기본값(빈 값, 설정 화면의 "(default)/(기본값)")을 Nimbus 로 바꿨다. 클래스 이름이 Java 판마다 달라 설치 목록에서 이름으로 찾는다(LookAndFeels.defaultClassName(), 없으면 Java 의 처음 것). 이전 판이 적은 view.lookAndFeel= (빈 값)도 새 기본값을 따른다. 시작할 때 저장된 룩앤필을 쓸 수 없으면 설정을 보존한 채 기본값을 쓴다(실행 중에 거부되면 지금처럼 쓰던 것을 둔다).
+변경 파일: desktopapp 의 BrowserApp.java, ui/LookAndFeels.java, ui/SettingsDialog.java(주석), model/Settings.java(주석), 시험 ui/LookAndFeelTest.java, README.md, AGENTS.md. 루트 AGENTS.md(P31-13), docs/FEATURE_MATRIX.md(DESK-06), docs/progress/desktopapp.md(7.11절), 이 문서.
+검증 결과: mvn -B -o -pl desktopapp -am "-Dtest.filter=desktopapp" verify(Maven 3.8.9, Zulu 25, 컴파일·시험은 JDK 6u45, Windows 10): 앱 시험 59건 통과/0 실패/0 건너뜀(새 시험 testNimbusIsTheDefaultAtStart 포함), 실행 JAR 의 run-app-smoke 통과(build/p31/laf-default-verify.log). 검증 범위는 desktopapp 모듈이다. 실제 창은 이번에 따로 띄워 확인하지 않았다.
+미해결 사항: Nimbus 가 있는 런타임에서는 JVM 옵션 -Dswing.defaultlaf 가 앱의 기본값에 영향을 주지 않는다(다른 룩앤필은 설정에서 고른다).
+다음 작업 번호: P22-16(선행: P22-16-c4, P22-16-e, P18-08-d)
+-----------------------------------------------------------------------------------------------
 === P31-12 설정의 콘텐츠 구역에 룩앤필 선택 (2026-11-27) ===
 현재 작업 번호: P31-12 완료. Nimbus 표시 차이 수정과 실제 창 확인을 마쳤다(2026-11-27).
 완료한 내용: desktopapp 설정의 "콘텐츠" 구역에서 설치된 룩앤필을 선택하면 열린 창에 적용하고 저장한다. 초기 구현에서 탭 머리 글꼴, 닫기 단추 테두리, 찾기 필드 바탕색, 스크롤 창 테두리를 바로잡았다(b2cdf0b). 후속 작업에서 Java 6 Nimbus의 상위 컴포넌트 변경 알림이 탐색 도구 모음의 여백과 불투명도를 덮어쓰는 것을 재현했다. 도구 모음이 표시 가능해질 때 알림이 끝난 뒤 Nimbus UI를 다시 설치한다.
@@ -1866,6 +1874,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-27 · P31-13 desktopapp 룩앤필 기본값 Nimbus
+
+- 룩앤필 설정의 기본값을 Nimbus 로 바꿨다. 내용과 검증은 위 현재 상태의 P31-13 블록, 설계는 `docs/progress/desktopapp.md` 7.11절에 있다.
 
 ### 2026-11-27 · P31-12 Nimbus 탐색 도구 모음 표시 수정
 

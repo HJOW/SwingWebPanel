@@ -53,7 +53,7 @@ final class SettingsDialog extends JDialog {
     /** The text of the font choice that means "the built-in font". / "내장 글꼴"을 뜻하는 글꼴 선택 항목의 글. */
     private static final String BUILT_IN_FONT = Texts.of("(default)", "(기본값)");
 
-    /** The text of the look and feel choice that means "the one that Java starts with". / "Java 가 처음에 쓰는 것"을 뜻하는 룩앤필 선택 항목의 글. */
+    /** The text of the look and feel choice that means "the default of the application" (Nimbus). / "응용 프로그램의 기본값"(Nimbus)을 뜻하는 룩앤필 선택 항목의 글. */
     private static final String DEFAULT_LOOK_AND_FEEL = Texts.of("(default)", "(기본값)");
 
     /**
@@ -504,10 +504,10 @@ final class SettingsDialog extends JDialog {
     }
 
     /**
-     * Creates a list of the installed Swing look and feels for the look and feel setting; the first entry stands for the one that Java
-     * starts with. The setting holds the class name.
+     * Creates a list of the installed Swing look and feels for the look and feel setting; the first entry stands for the default of the
+     * application (Nimbus). The setting holds the class name.
      * <p>
-     * 룩앤필 설정을 위해 설치된 Swing 룩앤필의 목록을 만든다. 첫 항목은 Java 가 처음에 쓰는 것을 뜻한다. 설정에는 클래스 이름을 저장한다.
+     * 룩앤필 설정을 위해 설치된 Swing 룩앤필의 목록을 만든다. 첫 항목은 응용 프로그램의 기본값(Nimbus)을 뜻한다. 설정에는 클래스 이름을 저장한다.
      *
      * @param key the key of the setting / 설정의 키
      * @return the list / 목록

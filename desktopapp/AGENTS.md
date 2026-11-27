@@ -32,7 +32,7 @@ SwingWebPanel 로 만든 Swing 웹 브라우저 응용 프로그램이다(저장
 | `src/main/java/.../desktopapp/ui/BrowserMenu.java`, `Commands.java` | 메뉴 막대와 명령 이름. 모든 명령은 `BrowserWindow.perform(이름)` 으로 실행한다 |
 | `src/main/java/.../desktopapp/ui/SettingsDialog.java`, `BookmarkDialog.java` | 설정 대화 상자(모달), 북마크 관리 창(비모달) |
 | `src/main/java/.../desktopapp/ui/BrowserWindow.java` | 브라우저 창(JFrame). `NavigationBar.Actions` 와 `BrowserTab.Listener` 를 구현한다. 탭 목록(`JTabbedPane`)과 닫은 탭 목록을 가진다 |
-| `src/main/java/.../desktopapp/ui/LookAndFeels.java` | Swing 룩앤필 적용(설정 `view.lookAndFeel`, 빈 값은 Java 의 처음 것). `BrowserApp` 이 시작할 때와 설정이 바뀔 때 부른다. 열린 모든 창의 컴포넌트 트리를 다시 입힌다 |
+| `src/main/java/.../desktopapp/ui/LookAndFeels.java` | Swing 룩앤필 적용(설정 `view.lookAndFeel`, 빈 값은 기본값인 Nimbus. Nimbus 의 클래스 이름은 Java 판마다 다르므로 설치 목록에서 이름으로 찾는다). `BrowserApp` 이 시작할 때와 설정이 바뀔 때 부른다. 열린 모든 창의 컴포넌트 트리를 다시 입힌다 |
 | `src/main/java/.../desktopapp/ui/TabHeader.java` | 탭 줄의 탭 머리(제목, 읽는 중 표시, 닫기 단추) |
 | `src/main/java/.../desktopapp/ui/BrowserTab.java` | 페이지 하나(SwingWebPanel + JScrollPane)와 그 상태(읽는 중인 주소, 알림 문구, 마우스 아래 링크, 차단된 팝업) |
 | `src/main/java/.../desktopapp/ui/TabPanel.java` | 탭의 컴포넌트(`SwingWebPanel` 하위 클래스): 다운로드 폴더, 페이지가 여는 창·차단 알림·스크립트의 닫기를 탭에 넘긴다. 페이지가 연 창의 컴포넌트도 이 클래스이다(`createPopupPanel`) |
@@ -62,7 +62,8 @@ SwingWebPanel 로 만든 Swing 웹 브라우저 응용 프로그램이다(저장
 - 실제 창 확인에서 "인쇄..."와 "페이지 설정..."(운영 체제의 대화 상자)은 실행하지 않는다. 메뉴 항목은 방향키 횟수가 아니라 글이 일치하는 `--press` 로 누른다.
 - 프레임이 필요한 시험은 headless JVM 에서 `Check.skip` 으로 건너뛴다. 건너뛴 경우 이유를 `docs/PROGRESS.md` 에 기록한다.
 - 보이는 창의 `showSettings()` 는 모달 대화 상자를 띄워 시험을 멈춘다. 설정 대화 상자를 쓰는 시험은 창을 보이지 않으며, 배치와 그리기가 필요하면 `addNotify()` 만 부른다.
-- 룩앤필은 JVM 전체의 상태이다. 바꾸는 시험은 `tearDown` 에서 `LookAndFeels.apply("")` 로 되돌린다(`ui.LookAndFeelTest`).
+- 룩앤필은 JVM 전체의 상태이다. `BrowserApp` 을 만들면 설정의 룩앤필(기본 Nimbus)이 적용되므로 창 시험은 Nimbus 에서 돈다. 룩앤필을 바꾸는 시험은 `tearDown` 에서
+  `LookAndFeels.apply(LookAndFeels.initialClassName())` 으로 Java 의 처음 것으로 되돌린다(`ui.LookAndFeelTest`).
 - 사용자 데이터 위치는 시스템 속성 `swingwebpanel.desktopapp.home` 으로 바꾼다. 시험과 smoke 실행은 `target` 아래를 쓴다.
 - **인쇄 시험은 프린터에 닿지 않는다**: 프린터에 닿는 코드는 `BrowserApp.Printing` 의 기본 구현(`PrinterJob`) 하나뿐이고, 창 시험(`WindowCase`)은 그것을 `FakePrinting` 으로 바꾼다.
   새 시험도 `PrinterJob` 을 직접 쓰지 말고 쪽을 `BufferedImage` 에 그려 확인한다. 실제 출력 확인이 꼭 필요하면 PDF 프린터로만 한다(`docs/progress/uicheck.md`).

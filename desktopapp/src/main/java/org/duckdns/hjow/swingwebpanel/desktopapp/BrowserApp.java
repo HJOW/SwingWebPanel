@@ -353,10 +353,11 @@ public final class BrowserApp {
 
     /**
      * Switches to the look and feel of the settings when that setting changed (and at the start). A look and feel that cannot be used
-     * leaves the one in use; the setting is kept and the problem is remembered for the user.
+     * leaves the one in use, or gives the default of the application at the start; the setting is kept and the problem is remembered for
+     * the user.
      * <p>
-     * 룩앤필 설정이 바뀌었을 때(그리고 시작할 때) 그 룩앤필로 바꾼다. 쓸 수 없는 룩앤필이면 쓰던 것을 그대로 두고, 설정은 보존하며 문제를 사용자에게
-     * 알릴 수 있게 기억한다.
+     * 룩앤필 설정이 바뀌었을 때(그리고 시작할 때) 그 룩앤필로 바꾼다. 쓸 수 없는 룩앤필이면 쓰던 것을 그대로 두고, 시작할 때이면 응용 프로그램의 기본값을
+     * 쓴다. 설정은 보존하며 문제를 사용자에게 알릴 수 있게 기억한다.
      */
     private void applyLookAndFeel() {
         String wanted = settings.get(Settings.LOOK_AND_FEEL).trim();
@@ -364,9 +365,17 @@ public final class BrowserApp {
         if (wanted.equals(requestedLookAndFeel)) {
             return;
         }
+        boolean atStart = requestedLookAndFeel == null;
         requestedLookAndFeel = wanted;
-        lookAndFeelProblem = LookAndFeels.apply(wanted) ? null
-                : Texts.of("This look and feel cannot be used: ", "이 룩앤필을 쓸 수 없습니다: ") + wanted;
+        if (LookAndFeels.apply(wanted)) {
+            lookAndFeelProblem = null;
+            return;
+        }
+        lookAndFeelProblem = Texts.of("This look and feel cannot be used: ", "이 룩앤필을 쓸 수 없습니다: ") + wanted;
+        // 시작할 때에는 아직 응용 프로그램이 고른 룩앤필이 없으므로 기본값을 쓴다.
+        if (atStart) {
+            LookAndFeels.apply("");
+        }
     }
 
     /**

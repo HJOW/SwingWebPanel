@@ -28,12 +28,12 @@ import org.duckdns.hjow.swingwebpanel.desktopapp.model.TextFiles;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
 
 /**
- * The choice of the Swing look and feel (plan item P31-12): the content section of the settings dialog offers the installed ones, OK
- * switches every window of the running program to the chosen one and saves it, the program starts with the saved one, and one that
- * cannot be used leaves the look and feel as it is.
+ * The choice of the Swing look and feel (plan items P31-12 and P31-13): the content section of the settings dialog offers the installed
+ * ones, OK switches every window of the running program to the chosen one and saves it, the program starts with the saved one or else
+ * with the default, Nimbus, and one that cannot be used leaves the look and feel as it is.
  * <p>
- * Swing 룩앤필 선택(계획 P31-12): 설정 대화 상자의 콘텐츠 구역이 설치된 룩앤필을 제안하고, 확인은 실행 중인 프로그램의 모든 창을 고른 것으로 바꾸고
- * 저장한다. 프로그램은 저장된 것으로 시작하며, 쓸 수 없는 것을 고르면 룩앤필은 그대로이다.
+ * Swing 룩앤필 선택(계획 P31-12, P31-13): 설정 대화 상자의 콘텐츠 구역이 설치된 룩앤필을 제안하고, 확인은 실행 중인 프로그램의 모든 창을 고른 것으로
+ * 바꾸고 저장한다. 프로그램은 저장된 것, 없으면 기본값인 Nimbus 로 시작하며, 쓸 수 없는 것을 고르면 룩앤필은 그대로이다.
  */
 public class LookAndFeelTest extends WindowCase {
 
@@ -119,26 +119,26 @@ public class LookAndFeelTest extends WindowCase {
             onEdt(new Runnable() {
                 /** Restores the look and feel. / 룩앤필을 되돌린다. */
                 public void run() {
-                    LookAndFeels.apply("");
+                    LookAndFeels.apply(LookAndFeels.initialClassName());
                 }
             });
         }
     }
 
     /**
-     * Returns an installed look and feel that differs from the one Java started with, Nimbus if it is there.
+     * Returns an installed look and feel that differs from the default of the application, the one Java started with if it differs.
      * <p>
-     * Java 가 처음에 쓴 것과 다른 설치된 룩앤필을 반환한다. Nimbus 가 있으면 Nimbus 이다.
+     * 응용 프로그램의 기본값과 다른 설치된 룩앤필을 반환한다. Java 가 처음에 쓴 것이 다르면 그것이다.
      *
      * @return the class name, or null if there is no other one / 클래스 이름. 다른 것이 없으면 null
      */
     private static String another() {
         UIManager.LookAndFeelInfo[] installed = UIManager.getInstalledLookAndFeels();
         String found = null;
-        // 처음 것과 다른 것을 찾되 Nimbus 를 우선한다.
+        // 기본값과 다른 것을 찾되 Java 가 처음에 쓴 것을 우선한다.
         for (int i = 0; i < installed.length; i++) {
-            if (!installed[i].getClassName().equals(LookAndFeels.initialClassName())
-                    && (found == null || "Nimbus".equals(installed[i].getName()))) {
+            if (!installed[i].getClassName().equals(LookAndFeels.defaultClassName())
+                    && (found == null || installed[i].getClassName().equals(LookAndFeels.initialClassName()))) {
                 found = installed[i].getClassName();
             }
         }
@@ -295,10 +295,10 @@ public class LookAndFeelTest extends WindowCase {
 
     /**
      * The content section offers the installed look and feels. Cancel changes nothing; OK switches the open windows, also hidden
-     * helper windows, to the chosen one and saves it; the default brings the first one back.
+     * helper windows, to the chosen one and saves it; the default brings Nimbus back.
      * <p>
      * 콘텐츠 구역은 설치된 룩앤필을 제안한다. 취소는 아무것도 바꾸지 않고, 확인은 숨겨 둔 보조 창을 포함한 열린 창을 고른 것으로 바꾸고 저장하며,
-     * 기본값은 처음 것으로 되돌린다.
+     * 기본값은 Nimbus 로 되돌린다.
      *
      * @throws Exception on failure / 실패 시
      */
@@ -341,7 +341,7 @@ public class LookAndFeelTest extends WindowCase {
         onEdt(new Runnable() {
             /** Uses the dialog. / 대화 상자를 쓴다. */
             public void run() {
-                Check.equal(LookAndFeels.initialClassName(), LookAndFeels.currentClassName(), "the program starts with the look and feel of Java");
+                Check.equal(LookAndFeels.defaultClassName(), LookAndFeels.currentClassName(), "the program starts with the default look and feel");
                 SettingsDialog d = window.showSettings();
                 Check.equal("", d.getValue(Settings.LOOK_AND_FEEL), "the default is the empty value");
                 JComboBox box = (JComboBox) named(d, Settings.LOOK_AND_FEEL);
@@ -362,9 +362,9 @@ public class LookAndFeelTest extends WindowCase {
                 }
                 Check.equal(expected, shown, "the list offers the default and the installed look and feels");
                 d.setValue(Settings.LOOK_AND_FEEL, chosen[0]);
-                Check.equal(LookAndFeels.initialClassName(), LookAndFeels.currentClassName(), "nothing changes before OK");
+                Check.equal(LookAndFeels.defaultClassName(), LookAndFeels.currentClassName(), "nothing changes before OK");
                 d.cancel();
-                Check.equal(LookAndFeels.initialClassName(), LookAndFeels.currentClassName(), "Cancel changes nothing");
+                Check.equal(LookAndFeels.defaultClassName(), LookAndFeels.currentClassName(), "Cancel changes nothing");
                 Check.equal("", app.getSettings().get(Settings.LOOK_AND_FEEL), "and no setting");
 
                 d = window.showSettings();
@@ -404,7 +404,7 @@ public class LookAndFeelTest extends WindowCase {
                 SettingsDialog d = window.showSettings();
                 d.setValue(Settings.LOOK_AND_FEEL, "");
                 ok(d);
-                Check.equal(LookAndFeels.initialClassName(), LookAndFeels.currentClassName(), "the default brings the first one back");
+                Check.equal(LookAndFeels.defaultClassName(), LookAndFeels.currentClassName(), "the default brings Nimbus back");
                 Check.equal(new JTextField().getBackground(), window.getFindBar().getField().getBackground(),
                         "and the find field follows");
                 checkWindowLook("after going back");
@@ -437,7 +437,7 @@ public class LookAndFeelTest extends WindowCase {
                     return;
                 }
                 app.getSettings().set(Settings.LOOK_AND_FEEL, chosen);
-                // 새 프로세스처럼 Java 의 처음 룩앤필로 되돌린 뒤 시작한다.
+                // 고른 것이 아닌 기본 룩앤필로 되돌린 뒤 시작해, 시작할 때 저장된 것이 적용되는지 본다.
                 LookAndFeels.apply("");
                 BrowserApp next = new BrowserApp(new Runnable() {
                     /** Does nothing at the end. / 끝날 때 아무것도 하지 않는다. */
@@ -454,6 +454,58 @@ public class LookAndFeelTest extends WindowCase {
                 }
             }
         });
+    }
+
+    /**
+     * Without a choice the program starts with Nimbus, also when the settings file holds the empty value that an earlier version wrote,
+     * and a saved look and feel that cannot be used gives the default at the start.
+     * <p>
+     * 선택이 없으면 프로그램은 Nimbus 로 시작한다. 설정 파일에 이전 판이 적은 빈 값이 있어도 같으며, 저장된 룩앤필을 쓸 수 없으면 시작할 때 기본값을
+     * 쓴다.
+     *
+     * @throws Exception on failure / 실패 시
+     */
+    public void testNimbusIsTheDefaultAtStart() throws Exception {
+        if (skipped()) {
+            return;
+        }
+        boolean installed = false;
+        // Nimbus 가 설치된 런타임인지 본다.
+        for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+            installed = installed || "Nimbus".equals(info.getName());
+        }
+        if (!installed) {
+            Check.skip("Nimbus is not installed");
+            return;
+        }
+        final String[] saved = { "", "no.such.LookAndFeel" };
+        // 빈 값과 쓸 수 없는 값을 저장한 설정 파일로 각각 시작한다.
+        for (int i = 0; i < saved.length; i++) {
+            final String value = saved[i];
+            TextFiles.write(new File(home, SettingsStore.FILE_NAME), "settings.version=1\nview.lookAndFeel=" + value + "\n");
+            onEdt(new Runnable() {
+                /** Starts the program again. / 프로그램을 다시 시작한다. */
+                public void run() {
+                    // 새 프로세스처럼 Java 의 처음 룩앤필에서 시작한다.
+                    LookAndFeels.apply(LookAndFeels.initialClassName());
+                    BrowserApp next = new BrowserApp(new Runnable() {
+                        /** Does nothing at the end. / 끝날 때 아무것도 하지 않는다. */
+                        public void run() {
+                        }
+                    });
+                    Check.equal("Nimbus", UIManager.getLookAndFeel().getName(), "Nimbus is in use with the saved value '" + value + "'");
+                    Check.equal(value, next.getSettings().get(Settings.LOOK_AND_FEEL), "the saved value is kept");
+                    Check.equal(Boolean.valueOf(value.length() > 0), Boolean.valueOf(next.takeLookAndFeelProblem() != null),
+                            "only an unusable value is a problem");
+                    BrowserWindow first = next.openWindow(null);
+                    try {
+                        Check.equal(new JMenuBar().getUI().getClass(), first.getJMenuBar().getUI().getClass(), "the first window has it");
+                    } finally {
+                        first.closeWindow();
+                    }
+                }
+            });
+        }
     }
 
     /**
@@ -542,7 +594,7 @@ public class LookAndFeelTest extends WindowCase {
                     }
                 });
                 Check.contains(String.valueOf(next.takeLookAndFeelProblem()), "no.such.LookAndFeel", "the next start remembers the problem");
-                Check.equal(initial, LookAndFeels.currentClassName(), "and starts with the look and feel of Java");
+                Check.equal(LookAndFeels.defaultClassName(), LookAndFeels.currentClassName(), "and starts with the default look and feel");
             }
         });
     }
