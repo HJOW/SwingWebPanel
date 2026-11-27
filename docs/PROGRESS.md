@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P32-04-a·b 진행: X.509 해석, 경로 검증, 호스트 이름 검증 (2026-11-28) ===
+현재 작업 번호: P32-04-b 완료. P32-04-a 는 구현과 생성 인증서 시험을 마쳤고 실제 사이트 인증서 시험이 남았다(P32-04-c 의 루트 목록과 함께 한다). P32-04-c 진행 중.
+완료한 내용: x509.Der(엄격한 DER: 한 바이트 태그, 확정·최소 길이, 최소 INTEGER, OID, 이름 붙은 비트), X509Exception(Reason 열거형), SubjectKey(RSA, P-256/384/521 EC, 그 밖은 지원하지 않는 키로 보관), SignatureAlgorithm(인증서 AlgorithmIdentifier 와 TLS SignatureScheme, RSA PKCS #1 v1.5·PSS·ECDSA 검증, SHA-1·MD5 는 WEAK_SIGNATURE), X509Cert(버전·일련번호·이름·유효 기간·키·서명과 basicConstraints, keyUsage, extendedKeyUsage, subjectAltName, nameConstraints, 모르는 critical 확장), NameConstraints, HostNames(subjectAltName 만 사용, 맨 왼쪽 레이블 전체 와일드카드, IP 리터럴), TrustRoot, TrustStore(내장 목록 읽기, KeyStore, 인증서 목록, 제한 부여), PathValidator. 시험 도우미 DerWriter, TestKey, CertBuilder.
+변경 파일: tls13/src/main/java/.../x509/(신규 9개), tls13/src/test/java/.../{DerWriter,TestKey,CertBuilder}.java, tls13/src/test/java/.../x509/{X509ParseTest,PathValidatorTest,HostNamesTest}.java, AGENTS.md, 이 문서.
+검증 결과: JDK 6u45 javac 로 컴파일해 자체 실행기로 실행(Windows 10): x509 시험 18건 통과/0 실패(X509ParseTest 6: 모든 길이에서 자른 인증서와 바이트 하나씩 바꾼 인증서가 MALFORMED 로만 끝남 포함, PathValidatorTest 8, HostNamesTest 4). sourcecheck 위반 0건.
+미해결 사항: 내장 루트 목록 자료(mozilla-roots.txt)가 아직 없어 TrustStore.mozilla() 는 예외를 던진다(P32-04-c 에서 만든다).
+다음 작업 번호: P32-04-c
+-----------------------------------------------------------------------------------------------
 === P32-03-f RSA 서명 검증, 대조 벡터 도구 tools/tlsvectors, P32-03 완료 (2026-11-28) ===
 현재 작업 번호: P32-03-f 완료, P32-03(a~f) 완료. P32-04 진행 중.
 완료한 내용: crypto.RsaVerify(RSASSA-PKCS1-v1_5 와 RSASSA-PSS 검증. 서명 길이 = 법 길이, s < n, 홀수 법, 3 이상의 홀수 지수). tools/tlsvectors(Java 6 문법 소스, 실행은 TLSVECTORS_JAVA_HOME 의 Java 11 이상. GCMParameterSpec 과 Cipher.updateAAD 는 리플렉션으로 호출. JRE 6 으로 실행하면 종료 코드 2)와 그 build/run 스크립트(sh, bat), AGENTS.md, README.md. 생성한 대조 자료 tls13/src/test/resources/jca-vectors.txt(168건, 머리 줄에 jre: 25 (Azul Systems, Inc.)). 시험 crypto.RsaVerifyTest, crypto.JcaCrossCheckTest. docs/ARCHITECTURE.md 도구 표와 tls13/AGENTS.md 구조 표 갱신.
