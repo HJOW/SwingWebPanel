@@ -101,6 +101,8 @@ public class SettingsStoreTest {
         s.set(Settings.FONT_STANDARD, "맑은 고딕");
         s.set(Settings.FONT_SIZE, "20");
         s.set(Settings.JAVASCRIPT, "false");
+        Check.equal("", s.get(Settings.LOOK_AND_FEEL), "the look and feel of Java by default");
+        s.set(Settings.LOOK_AND_FEEL, "javax.swing.plaf.nimbus.NimbusLookAndFeel");
         store.save(s);
         String text = TextFiles.read(store.getFile());
         Check.contains(text, "settings.version=1\n", "the file names its format");

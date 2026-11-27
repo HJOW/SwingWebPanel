@@ -30,7 +30,22 @@ final class TabHeader extends JPanel {
     private final JLabel label = new JLabel();
 
     /** Closes the tab. / 탭을 닫는다. */
-    private final JButton close = new JButton(Icons.of(Icons.CLOSE));
+    private final JButton close = new JButton(Icons.of(Icons.CLOSE)) {
+        /** Serialization version. / 직렬화 버전. */
+        private static final long serialVersionUID = 1L;
+
+        /**
+         * Takes the look of the look and feel in use but keeps the small empty border: a look and feel may replace the border with one
+         * of its own (the Windows one does), which the next look and feel would turn into a visible box.
+         * <p>
+         * 지금 쓰는 룩앤필의 모양을 가져오되 작은 빈 테두리는 지킨다. 룩앤필이 테두리를 자기 것으로 바꿀 수 있고(Windows 룩앤필이 그렇다), 그러면
+         * 다음 룩앤필이 그것을 눈에 보이는 상자로 바꾼다.
+         */
+        public void updateUI() {
+            super.updateUI();
+            setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+        }
+    };
 
     /**
      * Creates the header.
@@ -43,7 +58,6 @@ final class TabHeader extends JPanel {
         super(new FlowLayout(FlowLayout.LEFT, 4, 0));
         setOpaque(false);
         close.setMargin(new Insets(1, 1, 1, 1));
-        close.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
         close.setContentAreaFilled(false);
         close.setFocusable(false);
         close.setToolTipText(Texts.of("Close tab (Ctrl+W)", "탭 닫기 (Ctrl+W)"));
@@ -55,6 +69,22 @@ final class TabHeader extends JPanel {
         });
         add(label);
         add(close);
+    }
+
+    /**
+     * Takes the look of the look and feel in use, and gives the title the font of that look and feel in the style that it had. The font
+     * that the header derives for the title is its own, so a change of the look and feel would otherwise leave the old font.
+     * <p>
+     * 지금 쓰는 룩앤필의 모양을 가져오고, 제목에 그 룩앤필의 글꼴을 가지고 있던 모양으로 준다. 탭 머리가 제목에 주는 파생 글꼴은 탭 머리의 것이므로,
+     * 이렇게 하지 않으면 룩앤필을 바꿔도 옛 글꼴이 남는다.
+     */
+    public void updateUI() {
+        super.updateUI();
+        // 부모 클래스의 생성자에서 불릴 때에는 레이블이 아직 없다.
+        if (label != null) {
+            Font standard = new JLabel().getFont();
+            label.setFont(standard.deriveFont(isShownLoading() ? Font.ITALIC : Font.PLAIN));
+        }
     }
 
     /**

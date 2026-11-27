@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P31-12 설정의 콘텐츠 구역에 룩앤필 선택 (2026-11-27) ===
+현재 작업 번호: P31-12 완료(2026-11-27 사용자 요청).
+완료한 내용: desktopapp 설정 대화 상자의 "콘텐츠" 구역에 룩앤필 목록을 추가했다((기본값) = Java 의 처음 것, 설치된 룩앤필). 확인하면 모든 창에 바로 적용·저장하고, 시작할 때에는 첫 창 전에 적용한다. 쓸 수 없는 값은 쓰던 룩앤필을 두고 설정을 보존하며 한 번 알린다. 실행 중 변경에 어긋나던 탭 머리 글꼴, 탭 닫기 단추 테두리, 찾기 필드 바탕색, 탭 스크롤 창 테두리를 고쳤다. SwingWebPanel(브라우저·엔진)은 바꾸지 않았다. 여기서 사용자 요청으로 작업을 중단했다.
+변경 파일: desktopapp 의 BrowserApp.java, model/Settings.java, ui/LookAndFeels.java(신규), ui/SettingsDialog.java, ui/TabHeader.java, ui/FindBar.java, ui/BrowserTab.java, 시험 ui/LookAndFeelTest.java(신규)·model/SettingsStoreTest.java, README.md, AGENTS.md. AGENTS.md(P31-12), docs/FEATURE_MATRIX.md(DESK-06), docs/progress/desktopapp.md(7.11절), 이 문서.
+검증 결과: (1) mvn -B -o -pl desktopapp -am "-Dtest.filter=desktopapp" verify(Maven 3.8.8 을 JDK 21 로 실행, JDK 6u45 javac·java, Windows 11): 앱 57건 통과/0 실패/0 건너뜀, run-app-smoke 통과(로그 build/p31/laf-1.log). (1)의 건수와 smoke 는 마지막 수정(닫기 단추) 뒤의 재실행 결과도 같다(build/p31/laf-2.log). (2) TabHeader, FindBar, BrowserTab 의 수정을 하나씩 되돌리면 LookAndFeelTest 가 각각 2건, 1건, 2건 실패했고, 닫기 단추 수정만 되돌리면 1건 실패했다(build/p31/laf-revert-*.log). (3) 설치된 룩앤필 다섯 개의 창·설정 화면을 JRE 6u45 에서 이미지로 그려 눈으로 확인했고, 같은 일회성 점검이 JRE 8u202·21.0.3 에서 예외 없이 끝났다(둘 다 닫기 단추 수정 전). (4) 닫기 단추 수정 뒤 JRE 6u45 에서 처음부터 시작한 화면과 실행 중 바꾼 화면(15단계)을 픽셀 비교했다: 설정 화면은 모두 같고, 창은 Nimbus 로 바꾼 3단계만 다르다. (5) sourcecheck desktopapp docs AGENTS.md: 위반 0건. 브라우저·엔진 회귀는 그 소스를 바꾸지 않아 다시 실행하지 않았다.
+미해결 사항: 실행 중에 Nimbus 로 바꾸면 탭 줄 영역 (8,29)–(206,56)의 1,099 픽셀이 처음부터 Nimbus 인 화면과 다르다(눈 비교와 원인 확인을 하지 않았다). 실제 창에서 실제 마우스·키보드로 룩앤필을 바꾸어 보지 않았다(자동 시험과 화면 밖 그리기만). 시작할 때 저장된 룩앤필을 쓸 수 없으면 바로 알리지 않고 다음에 설정을 확인할 때 알린다.
+다음 작업 번호: P22-16(선행: P22-16-c4, P22-16-e, P18-08-d)
+-----------------------------------------------------------------------------------------------
 === P31-11 검증과 문서화, P31 완료 (2026-11-27) ===
 현재 작업 번호: P31-11 완료. 이로써 P31(P31-01 ~ P31-11)이 모두 끝났다. 남은 것은 P22 와 실환경 마무리(P18-08-d, P18-11, P22-16-c4, P22-16-e, P22-16).
 완료한 내용: (검증) 전체 회귀, 앱 모듈 재검증, JRE 6u45·8u202 의 java -jar --smoke, sourcecheck 전체, 실제 창 확인(tools/uicheck: 실제 키·마우스, 화면 캡처, PDF 프린터 출력). (앱) 탭·창을 반복해 열고 닫은 뒤의 문서 스레드와 컴포넌트 수거 시험(ui.WindowLifecycleTest). 실제 키로 찾은 결함 수정: 주소 표시줄·찾기 막대에 포커스가 있을 때 Ctrl+H 가 방문 기록을 열지 않고 글자를 지우던 것(BrowserTab.releaseCommandKeys, 시험 PageToolsTest.testHistoryKeyInTextFields). (도구) tools/uicheck: --example/--window 에 완전한 클래스 이름, --usepanel, --printpdf(이름에 PDF 가 든 인쇄 서비스로만 대화 상자 없이 파일에 인쇄), --closedialogs, --type 의 {base} 치환, 그리고 실제 키 단계의 활성 창 보호 장치(이 프로그램의 창이 활성이 아니면 키를 보내지 않는다). (문서) desktopapp/README.md 를 사용자 안내로 다시 썼고, 루트 README 두 개에 찾기·인쇄·기본 글꼴·팝업 메서드와 앱 소개, 기능 표 15절(DESK-01~09)과 API-37·API-38, ARCHITECTURE, desktopapp/AGENTS.md, tools/uicheck 의 AGENTS.md·README.md, docs/progress/uicheck.md(2026-11-27 절), docs/progress/desktopapp.md 를 갱신했다.
@@ -1858,6 +1866,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-27 · P31-12 desktopapp 룩앤필 선택
+
+- 설정의 "콘텐츠" 구역에 룩앤필 선택을 추가했다. 내용과 검증은 위 현재 상태의 P31-12 블록, 설계는 `docs/progress/desktopapp.md` 7.11절에 있다.
 
 ### 2026-11-27 · P31 데스크톱 웹 브라우저(desktopapp) 완료
 

@@ -1302,6 +1302,11 @@ P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "�
   - 실제 창 확인: `tools/uicheck`로 실제 마우스·키보드·한글 입력기와 화면 캡처를 사용해 각 필수 기능(제목, 주소 입력, 뒤로·앞으로·홈·멈춤·새로고침, 탭, 북마크, 메뉴, 설정의 홈 화면·기본 글꼴 반영, 상태 표시줄, 인쇄 미리 보기)을 확인한다. 실제 인쇄는 OS의 인쇄 대상(예: Windows의 PDF로 인쇄)으로 출력하여 결과를 확인한다. 결과는 자동 검증과 구분하여 `docs/progress/uicheck.md`에 기록한다(P22-10 원칙).
   - 실행 환경: JRE 6u45와 더 새 JRE(예: JDK 8u202)에서 `java -jar`로 실행한다. sourcecheck 0 위반을 확인하고, SwingWebPanel을 수정한 뒤에도 브라우저·엔진 전체 회귀가 통과하는지 확인한다.
   - 문서: `desktopapp/README.md`·`desktopapp/AGENTS.md`, 루트 README, `docs/ARCHITECTURE.md`, `docs/API_CONTRACT.md`(추가한 SwingWebPanel 확장 메서드), `docs/FEATURE_MATRIX.md`(데스크톱 앱 `DESK-*` 행과 추가 API 행), `docs/PROGRESS.md`를 갱신한다.
+- [x] P31-12. 설정 화면의 "콘텐츠" 구역에 룩앤필 선택을 추가한다(2026-11-27 사용자 요청). 완료(2026-11-27): JDK 6u45에서 앱 시험 57건(새 `ui.LookAndFeelTest` 4건 포함)이 통과했고 `java -jar ... --smoke`가 통과했으며 sourcecheck 위반은 0건이다. 설계는 `docs/progress/desktopapp.md` 7.11절.
+  - 입력: 설치된 Swing 룩앤필 목록에서 고른 뒤 확인·취소, 저장된 값으로 다시 시작, 없거나 지원하지 않거나 적용 도중 실패하는 클래스, 설치된 모든 룩앤필의 차례대로 적용.
+  - 기대: 기본값(빈 값)은 Java가 시작할 때 쓰는 룩앤필이다. 확인하면 열린 모든 창(숨겨 둔 보조 창 포함)에 바로 적용하고 저장하며, 취소는 아무것도 바꾸지 않는다. 시작할 때에는 첫 창을 만들기 전에 적용한다. 쓸 수 없는 값이면 쓰던 룩앤필을 두고 설정을 보존하며 한 번 알린다. 앱의 컨트롤만 바뀐다.
+  - 구현: `model.Settings`(`view.lookAndFeel`), `ui.LookAndFeels`, `ui.SettingsDialog`, `BrowserApp`. 실행 중 변경 때 어긋나는 `ui.TabHeader`(제목 글꼴, 닫기 단추 테두리), `ui.FindBar`(필드 바탕색), `ui.BrowserTab`(스크롤 창 테두리)도 고친다.
+  - 남은 차이: 실행 중에 Nimbus로 바꾼 화면은 처음부터 Nimbus로 시작한 화면과 탭 줄 영역의 픽셀이 다르다. 원인은 확인하지 않았다(`docs/progress/desktopapp.md` 7.11절).
 
 ## 중간 실행 목표와 다음 작업 선택
 

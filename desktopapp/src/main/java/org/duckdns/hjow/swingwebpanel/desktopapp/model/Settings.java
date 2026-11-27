@@ -46,6 +46,9 @@ public final class Settings {
     /** Key of whether the status bar is shown (<code>true</code> or <code>false</code>). / 상태 표시줄을 보이는지의 키(<code>true</code> 또는 <code>false</code>). */
     public static final String SHOW_STATUS_BAR = "view.statusBar";
 
+    /** Key of the class name of the Swing look and feel of the application; empty for the one that Java starts with. / 응용 프로그램의 Swing 룩앤필 클래스 이름의 키. Java 가 처음에 쓰는 것이면 빈 값. */
+    public static final String LOOK_AND_FEEL = "view.lookAndFeel";
+
     /** Key of the zoom of new tabs and of the "actual size" command, as a percentage. / 새 탭과 "원래 크기" 명령의 확대 비율(백분율)의 키. */
     public static final String DEFAULT_ZOOM = "zoom.default";
 
@@ -163,6 +166,7 @@ public final class Settings {
         DEFAULTS.put(CONFIRM_CLOSE_TABS, "true");
         DEFAULTS.put(SHOW_TOOLBAR, "true");
         DEFAULTS.put(SHOW_STATUS_BAR, "true");
+        DEFAULTS.put(LOOK_AND_FEEL, "");
         DEFAULTS.put(DEFAULT_ZOOM, "100");
         DEFAULTS.put(START_PAGE, START_HOME);
         DEFAULTS.put(SELECT_NEW_TABS, "false");

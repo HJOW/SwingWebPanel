@@ -14,6 +14,9 @@ SwingWebPanel 로 만든 Swing 웹 브라우저 응용 프로그램이다(저장
 - SwingWebPanel 에 기능이 필요하면 브라우저 모듈을 고치고, 새 공개 메서드를 `docs/API_CONTRACT.md` 의 확장 메서드 절과 `docs/FEATURE_MATRIX.md` 에 기록한다.
 - 화면 부품(`ui`)과 모델/제어 계층(`model`)을 나눈다. 모델/제어 계층은 창 없이 시험할 수 있어야 한다.
 - 모든 Swing 조작은 EDT 에서 한다.
+- 룩앤필은 실행 중에 바뀐다. 컴포넌트에서 읽은 글꼴·색을 보관해 두고 다시 쓰지 않으며(`TabHeader.updateUI`, `FindBar.showResult` 참고),
+  룩앤필의 테두리를 없애려면 `setBorder(null)` 이 아니라 빈 테두리를 준다(null 은 룩앤필을 바꿀 때 다시 채워진다).
+  단추의 테두리는 Windows 룩앤필이 덮어쓰므로 그 단추의 `updateUI` 에서 다시 준다(`TabHeader` 의 닫기 단추).
 
 ## 구조
 
@@ -28,6 +31,7 @@ SwingWebPanel 로 만든 Swing 웹 브라우저 응용 프로그램이다(저장
 | `src/main/java/.../desktopapp/ui/BrowserMenu.java`, `Commands.java` | 메뉴 막대와 명령 이름. 모든 명령은 `BrowserWindow.perform(이름)` 으로 실행한다 |
 | `src/main/java/.../desktopapp/ui/SettingsDialog.java`, `BookmarkDialog.java` | 설정 대화 상자(모달), 북마크 관리 창(비모달) |
 | `src/main/java/.../desktopapp/ui/BrowserWindow.java` | 브라우저 창(JFrame). `NavigationBar.Actions` 와 `BrowserTab.Listener` 를 구현한다. 탭 목록(`JTabbedPane`)과 닫은 탭 목록을 가진다 |
+| `src/main/java/.../desktopapp/ui/LookAndFeels.java` | Swing 룩앤필 적용(설정 `view.lookAndFeel`, 빈 값은 Java 의 처음 것). `BrowserApp` 이 시작할 때와 설정이 바뀔 때 부른다. 열린 모든 창의 컴포넌트 트리를 다시 입힌다 |
 | `src/main/java/.../desktopapp/ui/TabHeader.java` | 탭 줄의 탭 머리(제목, 읽는 중 표시, 닫기 단추) |
 | `src/main/java/.../desktopapp/ui/BrowserTab.java` | 페이지 하나(SwingWebPanel + JScrollPane)와 그 상태(읽는 중인 주소, 알림 문구, 마우스 아래 링크, 차단된 팝업) |
 | `src/main/java/.../desktopapp/ui/TabPanel.java` | 탭의 컴포넌트(`SwingWebPanel` 하위 클래스): 다운로드 폴더, 페이지가 여는 창·차단 알림·스크립트의 닫기를 탭에 넘긴다. 페이지가 연 창의 컴포넌트도 이 클래스이다(`createPopupPanel`) |
@@ -56,6 +60,8 @@ SwingWebPanel 로 만든 Swing 웹 브라우저 응용 프로그램이다(저장
 - 창에 텍스트 필드를 더하면 `BrowserTab.releaseCommandKeys(필드)` 를 부른다. Swing 텍스트 필드가 편집에 쓰는 Ctrl+H 가 브라우저의 방문 기록 명령을 가로채지 않게 한다(`PageToolsTest.testHistoryKeyInTextFields`).
 - 실제 창 확인에서 "인쇄..."와 "페이지 설정..."(운영 체제의 대화 상자)은 실행하지 않는다. 메뉴 항목은 방향키 횟수가 아니라 글이 일치하는 `--press` 로 누른다.
 - 프레임이 필요한 시험은 headless JVM 에서 `Check.skip` 으로 건너뛴다. 건너뛴 경우 이유를 `docs/PROGRESS.md` 에 기록한다.
+- 보이는 창의 `showSettings()` 는 모달 대화 상자를 띄워 시험을 멈춘다. 설정 대화 상자를 쓰는 시험은 창을 보이지 않으며, 배치와 그리기가 필요하면 `addNotify()` 만 부른다.
+- 룩앤필은 JVM 전체의 상태이다. 바꾸는 시험은 `tearDown` 에서 `LookAndFeels.apply("")` 로 되돌린다(`ui.LookAndFeelTest`).
 - 사용자 데이터 위치는 시스템 속성 `swingwebpanel.desktopapp.home` 으로 바꾼다. 시험과 smoke 실행은 `target` 아래를 쓴다.
 - **인쇄 시험은 프린터에 닿지 않는다**: 프린터에 닿는 코드는 `BrowserApp.Printing` 의 기본 구현(`PrinterJob`) 하나뿐이고, 창 시험(`WindowCase`)은 그것을 `FakePrinting` 으로 바꾼다.
   새 시험도 `PrinterJob` 을 직접 쓰지 말고 쪽을 `BufferedImage` 에 그려 확인한다. 실제 출력 확인이 꼭 필요하면 PDF 프린터로만 한다(`docs/progress/uicheck.md`).
@@ -64,3 +70,4 @@ SwingWebPanel 로 만든 Swing 웹 브라우저 응용 프로그램이다(저장
 
 - JDK 6u45(`1.6.0_45`, Windows 10 과 Windows 11): 시험과 `java -jar ... --smoke`, 실제 창 확인(`tools/uicheck`).
 - JDK 8u202(Windows 11): `java -jar ... --smoke`.
+- JDK 8u202 와 JDK 21.0.3(Windows 11): 설치된 룩앤필 다섯 개를 차례로 적용해 창과 설정 화면을 화면 밖에서 그리는 일회성 점검(2026-11-27).

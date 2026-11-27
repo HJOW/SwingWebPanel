@@ -26,6 +26,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp;
@@ -34,13 +35,14 @@ import org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.ZoomSteps;
 
 /**
- * The settings dialog (plan item P31-07): the home page and what the program and new tabs start with, tabs, popups, the default fonts
- * with a preview, scripts, the User-Agent, downloads, zoom, search and printing. Nothing changes while the user works in the dialog;
+ * The settings dialog (plan items P31-07 and P31-12): the home page and what the program and new tabs start with, tabs, popups, the
+ * default fonts with a preview, scripts, the User-Agent, the look and feel, downloads, zoom, search and printing. Nothing changes while
+ * the user works in the dialog;
  * OK writes all values into the settings of the application at once, which applies them to every open window and tab and saves them,
  * and Cancel leaves everything as it was. Use it on the event dispatch thread.
  * <p>
- * 설정 대화 상자(계획 P31-07): 홈 페이지, 프로그램과 새 탭이 시작할 때 여는 것, 탭, 팝업, 미리보기가 있는 기본 글꼴, 스크립트, User-Agent, 다운로드,
- * 확대, 검색, 인쇄. 사용자가 대화 상자에서 작업하는 동안에는 아무것도 바뀌지 않는다. 확인은 모든 값을 응용 프로그램의 설정에 한 번에 적고, 설정이
+ * 설정 대화 상자(계획 P31-07, P31-12): 홈 페이지, 프로그램과 새 탭이 시작할 때 여는 것, 탭, 팝업, 미리보기가 있는 기본 글꼴, 스크립트, User-Agent,
+ * 룩앤필, 다운로드, 확대, 검색, 인쇄.사용자가 대화 상자에서 작업하는 동안에는 아무것도 바뀌지 않는다. 확인은 모든 값을 응용 프로그램의 설정에 한 번에 적고, 설정이
  * 열린 모든 창과 탭에 적용하고 저장한다. 취소는 모든 것을 그대로 둔다. 이벤트 디스패치 스레드에서 쓴다.
  */
 final class SettingsDialog extends JDialog {
@@ -50,6 +52,9 @@ final class SettingsDialog extends JDialog {
 
     /** The text of the font choice that means "the built-in font". / "내장 글꼴"을 뜻하는 글꼴 선택 항목의 글. */
     private static final String BUILT_IN_FONT = Texts.of("(default)", "(기본값)");
+
+    /** The text of the look and feel choice that means "the one that Java starts with". / "Java 가 처음에 쓰는 것"을 뜻하는 룩앤필 선택 항목의 글. */
+    private static final String DEFAULT_LOOK_AND_FEEL = Texts.of("(default)", "(기본값)");
 
     /**
      * One control of the dialog as a text value.
@@ -243,9 +248,9 @@ final class SettingsDialog extends JDialog {
     }
 
     /**
-     * Builds the section about scripts and the User-Agent.
+     * Builds the section about scripts, the User-Agent and the look and feel.
      * <p>
-     * 스크립트와 User-Agent 에 관한 구역을 만든다.
+     * 스크립트, User-Agent, 룩앤필에 관한 구역을 만든다.
      *
      * @return the panel / 패널
      */
@@ -258,6 +263,7 @@ final class SettingsDialog extends JDialog {
         JTextField agent = text(Settings.USER_AGENT, 32);
         agent.setToolTipText(Texts.of("Empty for the default of SwingWebPanel", "비우면 SwingWebPanel 의 기본값을 씁니다"));
         rows.add(Texts.of("User-Agent:", "User-Agent:"), agent);
+        rows.add(Texts.of("Look and feel:", "룩앤필:"), lookAndFeel(Settings.LOOK_AND_FEEL));
         return rows.panel();
     }
 
@@ -498,6 +504,50 @@ final class SettingsDialog extends JDialog {
     }
 
     /**
+     * Creates a list of the installed Swing look and feels for the look and feel setting; the first entry stands for the one that Java
+     * starts with. The setting holds the class name.
+     * <p>
+     * 룩앤필 설정을 위해 설치된 Swing 룩앤필의 목록을 만든다. 첫 항목은 Java 가 처음에 쓰는 것을 뜻한다. 설정에는 클래스 이름을 저장한다.
+     *
+     * @param key the key of the setting / 설정의 키
+     * @return the list / 목록
+     */
+    private JComboBox lookAndFeel(String key) {
+        final List<String> classNames = new ArrayList<String>();
+        List<String> labels = new ArrayList<String>();
+        classNames.add("");
+        labels.add(DEFAULT_LOOK_AND_FEEL);
+        UIManager.LookAndFeelInfo[] installed = UIManager.getInstalledLookAndFeels();
+        // 설치된 룩앤필마다 이름은 보이고 클래스 이름은 저장할 값으로 둔다.
+        for (int i = 0; i < installed.length; i++) {
+            classNames.add(installed[i].getClassName());
+            labels.add(installed[i].getName());
+        }
+        final JComboBox box = new JComboBox(labels.toArray());
+        box.setName(key);
+        fields.put(key, new Field() {
+            /** Returns the class name of the chosen look and feel, empty for the default. / 고른 룩앤필의 클래스 이름을 반환한다. 기본값이면 빈 글이다. */
+            public String get() {
+                int i = box.getSelectedIndex();
+                return i < 0 ? "" : classNames.get(i);
+            }
+
+            /** Chooses the look and feel; one that is not installed is added to the list so that the setting is not lost. / 룩앤필을 고른다. 설치되지 않은 것은 설정을 잃지 않도록 목록에 더한다. */
+            public void set(String value) {
+                String v = value.trim();
+                int at = classNames.indexOf(v);
+                if (at < 0) {
+                    classNames.add(v);
+                    box.addItem(v);
+                    at = classNames.size() - 1;
+                }
+                box.setSelectedIndex(at);
+            }
+        });
+        return box;
+    }
+
+    /**
      * Creates a number field for a setting.
      * <p>
      * 설정을 위한 숫자 필드를 만든다.
@@ -684,6 +734,10 @@ final class SettingsDialog extends JDialog {
         String problem = app.takeStorageProblem();
         if (problem != null) {
             app.getPrompts().inform(window, problem);
+        }
+        String refused = app.takeLookAndFeelProblem();
+        if (refused != null) {
+            app.getPrompts().inform(window, refused);
         }
     }
 

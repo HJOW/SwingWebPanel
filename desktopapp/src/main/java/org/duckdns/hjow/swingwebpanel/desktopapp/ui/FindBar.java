@@ -73,9 +73,6 @@ final class FindBar extends JPanel {
     /** Shows the number of the current match and the count. / 현재 일치의 번호와 개수를 보인다. */
     private final JLabel count = new JLabel(" ");
 
-    /** The background of the field when it is in its normal state. / 보통 상태일 때의 필드 배경. */
-    private final Color normalBackground;
-
     /** True while the bar changes the field itself, so that the change does not start a search. / 막대가 스스로 필드를 바꾸는 동안 true. 그 변경은 찾기를 시작하지 않는다. */
     private boolean silent;
 
@@ -93,7 +90,6 @@ final class FindBar extends JPanel {
         setName("find-bar");
         field.setName("find-text");
         BrowserTab.releaseCommandKeys(field);
-        normalBackground = field.getBackground();
         JButton previous = button("find-previous", Texts.of("Previous", "이전"), new Runnable() {
             /** Goes to the previous match. / 이전 일치로 간다. */
             public void run() {
@@ -365,8 +361,8 @@ final class FindBar extends JPanel {
         } else {
             count.setText(result.getIndex() + " / " + result.getCount());
         }
-        // 찾지 못한 글은 필드의 바탕색으로도 알린다.
-        field.setBackground(missing ? new Color(0xFFD9D9) : normalBackground);
+        // 찾지 못한 글은 필드의 바탕색으로도 알린다. 보통의 바탕색은 룩앤필이 바뀔 수 있으므로 그때의 룩앤필에 묻는다.
+        field.setBackground(missing ? new Color(0xFFD9D9) : new JTextField().getBackground());
     }
 
     /**

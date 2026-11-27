@@ -13,6 +13,7 @@ import org.duckdns.hjow.swingwebpanel.desktopapp.model.SessionStore;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.SettingsStore;
 import org.duckdns.hjow.swingwebpanel.desktopapp.ui.BrowserWindow;
+import org.duckdns.hjow.swingwebpanel.desktopapp.ui.LookAndFeels;
 
 /**
  * The state of the whole browser program: the settings, the cookie jar that all tabs share, the open browser windows and what happens
@@ -142,6 +143,12 @@ public final class BrowserApp {
     /** What went wrong when the user data was read or written last, or null. / 사용자 데이터를 마지막으로 읽거나 쓸 때 잘못된 것. 없으면 null. */
     private String storageProblem;
 
+    /** The look and feel setting that was applied last, or null before the first time. / 마지막으로 적용한 룩앤필 설정. 처음 적용하기 전이면 null. */
+    private String requestedLookAndFeel;
+
+    /** Why the look and feel of the settings could not be used, or null. / 설정의 룩앤필을 쓸 수 없었던 까닭. 없으면 null. */
+    private String lookAndFeelProblem;
+
     /** The open windows in the order they were opened. / 열린 순서대로의 창. */
     private final List<BrowserWindow> windows = new ArrayList<BrowserWindow>();
 
@@ -264,15 +271,18 @@ public final class BrowserApp {
             storageProblem = Texts.of("The settings file could not be read and was kept as ", "설정 파일을 읽을 수 없어 다음 이름으로 보존했습니다: ")
                     + SettingsStore.FILE_NAME + ".broken";
         }
+        // 창을 만들기 전에 룩앤필을 정해야 첫 창의 컴포넌트부터 그것으로 만들어진다.
+        applyLookAndFeel();
         settings.addListener(new Settings.Listener() {
             /**
-             * Saves the settings after every change.
+             * Applies a new look and feel and saves the settings after every change.
              * <p>
-             * 변경이 있을 때마다 설정을 저장한다.
+             * 변경이 있을 때마다 새 룩앤필을 적용하고 설정을 저장한다.
              *
              * @param changed the settings / 설정
              */
             public void settingsChanged(Settings changed) {
+                applyLookAndFeel();
                 try {
                     settingsStore.save(changed);
                 } catch (java.io.IOException e) {
@@ -326,6 +336,37 @@ public final class BrowserApp {
         String p = storageProblem;
         storageProblem = null;
         return p;
+    }
+
+    /**
+     * Returns why the look and feel of the settings could not be used, and forgets it.
+     * <p>
+     * 설정의 룩앤필을 쓸 수 없었던 까닭을 반환하고 잊는다.
+     *
+     * @return the message, or null if no look and feel was refused since the last call / 메시지. 지난 호출 뒤로 거부된 룩앤필이 없으면 null
+     */
+    public String takeLookAndFeelProblem() {
+        String p = lookAndFeelProblem;
+        lookAndFeelProblem = null;
+        return p;
+    }
+
+    /**
+     * Switches to the look and feel of the settings when that setting changed (and at the start). A look and feel that cannot be used
+     * leaves the one in use; the setting is kept and the problem is remembered for the user.
+     * <p>
+     * 룩앤필 설정이 바뀌었을 때(그리고 시작할 때) 그 룩앤필로 바꾼다. 쓸 수 없는 룩앤필이면 쓰던 것을 그대로 두고, 설정은 보존하며 문제를 사용자에게
+     * 알릴 수 있게 기억한다.
+     */
+    private void applyLookAndFeel() {
+        String wanted = settings.get(Settings.LOOK_AND_FEEL).trim();
+        // 이 설정이 그대로이면 다른 설정의 변경 때마다 다시 시도하지 않는다.
+        if (wanted.equals(requestedLookAndFeel)) {
+            return;
+        }
+        requestedLookAndFeel = wanted;
+        lookAndFeelProblem = LookAndFeels.apply(wanted) ? null
+                : Texts.of("This look and feel cannot be used: ", "이 룩앤필을 쓸 수 없습니다: ") + wanted;
     }
 
     /**

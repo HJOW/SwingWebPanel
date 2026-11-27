@@ -9,6 +9,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
@@ -187,7 +188,8 @@ public final class BrowserTab {
         // 페이지가 연 창의 컴포넌트는 여는 창의 User-Agent 를 이어받았으므로, 설정을 비웠을 때 돌아갈 값은 새 컴포넌트의 값이다.
         builtInUserAgent = adopted != null && defaultUserAgent != null ? defaultUserAgent : panel.getUserAgent();
         scroll = new JScrollPane(panel);
-        scroll.setBorder(null);
+        // 테두리를 없앤다. null 로 두면 룩앤필을 바꿀 때 새 룩앤필의 테두리가 생기므로 빈 테두리를 준다.
+        scroll.setBorder(BorderFactory.createEmptyBorder());
         // 스크롤 창의 Ctrl+PageUp/PageDown(가로 쪽 넘김)은 탭 전환에 쓰도록 끈다.
         unbind(scroll, KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, InputEvent.CTRL_MASK));
         unbind(scroll, KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, InputEvent.CTRL_MASK));
