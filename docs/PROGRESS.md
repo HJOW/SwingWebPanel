@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P32-01 tls13 모듈의 범위·구조 확정 (2026-11-27) ===
+현재 작업 번호: P32-01 완료. P32-02 진행 중.
+완료한 내용: docs/progress/tls13.md 를 만들어 모듈(디렉터리 tls13/, swingwebpanel-tls13, 패키지 org.duckdns.hjow.swingwebpanel.tls13 과 하위 crypto·x509·proto), 공개 진입점(Tls13SocketFactory, Tls13Config, Tls13Failures), TLS 1.3·1.2 범위, 남은 세부 결정(Ed25519 미구현, P-521 은 인증서 서명 검증만, OCSP 스테이플링 미요청, SHA-1 서명·2048비트 미만 RSA 거부, 잘린 연결은 EOF), 암호 구현 방침(AES 비트슬라이스, 표 없는 GHASH, X25519 16림, P-256/P-384 는 BigInteger 라 상수 시간 아님), 성능 목표, 검증 자료 출처를 기록했다.
+변경 파일: docs/progress/tls13.md(신규), AGENTS.md(P32-01), 이 문서.
+검증 결과: 문서만 바꿨다. sourcecheck 는 커밋 전에 확인했다(위반 0건).
+미해결 사항: 없음.
+다음 작업 번호: P32-02
+-----------------------------------------------------------------------------------------------
 === P32 계획 갱신: 루트 인증서 원본의 라이선스 확인과 결정 (2026-11-27) ===
 현재 작업 번호: 계획 문서 갱신(사용자 요청: Mozilla CA 목록의 라이선스 확인). 구현은 하지 않았다.
 완료한 내용: Mozilla CA 목록의 라이선스가 원본에 따라 다름을 확인했다. NSS certdata.txt 는 파일 머리에 MPL 2.0 고지가 있다(hg.mozilla.org NSS tip 과 Firefox release 브랜치의 GitHub 사본 둘 다). Mozilla CA FAQ("Can I use Mozilla's set of CA certificates?")의 "Data Usage Terms" 는 CCADB 이용 조건을 가리키며, CCADB 자료는 CDLA-Permissive-2.0(라이선스 문구 동봉과 CCADB 출처 표시 필요)이다. CCADB 의 "Mozilla Included CA Certificate Report" CSV 에는 PEM, Trust Bits, Distrust for TLS After Date, Mozilla Applied Constraints 열이 있다. MPL 2.0 은 파일 단위 카피레프트라(1.7 Larger Work, 1.10 Modifications, 3.3) certdata.txt 를 써도 서브프로젝트 전체를 MPL 로 할 필요는 없다는 점도 확인했다(이 저장소는 이미 MPL 2.0 인 Public Suffix List 를 Apache 2.0 브라우저 모듈 안에 파일 단위로 넣고 있다). 사용자 결정: CCADB 목록을 원본으로 하고 TLS 모듈은 Apache 2.0 을 유지한다(certdata.txt 는 쓰지 않음). AGENTS.md P32 의 사용자 결정, P32-01 루트 인증서 항목(출처, 라이선스, 생성, Mozilla 의 추가 신뢰 변경 중 반영 범위), P32-02(POM 라이선스 상속), P32-04-c, P32-09(라이선스 고지 확인), 진행 순서 6 을 고쳤다.
