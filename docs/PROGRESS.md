@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== 모듈별 Javadoc 생성 스크립트 (2026-11-27) ===
+현재 작업 번호: 별도 사용자 요청. 개발 계획의 다음 작업은 P31-09.
+완료한 내용: 루트의 javadoc.bat과 javadoc.sh가 기존 JDK 6 탐색 스크립트로 JDK를 찾고, 네 모듈의 src/main/java를 docs/javadoc/<모듈> 아래에 UTF-8로 문서화한다. 의존 타입은 모듈의 소스 경로에서 해석하므로 Maven 빌드가 필요 없다. 생성물은 Git에서 무시한다.
+변경 파일: javadoc.bat, javadoc.sh, .gitignore, README.md, README.ko.md, docs/ARCHITECTURE.md, 이 문서.
+검증 결과: Windows에서 JDK 6u45로 javadoc.bat과 Git Bash의 javadoc.sh를 각각 저장소 밖에서 실행해 모두 종료 코드 0을 확인했다. 네 모듈의 index.html, 대표 클래스의 한글 UTF-8 문서, 모듈별 입력 소스(242·1120·8·29개)를 확인했다. 잘못된 JAVA6_HOME에 대해 두 스크립트 모두 종료 코드 1을 반환했다.
+미해결 사항: 기존 소스 주석 때문에 engine에서 경고 3건, browser에서 16건이 출력된다. 모듈 문서는 모두 생성되었다.
+다음 작업 번호: P31-09
+-----------------------------------------------------------------------------------------------
 === P31-08 새 탭·새 창·팝업, P31-04-b 링크를 새 탭에서 열기 (2026-11-27) ===
 현재 작업 번호: P31-08 완료(하위 a~g), P31-04-b 완료(P31-04 닫음). P31-09 진행 중.
 완료한 내용: (브라우저, 계약 5.28, 기능 표 API-36) window.open 이 새 창의 창 객체를 돌려준다: 관계있는 창은 문서 스레드 하나를 함께 쓰고(core.DocumentLoop, NavigationController(DocumentLoop)), 호출 안에서 스크립트 가능한 about:blank(오리진·기준 주소 상속)를 가지며, 여는 창이 문서 읽기·쓰기, location 이동, close()/closed, postMessage 를 하고 팝업의 window.opener 는 여는 창이다. sessionStorage 복사, 이름 있는 창의 재사용(core.WindowGroup), 창 기능 문자열(noopener, noreferrer, width, height, left, top; core.OpenRequest). 팝업 차단 setPopupBlockingEnabled/isPopupBlockingEnabled(기본 켬, 속성 popupBlockingEnabled): 신뢰 입력 뒤 5초의 일시적 활성화를 window.open 한 번이 소비하고, 없으면 null 과 popupBlocked(WindowRequest). 확장 지점 createPopupPanel(PopupSeed)(스크립트 스레드), canOpenPopupWindows, openPopupWindow(기본 PopupDialog: 소유자 있는 비모달 JDialog), openNewWindow(LINK: _blank 링크·폼, USER: Ctrl·Shift·가운데 클릭), popupBlocked, closeOpenedWindow. 공개 타입 WindowRequest. 닫기: 페이지가 연 창은 웹 콘텐츠가 만든 창으로 그 창만 닫히고(읽는 중·보이기 전 포함) 여는 창은 다른 오리진이 된 자기 팝업도 닫는다(familiar 규칙에 opener 추가). disposeKeepingStorage(): localStorage 를 남기는 폐기. COOP 로 그룹 떠나기(net.CrossOriginPolicy.requiresGroupSwitch, BrowserSession.applyOpenerPolicy; 떠난 창은 다른 그룹에게 닫힌 창). 샌드박스: allow-popups-to-escape-sandbox 가 있을 때만 새 창. 읽는 중인 창으로 보낸 postMessage 는 설치된 새 페이지가 받는다(BrowsingContext.getMessageScripts). (앱) ui.TabPanel(탭 컴포넌트를 최상위 클래스로, 늦은 탭 묶기), BrowserTab(app, panel), ui.PopupWindow(읽기 전용 주소·상태 표시줄만 있는 팝업 창), BrowserWindow.popupOpened/windowRequested/contextMenuRequested, 설정 popups.block·popups.place·links.place·tabs.selectNew 적용, 상태 표시줄의 차단 알림과 "이 팝업 열기" 단추, 링크 문맥 메뉴(새 탭·새 창에서 열기, 주소 복사, 뒤로·앞으로·새로고침·복사·모두 선택), 탭 닫기를 disposeKeepingStorage() 로 바꿈(이전에는 탭 하나를 닫으면 모든 탭의 localStorage 가 지워졌다).
@@ -1826,6 +1834,10 @@ MEDIA-SVG-AVIF 작업자는 그 전에 보고를 마치고 끝났다. 지금 실
    `index.lock` 충돌이 나면 잠시 후 재시도한다.
 
 ## 작업 로그 (최신이 위)
+
+### 2026-11-27 · 모듈별 Javadoc 생성 스크립트
+
+- `javadoc.bat`과 `javadoc.sh`로 네 모듈의 문서를 생성했다. 실행 방법은 루트 README에, JDK 6u45 검증 결과는 위 현재 상태에 기록했다.
 
 ### 2026-11-26 · P29-10-c3c 브라우저 격리 권한과 공유 저장소
 

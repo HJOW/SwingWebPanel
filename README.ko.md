@@ -88,6 +88,12 @@ JavaScript는 이전 판본과 ES2026 기능을 함께 검증합니다. 프로�
 
 Eclipse에서는 저장소 루트를 **Existing Maven Projects**로 가져오면 부모 POM과 세 모듈을 선택할 수 있습니다.
 
+### Javadoc 생성
+
+Windows 명령 프롬프트에서 `javadoc.bat`, POSIX 셸에서 `sh javadoc.sh`를 실행합니다. JDK 6이 기본 경로에 없으면 `JAVA6_HOME`을 지정합니다. Maven 빌드는 필요하지 않습니다.
+
+생성이 끝나면 `docs/javadoc/engine/index.html`, `docs/javadoc/browser/index.html`, `docs/javadoc/examples/index.html`, `docs/javadoc/desktopapp/index.html`을 열 수 있습니다.
+
 ### JAR 구성
 
 이 체크아웃의 Maven 버전은 `0.1.2`입니다. `mvn install` 후 브라우저와 엔진을 함께 쓰려면 `org.duckdns.hjow:swingwebpanel:0.1.2`를,

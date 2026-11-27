@@ -135,6 +135,7 @@ setPage(url) ─▶ NavigationController(요청 번호 N) ─▶ net.ResourceFet
 | `mvn test` / `mvn verify` / `test.sh` / `test.bat` | JDK 6의 `java`로 엔진(Headless)과 브라우저의 `TestRunner`를 실행한다. 각 모듈이 통과·실패·건너뜀 수를 출력하며 시험 실패는 Maven 실패로 전파된다. |
 | `mvn -pl engine test` | 엔진 제품과 엔진 시험만 클래스패스에 두고 실행한다. |
 | `mvn -pl desktopapp -am verify` / `desktopapp/run.sh` / `desktopapp/run.bat` | 브라우저 앱의 시험을 JDK 6 으로 실행하고, 실행 JAR 을 JDK 6 의 `java -jar ... --smoke` 로 실제 실행해 본다. 스크립트는 빌드한 뒤 앱을 시작한다. 앱은 제품 JAR 에 들어가지 않고 SwingWebPanel 의 공개 API 만 쓴다(`AppBoundaryTest`). 설계는 `docs/progress/desktopapp.md`. |
+| `javadoc.sh` / `javadoc.bat` | JDK 6의 `javadoc`으로 `engine`, `browser`, `examples`, `desktopapp`의 `src/main/java`를 각각 `docs/javadoc/<모듈>/`에 문서화한다. 의존 모듈의 소스 경로를 전달해 Maven 빌드 없이 타입을 해석한다. |
 | `tools/<도구>/build.*`, `run.*` | 각 도구의 빌드/실행 |
 
 Maven 실행 JDK는 8 이상이다. Maven이 컴파일과 시험에 쓰는 JDK 6은 `JAVA6_HOME`으로 지정한다.

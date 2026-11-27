@@ -79,6 +79,12 @@ Run Maven 3.8.8 or later from the repository root with JDK 8 or later in `JAVA_H
 
 The root and engine `build` and `test` scripts invoke Maven. The test scripts also accept `--filter TEXT`. Run `examples/run.sh BlankPageExample` or `examples\run.bat BlankPageExample` for a minimal example. In Eclipse, import the repository root as **Existing Maven Projects**. [Example list](examples/README.md)
 
+### Generate Javadoc
+
+Run `javadoc.bat` in Windows Command Prompt or `sh javadoc.sh` in a POSIX shell. Use `JAVA6_HOME` if JDK 6 is installed outside the default locations. Maven does not need to run first.
+
+Open `index.html` in `docs/javadoc/engine/`, `docs/javadoc/browser/`, `docs/javadoc/examples/`, or `docs/javadoc/desktopapp/`.
+
 ### JARs
 
 | File | Contents |
