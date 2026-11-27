@@ -644,7 +644,7 @@ P23~P26은 2026-11-20, P27은 2026-11-22, P28은 2026-11-24 사용자 요청으�
 5. **`P31`(`P31-01` ~ `P31-11`, 데스크톱 웹 브라우저 서브 프로젝트 `desktopapp`) — 완료(2026-11-27)**:
    - SwingWebPanel만으로 동작하는 Swing 웹 브라우저 애플리케이션을 Maven 하위 모듈로 개발하고, 개발 중 필요해진 SwingWebPanel 기능을 함께 추가·검증한다. 탭 브라우징과 인쇄도 범위에 포함한다. 팝업은 웹 브라우저와 같이 `window.open`의 반환값으로 제어할 수 있게 하고, 사용자 조작 없이 연 팝업은 기본 차단(메서드로 변경 가능), 열 위치는 팝업 창이 기본(설정으로 변경 가능)이다(P31-08).
 6. **(다음 작업) `P32`(`P32-01` ~ `P32-09`, Java 6·7용 TLS 1.3·1.2 자체 구현 모듈)**:
-   - 엔진과 브라우저 컴포넌트에 내장하지 않는 별도 Maven 하위 모듈로 TLS 1.3과 TLS 1.2 클라이언트를 순수 Java로 구현한다. SwingWebPanel에는 이 모듈을 선택적으로 불러오는 메서드를, desktopapp에는 실행 중인 Java가 6·7일 때만 모듈을 쓰는 탐지를 추가한다. 2026-11-27 사용자 결정에 따라 루트 인증서는 작업 시점의 최신 Mozilla CA 목록을 넣고 자동 갱신은 하지 않는다.
+   - 엔진과 브라우저 컴포넌트에 내장하지 않는 별도 Maven 하위 모듈로 TLS 1.3과 TLS 1.2 클라이언트를 순수 Java로 구현한다. SwingWebPanel에는 이 모듈을 선택적으로 불러오는 메서드를, desktopapp에는 실행 중인 Java가 6·7일 때만 모듈을 쓰는 탐지를 추가한다. 2026-11-27 사용자 결정에 따라 루트 인증서는 작업 시점의 최신 Mozilla CA 목록(CCADB 공개본, CDLA-Permissive-2.0)을 넣고 자동 갱신은 하지 않으며, 모듈은 프로젝트와 같은 Apache 2.0을 유지한다.
 7. **`P22` 및 실환경/사람 확인 마무리(`P18-08`/`P18-11`, `P25-07`, `P22-07`/`P22-10`/`P22-14` 재집계/`P22-15`/`P22-16`)**:
    - Maven 빌드 산출물을 기준으로 JRE 6 실환경과 기능 표 전수 대조를 마친 뒤 전체 개발 완료를 판정한다. 2026-11-26 사용자 결정에 따라 실제 스피커 청취는 개발자가 샘플 웹게임에서 후속 확인한다. P31·P32에서 SwingWebPanel을 수정하면 P22의 전체 회귀와 기능 표 대조에 그 변경을 포함한다.
 
@@ -1324,6 +1324,7 @@ P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "�
 - 브라우저 컴포넌트에는 메서드를 추가하여 이 모듈을 선택적으로 불러와 쓸 수 있게 한다.
 - desktopapp은 실행 중인 Java가 6 또는 7인지 탐지하여 해당하는 경우에만 이 모듈을 쓴다.
 - 루트 인증서는 작업 시점의 최신 Mozilla CA 목록을 모듈에 넣는다. 자동 갱신은 하지 않는다.
+- 루트 목록의 원본은 Mozilla가 CCADB로 공개하는 포함 루트 목록(CDLA-Permissive-2.0)으로 한다. TLS 모듈은 프로젝트와 같은 Apache 2.0을 유지한다. MPL 2.0인 NSS `certdata.txt`는 쓰지 않는다.
 - 모듈과 메서드 이름은 사용자가 부른 "TLS 1.3 모듈"을 따른 기본안이며, 이 모듈은 TLS 1.2도 처리한다.
 
 배경(2026-11-27 조사, 이 PC의 실측):
@@ -1376,8 +1377,13 @@ P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "�
     - 처리하는 것: TLS 1.2 PRF(P_SHA256, P_SHA384), Finished, GCM의 명시적 nonce(RFC 5288), ChaCha20-Poly1305의 nonce 구성(RFC 7905), 서버의 클라이언트 인증서 요청(빈 Certificate로 응답), 경보와 `close_notify`.
     - 하지 않는 것: 세션 재개(세션 ID·세션 티켓), 재협상(서버의 HelloRequest는 거절 경보로 응답), 클라이언트 인증서, CBC·RC4·3DES 스위트, 정적 RSA 키 교환과 DHE, 서버 역할.
   - **루트 인증서(2026-11-27 사용자 결정)**: JRE 6·7의 `cacerts`는 낡았으므로 모듈에 루트 인증서 목록을 넣는다.
-    - 출처: 작업 시점(P32-04-c)의 최신 Mozilla CA 목록을 쓴다. 원본은 Mozilla NSS의 `certdata.txt`를 기본안으로 한다. 이 파일에는 서버 인증 신뢰 여부와 불신 날짜(distrust-after)가 들어 있다. 2026-11-27 확인한 위치는 `https://hg.mozilla.org/projects/nss/raw-file/tip/lib/ckfw/builtins/certdata.txt`이며, 파일 머리에 MPL 2.0 이용 조건이 적혀 있다. CCADB가 내는 Mozilla 포함 루트 목록은 대조 자료로 쓸 수 있다.
-    - 생성: `tools/` 아래 Java 6 도구로 원본에서 서버 인증을 신뢰하는 루트만 골라 모듈 리소스를 만든다. 원본 URL, 리비전, 조회 날짜, 이용 조건(MPL 2.0 고지)을 리소스와 문서에 기록한다.
+    - 출처: 작업 시점(P32-04-c)의 최신 Mozilla CA 목록을 쓴다. 원본은 Mozilla가 CCADB에 공개하는 "Mozilla Included CA Certificate Report"(`https://ccadb.my.salesforce-sites.com/mozilla/IncludedCACertificateReportPEMCSV`)이다. 이 보고서에는 PEM, 신뢰 비트(`Trust Bits`), TLS 불신 날짜(`Distrust for TLS After Date`), Mozilla 적용 제약(`Mozilla Applied Constraints`)이 들어 있다(2026-11-27 확인).
+    - 라이선스(2026-11-27 확인과 사용자 결정):
+      - CCADB 자료는 CDLA-Permissive-2.0이다(`https://www.ccadb.org/rootstores/usage#ccadb-data-usage-terms`, Mozilla CA FAQ의 "Data Usage Terms"가 가리키는 곳). 공유할 때 라이선스 문구를 함께 내고 CCADB 출처를 표시해야 한다.
+      - 같은 목록의 NSS `certdata.txt`는 MPL 2.0이라 쓰지 않는다. 그래서 TLS 모듈은 프로젝트와 같은 Apache 2.0을 유지한다.
+      - 모듈 JAR과 desktopapp 실행 JAR에 CDLA-Permissive-2.0 문구와 CCADB 출처 고지를 넣는다. 엔진의 `META-INF/LICENSE-unicode.txt`와 같은 방식이다.
+    - 생성: `tools/` 아래 Java 6 도구로 원본에서 신뢰 비트에 `Websites`가 있는 루트만 골라 모듈 리소스를 만든다. TLS 불신 날짜와 Mozilla 적용 제약(이름 제약 등)도 리소스에 옮겨 검증에 쓴다. 원본 URL, 조회 날짜, 원본의 SHA-256, 이용 조건(CDLA-Permissive-2.0, CCADB 출처)을 리소스와 문서에 기록한다.
+    - Mozilla가 루트 목록 밖에서 따로 적용하는 신뢰 변경(Mozilla wiki "CA/Additional_Trust_Changes": EV, OneCRL, Distrust After 등)은 불신 날짜와 적용 제약만 반영한다. OneCRL(중간 인증서 폐기 목록)은 반영하지 않는 한계로 기록한다.
     - 자동 갱신 없음: 모듈은 실행 중에 목록을 내려받지 않는다. 빌드도 목록을 가져오지 않는다(생성한 리소스를 저장소에 커밋한다). 목록을 바꾸려면 개발자가 도구를 다시 실행해 새 판을 낸다.
     - 한계 기록: 시간이 지나면 새 루트가 빠지고 불신·만료 반영이 늦어진다는 점을 README와 계약에 적는다.
     - 호스트는 설정으로 자기 `KeyStore`나 JRE `cacerts`를 대신 지정할 수 있다.
@@ -1392,7 +1398,7 @@ P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "�
     - JRE 7에 있는 EC 구현(SunEC)은 쓰지 않고, 6과 7에서 같은 코드가 동작하게 한다.
   - 성능 목표: 핸드셰이크 시간과 처리량의 목표를 정한다. 예: JRE 6u45에서 첫 핸드셰이크 1초 이내, 대용량 응답이 JRE 기본 경로보다 크게 느리지 않을 것.
 - [ ] P32-02. 모듈 골격을 만든다.
-  - `tls13/` POM: 부모 POM의 JDK 6 `javac` 설정을 재사용하고 `dependencies`를 비운다.
+  - `tls13/` POM: 부모 POM의 JDK 6 `javac` 설정과 라이선스(Apache 2.0)를 이어받고 `dependencies`를 비운다.
   - 시험 실행: 기존 자체 시험 실행기를 JDK 6 `java`로 실행한다. 산출 JAR을 패키징한다.
   - 문서: `tls13/README.md`(한국어), `tls13/AGENTS.md`를 만든다. `tools/sourcecheck` 기본 경로, `docs/ARCHITECTURE.md` 모듈 표, 루트 README 모듈 안내에도 추가한다.
   - 경계 강제: 모듈이 `engine`·`browser`·AWT/Swing을 참조하지 않음을 빌드로 확인한다(JRE만으로 컴파일, 상수 풀 검사; P26의 `engine-boundary`와 같은 방식).
@@ -1408,7 +1414,7 @@ P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "�
 - [ ] P32-04. X.509 해석, 경로 검증, 신뢰 저장소를 구현한다.
   - [ ] P32-04-a. 입력: 실제 사이트의 RSA·ECDSA 인증서, 잘린 DER, 잘못된 길이, 지나치게 깊은 중첩, 알 수 없는 critical 확장. 기대: TBS·확장·공개 키(RSA/EC/Ed25519)를 정확히 해석하고, 손상된 입력은 예외 누수 없이 검증 실패로 끝난다. 구현: DER 해석기, 인증서 모델.
   - [ ] P32-04-b. 입력: 시험용으로 만든 인증서 사슬(정상, 만료, 아직 유효하지 않음, 이름 불일치, 자체 서명, 미신뢰 루트, 중간 인증서 누락과 순서 뒤바뀜, CA가 아닌 중간 인증서, EKU 불일치, 이름 제약 위반, 약한 RSA 키, SHA-1 서명, 와일드카드 경계). 기대: 정상만 통과하고 나머지는 이유가 구분된 오류로 끝난다. 구현: 경로 구성·검증, 호스트 이름 검증.
-  - [ ] P32-04-c. 입력: 작업 시점의 최신 Mozilla CA 목록 원본(NSS `certdata.txt`)과 생성 도구, 호스트가 지정한 `KeyStore`. 기대: 서버 인증을 신뢰하는 루트만 담은 모듈 리소스를 같은 원본에서 같은 결과로 생성하고, 불신 날짜를 반영하며, 원본 리비전과 MPL 2.0 고지를 기록한다. 실행 중이나 빌드 중에 목록을 내려받는 경로가 없다. 지정한 저장소는 기본 목록을 대신한다. 구현: `tools/<도구 이름>`(AGENTS.md·README.md 포함)과 모듈 리소스·설정.
+  - [ ] P32-04-c. 입력: 작업 시점의 최신 Mozilla CA 목록 원본(CCADB의 "Mozilla Included CA Certificate Report")과 생성 도구, 호스트가 지정한 `KeyStore`. 기대: 서버 인증을 신뢰하는 루트만 담은 모듈 리소스를 같은 원본에서 같은 결과로 생성하고, TLS 불신 날짜와 Mozilla 적용 제약을 반영하며, 원본 조회 날짜·SHA-256과 CDLA-Permissive-2.0 문구·CCADB 출처를 함께 배포한다. 실행 중이나 빌드 중에 목록을 내려받는 경로가 없다. 지정한 저장소는 기본 목록을 대신한다. 구현: `tools/<도구 이름>`(AGENTS.md·README.md 포함)과 모듈 리소스·설정.
 - [ ] P32-05. TLS 1.3·1.2 핸드셰이크와 레코드 계층, JSSE 소켓을 구현한다.
   - [ ] P32-05-a. 입력: RFC 8448의 1-RTT 예시 추적과 HelloRetryRequest 추적. 기대: 결정적 난수로 ClientHello부터 Finished까지 바이트 단위로 재현한다. 구현: TLS 1.3 핸드셰이크 메시지 부호화·해석, 전사 해시, 키 스케줄 연결.
   - [ ] P32-05-b. 입력: 조각나거나 합쳐진 레코드, 최대 크기를 넘는 레코드, TLS 1.3의 내용 패딩, TLS 1.2 GCM의 명시적 nonce와 순서 번호, 핸드셰이크 뒤의 KeyUpdate·NewSessionTicket, 변경 암호 사양(CCS) 레코드, 경보, `close_notify`, 잘린 연결. 기대: RFC 8446 5장과 RFC 5246 6장의 처리와 오류 경보. 구현: 두 버전의 레코드 계층.
@@ -1460,7 +1466,8 @@ P31과의 관계 검토(2026-11-26): P31에서는 팝업·`_blank` 탭 같은 "�
     - JRE 6u45와 7u80의 실제 창에서 HTTPS 사이트를 여는지 `tools/uicheck`로 확인하여 `docs/progress/uicheck.md`에 기록한다.
 - [ ] P32-09. 검증하고 문서화한 뒤 P32를 완료 처리한다.
   - 회귀: 전체 회귀(엔진·브라우저·앱·모듈), JRE 6u45·7u80·8u202의 실행, sourcecheck 0 위반을 확인한다.
-  - 문서: `docs/API_CONTRACT.md`, `docs/FEATURE_MATRIX.md`(NET 행, 새 API 행, 모듈 행), `docs/ARCHITECTURE.md`, 루트 README 두 개(모듈 사용법과 보안 경고), `tls13/README.md`·`tls13/AGENTS.md`, `desktopapp/README.md`, `docs/progress/tls13.md`, `docs/PROGRESS.md`를 갱신한다.
+  - 문서: `docs/API_CONTRACT.md`, `docs/FEATURE_MATRIX.md`(NET 행, 새 API 행, 모듈 행), `docs/ARCHITECTURE.md`, 루트 README 두 개(모듈 사용법, 보안 경고, License 절의 CCADB 자료 고지), `tls13/README.md`·`tls13/AGENTS.md`, `desktopapp/README.md`, `docs/progress/tls13.md`, `docs/PROGRESS.md`를 갱신한다.
+  - 라이선스 확인: 모듈 JAR과 desktopapp 실행 JAR에 CDLA-Permissive-2.0 문구와 CCADB 출처 고지가 들어 있고, MPL 자료(`certdata.txt`)에서 만든 파일이 없는지 확인한다.
   - 기록: 자체 구현의 보안 한계(부채널, 폐기 확인 없음, 자동 갱신하지 않는 루트 목록과 그 원본 리비전, 세션 재개 없음)와 모듈이 연결하지 않는 서버(TLS 1.1 이하, CBC 스위트만 받는 서버)의 처리를 기록한다.
 
 ## 중간 실행 목표와 다음 작업 선택
