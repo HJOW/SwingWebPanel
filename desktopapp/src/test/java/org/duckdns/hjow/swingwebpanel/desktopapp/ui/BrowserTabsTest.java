@@ -1,9 +1,9 @@
 package org.duckdns.hjow.swingwebpanel.desktopapp.ui;
 
-import java.awt.Component;
 import java.awt.GraphicsEnvironment;
 import javax.swing.SwingUtilities;
 import org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp;
+import org.duckdns.hjow.swingwebpanel.desktopapp.FakePrompts;
 import org.duckdns.hjow.swingwebpanel.desktopapp.Texts;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings;
 import org.duckdns.hjow.swingwebpanel.testing.Check;
@@ -32,11 +32,8 @@ public class BrowserTabsTest {
     /** The number of times that the program ended. / 프로그램이 끝난 횟수. */
     private int ended;
 
-    /** The answer of the fake confirmation dialog. / 가짜 확인 대화 상자의 답. */
-    private boolean answer;
-
-    /** The questions that were asked. / 물어본 질문의 수. */
-    private int asked;
+    /** Answers the questions of the application. / 응용 프로그램의 질문에 답한다. */
+    private final FakePrompts prompts = new FakePrompts();
 
     /**
      * Creates the suite (required by the runner).
@@ -68,13 +65,7 @@ public class BrowserTabsTest {
                         ended++;
                     }
                 });
-                app.setPrompts(new BrowserApp.Prompts() {
-                    /** Answers without a dialog. / 대화 상자 없이 답한다. */
-                    public boolean confirm(Component parent, String message) {
-                        asked++;
-                        return answer;
-                    }
-                });
+                app.setPrompts(prompts);
                 window = app.openWindow(null);
             }
         });
@@ -363,22 +354,22 @@ public class BrowserTabsTest {
             public void run() {
                 BrowserWindow single = app.openWindow(null);
                 Check.isTrue(single.requestClose(), "a window with one tab closes without a question");
-                Check.equal(0, asked, "nothing was asked");
+                Check.equal(0, prompts.asked, "nothing was asked");
                 window.newTab(null, false);
-                answer = false;
+                prompts.answer = false;
                 Check.isFalse(window.requestClose(), "a refusal keeps the window");
-                Check.equal(1, asked, "one question");
+                Check.equal(1, prompts.asked, "one question");
                 Check.isFalse(window.isClosed(), "the window is still open");
                 Check.equal(2, window.getTabs().size(), "the tabs are still there");
                 app.getSettings().set(Settings.CONFIRM_CLOSE_TABS, "false");
                 BrowserWindow quiet = app.openWindow(null);
                 quiet.newTab(null, false);
                 Check.isTrue(quiet.requestClose(), "with the setting off the window closes at once");
-                Check.equal(1, asked, "no further question");
+                Check.equal(1, prompts.asked, "no further question");
                 app.getSettings().set(Settings.CONFIRM_CLOSE_TABS, "true");
-                answer = true;
+                prompts.answer = true;
                 Check.isTrue(window.requestClose(), "an agreement closes the window");
-                Check.equal(2, asked, "a second question");
+                Check.equal(2, prompts.asked, "a second question");
                 Check.isTrue(window.isClosed(), "the window is closed");
                 Check.isTrue(window.getTabs().get(0).getPanel().isDisposed() && window.getTabs().get(1).getPanel().isDisposed(),
                         "closing a window disposes the pages of all its tabs");

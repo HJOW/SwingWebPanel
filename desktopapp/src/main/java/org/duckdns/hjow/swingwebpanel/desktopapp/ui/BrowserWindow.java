@@ -1,22 +1,39 @@
 package org.duckdns.hjow.swingwebpanel.desktopapp.ui;
 
+import java.awt.AWTKeyStroke;
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
 import javax.swing.JTabbedPane;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.text.JTextComponent;
 import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import org.duckdns.hjow.swingwebpanel.SwingWebPanel;
 import org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp;
 import org.duckdns.hjow.swingwebpanel.desktopapp.Texts;
+import org.duckdns.hjow.swingwebpanel.desktopapp.model.PageFiles;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings;
+import org.duckdns.hjow.swingwebpanel.desktopapp.model.ZoomSteps;
 
 /**
  * A browser window (plan items P31-03 and P31-04): the navigation toolbar with the address bar at the top, the tabs with their pages in
@@ -28,7 +45,7 @@ import org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings;
  * 모음, 상태 표시줄은 활성 탭의 상태를 보인다. 탭마다 자기 페이지가 있다. 탭을 닫으면 그 페이지를 폐기하고, 마지막 탭을 닫으면 창을 닫으며, 창을
  * 닫으면 모든 페이지를 폐기하고 응용 프로그램에 알린다. 이벤트 디스패치 스레드에서 쓴다.
  */
-public final class BrowserWindow extends JFrame implements NavigationBar.Actions, BrowserTab.Listener {
+public final class BrowserWindow extends JFrame implements NavigationBar.Actions, BrowserTab.Listener, Settings.Listener {
 
     /** Serialization version. / 직렬화 버전. */
     private static final long serialVersionUID = 1L;
@@ -41,6 +58,9 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
 
     /** The navigation toolbar. / 탐색 도구 모음. */
     private final NavigationBar navigation;
+
+    /** The menu bar. / 메뉴 막대. */
+    private final BrowserMenu menu;
 
     /** The tab strip with the pages. / 페이지가 든 탭 줄. */
     private final JTabbedPane tabPane = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -71,6 +91,8 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
         super(BrowserApp.NAME);
         this.app = app;
         navigation = new NavigationBar(this);
+        menu = new BrowserMenu(this);
+        setJMenuBar(menu);
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(navigation, BorderLayout.NORTH);
         getContentPane().add(tabPane, BorderLayout.CENTER);
@@ -117,7 +139,348 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
                 }
             }
         });
+        installKeys();
+        app.getSettings().addListener(this);
         newTab(null, true);
+        settingsChanged(app.getSettings());
+    }
+
+    /**
+     * Installs the keys of the window (plan item P31-05): Ctrl+Tab is taken out of the focus traversal keys so that it can switch tabs,
+     * the tab strip gives its own Ctrl+PageUp/PageDown handling to the window, and the keys that have no menu item are bound to their
+     * commands for the whole window.
+     * <p>
+     * 창의 키를 설치한다(계획 P31-05): Ctrl+Tab 이 탭을 바꿀 수 있도록 포커스 이동 키에서 빼고, 탭 줄이 자체 처리하던 Ctrl+PageUp/PageDown 을
+     * 창에 넘기며, 메뉴 항목이 없는 키를 창 전체에서 그 명령에 묶는다.
+     */
+    private void installKeys() {
+        Set<AWTKeyStroke> forward = new HashSet<AWTKeyStroke>();
+        forward.add(AWTKeyStroke.getAWTKeyStroke(KeyEvent.VK_TAB, 0));
+        setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, forward);
+        Set<AWTKeyStroke> backward = new HashSet<AWTKeyStroke>();
+        backward.add(AWTKeyStroke.getAWTKeyStroke(KeyEvent.VK_TAB, InputEvent.SHIFT_MASK));
+        setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, backward);
+        int ctrl = InputEvent.CTRL_MASK;
+        int shift = InputEvent.SHIFT_MASK;
+        BrowserTab.unbind(tabPane, KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, ctrl));
+        BrowserTab.unbind(tabPane, KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, ctrl));
+        bindKey(KeyStroke.getKeyStroke(KeyEvent.VK_ADD, ctrl), Commands.ZOOM_IN);
+        bindKey(KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, ctrl), Commands.ZOOM_IN);
+        bindKey(KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS, ctrl | shift), Commands.ZOOM_IN);
+        bindKey(KeyStroke.getKeyStroke(KeyEvent.VK_SUBTRACT, ctrl), Commands.ZOOM_OUT);
+        bindKey(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD0, ctrl), Commands.ZOOM_RESET);
+        bindKey(KeyStroke.getKeyStroke(KeyEvent.VK_R, ctrl), Commands.RELOAD);
+        bindKey(KeyStroke.getKeyStroke(KeyEvent.VK_R, ctrl | shift), Commands.RELOAD_HARD);
+        bindKey(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, ctrl), Commands.NEXT_TAB);
+        bindKey(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, ctrl), Commands.PREVIOUS_TAB);
+        bindKey(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ctrl), Commands.CLOSE_TAB);
+        bindKey(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0), Commands.OPEN_LOCATION);
+        bindKey(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.ALT_MASK), Commands.OPEN_LOCATION);
+        bindKey(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0), Commands.FIND_NEXT);
+        bindKey(KeyStroke.getKeyStroke(KeyEvent.VK_F3, shift), Commands.FIND_PREVIOUS);
+        // Ctrl+1 ~ Ctrl+8 은 그 번호의 탭, Ctrl+9 는 마지막 탭이다.
+        for (int n = 1; n <= 8; n++) {
+            bindKey(KeyStroke.getKeyStroke(KeyEvent.VK_0 + n, ctrl), Commands.SELECT_TAB + n);
+            bindKey(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD0 + n, ctrl), Commands.SELECT_TAB + n);
+        }
+        bindKey(KeyStroke.getKeyStroke(KeyEvent.VK_9, ctrl), Commands.LAST_TAB);
+        bindKey(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD9, ctrl), Commands.LAST_TAB);
+    }
+
+    /**
+     * Binds a key to a command for the whole window.
+     * <p>
+     * 키를 창 전체에서 명령에 묶는다.
+     *
+     * @param key     the key / 키
+     * @param command the command name / 명령 이름
+     */
+    private void bindKey(KeyStroke key, final String command) {
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(key, command);
+        getRootPane().getActionMap().put(command, new AbstractAction() {
+            /** Serialization version. / 직렬화 버전. */
+            private static final long serialVersionUID = 1L;
+
+            /** Runs the command. / 명령을 실행한다. */
+            public void actionPerformed(ActionEvent e) {
+                perform(command);
+            }
+        });
+    }
+
+    /**
+     * Runs a command of the window (plan item P31-05); menu items, key bindings and tests all come through here.
+     * <p>
+     * 창의 명령을 실행한다(계획 P31-05). 메뉴 항목, 키 바인딩, 시험이 모두 여기를 거친다.
+     *
+     * @param command one of the names of {@link Commands} / {@link Commands} 의 이름 가운데 하나
+     * @return true if the command is known and was run / 아는 명령이고 실행했으면 true
+     */
+    public boolean perform(String command) {
+        if (closed || command == null) {
+            return false;
+        }
+        BrowserTab tab = getActiveTab();
+        // 명령 이름에 따라 해당하는 일을 한다.
+        if (Commands.NEW_TAB.equals(command)) {
+            newTab();
+        } else if (Commands.NEW_WINDOW.equals(command)) {
+            newWindow(null);
+        } else if (Commands.OPEN_LOCATION.equals(command)) {
+            // 도구 모음을 숨겨 두었으면 주소를 입력할 수 있게 다시 보인다.
+            app.getSettings().set(Settings.SHOW_TOOLBAR, "true");
+            navigation.focusAddress();
+        } else if (Commands.OPEN_FILE.equals(command)) {
+            openFile();
+        } else if (Commands.SAVE_PAGE.equals(command)) {
+            savePage();
+        } else if (Commands.CLOSE_TAB.equals(command)) {
+            closeTab(tab);
+        } else if (Commands.CLOSE_WINDOW.equals(command)) {
+            requestClose();
+        } else if (Commands.EXIT.equals(command)) {
+            app.exit();
+        } else if (Commands.CUT.equals(command) || Commands.COPY.equals(command) || Commands.PASTE.equals(command)
+                || Commands.SELECT_ALL.equals(command)) {
+            edit(command);
+        } else if (Commands.TOGGLE_TOOLBAR.equals(command)) {
+            app.getSettings().set(Settings.SHOW_TOOLBAR, String.valueOf(!isToolbarShown()));
+        } else if (Commands.TOGGLE_STATUS_BAR.equals(command)) {
+            app.getSettings().set(Settings.SHOW_STATUS_BAR, String.valueOf(!isStatusBarShown()));
+        } else if (Commands.ZOOM_IN.equals(command)) {
+            tab.getPanel().setZoom(ZoomSteps.larger(tab.getPanel().getZoom()));
+        } else if (Commands.ZOOM_OUT.equals(command)) {
+            tab.getPanel().setZoom(ZoomSteps.smaller(tab.getPanel().getZoom()));
+        } else if (Commands.ZOOM_RESET.equals(command)) {
+            tab.getPanel().setZoom(ZoomSteps.parsePercent(app.getSettings().get(Settings.DEFAULT_ZOOM), 1.0));
+        } else if (Commands.BACK.equals(command)) {
+            back(1);
+        } else if (Commands.FORWARD.equals(command)) {
+            forward(1);
+        } else if (Commands.HOME.equals(command)) {
+            home();
+        } else if (Commands.RELOAD.equals(command)) {
+            reload(false);
+        } else if (Commands.RELOAD_HARD.equals(command)) {
+            reload(true);
+        } else if (Commands.STOP.equals(command)) {
+            stop();
+        } else if (Commands.NEXT_TAB.equals(command)) {
+            selectNextTab(1);
+        } else if (Commands.PREVIOUS_TAB.equals(command)) {
+            selectNextTab(-1);
+        } else if (Commands.REOPEN_TAB.equals(command)) {
+            reopenClosedTab();
+        } else if (Commands.LAST_TAB.equals(command)) {
+            selectTab(tabs.size() - 1);
+        } else if (command.startsWith(Commands.SELECT_TAB)) {
+            return selectTabByNumber(command.substring(Commands.SELECT_TAB.length()));
+        } else if (Commands.ABOUT.equals(command)) {
+            app.getPrompts().inform(this, BrowserApp.aboutText());
+        } else {
+            return performMore(command, tab);
+        }
+        return true;
+    }
+
+    /**
+     * Runs the commands of the features that are added after the basic ones (bookmarks, settings, find, print and the helper windows).
+     * <p>
+     * 기본 명령 뒤에 더한 기능(북마크, 설정, 찾기, 인쇄, 보조 창)의 명령을 실행한다.
+     *
+     * @param command the command name / 명령 이름
+     * @param tab     the active tab / 활성 탭
+     * @return true if the command is known and was run / 아는 명령이고 실행했으면 true
+     */
+    private boolean performMore(String command, BrowserTab tab) {
+        tab.showNotice(Texts.of("This command is not available yet: ", "아직 쓸 수 없는 명령입니다: ") + command);
+        return false;
+    }
+
+    /**
+     * Selects the tab with a number as the keys Ctrl+1 to Ctrl+8 do.
+     * <p>
+     * Ctrl+1 ~ Ctrl+8 키처럼 번호로 탭을 고른다.
+     *
+     * @param number the number of the tab, starting at 1, as text / 1 부터 시작하는 탭 번호(글)
+     * @return true if the text is a number / 글이 수이면 true
+     */
+    private boolean selectTabByNumber(String number) {
+        try {
+            selectTab(Integer.parseInt(number) - 1);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Opens a new window next to this one; it is shown if this window is shown.
+     * <p>
+     * 이 창 옆에 새 창을 연다. 이 창이 보이면 새 창도 보인다.
+     *
+     * @param url what the window opens, or null for the page that the settings choose for new tabs / 창이 열 것. null 이면 설정이 새 탭에
+     *            정한 페이지
+     * @return the new window / 새 창
+     */
+    public BrowserWindow newWindow(String url) {
+        String first = url;
+        // 주소를 주지 않았으면 새 탭과 같은 페이지로 시작한다.
+        if (first == null && Settings.NEW_TAB_HOME.equals(app.getSettings().get(Settings.NEW_TAB_PAGE))) {
+            first = app.getSettings().get(Settings.HOME_PAGE);
+        }
+        BrowserWindow w = app.openWindow(first);
+        w.setSize(getSize());
+        w.setLocation(getX() + 30, getY() + 30);
+        if (isVisible()) {
+            w.setVisible(true);
+        }
+        return w;
+    }
+
+    /**
+     * Asks for a file and opens it in the active tab.
+     * <p>
+     * 파일을 물어 활성 탭에서 연다.
+     */
+    private void openFile() {
+        File f = app.getPrompts().chooseFile(this, false, null);
+        if (f != null) {
+            getActiveTab().open(f.getAbsolutePath());
+        }
+    }
+
+    /**
+     * Asks for a file and saves the received text of the page of the active tab into it.
+     * <p>
+     * 파일을 물어 활성 탭 페이지의 수신 원문을 그 파일에 저장한다.
+     */
+    private void savePage() {
+        BrowserTab tab = getActiveTab();
+        SwingWebPanel p = tab.getPanel();
+        File f = app.getPrompts().chooseFile(this, true, PageFiles.suggestName(p.getPage(), p.getMimeType()));
+        if (f == null) {
+            return;
+        }
+        try {
+            PageFiles.write(f, p.getContent(), p.getMimeType());
+            tab.showNotice(Texts.of("Saved: ", "저장했습니다: ") + f.getPath());
+        } catch (IOException e) {
+            app.getPrompts().inform(this, Texts.of("The page could not be saved: ", "페이지를 저장할 수 없습니다: ") + e.getMessage());
+        }
+    }
+
+    /**
+     * Runs an editing command where the user is working: in a text field of the window itself (the address bar, the find bar) when it
+     * has the keyboard focus, otherwise in the page of the active tab.
+     * <p>
+     * 사용자가 작업 중인 곳에서 편집 명령을 실행한다: 창 자체의 텍스트 필드(주소 표시줄, 찾기 막대)가 키보드 포커스를 가지면 그 필드에서, 아니면
+     * 활성 탭의 페이지에서 실행한다.
+     *
+     * @param command {@link Commands#CUT}, {@link Commands#COPY}, {@link Commands#PASTE} or {@link Commands#SELECT_ALL} /
+     *                {@link Commands#CUT}, {@link Commands#COPY}, {@link Commands#PASTE}, {@link Commands#SELECT_ALL} 중 하나
+     */
+    private void edit(String command) {
+        SwingWebPanel p = getPanel();
+        Component owner = KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
+        // 페이지 안의 편집기(폼 컨트롤)는 컴포넌트가 스스로 다루므로 창 자체의 필드만 여기서 처리한다.
+        if (owner instanceof JTextComponent && SwingUtilities.isDescendingFrom(owner, this) && !SwingUtilities.isDescendingFrom(owner, p)) {
+            JTextComponent field = (JTextComponent) owner;
+            if (Commands.CUT.equals(command)) {
+                field.cut();
+            } else if (Commands.COPY.equals(command)) {
+                field.copy();
+            } else if (Commands.PASTE.equals(command)) {
+                field.paste();
+            } else {
+                field.selectAll();
+            }
+            return;
+        }
+        if (Commands.CUT.equals(command)) {
+            p.cut();
+        } else if (Commands.COPY.equals(command)) {
+            p.copy();
+        } else if (Commands.PASTE.equals(command)) {
+            p.paste();
+        } else {
+            p.selectAll();
+        }
+    }
+
+    /**
+     * Applies the settings that concern the window: which bars are shown.
+     * <p>
+     * 창에 관한 설정을 적용한다: 어느 막대를 보이는지.
+     *
+     * @param settings the settings / 설정
+     */
+    public void settingsChanged(Settings settings) {
+        if (closed) {
+            return;
+        }
+        boolean toolbar = settings.getBoolean(Settings.SHOW_TOOLBAR);
+        boolean statusBar = settings.getBoolean(Settings.SHOW_STATUS_BAR);
+        // 달라진 것이 있을 때만 다시 배치한다.
+        if (navigation.isVisible() != toolbar || status.isVisible() != statusBar) {
+            navigation.setVisible(toolbar);
+            status.setVisible(statusBar);
+            getContentPane().validate();
+        }
+    }
+
+    /**
+     * Tells whether the navigation toolbar is shown.
+     * <p>
+     * 탐색 도구 모음을 보이는지 알려 준다.
+     *
+     * @return true if shown / 보이면 true
+     */
+    public boolean isToolbarShown() {
+        return navigation.isVisible();
+    }
+
+    /**
+     * Tells whether the status bar is shown.
+     * <p>
+     * 상태 표시줄을 보이는지 알려 준다.
+     *
+     * @return true if shown / 보이면 true
+     */
+    public boolean isStatusBarShown() {
+        return status.isVisible();
+    }
+
+    /**
+     * Tells whether a closed tab can be opened again.
+     * <p>
+     * 다시 열 수 있는 닫은 탭이 있는지 알려 준다.
+     *
+     * @return true if at least one closed tab is remembered / 기억한 닫은 탭이 하나라도 있으면 true
+     */
+    public boolean hasClosedTabs() {
+        return !closedTabs.isEmpty();
+    }
+
+    /**
+     * Fills the bookmark menu with the bookmarks; called each time the menu opens.
+     * <p>
+     * 북마크 메뉴를 북마크로 채운다. 메뉴가 열릴 때마다 호출된다.
+     *
+     * @param target the menu to add the items to / 항목을 더할 메뉴
+     */
+    void fillBookmarkMenu(JMenu target) {
+    }
+
+    /**
+     * Returns the menu bar; for tests.
+     * <p>
+     * 메뉴 막대를 반환한다. 시험용이다.
+     *
+     * @return the menu bar / 메뉴 막대
+     */
+    BrowserMenu getBrowserMenu() {
+        return menu;
     }
 
     /**
@@ -514,6 +877,7 @@ public final class BrowserWindow extends JFrame implements NavigationBar.Actions
             return;
         }
         closed = true;
+        app.getSettings().removeListener(this);
         // 탭마다 페이지를 폐기한다.
         for (int i = 0; i < tabs.size(); i++) {
             tabs.get(i).close();

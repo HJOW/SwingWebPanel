@@ -40,6 +40,15 @@ public final class Settings {
     /** Key of whether closing a window with several tabs asks first (<code>true</code> or <code>false</code>). / 탭이 여럿인 창을 닫을 때 먼저 묻는지의 키(<code>true</code> 또는 <code>false</code>). */
     public static final String CONFIRM_CLOSE_TABS = "tabs.confirmClose";
 
+    /** Key of whether the navigation toolbar is shown (<code>true</code> or <code>false</code>). / 탐색 도구 모음을 보이는지의 키(<code>true</code> 또는 <code>false</code>). */
+    public static final String SHOW_TOOLBAR = "view.toolbar";
+
+    /** Key of whether the status bar is shown (<code>true</code> or <code>false</code>). / 상태 표시줄을 보이는지의 키(<code>true</code> 또는 <code>false</code>). */
+    public static final String SHOW_STATUS_BAR = "view.statusBar";
+
+    /** Key of the zoom of new tabs and of the "actual size" command, as a percentage. / 새 탭과 "원래 크기" 명령의 확대 비율(백분율)의 키. */
+    public static final String DEFAULT_ZOOM = "zoom.default";
+
     /**
      * Receives the changes of the settings.
      * <p>
@@ -65,6 +74,9 @@ public final class Settings {
         DEFAULTS.put(SEARCH_TEMPLATE, "");
         DEFAULTS.put(NEW_TAB_PAGE, NEW_TAB_BLANK);
         DEFAULTS.put(CONFIRM_CLOSE_TABS, "true");
+        DEFAULTS.put(SHOW_TOOLBAR, "true");
+        DEFAULTS.put(SHOW_STATUS_BAR, "true");
+        DEFAULTS.put(DEFAULT_ZOOM, "100");
     }
 
     /** The values that differ from nothing: every key that was set. / 설정한 값들. */

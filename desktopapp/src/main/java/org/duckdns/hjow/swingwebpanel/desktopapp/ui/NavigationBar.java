@@ -529,6 +529,17 @@ final class NavigationBar extends JPanel {
     }
 
     /**
+     * Returns the text field of the address bar; for the window and for tests.
+     * <p>
+     * 주소 표시줄의 텍스트 필드를 반환한다. 창과 시험이 쓴다.
+     *
+     * @return the field / 필드
+     */
+    JTextField getAddressField() {
+        return address;
+    }
+
+    /**
      * Types into the address bar as the user does (the text counts as edited); for tests and for commands that fill the bar.
      * <p>
      * 사용자가 하듯이 주소 표시줄에 입력한다(편집한 글로 친다). 시험과, 표시줄을 채우는 명령이 쓴다.

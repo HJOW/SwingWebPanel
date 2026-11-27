@@ -1,8 +1,10 @@
 package org.duckdns.hjow.swingwebpanel.desktopapp;
 
 import java.awt.Component;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import org.duckdns.hjow.swingwebpanel.CookieJar;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings;
@@ -29,6 +31,27 @@ public final class BrowserApp {
     /** The address of the empty page. / 빈 페이지의 주소. */
     public static final String BLANK = "about:blank";
 
+    /** The system property that replaces the directory of the user data (tests and portable use). / 사용자 데이터의 디렉터리를 바꾸는 시스템 속성(시험과 휴대용 실행). */
+    public static final String HOME_PROPERTY = "swingwebpanel.desktopapp.home";
+
+    /**
+     * Returns the directory of the user data (settings, bookmarks): the value of {@link #HOME_PROPERTY} if it is set, otherwise
+     * <code>.swingwebpanel/desktopapp</code> in the home directory of the user. The directory is not created here.
+     * <p>
+     * 사용자 데이터(설정, 북마크)의 디렉터리를 반환한다: {@link #HOME_PROPERTY} 가 설정되어 있으면 그 값, 아니면 사용자 홈 디렉터리의
+     * <code>.swingwebpanel/desktopapp</code>. 디렉터리를 여기서 만들지는 않는다.
+     *
+     * @return the directory / 디렉터리
+     */
+    public static File homeDirectory() {
+        String forced = System.getProperty(HOME_PROPERTY);
+        // 속성으로 지정했으면 그 디렉터리를 쓴다.
+        if (forced != null && forced.trim().length() > 0) {
+            return new File(forced.trim());
+        }
+        return new File(new File(System.getProperty("user.home", "."), ".swingwebpanel"), "desktopapp");
+    }
+
     /**
      * Asks the user questions; the application shows dialogs, tests answer by themselves.
      * <p>
@@ -46,6 +69,41 @@ public final class BrowserApp {
          * @return true if the user agreed / 사용자가 동의했으면 true
          */
         boolean confirm(Component parent, String message);
+
+        /**
+         * Asks for a file to open or to save into.
+         * <p>
+         * 열 파일이나 저장할 파일을 묻는다.
+         *
+         * @param parent        the component that the question belongs to / 질문이 속한 컴포넌트
+         * @param save          true to choose a file to write, false to choose an existing file to open / 쓸 파일을 고르면 true, 열 기존 파일을
+         *                      고르면 false
+         * @param suggestedName the file name that is filled in for saving, or null / 저장할 때 미리 채우는 파일 이름. 없으면 null
+         * @return the chosen file, or null if the user cancelled / 고른 파일. 사용자가 취소했으면 null
+         */
+        File chooseFile(Component parent, boolean save, String suggestedName);
+
+        /**
+         * Tells the user something.
+         * <p>
+         * 사용자에게 무언가를 알린다.
+         *
+         * @param parent  the component that the message belongs to / 메시지가 속한 컴포넌트
+         * @param message the message / 메시지
+         */
+        void inform(Component parent, String message);
+
+        /**
+         * Asks for a line of text.
+         * <p>
+         * 글 한 줄을 묻는다.
+         *
+         * @param parent  the component that the question belongs to / 질문이 속한 컴포넌트
+         * @param message the question / 질문
+         * @param initial the text that is filled in, or null / 미리 채우는 글. 없으면 null
+         * @return the text, or null if the user cancelled / 글. 사용자가 취소했으면 null
+         */
+        String ask(Component parent, String message, String initial);
     }
 
     /** The settings shared by all windows. / 모든 창이 공유하는 설정. */
@@ -74,7 +132,65 @@ public final class BrowserApp {
         public boolean confirm(Component parent, String message) {
             return JOptionPane.showConfirmDialog(parent, message, NAME, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
         }
+
+        /**
+         * Shows a file chooser that starts in the directory used last.
+         * <p>
+         * 마지막에 쓴 디렉터리에서 시작하는 파일 선택기를 보인다.
+         *
+         * @param parent        the component that the question belongs to / 질문이 속한 컴포넌트
+         * @param save          true to choose a file to write / 쓸 파일을 고르면 true
+         * @param suggestedName the file name that is filled in for saving, or null / 저장할 때 미리 채우는 파일 이름. 없으면 null
+         * @return the chosen file, or null if the user cancelled / 고른 파일. 사용자가 취소했으면 null
+         */
+        public File chooseFile(Component parent, boolean save, String suggestedName) {
+            JFileChooser chooser = new JFileChooser(lastDirectory);
+            if (save && suggestedName != null) {
+                chooser.setSelectedFile(new File(chooser.getCurrentDirectory(), suggestedName));
+            }
+            int answer = save ? chooser.showSaveDialog(parent) : chooser.showOpenDialog(parent);
+            if (answer != JFileChooser.APPROVE_OPTION || chooser.getSelectedFile() == null) {
+                return null;
+            }
+            File chosen = chooser.getSelectedFile();
+            lastDirectory = chosen.getParentFile();
+            // 이미 있는 파일에 저장하려면 덮어써도 되는지 먼저 묻는다.
+            if (save && chosen.exists() && !confirm(parent, Texts.of("Replace the existing file?\n", "이미 있는 파일을 바꿀까요?\n") + chosen.getPath())) {
+                return null;
+            }
+            return chosen;
+        }
+
+        /**
+         * Shows a message dialog.
+         * <p>
+         * 메시지 대화 상자를 보인다.
+         *
+         * @param parent  the component that the message belongs to / 메시지가 속한 컴포넌트
+         * @param message the message / 메시지
+         */
+        public void inform(Component parent, String message) {
+            JOptionPane.showMessageDialog(parent, message, NAME, JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        /**
+         * Shows an input dialog.
+         * <p>
+         * 입력 대화 상자를 보인다.
+         *
+         * @param parent  the component that the question belongs to / 질문이 속한 컴포넌트
+         * @param message the question / 질문
+         * @param initial the text that is filled in, or null / 미리 채우는 글. 없으면 null
+         * @return the text, or null if the user cancelled / 글. 사용자가 취소했으면 null
+         */
+        public String ask(Component parent, String message, String initial) {
+            Object answer = JOptionPane.showInputDialog(parent, message, NAME, JOptionPane.QUESTION_MESSAGE, null, null, initial == null ? "" : initial);
+            return answer == null ? null : answer.toString();
+        }
     };
+
+    /** The directory that the file chooser used last, or null for the default of the platform. / 파일 선택기가 마지막에 쓴 디렉터리. 플랫폼의 기본값이면 null. */
+    private File lastDirectory;
 
     /**
      * Creates the application state.
@@ -168,6 +284,47 @@ public final class BrowserApp {
      */
     public List<BrowserWindow> getWindows() {
         return new ArrayList<BrowserWindow>(windows);
+    }
+
+    /**
+     * Closes all windows as the user asks for it, the newest first; each window may ask before it closes, and a refusal stops the exit.
+     * Closing the last window ends the program.
+     * <p>
+     * 사용자가 요청한 대로 모든 창을 최근 것부터 닫는다. 창마다 닫기 전에 물을 수 있고, 거절하면 종료를 그만둔다. 마지막 창이 닫히면 프로그램이
+     * 끝난다.
+     *
+     * @return true if every window was closed / 모든 창을 닫았으면 true
+     */
+    public boolean exit() {
+        List<BrowserWindow> open = getWindows();
+        // 최근 창부터 닫고, 한 창이라도 거절하면 멈춘다.
+        for (int i = open.size() - 1; i >= 0; i--) {
+            if (!open.get(i).requestClose()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Returns the text of the about dialog: the names and versions of the application, of the component and of Java. The versions come
+     * from the manifest of the JAR (<code>Implementation-Version</code>); classes that were not loaded from a JAR have none.
+     * <p>
+     * 정보 대화 상자의 글을 반환한다: 응용 프로그램, 컴포넌트, Java 의 이름과 판. 판은 JAR 의 매니페스트(<code>Implementation-Version</code>)에서
+     * 온다. JAR 에서 읽지 않은 클래스에는 판이 없다.
+     *
+     * @return the text / 글
+     */
+    public static String aboutText() {
+        String unknown = Texts.of("(development build)", "(개발 빌드)");
+        Package appPackage = BrowserApp.class.getPackage();
+        Package panelPackage = org.duckdns.hjow.swingwebpanel.SwingWebPanel.class.getPackage();
+        String appVersion = appPackage == null ? null : appPackage.getImplementationVersion();
+        String panelVersion = panelPackage == null ? null : panelPackage.getImplementationVersion();
+        return NAME + " " + (appVersion == null ? unknown : appVersion) + "\n"
+                + "SwingWebPanel " + (panelVersion == null ? unknown : panelVersion) + "\n"
+                + "Java " + System.getProperty("java.version") + " (" + System.getProperty("java.vendor") + ")\n"
+                + System.getProperty("os.name") + " " + System.getProperty("os.version");
     }
 
     /**

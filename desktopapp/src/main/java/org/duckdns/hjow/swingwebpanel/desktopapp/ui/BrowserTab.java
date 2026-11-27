@@ -1,5 +1,7 @@
 package org.duckdns.hjow.swingwebpanel.desktopapp.ui;
 
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -7,11 +9,13 @@ import java.util.List;
 import java.util.Vector;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
 import org.duckdns.hjow.swingwebpanel.SwingWebPanel;
 import org.duckdns.hjow.swingwebpanel.desktopapp.BrowserApp;
 import org.duckdns.hjow.swingwebpanel.desktopapp.Texts;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.AddressInput;
 import org.duckdns.hjow.swingwebpanel.desktopapp.model.Settings;
+import org.duckdns.hjow.swingwebpanel.desktopapp.model.ZoomSteps;
 
 /**
  * One page of the browser: a {@link SwingWebPanel} in a scroll pane together with what the window needs to know about it (plan items
@@ -71,6 +75,14 @@ public final class BrowserTab {
         panel = new SwingWebPanel(app.getCookieJar());
         scroll = new JScrollPane(panel);
         scroll.setBorder(null);
+        // 스크롤 창의 Ctrl+PageUp/PageDown(가로 쪽 넘김)은 탭 전환에 쓰도록 끈다.
+        unbind(scroll, KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, InputEvent.CTRL_MASK));
+        unbind(scroll, KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, InputEvent.CTRL_MASK));
+        double zoom = ZoomSteps.parsePercent(app.getSettings().get(Settings.DEFAULT_ZOOM), 1.0);
+        // 새 탭은 설정의 기본 확대 비율로 시작한다.
+        if (zoom != 1.0) {
+            panel.setZoom(zoom);
+        }
         PropertyChangeListener changes = new PropertyChangeListener() {
             /**
              * Tells the window that the state of the page changed.
@@ -97,6 +109,19 @@ public final class BrowserTab {
         panel.addPropertyChangeListener(SwingWebPanel.PROPERTY_PROGRESS, changes);
         panel.addPropertyChangeListener(SwingWebPanel.PROPERTY_STATUS_TEXT, changes);
         panel.addPropertyChangeListener(SwingWebPanel.PROPERTY_ZOOM, changes);
+    }
+
+    /**
+     * Takes a key away from a component that handles it for the components inside it, so that the key reaches the bindings of the
+     * window.
+     * <p>
+     * 안쪽 컴포넌트를 위해 키를 처리하는 컴포넌트에서 그 키를 떼어, 키가 창의 바인딩에 닿게 한다.
+     *
+     * @param component the component / 컴포넌트
+     * @param key       the key / 키
+     */
+    static void unbind(JComponent component, KeyStroke key) {
+        component.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(key, "none");
     }
 
     /**

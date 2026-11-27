@@ -11,7 +11,15 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
-=== P31-05-a 호스트 편집 명령 (2026-11-27, 진행 중) ===
+=== P31-05 desktopapp 메뉴와 단축키 (2026-11-27) ===
+현재 작업 번호: P31-05 완료(하위 a·b). P31-06 진행 중.
+완료한 내용: (a) 키 소비를 바꾼 뒤의 전체 회귀를 실행해 P31-05-a 를 닫았다. (b) 메뉴 막대(ui.BrowserMenu: 파일, 편집, 보기, 이동, 탭, 북마크, 도구, 도움말)와 명령(ui.Commands, BrowserWindow.perform). 메뉴 항목·키 바인딩·시험이 모두 perform(명령 이름)을 거친다. 가속 키와 메뉴 항목 없는 키(Ctrl+숫자패드 +/-/0, Ctrl+R, Ctrl+Shift+R, Ctrl+PageUp/PageDown, Ctrl+F4, F6, Alt+D, F3, Ctrl+1~9), Ctrl+Tab 을 포커스 이동 키에서 빼기, 탭 줄과 스크롤 창의 Ctrl+PageUp/PageDown 끄기. 새 창(newWindow), 끝내기(BrowserApp.exit), 파일 열기, 페이지 저장(model.PageFiles: 제안 이름, UTF-8, HTML/XHTML 은 바이트 순서 표시), 확대 단계(model.ZoomSteps), 도구 모음·상태 표시줄 보이기(설정 view.toolbar, view.statusBar), 기본 확대 비율(설정 zoom.default), 정보(BrowserApp.aboutText), 편집 명령의 대상 고르기(창 자체의 텍스트 필드 또는 페이지). BrowserApp.Prompts 에 chooseFile, inform, ask 를 더했고 사용자 데이터 디렉터리(BrowserApp.homeDirectory, 속성 swingwebpanel.desktopapp.home)를 정했다.
+변경 파일: desktopapp 의 BrowserApp.java, model/Settings.java, model/PageFiles.java·model/ZoomSteps.java(신규), ui/Commands.java·ui/BrowserMenu.java(신규), ui/BrowserWindow.java, ui/BrowserTab.java, ui/NavigationBar.java, 시험 FakePrompts.java·ui/WindowCase.java·ui/BrowserMenuTest.java·model/PageFilesTest.java(신규), ui/BrowserTabsTest.java. AGENTS.md, docs/progress/desktopapp.md, 이 문서.
+검증 결과: (a) 별도 작업 트리(HEAD d8d79a1)에서 mvn -B -o verify(Maven 3.8.8 을 JDK 21 로 실행, JDK 6u45 javac·java): 엔진 892건 통과/0 실패. 브라우저 3,845건 통과/1 실패/12 건너뜀, 10분 56초. 실패 1건은 P22-16-c4 의 기존 실패(WebAudioOutputComponentTest.testDefaultOutputLetsAContextRunWithoutAScriptError: 재생 시각이 진행하지 않음)이다. 브라우저 단계가 실패로 끝나 그 실행에서 desktopapp 단계는 돌지 않았다. (b) JDK 6u45 javac 로 앱을 컴파일하고 자체 실행기로 앱 시험 21건 통과/0 실패/0 건너뜀(AddressInputTest 4, PageFilesTest 3, BrowserWindowTest 4, BrowserTabsTest 4, BrowserMenuTest 3, BrowserAppTest 2, AppBoundaryTest 1). sourcecheck desktopapp 위반 0건(34개 파일).
+미해결 사항: 메뉴에는 북마크(P31-06), 설정·개인 정보 삭제(P31-07, P31-09), 찾기·원본·콘솔·방문 기록(P31-09), 인쇄(P31-10) 항목이 있고 그 명령은 아직 "아직 쓸 수 없는 명령" 알림만 낸다. 창 자체의 텍스트 필드에 포커스가 있을 때의 편집 명령과 실제 키보드 입력은 실제 창에서 확인해야 한다(P31-11). 이 PC 는 Windows 11, Maven 3.8.8(JDK 21 로 실행)이며 이전 기록의 PC(Windows 10, JDK 8u202 로 Maven 실행)와 다르다.
+다음 작업 번호: P31-06
+-----------------------------------------------------------------------------------------------
+=== P31-05-a 호스트 편집 명령 (2026-11-27) ===
 현재 작업 번호: P31-05-a 구현과 집중 시험까지. 사용자 요청(사용 한도)으로 여기서 중단했다.
 완료한 내용: SwingWebPanel.copy()/cut()/paste()/selectAll() (계약 5.26, 기능 표 API-34). core.PageKeyboard.editCommand 가 문서 큐에서 포커스 요소에 명령을 실행하고, 폼 텍스트 컨트롤의 편집기가 열려 있으면 그 편집기가 처리한다(core.ControlOverlays.getActiveEditor). 컴포넌트가 스스로 명령으로 처리하는 키(Ctrl+C/Insert/A, 붙여넣기 키, 확대 키, 편집 가능한 곳의 Ctrl+X/B/I/U/Z/Y 와 Shift+Delete)는 KeyEvent 를 소비해 호스트 메뉴의 가속 키가 같은 일을 두 번 하지 않게 했다.
 변경 파일: browser 의 SwingWebPanel.java, core/PageKeyboard.java, core/ControlOverlays.java, 시험 core/EditCommandsTest.java(신규). docs/API_CONTRACT.md, docs/FEATURE_MATRIX.md, docs/progress/desktopapp.md, README.md, README.ko.md, AGENTS.md, 이 문서.
