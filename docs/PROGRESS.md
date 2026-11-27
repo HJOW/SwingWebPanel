@@ -11,6 +11,14 @@ JDK 7/8 도 설치되어 있다(`jdk1.7.0_80`, `jdk1.8.0_202`). 제품 검증은
 ## 현재 상태
 
 ```text
+=== P32-03-b AES(비트슬라이스)와 AES-GCM (2026-11-28) ===
+현재 작업 번호: P32-03-b 완료. P32-03-c 진행 중.
+완료한 내용: crypto.Aes(128/192/256비트 키의 암호화. 상태를 long 여덟 개의 비트 평면으로 두고 S-box 는 Boyar-Peralta 113 게이트 회로, ShiftRows·MixColumns 는 마스크와 이동. 표 조회와 비밀에 따른 분기가 없다. 키 확장의 SubWord 도 같은 회로), Ghash(구멍 기법의 캐리리스 64비트 곱과 카라추바, x^128 = x^7+x^2+x+1 접기), AesGcm(96비트 nonce, 128비트 태그, 태그를 먼저 검증한 뒤 복호화), 인터페이스 Aead.
+변경 파일: tls13/src/main/java/.../crypto/{Aead,Aes,AesGcm,Ghash}.java, tls13/src/test/java/.../crypto/AesGcmTest.java, AGENTS.md, 이 문서.
+검증 결과: JDK 6u45 javac 로 컴파일해 자체 실행기로 실행(Windows 10): AesGcmTest 6건 통과/0 실패. 임시 측정(저장소 밖 벤치): AES-128-GCM seal 약 13~16 MB/s(16 KiB 레코드, JDK 6u45 64비트). sourcecheck 위반 0건.
+미해결 사항: 임의 길이·키에 대한 더 새 JRE(JCA)와의 대조는 P32-03 의 공통 대조 자료(tools/tlsvectors)에서 추가한다.
+다음 작업 번호: P32-03-c
+-----------------------------------------------------------------------------------------------
 === P32-03-a 해시·HMAC·HKDF·TLS 1.3 키 스케줄·TLS 1.2 PRF (2026-11-28) ===
 현재 작업 번호: P32-03-a 완료. P32-03-b 진행 중.
 완료한 내용: crypto.HashAlg(JRE MessageDigest 위의 SHA-256/384/512 와 직접 계산하는 HMAC. javax.crypto 를 쓰지 않아 빈 키도 된다), Hkdf(extract, expand, HKDF-Expand-Label, Derive-Secret), KeySchedule13(early → handshake → master 단계와 트래픽 비밀, 키·IV, Finished MAC, KeyUpdate 비밀), Prf12(TLS 1.2 PRF). 시험 도우미 Rfc8448: RFC 8448 원문(시험 자료)을 해석해 단계별 옥텟 문자열을 준다.
