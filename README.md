@@ -37,7 +37,7 @@ For the Swing component, add this Maven dependency. The coordinates match this c
 <dependency>
     <groupId>org.duckdns.hjow</groupId>
     <artifactId>swingwebpanel</artifactId>
-    <version>0.1.2</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 
@@ -47,7 +47,7 @@ For the standalone JavaScript engine, use the following dependency.
 <dependency>
     <groupId>org.duckdns.hjow</groupId>
     <artifactId>swingwebpanel-js</artifactId>
-    <version>0.1.2</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 
